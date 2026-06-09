@@ -30,7 +30,7 @@ export function Hero() {
             </span>
           </h1>
           <p className="text-lg md:text-xl text-zinc-300 mb-10 leading-relaxed">
-            专注汽车轻改装与车身膜服务，覆盖电动踏板、轮毂升级、底盘升级、窗膜、改色膜与隐形车衣，为车主提供从外观到功能的一站式升级方案。
+            专业轻改方案 + 车身膜服务&nbsp;&nbsp;|&nbsp;&nbsp;顺德大良一站式交付
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
@@ -41,11 +41,11 @@ export function Hero() {
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
             <Link
-              href="/agent"
+              href="/agent/store/shunde-daliang"
               className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-lg text-white bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 transition-colors"
             >
               <MapPin className="mr-2 w-5 h-5 text-orange-400" />
-              预约{brand.currentStore}
+              查看门店
             </Link>
           </div>
         </div>

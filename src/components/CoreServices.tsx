@@ -1,30 +1,30 @@
 import Link from "next/link";
-import { ArrowRight, Settings, ShieldCheck, MapPin } from "lucide-react";
+import { ArrowRight, Boxes, Layers, ShieldCheck } from "lucide-react";
 import { brand } from "@/lib/brand";
 
 const SERVICES = [
   {
-    icon: Settings,
-    title: "轻改装备",
+    icon: Boxes,
+    title: "轻改方案库",
     description:
-      "电动踏板、轮毂升级、底盘升级等服务，覆盖家用 SUV / MPV / 越野等常见车型。",
+      "电动踏板、轮毂升级、底盘装甲，6大产品线覆盖外观个性化到功能实用性的全场景需求。",
     href: "/product",
     accent: "blue",
   },
   {
-    icon: ShieldCheck,
-    title: "汽车膜系",
+    icon: Layers,
+    title: "车身膜专业服务",
     description:
-      "汽车窗膜、改色膜、隐形车衣，围绕隔热、隐私、漆面保护与颜色个性化。",
+      "隐形车衣、改色膜、隐私窗膜，采用进口TPU基材，专业无尘施工，防刮耐磨自修复。",
     href: "/product/window-film",
     accent: "orange",
   },
   {
-    icon: MapPin,
-    title: "顺德大良店",
+    icon: ShieldCheck,
+    title: "品质与质保",
     description:
-      "到店咨询、车型确认、方案推荐与施工交付，当前唯一的线下服务中心。",
-    href: "/agent",
+      "专业技师持证上岗，施工全程记录，官方质保系统覆盖所有服务项目，售后无忧。",
+    href: "/brand",
     accent: "yellow",
   },
 ];
@@ -44,7 +44,7 @@ export function CoreServices() {
           <p className="text-sm tracking-widest text-blue-400 mb-3">SERVICES</p>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">核心服务</h2>
           <p className="text-lg text-zinc-400">
-            从轻改装备到汽车膜系，再到线下交付，蓝辉轻改提供一站式升级路径。
+            从轻改方案到车身膜专业服务，再到品质质保，蓝辉轻改为每次升级保驾护航。
           </p>
         </div>
 

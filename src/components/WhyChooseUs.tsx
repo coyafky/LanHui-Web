@@ -1,25 +1,25 @@
-import { Wrench, MapPin, Sparkles } from "lucide-react";
+import { Shield, Award, BadgeCheck } from "lucide-react";
 
 const FEATURES = [
   {
-    icon: Wrench,
-    title: "轻改方案整合",
+    icon: Shield,
+    title: "专业工艺标准",
     description:
-      "电动踏板、轮毂、底盘、车身膜一站式搭配，避免在不同门店之间反复沟通。",
+      "持证技师团队，标准化施工流程，每一步都有品控标准，确保改装品质与安全。",
     color: "blue",
   },
   {
-    icon: MapPin,
-    title: "本地门店交付",
+    icon: Award,
+    title: "优质材料保障",
     description:
-      "以顺德大良店为服务中心，提供到店沟通、车型确认、方案推荐与施工交付。",
+      "严选进口基材，TPU隐形车衣防刮自修复，窗膜隔热率≥60%，品质看得见。",
     color: "orange",
   },
   {
-    icon: Sparkles,
-    title: "兼顾颜值与实用",
+    icon: BadgeCheck,
+    title: "官方质保承诺",
     description:
-      "不只追求外观，也关注上下车便利、行驶姿态、漆面保护与日常用车舒适。",
+      "官方质保体系，施工全程记录可追溯，售后无忧，让您放心选择。",
     color: "yellow",
   },
 ];
@@ -53,7 +53,7 @@ export function WhyChooseUs() {
             为什么选择蓝辉轻改？
           </h2>
           <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
-            从轻改装备到车身膜服务，蓝辉轻改希望让每一次升级都更清晰、更稳妥。
+            从工艺标准到材料品质，再到官方质保——层层保障，让每次升级更安心。
           </p>
         </div>
 

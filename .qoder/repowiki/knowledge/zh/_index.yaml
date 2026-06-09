@@ -1,0 +1,50 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: zh-CN
+branch: master
+exported_at: "2026-06-09T03:35:42Z"
+modules:
+    "":
+        dir_name: AI 驱动的网站克隆与重构模板
+        title: AI 驱动的网站克隆与重构模板
+        scope:
+            - .amazonq/
+            - .augment/
+            - .claude/
+            - .codex/
+            - .continue/
+            - .gemini/
+            - .github/
+            - .windsurf/
+            - docs/
+            - scripts/
+            - .aider.conf.yml
+            - .clinerules
+            - .dockerignore
+            - .gitattributes
+            - .gitignore
+            - .windsurfrules
+            - AGENTS.md
+            - CLAUDE.md
+            - Dockerfile
+            - Dockerfile.dev
+            - GEMINI.md
+            - README.md
+            - components.json
+            - docker-compose.yml
+            - eslint.config.mjs
+            - next.config.ts
+            - package-lock.json
+            - package.json
+            - postcss.config.mjs
+            - tsconfig.json
+            - .nvmrc
+            - CHANGELOG.md
+            - LICENSE
+            - dropdown-open.png
+            - next-env.d.ts
+            - tsconfig.tsbuildinfo
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []

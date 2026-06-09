@@ -1,20 +1,18 @@
 import type { MetadataRoute } from "next";
-import { products, getAllProductSlugs } from "@/lib/products";
+import { getAllProductSlugs } from "@/lib/products";
 import {
   getAllProvinceSlugs,
   getAllCitySlugs,
-  provinces,
-  stores,
   getAllStoreIds,
-} from "@/lib/store";
-import { getAllNewsSlugs } from "@/lib/news";
+  getProvinces,
+  getAllArticleSlugs,
+} from "@/lib/data";
 
 const SITE_URL = "https://lanhui.example.com";
 
-// Phase 1: all dates are "2026" / static. Replace with real lastModified after Phase 2.
 const LAST_MOD = new Date("2026-06-01");
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${SITE_URL}/`,
@@ -66,7 +64,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // Product detail pages
+  // Product detail pages (still from static data)
   const productRoutes: MetadataRoute.Sitemap = getAllProductSlugs().map(
     (slug) => ({
       url: `${SITE_URL}/product/${slug}`,
@@ -76,36 +74,65 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })
   );
 
-  // Province pages
-  const provinceRoutes: MetadataRoute.Sitemap = getAllProvinceSlugs().map(
-    (slug) => ({
-      url: `${SITE_URL}/agent/${slug}`,
-      lastModified: LAST_MOD,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })
-  );
+  // Province pages (from API with fallback)
+  let provinceSlugs: string[] = [];
+  let provincesData: { slug: string }[] = [];
+  try {
+    provinceSlugs = await getAllProvinceSlugs();
+    provincesData = await getProvinces();
+  } catch {
+    // fallback already handled in data.ts
+  }
+
+  const provinceRoutes: MetadataRoute.Sitemap = provinceSlugs.map((slug) => ({
+    url: `${SITE_URL}/agent/${slug}`,
+    lastModified: LAST_MOD,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
 
   // City pages
-  const cityRoutes: MetadataRoute.Sitemap = provinces.flatMap((p) =>
-    getAllCitySlugs(p.slug).map((city) => ({
-      url: `${SITE_URL}/agent/${p.slug}/${city}`,
-      lastModified: LAST_MOD,
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    }))
-  );
+  const cityRoutes: MetadataRoute.Sitemap = [];
+  for (const p of provincesData) {
+    try {
+      const citySlugs = await getAllCitySlugs(p.slug);
+      for (const city of citySlugs) {
+        cityRoutes.push({
+          url: `${SITE_URL}/agent/${p.slug}/${city}`,
+          lastModified: LAST_MOD,
+          changeFrequency: "monthly" as const,
+          priority: 0.6,
+        });
+      }
+    } catch {
+      // skip on error
+    }
+  }
 
-  // Store detail pages
-  const storeRoutes: MetadataRoute.Sitemap = getAllStoreIds().map((id) => ({
+  // Store detail pages (from API with fallback)
+  let storeIds: string[] = [];
+  try {
+    storeIds = await getAllStoreIds();
+  } catch {
+    // fallback already handled in data.ts
+  }
+
+  const storeRoutes: MetadataRoute.Sitemap = storeIds.map((id) => ({
     url: `${SITE_URL}/agent/store/${id}`,
     lastModified: LAST_MOD,
     changeFrequency: "monthly" as const,
     priority: 0.7,
   }));
 
-  // News detail pages
-  const newsRoutes: MetadataRoute.Sitemap = getAllNewsSlugs().map((slug) => ({
+  // News detail pages (from API with fallback)
+  let articleSlugs: string[] = [];
+  try {
+    articleSlugs = await getAllArticleSlugs();
+  } catch {
+    // fallback already handled in data.ts
+  }
+
+  const newsRoutes: MetadataRoute.Sitemap = articleSlugs.map((slug) => ({
     url: `${SITE_URL}/news/${slug}`,
     lastModified: LAST_MOD,
     changeFrequency: "monthly" as const,
@@ -121,7 +148,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...newsRoutes,
   ];
 }
-
-// Suppress unused warning for products re-export
-void products;
-void stores;

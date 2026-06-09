@@ -3,7 +3,9 @@ import Link from "next/link";
 import { Calendar, ArrowRight, Newspaper } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { newsItems } from "@/lib/news";
+import { getArticles } from "@/lib/data";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "品牌资讯 | 蓝辉轻改 LANHUI",
@@ -11,7 +13,8 @@ export const metadata: Metadata = {
     "蓝辉轻改品牌资讯，覆盖品牌动态、门店动态与产品动态。",
 };
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  const newsItems = await getArticles();
   return (
     <>
       <Header />

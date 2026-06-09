@@ -25,6 +25,7 @@ export function Logo({ className = "h-10 w-auto", priority = false }: LogoProps)
       width={LOGO_WIDTH}
       height={LOGO_HEIGHT}
       priority={priority}
+      sizes="(max-width: 768px) 160px, 240px"
       className={className}
     />
   );

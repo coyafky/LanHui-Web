@@ -61,14 +61,6 @@ export function generateLocalBusinessSchema(store: Store) {
     ...(store.businessHours !== "营业时间待确认" && {
       openingHours: store.businessHours,
     }),
-    ...(store.lat &&
-      store.lng && {
-        geo: {
-          "@type": "GeoCoordinates",
-          latitude: store.lat,
-          longitude: store.lng,
-        },
-      }),
     url: `${SITE_URL}/agent/store/${store.id}`,
     parentOrganization: {
       "@type": "Organization",

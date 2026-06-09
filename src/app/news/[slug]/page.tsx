@@ -4,10 +4,13 @@ import { notFound } from "next/navigation";
 import { ChevronRight, Calendar, ArrowLeft, Tag, Newspaper } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { newsItems, getAllNewsSlugs } from "@/lib/news";
+import { getArticleBySlug, getArticles, getAllArticleSlugs } from "@/lib/data";
 
-export function generateStaticParams() {
-  return getAllNewsSlugs().map((slug) => ({ slug }));
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const slugs = await getAllArticleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -16,7 +19,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const item = newsItems.find((n) => n.slug === slug);
+  const item = await getArticleBySlug(slug);
   if (!item) return { title: "资讯详情 | 蓝辉轻改 LANHUI" };
   return {
     title: `${item.title} | 品牌资讯 | 蓝辉轻改 LANHUI`,
@@ -30,11 +33,12 @@ export default async function NewsDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = newsItems.find((n) => n.slug === slug);
+  const item = await getArticleBySlug(slug);
   if (!item) notFound();
 
   // Related: same category, exclude self
-  const related = newsItems
+  const allArticles = await getArticles();
+  const related = allArticles
     .filter((n) => n.slug !== slug)
     .slice(0, 4);
 

@@ -1,16 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, Footprints, CircleDot, Wrench, Sun, Palette, ShieldCheck } from "lucide-react";
-import { products } from "@/lib/products";
+import { ArrowRight, Wrench } from "lucide-react";
+import { products, PRODUCT_ICON_MAP } from "@/lib/products";
 import type { Product } from "@/lib/products";
-
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  "electric-steps": Footprints,
-  wheels: CircleDot,
-  chassis: Wrench,
-  "window-film": Sun,
-  "color-film": Palette,
-  ppf: ShieldCheck,
-};
 
 export function ProductsQuickEntry() {
   return (
@@ -44,37 +35,53 @@ export function ProductsQuickEntry() {
 }
 
 function ProductCard({ product }: { product: Product }) {
-  const Icon = ICON_MAP[product.slug] ?? Wrench;
+  const Icon = PRODUCT_ICON_MAP[product.slug] ?? Wrench;
   const isLightMod = product.group === "light-mod";
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group block bg-zinc-900 p-6 rounded-2xl border border-zinc-800 hover:border-zinc-700 transition-all"
+      className="group block bg-zinc-900 rounded-2xl border border-zinc-800 hover:border-zinc-700 transition-all overflow-hidden"
     >
-      <div className="flex items-center justify-between mb-4">
-        <span
-          className={`inline-flex items-center justify-center w-11 h-11 rounded-lg border ${
-            isLightMod
-              ? "bg-blue-950/40 border-blue-800/50 text-blue-400"
-              : "bg-orange-950/40 border-orange-800/50 text-orange-400"
-          }`}
-        >
-          <Icon className="w-6 h-6" />
-        </span>
-        <span
-          className={`text-xs tracking-wider ${
+      <div
+        className={`flex items-center justify-center h-16 ${
+          isLightMod
+            ? "bg-blue-950/40 border-b border-blue-800/50"
+            : "bg-orange-950/40 border-b border-orange-800/50"
+        }`}
+      >
+        <Icon
+          className={`w-6 h-6 ${
             isLightMod ? "text-blue-400" : "text-orange-400"
           }`}
-        >
-          {product.groupLabel}
+        />
+      </div>
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <span
+            className={`inline-flex items-center justify-center w-11 h-11 rounded-lg border ${
+              isLightMod
+                ? "bg-blue-950/40 border-blue-800/50 text-blue-400"
+                : "bg-orange-950/40 border-orange-800/50 text-orange-400"
+            }`}
+          >
+            <Icon className="w-6 h-6" />
+          </span>
+          <span
+            className={`text-xs tracking-wider ${
+              isLightMod ? "text-blue-400" : "text-orange-400"
+            }`}
+          >
+            {product.groupLabel}
+          </span>
+        </div>
+        <h3 className="text-lg font-bold text-white mb-1">{product.name}</h3>
+        <p className="text-orange-400 text-sm font-medium mb-1">{product.tagline}</p>
+        <p className="text-zinc-400 text-sm mb-4 leading-relaxed">{product.cardDescription}</p>
+        <span className="text-zinc-300 group-hover:text-white text-sm font-medium inline-flex items-center">
+          了解详情
+          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
         </span>
       </div>
-      <h3 className="text-lg font-bold text-white mb-1">{product.name}</h3>
-      <p className="text-zinc-400 text-sm mb-4 leading-relaxed">{product.tagline}</p>
-      <span className="text-zinc-300 group-hover:text-white text-sm font-medium inline-flex items-center">
-        了解详情
-        <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-      </span>
     </Link>
   );
 }

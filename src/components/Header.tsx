@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, CalendarCheck, Menu, X } from "lucide-react";
+import { ChevronDown, MapPin, Menu, X } from "lucide-react";
 import { brand } from "@/lib/brand";
 import { products } from "@/lib/products";
 import { Logo } from "@/components/Logo";
@@ -44,6 +44,7 @@ const NAV_ITEMS: NavItem[] = [
 export function Header() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
 
@@ -58,7 +59,12 @@ export function Header() {
     setOpenDropdown(openDropdown === label ? null : label);
   };
 
-  // Close dropdown when clicking outside the nav or pressing Escape
+  const closeMobileMenu = useCallback(() => {
+    setMobileOpen(false);
+    setOpenDropdown(null);
+  }, []);
+
+  // Close dropdown on click outside or Escape
   useEffect(() => {
     if (!openDropdown) return;
     const handleClickOutside = (e: MouseEvent) => {
@@ -77,76 +83,132 @@ export function Header() {
     };
   }, [openDropdown]);
 
+  // Track scroll for compact header
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   return (
-    <header className="sticky top-0 z-50 bg-zinc-950/90 backdrop-blur-md shadow-sm border-b border-zinc-800">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-zinc-950/80 backdrop-blur-xl shadow-lg shadow-black/20 border-b border-white/5"
+          : "bg-gradient-to-b from-zinc-950 via-zinc-950/95 to-zinc-950/80 border-b border-transparent"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div
+          className={`flex justify-between items-center transition-all duration-300 ${
+            scrolled ? "h-16" : "h-20"
+          }`}
+        >
           {/* Logo */}
           <Link
             href="/"
             className="flex-shrink-0 flex items-center"
             aria-label={`${brand.zh} ${brand.en}`}
           >
-            <Logo priority className="h-10 w-auto" />
+            <Logo
+              priority
+              className={`transition-all duration-300 ${
+                scrolled ? "h-8" : "h-10"
+              } w-auto`}
+            />
           </Link>
 
           {/* Desktop Nav */}
           <nav
             ref={navRef}
-            className="hidden md:flex items-center gap-1"
+            className="hidden lg:flex items-center gap-0.5"
             aria-label="主导航"
           >
             {NAV_ITEMS.map((item) => {
               const active = isActive(item);
-              const linkClass = `inline-flex items-center px-3 py-2 text-sm font-medium transition-colors ${
-                active
-                  ? "text-orange-400 border-b-2 border-orange-400"
-                  : "text-zinc-300 hover:text-white"
-              }`;
               if (item.children && item.href) {
                 return (
-                  <div key={item.label} className="relative">
+                  <div key={item.label} className="relative group/dropdown">
                     <div className="flex items-center">
                       <Link
                         href={item.href}
-                        className={linkClass}
+                        className={`relative inline-flex items-center px-3.5 py-2 text-sm font-medium tracking-wide transition-colors ${
+                          active
+                            ? "text-orange-400"
+                            : "text-zinc-400 hover:text-white"
+                        }`}
                         onClick={() => setOpenDropdown(null)}
                       >
                         {item.label}
+                        {/* Active indicator underline */}
+                        {active && (
+                          <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-orange-400 rounded-full" />
+                        )}
+                        {/* Hover underline */}
+                        {!active && (
+                          <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-orange-400/0 group-hover/dropdown:bg-orange-400 rounded-full transition-all duration-300" />
+                        )}
                       </Link>
                       <button
                         type="button"
                         onClick={() => toggleDropdown(item.label)}
-                        className={`p-2 -ml-1 transition-colors ${
+                        className={`p-1.5 -ml-0.5 transition-colors rounded-md hover:bg-white/5 ${
                           active
                             ? "text-orange-400"
-                            : "text-zinc-300 hover:text-white"
+                            : "text-zinc-400 hover:text-white"
                         }`}
                         aria-haspopup="menu"
                         aria-expanded={openDropdown === item.label}
                         aria-label={`展开 ${item.label} 子菜单`}
                       >
                         <ChevronDown
-                          className={`w-4 h-4 transition-transform ${
+                          className={`w-3.5 h-3.5 transition-transform duration-200 ${
                             openDropdown === item.label ? "rotate-180" : ""
                           }`}
                         />
                       </button>
                     </div>
-                    {openDropdown === item.label && (
-                      <div className="absolute left-0 mt-2 w-52 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg py-2 z-10">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.label}
-                            href={child.href}
-                            className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white"
-                            onClick={() => setOpenDropdown(null)}
-                          >
-                            {child.label}
-                          </Link>
-                        ))}
+                    {/* Dropdown */}
+                    <div
+                      className={`absolute left-1/2 -translate-x-1/2 mt-1 w-56 origin-top transition-all duration-200 ${
+                        openDropdown === item.label
+                          ? "opacity-100 scale-100 visible"
+                          : "opacity-0 scale-95 invisible"
+                      }`}
+                    >
+                      <div className="bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/40 p-1.5">
+                        {item.children.map((child) => {
+                          const childActive = pathname === child.href;
+                          return (
+                            <Link
+                              key={child.label}
+                              href={child.href}
+                              className={`block px-4 py-2.5 text-sm rounded-lg transition-colors ${
+                                childActive
+                                  ? "text-orange-400 bg-orange-400/10"
+                                  : "text-zinc-300 hover:text-white hover:bg-white/5"
+                              }`}
+                              onClick={() => setOpenDropdown(null)}
+                            >
+                              {child.label}
+                            </Link>
+                          );
+                        })}
                       </div>
-                    )}
+                    </div>
                   </div>
                 );
               }
@@ -155,137 +217,251 @@ export function Header() {
                   <button
                     type="button"
                     onClick={() => toggleDropdown(item.label)}
-                    className={linkClass}
+                    className={`relative inline-flex items-center gap-1 px-3.5 py-2 text-sm font-medium tracking-wide transition-colors ${
+                      active
+                        ? "text-orange-400"
+                        : "text-zinc-400 hover:text-white"
+                    }`}
                     aria-expanded={openDropdown === item.label}
                   >
                     {item.label}
                     <ChevronDown
-                      className={`ml-1 w-4 h-4 transition-transform ${
+                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
                         openDropdown === item.label ? "rotate-180" : ""
                       }`}
                     />
+                    {active && (
+                      <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-orange-400 rounded-full" />
+                    )}
                   </button>
-                  {openDropdown === item.label && (
-                    <div className="absolute left-0 mt-2 w-52 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg py-2 z-10">
+                  <div
+                    className={`absolute left-1/2 -translate-x-1/2 mt-1 w-56 origin-top transition-all duration-200 ${
+                      openDropdown === item.label
+                        ? "opacity-100 scale-100 visible"
+                        : "opacity-0 scale-95 invisible"
+                    }`}
+                  >
+                    <div className="bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/40 p-1.5">
                       {item.children.map((child) => (
                         <Link
                           key={child.label}
                           href={child.href}
-                          className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                          className="block px-4 py-2.5 text-sm rounded-lg text-zinc-300 hover:text-white hover:bg-white/5 transition-colors"
                           onClick={() => setOpenDropdown(null)}
                         >
                           {child.label}
                         </Link>
                       ))}
                     </div>
-                  )}
+                  </div>
                 </div>
               ) : (
-                <Link key={item.label} href={item.href!} className={linkClass}>
+                <Link
+                  key={item.label}
+                  href={item.href!}
+                  className={`relative inline-flex items-center px-3.5 py-2 text-sm font-medium tracking-wide transition-colors ${
+                    active
+                      ? "text-orange-400"
+                      : "text-zinc-400 hover:text-white"
+                  }`}
+                >
                   {item.label}
+                  {/* Active indicator underline */}
+                  {active && (
+                    <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-orange-400 rounded-full" />
+                  )}
+                  {/* Hover underline */}
+                  {!active && (
+                    <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-orange-400/0 hover:bg-orange-400 rounded-full transition-all duration-300" />
+                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* CTA (desktop) */}
-          <Link
-            href="/contact"
-            className="hidden md:inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 shadow-md shadow-orange-900/30 transition-colors"
-          >
-            <CalendarCheck className="w-4 h-4" />
-            预约咨询
-          </Link>
+          {/* Right side: CTA + Mobile toggle */}
+          <div className="flex items-center gap-3">
+            {/* CTA (desktop) */}
+            <Link
+              href="/agent/store/shunde-daliang"
+              className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 shadow-lg shadow-orange-500/25 hover:shadow-orange-400/30 transition-all duration-300 hover:scale-105"
+            >
+              <MapPin className="w-4 h-4" />
+              查看门店
+            </Link>
 
-          {/* Mobile menu button */}
-          <button
-            type="button"
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-zinc-300 hover:text-white"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="切换菜单"
-          >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+            {/* Mobile menu button */}
+            <button
+              type="button"
+              className="lg:hidden relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-zinc-300 hover:text-white hover:bg-white/5 transition-colors"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="切换菜单"
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-zinc-800 bg-zinc-950">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {NAV_ITEMS.map((item) =>
-              item.children ? (
-                <MobileDropdown
-                  key={item.label}
-                  item={item}
-                  onClose={() => setMobileOpen(false)}
-                />
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href!}
-                  className="block px-3 py-3 rounded-md text-base font-medium text-zinc-300 hover:bg-zinc-800 hover:text-white min-h-[44px]"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
-          </div>
-          <div className="mt-2 pt-3 border-t border-zinc-800 px-4 pb-4">
-            <Link
-              href="/contact"
-              onClick={() => setMobileOpen(false)}
-              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-base font-medium text-white bg-gradient-to-r from-orange-500 to-orange-600"
+      {/* Mobile menu overlay */}
+      <div
+        className={`lg:hidden fixed inset-0 top-0 z-40 transition-all duration-300 ${
+          mobileOpen
+            ? "opacity-100 visible"
+            : "opacity-0 invisible pointer-events-none"
+        }`}
+      >
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          onClick={closeMobileMenu}
+        />
+
+        {/* Slide-in panel */}
+        <div
+          className={`absolute right-0 top-0 h-full w-full max-w-sm bg-zinc-950 border-l border-white/5 shadow-2xl transition-transform duration-300 ease-out ${
+            mobileOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          {/* Panel header */}
+          <div className="flex items-center justify-between h-16 px-4 border-b border-white/5">
+            <span className="text-sm font-medium text-zinc-400 tracking-wide">
+              导航菜单
+            </span>
+            <button
+              type="button"
+              className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-zinc-400 hover:text-white hover:bg-white/5 transition-colors"
+              onClick={closeMobileMenu}
+              aria-label="关闭菜单"
             >
-              <CalendarCheck className="w-5 h-5" />
-              预约咨询
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* Panel body */}
+          <nav className="h-[calc(100%-8rem)] overflow-y-auto overscroll-contain px-4 py-6">
+            <div className="space-y-1">
+              {NAV_ITEMS.map((item) =>
+                item.children ? (
+                  <MobileDropdown
+                    key={item.label}
+                    item={item}
+                    pathname={pathname}
+                    onClose={closeMobileMenu}
+                  />
+                ) : (
+                  <Link
+                    key={item.label}
+                    href={item.href!}
+                    className={`flex items-center px-4 py-3.5 rounded-xl text-[15px] font-medium transition-colors min-h-[48px] ${
+                      isActive(item)
+                        ? "text-orange-400 bg-orange-400/10"
+                        : "text-zinc-300 hover:text-white hover:bg-white/5"
+                    }`}
+                    onClick={closeMobileMenu}
+                  >
+                    {item.label}
+                  </Link>
+                )
+              )}
+            </div>
+          </nav>
+
+          {/* Panel footer CTA */}
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/5 bg-zinc-950">
+            <Link
+              href="/agent/store/shunde-daliang"
+              onClick={closeMobileMenu}
+              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-base font-semibold text-white bg-gradient-to-r from-orange-500 to-amber-500 shadow-lg shadow-orange-500/25"
+            >
+              <MapPin className="w-5 h-5" />
+              查看门店
             </Link>
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
 
-function MobileDropdown({ item, onClose }: { item: NavItem; onClose?: () => void }) {
+function MobileDropdown({
+  item,
+  pathname,
+  onClose,
+}: {
+  item: NavItem;
+  pathname: string;
+  onClose: () => void;
+}) {
   const [open, setOpen] = useState(false);
+  const active =
+    (item.matchPrefix && pathname.startsWith(item.matchPrefix)) ||
+    pathname === item.href;
+
   return (
     <div>
-      <div className="w-full flex items-stretch border border-zinc-800 rounded-md overflow-hidden min-h-[44px]">
-        <Link
-          href={item.href!}
-          onClick={() => onClose?.()}
-          className="flex-1 flex items-center px-3 text-base font-medium text-zinc-300 hover:bg-zinc-800 hover:text-white"
-        >
-          {item.label}
-        </Link>
+      <div className="flex items-stretch rounded-xl overflow-hidden min-h-[48px]">
+        {item.href && (
+          <Link
+            href={item.href}
+            onClick={onClose}
+            className={`flex-1 flex items-center px-4 text-[15px] font-medium transition-colors ${
+              active
+                ? "text-orange-400 bg-orange-400/10"
+                : "text-zinc-300 hover:text-white hover:bg-white/5"
+            }`}
+          >
+            {item.label}
+          </Link>
+        )}
         <button
           type="button"
           onClick={() => setOpen(!open)}
-          className="px-4 flex items-center justify-center text-zinc-300 hover:bg-zinc-800 hover:text-white border-l border-zinc-800"
+          className={`px-4 flex items-center justify-center transition-colors rounded-r-xl ${
+            active
+              ? "text-orange-400 bg-orange-400/10 hover:bg-orange-400/15"
+              : "text-zinc-400 hover:text-white hover:bg-white/5"
+          }`}
           aria-expanded={open}
           aria-label={`展开 ${item.label} 子菜单`}
         >
           <ChevronDown
-            className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`}
+            className={`w-4 h-4 transition-transform duration-200 ${
+              open ? "rotate-180" : ""
+            }`}
           />
         </button>
       </div>
-      {open && (
-        <div className="pl-2 mt-1 space-y-1">
-          {item.children!.map((child) => (
-            <Link
-              key={child.label}
-              href={child.href}
-              onClick={() => onClose?.()}
-              className="block px-3 py-3 rounded-md text-sm text-zinc-400 hover:bg-zinc-800 hover:text-white min-h-[44px]"
-            >
-              {child.label}
-            </Link>
-          ))}
+      <div
+        className={`overflow-hidden transition-all duration-200 ease-out ${
+          open ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="pl-4 mt-1 space-y-0.5">
+          {item.children!.map((child) => {
+            const childActive = pathname === child.href;
+            return (
+              <Link
+                key={child.label}
+                href={child.href}
+                onClick={onClose}
+                className={`flex items-center px-4 py-3 rounded-lg text-sm transition-colors min-h-[44px] ${
+                  childActive
+                    ? "text-orange-400 bg-orange-400/10"
+                    : "text-zinc-500 hover:text-white hover:bg-white/5"
+                }`}
+              >
+                {child.label}
+              </Link>
+            );
+          })}
         </div>
-      )}
+      </div>
     </div>
   );
 }

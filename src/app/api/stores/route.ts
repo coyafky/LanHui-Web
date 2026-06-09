@@ -1,0 +1,112 @@
+import { NextRequest } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+import { StoreCreateSchema } from "@/lib/validations/store";
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = request.nextUrl;
+    const province = searchParams.get("province");
+    const city = searchParams.get("city");
+    const page = Math.max(1, Number(searchParams.get("page")) || 1);
+    const limit = Math.min(100, Math.max(1, Number(searchParams.get("limit")) || 20));
+    const search = searchParams.get("search");
+    const all = searchParams.get("all");
+
+    // Only show inactive stores to admins with ?all=true
+    let showAll = false;
+    if (all === "true") {
+      const session = await auth();
+      if (session?.user.role === "admin") {
+        showAll = true;
+      }
+    }
+
+    const where: Record<string, unknown> = {};
+    if (!showAll) {
+      where.isActive = true;
+    }
+    if (province) {
+      where.provinceSlug = province;
+    }
+    if (city) {
+      where.citySlug = city;
+    }
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { address: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    const [stores, total] = await Promise.all([
+      prisma.store.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.store.count({ where }),
+    ]);
+
+    return Response.json({
+      success: true,
+      data: stores,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
+  } catch (error) {
+    console.error("[GET /api/stores]", error);
+    return Response.json(
+      { success: false, error: "服务器内部错误" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const session = await auth();
+    if (!session) {
+      return Response.json(
+        { success: false, error: "未认证" },
+        { status: 401 }
+      );
+    }
+    if (session.user.role !== "admin") {
+      return Response.json(
+        { success: false, error: "权限不足" },
+        { status: 403 }
+      );
+    }
+
+    const body = await request.json();
+    const parsed = StoreCreateSchema.safeParse(body);
+    if (!parsed.success) {
+      return Response.json(
+        {
+          success: false,
+          error: "参数验证失败",
+          details: parsed.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      );
+    }
+
+    const store = await prisma.store.create({
+      data: parsed.data,
+    });
+
+    return Response.json({ success: true, data: store }, { status: 201 });
+  } catch (error) {
+    console.error("[POST /api/stores]", error);
+    return Response.json(
+      { success: false, error: "服务器内部错误" },
+      { status: 500 }
+    );
+  }
+}

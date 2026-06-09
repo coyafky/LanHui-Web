@@ -89,14 +89,8 @@ export default function CertificationsPage() {
                 顺德大良店现场出示
               </span>
               {""}
-              为准。详情可预约到店查阅。
+              为准。
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center mt-6 px-6 py-3 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-orange-500 to-orange-600 shadow-md shadow-orange-900/30 transition-colors"
-            >
-              预约到店查阅
-            </Link>
           </div>
         </section>
       </main>

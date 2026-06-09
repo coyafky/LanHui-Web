@@ -1,25 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Footprints, CircleDot, Wrench, Sun, Palette, ShieldCheck } from "lucide-react";
+import { ArrowRight, Wrench } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { products, productGroups } from "@/lib/products";
+import { products, productGroups, PRODUCT_ICON_MAP } from "@/lib/products";
 import type { Product } from "@/lib/products";
-import { brand } from "@/lib/brand";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
   description:
     "蓝辉轻改产品中心，覆盖轻改装备（电动踏板、轮毂升级、底盘升级）与汽车膜系（窗膜、改色膜、隐形车衣）共 6 个产品方向。",
-};
-
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  "electric-steps": Footprints,
-  wheels: CircleDot,
-  chassis: Wrench,
-  "window-film": Sun,
-  "color-film": Palette,
-  ppf: ShieldCheck,
 };
 
 export default function ProductCenter() {
@@ -83,24 +73,6 @@ export default function ProductCenter() {
           );
         })}
 
-        {/* CTA */}
-        <section className="py-20 bg-black border-t border-zinc-900">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              还不确定怎么选？
-            </h2>
-            <p className="text-zinc-400 mb-8">
-              欢迎到 {brand.currentStore} 沟通，技师会根据车型与用车场景给出方案建议。
-            </p>
-            <Link
-              href="/agent"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg text-white font-medium bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg shadow-orange-900/30 transition-colors"
-            >
-              预约{brand.currentStore}
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-        </section>
       </main>
       <Footer />
     </>
@@ -114,7 +86,7 @@ function ProductSummaryCard({
   product: Product;
   accent: "blue" | "orange";
 }) {
-  const Icon = ICON_MAP[product.slug] ?? Wrench;
+  const Icon = PRODUCT_ICON_MAP[product.slug] ?? Wrench;
   const accentText = accent === "blue" ? "text-blue-400" : "text-orange-400";
   const accentBg = accent === "blue" ? "bg-blue-950/40" : "bg-orange-950/40";
   return (

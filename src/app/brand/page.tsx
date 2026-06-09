@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import {
-  ArrowRight,
   Wrench,
   MapPin,
   Sparkles,
@@ -155,24 +153,6 @@ export default function BrandPage() {
           </div>
         </section>
 
-        {/* CTA */}
-        <section className="py-20 bg-black border-t border-zinc-900">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              欢迎到店沟通
-            </h2>
-            <p className="text-zinc-400 mb-8">
-              预约 {brand.currentStore}，告诉我们你的用车场景与升级想法。
-            </p>
-            <Link
-              href="/agent"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-lg text-white font-medium bg-gradient-to-r from-orange-500 to-orange-600 shadow-lg shadow-orange-900/30 transition-colors"
-            >
-              预约{brand.currentStore}
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-        </section>
       </main>
       <Footer />
     </>
