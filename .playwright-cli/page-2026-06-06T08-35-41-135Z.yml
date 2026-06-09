@@ -1,0 +1,143 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "膜小二 Logo" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img "膜小二 Logo" [ref=e6]
+      - navigation "主导航" [ref=e7]:
+        - link "首页" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - button "产品中心" [ref=e10]:
+          - text: 产品中心
+          - img [ref=e11]
+        - link "全国门店" [ref=e13] [cursor=pointer]:
+          - /url: /agent
+        - button "品牌介绍" [ref=e15]:
+          - text: 品牌介绍
+          - img [ref=e16]
+        - button "服务中心" [ref=e19]:
+          - text: 服务中心
+          - img [ref=e20]
+      - link "400-073-7518" [ref=e22] [cursor=pointer]:
+        - /url: tel:4000737518
+        - img [ref=e23]
+        - generic [ref=e25]: 400-073-7518
+  - main [ref=e26]:
+    - generic [ref=e27]:
+      - img "膜小二高端汽车贴膜" [ref=e29]
+      - generic [ref=e32]:
+        - heading "膜小二 守护您的爱车" [level=1] [ref=e33]:
+          - text: 膜小二
+          - text: 守护您的爱车
+        - paragraph [ref=e34]: 专注高端汽车隐形车衣与窗膜，采用进口TPU材质，防刮耐磨，持久抗黄变。全国连锁，专业施工，售后无忧。
+        - generic [ref=e35]:
+          - link "探索产品" [ref=e36] [cursor=pointer]:
+            - /url: /product
+            - text: 探索产品
+            - img [ref=e37]
+          - link "查找附近门店" [ref=e39] [cursor=pointer]:
+            - /url: /agent
+    - generic [ref=e41]:
+      - generic [ref=e42]:
+        - heading "为什么选择膜小二？" [level=2] [ref=e43]
+        - paragraph [ref=e44]: 我们致力于为您提供最优质的汽车贴膜服务，从产品到施工，每一个环节都精益求精。
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - img [ref=e48]
+          - heading "优质基材" [level=3] [ref=e50]
+          - paragraph [ref=e51]: 采用全球领先的脂肪族TPU基材，具有卓越的抗划痕、抗腐蚀和自修复能力。
+        - generic [ref=e52]:
+          - img [ref=e54]
+          - heading "专业施工" [level=3] [ref=e57]
+          - paragraph [ref=e58]: 全国统一标准施工流程，无尘车间作业，专业技师团队，确保贴膜完美贴合。
+        - generic [ref=e59]:
+          - img [ref=e61]
+          - heading "官方质保" [level=3] [ref=e64]
+          - paragraph [ref=e65]: 官方电子质保系统，全国联保。承诺不黄变、不龟裂、不起泡，让您售后无忧。
+    - generic [ref=e67]:
+      - generic [ref=e68]:
+        - heading "核心服务" [level=2] [ref=e69]
+        - paragraph [ref=e70]: 全方位了解膜小二品牌与服务
+      - generic [ref=e71]:
+        - link "产品中心 产品中心 隐形车衣、窗膜、改色膜全系列产品介绍。 了解详情" [ref=e72] [cursor=pointer]:
+          - /url: /product
+          - img "产品中心" [ref=e74]
+          - generic [ref=e75]:
+            - heading "产品中心" [level=3] [ref=e76]
+            - paragraph [ref=e77]: 隐形车衣、窗膜、改色膜全系列产品介绍。
+            - generic [ref=e78]:
+              - text: 了解详情
+              - img [ref=e79]
+        - link "全国旗舰门店 全国旗舰门店 覆盖全国300+城市，寻找离您最近的官方授权店。 立即查找" [ref=e81] [cursor=pointer]:
+          - /url: /agent
+          - img "全国旗舰门店" [ref=e83]
+          - generic [ref=e84]:
+            - heading "全国旗舰门店" [level=3] [ref=e85]
+            - paragraph [ref=e86]: 覆盖全国300+城市，寻找离您最近的官方授权店。
+            - generic [ref=e87]:
+              - text: 立即查找
+              - img [ref=e88]
+        - link "品牌介绍 品牌介绍 了解膜小二的发展历程、品牌理念与荣誉资质。 关于我们" [ref=e90] [cursor=pointer]:
+          - /url: /brand
+          - img "品牌介绍" [ref=e92]
+          - generic [ref=e93]:
+            - heading "品牌介绍" [level=3] [ref=e94]
+            - paragraph [ref=e95]: 了解膜小二的发展历程、品牌理念与荣誉资质。
+            - generic [ref=e96]:
+              - text: 关于我们
+              - img [ref=e97]
+  - contentinfo [ref=e99]:
+    - generic [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - link "膜小二 Logo" [ref=e103] [cursor=pointer]:
+            - /url: /
+            - img "膜小二 Logo" [ref=e104]
+          - paragraph [ref=e105]: 专注高端汽车隐形车衣与窗膜，为您的爱车提供全方位的保护。全国连锁，品质保障。
+        - generic [ref=e106]:
+          - heading "快捷导航" [level=3] [ref=e107]
+          - list [ref=e108]:
+            - listitem [ref=e109]:
+              - link "产品中心" [ref=e110] [cursor=pointer]:
+                - /url: /product
+            - listitem [ref=e111]:
+              - link "全国门店" [ref=e112] [cursor=pointer]:
+                - /url: /agent
+            - listitem [ref=e113]:
+              - link "品牌介绍" [ref=e114] [cursor=pointer]:
+                - /url: /brand
+            - listitem [ref=e115]:
+              - link "公司历程" [ref=e116] [cursor=pointer]:
+                - /url: /brand/history
+            - listitem [ref=e117]:
+              - link "品牌资讯" [ref=e118] [cursor=pointer]:
+                - /url: /news
+        - generic [ref=e119]:
+          - heading "联系我们" [level=3] [ref=e120]
+          - list [ref=e121]:
+            - listitem [ref=e122]:
+              - img [ref=e123]
+              - generic [ref=e125]:
+                - link "400-073-7518" [ref=e126] [cursor=pointer]:
+                  - /url: tel:4000737518
+                - text: (全国免费咨询)
+            - listitem [ref=e127]:
+              - img [ref=e128]
+              - generic [ref=e131]: 上海市闵行区宜山路1618号新意城T座7楼
+        - generic [ref=e132]:
+          - heading "服务保障" [level=3] [ref=e133]
+          - list [ref=e134]:
+            - listitem [ref=e135]:
+              - img [ref=e136]
+              - generic [ref=e139]: 真TPU 假一赔十
+            - listitem [ref=e140]:
+              - img [ref=e141]
+              - generic [ref=e145]: 全产业链工厂，互联网直卖
+      - generic [ref=e146]:
+        - paragraph [ref=e147]: ©2026 kuiba, All Rights Reserved
+        - generic [ref=e148]:
+          - link "沪ICP备18047610号" [ref=e149] [cursor=pointer]:
+            - /url: https://beian.miit.gov.cn/
+          - link "沪公网安备31011202009346号" [ref=e150] [cursor=pointer]:
+            - /url: http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=31011202009346
+  - alert [ref=e151]

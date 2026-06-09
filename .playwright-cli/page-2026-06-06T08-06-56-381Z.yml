@@ -1,0 +1,236 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "蓝辉轻改 LANHUI Logo" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - img [ref=e7]
+        - generic [ref=e11]:
+          - generic [ref=e12]: LANHUI
+          - generic [ref=e13]: 蓝辉轻改
+      - navigation "主导航" [ref=e14]:
+        - link "首页" [ref=e15] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e17]:
+          - link "产品中心" [ref=e18] [cursor=pointer]:
+            - /url: /product
+          - button "展开 产品中心 子菜单" [ref=e19]:
+            - img [ref=e20]
+        - link "门店服务" [ref=e22] [cursor=pointer]:
+          - /url: /agent
+        - link "品牌介绍" [ref=e23] [cursor=pointer]:
+          - /url: /brand
+        - link "品牌资讯" [ref=e24] [cursor=pointer]:
+          - /url: /news
+      - link "预约咨询" [ref=e25] [cursor=pointer]:
+        - /url: "#contact"
+        - img [ref=e26]
+        - text: 预约咨询
+  - main [ref=e29]:
+    - generic [ref=e36]:
+      - paragraph [ref=e37]: LANHUI · 汽车轻改装
+      - heading "蓝辉轻改 让爱车更有型，也更好用" [level=1] [ref=e39]:
+        - text: 蓝辉轻改
+        - text: 让爱车更有型，也更好用
+      - paragraph [ref=e40]: 专注汽车轻改装与车身膜服务，覆盖电动踏板、轮毂升级、底盘升级、窗膜、改色膜与隐形车衣，为车主提供从外观到功能的一站式升级方案。
+      - generic [ref=e41]:
+        - link "浏览产品" [ref=e42] [cursor=pointer]:
+          - /url: /product
+          - text: 浏览产品
+          - img [ref=e43]
+        - link "预约顺德大良店" [ref=e45] [cursor=pointer]:
+          - /url: /agent
+          - img [ref=e46]
+          - text: 预约顺德大良店
+    - generic [ref=e50]:
+      - generic [ref=e51]:
+        - paragraph [ref=e52]: WHY LANHUI
+        - heading "为什么选择蓝辉轻改？" [level=2] [ref=e53]
+        - paragraph [ref=e54]: 从轻改装备到车身膜服务，蓝辉轻改希望让每一次升级都更清晰、更稳妥。
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - img [ref=e58]
+          - heading "轻改方案整合" [level=3] [ref=e60]
+          - paragraph [ref=e61]: 电动踏板、轮毂、底盘、车身膜一站式搭配，避免在不同门店之间反复沟通。
+        - generic [ref=e62]:
+          - img [ref=e64]
+          - heading "本地门店交付" [level=3] [ref=e67]
+          - paragraph [ref=e68]: 以顺德大良店为服务中心，提供到店沟通、车型确认、方案推荐与施工交付。
+        - generic [ref=e69]:
+          - img [ref=e71]
+          - heading "兼顾颜值与实用" [level=3] [ref=e74]
+          - paragraph [ref=e75]: 不只追求外观，也关注上下车便利、行驶姿态、漆面保护与日常用车舒适。
+    - generic [ref=e77]:
+      - generic [ref=e78]:
+        - paragraph [ref=e79]: SERVICES
+        - heading "核心服务" [level=2] [ref=e80]
+        - paragraph [ref=e81]: 从轻改装备到汽车膜系，再到线下交付，蓝辉轻改提供一站式升级路径。
+      - generic [ref=e82]:
+        - link "轻改装备 电动踏板、轮毂升级、底盘升级等服务，覆盖家用 SUV / MPV / 越野等常见车型。 了解更多" [ref=e83] [cursor=pointer]:
+          - /url: /product
+          - img [ref=e85]
+          - generic [ref=e88]:
+            - heading "轻改装备" [level=3] [ref=e89]
+            - paragraph [ref=e90]: 电动踏板、轮毂升级、底盘升级等服务，覆盖家用 SUV / MPV / 越野等常见车型。
+            - generic [ref=e91]:
+              - text: 了解更多
+              - img [ref=e92]
+        - link "汽车膜系 汽车窗膜、改色膜、隐形车衣，围绕隔热、隐私、漆面保护与颜色个性化。 了解更多" [ref=e94] [cursor=pointer]:
+          - /url: /product/window-film
+          - img [ref=e96]
+          - generic [ref=e99]:
+            - heading "汽车膜系" [level=3] [ref=e100]
+            - paragraph [ref=e101]: 汽车窗膜、改色膜、隐形车衣，围绕隔热、隐私、漆面保护与颜色个性化。
+            - generic [ref=e102]:
+              - text: 了解更多
+              - img [ref=e103]
+        - link "顺德大良店 到店咨询、车型确认、方案推荐与施工交付，当前唯一的线下服务中心。 了解更多" [ref=e105] [cursor=pointer]:
+          - /url: /agent
+          - img [ref=e107]
+          - generic [ref=e110]:
+            - heading "顺德大良店" [level=3] [ref=e111]
+            - paragraph [ref=e112]: 到店咨询、车型确认、方案推荐与施工交付，当前唯一的线下服务中心。
+            - generic [ref=e113]:
+              - text: 了解更多
+              - img [ref=e114]
+      - paragraph [ref=e116]: 门店网络建设中，当前以 顺德大良店 为服务中心，更多城市门店陆续开放中。
+    - generic [ref=e118]:
+      - generic [ref=e119]:
+        - generic [ref=e120]:
+          - paragraph [ref=e121]: PRODUCTS
+          - heading "产品快速入口" [level=2] [ref=e122]
+          - paragraph [ref=e123]: 蓝辉轻改当前覆盖 6 个产品方向，先了解大类，再到店沟通具体方案。
+        - link "查看全部产品" [ref=e124] [cursor=pointer]:
+          - /url: /product
+          - text: 查看全部产品
+          - img [ref=e125]
+      - generic [ref=e127]:
+        - link "轻改装备 电动踏板 上下车更从容，也更稳 了解详情" [ref=e128] [cursor=pointer]:
+          - /url: /product/electric-steps
+          - generic [ref=e129]:
+            - img [ref=e131]
+            - generic [ref=e134]: 轻改装备
+          - heading "电动踏板" [level=3] [ref=e135]
+          - paragraph [ref=e136]: 上下车更从容，也更稳
+          - generic [ref=e137]:
+            - text: 了解详情
+            - img [ref=e138]
+        - link "轻改装备 轮毂升级 轮毂样式与尺寸的合规升级 了解详情" [ref=e140] [cursor=pointer]:
+          - /url: /product/wheels
+          - generic [ref=e141]:
+            - img [ref=e143]
+            - generic [ref=e146]: 轻改装备
+          - heading "轮毂升级" [level=3] [ref=e147]
+          - paragraph [ref=e148]: 轮毂样式与尺寸的合规升级
+          - generic [ref=e149]:
+            - text: 了解详情
+            - img [ref=e150]
+        - link "轻改装备 底盘升级 提升行驶姿态与稳定性 了解详情" [ref=e152] [cursor=pointer]:
+          - /url: /product/chassis
+          - generic [ref=e153]:
+            - img [ref=e155]
+            - generic [ref=e157]: 轻改装备
+          - heading "底盘升级" [level=3] [ref=e158]
+          - paragraph [ref=e159]: 提升行驶姿态与稳定性
+          - generic [ref=e160]:
+            - text: 了解详情
+            - img [ref=e161]
+        - link "汽车膜系 汽车窗膜 隔热、防晒、保护车内隐私 了解详情" [ref=e163] [cursor=pointer]:
+          - /url: /product/window-film
+          - generic [ref=e164]:
+            - img [ref=e166]
+            - generic [ref=e172]: 汽车膜系
+          - heading "汽车窗膜" [level=3] [ref=e173]
+          - paragraph [ref=e174]: 隔热、防晒、保护车内隐私
+          - generic [ref=e175]:
+            - text: 了解详情
+            - img [ref=e176]
+        - link "汽车膜系 改色膜 换个颜色，换种心情 了解详情" [ref=e178] [cursor=pointer]:
+          - /url: /product/color-film
+          - generic [ref=e179]:
+            - img [ref=e181]
+            - generic [ref=e187]: 汽车膜系
+          - heading "改色膜" [level=3] [ref=e188]
+          - paragraph [ref=e189]: 换个颜色，换种心情
+          - generic [ref=e190]:
+            - text: 了解详情
+            - img [ref=e191]
+        - link "汽车膜系 隐形车衣 为原车漆提供日常保护 了解详情" [ref=e193] [cursor=pointer]:
+          - /url: /product/ppf
+          - generic [ref=e194]:
+            - img [ref=e196]
+            - generic [ref=e199]: 汽车膜系
+          - heading "隐形车衣" [level=3] [ref=e200]
+          - paragraph [ref=e201]: 为原车漆提供日常保护
+          - generic [ref=e202]:
+            - text: 了解详情
+            - img [ref=e203]
+  - contentinfo [ref=e205]:
+    - generic [ref=e206]:
+      - generic [ref=e207]:
+        - generic [ref=e208]:
+          - link "蓝辉轻改 LANHUI Logo" [ref=e209] [cursor=pointer]:
+            - /url: /
+            - img [ref=e211]
+            - generic [ref=e215]:
+              - generic [ref=e216]: LANHUI
+              - generic [ref=e217]: 蓝辉轻改
+          - paragraph [ref=e218]: 蓝辉轻改是面向汽车轻改装与汽车膜服务的品牌，从顺德大良出发，提供电动踏板、轮毂升级、底盘升级、汽车窗膜、改色膜、隐形车衣等一站式升级方案。
+        - generic [ref=e219]:
+          - heading "快捷导航" [level=3] [ref=e220]
+          - list [ref=e221]:
+            - listitem [ref=e222]:
+              - link "首页" [ref=e223] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e224]:
+              - link "产品中心" [ref=e225] [cursor=pointer]:
+                - /url: /product
+            - listitem [ref=e226]:
+              - link "门店服务" [ref=e227] [cursor=pointer]:
+                - /url: /agent
+            - listitem [ref=e228]:
+              - link "品牌介绍" [ref=e229] [cursor=pointer]:
+                - /url: /brand
+            - listitem [ref=e230]:
+              - link "品牌资讯" [ref=e231] [cursor=pointer]:
+                - /url: /news
+        - generic [ref=e232]:
+          - heading "产品中心" [level=3] [ref=e233]
+          - list [ref=e234]:
+            - listitem [ref=e235]:
+              - link "电动踏板" [ref=e236] [cursor=pointer]:
+                - /url: /product/electric-steps
+            - listitem [ref=e237]:
+              - link "轮毂升级" [ref=e238] [cursor=pointer]:
+                - /url: /product/wheels
+            - listitem [ref=e239]:
+              - link "底盘升级" [ref=e240] [cursor=pointer]:
+                - /url: /product/chassis
+            - listitem [ref=e241]:
+              - link "汽车窗膜" [ref=e242] [cursor=pointer]:
+                - /url: /product/window-film
+            - listitem [ref=e243]:
+              - link "改色膜" [ref=e244] [cursor=pointer]:
+                - /url: /product/color-film
+            - listitem [ref=e245]:
+              - link "隐形车衣" [ref=e246] [cursor=pointer]:
+                - /url: /product/ppf
+        - generic [ref=e247]:
+          - heading "联系方式" [level=3] [ref=e248]
+          - list [ref=e249]:
+            - listitem [ref=e250]:
+              - img [ref=e251]
+              - generic [ref=e254]: 广东省佛山市顺德区大良（详细地址待补充）
+            - listitem [ref=e255]:
+              - img [ref=e256]
+              - generic [ref=e258]: 联系方式待补充
+            - listitem [ref=e259]:
+              - img [ref=e260]
+              - generic [ref=e263]: 营业时间待确认
+      - generic [ref=e264]:
+        - paragraph [ref=e265]: © 2026 LANHUI 蓝辉轻改. All Rights Reserved.
+        - generic [ref=e266]:
+          - generic [ref=e267]: ICP备案号待备案
+          - generic [ref=e268]: ·
+          - generic [ref=e269]: 公安备案号待备案
+  - button "Open Next.js Dev Tools" [ref=e275] [cursor=pointer]:
+    - img [ref=e276]
