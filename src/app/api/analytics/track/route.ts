@@ -51,10 +51,23 @@ export async function POST(request: Request) {
     const headersList = await headers();
     const userAgent = headersList.get('user-agent') ?? undefined;
     const forwarded = headersList.get('x-forwarded-for');
-    const ip = forwarded?.split(',')[0]?.trim() || headersList.get('x-real-ip') || 'unknown';
+    const realIp = headersList.get('x-real-ip');
+    // BUG-5 修复：增加 Vercel/CF 头兜底
+    const requestIp = headersList.get('x-vercel-forwarded-for')
+      || headersList.get('cf-connecting-ip')
+      || realIp;
+
+    const resolvedIp = forwarded?.split(',')[0]?.trim() || requestIp || 'unknown';
+
+    // BUG-5 修复：IP 格式校验，'unknown' 限流隔离（按 userAgent 分桶）
+    const isValidIp = resolvedIp && resolvedIp !== 'unknown' && (
+      /^\d{1,3}(\.\d{1,3}){3}$/.test(resolvedIp) ||
+      /^[0-9a-fA-F:]+$/.test(resolvedIp)
+    );
+    const rateLimitKey = isValidIp ? resolvedIp : `unknown-${userAgent ?? 'no-ua'}`;
 
     // 限流检查
-    if (!checkRateLimit(ip)) {
+    if (!checkRateLimit(rateLimitKey)) {
       return Response.json(
         { success: false, error: '请求过于频繁' },
         { status: 429 }
@@ -78,15 +91,33 @@ export async function POST(request: Request) {
       );
     }
 
-    // 基础验证与过滤
+    // 基础验证
     const validTypes = new Set(['pageview', 'click', 'form_submit', 'reservation', 'store_view']);
 
-    const validEvents = body.events.filter(
-      (e) => e.type && validTypes.has(e.type) && e.pathname
-    );
+    // BUG-4 修复：拆分 valid/invalid 事件并 warn
+    const validEvents: TrackEventInput[] = [];
+    const invalidEvents: TrackEventInput[] = [];
+    for (const e of body.events) {
+      if (e && e.type && validTypes.has(e.type) && e.pathname) {
+        validEvents.push(e);
+      } else {
+        invalidEvents.push(e);
+      }
+    }
+
+    if (invalidEvents.length > 0) {
+      console.warn(
+        `[POST /api/analytics/track] dropped ${invalidEvents.length} invalid events`,
+        { sample: invalidEvents[0] }
+      );
+    }
 
     if (validEvents.length === 0) {
-      return Response.json({ success: true, count: 0 });
+      return Response.json({
+        success: true,
+        count: 0,
+        invalidCount: invalidEvents.length,
+      });
     }
 
     // 批量写入
@@ -96,14 +127,18 @@ export async function POST(request: Request) {
       storeId: event.storeId || null,
       metadata: (event.metadata ?? null) as Record<string, unknown> | null,
       userAgent,
-      ip,
+      ip: resolvedIp,
     }));
 
     const result = await prisma.analyticsEvent.createMany({
       data: records as Array<Parameters<typeof prisma.analyticsEvent.createMany>[0] extends { data: infer D } ? D : never>,
     });
 
-    return Response.json({ success: true, count: result.count });
+    return Response.json({
+      success: true,
+      count: result.count,
+      invalidCount: invalidEvents.length,
+    });
   } catch (error) {
     console.error('[POST /api/analytics/track]', error);
     return Response.json(

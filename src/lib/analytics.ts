@@ -15,27 +15,55 @@ interface TrackEvent {
 }
 
 const eventBuffer: TrackEvent[] = [];
+const pendingBuffer: TrackEvent[] = []; // BUG-2 修复：正在发送中的事件
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
+let isFlushing = false; // BUG-2 修复：并发锁
 
 const BUFFER_SIZE = 5;
 const FLUSH_INTERVAL = 10000; // 10秒
 
-function flush() {
-  if (eventBuffer.length === 0) return;
+async function flush() {
+  if (isFlushing || eventBuffer.length === 0) return;
+  isFlushing = true;
 
-  const events = eventBuffer.splice(0, eventBuffer.length);
+  try {
+    // 1. 把主 buffer 中所有事件搬到 pending
+    const events = eventBuffer.splice(0, eventBuffer.length);
+    pendingBuffer.push(...events);
 
-  const payload = JSON.stringify({ events });
+    const payload = JSON.stringify({ events });
 
-  if (navigator.sendBeacon) {
-    navigator.sendBeacon('/api/analytics/track', payload);
-  } else {
-    fetch('/api/analytics/track', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: payload,
-      keepalive: true,
-    }).catch(() => {});
+    let success = false;
+    try {
+      if (navigator.sendBeacon) {
+        // sendBeacon 返回 false 表示队列满/失败
+        success = navigator.sendBeacon('/api/analytics/track', payload);
+      } else {
+        const res = await fetch('/api/analytics/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          keepalive: true,
+        });
+        success = res.ok;
+      }
+    } catch {
+      success = false;
+    }
+
+    if (success) {
+      // 成功：清空 pending
+      pendingBuffer.length = 0;
+    } else {
+      // 失败：把 pending 里的事件放回主 buffer 头部
+      eventBuffer.unshift(...pendingBuffer);
+      pendingBuffer.length = 0;
+      if (typeof console !== 'undefined') {
+        console.warn('[analytics] flush failed, events returned to buffer');
+      }
+    }
+  } finally {
+    isFlushing = false;
   }
 }
 

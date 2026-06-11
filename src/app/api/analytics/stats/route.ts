@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 
@@ -102,16 +103,42 @@ export async function GET(request: NextRequest) {
           take: 10,
         }),
 
-        // 每日趋势
-        prisma.$queryRaw<Array<{ date: string; count: bigint }>>`
-          SELECT
-            DATE_TRUNC(${groupBy}, "timestamp")::date::text AS date,
-            COUNT(*)::int AS count
-          FROM "AnalyticsEvent"
-          WHERE "timestamp" >= ${startDate} AND "timestamp" <= ${endDate}
-          GROUP BY DATE_TRUNC(${groupBy}, "timestamp")
-          ORDER BY date ASC
-        `,
+        // 每日趋势（按 groupBy 分 3 个独立 queryRaw，避免 ${groupBy} 被参数化为 $1）
+        (() => {
+          const whereClause = Prisma.sql`WHERE "timestamp" >= ${startDate} AND "timestamp" <= ${endDate}`;
+          if (groupBy === 'day') {
+            return prisma.$queryRaw<Array<{ date: string; count: number }>>`
+              SELECT
+                DATE_TRUNC('day', "timestamp")::date::text AS date,
+                COUNT(*)::int AS count
+              FROM "AnalyticsEvent"
+              ${whereClause}
+              GROUP BY DATE_TRUNC('day', "timestamp")
+              ORDER BY date ASC
+            `;
+          } else if (groupBy === 'week') {
+            return prisma.$queryRaw<Array<{ date: string; count: number }>>`
+              SELECT
+                DATE_TRUNC('week', "timestamp")::date::text AS date,
+                COUNT(*)::int AS count
+              FROM "AnalyticsEvent"
+              ${whereClause}
+              GROUP BY DATE_TRUNC('week', "timestamp")
+              ORDER BY date ASC
+            `;
+          } else {
+            // 'month'
+            return prisma.$queryRaw<Array<{ date: string; count: number }>>`
+              SELECT
+                DATE_TRUNC('month', "timestamp")::date::text AS date,
+                COUNT(*)::int AS count
+              FROM "AnalyticsEvent"
+              ${whereClause}
+              GROUP BY DATE_TRUNC('month', "timestamp")
+              ORDER BY date ASC
+            `;
+          }
+        })(),
       ]);
 
     // 获取门店名称
