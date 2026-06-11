@@ -5,6 +5,7 @@ import { ChevronRight, Calendar, ArrowLeft, Tag, Newspaper } from "lucide-react"
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getArticleBySlug, getArticles, getAllArticleSlugs } from "@/lib/data";
+import { ArticleContent } from "@/components/ArticleContent";
 
 export const revalidate = 3600;
 
@@ -37,7 +38,7 @@ export default async function NewsDetailPage({
   if (!item) notFound();
 
   // Related: same category, exclude self
-  const allArticles = await getArticles();
+  const { articles: allArticles } = await getArticles();
   const related = allArticles
     .filter((n) => n.slug !== slug)
     .slice(0, 4);
@@ -89,53 +90,18 @@ export default async function NewsDetailPage({
                 {item.summary}
               </p>
 
-              <div className="prose prose-invert max-w-none text-zinc-300 leading-relaxed space-y-4">
-                <p>
-                  蓝辉轻改将围绕「让爱车更有型，也更好用」这一长期方向，逐步完善
-                  产品矩阵、门店服务与品牌内容。
-                </p>
-                <p>
-                  本条资讯为
-                  <span className="text-orange-400 font-medium mx-1">
-                    {item.category}
-                  </span>
-                  类内容，详细说明将根据品牌发展节奏持续补充。当前阶段，门店网络与
-                  真实业务数据以
-                  <Link
-                    href="/agent"
-                    className="text-blue-400 hover:text-blue-300 mx-1"
-                  >
-                    顺德大良店
-                  </Link>
-                  公开信息为准。
-                </p>
-                <p className="text-sm text-zinc-500">
-                  如果您希望第一时间获取品牌动态，可在
-                  <Link
-                    href="/contact"
-                    className="text-orange-400 hover:text-orange-300 mx-1"
-                  >
-                    预约咨询
-                  </Link>
-                  页面留下联系方式，我们会在有重要更新时主动同步。
-                </p>
+              <div className="prose prose-invert max-w-none text-zinc-300 leading-relaxed">
+                <ArticleContent content={item.content ?? ""} />
               </div>
             </div>
 
-            <div className="mt-8 flex items-center justify-between flex-wrap gap-3">
+            <div className="mt-8 flex items-center justify-start flex-wrap gap-3">
               <Link
                 href="/news"
                 className="inline-flex items-center text-sm text-zinc-400 hover:text-white transition-colors"
               >
                 <ArrowLeft className="w-4 h-4 mr-1" />
                 返回资讯列表
-              </Link>
-              <Link
-                href="/agent"
-                className="inline-flex items-center text-sm text-orange-400 hover:text-orange-300 transition-colors"
-              >
-                查看顺德大良店
-                <ChevronRight className="w-4 h-4 ml-1" />
               </Link>
             </div>
           </div>

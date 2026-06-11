@@ -160,29 +160,57 @@ export async function getCityBySlug(
 
 // ── Articles / News ──
 
+export type ArticlesPagination = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+};
+
 export async function getArticles(params?: {
   status?: string;
   category?: string;
+  page?: number;
   limit?: number;
-}): Promise<NewsItem[]> {
+}): Promise<{ articles: NewsItem[]; pagination: ArticlesPagination }> {
+  const page = params?.page ?? 1;
+  const limit = params?.limit ?? 20;
+
   try {
     const searchParams = new URLSearchParams();
     if (params?.status) searchParams.set("status", params.status);
     if (params?.category) searchParams.set("category", params.category);
-    if (params?.limit) searchParams.set("limit", String(params.limit));
+    searchParams.set("page", String(page));
+    searchParams.set("limit", String(limit));
 
     const res = await fetch(`${API_BASE}/api/articles?${searchParams}`, {
       next: { revalidate: 3600 },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    return (json.data ?? []).map(mapApiArticle);
+    const articles = (json.data ?? []).map(mapApiArticle);
+    const pagination: ArticlesPagination = json.pagination ?? {
+      page,
+      limit,
+      total: articles.length,
+      totalPages: 1,
+    };
+    return { articles, pagination };
   } catch {
     const { newsItems } = await import("@/lib/news");
-    let result = newsItems;
+    let result = [...newsItems];
     if (params?.category) result = result.filter((n) => n.category === params.category);
-    if (params?.limit) result = result.slice(0, params.limit);
-    return result;
+    const skip = (page - 1) * limit;
+    const paged = result.slice(skip, skip + limit);
+    return {
+      articles: paged.map(mapApiArticle),
+      pagination: {
+        page,
+        limit,
+        total: result.length,
+        totalPages: Math.max(1, Math.ceil(result.length / limit)),
+      },
+    };
   }
 }
 
