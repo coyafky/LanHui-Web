@@ -275,3 +275,67 @@ describe("POST /api/stores", () => {
     expect(callArg.data.isActive).toBe(true);
   });
 });
+
+describe("POST /api/stores — Prisma 7 driverAdapterError P2002 structure", () => {
+  it("Prisma 7 新结构 slug 冲突 → 409 + slug-specific 响应", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreCreate.mockRejectedValue({
+      code: "P2002",
+      meta: {
+        modelName: "Store",
+        driverAdapterError: {
+          cause: {
+            originalCode: "23505",
+            kind: "UniqueConstraintViolation",
+            constraint: { fields: ["slug"] },
+          },
+        },
+      },
+    });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(VALID_BODY),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(409);
+    const json = (await res.json()) as {
+      error?: string;
+      details?: Record<string, string[]>;
+    };
+    expect(json.error).toBe("URL标识已存在");
+    expect(json.details?.slug).toContain("该 URL 标识已被其他门店使用");
+  });
+
+  it("Prisma 7 新结构 其它字段冲突 → 409 + 通用响应", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreCreate.mockRejectedValue({
+      code: "P2002",
+      meta: {
+        modelName: "Store",
+        driverAdapterError: {
+          cause: {
+            originalCode: "23505",
+            kind: "UniqueConstraintViolation",
+            constraint: { fields: ["phone"] },
+          },
+        },
+      },
+    });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(VALID_BODY),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(409);
+    const json = (await res.json()) as {
+      error?: string;
+      details?: Record<string, string[]>;
+    };
+    expect(json.error).toBe("数据已存在");
+    expect(json.details?._form).toBeDefined();
+  });
+});

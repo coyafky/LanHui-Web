@@ -170,8 +170,26 @@ export async function POST(request: NextRequest) {
       "code" in error &&
       (error as { code?: string }).code === "P2002"
     ) {
-      const target = (error as { meta?: { target?: string[] } }).meta?.target;
-      if (target?.includes("slug")) {
+      // Prisma 7 + Driver Adapter 抛出新结构 P2002 error：
+      //   { code: "P2002", meta: { driverAdapterError: { cause: { constraint: { fields: ["slug"] } } } } }
+      // 旧 Prisma ≤ 6 用 `meta.target`，保留兜底以防御未来回滚。
+      const prismaErr = error as {
+        meta?: {
+          modelName?: string;
+          driverAdapterError?: {
+            cause?: {
+              originalCode?: string;
+              kind?: string;
+              constraint?: { fields?: string[] };
+            };
+          };
+          target?: string[];
+        };
+      };
+      const fields =
+        prismaErr.meta?.driverAdapterError?.cause?.constraint?.fields ??
+        prismaErr.meta?.target;
+      if (fields?.includes("slug")) {
         return Response.json(
           {
             success: false,
