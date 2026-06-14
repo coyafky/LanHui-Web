@@ -86,9 +86,9 @@ function DeleteDialog({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="mx-4 w-full max-w-md rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-        <h3 className="text-lg font-semibold text-zinc-100">确认删除</h3>
+        <h3 className="text-lg font-semibold text-zinc-100">确认停用</h3>
         <p className="mt-2 text-sm text-zinc-400">
-          确定要删除门店「{storeName}」吗？此操作将停用该门店，可后续恢复。
+          确定要停用门店「{storeName}」吗？此操作将下架该门店，后续可在编辑页恢复营业。
         </p>
         <div className="mt-5 flex justify-end gap-3">
           <button
@@ -105,7 +105,7 @@ function DeleteDialog({
             className="inline-flex items-center gap-1.5 rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600 disabled:opacity-50"
           >
             {deleting && <Loader2 className="h-4 w-4 animate-spin" />}
-            删除
+            停用
           </button>
         </div>
       </div>
@@ -206,7 +206,7 @@ export default function StoresPage() {
 
   /* ---------- Fetch provinces for filter ---------- */
   useEffect(() => {
-    fetch("/api/store-regions")
+    fetch("/api/provinces")
       .then((r) => r.json())
       .then((res) => {
         if (res.success) {
@@ -298,7 +298,7 @@ export default function StoresPage() {
             className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/10"
           >
             <Trash2 className="h-3.5 w-3.5" />
-            删除
+            停用
           </button>
         </div>
       ),

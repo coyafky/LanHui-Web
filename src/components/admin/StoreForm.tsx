@@ -434,7 +434,7 @@ export function StoreForm({
             ) : (
               <X className="h-4 w-4" />
             )}
-            删除门店
+            停用门店
           </button>
         )}
       </div>
