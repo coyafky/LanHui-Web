@@ -24,6 +24,8 @@ model User {
 
 model Province {
   slug        String   @id
+  code        String?  @unique
+  type        String?
   label       String
   description String?
   imageUrl    String?
@@ -35,10 +37,13 @@ model Province {
   stores      Store[]
 
   @@index([isActive])
+  @@index([isActive, order])
 }
 
 model City {
   slug         String   @id
+  code         String?  @unique
+  type         String?
   provinceSlug String
   province     Province @relation(fields: [provinceSlug], references: [slug], onDelete: Cascade)
   label        String
