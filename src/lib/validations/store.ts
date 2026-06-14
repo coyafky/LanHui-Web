@@ -17,9 +17,13 @@ export const StoreCreateSchema = z.object({
     .min(1, "门店名称不能为空")
     .max(80, "门店名称不能超过 80 个字符"),
   provinceSlug: z.string().min(1, "请选择省份"),
-  provinceLabel: z.string().min(1, "请选择省份"),
+  /**
+   * label 由 API 从数据库权威同步（AC-5：不信任客户端 label）。
+   * 客户端可省略；服务端会用 prisma.province.label 覆盖。
+   */
+  provinceLabel: z.string().optional(),
   citySlug: z.string().min(1, "请选择城市"),
-  cityLabel: z.string().min(1, "请选择城市"),
+  cityLabel: z.string().optional(),
   district: z.string().max(40, "区域名称不能超过 40 个字符").optional(),
   address: z
     .string()

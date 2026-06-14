@@ -84,12 +84,10 @@ describe("StoreCreateSchema", () => {
       const result = StoreCreateSchema.safeParse({
         ...validData,
         provinceSlug: "",
-        provinceLabel: "",
       });
       expect(result.success).toBe(false);
       if (!result.success) {
-        const errs = result.error.flatten().fieldErrors;
-        expect([errs.provinceSlug?.[0], errs.provinceLabel?.[0]]).toContain(
+        expect(result.error.flatten().fieldErrors.provinceSlug).toContain(
           "请选择省份"
         );
       }
@@ -106,6 +104,26 @@ describe("StoreCreateSchema", () => {
           "请选择城市"
         );
       }
+    });
+  });
+
+  describe("AC-5：label 由服务端覆盖（schema 不再强求）", () => {
+    it("缺省 provinceLabel 不阻塞 schema 校验（optional）", () => {
+      const { provinceLabel: _omit, ...withoutProvinceLabel } = validData;
+      const result = StoreCreateSchema.safeParse(withoutProvinceLabel);
+      expect(result.success).toBe(true);
+    });
+
+    it("缺省 cityLabel 不阻塞 schema 校验（optional）", () => {
+      const { cityLabel: _omit, ...withoutCityLabel } = validData;
+      const result = StoreCreateSchema.safeParse(withoutCityLabel);
+      expect(result.success).toBe(true);
+    });
+
+    it("两者都缺省仍可通过（服务端后续注入权威 label）", () => {
+      const { provinceLabel: _p, cityLabel: _c, ...rest } = validData;
+      const result = StoreCreateSchema.safeParse(rest);
+      expect(result.success).toBe(true);
     });
   });
 
