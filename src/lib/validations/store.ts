@@ -39,6 +39,11 @@ export const StoreCreateSchema = z.object({
   description: z.string().max(500, "描述不能超过 500 字").optional(),
   /** 新主字段：相对 public/ 的上传路径，如 /uploads/stores/abc.jpg */
   imagePath: z.string().max(255).optional().nullable(),
+  /**
+   * 营业状态。省略时默认 true（营业中）。
+   * 后台可切换为 false（下架），前台 /api/stores 将不再返回该门店。
+   */
+  isActive: z.boolean().optional().default(true),
 });
 
 export const StoreUpdateSchema = StoreCreateSchema.partial();
