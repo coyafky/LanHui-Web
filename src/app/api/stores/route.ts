@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { StoreCreateSchema } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
-import { findRegion, findCity } from "@/lib/store-regions";
 
 export async function GET(request: NextRequest) {
   try {
@@ -99,9 +98,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 预校验：省/市必须存在于 store-regions.ts（业务侧维护的合法清单）
-    const region = findRegion(parsed.data.provinceSlug);
-    if (!region) {
+    // 预校验：省/市必须存在于数据库且 active（AC-5：用 DB label 覆盖客户端）
+    const [province, city] = await Promise.all([
+      prisma.province.findUnique({ where: { slug: parsed.data.provinceSlug } }),
+      prisma.city.findUnique({ where: { slug: parsed.data.citySlug } }),
+    ]);
+
+    if (!province || !province.isActive) {
       return Response.json(
         {
           success: false,
@@ -111,9 +114,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    const cityResult = findCity(parsed.data.provinceSlug, parsed.data.citySlug);
-    if (!cityResult) {
+    if (!city || !city.isActive || city.provinceSlug !== province.slug) {
       return Response.json(
         {
           success: false,
@@ -124,17 +125,20 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 同步 label（确保 DB label 与 store-regions.ts 一致，避免前端脏数据）
-    parsed.data.provinceLabel = region.label;
-    parsed.data.cityLabel = cityResult.city.label;
+    // 用数据库权威 label 覆盖客户端传来的值（AC-5：不信任客户端 label）
+    // 此时 provinceLabel/cityLabel 已为非空 string，但 zod 推导仍是 optional
+    // 所以用强制断言向下传递，Prisma schema 要求这两个字段必填非空
+    const finalData = {
+      ...parsed.data,
+      provinceLabel: province.label,
+      cityLabel: city.label,
+      // phoneTel 在 Prisma schema 是必填，schema 改为 optional 后由客户端 useEffect 派生
+      phoneTel:
+        parsed.data.phoneTel ?? `tel:${parsed.data.phone.replace(/\D/g, "")}`,
+    };
 
     const store = await prisma.store.create({
-      data: {
-        ...parsed.data,
-        // phoneTel 在 Prisma schema 是必填，schema 改为 optional 后由客户端 useEffect 派生
-        phoneTel:
-          parsed.data.phoneTel ?? `tel:${parsed.data.phone.replace(/\D/g, "")}`,
-      },
+      data: finalData,
     });
 
     await logActivity({

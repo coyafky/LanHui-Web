@@ -91,6 +91,44 @@ export async function PUT(
       );
     }
 
+    // 当更新涉及省/市 slug 时，校验 DB 并用权威 label 覆盖（AC-5）
+    // 两个 slug 都没出现 → 跳过校验，保留原值
+    if (parsed.data.provinceSlug || parsed.data.citySlug) {
+      const targetProvinceSlug =
+        parsed.data.provinceSlug ?? existing.provinceSlug;
+      const targetCitySlug = parsed.data.citySlug ?? existing.citySlug;
+
+      const [province, city] = await Promise.all([
+        prisma.province.findUnique({ where: { slug: targetProvinceSlug } }),
+        prisma.city.findUnique({ where: { slug: targetCitySlug } }),
+      ]);
+
+      if (!province || !province.isActive) {
+        return Response.json(
+          {
+            success: false,
+            error: "参数验证失败",
+            details: { provinceSlug: ["请选择已开通的省份"] },
+          },
+          { status: 400 }
+        );
+      }
+      if (!city || !city.isActive || city.provinceSlug !== province.slug) {
+        return Response.json(
+          {
+            success: false,
+            error: "参数验证失败",
+            details: { citySlug: ["所选城市暂未开通或不属于所选省份"] },
+          },
+          { status: 400 }
+        );
+      }
+
+      // 用数据库权威 label 覆盖（AC-5）
+      parsed.data.provinceLabel = province.label;
+      parsed.data.cityLabel = city.label;
+    }
+
     const store = await prisma.store.update({
       where: { id: existing.id },
       data: parsed.data,

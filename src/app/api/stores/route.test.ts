@@ -4,8 +4,8 @@ const mockAuth = vi.hoisted(() => vi.fn());
 const mockStoreCreate = vi.hoisted(() => vi.fn());
 const mockStoreFindMany = vi.hoisted(() => vi.fn());
 const mockStoreCount = vi.hoisted(() => vi.fn());
-const mockFindRegion = vi.hoisted(() => vi.fn());
-const mockFindCity = vi.hoisted(() => vi.fn());
+const mockProvinceFindUnique = vi.hoisted(() => vi.fn());
+const mockCityFindUnique = vi.hoisted(() => vi.fn());
 const mockLogActivity = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/auth", () => ({ auth: mockAuth }));
@@ -16,13 +16,14 @@ vi.mock("@/lib/prisma", () => ({
       findMany: mockStoreFindMany,
       count: mockStoreCount,
     },
+    province: { findUnique: mockProvinceFindUnique },
+    city: { findUnique: mockCityFindUnique },
   },
 }));
-vi.mock("@/lib/store-regions", () => ({
-  findRegion: mockFindRegion,
-  findCity: mockFindCity,
-}));
 vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
+
+// Note: P2 阶段 store-regions 已不再被 POST 引用，移除其 mock
+// vi.mock("@/lib/store-regions", ...) 已删除
 
 const VALID_BODY = {
   slug: "shunde-daliang",
@@ -35,16 +36,21 @@ const VALID_BODY = {
   phone: "0757-2288 1001",
 };
 
-const GUANGDONG_REGION = {
+const GUANGDONG_DB = {
   slug: "guangdong",
   label: "广东省",
-  cities: [
-    { slug: "guangzhou", label: "广州市", isCapital: true },
-    { slug: "foshan", label: "佛山市" },
-  ],
+  code: "440000",
+  type: "province",
+  isActive: true,
 };
-
-const FOSHAN_CITY = { slug: "foshan", label: "佛山市" };
+const FOSHAN_DB = {
+  slug: "foshan",
+  label: "佛山市",
+  code: "440600",
+  type: "city",
+  provinceSlug: "guangdong",
+  isActive: true,
+};
 
 beforeEach(() => {
   vi.resetModules();
@@ -52,14 +58,14 @@ beforeEach(() => {
   mockStoreCreate.mockReset();
   mockStoreFindMany.mockReset();
   mockStoreCount.mockReset();
-  mockFindRegion.mockReset();
-  mockFindCity.mockReset();
+  mockProvinceFindUnique.mockReset();
+  mockCityFindUnique.mockReset();
   mockLogActivity.mockReset();
   mockStoreFindMany.mockResolvedValue([]);
   mockStoreCount.mockResolvedValue(0);
-  // 默认值：合法省/市 — 测试如需覆盖可单独 mock
-  mockFindRegion.mockReturnValue(GUANGDONG_REGION);
-  mockFindCity.mockReturnValue({ city: FOSHAN_CITY, region: GUANGDONG_REGION });
+  // 默认值：合法活跃省/市 — 测试可单独覆盖
+  mockProvinceFindUnique.mockResolvedValue(GUANGDONG_DB);
+  mockCityFindUnique.mockResolvedValue(FOSHAN_DB);
   mockLogActivity.mockResolvedValue(undefined);
 });
 
@@ -68,7 +74,7 @@ async function loadPost() {
   return mod.POST;
 }
 
-describe("POST /api/stores", () => {
+describe("POST /api/stores — 鉴权", () => {
   it("未认证返回 401", async () => {
     mockAuth.mockResolvedValue(null);
     const POST = await loadPost();
@@ -92,24 +98,12 @@ describe("POST /api/stores", () => {
     const res = await POST(req as unknown as Parameters<typeof POST>[0]);
     expect(res.status).toBe(403);
   });
+});
 
-  it("参数验证失败返回 400 + 中文 details", async () => {
+describe("POST /api/stores — DB 校验（AC-5）", () => {
+  it("省份在 DB 不存在 → 400 + details.provinceSlug", async () => {
     mockAuth.mockResolvedValue({ user: { role: "admin" } });
-    const POST = await loadPost();
-    const req = new Request("http://localhost/api/stores", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ...VALID_BODY, provinceSlug: "" }),
-    });
-    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
-    expect(res.status).toBe(400);
-    const json = (await res.json()) as { details?: Record<string, string[]> };
-    expect(json.details?.provinceSlug).toContain("请选择省份");
-  });
-
-  it("省份不在 store-regions 中 → 400 + details.provinceSlug", async () => {
-    mockAuth.mockResolvedValue({ user: { role: "admin" } });
-    mockFindRegion.mockReturnValue(undefined);
+    mockProvinceFindUnique.mockResolvedValue(null);
     const POST = await loadPost();
     const req = new Request("http://localhost/api/stores", {
       method: "POST",
@@ -123,9 +117,25 @@ describe("POST /api/stores", () => {
     expect(mockStoreCreate).not.toHaveBeenCalled();
   });
 
-  it("城市不属于 store-regions 该省 → 400 + details.citySlug", async () => {
+  it("省份 inactive → 400 + details.provinceSlug", async () => {
     mockAuth.mockResolvedValue({ user: { role: "admin" } });
-    mockFindCity.mockReturnValue(null);
+    mockProvinceFindUnique.mockResolvedValue({ ...GUANGDONG_DB, isActive: false });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(VALID_BODY),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as { details?: Record<string, string[]> };
+    expect(json.details?.provinceSlug).toContain("请选择已开通的省份");
+    expect(mockStoreCreate).not.toHaveBeenCalled();
+  });
+
+  it("城市在 DB 不存在 → 400 + details.citySlug", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockCityFindUnique.mockResolvedValue(null);
     const POST = await loadPost();
     const req = new Request("http://localhost/api/stores", {
       method: "POST",
@@ -139,19 +149,79 @@ describe("POST /api/stores", () => {
     expect(mockStoreCreate).not.toHaveBeenCalled();
   });
 
-  it("创建成功：label 同步自 store-regions 源（即便客户端传错 label）", async () => {
+  it("城市 inactive → 400 + details.citySlug", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockCityFindUnique.mockResolvedValue({ ...FOSHAN_DB, isActive: false });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(VALID_BODY),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as { details?: Record<string, string[]> };
+    expect(json.details?.citySlug).toContain("所选城市暂未开通或不属于所选省份");
+    expect(mockStoreCreate).not.toHaveBeenCalled();
+  });
+
+  it("城市不属于该省份 → 400 + details.citySlug", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockCityFindUnique.mockResolvedValue({
+      ...FOSHAN_DB,
+      provinceSlug: "guangxi", // 故意错配
+    });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(VALID_BODY),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as { details?: Record<string, string[]> };
+    expect(json.details?.citySlug).toContain("所选城市暂未开通或不属于所选省份");
+    expect(mockStoreCreate).not.toHaveBeenCalled();
+  });
+});
+
+describe("POST /api/stores — 创建成功路径", () => {
+  it("创建成功 → 201 + data + store.create 收到 DB 权威 label（AC-5）", async () => {
     mockAuth.mockResolvedValue({ user: { role: "admin" } });
     mockStoreCreate.mockResolvedValue({ id: "store_1", ...VALID_BODY });
     const POST = await loadPost();
     const req = new Request("http://localhost/api/stores", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      // 客户端故意传错的 label（"广东" vs store-regions "广东省"）
-      body: JSON.stringify({ ...VALID_BODY, provinceLabel: "广东", cityLabel: "佛山" }),
+      // 客户端故意传错 label（"广东" vs DB "广东省"）
+      body: JSON.stringify({
+        ...VALID_BODY,
+        provinceLabel: "广东",
+        cityLabel: "佛山",
+      }),
     });
     const res = await POST(req as unknown as Parameters<typeof POST>[0]);
     expect(res.status).toBe(201);
     expect(mockStoreCreate).toHaveBeenCalledTimes(1);
+    const callArg = mockStoreCreate.mock.calls[0]?.[0] as {
+      data: { provinceLabel: string; cityLabel: string };
+    };
+    expect(callArg.data.provinceLabel).toBe("广东省");
+    expect(callArg.data.cityLabel).toBe("佛山市");
+  });
+
+  it("创建成功：客户端不传 label → DB label 仍写入", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreCreate.mockResolvedValue({ id: "store_2", ...VALID_BODY });
+    const POST = await loadPost();
+    const { provinceLabel: _p, cityLabel: _c, ...bodyWithoutLabels } = VALID_BODY;
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(bodyWithoutLabels),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
     const callArg = mockStoreCreate.mock.calls[0]?.[0] as {
       data: { provinceLabel: string; cityLabel: string };
     };
@@ -228,51 +298,18 @@ describe("POST /api/stores", () => {
     expect(res.status).toBe(500);
   });
 
-  it("创建成功返回 201 + data", async () => {
+  it("参数验证失败（schema）返回 400 + 中文 details", async () => {
     mockAuth.mockResolvedValue({ user: { role: "admin" } });
-    mockStoreCreate.mockResolvedValue({ id: "store_1", ...VALID_BODY });
     const POST = await loadPost();
     const req = new Request("http://localhost/api/stores", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(VALID_BODY),
+      body: JSON.stringify({ ...VALID_BODY, provinceSlug: "" }),
     });
     const res = await POST(req as unknown as Parameters<typeof POST>[0]);
-    expect(res.status).toBe(201);
-    const json = (await res.json()) as { success?: boolean; data?: { id: string } };
-    expect(json.success).toBe(true);
-    expect(json.data?.id).toBe("store_1");
-  });
-
-  it("创建门店 isActive=false → 201 且 prisma.store.create 收到 isActive=false", async () => {
-    mockAuth.mockResolvedValue({ user: { role: "admin" } });
-    mockStoreCreate.mockResolvedValue({ id: "store_2", ...VALID_BODY, isActive: false });
-    const POST = await loadPost();
-    const req = new Request("http://localhost/api/stores", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ ...VALID_BODY, isActive: false }),
-    });
-    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
-    expect(res.status).toBe(201);
-    expect(mockStoreCreate).toHaveBeenCalledTimes(1);
-    const callArg = mockStoreCreate.mock.calls[0]?.[0] as { data: { isActive: boolean } };
-    expect(callArg.data.isActive).toBe(false);
-  });
-
-  it("创建门店不传 isActive → 缺省值 true 透传给 prisma.store.create", async () => {
-    mockAuth.mockResolvedValue({ user: { role: "admin" } });
-    mockStoreCreate.mockResolvedValue({ id: "store_3", ...VALID_BODY });
-    const POST = await loadPost();
-    const req = new Request("http://localhost/api/stores", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(VALID_BODY),
-    });
-    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
-    expect(res.status).toBe(201);
-    const callArg = mockStoreCreate.mock.calls[0]?.[0] as { data: { isActive: boolean } };
-    expect(callArg.data.isActive).toBe(true);
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as { details?: Record<string, string[]> };
+    expect(json.details?.provinceSlug).toContain("请选择省份");
   });
 });
 
