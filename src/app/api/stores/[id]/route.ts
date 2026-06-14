@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { StoreUpdateSchema } from "@/lib/validations/store";
+import { logActivity } from "@/lib/admin-dashboard";
 
 export async function GET(
   _request: NextRequest,
@@ -79,8 +80,43 @@ export async function PUT(
       data: parsed.data,
     });
 
+    await logActivity({
+      actorId: session.user.id,
+      action: "store.update",
+      entity: "store",
+      entityId: store.id,
+      metadata: { name: store.name, slug: store.slug, isActive: store.isActive },
+    });
+
     return Response.json({ success: true, data: store });
   } catch (error) {
+    // Prisma P2002 = unique constraint violation
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "P2002"
+    ) {
+      const target = (error as { meta?: { target?: string[] } }).meta?.target;
+      if (target?.includes("slug")) {
+        return Response.json(
+          {
+            success: false,
+            error: "URL标识已存在",
+            details: { slug: ["该 URL 标识已被其他门店使用"] },
+          },
+          { status: 409 }
+        );
+      }
+      return Response.json(
+        {
+          success: false,
+          error: "数据已存在",
+          details: { _form: ["记录重复"] },
+        },
+        { status: 409 }
+      );
+    }
     console.error("[PUT /api/stores/[id]]", error);
     return Response.json(
       { success: false, error: "服务器内部错误" },
@@ -124,6 +160,14 @@ export async function DELETE(
     const store = await prisma.store.update({
       where: { id: existing.id },
       data: { isActive: false },
+    });
+
+    await logActivity({
+      actorId: session.user.id,
+      action: "store.delete",
+      entity: "store",
+      entityId: existing.id,
+      metadata: { name: existing.name, slug: existing.slug },
     });
 
     return Response.json({ success: true, data: store });

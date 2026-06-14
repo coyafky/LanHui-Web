@@ -11,6 +11,7 @@ export type NewsItem = {
   date: string;
   category: string;
   summary: string;
+  content?: string;
 };
 
 export const newsItems: NewsItem[] = [

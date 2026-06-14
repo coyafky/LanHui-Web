@@ -29,7 +29,11 @@ export type StoreFormValues = z.infer<typeof StoreCreateSchema>;
 
 interface StoreFormProps {
   defaultValues?: Partial<StoreFormValues>;
-  onSubmit: (data: StoreFormValues) => Promise<void>;
+  /**
+   * 提交回调。返回值若为新创建的门店 ID（string），StoreForm 会跳转到
+   * `/admin/stores/{id}/image` 让用户上传门店图片；返回 void 则跳转到列表页。
+   */
+  onSubmit: (data: StoreFormValues) => Promise<string | void>;
   submitLabel?: string;
   showDelete?: boolean;
   onDelete?: () => Promise<void>;
@@ -139,8 +143,12 @@ export function StoreForm({
   async function handleFormSubmit(data: StoreFormValues) {
     setSubmitting(true);
     try {
-      await onSubmit(data);
-      router.push("/admin/stores");
+      const result = await onSubmit(data);
+      if (typeof result === "string" && result.length > 0) {
+        router.push(`/admin/stores/${result}/image`);
+      } else {
+        router.push("/admin/stores");
+      }
     } catch {
       // Error handled by caller
     } finally {
@@ -285,19 +293,44 @@ export function StoreForm({
             />
           </FieldWrapper>
 
-          {/* Image URL */}
+          {/* Image URL（兼容字段；推荐使用下方"门店图片管理"页面上传） */}
           <FieldWrapper
-            label="门店图片 URL"
+            label="门店图片 URL（兼容字段）"
             icon={ImageIcon}
             error={errors.imageUrl?.message}
+            required={false}
           >
             <input
               {...register("imageUrl")}
               type="url"
-              placeholder="https://example.com/store.jpg"
+              placeholder="https://example.com/store.jpg（可选）"
               className={inputClasses}
             />
           </FieldWrapper>
+
+          {/* imagePath 只读展示，由图片管理页面上传/修改 */}
+          {defaultValues?.imagePath ? (
+            <FieldWrapper
+              label="已上传门店图片"
+              icon={ImageIcon}
+            >
+              <div className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-300">
+                <code className="text-xs text-zinc-400">{defaultValues.imagePath}</code>
+                <p className="mt-1 text-xs text-zinc-500">
+                  保存后跳转到图片管理页面可替换或删除
+                </p>
+              </div>
+            </FieldWrapper>
+          ) : (
+            <FieldWrapper
+              label="门店图片"
+              icon={ImageIcon}
+            >
+              <p className="text-xs text-zinc-500">
+                保存门店后，将自动跳转到图片管理页面上传真实门店图。
+              </p>
+            </FieldWrapper>
+          )}
         </div>
       </section>
 

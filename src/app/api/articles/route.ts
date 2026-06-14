@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { ArticleCreateSchema } from "@/lib/validations/article";
+import { logActivity } from "@/lib/admin-dashboard";
 
 /** 生成简单的 timestamp-based slug */
 function generateSlug(title: string): string {
@@ -155,6 +156,14 @@ export async function POST(request: NextRequest) {
           select: { id: true, name: true },
         },
       },
+    });
+
+    await logActivity({
+      actorId: session.user.id,
+      action: "article.create",
+      entity: "article",
+      entityId: article.id,
+      metadata: { title: article.title, slug: article.slug },
     });
 
     return Response.json({ success: true, data: article }, { status: 201 });

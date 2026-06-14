@@ -1,0 +1,540 @@
+{
+  "category": "flooring",
+  "displayName": "地板改装",
+  "version": "product-images-v1",
+  "updatedAt": "2026-06-13",
+  "source": {
+    "type": "product-images",
+    "directory": "/images/products/flooring/图片",
+    "note": "本 manifest 基于产品图目录生成，不再使用 PDF 画册页作为前端内容来源。"
+  },
+  "summary": {
+    "brandGroupCount": 6,
+    "readyBrandCount": 5,
+    "imageCount": 20,
+    "activeTemplateBrands": [
+      "理想",
+      "问界",
+      "极氪",
+      "小鹏",
+      "奔驰"
+    ],
+    "referenceOnlyBrands": [
+      "腾势"
+    ],
+    "missingAssetBrands": [
+      "奔驰"
+    ]
+  },
+  "productPositioning": {
+    "title": "按热门车型适配的地板总成升级",
+    "shortDescription": "围绕地板主板、滑轨区域、脚踏组件和尾箱地板，展示不同品牌车型的颜色效果与空间整合价值。",
+    "longDescription": "地板改装专题不再按画册页展示，而是按热门品牌车型组织产品图。用户应先看到适配品牌，再通过颜色轮播比较雪霜白、中性灰、岩石黑、木纹咖等视觉效果，最后理解地板、滑轨、脚踏和尾箱区域的一体化升级价值。"
+  },
+  "sellingPoints": [
+    {
+      "id": "model-fitment",
+      "title": "按热门车型适配",
+      "description": "以理想、问界、极氪、小鹏、奔驰等热门车型为页面模板，不使用单一通用图覆盖所有车型。"
+    },
+    {
+      "id": "color-match",
+      "title": "多色效果对比",
+      "description": "同一品牌车型下用颜色轮播展示雪霜白、中性灰、岩石黑、木纹咖等效果，帮助用户判断与内饰风格是否协调。"
+    },
+    {
+      "id": "floor-rail-integration",
+      "title": "地板与滑轨整合",
+      "description": "围绕后排地板和座椅滑轨区域做整体展示，突出空间整洁和视觉统一。"
+    },
+    {
+      "id": "door-step-comfort",
+      "title": "上下车与脚部体验",
+      "description": "通过中门迎宾踏板、休息脚踏等组件承接上下车和后排脚部使用场景。"
+    },
+    {
+      "id": "trunk-continuity",
+      "title": "尾箱区域联动",
+      "description": "尾箱地板与后排地板形成统一效果，兼顾收纳、清洁和整体观感。"
+    },
+    {
+      "id": "easy-care",
+      "title": "日常清洁维护",
+      "description": "地板表面相对织物地毯更便于日常擦拭和维护，适合家庭和商务高频使用场景。"
+    },
+    {
+      "id": "premium-cabin",
+      "title": "座舱质感提升",
+      "description": "通过地板、滑轨、脚踏和尾箱区域的统一呈现，提升后排空间的完整度和精致感。"
+    }
+  ],
+  "functions": [
+    {
+      "id": "main-floor-board",
+      "name": "地板主板",
+      "description": "后排地板主体视觉件，是颜色和整体质感的核心展示区域。"
+    },
+    {
+      "id": "rail-trim",
+      "name": "滑轨区域",
+      "description": "围绕座椅滑轨区域做视觉整合，具体兼容性需按车型和座椅布局确认。"
+    },
+    {
+      "id": "door-sill-step",
+      "name": "中门迎宾踏板",
+      "description": "承接上下车区域，强化进出后排的便利性和整体观感。"
+    },
+    {
+      "id": "foot-rest",
+      "name": "休息脚踏",
+      "description": "服务后排脚部停放和舒适体验，是否带灯光以具体款式为准。"
+    },
+    {
+      "id": "trunk-floor",
+      "name": "尾箱地板",
+      "description": "让后排和尾箱区域形成统一效果，并提升尾箱区域的日常维护便利性。"
+    }
+  ],
+  "colors": [
+    {
+      "id": "snow-white",
+      "name": "雪霜白",
+      "description": "适合浅色内饰，视觉更明亮干净。"
+    },
+    {
+      "id": "neutral-gray",
+      "name": "中性灰",
+      "description": "适合灰色或冷色内饰，整体更克制耐看。"
+    },
+    {
+      "id": "rock-black",
+      "name": "岩石黑",
+      "description": "适合深色内饰，视觉更稳重。"
+    },
+    {
+      "id": "wood-brown",
+      "name": "木纹咖",
+      "description": "适合棕色、暖色或木纹风格内饰。"
+    }
+  ],
+  "brandGroups": [
+    {
+      "id": "li-auto",
+      "brandName": "理想",
+      "models": [
+        "理想 L 系列",
+        "理想 MEGA"
+      ],
+      "templateStatus": "active",
+      "headline": "家庭出行场景下的地板总成升级",
+      "summary": "面向家庭高频乘坐、后排储物和尾箱使用场景，强调地板、滑轨、脚踏和尾箱区域的统一呈现。",
+      "productIntro": "理想车型用户通常关注家庭出行、儿童乘坐、露营收纳和后排清洁维护。地板总成专题应突出空间整洁、颜色适配和尾箱联动，让用户先理解整体效果，再判断自己的车型是否适合升级。",
+      "fitmentNote": "具体车型、年份、座椅布局和安装方案需要业务/门店二次确认。",
+      "sellingPointIds": [
+        "model-fitment",
+        "color-match",
+        "floor-rail-integration",
+        "trunk-continuity",
+        "easy-care"
+      ],
+      "functionIds": [
+        "main-floor-board",
+        "rail-trim",
+        "door-sill-step",
+        "foot-rest",
+        "trunk-floor"
+      ],
+      "colorVariants": [
+        {
+          "id": "li-auto-wood-brown",
+          "colorId": "wood-brown",
+          "colorName": "木纹咖",
+          "description": "适合棕色、暖色或木纹风格内饰。",
+          "fileName": "1.png",
+          "assetPath": "/images/products/flooring/图片/理想/1.png",
+          "width": 798,
+          "height": 528,
+          "alt": "理想地板总成木纹咖产品图"
+        },
+        {
+          "id": "li-auto-neutral-gray",
+          "colorId": "neutral-gray",
+          "colorName": "中性灰",
+          "description": "适合灰色或冷色内饰，整体更克制耐看。",
+          "fileName": "2.png",
+          "assetPath": "/images/products/flooring/图片/理想/2.png",
+          "width": 798,
+          "height": 528,
+          "alt": "理想地板总成中性灰产品图"
+        },
+        {
+          "id": "li-auto-snow-white",
+          "colorId": "snow-white",
+          "colorName": "雪霜白",
+          "description": "适合浅色内饰，视觉更明亮干净。",
+          "fileName": "3.png",
+          "assetPath": "/images/products/flooring/图片/理想/3.png",
+          "width": 798,
+          "height": 528,
+          "alt": "理想地板总成雪霜白产品图"
+        },
+        {
+          "id": "li-auto-rock-black",
+          "colorId": "rock-black",
+          "colorName": "岩石黑",
+          "description": "适合深色内饰，视觉更稳重。",
+          "fileName": "4.png",
+          "assetPath": "/images/products/flooring/图片/理想/4.png",
+          "width": 798,
+          "height": 528,
+          "alt": "理想地板总成岩石黑产品图"
+        }
+      ],
+      "assetStatus": "ready"
+    },
+    {
+      "id": "aito",
+      "brandName": "问界",
+      "models": [
+        "问界 M7",
+        "问界 M8",
+        "问界 M9"
+      ],
+      "templateStatus": "active",
+      "headline": "新能源家庭与商务兼顾的地板总成方案",
+      "summary": "围绕问界车型的后排质感、尾箱联动和多色内饰适配展开，适合展示新能源车主对座舱整体感的升级需求。",
+      "productIntro": "问界车型兼具家庭出行和商务接待属性。地板总成内容应强调后排空间整合、脚踏便利、尾箱地板联动，以及不同内饰颜色下的视觉统一。",
+      "fitmentNote": "具体车型、年份、座椅布局和安装方案需要业务/门店二次确认。",
+      "sellingPointIds": [
+        "model-fitment",
+        "color-match",
+        "floor-rail-integration",
+        "trunk-continuity",
+        "easy-care"
+      ],
+      "functionIds": [
+        "main-floor-board",
+        "rail-trim",
+        "door-sill-step",
+        "foot-rest",
+        "trunk-floor"
+      ],
+      "colorVariants": [
+        {
+          "id": "aito-wood-brown",
+          "colorId": "wood-brown",
+          "colorName": "木纹咖",
+          "description": "适合棕色、暖色或木纹风格内饰。",
+          "fileName": "1.png",
+          "assetPath": "/images/products/flooring/图片/问界/1.png",
+          "width": 1075,
+          "height": 1052,
+          "alt": "问界地板总成木纹咖产品图"
+        },
+        {
+          "id": "aito-snow-white",
+          "colorId": "snow-white",
+          "colorName": "雪霜白",
+          "description": "适合浅色内饰，视觉更明亮干净。",
+          "fileName": "2.png",
+          "assetPath": "/images/products/flooring/图片/问界/2.png",
+          "width": 1075,
+          "height": 1052,
+          "alt": "问界地板总成雪霜白产品图"
+        },
+        {
+          "id": "aito-rock-black",
+          "colorId": "rock-black",
+          "colorName": "岩石黑",
+          "description": "适合深色内饰，视觉更稳重。",
+          "fileName": "3.png",
+          "assetPath": "/images/products/flooring/图片/问界/3.png",
+          "width": 1075,
+          "height": 1052,
+          "alt": "问界地板总成岩石黑产品图"
+        },
+        {
+          "id": "aito-neutral-gray",
+          "colorId": "neutral-gray",
+          "colorName": "中性灰",
+          "description": "适合灰色或冷色内饰，整体更克制耐看。",
+          "fileName": "4.png",
+          "assetPath": "/images/products/flooring/图片/问界/4.png",
+          "width": 1075,
+          "height": 1052,
+          "alt": "问界地板总成中性灰产品图"
+        }
+      ],
+      "assetStatus": "ready"
+    },
+    {
+      "id": "zeekr",
+      "brandName": "极氪",
+      "models": [
+        "极氪 009",
+        "极氪 7X"
+      ],
+      "templateStatus": "active",
+      "headline": "高端新能源座舱的地板总成展示",
+      "summary": "强调高端新能源车型的座舱质感、后排整洁度和深浅内饰配色选择。",
+      "productIntro": "极氪车型的页面表达应更偏高端、克制和科技感。地板总成卖点聚焦座舱整体感、滑轨区域整合、脚踏与尾箱地板的一致性。",
+      "fitmentNote": "具体车型、年份、座椅布局和安装方案需要业务/门店二次确认。",
+      "sellingPointIds": [
+        "model-fitment",
+        "color-match",
+        "floor-rail-integration",
+        "trunk-continuity",
+        "easy-care"
+      ],
+      "functionIds": [
+        "main-floor-board",
+        "rail-trim",
+        "door-sill-step",
+        "foot-rest",
+        "trunk-floor"
+      ],
+      "colorVariants": [
+        {
+          "id": "zeekr-snow-white",
+          "colorId": "snow-white",
+          "colorName": "雪霜白",
+          "description": "适合浅色内饰，视觉更明亮干净。",
+          "fileName": "1.png",
+          "assetPath": "/images/products/flooring/图片/极氪/1.png",
+          "width": 798,
+          "height": 528,
+          "alt": "极氪地板总成雪霜白产品图"
+        },
+        {
+          "id": "zeekr-rock-black",
+          "colorId": "rock-black",
+          "colorName": "岩石黑",
+          "description": "适合深色内饰，视觉更稳重。",
+          "fileName": "2.png",
+          "assetPath": "/images/products/flooring/图片/极氪/2.png",
+          "width": 798,
+          "height": 528,
+          "alt": "极氪地板总成岩石黑产品图"
+        },
+        {
+          "id": "zeekr-wood-brown",
+          "colorId": "wood-brown",
+          "colorName": "木纹咖",
+          "description": "适合棕色、暖色或木纹风格内饰。",
+          "fileName": "3.png",
+          "assetPath": "/images/products/flooring/图片/极氪/3.png",
+          "width": 798,
+          "height": 528,
+          "alt": "极氪地板总成木纹咖产品图"
+        },
+        {
+          "id": "zeekr-neutral-gray",
+          "colorId": "neutral-gray",
+          "colorName": "中性灰",
+          "description": "适合灰色或冷色内饰，整体更克制耐看。",
+          "fileName": "4.png",
+          "assetPath": "/images/products/flooring/图片/极氪/4.png",
+          "width": 798,
+          "height": 528,
+          "alt": "极氪地板总成中性灰产品图"
+        }
+      ],
+      "assetStatus": "ready"
+    },
+    {
+      "id": "xpeng",
+      "brandName": "小鹏",
+      "models": [
+        "小鹏 X9",
+        "小鹏 G9"
+      ],
+      "templateStatus": "active",
+      "headline": "科技家庭座舱的地板与后排空间整合",
+      "summary": "适合表现家庭科技座舱、后排通行空间、脚踏和滑轨区域的整合效果。",
+      "productIntro": "小鹏车型用户对智能座舱和家庭空间感知强。页面应突出地板总成让后排区域更整洁，颜色变体帮助用户快速判断与内饰的匹配度。",
+      "fitmentNote": "具体车型、年份、座椅布局和安装方案需要业务/门店二次确认。",
+      "sellingPointIds": [
+        "model-fitment",
+        "color-match",
+        "floor-rail-integration",
+        "trunk-continuity",
+        "easy-care"
+      ],
+      "functionIds": [
+        "main-floor-board",
+        "rail-trim",
+        "door-sill-step",
+        "foot-rest",
+        "trunk-floor"
+      ],
+      "colorVariants": [
+        {
+          "id": "xpeng-rock-black",
+          "colorId": "rock-black",
+          "colorName": "岩石黑",
+          "description": "适合深色内饰，视觉更稳重。",
+          "fileName": "1.png",
+          "assetPath": "/images/products/flooring/图片/小鹏/1.png",
+          "width": 798,
+          "height": 528,
+          "alt": "小鹏地板总成岩石黑产品图"
+        },
+        {
+          "id": "xpeng-snow-white",
+          "colorId": "snow-white",
+          "colorName": "雪霜白",
+          "description": "适合浅色内饰，视觉更明亮干净。",
+          "fileName": "2.png",
+          "assetPath": "/images/products/flooring/图片/小鹏/2.png",
+          "width": 798,
+          "height": 528,
+          "alt": "小鹏地板总成雪霜白产品图"
+        },
+        {
+          "id": "xpeng-neutral-gray",
+          "colorId": "neutral-gray",
+          "colorName": "中性灰",
+          "description": "适合灰色或冷色内饰，整体更克制耐看。",
+          "fileName": "3.png",
+          "assetPath": "/images/products/flooring/图片/小鹏/3.png",
+          "width": 798,
+          "height": 528,
+          "alt": "小鹏地板总成中性灰产品图"
+        },
+        {
+          "id": "xpeng-wood-brown",
+          "colorId": "wood-brown",
+          "colorName": "木纹咖",
+          "description": "适合棕色、暖色或木纹风格内饰。",
+          "fileName": "4.png",
+          "assetPath": "/images/products/flooring/图片/小鹏/4.png",
+          "width": 798,
+          "height": 528,
+          "alt": "小鹏地板总成木纹咖产品图"
+        }
+      ],
+      "assetStatus": "ready"
+    },
+    {
+      "id": "denza",
+      "brandName": "腾势",
+      "models": [
+        "腾势 D9"
+      ],
+      "templateStatus": "reference-only",
+      "headline": "参考素材：MPV 地板总成颜色展示",
+      "summary": "当前不作为页面模板品牌，仅作为颜色、结构和产品图参考素材。",
+      "productIntro": "腾势图片仅保留在素材池中用于内部参考。本轮页面模板不渲染腾势品牌模块，除非业务后续重新确认模板范围。",
+      "fitmentNote": "具体车型、年份、座椅布局和安装方案需要业务/门店二次确认。",
+      "sellingPointIds": [
+        "model-fitment",
+        "color-match",
+        "floor-rail-integration",
+        "trunk-continuity",
+        "easy-care"
+      ],
+      "functionIds": [
+        "main-floor-board",
+        "rail-trim",
+        "door-sill-step",
+        "foot-rest",
+        "trunk-floor"
+      ],
+      "colorVariants": [
+        {
+          "id": "denza-snow-white",
+          "colorId": "snow-white",
+          "colorName": "雪霜白",
+          "description": "适合浅色内饰，视觉更明亮干净。",
+          "fileName": "1.png",
+          "assetPath": "/images/products/flooring/图片/腾势/1.png",
+          "width": 1081,
+          "height": 1058,
+          "alt": "腾势地板总成雪霜白产品图"
+        },
+        {
+          "id": "denza-rock-black",
+          "colorId": "rock-black",
+          "colorName": "岩石黑",
+          "description": "适合深色内饰，视觉更稳重。",
+          "fileName": "2.png",
+          "assetPath": "/images/products/flooring/图片/腾势/2.png",
+          "width": 1081,
+          "height": 1058,
+          "alt": "腾势地板总成岩石黑产品图"
+        },
+        {
+          "id": "denza-wood-brown",
+          "colorId": "wood-brown",
+          "colorName": "木纹咖",
+          "description": "适合棕色、暖色或木纹风格内饰。",
+          "fileName": "3.png",
+          "assetPath": "/images/products/flooring/图片/腾势/3.png",
+          "width": 1081,
+          "height": 1058,
+          "alt": "腾势地板总成木纹咖产品图"
+        },
+        {
+          "id": "denza-neutral-gray",
+          "colorId": "neutral-gray",
+          "colorName": "中性灰",
+          "description": "适合灰色或冷色内饰，整体更克制耐看。",
+          "fileName": "4.png",
+          "assetPath": "/images/products/flooring/图片/腾势/4.png",
+          "width": 1081,
+          "height": 1058,
+          "alt": "腾势地板总成中性灰产品图"
+        }
+      ],
+      "assetStatus": "ready"
+    },
+    {
+      "id": "mercedes-benz",
+      "brandName": "奔驰",
+      "models": [
+        "V 级",
+        "威霆",
+        "Vito"
+      ],
+      "templateStatus": "active",
+      "headline": "商务接待场景的地板总成升级",
+      "summary": "面向商务 MPV 后排质感、上下车体验和尾箱区域统一效果。",
+      "productIntro": "奔驰商务车型的地板总成内容应突出接待场景、后排质感、脚踏便利和尾箱联动。当前缺少对应产品图，前端不得借用其他品牌图片。",
+      "fitmentNote": "当前缺少奔驰产品图素材，需业务补图后再展示品牌模块。",
+      "sellingPointIds": [
+        "model-fitment",
+        "premium-cabin",
+        "door-step-comfort",
+        "trunk-continuity"
+      ],
+      "functionIds": [
+        "main-floor-board",
+        "rail-trim",
+        "door-sill-step",
+        "trunk-floor"
+      ],
+      "colorVariants": [],
+      "assetStatus": "missing-assets"
+    }
+  ],
+  "contentRules": {
+    "do": [
+      "按品牌车型展示产品图和颜色效果。",
+      "用产品介绍、卖点和功能模块解释地板总成价值。",
+      "缺图品牌可以保留数据占位，但前端不得展示误导图片。"
+    ],
+    "doNot": [
+      "不要引用 PDF 画册页作为前端主内容。",
+      "不要展示价格。",
+      "不要写官方授权、原厂件、厂家合作等未经确认表述。",
+      "不要把颜色名写成真实材质承诺。",
+      "不要把参考品牌腾势作为本轮页面模板品牌。"
+    ]
+  },
+  "frontendNotes": {
+    "rendering": "只渲染 templateStatus 为 active 且 assetStatus 为 ready 的品牌模块；missing-assets 可用于内部检查，不应直接展示。",
+    "carousel": "每个品牌模块内使用 colorVariants 做颜色轮播；如果少于 2 张图，不显示轮播控制。",
+    "fallback": "没有品牌图片时不使用其他品牌图片兜底，可显示非图片型待补素材状态给内部预览，但正式页面不展示。"
+  },
+  "contactSheet": "/images/products/flooring/product-contact-sheet.jpg"
+}

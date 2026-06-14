@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { StoreCreateSchema } from "@/lib/validations/store";
+import { logActivity } from "@/lib/admin-dashboard";
 
 export async function GET(request: NextRequest) {
   try {
@@ -98,11 +99,51 @@ export async function POST(request: NextRequest) {
     }
 
     const store = await prisma.store.create({
-      data: parsed.data,
+      data: {
+        ...parsed.data,
+        // phoneTel 在 Prisma schema 是必填，schema 改为 optional 后由客户端 useEffect 派生
+        phoneTel:
+          parsed.data.phoneTel ?? `tel:${parsed.data.phone.replace(/\D/g, "")}`,
+      },
+    });
+
+    await logActivity({
+      actorId: session.user.id,
+      action: "store.create",
+      entity: "store",
+      entityId: store.id,
+      metadata: { name: store.name, slug: store.slug },
     });
 
     return Response.json({ success: true, data: store }, { status: 201 });
   } catch (error) {
+    // Prisma P2002 = unique constraint violation
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "P2002"
+    ) {
+      const target = (error as { meta?: { target?: string[] } }).meta?.target;
+      if (target?.includes("slug")) {
+        return Response.json(
+          {
+            success: false,
+            error: "URL标识已存在",
+            details: { slug: ["该 URL 标识已被其他门店使用"] },
+          },
+          { status: 409 }
+        );
+      }
+      return Response.json(
+        {
+          success: false,
+          error: "数据已存在",
+          details: { _form: ["记录重复"] },
+        },
+        { status: 409 }
+      );
+    }
     console.error("[POST /api/stores]", error);
     return Response.json(
       { success: false, error: "服务器内部错误" },

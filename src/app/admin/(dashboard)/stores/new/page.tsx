@@ -19,6 +19,8 @@ export default function NewStorePage() {
         : json.error;
       throw new Error(msg ?? "创建失败");
     }
+    // 返回新门店 ID，StoreForm 会跳转到图片上传页
+    return (json.data as { id: string } | undefined)?.id;
   }
 
   return (

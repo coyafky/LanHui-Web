@@ -5,6 +5,9 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { products, productGroups, PRODUCT_ICON_MAP } from "@/lib/products";
 import type { Product } from "@/lib/products";
+import { XiaomiTopicBanner } from "@/components/xiaomi/XiaomiTopicBanner";
+import { WenjieTopicBanner } from "@/components/wenjie/WenjieTopicBanner";
+import { FlooringTopicBanner } from "@/components/product/FlooringTopicBanner";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -30,6 +33,28 @@ export default function ProductCenter() {
             <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
               蓝辉轻改当前覆盖 6 个产品方向，分轻改装备与汽车膜系两大组，先了解大类，再到店沟通具体方案。
             </p>
+          </div>
+        </section>
+
+        {/* 热门车型与改装专题 */}
+        <section className="py-16 bg-zinc-950 border-t border-zinc-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-10">
+              <p className="text-sm tracking-widest text-blue-400 mb-2">
+                VEHICLE TOPICS
+              </p>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                热门车型与改装专题
+              </h2>
+              <p className="text-zinc-400 max-w-3xl leading-relaxed">
+                按车型聚合常用改装款式，先看车型专题，再到店沟通具体方案。
+              </p>
+            </div>
+            <div className="space-y-4 md:space-y-6">
+              <XiaomiTopicBanner />
+              <WenjieTopicBanner />
+              <FlooringTopicBanner />
+            </div>
           </div>
         </section>
 

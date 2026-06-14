@@ -7,16 +7,19 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  username  String   @unique
-  password  String
-  name      String?
-  role      String   @default("editor")
-  status    String   @default("active")
-  articles  Article[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String        @id @default(cuid())
+  email      String        @unique
+  username   String        @unique
+  password   String
+  name       String?
+  role       String        @default("editor")
+  status     String        @default("active")
+  articles   Article[]
+  activities ActivityLog[]
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([role, status])
 }
 
 model Province {
@@ -52,14 +55,14 @@ model City {
 }
 
 model Store {
-  id            String   @id @default(cuid())
+  id            String           @id @default(cuid())
   name          String
-  slug          String   @unique
+  slug          String           @unique
   provinceSlug  String
-  province      Province @relation(fields: [provinceSlug], references: [slug], onDelete: Restrict)
+  province      Province         @relation(fields: [provinceSlug], references: [slug], onDelete: Restrict)
   provinceLabel String
   citySlug      String
-  city          City     @relation(fields: [citySlug], references: [slug], onDelete: Restrict)
+  city          City             @relation(fields: [citySlug], references: [slug], onDelete: Restrict)
   cityLabel     String
   district      String?
   address       String
@@ -68,16 +71,19 @@ model Store {
   businessHours String?
   description   String?
   imageUrl      String?
-  isActive      Boolean  @default(true)
+  imagePath     String?
+  isActive      Boolean          @default(true)
   events        AnalyticsEvent[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 
   @@index([provinceSlug])
   @@index([citySlug])
   @@index([isActive])
   @@index([slug])
+  @@index([isActive, provinceSlug])
 }
+
 
 model Article {
   id            String    @id @default(cuid())
@@ -101,6 +107,7 @@ model Article {
   @@index([slug])
   @@index([category])
   @@index([publishedAt])
+  @@index([status, publishedAt])
 }
 
 model AnalyticsEvent {
@@ -118,4 +125,19 @@ model AnalyticsEvent {
   @@index([storeId])
   @@index([pathname])
   @@index([timestamp])
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  actorId   String?
+  actor     User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String
+  entityId  String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([createdAt])
+  @@map("activity_logs")
 }

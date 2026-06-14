@@ -62,6 +62,7 @@ function mapApiArticle(raw: any): NewsItem {
         : "2026",
     category: raw.category ?? "品牌动态",
     summary: raw.excerpt ?? raw.content?.slice(0, 120) ?? "",
+    content: raw.content ?? "",
   };
 }
 

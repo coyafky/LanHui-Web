@@ -1,0 +1,835 @@
+{
+  "brand": "wenjie",
+  "title": "问界产品款式图片",
+  "source": "/Users/fkycoya/Library/Containers/com.tencent.xinWeChat/Data/Library/Caches/com.tencent.xinWeChat/2.0b4.0.9/c121b94e5d016384d393d3d119cb2e7d/SaveTemp/14153a5e2a241607100eb1f939c41d67/问界产品款式.xls",
+  "productRowCount": 44,
+  "extractedImageCount": 38,
+  "failedSignatureCount": 2,
+  "models": [
+    "M7",
+    "M8",
+    "M9"
+  ],
+  "imageMatchingNote": "Images were extracted from reconstructed Excel drawing payloads. Product-level matching still needs manual review before binding images to product rows.",
+  "contactSheet": "/images/products/wenjie/contact-sheet.jpg",
+  "productRows": [
+    {
+      "vehicleModel": "M7",
+      "orderInModel": 1,
+      "sourceRow": 5,
+      "sourceName": "地板+尾箱地板",
+      "displayName": "地板+尾箱地板"
+    },
+    {
+      "vehicleModel": "M7",
+      "orderInModel": 2,
+      "sourceRow": 6,
+      "sourceName": "小桌板（简约款）",
+      "displayName": "小桌板（简约款）"
+    },
+    {
+      "vehicleModel": "M7",
+      "orderInModel": 3,
+      "sourceRow": 7,
+      "sourceName": "小桌板（功能款）",
+      "displayName": "小桌板（功能款）"
+    },
+    {
+      "vehicleModel": "M7",
+      "orderInModel": 4,
+      "sourceRow": 8,
+      "sourceName": "问界M7电动踏板            （一体全铝支架）",
+      "displayName": "问界M7电动踏板 （一体全铝支架）"
+    },
+    {
+      "vehicleModel": "M7",
+      "orderInModel": 5,
+      "sourceRow": 9,
+      "sourceName": "问界M7单流光灯              （一体全铝支架）",
+      "displayName": "问界M7单流光灯 （一体全铝支架）"
+    },
+    {
+      "vehicleModel": "M7",
+      "orderInModel": 6,
+      "sourceRow": 10,
+      "sourceName": "问界M7双流光灯面板   （一体全铝支架）",
+      "displayName": "问界M7双流光灯面板 （一体全铝支架）"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 1,
+      "sourceRow": 5,
+      "sourceName": "小桌板（简约款）",
+      "displayName": "小桌板（简约款）"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 2,
+      "sourceRow": 6,
+      "sourceName": "小桌板（功能款）",
+      "displayName": "小桌板（功能款）"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 3,
+      "sourceRow": 7,
+      "sourceName": "地板",
+      "displayName": "地板"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 4,
+      "sourceRow": 8,
+      "sourceName": "尾箱地板",
+      "displayName": "尾箱地板"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 5,
+      "sourceRow": 9,
+      "sourceName": "满天星防虫网      （三段式）",
+      "displayName": "满天星防虫网 （三段式）"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 6,
+      "sourceRow": 10,
+      "sourceName": "原厂款防虫网",
+      "displayName": "原厂风格防虫网"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 7,
+      "sourceRow": 11,
+      "sourceName": "冰箱防踢带垃圾桶    （隐藏式）",
+      "displayName": "冰箱防踢带垃圾桶 （隐藏式）"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 8,
+      "sourceRow": 12,
+      "sourceName": "磁吸支架",
+      "displayName": "磁吸支架"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 9,
+      "sourceRow": 13,
+      "sourceName": "AMXT全套包围[前+后+侧裙]",
+      "displayName": "AMXT全套包围[前+后+侧裙]"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 10,
+      "sourceRow": 14,
+      "sourceName": "底盘护板",
+      "displayName": "底盘护板"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 11,
+      "sourceRow": 15,
+      "sourceName": "201款门槛条+后护板",
+      "displayName": "201款门槛条+后护板"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 12,
+      "sourceRow": 16,
+      "sourceName": "车牌架",
+      "displayName": "车牌架"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 13,
+      "sourceRow": 17,
+      "sourceName": "四轮挡泥板",
+      "displayName": "四轮挡泥板"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 14,
+      "sourceRow": 18,
+      "sourceName": "全车坐垫",
+      "displayName": "全车坐垫"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 15,
+      "sourceRow": 19,
+      "sourceName": "座椅防踢垫",
+      "displayName": "座椅防踢垫"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 16,
+      "sourceRow": 20,
+      "sourceName": "尾箱垫全套",
+      "displayName": "尾箱垫全套"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 17,
+      "sourceRow": 21,
+      "sourceName": "中排车载充电器",
+      "displayName": "中排车载充电器"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 18,
+      "sourceRow": 22,
+      "sourceName": "硅胶套餐（13件套）",
+      "displayName": "硅胶套餐（13件套）"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 19,
+      "sourceRow": 23,
+      "sourceName": "四门密封条",
+      "displayName": "四门密封条"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 20,
+      "sourceRow": 24,
+      "sourceName": "问界M8  电动踏板          （一体全铝支架）",
+      "displayName": "问界M8 电动踏板 （一体全铝支架）"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 21,
+      "sourceRow": 25,
+      "sourceName": "问界M8单流光灯 电动踏板           （一体全铝支架）",
+      "displayName": "问界M8单流光灯 电动踏板 （一体全铝支架）"
+    },
+    {
+      "vehicleModel": "M8",
+      "orderInModel": 22,
+      "sourceRow": 26,
+      "sourceName": "问界M8双流光灯电动踏板   （一体全铝支架）",
+      "displayName": "问界M8双流光灯电动踏板 （一体全铝支架）"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 1,
+      "sourceRow": 5,
+      "sourceName": "小桌板",
+      "displayName": "小桌板"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 2,
+      "sourceRow": 6,
+      "sourceName": "地板+尾箱地板",
+      "displayName": "地板+尾箱地板"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 3,
+      "sourceRow": 7,
+      "sourceName": "88星满天星防虫网【三段式】",
+      "displayName": "88星满天星防虫网【三段式】"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 4,
+      "sourceRow": 8,
+      "sourceName": "冰箱防踢带垃圾桶",
+      "displayName": "冰箱防踢带垃圾桶"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 5,
+      "sourceRow": 9,
+      "sourceName": "后备箱后窗1ed表情灯",
+      "displayName": "后备箱后窗1ed表情灯"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 6,
+      "sourceRow": 10,
+      "sourceName": "电动款 小桌板",
+      "displayName": "电动款 小桌板"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 7,
+      "sourceRow": 11,
+      "sourceName": "全车铝镁合金下护板",
+      "displayName": "全车铝镁合金下护板"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 8,
+      "sourceRow": 12,
+      "sourceName": "全套坐垫",
+      "displayName": "全套坐垫"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 9,
+      "sourceRow": 13,
+      "sourceName": "后轮内衬挡泥板",
+      "displayName": "后轮内衬挡泥板"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 10,
+      "sourceRow": 14,
+      "sourceName": "四门挡泥板",
+      "displayName": "四门挡泥板"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 11,
+      "sourceRow": 15,
+      "sourceName": "全套硅胶垫子套餐21件套",
+      "displayName": "全套硅胶垫子套餐21件套"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 12,
+      "sourceRow": 16,
+      "sourceName": "全套硅胶垫子套餐17件套",
+      "displayName": "全套硅胶垫子套餐17件套"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 13,
+      "sourceRow": 17,
+      "sourceName": "全套硅胶垫子套餐9件套",
+      "displayName": "全套硅胶垫子套餐9件套"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 14,
+      "sourceRow": 18,
+      "sourceName": "问界M9电动踏板            （一体全铝支架）",
+      "displayName": "问界M9电动踏板 （一体全铝支架）"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 15,
+      "sourceRow": 19,
+      "sourceName": "问界M9单流光灯电动踏板（一体全铝支架）",
+      "displayName": "问界M9单流光灯电动踏板（一体全铝支架）"
+    },
+    {
+      "vehicleModel": "M9",
+      "orderInModel": 16,
+      "sourceRow": 20,
+      "sourceName": "问界M9双流光灯面板  电动踏板 （一体全铝支架）",
+      "displayName": "问界M9双流光灯面板 电动踏板 （一体全铝支架）"
+    }
+  ],
+  "images": [
+    {
+      "id": "wenjie-image-01",
+      "brand": "wenjie",
+      "filename": "wenjie-01.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-01.png",
+      "width": 788,
+      "height": 600,
+      "sha256": "68e4b933109c05213d8ab70e8eec3ed5168a72055c73b8575218f52d4f63ca3a",
+      "sourceIndex": 1,
+      "sourceType": "png",
+      "sourceOffset": 277,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-02",
+      "brand": "wenjie",
+      "filename": "wenjie-02.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-02.png",
+      "width": 512,
+      "height": 384,
+      "sha256": "39d43447c77941bac1bc7f8444729a2ec826ce32f85d3144b3529b4162d44eaf",
+      "sourceIndex": 3,
+      "sourceType": "jpg",
+      "sourceOffset": 722246,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-03",
+      "brand": "wenjie",
+      "filename": "wenjie-03.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-03.png",
+      "width": 973,
+      "height": 704,
+      "sha256": "4beac134a5354d3096509cc34baa255fa6bfa65e36a96b3cda33ef5787d4cd73",
+      "sourceIndex": 4,
+      "sourceType": "png",
+      "sourceOffset": 4812416,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-04",
+      "brand": "wenjie",
+      "filename": "wenjie-04.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-04.png",
+      "width": 970,
+      "height": 445,
+      "sha256": "166e10fa650f19eb1e484f8d5013082d68f2a1cf9994cc539b733ec021b78386",
+      "sourceIndex": 5,
+      "sourceType": "png",
+      "sourceOffset": 6079320,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-05",
+      "brand": "wenjie",
+      "filename": "wenjie-05.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-05.png",
+      "width": 615,
+      "height": 520,
+      "sha256": "d0197b9d0b4ca6d7ed49ce0209c8b69970c3c4be9e9096c8b1cb271b5d332c6d",
+      "sourceIndex": 6,
+      "sourceType": "png",
+      "sourceOffset": 6487651,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-06",
+      "brand": "wenjie",
+      "filename": "wenjie-06.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-06.png",
+      "width": 644,
+      "height": 563,
+      "sha256": "5ed2ff9a620d24f7435c8ccd9cec7cdc3d867bf0eae33e86214426d51f72c150",
+      "sourceIndex": 7,
+      "sourceType": "png",
+      "sourceOffset": 6781123,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-07",
+      "brand": "wenjie",
+      "filename": "wenjie-07.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-07.png",
+      "width": 749,
+      "height": 589,
+      "sha256": "56f4c0b0a8f928f9e68fe2db8cf1a3251df8855f0a0c38ba75bde74c8369c353",
+      "sourceIndex": 8,
+      "sourceType": "png",
+      "sourceOffset": 7148961,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-08",
+      "brand": "wenjie",
+      "filename": "wenjie-08.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-08.png",
+      "width": 659,
+      "height": 605,
+      "sha256": "83e2130a8ca9b3803c9c409c7b7a7db91fcf53f3ccf7f2f9ee2297978112ff34",
+      "sourceIndex": 9,
+      "sourceType": "png",
+      "sourceOffset": 7535351,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-09",
+      "brand": "wenjie",
+      "filename": "wenjie-09.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-09.png",
+      "width": 861,
+      "height": 665,
+      "sha256": "432b0151fe010639d67ea8af8349a856d7e50bdca08cd776c598586e46454d48",
+      "sourceIndex": 10,
+      "sourceType": "png",
+      "sourceOffset": 7940785,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-10",
+      "brand": "wenjie",
+      "filename": "wenjie-10.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-10.png",
+      "width": 1076,
+      "height": 659,
+      "sha256": "3703d521ab06c41f0fab14cc37cf320cb197e6e887e24aaafb45b2e5efd9469f",
+      "sourceIndex": 11,
+      "sourceType": "png",
+      "sourceOffset": 8844340,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-11",
+      "brand": "wenjie",
+      "filename": "wenjie-11.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-11.png",
+      "width": 691,
+      "height": 460,
+      "sha256": "c7b7f5ae03ba685664432c4ead40687dc69b8da6478330ebbf837e2d7a030a53",
+      "sourceIndex": 12,
+      "sourceType": "png",
+      "sourceOffset": 10049894,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-12",
+      "brand": "wenjie",
+      "filename": "wenjie-12.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-12.png",
+      "width": 1036,
+      "height": 459,
+      "sha256": "df2000b22a86db0299716b9baf916feea9a9995f507643187e788e85873ec4ce",
+      "sourceIndex": 13,
+      "sourceType": "png",
+      "sourceOffset": 10451247,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-13",
+      "brand": "wenjie",
+      "filename": "wenjie-13.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-13.png",
+      "width": 685,
+      "height": 546,
+      "sha256": "4182ffe3058b75f6cbeec26c1e95db0a267a02a45b60757cae14ed57d85f85af",
+      "sourceIndex": 14,
+      "sourceType": "png",
+      "sourceOffset": 10650020,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-14",
+      "brand": "wenjie",
+      "filename": "wenjie-14.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-14.png",
+      "width": 689,
+      "height": 476,
+      "sha256": "f22f304e601ce0db529677aba0921770c72f747776b7b932c2e6ca6249ebaf2b",
+      "sourceIndex": 15,
+      "sourceType": "png",
+      "sourceOffset": 11088646,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-15",
+      "brand": "wenjie",
+      "filename": "wenjie-15.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-15.png",
+      "width": 680,
+      "height": 596,
+      "sha256": "d7c71c81a5ac74ab8c4d3934a6d7b5a0dd6861647a8cf454c45b93eddd2ce238",
+      "sourceIndex": 16,
+      "sourceType": "png",
+      "sourceOffset": 11532671,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-16",
+      "brand": "wenjie",
+      "filename": "wenjie-16.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-16.png",
+      "width": 300,
+      "height": 650,
+      "sha256": "f69bce89dda7ea0d4b73f7704157752f39baab48253326a497f11d908b1b89ae",
+      "sourceIndex": 17,
+      "sourceType": "png",
+      "sourceOffset": 12354690,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-17",
+      "brand": "wenjie",
+      "filename": "wenjie-17.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-17.png",
+      "width": 961,
+      "height": 746,
+      "sha256": "1756bdfb71654faea14b00647ee4a5cbc0e01d35ae6b8dc7decaeb58359aa2db",
+      "sourceIndex": 18,
+      "sourceType": "png",
+      "sourceOffset": 12597256,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-18",
+      "brand": "wenjie",
+      "filename": "wenjie-18.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-18.png",
+      "width": 566,
+      "height": 420,
+      "sha256": "f06dc453806ca26c843a7c9a42f8b40bb70673f1310072400187e24f598562c4",
+      "sourceIndex": 19,
+      "sourceType": "png",
+      "sourceOffset": 13280322,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-19",
+      "brand": "wenjie",
+      "filename": "wenjie-19.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-19.png",
+      "width": 709,
+      "height": 545,
+      "sha256": "7f9187cabb4b09627b6dd4e9754249445914bc20d9fcdafdbaf14cc8b420b8c1",
+      "sourceIndex": 20,
+      "sourceType": "png",
+      "sourceOffset": 13770769,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-20",
+      "brand": "wenjie",
+      "filename": "wenjie-20.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-20.png",
+      "width": 910,
+      "height": 710,
+      "sha256": "2f3a22bd28b4c567f623dfc125325ff1f5893c5b0b96cf457dc7727f1e5580de",
+      "sourceIndex": 21,
+      "sourceType": "png",
+      "sourceOffset": 14336649,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-21",
+      "brand": "wenjie",
+      "filename": "wenjie-21.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-21.png",
+      "width": 595,
+      "height": 415,
+      "sha256": "b17d26659205d30a3db201488f9ec8db5d005b2eb60b87d309cbee51d4ee9d79",
+      "sourceIndex": 22,
+      "sourceType": "png",
+      "sourceOffset": 15261352,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-22",
+      "brand": "wenjie",
+      "filename": "wenjie-22.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-22.png",
+      "width": 1064,
+      "height": 636,
+      "sha256": "9586fc4f63e55a391644e8126694ad902d6572bb8058930e929d1a6156b7a3de",
+      "sourceIndex": 23,
+      "sourceType": "png",
+      "sourceOffset": 15569406,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-23",
+      "brand": "wenjie",
+      "filename": "wenjie-23.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-23.png",
+      "width": 725,
+      "height": 561,
+      "sha256": "dcb4b7f7d4e70c0a2013eec2467482873dfd02fce3dcf906454867d54de85e17",
+      "sourceIndex": 24,
+      "sourceType": "png",
+      "sourceOffset": 16674663,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-24",
+      "brand": "wenjie",
+      "filename": "wenjie-24.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-24.png",
+      "width": 660,
+      "height": 569,
+      "sha256": "bc5a756287263363603f025e833a61cff17efd4dc2bbef1ef1ce3eda39c87178",
+      "sourceIndex": 25,
+      "sourceType": "png",
+      "sourceOffset": 17203026,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-25",
+      "brand": "wenjie",
+      "filename": "wenjie-25.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-25.png",
+      "width": 664,
+      "height": 600,
+      "sha256": "627f17b836f7dcc4f17530f3b12e9646b144bbac6e758302a14b773f6becccdd",
+      "sourceIndex": 26,
+      "sourceType": "png",
+      "sourceOffset": 17504887,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-26",
+      "brand": "wenjie",
+      "filename": "wenjie-26.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-26.png",
+      "width": 675,
+      "height": 451,
+      "sha256": "2be70bf80816bad237ec44ddd93608960edb9b6b6344042fd08500a3645df776",
+      "sourceIndex": 27,
+      "sourceType": "png",
+      "sourceOffset": 18218273,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-27",
+      "brand": "wenjie",
+      "filename": "wenjie-27.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-27.png",
+      "width": 1055,
+      "height": 811,
+      "sha256": "938e51356281fb6fc4fe61d6d2eb794232a13723e11c70bd9f92a2f9145eddf6",
+      "sourceIndex": 28,
+      "sourceType": "png",
+      "sourceOffset": 18505238,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-28",
+      "brand": "wenjie",
+      "filename": "wenjie-28.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-28.png",
+      "width": 684,
+      "height": 451,
+      "sha256": "67691af42ad69d362465c3bd1977f94e91c826f894194c346209bfe6b67c6fc7",
+      "sourceIndex": 29,
+      "sourceType": "png",
+      "sourceOffset": 19218893,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-29",
+      "brand": "wenjie",
+      "filename": "wenjie-29.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-29.png",
+      "width": 680,
+      "height": 511,
+      "sha256": "f6923f198fc075005e5478f239f7e89cb9cf74ff63fbbb2cafde5cebb6d37e4e",
+      "sourceIndex": 30,
+      "sourceType": "png",
+      "sourceOffset": 19904174,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-30",
+      "brand": "wenjie",
+      "filename": "wenjie-30.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-30.png",
+      "width": 500,
+      "height": 249,
+      "sha256": "7960ebfadba6005b1a2410556e07eb801b462ac61483068ada5afe95b6c55927",
+      "sourceIndex": 31,
+      "sourceType": "png",
+      "sourceOffset": 20532509,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-31",
+      "brand": "wenjie",
+      "filename": "wenjie-31.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-31.png",
+      "width": 725,
+      "height": 455,
+      "sha256": "8350de1951b519beff96106c9029a85dfc7fc4ddafcffed050caa5b80ade1e1c",
+      "sourceIndex": 33,
+      "sourceType": "png",
+      "sourceOffset": 20775929,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-32",
+      "brand": "wenjie",
+      "filename": "wenjie-32.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-32.png",
+      "width": 400,
+      "height": 550,
+      "sha256": "8313ee14b2016724e427e577259f0637b4c5fdf9bb01338d8b153cb5a7adf284",
+      "sourceIndex": 34,
+      "sourceType": "png",
+      "sourceOffset": 21481119,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-33",
+      "brand": "wenjie",
+      "filename": "wenjie-33.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-33.png",
+      "width": 661,
+      "height": 545,
+      "sha256": "92c26739b32bf3ed68d5082a8b17f761e94030f3055c5f6e63db2283994d8bdf",
+      "sourceIndex": 35,
+      "sourceType": "png",
+      "sourceOffset": 21667538,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-34",
+      "brand": "wenjie",
+      "filename": "wenjie-34.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-34.png",
+      "width": 590,
+      "height": 510,
+      "sha256": "d221417fa97555d9ff513dfa140453b28b2c9b9c0ce03480cb4ad29114c711a6",
+      "sourceIndex": 36,
+      "sourceType": "png",
+      "sourceOffset": 22444745,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-35",
+      "brand": "wenjie",
+      "filename": "wenjie-35.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-35.png",
+      "width": 611,
+      "height": 455,
+      "sha256": "b9d2564012843d6a9d47f6b259224728139d91115ffae81af4de5d576286304f",
+      "sourceIndex": 37,
+      "sourceType": "png",
+      "sourceOffset": 22715207,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-36",
+      "brand": "wenjie",
+      "filename": "wenjie-36.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-36.png",
+      "width": 645,
+      "height": 630,
+      "sha256": "1b69ccea53a2102f06b2ad15a8ab80ccb6e9a6e10de83ed0cd5574203fedd274",
+      "sourceIndex": 38,
+      "sourceType": "png",
+      "sourceOffset": 22878344,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-37",
+      "brand": "wenjie",
+      "filename": "wenjie-37.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-37.png",
+      "width": 680,
+      "height": 630,
+      "sha256": "01823d35fe5848106e2a218979b298f2505134aaf6c0099fcf85df0247930e38",
+      "sourceIndex": 39,
+      "sourceType": "png",
+      "sourceOffset": 23251645,
+      "mappingStatus": "unassigned"
+    },
+    {
+      "id": "wenjie-image-38",
+      "brand": "wenjie",
+      "filename": "wenjie-38.png",
+      "publicPath": "/images/products/wenjie/extracted/wenjie-38.png",
+      "width": 679,
+      "height": 640,
+      "sha256": "f46f9c56af34ad89232ca338f74274349e30062d5611463bfff02313ab0e5e1c",
+      "sourceIndex": 40,
+      "sourceType": "png",
+      "sourceOffset": 23569557,
+      "mappingStatus": "unassigned"
+    }
+  ],
+  "failedSignatures": [
+    {
+      "sourceIndex": 2,
+      "offset": 721094,
+      "sourceType": "jpg",
+      "error": "cannot identify image file <_io.BytesIO object at 0x104a13ba0>"
+    },
+    {
+      "sourceIndex": 32,
+      "offset": 20765589,
+      "sourceType": "jpg",
+      "error": "cannot identify image file <_io.BytesIO object at 0x104a13ba0>"
+    }
+  ]
+}

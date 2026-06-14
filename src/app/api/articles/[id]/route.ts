@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { ArticleUpdateSchema } from "@/lib/validations/article";
+import { logActivity } from "@/lib/admin-dashboard";
 
 /** GET /api/articles/[id] — 获取单篇文章（也支持按 slug 查询） */
 export async function GET(
@@ -134,6 +135,14 @@ export async function PUT(
       },
     });
 
+    await logActivity({
+      actorId: session.user.id,
+      action: "article.update",
+      entity: "article",
+      entityId: article.id,
+      metadata: { title: article.title, slug: article.slug, status: article.status },
+    });
+
     return Response.json({ success: true, data: article });
   } catch (error) {
     console.error("[PUT /api/articles/[id]]", error);
@@ -176,6 +185,14 @@ export async function DELETE(
     }
 
     await prisma.article.delete({ where: { id } });
+
+    await logActivity({
+      actorId: session.user.id,
+      action: "article.delete",
+      entity: "article",
+      entityId: id,
+      metadata: { title: existing.title, slug: existing.slug },
+    });
 
     return Response.json({ success: true });
   } catch (error) {
