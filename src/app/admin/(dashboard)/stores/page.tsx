@@ -206,7 +206,7 @@ export default function StoresPage() {
 
   /* ---------- Fetch provinces for filter ---------- */
   useEffect(() => {
-    fetch("/api/provinces")
+    fetch("/api/store-regions")
       .then((r) => r.json())
       .then((res) => {
         if (res.success) {
