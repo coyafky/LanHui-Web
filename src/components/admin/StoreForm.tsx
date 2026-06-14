@@ -347,7 +347,7 @@ export function StoreForm({
               <div className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-300">
                 <code className="text-xs text-zinc-400">{defaultValues.imagePath}</code>
                 <p className="mt-1 text-xs text-zinc-500">
-                  可在"门店图片管理"页面替换或删除
+                  可在「门店图片管理」页面替换或删除
                 </p>
               </div>
             </FieldWrapper>
@@ -357,7 +357,7 @@ export function StoreForm({
               icon={ImageIcon}
             >
               <p className="text-xs text-zinc-500">
-                请在"门店图片管理"页面上传真实门店图。
+                请在「门店图片管理」页面上传真实门店图。
               </p>
             </FieldWrapper>
           )}
