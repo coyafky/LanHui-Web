@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -14,6 +14,7 @@ import {
   Clock,
   Image as ImageIcon,
   FileText,
+  Eye,
 } from "lucide-react";
 import { z } from "zod";
 import { StoreCreateSchema } from "@/lib/validations/store";
@@ -124,6 +125,7 @@ export function StoreForm({
       phoneTel: "",
       businessHours: "",
       description: "",
+      isActive: true,
       ...defaultValues,
     },
   });
@@ -362,6 +364,36 @@ export function StoreForm({
             </FieldWrapper>
           )}
         </div>
+      </section>
+
+      {/* ── Store Status ── */}
+      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+        <h2 className="mb-4 text-lg font-semibold text-zinc-100">门店状态</h2>
+        <p className="mb-3 text-sm text-zinc-400">
+          选择「下架」后，前台 <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-xs">/api/stores</code> 将不再返回该门店，但后台列表仍可见。
+        </p>
+        <FieldWrapper
+          label="营业状态"
+          icon={Eye}
+          error={errors.isActive?.message}
+        >
+          <Controller
+            name="isActive"
+            control={control}
+            render={({ field }) => (
+              <select
+                value={String(field.value ?? true)}
+                onChange={(e) => field.onChange(e.target.value === "true")}
+                onBlur={field.onBlur}
+                ref={field.ref}
+                className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
+              >
+                <option value="true">营业中</option>
+                <option value="false">下架</option>
+              </select>
+            )}
+          />
+        </FieldWrapper>
       </section>
 
       {/* ── Actions ── */}

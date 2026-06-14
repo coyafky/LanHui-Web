@@ -260,4 +260,35 @@ describe("POST /api/stores", () => {
     expect(json.success).toBe(true);
     expect(json.data?.id).toBe("store_1");
   });
+
+  it("创建门店 isActive=false → 201 且 prisma.store.create 收到 isActive=false", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreCreate.mockResolvedValue({ id: "store_2", ...VALID_BODY, isActive: false });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ...VALID_BODY, isActive: false }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    expect(mockStoreCreate).toHaveBeenCalledTimes(1);
+    const callArg = mockStoreCreate.mock.calls[0]?.[0] as { data: { isActive: boolean } };
+    expect(callArg.data.isActive).toBe(false);
+  });
+
+  it("创建门店不传 isActive → 缺省值 true 透传给 prisma.store.create", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreCreate.mockResolvedValue({ id: "store_3", ...VALID_BODY });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(VALID_BODY),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    const callArg = mockStoreCreate.mock.calls[0]?.[0] as { data: { isActive: boolean } };
+    expect(callArg.data.isActive).toBe(true);
+  });
 });

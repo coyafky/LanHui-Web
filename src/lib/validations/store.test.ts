@@ -169,4 +169,33 @@ describe("StoreCreateSchema", () => {
       expect(hasImageUrl).toBe(false);
     });
   });
+
+  describe("isActive 字段", () => {
+    it("isActive 缺省值 = true", () => {
+      const result = StoreCreateSchema.safeParse(validData);
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.isActive).toBe(true);
+      }
+    });
+
+    it("isActive = false 合法", () => {
+      const result = StoreCreateSchema.safeParse({
+        ...validData,
+        isActive: false,
+      });
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.isActive).toBe(false);
+      }
+    });
+
+    it("isActive 非 boolean → 失败", () => {
+      const result = StoreCreateSchema.safeParse({
+        ...validData,
+        isActive: "true",
+      });
+      expect(result.success).toBe(false);
+    });
+  });
 });

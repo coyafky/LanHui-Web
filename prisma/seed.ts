@@ -26,11 +26,42 @@ async function main() {
 
   console.log(`✅ 用户创建: ${admin.email}`);
 
-  // ── 2. 创建省份 ──
+  // ── 2. 创建省份（31 个大陆省级行政区，不含港澳台） ──
   const provinceData = [
-    { slug: "guangdong", label: "广东省", order: 1 },
-    { slug: "jiangsu", label: "江苏省", order: 2 },
-    { slug: "zhejiang", label: "浙江省", order: 3 },
+    // 4 直辖市
+    { slug: "beijing", label: "北京市", order: 1 },
+    { slug: "tianjin", label: "天津市", order: 2 },
+    { slug: "shanghai", label: "上海市", order: 3 },
+    { slug: "chongqing", label: "重庆市", order: 4 },
+    // 23 省
+    { slug: "hebei", label: "河北省", order: 5 },
+    { slug: "shanxi", label: "山西省", order: 6 },
+    { slug: "liaoning", label: "辽宁省", order: 7 },
+    { slug: "jilin", label: "吉林省", order: 8 },
+    { slug: "heilongjiang", label: "黑龙江省", order: 9 },
+    { slug: "jiangsu", label: "江苏省", order: 10 },
+    { slug: "zhejiang", label: "浙江省", order: 11 },
+    { slug: "anhui", label: "安徽省", order: 12 },
+    { slug: "fujian", label: "福建省", order: 13 },
+    { slug: "jiangxi", label: "江西省", order: 14 },
+    { slug: "shandong", label: "山东省", order: 15 },
+    { slug: "henan", label: "河南省", order: 16 },
+    { slug: "hubei", label: "湖北省", order: 17 },
+    { slug: "hunan", label: "湖南省", order: 18 },
+    { slug: "guangdong", label: "广东省", order: 19 },
+    { slug: "hainan", label: "海南省", order: 20 },
+    { slug: "sichuan", label: "四川省", order: 21 },
+    { slug: "guizhou", label: "贵州省", order: 22 },
+    { slug: "yunnan", label: "云南省", order: 23 },
+    { slug: "shaanxi", label: "陕西省", order: 24 },
+    { slug: "gansu", label: "甘肃省", order: 25 },
+    { slug: "qinghai", label: "青海省", order: 26 },
+    // 5 自治区
+    { slug: "neimenggu", label: "内蒙古自治区", order: 27 },
+    { slug: "guangxi", label: "广西壮族自治区", order: 28 },
+    { slug: "xizang", label: "西藏自治区", order: 29 },
+    { slug: "ningxia", label: "宁夏回族自治区", order: 30 },
+    { slug: "xinjiang", label: "新疆维吾尔自治区", order: 31 },
   ];
 
   for (const p of provinceData) {
@@ -43,12 +74,138 @@ async function main() {
 
   console.log(`✅ 省份创建: ${provinceData.length} 条`);
 
-  // ── 3. 创建城市（slug 与 china-regions.ts 对齐，使用城市级别简名） ──
+  // ── 3. 创建城市（~100 项热门城市/区） ──
   const cityData = [
-    { slug: "foshan", provinceSlug: "guangdong", label: "佛山市", order: 1 },
+    // 北京（6 区）
+    { slug: "dongcheng", provinceSlug: "beijing", label: "东城区", order: 1 },
+    { slug: "xicheng", provinceSlug: "beijing", label: "西城区", order: 2 },
+    { slug: "chaoyang", provinceSlug: "beijing", label: "朝阳区", order: 3 },
+    { slug: "haidian", provinceSlug: "beijing", label: "海淀区", order: 4 },
+    { slug: "fengtai", provinceSlug: "beijing", label: "丰台区", order: 5 },
+    { slug: "tongzhou", provinceSlug: "beijing", label: "通州区", order: 6 },
+    // 天津（4 区）
+    { slug: "heping", provinceSlug: "tianjin", label: "和平区", order: 1 },
+    { slug: "hexiqu", provinceSlug: "tianjin", label: "河西区", order: 2 },
+    { slug: "nankai", provinceSlug: "tianjin", label: "南开区", order: 3 },
+    { slug: "binhaixinqu", provinceSlug: "tianjin", label: "滨海新区", order: 4 },
+    // 上海（5 区）
+    { slug: "huangpu", provinceSlug: "shanghai", label: "黄浦区", order: 1 },
+    { slug: "xuhui", provinceSlug: "shanghai", label: "徐汇区", order: 2 },
+    { slug: "changning", provinceSlug: "shanghai", label: "长宁区", order: 3 },
+    { slug: "pudongxinqu", provinceSlug: "shanghai", label: "浦东新区", order: 4 },
+    { slug: "minhang", provinceSlug: "shanghai", label: "闵行区", order: 5 },
+    // 重庆（6 区）
+    { slug: "yuzhong", provinceSlug: "chongqing", label: "渝中区", order: 1 },
+    { slug: "jiangbei", provinceSlug: "chongqing", label: "江北区", order: 2 },
+    { slug: "yubei", provinceSlug: "chongqing", label: "渝北区", order: 3 },
+    { slug: "nanan", provinceSlug: "chongqing", label: "南岸区", order: 4 },
+    { slug: "shapingba", provinceSlug: "chongqing", label: "沙坪坝区", order: 5 },
+    { slug: "jiulongpo", provinceSlug: "chongqing", label: "九龙坡区", order: 6 },
+    // 河北
+    { slug: "shijiazhuang", provinceSlug: "hebei", label: "石家庄市", order: 1 },
+    { slug: "tangshan", provinceSlug: "hebei", label: "唐山市", order: 2 },
+    { slug: "baoding", provinceSlug: "hebei", label: "保定市", order: 3 },
+    { slug: "handan", provinceSlug: "hebei", label: "邯郸市", order: 4 },
+    // 山西
+    { slug: "taiyuan", provinceSlug: "shanxi", label: "太原市", order: 1 },
+    { slug: "datong", provinceSlug: "shanxi", label: "大同市", order: 2 },
+    { slug: "linfen", provinceSlug: "shanxi", label: "临汾市", order: 3 },
+    // 内蒙古
+    { slug: "huhehaote", provinceSlug: "neimenggu", label: "呼和浩特市", order: 1 },
+    { slug: "baotou", provinceSlug: "neimenggu", label: "包头市", order: 2 },
+    { slug: "ordos", provinceSlug: "neimenggu", label: "鄂尔多斯市", order: 3 },
+    // 辽宁
+    { slug: "shenyang", provinceSlug: "liaoning", label: "沈阳市", order: 1 },
+    { slug: "dalian", provinceSlug: "liaoning", label: "大连市", order: 2 },
+    { slug: "anshan", provinceSlug: "liaoning", label: "鞍山市", order: 3 },
+    // 吉林
+    { slug: "changchun", provinceSlug: "jilin", label: "长春市", order: 1 },
+    { slug: "jilin", provinceSlug: "jilin", label: "吉林市", order: 2 },
+    // 黑龙江
+    { slug: "haerbin", provinceSlug: "heilongjiang", label: "哈尔滨市", order: 1 },
+    { slug: "daqing", provinceSlug: "heilongjiang", label: "大庆市", order: 2 },
+    { slug: "qiqihaer", provinceSlug: "heilongjiang", label: "齐齐哈尔市", order: 3 },
+    // 江苏
     { slug: "nanjing", provinceSlug: "jiangsu", label: "南京市", order: 1 },
     { slug: "suzhou", provinceSlug: "jiangsu", label: "苏州市", order: 2 },
+    { slug: "wuxi", provinceSlug: "jiangsu", label: "无锡市", order: 3 },
+    { slug: "changzhou", provinceSlug: "jiangsu", label: "常州市", order: 4 },
+    // 浙江
     { slug: "hangzhou", provinceSlug: "zhejiang", label: "杭州市", order: 1 },
+    { slug: "ningbo", provinceSlug: "zhejiang", label: "宁波市", order: 2 },
+    { slug: "wenzhou", provinceSlug: "zhejiang", label: "温州市", order: 3 },
+    { slug: "jiaxing", provinceSlug: "zhejiang", label: "嘉兴市", order: 4 },
+    // 安徽
+    { slug: "hefei", provinceSlug: "anhui", label: "合肥市", order: 1 },
+    { slug: "wuhu", provinceSlug: "anhui", label: "芜湖市", order: 2 },
+    { slug: "bengbu", provinceSlug: "anhui", label: "蚌埠市", order: 3 },
+    // 福建
+    { slug: "fuzhou", provinceSlug: "fujian", label: "福州市", order: 1 },
+    { slug: "xiamen", provinceSlug: "fujian", label: "厦门市", order: 2 },
+    { slug: "quanzhou", provinceSlug: "fujian", label: "泉州市", order: 3 },
+    // 江西
+    { slug: "nanchang", provinceSlug: "jiangxi", label: "南昌市", order: 1 },
+    { slug: "jiujiang", provinceSlug: "jiangxi", label: "九江市", order: 2 },
+    { slug: "ganzhou", provinceSlug: "jiangxi", label: "赣州市", order: 3 },
+    // 山东
+    { slug: "jinan", provinceSlug: "shandong", label: "济南市", order: 1 },
+    { slug: "qingdao", provinceSlug: "shandong", label: "青岛市", order: 2 },
+    { slug: "yantai", provinceSlug: "shandong", label: "烟台市", order: 3 },
+    { slug: "weifang", provinceSlug: "shandong", label: "潍坊市", order: 4 },
+    // 河南
+    { slug: "zhengzhou", provinceSlug: "henan", label: "郑州市", order: 1 },
+    { slug: "luoyang", provinceSlug: "henan", label: "洛阳市", order: 2 },
+    { slug: "kaifeng", provinceSlug: "henan", label: "开封市", order: 3 },
+    { slug: "xinxiang", provinceSlug: "henan", label: "新乡市", order: 4 },
+    // 湖北
+    { slug: "wuhan", provinceSlug: "hubei", label: "武汉市", order: 1 },
+    { slug: "yichang", provinceSlug: "hubei", label: "宜昌市", order: 2 },
+    { slug: "xiangyang", provinceSlug: "hubei", label: "襄阳市", order: 3 },
+    // 湖南
+    { slug: "changsha", provinceSlug: "hunan", label: "长沙市", order: 1 },
+    { slug: "zhuzhou", provinceSlug: "hunan", label: "株洲市", order: 2 },
+    { slug: "hengyang", provinceSlug: "hunan", label: "衡阳市", order: 3 },
+    // 广东
+    { slug: "guangzhou", provinceSlug: "guangdong", label: "广州市", order: 1 },
+    { slug: "shenzhen", provinceSlug: "guangdong", label: "深圳市", order: 2 },
+    { slug: "foshan", provinceSlug: "guangdong", label: "佛山市", order: 3 },
+    { slug: "dongguan", provinceSlug: "guangdong", label: "东莞市", order: 4 },
+    { slug: "zhuhai", provinceSlug: "guangdong", label: "珠海市", order: 5 },
+    { slug: "zhongshan", provinceSlug: "guangdong", label: "中山市", order: 6 },
+    // 广西
+    { slug: "nanning", provinceSlug: "guangxi", label: "南宁市", order: 1 },
+    { slug: "guilin", provinceSlug: "guangxi", label: "桂林市", order: 2 },
+    { slug: "liuzhou", provinceSlug: "guangxi", label: "柳州市", order: 3 },
+    // 海南
+    { slug: "haikou", provinceSlug: "hainan", label: "海口市", order: 1 },
+    { slug: "sanya", provinceSlug: "hainan", label: "三亚市", order: 2 },
+    // 四川
+    { slug: "chengdu", provinceSlug: "sichuan", label: "成都市", order: 1 },
+    { slug: "mianyang", provinceSlug: "sichuan", label: "绵阳市", order: 2 },
+    { slug: "yibin", provinceSlug: "sichuan", label: "宜宾市", order: 3 },
+    // 贵州
+    { slug: "guiyang", provinceSlug: "guizhou", label: "贵阳市", order: 1 },
+    { slug: "zunyi", provinceSlug: "guizhou", label: "遵义市", order: 2 },
+    // 云南
+    { slug: "kunming", provinceSlug: "yunnan", label: "昆明市", order: 1 },
+    { slug: "dali", provinceSlug: "yunnan", label: "大理市", order: 2 },
+    { slug: "yuxi", provinceSlug: "yunnan", label: "玉溪市", order: 3 },
+    // 西藏
+    { slug: "lasa", provinceSlug: "xizang", label: "拉萨市", order: 1 },
+    // 陕西
+    { slug: "xian", provinceSlug: "shaanxi", label: "西安市", order: 1 },
+    { slug: "xianyang", provinceSlug: "shaanxi", label: "咸阳市", order: 2 },
+    { slug: "baoji", provinceSlug: "shaanxi", label: "宝鸡市", order: 3 },
+    // 甘肃
+    { slug: "lanzhou", provinceSlug: "gansu", label: "兰州市", order: 1 },
+    { slug: "tianshui", provinceSlug: "gansu", label: "天水市", order: 2 },
+    // 青海
+    { slug: "xining", provinceSlug: "qinghai", label: "西宁市", order: 1 },
+    // 宁夏
+    { slug: "yinchuan", provinceSlug: "ningxia", label: "银川市", order: 1 },
+    // 新疆
+    { slug: "wulumuqi", provinceSlug: "xinjiang", label: "乌鲁木齐市", order: 1 },
+    { slug: "kashi", provinceSlug: "xinjiang", label: "喀什市", order: 2 },
   ];
 
   for (const c of cityData) {
@@ -61,127 +218,12 @@ async function main() {
 
   console.log(`✅ 城市创建: ${cityData.length} 条`);
 
-  // ── 4. 创建门店（从 store.ts Mock 数据迁移，使用自定义6位数字 ID） ──
-  //
-  // 使用 deleteMany + create 代替 upsert，因为 Prisma upsert 的 update 子句
-  // 不会更新主键 id 字段。若数据库中已存在 cuid 格式 ID 的旧记录，
-  // upsert 无法将其更新为自定义6位数字 ID。
-  //
-  const storeData = [
-    {
-      id: "100001",
-      slug: "shunde-daliang",
-      name: "蓝辉轻改顺德大良店",
-      provinceSlug: "guangdong",
-      provinceLabel: "广东省",
-      citySlug: "foshan",
-      cityLabel: "佛山市",
-      district: "顺德区大良",
-      address: "广东省佛山市顺德区大良街道南国中路88号蓝辉轻改体验中心",
-      phone: "0757-2288 1001",
-      phoneTel: "tel:075722881001",
-      businessHours: "09:00-18:00",
-      description: "蓝辉轻改旗舰服务中心，位于顺德大良核心商圈，提供全品类轻改装备与汽车膜系施工服务，配备独立施工工位与客户休息区。",
-    },
-    {
-      id: "100002",
-      slug: "shunde-ronggui",
-      name: "蓝辉轻改顺德容桂店",
-      provinceSlug: "guangdong",
-      provinceLabel: "广东省",
-      citySlug: "foshan",
-      cityLabel: "佛山市",
-      district: "顺德区容桂",
-      address: "广东省佛山市顺德区容桂街道容奇大道中66号",
-      phone: "0757-2288 1002",
-      phoneTel: "tel:075722881002",
-      businessHours: "09:00-18:00",
-      description: "蓝辉轻改顺德容桂标准店，服务容桂及周边区域车主，提供轻改装备升级与膜系施工。",
-    },
-    {
-      id: "100003",
-      slug: "foshan-nanhai",
-      name: "蓝辉轻改佛山南海店",
-      provinceSlug: "guangdong",
-      provinceLabel: "广东省",
-      citySlug: "foshan",
-      cityLabel: "佛山市",
-      district: "南海区",
-      address: "广东省佛山市南海区桂城街道灯湖东路6号万达广场1楼",
-      phone: "0757-8628 6601",
-      phoneTel: "tel:075786286601",
-      businessHours: "09:00-18:00",
-      description: "蓝辉轻改佛山南海标准店，位于南海桂城核心商圈，服务南海及周边区域车主，提供轻改装备升级与膜系施工。",
-    },
-    {
-      id: "100004",
-      slug: "nanjing-jiangning",
-      name: "蓝辉轻改南京江宁店",
-      provinceSlug: "jiangsu",
-      provinceLabel: "江苏省",
-      citySlug: "nanjing",
-      cityLabel: "南京市",
-      district: "江宁区",
-      address: "江苏省南京市江宁区东山街道双龙大道1568号金轮新都汇1楼",
-      phone: "025-5818 8801",
-      phoneTel: "tel:02558188801",
-      businessHours: "09:00-18:00",
-      description: "蓝辉轻改南京江宁标准店，覆盖江宁及南京南部区域，提供轻改升级与膜系施工服务。",
-    },
-    {
-      id: "100005",
-      slug: "suzhou-yuanqu",
-      name: "蓝辉轻改苏州园区店",
-      provinceSlug: "jiangsu",
-      provinceLabel: "江苏省",
-      citySlug: "suzhou",
-      cityLabel: "苏州市",
-      district: "工业园区",
-      address: "江苏省苏州市工业园区星湖街218号苏州中心商场B1层",
-      phone: "0512-6288 5501",
-      phoneTel: "tel:051262885501",
-      businessHours: "09:00-18:00",
-      description: "蓝辉轻改苏州园区授权店，服务园区及周边高端社区车主，提供轻改升级方案。",
-    },
-    {
-      id: "100006",
-      slug: "hangzhou-xiaoshan",
-      name: "蓝辉轻改杭州萧山店",
-      provinceSlug: "zhejiang",
-      provinceLabel: "浙江省",
-      citySlug: "hangzhou",
-      cityLabel: "杭州市",
-      district: "萧山区",
-      address: "浙江省杭州市萧山区市心北路168号旺角城新天地1楼",
-      phone: "0571-8833 7701",
-      phoneTel: "tel:057188337701",
-      businessHours: "09:00-18:00",
-      description: "蓝辉轻改杭州萧山标准店，覆盖萧山区及杭州南部新城车主，提供全品类轻改装备与膜系施工。",
-    },
-    {
-      id: "100007",
-      slug: "foshan-chancheng",
-      name: "蓝辉轻改佛山禅城店",
-      provinceSlug: "guangdong",
-      provinceLabel: "广东省",
-      citySlug: "foshan",
-      cityLabel: "佛山市",
-      district: "禅城区",
-      address: "广东省佛山市禅城区祖庙路33号百花广场1楼",
-      phone: "0757-8328 3301",
-      phoneTel: "tel:075783283301",
-      businessHours: "09:00-18:00",
-      description: "蓝辉轻改佛山禅城标准店，位于禅城核心商圈，服务佛山主城区车主，提供轻改升级与膜系施工服务。",
-    },
-  ];
-
-  // 清除旧门店数据（AnalyticsEvent.storeId 设为 SET NULL），再重新创建
-  await prisma.store.deleteMany();
-  for (const s of storeData) {
-    await prisma.store.create({ data: s });
-  }
-
-  console.log(`✅ 门店创建: ${storeData.length} 条`);
+  // ── 4. 门店（保留现有数据，不重建） ──
+  // 旧 seed 会调用 prisma.store.deleteMany() 清空门店再重建，会把用户已创建
+  // 的门店（如 admin 手动添加的）一并清空。这里改为不删除、不重建，
+  // 门店数据由 admin 在后台管理或通过迁移脚本维护。
+  const existingStoreCount = await prisma.store.count();
+  console.log(`✅ 门店: 保留现有数据（当前 ${existingStoreCount} 条）`);
   console.log("🎉 种子数据导入完成！");
 }
 
