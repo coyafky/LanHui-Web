@@ -1,9 +1,59 @@
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
+import { MAINLAND_PROVINCES, MAINLAND_CITIES } from "../src/lib/regions/mainland-regions";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
+
+/**
+ * 从大陆省市基础数据 upsert 写入 Province / City。
+ * - 不删除已有省份/城市，update 子句只刷 code/type/order/label 等非 isActive 字段
+ * - 已存在门店的外键引用不会被破坏
+ */
+async function seedRegions() {
+  for (const p of MAINLAND_PROVINCES) {
+    await prisma.province.upsert({
+      where: { slug: p.slug },
+      update: {
+        code: p.code,
+        type: p.type,
+        order: p.order,
+      },
+      create: {
+        slug: p.slug,
+        code: p.code,
+        type: p.type,
+        label: p.label,
+        order: p.order,
+        isActive: true,
+      },
+    });
+  }
+  for (const c of MAINLAND_CITIES) {
+    await prisma.city.upsert({
+      where: { slug: c.slug },
+      update: {
+        code: c.code,
+        type: c.type,
+        order: c.order,
+        provinceSlug: c.provinceSlug,
+      },
+      create: {
+        slug: c.slug,
+        code: c.code,
+        type: c.type,
+        label: c.label,
+        provinceSlug: c.provinceSlug,
+        order: c.order,
+        isActive: true,
+      },
+    });
+  }
+  console.log(
+    `✅ 省份: ${MAINLAND_PROVINCES.length} 条；城市: ${MAINLAND_CITIES.length} 条`,
+  );
+}
 
 async function main() {
   console.log("🌱 开始种子数据导入...");
@@ -26,47 +76,11 @@ async function main() {
 
   console.log(`✅ 用户创建: ${admin.email}`);
 
-  // ── 2. 创建省份 ──
-  const provinceData = [
-    { slug: "guangdong", label: "广东省", order: 1 },
-    { slug: "jiangsu", label: "江苏省", order: 2 },
-    { slug: "zhejiang", label: "浙江省", order: 3 },
-  ];
+  // ── 2. 写入大陆省/市基础数据（先于门店，保证外键存在） ──
+  await seedRegions();
 
-  for (const p of provinceData) {
-    await prisma.province.upsert({
-      where: { slug: p.slug },
-      update: {},
-      create: p,
-    });
-  }
-
-  console.log(`✅ 省份创建: ${provinceData.length} 条`);
-
-  // ── 3. 创建城市（slug 与 china-regions.ts 对齐，使用城市级别简名） ──
-  const cityData = [
-    { slug: "foshan", provinceSlug: "guangdong", label: "佛山市", order: 1 },
-    { slug: "nanjing", provinceSlug: "jiangsu", label: "南京市", order: 1 },
-    { slug: "suzhou", provinceSlug: "jiangsu", label: "苏州市", order: 2 },
-    { slug: "hangzhou", provinceSlug: "zhejiang", label: "杭州市", order: 1 },
-  ];
-
-  for (const c of cityData) {
-    await prisma.city.upsert({
-      where: { slug: c.slug },
-      update: {},
-      create: c,
-    });
-  }
-
-  console.log(`✅ 城市创建: ${cityData.length} 条`);
-
-  // ── 4. 创建门店（从 store.ts Mock 数据迁移，使用自定义6位数字 ID） ──
-  //
-  // 使用 deleteMany + create 代替 upsert，因为 Prisma upsert 的 update 子句
-  // 不会更新主键 id 字段。若数据库中已存在 cuid 格式 ID 的旧记录，
-  // upsert 无法将其更新为自定义6位数字 ID。
-  //
+  // ── 3. 创建门店（从 store.ts Mock 数据迁移，使用自定义6位数字 ID） ──
+  // 用 upsert 保持幂等，不删除已有记录，避免破坏 AnalyticsEvent 关联
   const storeData = [
     {
       id: "100001",
@@ -175,10 +189,13 @@ async function main() {
     },
   ];
 
-  // 清除旧门店数据（AnalyticsEvent.storeId 设为 SET NULL），再重新创建
-  await prisma.store.deleteMany();
+  // 不删除已有门店，改用 upsert 保持幂等（避免破坏已存在 AnalyticsEvent 关联）
   for (const s of storeData) {
-    await prisma.store.create({ data: s });
+    await prisma.store.upsert({
+      where: { id: s.id },
+      update: s,
+      create: s,
+    });
   }
 
   console.log(`✅ 门店创建: ${storeData.length} 条`);
