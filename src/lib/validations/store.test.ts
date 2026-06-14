@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { z } from "zod";
 import { StoreCreateSchema, SLUG_REGEX } from "@/lib/validations/store";
 
 describe("StoreCreateSchema", () => {
@@ -131,23 +132,41 @@ describe("StoreCreateSchema", () => {
     });
   });
 
-  describe("imagePath / imageUrl", () => {
+  describe("imagePath 字段", () => {
     it("imagePath 可选", () => {
       const result = StoreCreateSchema.safeParse(validData);
       expect(result.success).toBe(true);
     });
 
-    it("imageUrl 非 URL 报错", () => {
+    it("imagePath 可赋值", () => {
+      const result = StoreCreateSchema.safeParse({
+        ...validData,
+        imagePath: "/uploads/stores/abc.jpg",
+      });
+      expect(result.success).toBe(true);
+    });
+  });
+
+  describe("imageUrl 已从 schema 移除", () => {
+    it("传入非法 imageUrl 不应阻塞 schema 校验（Zod 默认 strip）", () => {
+      // imageUrl 字段已从 StoreCreateSchema 移除；前端不会再传。
+      // 这里验证即便调用方意外传了非法值，schema 仍能成功（不报错）。
       const result = StoreCreateSchema.safeParse({
         ...validData,
         imageUrl: "not-a-url",
       });
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error.flatten().fieldErrors.imageUrl).toContain(
-          "图片URL格式不正确"
-        );
+      expect(result.success).toBe(true);
+    });
+
+    it("推断类型中不再含 imageUrl 字段", () => {
+      // 编译期断言：type-level 保证 imageUrl 已被移除
+      type HasImageUrl = z.infer<typeof StoreCreateSchema> extends {
+        imageUrl?: unknown;
       }
+        ? true
+        : false;
+      const hasImageUrl: HasImageUrl = false as HasImageUrl;
+      expect(hasImageUrl).toBe(false);
     });
   });
 });

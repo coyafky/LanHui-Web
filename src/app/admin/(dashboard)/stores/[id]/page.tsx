@@ -34,7 +34,6 @@ export default function EditStorePage({
             phoneTel: d.phoneTel ?? "",
             businessHours: d.businessHours ?? "",
             description: d.description ?? "",
-            imageUrl: d.imageUrl ?? "",
           });
         } else {
           setError(json.error ?? "门店不存在");

@@ -90,6 +90,22 @@ export async function PUT(
 
     return Response.json({ success: true, data: store });
   } catch (error) {
+    // Prisma P2003 = foreign key constraint violation（兜底：省市被并发删除/被禁用）
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "P2003"
+    ) {
+      return Response.json(
+        {
+          success: false,
+          error: "参数验证失败",
+          details: { _form: ["省市选择无效，请刷新页面后重试"] },
+        },
+        { status: 400 }
+      );
+    }
     // Prisma P2002 = unique constraint violation
     if (
       error &&

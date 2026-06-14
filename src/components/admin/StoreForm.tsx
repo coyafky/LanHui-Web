@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -18,8 +18,11 @@ import {
 import { z } from "zod";
 import { StoreCreateSchema } from "@/lib/validations/store";
 import { cn } from "@/lib/utils";
-import { RegionSelector } from "@/components/admin/RegionSelector";
-import type { RegionValue } from "@/components/admin/RegionSelector";
+import {
+  RegionSelector,
+  type RegionValue,
+  type RegionLoadState,
+} from "@/components/admin/RegionSelector";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -30,10 +33,10 @@ export type StoreFormValues = z.infer<typeof StoreCreateSchema>;
 interface StoreFormProps {
   defaultValues?: Partial<StoreFormValues>;
   /**
-   * 提交回调。返回值若为新创建的门店 ID（string），StoreForm 会跳转到
-   * `/admin/stores/{id}/image` 让用户上传门店图片；返回 void 则跳转到列表页。
+   * 提交回调。StoreForm 在成功后统一跳转到列表页 /admin/stores。
+   * 抛错时 StoreForm 捕获并在顶部 alert 展示错误信息。
    */
-  onSubmit: (data: StoreFormValues) => Promise<string | void>;
+  onSubmit: (data: StoreFormValues) => Promise<void>;
   submitLabel?: string;
   showDelete?: boolean;
   onDelete?: () => Promise<void>;
@@ -83,6 +86,12 @@ export function StoreForm({
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
+  const [regionLoadState, setRegionLoadState] = useState<RegionLoadState>({
+    loading: true,
+    error: null,
+  });
 
   // Region state (province/city managed by RegionSelector)
   const [regionValue, setRegionValue] = useState<RegionValue>({
@@ -100,7 +109,7 @@ export function StoreForm({
     watch,
     formState: { errors },
   } = useForm<StoreFormValues>({
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(StoreCreateSchema) as any,
     defaultValues: {
       slug: "",
@@ -115,7 +124,6 @@ export function StoreForm({
       phoneTel: "",
       businessHours: "",
       description: "",
-      imageUrl: "",
       ...defaultValues,
     },
   });
@@ -139,18 +147,28 @@ export function StoreForm({
     setValue("cityLabel", rv.cityLabel);
   }
 
+  /* ---------- Region load state handler ---------- */
+  const handleRegionLoadStateChange = useCallback((state: RegionLoadState) => {
+    setRegionLoadState(state);
+  }, []);
+
   /* ---------- Submit handler ---------- */
   async function handleFormSubmit(data: StoreFormValues) {
+    setSubmitError(null);
+    setSubmitSuccess(null);
     setSubmitting(true);
     try {
-      const result = await onSubmit(data);
-      if (typeof result === "string" && result.length > 0) {
-        router.push(`/admin/stores/${result}/image`);
-      } else {
+      await onSubmit(data);
+      setSubmitSuccess("门店创建成功");
+      setTimeout(() => {
         router.push("/admin/stores");
-      }
-    } catch {
-      // Error handled by caller
+      }, 600);
+    } catch (err) {
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "创建失败，请稍后重试或联系管理员";
+      setSubmitError(msg);
     } finally {
       setSubmitting(false);
     }
@@ -173,8 +191,34 @@ export function StoreForm({
   const inputClasses =
     "w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-orange-500 focus:outline-none";
 
+  // Submit button disabled when region load fails or while submitting
+  const submitDisabled =
+    submitting || regionLoadState.error !== null;
+
+  const submitTitle = regionLoadState.error
+    ? "省份/城市加载失败，请刷新或重试"
+    : undefined;
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
+      {/* ── Top-level alerts ── */}
+      {submitError && (
+        <div
+          role="alert"
+          className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400"
+        >
+          {submitError}
+        </div>
+      )}
+      {submitSuccess && (
+        <div
+          role="status"
+          className="rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-400"
+        >
+          {submitSuccess}
+        </div>
+      )}
+
       {/* ── Basic Info ── */}
       <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
         <h2 className="mb-4 text-lg font-semibold text-zinc-100">基本信息</h2>
@@ -212,6 +256,7 @@ export function StoreForm({
             value={regionValue}
             onChange={handleRegionChange}
             error={errors.provinceSlug?.message || errors.citySlug?.message}
+            onLoadStateChange={handleRegionLoadStateChange}
           />
 
           {/* District */}
@@ -293,21 +338,6 @@ export function StoreForm({
             />
           </FieldWrapper>
 
-          {/* Image URL（兼容字段；推荐使用下方"门店图片管理"页面上传） */}
-          <FieldWrapper
-            label="门店图片 URL（兼容字段）"
-            icon={ImageIcon}
-            error={errors.imageUrl?.message}
-            required={false}
-          >
-            <input
-              {...register("imageUrl")}
-              type="url"
-              placeholder="https://example.com/store.jpg（可选）"
-              className={inputClasses}
-            />
-          </FieldWrapper>
-
           {/* imagePath 只读展示，由图片管理页面上传/修改 */}
           {defaultValues?.imagePath ? (
             <FieldWrapper
@@ -317,7 +347,7 @@ export function StoreForm({
               <div className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-300">
                 <code className="text-xs text-zinc-400">{defaultValues.imagePath}</code>
                 <p className="mt-1 text-xs text-zinc-500">
-                  保存后跳转到图片管理页面可替换或删除
+                  可在"门店图片管理"页面替换或删除
                 </p>
               </div>
             </FieldWrapper>
@@ -327,7 +357,7 @@ export function StoreForm({
               icon={ImageIcon}
             >
               <p className="text-xs text-zinc-500">
-                保存门店后，将自动跳转到图片管理页面上传真实门店图。
+                请在"门店图片管理"页面上传真实门店图。
               </p>
             </FieldWrapper>
           )}
@@ -345,7 +375,8 @@ export function StoreForm({
           </Link>
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitDisabled}
+            title={submitTitle}
             className={cn(
               "inline-flex items-center gap-2 rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-600 disabled:opacity-50"
             )}

@@ -4,7 +4,7 @@ import { StoreForm, type StoreFormValues } from "@/components/admin/StoreForm";
 import { Plus } from "lucide-react";
 
 export default function NewStorePage() {
-  async function handleSubmit(data: StoreFormValues) {
+  async function handleSubmit(data: StoreFormValues): Promise<void> {
     const res = await fetch("/api/stores", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -19,8 +19,7 @@ export default function NewStorePage() {
         : json.error;
       throw new Error(msg ?? "创建失败");
     }
-    // 返回新门店 ID，StoreForm 会跳转到图片上传页
-    return (json.data as { id: string } | undefined)?.id;
+    // 不再返回 id，StoreForm 会在成功后跳转到 /admin/stores 列表
   }
 
   return (

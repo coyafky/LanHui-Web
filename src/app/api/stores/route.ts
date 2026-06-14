@@ -98,6 +98,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // 预校验：省/市存在性 + city.provinceSlug 一致
+    const province = await prisma.province.findUnique({
+      where: { slug: parsed.data.provinceSlug },
+    });
+    if (!province || !province.isActive) {
+      return Response.json(
+        {
+          success: false,
+          error: "参数验证失败",
+          details: { provinceSlug: ["请选择已开通的省份"] },
+        },
+        { status: 400 }
+      );
+    }
+
+    const city = await prisma.city.findUnique({
+      where: { slug: parsed.data.citySlug },
+    });
+    if (!city || !city.isActive) {
+      return Response.json(
+        {
+          success: false,
+          error: "参数验证失败",
+          details: { citySlug: ["请选择已开通的城市"] },
+        },
+        { status: 400 }
+      );
+    }
+    if (city.provinceSlug !== parsed.data.provinceSlug) {
+      return Response.json(
+        {
+          success: false,
+          error: "参数验证失败",
+          details: { citySlug: ["所选城市不属于所选省份"] },
+        },
+        { status: 400 }
+      );
+    }
+
     const store = await prisma.store.create({
       data: {
         ...parsed.data,
@@ -117,6 +156,22 @@ export async function POST(request: NextRequest) {
 
     return Response.json({ success: true, data: store }, { status: 201 });
   } catch (error) {
+    // Prisma P2003 = foreign key constraint violation（兜底：省市被并发删除/被禁用）
+    if (
+      error &&
+      typeof error === "object" &&
+      "code" in error &&
+      (error as { code?: string }).code === "P2003"
+    ) {
+      return Response.json(
+        {
+          success: false,
+          error: "参数验证失败",
+          details: { _form: ["省市选择无效，请刷新页面后重试"] },
+        },
+        { status: 400 }
+      );
+    }
     // Prisma P2002 = unique constraint violation
     if (
       error &&
