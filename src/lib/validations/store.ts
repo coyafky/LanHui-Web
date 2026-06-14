@@ -37,13 +37,6 @@ export const StoreCreateSchema = z.object({
   phoneTel: z.string().optional(),
   businessHours: z.string().max(50, "营业时间过长").optional(),
   description: z.string().max(500, "描述不能超过 500 字").optional(),
-  /** 兼容旧数据；新数据优先使用 imagePath + /admin/stores/{id}/image 上传 */
-  imageUrl: z
-    .string()
-    .url("图片URL格式不正确")
-    .max(500, "图片URL过长")
-    .optional()
-    .nullable(),
   /** 新主字段：相对 public/ 的上传路径，如 /uploads/stores/abc.jpg */
   imagePath: z.string().max(255).optional().nullable(),
 });
