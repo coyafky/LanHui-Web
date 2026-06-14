@@ -15,7 +15,7 @@ export default function EditStorePage({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`/api/stores/${id}`)
+    fetch(`/api/stores/${id}?all=true`)
       .then((r) => r.json())
       .then((json) => {
         if (json.success) {

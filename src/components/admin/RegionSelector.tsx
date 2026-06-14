@@ -23,15 +23,16 @@ interface RegionSelectorProps {
   onLoadStateChange?: (state: RegionLoadState) => void;
 }
 
-interface Province {
-  slug: string;
-  label: string;
-}
-
 interface City {
   slug: string;
-  provinceSlug: string;
   label: string;
+  isCapital?: boolean;
+}
+
+interface Region {
+  slug: string;
+  label: string;
+  cities: City[];
 }
 
 /* ------------------------------------------------------------------ */
@@ -61,7 +62,7 @@ function SearchableSelect({
     return options.filter(
       (o) =>
         o.label.toLowerCase().includes(lower) ||
-        o.value.toLowerCase().includes(lower)
+        o.value.toLowerCase().includes(lower),
     );
   }, [options, search]);
 
@@ -91,14 +92,14 @@ function SearchableSelect({
           "flex items-center justify-between gap-2",
           "focus:border-orange-500 focus:outline-none",
           "disabled:opacity-50 disabled:cursor-not-allowed",
-          !selectedLabel && "text-zinc-500"
+          !selectedLabel && "text-zinc-500",
         )}
       >
         <span className="truncate">{selectedLabel ?? placeholder}</span>
         <ChevronDown
           className={cn(
             "h-4 w-4 text-zinc-500 transition-transform flex-shrink-0",
-            open && "rotate-180"
+            open && "rotate-180",
           )}
         />
       </button>
@@ -135,7 +136,7 @@ function SearchableSelect({
                     "w-full px-3 py-2 text-sm text-left hover:bg-zinc-700 transition-colors",
                     opt.value === value
                       ? "bg-orange-500/10 text-orange-400"
-                      : "text-zinc-200"
+                      : "text-zinc-200",
                   )}
                 >
                   {opt.label}
@@ -159,106 +160,64 @@ export function RegionSelector({
   error,
   onLoadStateChange,
 }: RegionSelectorProps) {
-  const [provinces, setProvinces] = useState<Province[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
-  const [loadingProvinces, setLoadingProvinces] = useState(true);
-  const [loadingCities, setLoadingCities] = useState(false);
+  const [regions, setRegions] = useState<Region[]>([]);
+  const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
 
-  // Combined load state for parent
-  const combinedLoading = loadingProvinces || loadingCities;
-  const combinedError = loadError;
   const combinedState: RegionLoadState = {
-    loading: combinedLoading,
-    error: combinedError,
+    loading,
+    error: loadError,
   };
 
   useEffect(() => {
     onLoadStateChange?.(combinedState);
-  }, [combinedLoading, combinedError, onLoadStateChange]);
+  }, [loading, loadError, onLoadStateChange]);
 
-  /* ---------- Fetch provinces on mount ---------- */
-  const fetchProvinces = useCallback(async () => {
-    setLoadingProvinces(true);
+  /* ---------- Fetch all regions on mount (一次性拿全部数据) ---------- */
+  const fetchRegions = useCallback(async () => {
+    setLoading(true);
     setLoadError(null);
     try {
-      const res = await fetch("/api/provinces");
+      const res = await fetch("/api/store-regions");
       const json = (await res.json()) as {
         success: boolean;
-        data?: Array<{ slug: string; label: string }>;
+        data?: Region[];
         error?: string;
       };
       if (!json.success || !json.data) {
-        throw new Error(json.error ?? "加载省份失败");
+        throw new Error(json.error ?? "加载省/市失败");
       }
-      setProvinces(json.data.map((p) => ({ slug: p.slug, label: p.label })));
+      setRegions(json.data);
     } catch (err) {
-      setLoadError(err instanceof Error ? err.message : "加载省份失败，请重试");
+      setLoadError(err instanceof Error ? err.message : "加载省/市失败，请重试");
     } finally {
-      setLoadingProvinces(false);
+      setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    void fetchProvinces();
-  }, [fetchProvinces]);
+    void fetchRegions();
+  }, [fetchRegions]);
 
-  /* ---------- Fetch cities when province changes ---------- */
-  useEffect(() => {
-    if (!value.provinceSlug) {
-      setCities([]);
-      setLoadingCities(false);
-      return;
-    }
-    let cancelled = false;
-    setLoadingCities(true);
-    setLoadError(null);
-    (async () => {
-      try {
-        const res = await fetch(
-          `/api/cities?province=${encodeURIComponent(value.provinceSlug)}`
-        );
-        const json = (await res.json()) as {
-          success: boolean;
-          data?: Array<{ slug: string; provinceSlug: string; label: string }>;
-          error?: string;
-        };
-        if (cancelled) return;
-        if (!json.success || !json.data) {
-          throw new Error(json.error ?? "加载城市失败");
-        }
-        setCities(
-          json.data.map((c) => ({
-            slug: c.slug,
-            provinceSlug: c.provinceSlug,
-            label: c.label,
-          }))
-        );
-      } catch (err) {
-        if (cancelled) return;
-        setLoadError(err instanceof Error ? err.message : "加载城市失败，请重试");
-        setCities([]);
-      } finally {
-        if (!cancelled) setLoadingCities(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [value.provinceSlug]);
+  /* ---------- 派生当前省份下的城市（无需再请求 /api/cities） ---------- */
+  const cities: City[] = useMemo(() => {
+    if (!value.provinceSlug) return [];
+    const region = regions.find((r) => r.slug === value.provinceSlug);
+    return region?.cities ?? [];
+  }, [regions, value.provinceSlug]);
 
   const provinceOptions = useMemo(
-    () => provinces.map((p) => ({ label: p.label, value: p.slug })),
-    [provinces]
+    () => regions.map((r) => ({ label: r.label, value: r.slug })),
+    [regions],
   );
 
   const cityOptions = useMemo(
     () => cities.map((c) => ({ label: c.label, value: c.slug })),
-    [cities]
+    [cities],
   );
 
   function handleProvinceChange(provinceSlug: string) {
-    const province = provinces.find((p) => p.slug === provinceSlug);
+    const province = regions.find((r) => r.slug === provinceSlug);
     onChange({
       provinceSlug,
       provinceLabel: province?.label ?? "",
@@ -278,12 +237,12 @@ export function RegionSelector({
 
   /* ---------- Render loading / error / empty / normal ---------- */
   function renderProvinceButton() {
-    if (loadingProvinces) {
+    if (loading) {
       return (
         <div
           className={cn(
             "w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-left",
-            "flex items-center justify-between gap-2 text-zinc-500"
+            "flex items-center justify-between gap-2 text-zinc-500",
           )}
         >
           <span className="flex items-center gap-2">
@@ -293,20 +252,20 @@ export function RegionSelector({
         </div>
       );
     }
-    if (loadError && !loadingProvinces) {
+    if (loadError) {
       return (
         <div className="space-y-2">
           <div
             className={cn(
               "w-full rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-left",
-              "text-red-400"
+              "text-red-400",
             )}
           >
             {loadError}
           </div>
           <button
             type="button"
-            onClick={() => void fetchProvinces()}
+            onClick={() => void fetchRegions()}
             className="inline-flex items-center gap-1.5 text-xs text-orange-400 hover:text-orange-300"
           >
             <RotateCw className="h-3 w-3" />
@@ -315,7 +274,7 @@ export function RegionSelector({
         </div>
       );
     }
-    if (provinces.length === 0) {
+    if (regions.length === 0) {
       return (
         <div className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-500">
           暂未开通任何省份，请联系管理员
@@ -338,19 +297,19 @@ export function RegionSelector({
         <div
           className={cn(
             "w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-left",
-            "flex items-center justify-between gap-2 text-zinc-500"
+            "flex items-center justify-between gap-2 text-zinc-500",
           )}
         >
           <span>请先选择省份</span>
         </div>
       );
     }
-    if (loadingCities) {
+    if (loading) {
       return (
         <div
           className={cn(
             "w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-left",
-            "flex items-center justify-between gap-2 text-zinc-500"
+            "flex items-center justify-between gap-2 text-zinc-500",
           )}
         >
           <span className="flex items-center gap-2">
@@ -360,7 +319,7 @@ export function RegionSelector({
         </div>
       );
     }
-    if (loadError && !loadingCities) {
+    if (loadError) {
       return (
         <div className="rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-400">
           {loadError}

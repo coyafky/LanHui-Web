@@ -5,14 +5,30 @@ import { StoreUpdateSchema } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   ctx: RouteContext<"/api/stores/[id]">
 ) {
   try {
     const { id } = await ctx.params;
+    const { searchParams } = request.nextUrl;
+    const all = searchParams.get("all") === "true";
+
+    // ?all=true 时要求 admin 权限，用于后台编辑下架门店
+    if (all) {
+      const session = await auth();
+      if (session?.user.role !== "admin") {
+        return Response.json(
+          { success: false, error: "权限不足" },
+          { status: 403 }
+        );
+      }
+    }
 
     const store = await prisma.store.findFirst({
-      where: { OR: [{ id }, { slug: id }], isActive: true },
+      where: {
+        OR: [{ id }, { slug: id }],
+        ...(all ? {} : { isActive: true }),
+      },
     });
 
     if (!store) {

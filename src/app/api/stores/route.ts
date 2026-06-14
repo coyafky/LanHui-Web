@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { StoreCreateSchema } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
+import { findRegion, findCity } from "@/lib/store-regions";
 
 export async function GET(request: NextRequest) {
   try {
@@ -98,11 +99,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 预校验：省/市存在性 + city.provinceSlug 一致
-    const province = await prisma.province.findUnique({
-      where: { slug: parsed.data.provinceSlug },
-    });
-    if (!province || !province.isActive) {
+    // 预校验：省/市必须存在于 store-regions.ts（业务侧维护的合法清单）
+    const region = findRegion(parsed.data.provinceSlug);
+    if (!region) {
       return Response.json(
         {
           success: false,
@@ -113,29 +112,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const city = await prisma.city.findUnique({
-      where: { slug: parsed.data.citySlug },
-    });
-    if (!city || !city.isActive) {
+    const cityResult = findCity(parsed.data.provinceSlug, parsed.data.citySlug);
+    if (!cityResult) {
       return Response.json(
         {
           success: false,
           error: "参数验证失败",
-          details: { citySlug: ["请选择已开通的城市"] },
+          details: { citySlug: ["所选城市暂未开通或不属于所选省份"] },
         },
         { status: 400 }
       );
     }
-    if (city.provinceSlug !== parsed.data.provinceSlug) {
-      return Response.json(
-        {
-          success: false,
-          error: "参数验证失败",
-          details: { citySlug: ["所选城市不属于所选省份"] },
-        },
-        { status: 400 }
-      );
-    }
+
+    // 同步 label（确保 DB label 与 store-regions.ts 一致，避免前端脏数据）
+    parsed.data.provinceLabel = region.label;
+    parsed.data.cityLabel = cityResult.city.label;
 
     const store = await prisma.store.create({
       data: {
