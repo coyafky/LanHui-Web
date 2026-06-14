@@ -3,10 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, MapPin, Menu, X } from "lucide-react";
+import { ChevronDown, MapPin, Menu, MessageCircle, X } from "lucide-react";
 import { brand } from "@/lib/brand";
 import { products } from "@/lib/products";
 import { Logo } from "@/components/Logo";
+import { openWeChatModal } from "@/lib/wechat-modal";
 
 type NavChild = { label: string; href: string };
 type NavItem = {
@@ -281,6 +282,16 @@ export function Header() {
 
           {/* Right side: CTA + Mobile toggle */}
           <div className="flex items-center gap-3">
+            {/* Contact us (desktop) */}
+            <button
+              type="button"
+              onClick={openWeChatModal}
+              className="hidden lg:inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-zinc-200 bg-zinc-900/60 border border-zinc-800 hover:bg-zinc-800 hover:border-zinc-700 transition-colors"
+            >
+              <MessageCircle className="w-4 h-4" />
+              联系我们
+            </button>
+
             {/* CTA (desktop) */}
             <Link
               href="/agent/store/shunde-daliang"
@@ -374,6 +385,17 @@ export function Header() {
 
           {/* Panel footer CTA */}
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/5 bg-zinc-950">
+            <button
+              type="button"
+              onClick={() => {
+                closeMobileMenu();
+                openWeChatModal();
+              }}
+              className="w-full mb-2 inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-base font-medium text-white bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 transition-colors"
+            >
+              <MessageCircle className="w-5 h-5" />
+              联系我们
+            </button>
             <Link
               href="/agent/store/shunde-daliang"
               onClick={closeMobileMenu}
