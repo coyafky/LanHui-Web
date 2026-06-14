@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { organizationSchema } from "@/lib/schema";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
-import { WeChatConsultModal } from "@/components/shared/WeChatConsultModal";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -33,10 +32,7 @@ export default function RootLayout({
             __html: JSON.stringify(organizationSchema()),
           }}
         />
-        <AnalyticsProvider>
-          {children}
-          <WeChatConsultModal />
-        </AnalyticsProvider>
+        <AnalyticsProvider>{children}</AnalyticsProvider>
       </body>
     </html>
   );

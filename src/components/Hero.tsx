@@ -1,10 +1,6 @@
-'use client';
-'use memo';
-
 import Link from "next/link";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import { brand } from "@/lib/brand";
-import { openWeChatModal } from "@/lib/wechat-modal";
 
 export function Hero() {
   return (
@@ -26,30 +22,30 @@ export function Hero() {
             <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
             {brand.en} · 汽车轻改装
           </p>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 leading-tight text-white">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 leading-tight">
             {brand.zh}
+            <br className="hidden md:block" />
+            <span className="bg-gradient-to-r from-blue-400 to-orange-400 bg-clip-text text-transparent">
+              让爱车更有型，也更好用
+            </span>
           </h1>
-          <p className="text-xl md:text-2xl font-bold text-white mb-3 mt-2">
-            源头工厂制造能力,新能源车主一站式升级服务
-          </p>
           <p className="text-lg md:text-xl text-zinc-300 mb-10 leading-relaxed">
-            依托 800 亩制造厂区与轻改产品供应链,蓝辉轻改围绕汽车膜、轮毂、电动踏板、地板总成、改装件等产品,为新能源车主提供车型适配、产品推荐与到店施工服务。
+            专业轻改方案 + 车身膜服务&nbsp;&nbsp;|&nbsp;&nbsp;顺德大良一站式交付
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button
-              type="button"
-              onClick={() => openWeChatModal()}
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 shadow-lg shadow-blue-900/30 transition-colors"
-            >
-              <MessageCircle className="mr-2 w-5 h-5" />
-              添加企业微信咨询车型方案
-            </button>
             <Link
               href="/product"
+              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 shadow-lg shadow-blue-900/30 transition-colors"
+            >
+              浏览产品
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+            <Link
+              href="/agent/store/shunde-daliang"
               className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-lg text-white bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 transition-colors"
             >
-              查看产品中心
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <MapPin className="mr-2 w-5 h-5 text-orange-400" />
+              查看门店
             </Link>
           </div>
         </div>
