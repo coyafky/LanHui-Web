@@ -26,12 +26,16 @@ interface RegionSelectorProps {
 interface City {
   slug: string;
   label: string;
+  code?: string | null;
+  type?: string | null;
   isCapital?: boolean;
 }
 
 interface Region {
   slug: string;
   label: string;
+  code?: string | null;
+  type?: string | null;
   cities: City[];
 }
 
@@ -178,7 +182,7 @@ export function RegionSelector({
     setLoading(true);
     setLoadError(null);
     try {
-      const res = await fetch("/api/store-regions");
+      const res = await fetch("/api/regions");
       const json = (await res.json()) as {
         success: boolean;
         data?: Region[];
