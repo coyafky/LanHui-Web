@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useEffect, useCallback } from "react";
+import { Suspense, useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -95,6 +95,7 @@ function ArticlesPageContent() {
   const [statusFilter, setStatusFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const containerRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const fetchArticles = useCallback(async () => {
     setLoading(true);
@@ -123,14 +124,18 @@ function ArticlesPageContent() {
     fetchArticles();
   }, [fetchArticles]);
 
-  // 点击其他地方关闭菜单
+  // 点击菜单外部关闭
   useEffect(() => {
-    function handleClick() {
-      setOpenMenuId(null);
+    if (!openMenuId) return;
+    function handleClick(e: MouseEvent) {
+      const node = containerRefs.current[openMenuId!];
+      if (node && !node.contains(e.target as Node)) {
+        setOpenMenuId(null);
+      }
     }
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
-  }, []);
+  }, [openMenuId]);
 
   async function handleTogglePublish(article: Article) {
     const newStatus = article.status === "published" ? "draft" : "published";
@@ -323,7 +328,12 @@ function ArticlesPageContent() {
                     </td>
                     <td className="px-4 py-3 text-zinc-400">{article.viewCount}</td>
                     <td className="px-4 py-3 text-right">
-                      <div className="relative inline-block">
+                      <div
+                        ref={(el) => {
+                          containerRefs.current[article.id] = el;
+                        }}
+                        className="relative inline-block"
+                      >
                         <button
                           type="button"
                           onClick={(e) => {
