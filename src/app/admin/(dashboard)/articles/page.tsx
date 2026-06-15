@@ -15,6 +15,8 @@ import {
   ChevronRight,
   Check,
   X,
+  Pin,
+  PinOff,
 } from "lucide-react";
 
 interface Article {
@@ -139,6 +141,24 @@ function ArticlesPageContent() {
     });
     if (res.ok) {
       fetchArticles();
+    } else {
+      const json = await res.json().catch(() => ({}));
+      alert(json.error || `${newStatus === "published" ? "发布" : "退回草稿"}失败`);
+    }
+  }
+
+  async function handleToggleSticky(article: Article) {
+    const newSticky = !article.isSticky;
+    const res = await fetch(`/api/articles/${article.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isSticky: newSticky }),
+    });
+    if (res.ok) {
+      fetchArticles();
+    } else {
+      const json = await res.json().catch(() => ({}));
+      alert(json.error || `${newSticky ? "置顶" : "取消置顶"}失败`);
     }
   }
 
@@ -340,6 +360,23 @@ function ArticlesPageContent() {
                                 <>
                                   <Eye className="h-3.5 w-3.5" />
                                   发布
+                                </>
+                              )}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleToggleSticky(article)}
+                              className="flex w-full items-center gap-2 px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
+                            >
+                              {article.isSticky ? (
+                                <>
+                                  <PinOff className="h-3.5 w-3.5" />
+                                  取消置顶
+                                </>
+                              ) : (
+                                <>
+                                  <Pin className="h-3.5 w-3.5" />
+                                  置顶
                                 </>
                               )}
                             </button>
