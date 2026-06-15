@@ -81,6 +81,13 @@ export async function PUT(
       );
     }
 
+    if (!session.user.id) {
+      return Response.json(
+        { success: false, error: "登录状态异常，请重新登录" },
+        { status: 401 }
+      );
+    }
+
     const { id } = await params;
 
     const existing = await prisma.article.findUnique({ where: { id } });
@@ -171,6 +178,13 @@ export async function DELETE(
       return Response.json(
         { success: false, error: "权限不足，仅管理员可删除文章" },
         { status: 403 }
+      );
+    }
+
+    if (!session.user.id) {
+      return Response.json(
+        { success: false, error: "登录状态异常，请重新登录" },
+        { status: 401 }
       );
     }
 

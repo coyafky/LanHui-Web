@@ -18,7 +18,6 @@ interface ArticleData {
   slug: string;
   excerpt: string | null;
   content: string;
-  featuredImage: string | null;
   category: string | null;
   tags: string[];
   status: string;
@@ -42,7 +41,6 @@ export default function EditArticlePage({
   const [slug, setSlug] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [content, setContent] = useState("");
-  const [featuredImage, setFeaturedImage] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
@@ -64,7 +62,6 @@ export default function EditArticlePage({
         setSlug(article.slug);
         setExcerpt(article.excerpt || "");
         setContent(article.content);
-        setFeaturedImage(article.featuredImage || "");
         setCategory(article.category || "");
         setTags(article.tags);
         setStatus(article.status as "draft" | "published" | "archived");
@@ -104,7 +101,6 @@ export default function EditArticlePage({
           slug,
           excerpt: excerpt || undefined,
           content,
-          featuredImage: featuredImage || null,
           category: category || null,
           tags,
           status,
@@ -118,7 +114,8 @@ export default function EditArticlePage({
         return;
       }
 
-      router.push("/admin/articles");
+      const titleForBanner = encodeURIComponent(title || "文章");
+      router.push(`/admin/articles?updated=${titleForBanner}`);
     } catch {
       setError("网络错误，请重试");
     } finally {
@@ -211,37 +208,23 @@ export default function EditArticlePage({
           />
         </div>
 
-        {/* 封面图 + 分类 */}
-        <div className="grid gap-6 sm:grid-cols-2">
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-zinc-300">
-              封面图 URL
-            </label>
-            <input
-              type="text"
-              value={featuredImage}
-              onChange={(e) => setFeaturedImage(e.target.value)}
-              placeholder="https://example.com/image.jpg"
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-200 placeholder-zinc-600 outline-none focus:border-orange-500"
-            />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-zinc-300">
-              分类
-            </label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-200 outline-none focus:border-orange-500"
-            >
-              <option value="">选择分类</option>
-              {CATEGORIES.map((cat) => (
-                <option key={cat.value} value={cat.value}>
-                  {cat.label}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* 分类 */}
+        <div>
+          <label className="mb-1.5 block text-sm font-medium text-zinc-300">
+            分类
+          </label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-200 outline-none focus:border-orange-500"
+          >
+            <option value="">选择分类</option>
+            {CATEGORIES.map((cat) => (
+              <option key={cat.value} value={cat.value}>
+                {cat.label}
+              </option>
+            ))}
+          </select>
         </div>
 
         {/* 标签 */}

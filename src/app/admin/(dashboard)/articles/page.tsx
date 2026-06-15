@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Plus,
   Search,
@@ -12,6 +13,8 @@ import {
   MoreHorizontal,
   ChevronLeft,
   ChevronRight,
+  Check,
+  X,
 } from "lucide-react";
 
 interface Article {
@@ -56,6 +59,28 @@ const STATUS_OPTIONS = [
 ];
 
 export default function ArticlesPage() {
+  return (
+    <Suspense fallback={<div className="text-zinc-500">加载中...</div>}>
+      <ArticlesPageContent />
+    </Suspense>
+  );
+}
+
+function ArticlesPageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const created = searchParams.get("created");
+  const updated = searchParams.get("updated");
+  const [banner, setBanner] = useState<{ type: "created" | "updated"; title: string } | null>(null);
+
+  useEffect(() => {
+    if (created) {
+      setBanner({ type: "created", title: decodeURIComponent(created) });
+    } else if (updated) {
+      setBanner({ type: "updated", title: decodeURIComponent(updated) });
+    }
+  }, [created, updated]);
+
   const [articles, setArticles] = useState<Article[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
@@ -139,6 +164,25 @@ export default function ArticlesPage() {
 
   return (
     <div>
+      {banner && (
+        <div className="mb-6 flex items-center justify-between rounded-lg border border-emerald-900/50 bg-emerald-950/50 px-4 py-3 text-sm text-emerald-400">
+          <div className="flex items-center gap-2">
+            <Check className="h-4 w-4" />
+            <span>文章 &quot;{banner.title}&quot; {banner.type === "created" ? "创建" : "更新"}成功</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setBanner(null);
+              router.replace("/admin/articles");
+            }}
+            className="text-emerald-400 hover:text-emerald-300"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
       {/* 页头 */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-bold text-zinc-100">文章管理</h1>

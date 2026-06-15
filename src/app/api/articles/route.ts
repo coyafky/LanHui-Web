@@ -103,6 +103,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!session.user.id) {
+      return Response.json(
+        { success: false, error: "登录状态异常，请重新登录" },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const parsed = ArticleCreateSchema.safeParse(body);
     if (!parsed.success) {
