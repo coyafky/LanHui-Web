@@ -45,13 +45,20 @@ const STATUS_MAP: Record<string, { label: string; className: string }> = {
   archived: { label: "已归档", className: "bg-yellow-900/50 text-yellow-400" },
 };
 
-const CATEGORIES = [
-  { value: "", label: "全部分类" },
+// Fallback: 当 /api/articles/categories 请求失败时,使用这份静态列表保证下拉仍可使用。
+// 实际展示以 DB 中实际存在的 category 为准。
+const CATEGORIES_FALLBACK = [
   { value: "新闻", label: "新闻" },
   { value: "行业动态", label: "行业动态" },
   { value: "产品知识", label: "产品知识" },
   { value: "公司公告", label: "公司公告" },
 ];
+
+interface CategoryOption {
+  value: string;
+  label: string;
+  count?: number;
+}
 
 const STATUS_OPTIONS = [
   { value: "", label: "全部状态" },
@@ -94,8 +101,37 @@ function ArticlesPageContent() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const containerRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  // 拉取 DB 实际存在的分类字典(失败时降级为 CATEGORIES_FALLBACK)
+  useEffect(() => {
+    let cancelled = false;
+    async function loadCategories() {
+      try {
+        const res = await fetch("/api/articles/categories");
+        const json = (await res.json()) as {
+          success: boolean;
+          data?: { categories: CategoryOption[] };
+        };
+        if (cancelled) return;
+        if (json.success && json.data) {
+          setCategories(json.data.categories);
+        } else {
+          setCategories(CATEGORIES_FALLBACK);
+        }
+      } catch (err) {
+        if (cancelled) return;
+        console.error("[articles] 加载分类字典失败,使用 fallback", err);
+        setCategories(CATEGORIES_FALLBACK);
+      }
+    }
+    loadCategories();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const fetchArticles = useCallback(async () => {
     setLoading(true);
@@ -257,9 +293,11 @@ function ArticlesPageContent() {
           }}
           className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-orange-500"
         >
-          {CATEGORIES.map((cat) => (
+          <option value="">全部分类</option>
+          {categories.map((cat) => (
             <option key={cat.value} value={cat.value}>
               {cat.label}
+              {typeof cat.count === "number" ? ` (${cat.count})` : ""}
             </option>
           ))}
         </select>

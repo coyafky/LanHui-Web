@@ -1,11 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, X } from "lucide-react";
 
-const CATEGORIES = [
+interface CategoryOption {
+  value: string;
+  label: string;
+  count?: number;
+}
+
+// Fallback: 当 /api/articles/categories 请求失败时,使用这份静态列表保证下拉仍可使用。
+const CATEGORIES_FALLBACK = [
   { value: "新闻", label: "新闻" },
   { value: "行业动态", label: "行业动态" },
   { value: "产品知识", label: "产品知识" },
@@ -28,6 +35,35 @@ export default function NewArticlePage() {
   const [tagInput, setTagInput] = useState("");
   const [status, setStatus] = useState<"draft" | "published">("draft");
   const [isSticky, setIsSticky] = useState(false);
+  const [categories, setCategories] = useState<CategoryOption[]>([]);
+
+  // 拉取 DB 实际存在的分类字典(失败时降级为 CATEGORIES_FALLBACK)
+  useEffect(() => {
+    let cancelled = false;
+    async function loadCategories() {
+      try {
+        const res = await fetch("/api/articles/categories");
+        const json = (await res.json()) as {
+          success: boolean;
+          data?: { categories: CategoryOption[] };
+        };
+        if (cancelled) return;
+        if (json.success && json.data) {
+          setCategories(json.data.categories);
+        } else {
+          setCategories(CATEGORIES_FALLBACK);
+        }
+      } catch (err) {
+        if (cancelled) return;
+        console.error("[new article] 加载分类字典失败,使用 fallback", err);
+        setCategories(CATEGORIES_FALLBACK);
+      }
+    }
+    loadCategories();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // 标题变化时自动生成 slug
   function handleTitleChange(value: string) {
@@ -184,9 +220,10 @@ export default function NewArticlePage() {
             className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-200 outline-none focus:border-orange-500"
           >
             <option value="">选择分类</option>
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <option key={cat.value} value={cat.value}>
                 {cat.label}
+                {typeof cat.count === "number" ? ` (${cat.count})` : ""}
               </option>
             ))}
           </select>
