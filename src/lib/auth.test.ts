@@ -1,4 +1,14 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+
+vi.mock("@/lib/prisma", () => ({
+  prisma: {
+    user: {
+      findUnique: vi.fn(),
+    },
+  },
+}));
+
+import { prisma } from "@/lib/prisma";
 import { jwtCallback, sessionCallback } from "./auth-callbacks";
 
 describe("auth — jwt callback", () => {
@@ -51,5 +61,69 @@ describe("auth — session callback", () => {
       token: { id: "user_1", role: "admin" },
     });
     expect(result).toBe(session);
+  });
+});
+
+describe("jwt callback — stale token migration", () => {
+  beforeEach(() => {
+    vi.mocked(prisma.user.findUnique).mockReset();
+  });
+
+  it("migrates stale token lacking id by looking up user by email", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+      id: "user-1",
+      role: "admin",
+    } as never);
+
+    const result = await jwtCallback({
+      token: { email: "admin@lanhui.com", role: "admin" },
+      user: undefined,
+    });
+
+    expect(result.id).toBe("user-1");
+    expect(result.role).toBe("admin");
+    expect(prisma.user.findUnique).toHaveBeenCalledWith({
+      where: { email: "admin@lanhui.com" },
+      select: { id: true, role: true },
+    });
+  });
+
+  it("does not query DB when token already has id (no migration needed)", async () => {
+    const result = await jwtCallback({
+      token: { id: "user-1", email: "x@x.com", role: "admin" },
+      user: undefined,
+    });
+
+    expect(result.id).toBe("user-1");
+    expect(prisma.user.findUnique).not.toHaveBeenCalled();
+  });
+
+  it("silently passes through when DB lookup returns null (user deleted)", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValueOnce(null);
+
+    const result = await jwtCallback({
+      token: { email: "deleted@x.com" },
+      user: undefined,
+    });
+
+    expect(result.id).toBeUndefined();
+  });
+
+  it("falls back to sub lookup when email is absent", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+      id: "user-2",
+      role: "editor",
+    } as never);
+
+    const result = await jwtCallback({
+      token: { sub: "user-2" },
+      user: undefined,
+    });
+
+    expect(result.id).toBe("user-2");
+    expect(prisma.user.findUnique).toHaveBeenCalledWith({
+      where: { id: "user-2" },
+      select: { id: true, role: true },
+    });
   });
 });
