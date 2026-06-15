@@ -12,10 +12,10 @@ export async function GET(
   try {
     const { id } = await params;
 
-    // 先尝试按 ID 查询，如果 id 不是 cuid 格式则按 slug 查询
-    const isCuid = id.startsWith("cl") && id.length > 20;
+    // 同时按 id 和 slug 查询（cuid 走 id 分支，slug 走 slug 分支）
+    // Prisma 7 对 OR 中的非 cuid 格式 id 会静默跳过该分支，不抛 P2023
     const article = await prisma.article.findFirst({
-      where: isCuid ? { id } : { slug: id },
+      where: { OR: [{ id }, { slug: id }] },
       include: {
         author: {
           select: { id: true, name: true },

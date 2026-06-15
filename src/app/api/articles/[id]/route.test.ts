@@ -85,7 +85,9 @@ describe("GET /api/articles/[id]", () => {
     // viewCount 在响应中 +1
     expect(json.data.viewCount).toBe(6);
     expect(mockPrisma.article.findFirst).toHaveBeenCalledWith(
-      expect.objectContaining({ where: { id: CUID_ID } })
+      expect.objectContaining({
+        where: { OR: expect.arrayContaining([{ id: CUID_ID }, { slug: CUID_ID }]) },
+      })
     );
     expect(mockPrisma.article.update).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -105,7 +107,9 @@ describe("GET /api/articles/[id]", () => {
     );
     expect(res.status).toBe(200);
     expect(mockPrisma.article.findFirst).toHaveBeenCalledWith(
-      expect.objectContaining({ where: { slug: SLUG_ID } })
+      expect.objectContaining({
+        where: { OR: expect.arrayContaining([{ id: SLUG_ID }, { slug: SLUG_ID }]) },
+      })
     );
   });
 
@@ -146,6 +150,82 @@ describe("GET /api/articles/[id]", () => {
       { params: Promise.resolve({ id: CUID_ID }) }
     );
     expect(res.status).toBe(200);
+  });
+
+  // ===== 回归测试：真实 Prisma cuid 格式（cm 前缀）=====
+  // 真实数据：cmq7f2na60000oig6vigpzqll, cmq7f2nac0001oig65aprfskm
+  // bug 根因：旧 isCuid 检查写的是 startsWith("cl")，对 cm 开头的真实 cuid 永远 false
+  it("[回归] 真实格式 cuid (cm 前缀) → 200 + data.id 匹配", async () => {
+    const REAL_CUID = "cmq7f2na60000oig6vigpzqll";
+    const article = { ...existingArticle, id: REAL_CUID, status: "published" };
+    mockPrisma.article.findFirst.mockResolvedValue(article);
+    mockPrisma.article.update.mockResolvedValue({ ...article, viewCount: article.viewCount + 1 });
+    const { GET } = await loadRoute();
+    const res = await GET(
+      buildReq({}) as unknown as Parameters<typeof GET>[0],
+      { params: Promise.resolve({ id: REAL_CUID }) }
+    );
+    expect(res.status).toBe(200);
+    const json = (await res.json()) as { success: boolean; data: { id: string } };
+    expect(json.success).toBe(true);
+    expect(json.data.id).toBe(REAL_CUID);
+    // OR 查询应同时尝试 id 和 slug 两路
+    expect(mockPrisma.article.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { OR: [{ id: REAL_CUID }, { slug: REAL_CUID }] },
+      })
+    );
+  });
+
+  it("[回归] slug 格式 id (不以 cl/cm 开头) → 200 + author 关联", async () => {
+    const SLUG = "brand-website-launch";
+    const article = { ...existingArticle, id: "cmrealarticleid00000000", slug: SLUG, status: "published" };
+    mockPrisma.article.findFirst.mockResolvedValue(article);
+    mockPrisma.article.update.mockResolvedValue({ ...article, viewCount: article.viewCount + 1 });
+    const { GET } = await loadRoute();
+    const res = await GET(
+      buildReq({}) as unknown as Parameters<typeof GET>[0],
+      { params: Promise.resolve({ id: SLUG }) }
+    );
+    expect(res.status).toBe(200);
+    const json = (await res.json()) as { success: boolean; data: { id: string; author: { id: string } } };
+    expect(json.success).toBe(true);
+    expect(json.data.author.id).toBe("user_admin_1");
+  });
+
+  it("不存在的 id (任意格式) → 404 + 文章不存在", async () => {
+    const GHOST_ID = "cmghost00000000000000000";
+    mockPrisma.article.findFirst.mockResolvedValue(null);
+    const { GET } = await loadRoute();
+    const res = await GET(
+      buildReq({}) as unknown as Parameters<typeof GET>[0],
+      { params: Promise.resolve({ id: GHOST_ID }) }
+    );
+    expect(res.status).toBe(404);
+    const json = (await res.json()) as { success: boolean; error?: string };
+    expect(json.success).toBe(false);
+    expect(json.error).toBe("文章不存在");
+    expect(mockPrisma.article.update).not.toHaveBeenCalled();
+  });
+
+  it("[OR 验证] 真实 cuid 调用 findFirst 时 where 为 OR 数组", async () => {
+    const REAL_CUID = "cmq7f2nac0001oig65aprfskm";
+    const article = { ...existingArticle, id: REAL_CUID, status: "published" };
+    mockPrisma.article.findFirst.mockResolvedValue(article);
+    mockPrisma.article.update.mockResolvedValue(article);
+    const { GET } = await loadRoute();
+    await GET(
+      buildReq({}) as unknown as Parameters<typeof GET>[0],
+      { params: Promise.resolve({ id: REAL_CUID }) }
+    );
+    // 验证调用形状：OR 数组应同时含 id 和 slug 分支
+    const callArg = mockPrisma.article.findFirst.mock.calls[0]?.[0] as
+      | { where: { OR: Array<Record<string, string>> } }
+      | undefined;
+    expect(callArg).toBeDefined();
+    expect(callArg?.where.OR).toHaveLength(2);
+    expect(callArg?.where.OR[0]).toEqual({ id: REAL_CUID });
+    expect(callArg?.where.OR[1]).toEqual({ slug: REAL_CUID });
   });
 });
 
