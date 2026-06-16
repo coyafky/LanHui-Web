@@ -12,8 +12,8 @@
 | 2. 数据层 | ✅ 完成 | ✓ | ✓ | ✓ | ✓ | ✓ `6fe744b` |
 | 3. CI 脚本 | ✅ 完成 | ✓ | ✓ | ✓ | ✓ | ✓ `e37c348` |
 | 4. 5 个组件 | ✅ 完成 | ✓ | ✓ | ✓ | ✓ | ✓ `3d67843` |
-| 5. 页面 + 入口 | ✅ 完成 | ✓ | ✓ | ✓ | ✓ | ⏸ 待提交 |
-| 6. 验证 + 合并 | 未启动 | | | | | |
+| 5. 页面 + 入口 | ✅ 完成 | ✓ | ✓ | ✓ | ✓ | ✓ `b64fd04` |
+| 6. 验证 + 合并 | 进行中 | ✓ | ✓ | ✓ | ✓ | ⏸ |
 
 ## 子任务 1 — 图片迁移(已完成 GREEN)
 
@@ -84,3 +84,103 @@ chore(zeekr): migrate 21 product images to ASCII slug paths per PRD v2.0 §8.3
 ## 下一步
 
 提交 Subtask 1 → 进入子任务 2(数据层 `src/lib/zeekr-products.ts`)。
+
+---
+
+## 子任务 2-5 摘要(已完成,详见各自 commit message)
+
+### 子任务 2 数据层 (commit `6fe744b`)
+
+- `src/lib/zeekr-products.ts` 23 条产品行(9X 16 + 8X 6 + 009 1)
+- 字面量类型:`ZeekrImageWidth=1448` / `ZeekrImageHeight=1086` / `ZeekrImageAspectRatio="4/3"` / `ZeekrTopicMeta.totalProducts=23` / `totalModels=3`
+- 3 态 imageStatus: 20 matched + 1 pending-review(9X 行 15)+ 2 missing(9X 行 8/9)
+- name vs rawName 清洗规则(冰箱垃圾桶按压款 / 尾箱垫7件套 / 挡泥板+内衬6件套)
+- 36 测试覆盖结构 / 状态分布 / 字面量 / 名称清洗
+
+### 子任务 3 CI 脚本 (commit `e37c348`)
+
+- `scripts/verify-zeekr-images.mjs`: 6 校验项(像素/比例/命名/大小/路径/总数=21)
+- `package.json` 加 `verify:zeekr-images`,串入 `check` 链
+- 3 个集成测试(子进程调用 + 注入失败)
+
+### 子任务 4 五个组件 (commit `3d67843`)
+
+- `ZeekrAnchorNav` (Client) sticky desktop nav
+- `ZeekrProductCard` (Client) 3 态 imageStatus UI
+  - matched: Next/Image + aspect-[4/3] + object-contain + sizes
+  - pending-review: 同上 + 左上角"待复核"角标
+  - missing: 虚线降级容器 + ImageIcon
+- `ZeekrProductGrid` (Server) 1/2/3/4 列响应式
+- `ZeekrProductTable` (Server) 23 行列表,3 态徽章
+- `ZeekrTopicBanner` (Server) /product 入口,orange 主题
+
+### 子任务 5 页面 + 入口 (commit `b64fd04`)
+
+- `src/app/product/zeekr/page.tsx`: RSC 页面
+  - Hero (orange 主题,极氪改装专题)
+  - 3 个车型分组 section (9X/8X/009)
+  - 服务流程 4 步
+  - 底部 CTA + JSON-LD ItemList
+- `src/app/product/page.tsx` 在 <WenjieTopicBanner /> 后追加 <ZeekrTopicBanner />
+- `public/images/products/zeekr/preview.png` 9X 01-table 占位图(待补 3 车型拼图)
+- verify 脚本扫描范围限定为 zeekr/{9x,8x,009}/ 三个子目录(跳过根目录 meta 资源)
+
+---
+
+## 子任务 6 验证
+
+### 全量检查链
+
+| 命令 | 结果 |
+| --- | --- |
+| `npm run lint` | ✅ 0 errors, 11 pre-existing warnings(全在非 zeekr 文件) |
+| `npm run typecheck` | ⚠ 12 pre-existing errors(analytics.test.ts, route.test.ts, news/[slug]/page.tsx 等),zeekr 0 新增 |
+| `npm run verify:zeekr-images` | ✅ 21 个文件全部通过 |
+| `npm run build` | ✅ 成功,/product/zeekr 加入静态路由 |
+| `npx vitest run` | ✅ 220 tests,216 passed(4 pre-existing articles 测试 fail,与 zeekr 无关) |
+
+注:`npm run check` 因 pre-existing typecheck 错误阻断,但 lint/verify/build 三项独立运行均通过。
+
+### 视觉验证(4 张截图,见 `docs/test-reports/zeekr-screenshots/`)
+
+| 页面 | 视口 | 文件 |
+| --- | --- | --- |
+| /product | 1440×900 | product.desktop-1440.png |
+| /product/zeekr | 1440×900 | product-zeekr.desktop-1440.png |
+| /product | 390×844 | product.mobile-390.png |
+| /product/zeekr | 390×844 | product-zeekr.mobile-390.png |
+
+肉眼检查(zeekr 桌面):
+- Hero 显示"极氪改装专题"标题 + orange 主题渐变
+- 3 个车型分组 section 正常显示
+- 9X 行 1-7、10-14、16 显示图片;行 8(挡泥板+内衬6件套)、行 9(双层脚垫)显示虚线占位;行 15(后备箱储物盒)显示图片 + 左上"待复核"角标
+- 8X 6 款全显示图片
+- 009 1 款全显示图片
+- 表格 23 行齐全,3 态徽章颜色正确(绿/琥珀/灰)
+- 服务流程 4 步正常
+- 底部 CTA + 合规说明
+
+### 回归检查
+
+| 路由 | HTTP | 备注 |
+| --- | --- | --- |
+| /product | 200 | 含 ZEEKR TOPIC banner,顺序 XIAOMI → WENJIE → ZEEKR → FLOORING |
+| /product/wenjie | 200 | 无回归 |
+| /product/xiaomi | 200 | 无回归 |
+| /product/flooring | 200 | 无回归 |
+| /product/window-film | 200 | 无回归 |
+| /product/zeekr | 200 | 新增路由,静态化成功 |
+
+## 最终提交
+
+Subtask 6 commit 信息(待提交):
+```
+chore(zeekr): add build report + visual verification artifacts
+
+- docs/test-reports/ZEEKR_BUILD_REPORT_2026-06-16.md (final)
+- docs/test-reports/zeekr-screenshots/ (4 PNG)
+- scripts/screenshot-zeekr.mjs (reproducible screenshot script)
+```
+
+→ 之后 --no-ff merge worktree-agent-zeekr-v2 → main,merge commit message:
+`feat(zeekr): implement zeekr modification topic page per PRD v2.0 (cite ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md)`
