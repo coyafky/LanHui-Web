@@ -107,20 +107,27 @@ async function main() {
     fatal(`目录不存在: ${SCAN_ROOT}`);
   }
 
-  // 递归收集 zeekr/ 下所有 png/jpg/jpeg
+  // 只扫描 zeekr/{9x,8x,009}/ 三个产品子目录,跳过根目录(如 preview.png 等 meta 资源)
   /** @type {string[]} */
   const files = [];
-  function walk(dir) {
-    for (const entry of readdirSync(dir, { withFileTypes: true })) {
-      const p = join(dir, entry.name);
-      if (entry.isDirectory()) {
-        walk(p);
-      } else if (/\.(png|jpe?g)$/i.test(entry.name)) {
-        files.push(p);
+  for (const sub of ALLOWED_SUBDIRS) {
+    const subPath = join(SCAN_ROOT, sub);
+    if (!existsSync(subPath)) {
+      fail(SCAN_ROOT, `缺少必需子目录: ${sub}/`);
+      continue;
+    }
+    function walk(dir) {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const p = join(dir, entry.name);
+        if (entry.isDirectory()) {
+          walk(p);
+        } else if (/\.(png|jpe?g)$/i.test(entry.name)) {
+          files.push(p);
+        }
       }
     }
+    walk(subPath);
   }
-  walk(SCAN_ROOT);
 
   if (files.length !== EXPECTED_TOTAL) {
     fail(

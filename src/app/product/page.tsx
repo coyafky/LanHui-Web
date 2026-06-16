@@ -7,6 +7,7 @@ import { products, productGroups, PRODUCT_ICON_MAP } from "@/lib/products";
 import type { Product } from "@/lib/products";
 import { XiaomiTopicBanner } from "@/components/xiaomi/XiaomiTopicBanner";
 import { WenjieTopicBanner } from "@/components/wenjie/WenjieTopicBanner";
+import { ZeekrTopicBanner } from "@/components/zeekr/ZeekrTopicBanner";
 import { FlooringTopicBanner } from "@/components/product/FlooringTopicBanner";
 
 export const metadata: Metadata = {
@@ -53,6 +54,7 @@ export default function ProductCenter() {
             <div className="space-y-4 md:space-y-6">
               <XiaomiTopicBanner />
               <WenjieTopicBanner />
+              <ZeekrTopicBanner />
               <FlooringTopicBanner />
             </div>
           </div>
