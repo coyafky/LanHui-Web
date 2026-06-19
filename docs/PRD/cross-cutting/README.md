@@ -7,12 +7,14 @@
 | 主题 | 子 PRD | 状态 |
 |---|---|---|
 | **全站审计与回归** (Lighthouse + 视觉 + e2e) | [AUDIT_AND_REGRESSION_PRD_2026-06-19.md](./AUDIT_AND_REGRESSION_PRD_2026-06-19.md) | 🟢 v1 (21 个 P0/P1/P2 任务) |
+| **架构决策记录** (ADR 体系) | [ADR_PRD_2026-06-20.md](./ADR_PRD_2026-06-20.md) | 🟢 v1 (414 行,5 个 ADR 草案) |
+| **部署 Runbook** | [DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md](./DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md) | 🟢 v1 (605 行,P3005 修复 + 3 类回滚) |
+| **安全审计** (OWASP Top 10) | [SECURITY_AUDIT_PRD_2026-06-20.md](./SECURITY_AUDIT_PRD_2026-06-20.md) | 🟢 v1 (654 行,14 项加固 + 60+ 渗透测试) |
+| **性能优化** (Lighthouse 基线) | [PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md](./PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md) | 🟢 v1 (590 行,5 P1 + 7 P2 + 18 路由预算) |
 
-## 计划
+## 完成度
 
-- **ADR 文档体系** (Architecture Decision Records) — 关键架构决策的"为什么"
-- **发布/部署 Runbook** — 部署前 checklist
-- **安全审计** — OWASP Top 10 检查清单
+**5/5 子 PRD 已建 (100%)**
 
 ## 子 PRD 模板
 
