@@ -92,8 +92,16 @@ function extractWindowFilmSlugs(limit = 2) {
 }
 
 async function fetchStoreIds(baseUrl) {
+  return fetchGenericIds(baseUrl, "/api/stores");
+}
+
+async function fetchArticleIds(baseUrl) {
+  return fetchGenericIds(baseUrl, "/api/articles");
+}
+
+async function fetchGenericIds(baseUrl, apiPath) {
   try {
-    const res = await fetch(`${baseUrl.replace(/\/$/, "")}/api/stores`, {
+    const res = await fetch(`${baseUrl.replace(/\/$/, "")}${apiPath}`, {
       signal: AbortSignal.timeout(3000),
     });
     if (!res.ok) return [{ skipped: "http-error" }];
@@ -179,11 +187,43 @@ export async function collectRoutes({
   }
 
   if (withAdmin) {
+    // ── Admin 公开页(无需登录)──
     out.push({ path: "/admin/login",      label: "admin-login",      kind: "static", requiresAdmin: false });
-    out.push({ path: "/admin/dashboard",  label: "admin-dashboard",  kind: "static", requiresAdmin: true  });
+
+    // ── Admin dashboard 静态页(需登录)──
+    out.push({ path: "/admin",            label: "admin-index",      kind: "static", requiresAdmin: true  });
     out.push({ path: "/admin/analytics",  label: "admin-analytics",  kind: "static", requiresAdmin: true  });
     out.push({ path: "/admin/stores",     label: "admin-stores",     kind: "static", requiresAdmin: true  });
+    out.push({ path: "/admin/stores/new", label: "admin-stores-new", kind: "static", requiresAdmin: true  });
     out.push({ path: "/admin/articles",   label: "admin-articles",   kind: "static", requiresAdmin: true  });
+    out.push({ path: "/admin/articles/new", label: "admin-articles-new", kind: "static", requiresAdmin: true  });
+
+    // ── Admin 动态页(从 /api 取真实 ID)──
+    if (withDynamic) {
+      const storeIds = await fetchStoreIds(baseUrl);
+      for (const item of storeIds) {
+        if (item.skipped) {
+          out.push({ path: "/admin/stores/placeholder", label: "admin-stores-id", kind: "static", requiresAdmin: true, status: `skipped:${item.skipped}` });
+          out.push({ path: "/admin/stores/placeholder/image", label: "admin-stores-id-image", kind: "static", requiresAdmin: true, status: `skipped:${item.skipped}` });
+        } else {
+          out.push({ path: `/admin/stores/${item.slug}`, label: `admin-stores-id-${item.slug}`, kind: "static", requiresAdmin: true });
+          out.push({ path: `/admin/stores/${item.slug}/image`, label: `admin-stores-id-${item.slug}-image`, kind: "static", requiresAdmin: true });
+        }
+      }
+
+      const articleIds = await fetchArticleIds(baseUrl);
+      for (const item of articleIds) {
+        if (item.skipped) {
+          out.push({ path: "/admin/articles/placeholder", label: "admin-articles-id", kind: "static", requiresAdmin: true, status: `skipped:${item.skipped}` });
+        } else {
+          out.push({ path: `/admin/articles/${item.slug}`, label: `admin-articles-id-${item.slug}`, kind: "static", requiresAdmin: true });
+        }
+      }
+    } else {
+      out.push({ path: "/admin/stores/placeholder",       label: "admin-stores-id",        kind: "static", requiresAdmin: true, status: "skipped:dynamic-disabled" });
+      out.push({ path: "/admin/stores/placeholder/image", label: "admin-stores-id-image",  kind: "static", requiresAdmin: true, status: "skipped:dynamic-disabled" });
+      out.push({ path: "/admin/articles/placeholder",     label: "admin-articles-id",      kind: "static", requiresAdmin: true, status: "skipped:dynamic-disabled" });
+    }
   }
 
   return out;

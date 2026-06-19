@@ -187,4 +187,141 @@
 - `src/app/news/[slug]/page.tsx:94` 引用 `item.content` 字段不存在(commit 0b8f38c)→ **P0-1a 修**
 - `npx tsc --noEmit` 9 个预存错位于 `src/app/api/analytics/stats/route.test.ts` 和 `src/lib/analytics.test.ts`
 - `src/app/api/stores/[id]/route.ts` 3 个 `RouteContext` 错(2026-06-15 后新增,未在 CLAUDE.md 预存清单中,建议下次清理)
+
+---
+
+## 12. /admin 后台补做审计(2026-06-19 16:21)
+
+> 触发:Coya 反馈"现在你只是对前台页面进行了测试,但是还有后台管理系统的页面的话,你没有进行pray"(speech-to-text 把"play"识别为"pray")。
+> 范围:`/admin/*` 全部 10 个路由(1 公开 + 9 需登录)+ 3 视口截图。
+> 方法:复用首轮 audit 脚本(`screenshot-all.mjs` + `lighthouse-run.mjs` + `e2e/audit-full-site.spec.ts`),新增 `--with-admin` / `--with-lighthouse-admin` / `PLAYWRIGHT_ADMIN_*` env 标志。
+
+### 12.1 Admin 路由覆盖
+
+| 路由 | 类型 | 截图 | 状态 | 备注 |
+|---|---|---|---|---|
+| /admin/login | 公开 | ✓ 3 视口 | 200 | login form |
+| /admin | 需登录 | ✓ 3 视口 | 200 | dashboard(KPI + 图表) |
+| /admin/analytics | 需登录 | ✓ 3 视口 | 200 | 数据分析 |
+| /admin/stores | 需登录 | ✓ 3 视口 | 200 | 门店列表(22 条) |
+| /admin/stores/new | 需登录 | ✓ 3 视口 | 200 | 新建门店表单 |
+| /admin/stores/{id} | 需登录 | ✓ 3 视口 | 200 | 真实 ID 编辑 |
+| /admin/stores/{id}/image | 需登录 | ✓ 3 视口 | 200 | 图片上传 |
+| /admin/articles | 需登录 | ✓ 3 视口 | 200 | 文章列表(8 已发布 + 1 草稿) |
+| /admin/articles/new | 需登录 | ✓ 3 视口 | 200 | 新建文章表单 |
+| /admin/articles/{id} | 需登录 | ✓ 3 视口 | 200 | 真实 ID 编辑 |
+
+**截图合计:** 30 张(desktop/tablet/mobile × 10 路由)
+**脚本输出:** `docs/audits/screenshots/admin/{desktop,tablet,mobile}/*.png` + `INDEX.md` admin 区
+**详细评估:** `docs/audits/visual/admin__{login,dashboard,stores,articles,analytics}.md`
+
+### 12.2 Admin 关键发现 TL;DR
+
+#### P0(2 类问题,影响公开站数据完整性)
+
+**P0-6:测试门店数据污染生产 DB(22 条全草稿)**
+- `/admin/stores` 列表显示 22 条门店,**全部标记"草稿"** + **店名是 ASCII 噪声**:`TC A1-phonetic` / `ssdd` / `ES Test 7` / `Plszhonggu 智能 57 6` / `草莓数据 7` / `7试w 7层` / `7电试7 8...`
+- `/api/stores` 公共查询未过滤 status → 公开 `/agent` 列表展示这些测试数据,SEO 风险
+- 修复路径:①清理所有非真实门店 ②`prisma/seed.ts` 不再创建 store ③`/api/stores` 公共查询加 `WHERE status = 'published'`
+
+**P0-7:`/news/[slug]` 详情页全部 404**
+- `src/app/news/[slug]/page.tsx:94` 引用 `item.content` 但 `NewsItem` 类型无此字段(commit 0b8f38c,pre-existing)
+- 8 条已发布文章全部不可达(列表/详情数据完全脱节)
+- 修复路径:`src/types/news.ts` 加 `content: string` + 静态数据补 content 字段
+
+#### P1(8 类问题)
+
+| ID | 描述 | 证据 |
+|---|---|---|
+| P1-6 | 登录失败无错误文案回显 | bad creds 后页面停留但无任何提示 |
+| P1-7 | Dashboard 文章分类 Top 5 未过滤草稿 | "8 已发布 + 1 草稿" vs "Top 5 总 9" 自相矛盾 |
+| P1-8 | 整站预约埋点 0 | 692 PV 但 0 预约 + 0 click |
+| P1-9 | 店名 ASCII 噪声(TC / SS / Plszhonggu 等) | stores 截图明显 |
+| P1-10 | `分页测试 #1/#2/#3` 测试数据未清 | articles 截图 |
+| P1-11 | `Playwright 测试文章` 残留 | articles 截图 |
+| P1-12 | 事件类型严重失衡:695 PV vs ~5 click | analytics 截图柱状图 |
+| P1-13 | 热门门店 Top 10 完全空 | analytics 截图 |
+
+#### P2(3 类问题)
+
+| ID | 描述 |
+|---|---|
+| P2-3 | 登录页缺"忘记密码"入口(内网定位暂可接受,生产前改 seed 密码) |
+| P2-4 | analytics 折线图日期不连续(跳日显示而非 0) |
+| P2-4b | 所有文章作者 = "系统管理员"(NewsItem 无 authorId 字段) |
+
+### 12.3 Admin 测试验证
+
+#### 登录守卫(3/3 通过)
+
+| 用例 | 期望 | 结果 |
+|---|---|---|
+| `/admin/login` 不需登录可访问 | 200 + 表单可见 | ✅ |
+| 正确凭据登录跳 `/admin` | 跳转 + cookie 持久 | ✅ |
+| 错误密码停留 login 页 | URL 不变 | ✅(但无错误文案) |
+| 未登录访问 `/admin` | 重定向 `/admin/login` | ✅ |
+
+#### 9 dashboard 路由(9/9 通过)
+
+| 路由 | h1 可见 | 标题非空 | 200 |
+|---|---|---|---|
+| /admin | ✓ 仪表盘 | ✓ | ✓ |
+| /admin/analytics | ✓ 数据分析 | ✓ | ✓ |
+| /admin/stores | ✓ 门店管理 | ✓ | ✓ |
+| /admin/stores/new | ✓ 新建门店 | ✓ | ✓ |
+| /admin/articles | ✓ 文章管理 | ✓ | ✓ |
+| /admin/articles/new | ✓ 新建文章 | ✓ | ✓ |
+| /admin/stores/{id} | ✓ 编辑门店 | ✓ | ✓ |
+| /admin/stores/{id}/image | ✓ | ✓ | ✓ |
+| /admin/articles/{id} | ✓ 编辑文章 | ✓ | ✓ |
+
+#### 控制台 0 error(1/1 通过)
+
+登录后访问 `/admin` → networkidle → console errors 数组为空 ✅
+
+### 12.4 Admin 关键文件
+
+| 文件 | 作用 |
+|---|---|
+| `src/app/admin/login/page.tsx` | 登录页 |
+| `src/app/admin/layout.tsx` | 外层 layout(无 auth) |
+| `src/app/admin/(dashboard)/layout.tsx` | 内层 layout(auth 守卫) |
+| `src/app/admin/(dashboard)/page.tsx` | 仪表盘(KPI + 图表) |
+| `src/app/admin/(dashboard)/{analytics,stores,articles}/*` | 4 模块 |
+| `src/components/admin/{Sidebar,DashboardKpiCards,DashboardContentHealth,...}` | 9+ 组件 |
+| `src/lib/admin-dashboard.ts` | `getDashboardSummary()` 含 KPI 计算 |
+| `src/lib/auth.ts` | NextAuth v5 + Credentials + JWT |
+
+### 12.5 复用 vs 新增
+
+| 项 | 复用首轮 | 本次新增 |
+|---|---|---|
+| `screenshot-all.mjs` | ✓ 框架 | `--with-admin` flag + admin 输出子目录 + loginAsAdmin helper |
+| `lighthouse-run.mjs` | ✓ 框架 | `--with-lighthouse-admin` flag(默认排除 /admin) |
+| `collect-routes.mjs` | ✓ 框架 | `fetchArticleIds` + `fetchGenericIds` + 7 admin 静态路由 + 4 动态路由 |
+| `e2e/audit-full-site.spec.ts` | ✓ 公开套件 | + 4 个 admin 套件(login/auth guard/dashboard 9 页/no console error) |
+
+### 12.6 /admin 后续 /build 任务
+
+- [ ] **B5:清理测试门店 + /api/stores 加 status='published' 过滤**(P0-6)
+- [ ] **B6:修复 /news/[slug] item.content 缺失**(P0-7,pre-existing)
+- [ ] **B7:全站 Button/Link 自动 click 埋点**(P1-12)
+- [ ] **B8:/agent/store/[id] 加 store_view 埋点 + 修 topStores 查询**(P1-13)
+- [ ] **B9:analytics 折线图日期连续显示**(P2-4)
+- [ ] **B10:新建门店表单加实时字段校验(禁止纯 ASCII 噪声)**(P1-9)
+- [ ] **B11:stores/articles 列表加批量操作(checkbox + 批量下架/删除)**(P2-5)
+- [ ] **B12:清理文章"分页测试 #1/#2/#3"和"Playwright 测试文章"**(P1-10/11)
+- [ ] **B13:NewsItem schema 加 authorId 字段,接 session.user.id**(P2-4b)
+- [ ] **B14:登录页加失败文案回显(alert role)**(P1-6)
+- [ ] **B15:Dashboard getDashboardSummary 加 status='published' 过滤**(P1-7)
+
+### 12.7 复跑回归
+
+修完 B5-B15 后,跑:
+```bash
+# 0 P0,≤ 5 P1,Lighthouse /admin 全 80+
+node scripts/audit/screenshot-all.mjs --with-admin
+node scripts/audit/lighthouse-run.mjs --with-lighthouse-admin
+npx playwright test e2e/audit-full-site.spec.ts -g admin
+```
 - `npm run build` 在缺 Postgres 时 OK,有 Postgres 也 OK(SSG 优先)
