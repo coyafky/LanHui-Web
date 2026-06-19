@@ -10,18 +10,19 @@
 | `/product/electric-steps` | [ELECTRIC_STEPS_PRD_2026-06-20.md](./ELECTRIC_STEPS_PRD_2026-06-20.md) | 🟢 v1 (236 行) |
 | `/product/wheels` | [WHEELS_PRD_2026-06-20.md](./WHEELS_PRD_2026-06-20.md) | 🟢 v1 (232 行) |
 | `/product/chassis` | [CHASSIS_PRD_2026-06-20.md](./CHASSIS_PRD_2026-06-20.md) | 🟢 v1 (230 行) |
-| `/product/window-film` `/[packageSlug]` | (待补 v1) | ⚪ (v0 已归档) |
+| `/product/window-film` `/[packageSlug]` | [WINDOW_FILM_TOPIC_PRD_2026-06-20.md](./WINDOW_FILM_TOPIC_PRD_2026-06-20.md) | 🟢 v1 (501 行, 2026-06-20 批 3) |
 | `/product/color-film` | [COLOR_FILM_PRD_2026-06-20.md](./COLOR_FILM_PRD_2026-06-20.md) | 🟢 v1 (282 行) |
 | `/product/ppf` | [PPF_PRD_2026-06-20.md](./PPF_PRD_2026-06-20.md) | 🟢 v1 (293 行) |
-| `/product/wenjie` (问界) | (待补 v1) | ⚪ (v0 已归档) |
-| `/product/xiaomi` (小米 SU7) | (待补 v1) | ⚪ (v0 已归档) |
+| `/product/wenjie` (问界) | [WENJIE_TOPIC_PRD_2026-06-20.md](./WENJIE_TOPIC_PRD_2026-06-20.md) | 🟢 v1 (616 行, 2026-06-20 批 3) |
+| `/product/xiaomi` (小米 SU7) | [XIAOMI_TOPIC_PRD_2026-06-20.md](./XIAOMI_TOPIC_PRD_2026-06-20.md) | 🟢 v1 (614 行, 2026-06-20 批 3) |
 | `/product/zeekr` (极氪) | [ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md](./ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md) | 🟢 v1 (canonical,2026-06-16 合并) |
-| `/product/flooring` (木地板) | (待补 v1) | ⚪ (v0 已归档) |
+| `/product/flooring` (木地板) | [FLOORING_TOPIC_PRD_2026-06-20.md](./FLOORING_TOPIC_PRD_2026-06-20.md) | 🟢 v1 (698 行, 2026-06-20 批 3) |
 
 ## 完成度
 
-- 6/11 子 PRD v1 已建(其中 1 = ZEEKR canonical 2026-06-16,5 = 2026-06-20 批 2 新写)
-- 5/11 待补(window-film / wenjie / xiaomi / flooring 待写,4 个 v0 已归档)
+- **11/11 子 PRD v1 已建 (100%)** ✅
+- 1 = ZEEKR canonical 2026-06-16,10 = 2026-06-20 批 2+3 新写
+- 4 个 v0 已归档 (FLOORING / WENJIE / XIAOMI / WINDOW_FILM 历史版本)
 
 ## 子 PRD 模板
 
@@ -44,6 +45,15 @@
 - flooring = amber
 
 **图片容器**: `aspect-[4/3] + object-contain + Next/Image sizes`
+
+### 主题专项特例 (WINDOW_FILM)
+
+WINDOW_FILM 不同于上述 4 主题专项:
+- 静态数据在 `src/lib/window-film-details.ts` (而非 `<topic>-products.ts`)
+- 路由 `/product/window-film/[packageSlug]` 是 **子页**(套餐详情),非主题 anchor
+- 不需要 3 态 imageStatus(套餐图片稳定,无 pending-review)
+- 字面量类型同 (1448×1086, 4:3) 防规格漂移
+- 不需要 CI 验证脚本(图片已固定)
 
 ## 6 大产品线(通用模式)
 
