@@ -320,3 +320,4 @@
 | 已知 bug / 优化点 | [AUDIT_AND_REGRESSION_PRD_2026-06-19.md](./cross-cutting/AUDIT_AND_REGRESSION_PRD_2026-06-19.md) |
 | 怎么部署 | [../ARCHITECTURE.md §部署](../ARCHITECTURE.md) |
 | 怎么写子 PRD | [./_templates/public-site.md](./_templates/public-site.md) |
+| 某批开发日志(目标/工作流/决策/经验) | [../journal/](../journal/) |
