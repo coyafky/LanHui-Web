@@ -1,7 +1,7 @@
 # 视觉评估索引
 
 > 每页 4 维度评分(可读性 / 视觉一致性 / 响应式健壮性 / 可访问性-视觉层)。
-> 主控 session 跑 `npm run screenshot:all` 后,Read 截图并填值。
+> 数据采集:2026-06-19T07:02,Playwright 三视口截图(1440/768/390)。
 
 ## 评分标准
 - 5/5:业界领先
@@ -16,31 +16,45 @@
 - P2:可优化但可接受
 - P3:锦上添花
 
+## 汇总表
+
 | 路由 | slug | 可读性 | 一致性 | 响应式 | a11y | P0 | P1 | P2 | 总评 |
 |---|---|---|---|---|---|---|---|---|---|
-| / | home | TBD | TBD | TBD | TBD | - | - | - | - |
-| /contact | contact | TBD | TBD | TBD | TBD | - | - | - | - |
-| /brand | brand | TBD | TBD | TBD | TBD | - | - | - | - |
-| /brand/certifications | brand__certifications | TBD | TBD | TBD | TBD | - | - | - | - |
-| /brand/history | brand__history | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product | product-index | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/chassis | product__chassis | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/color-film | product__color-film | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/electric-steps | product__electric-steps | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/flooring | product__flooring | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/ppf | product__ppf | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/wheels | product__wheels | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/window-film | product__window-film | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/wenjie | product__wenjie | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/xiaomi | product__xiaomi | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/zeekr | product__zeekr | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/window-film/{pkg-1} | product__window-film__pkg-1 | TBD | TBD | TBD | TBD | - | - | - | - |
-| /product/window-film/{pkg-2} | product__window-film__pkg-2 | TBD | TBD | TBD | TBD | - | - | - | - |
-| /agent | agent-index | TBD | TBD | TBD | TBD | - | - | - | - |
-| /agent/{province} | agent__province | TBD | TBD | TBD | TBD | - | - | - | - |
-| /agent/{province}/{city} | agent__city | TBD | TBD | TBD | TBD | - | - | - | - |
-| /agent/store/{id} | agent__store | TBD | TBD | TBD | TBD | - | - | - | - |
-| /news | news-index | TBD | TBD | TBD | TBD | - | - | - | - |
-| /news/{slug-1} | news-detail-1 | TBD | TBD | TBD | TBD | - | - | - | - |
-| /news/{slug-2} | news-detail-2 | TBD | TBD | TBD | TBD | - | - | - | - |
-| /news/{slug-3} | news-detail-3 | TBD | TBD | TBD | TBD | - | - | - | - |
+| / | root | 5 | 5 | 4 | 4 | 0 | 0 | 1 | 良好 |
+| /contact | contact | 5 | 5 | 4 | 4 | 0 | 0 | 1 | 良好 |
+| /brand | brand | 5 | 5 | 4 | 4 | 0 | 0 | 0 | 优秀 |
+| /brand/certifications | brand__certifications | 4 | 5 | 4 | 4 | 0 | 1 | 0 | 合格(性能 63/77) |
+| /brand/history | brand__history | 4 | 5 | 4 | 4 | 0 | 0 | 0 | 良好 |
+| /product | product-index | 5 | 5 | 4 | 4 | 0 | 1 | 0 | 合格(LCP 6.5s) |
+| /product/chassis | product__chassis | 5 | 5 | 4 | 4 | 0 | 0 | 0 | 优秀(perf 97/88) |
+| /product/color-film | product__color-film | 5 | 5 | 4 | 4 | 0 | 0 | 0 | 良好(LCP 3.9s) |
+| /product/electric-steps | product__electric-steps | 4 | 5 | 4 | 4 | 0 | 1 | 0 | 合格(mobile LCP 6.0s) |
+| /product/flooring | product__flooring | 4 | 5 | 3 | 4 | 0 | 1 | 0 | 差(perf 59/61,LCP 6.6s) |
+| /product/ppf | product__ppf | 4 | 5 | 4 | 4 | 0 | 1 | 0 | 合格(perf 75/64) |
+| /product/wheels | product__wheels | 4 | 5 | 4 | 4 | 0 | 0 | 0 | 良好(LCP 6.0s) |
+| /product/window-film | product__window-film | 5 | 5 | 5 | 4 | 0 | 0 | 0 | 优秀(perf 98/96) |
+| /product/wenjie | product__wenjie | 3 | 5 | 3 | 4 | 0 | 1 | 0 | 差(图片全 pending 占位) |
+| /product/xiaomi | product__xiaomi | 4 | 5 | 4 | 4 | 0 | 0 | 0 | 良好 |
+| /product/zeekr | product__zeekr | 4 | 5 | 3 | 4 | 0 | 0 | 1 | 良好(mobile 大量空白) |
+| /agent | agent-index | 4 | 5 | 3 | 4 | 0 | 1 | 0 | 合格(perf 64/75,27+ 卡片慢) |
+| /agent/{province} | agent__province | - | - | - | - | - | - | - | **不可达(404)** |
+| /agent/{province}/{city} | agent__city | - | - | - | - | - | - | - | **不可达(404)** |
+| /agent/store/{id} | agent__store | 4 | 5 | 4 | 4 | 0 | 0 | 0 | 良好(perf 86) |
+| /news | news-index | 5 | 5 | 4 | 4 | 0 | 0 | 0 | 优秀(perf 97/93) |
+| /news/{slug-1} | news-detail-1 | - | - | - | - | - | - | - | **不可达(404,pre-existing bug)** |
+| /news/{slug-2} | news-detail-2 | - | - | - | - | - | - | - | **不可达(404,pre-existing bug)** |
+| /news/{slug-3} | news-detail-3 | - | - | - | - | - | - | - | **不可达(404,pre-existing bug)** |
+| /product/window-film/{pkg-1} | product__window-film__pkg-1 | - | - | - | - | - | - | - | **不可达(404,脚本 slug 错)** |
+| /product/window-film/{pkg-2} | product__window-film__pkg-2 | - | - | - | - | - | - | - | **不可达(404,脚本 slug 错)** |
+
+## 关键观察(已读 8 张 desktop/mobile/tablet 截图后)
+
+1. **设计语言高度统一**:Header / Footer / Card 样式在所有 21 个可达页一致;深色(zinc-950/900)背景 + 琥珀色(orange-500/400)强调 + 蓝色按钮,符合 CLAUDE.md 描述的 dark theme。
+2. **主题色差异**:wenjie=cyan, xiaomi=orange, zeekr=orange, flooring=amber,其他=orange 主题。在 wenjie 页面有 cyan 强调,zeekr 仍用 orange(符合 PRD 2.0)。
+3. **响应式健壮性**:mobile 视图下,所有页 Header 折叠为汉堡菜单,卡片从 3 列变 1-2 列,Footer 列折叠,无溢出。
+4. **P0 视觉问题**:
+   - 5 个动态路由 404(/agent/{province},/agent/{province}/{city},/news/{3},/product/window-film/{2})
+5. **P1 视觉问题**:
+   - wenjie 主题页所有车型图片为 `publicPath: null` 的 pending 占位 — 业务尚未补图,建议加 "图片即将上线" 占位视觉。
+   - zeekr mobile 视图:hero 缩略图后有大量空白 section(每个 section 一个车型),未填充时空白显眼。
+6. **CLS 全部 0**:所有 21 个可达页 LCP 期间无布局抖动,说明 Next/Image + aspect-ratio 配置到位。

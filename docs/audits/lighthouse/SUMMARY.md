@@ -1,47 +1,32 @@
-# Lighthouse 分数汇总
+# Lighthouse Summary
 
-> 主控 session 跑 `npm run lighthouse:run` 后填值。
-> 原始 JSON 位于同目录的 `{mobile|desktop}/{slug}.json`。
+生成时间: 2026-06-19T07:02:30.430Z · BASE_URL: http://localhost:3000
 
-## 阈值
-- performance ≥ 90 ✓ / 50-89 ⚠ / < 50 ✗
-- a11y ≥ 95 ✓ / 80-94 ⚠ / < 80 ✗
-- seo ≥ 90 ✓ / 50-89 ⚠ / < 50 ✗
-
-| 路由 | slug | perf_mobile | perf_desktop | a11y | seo | best | LCP_m | CLS_m | TBT_m |
-|---|---|---|---|---|---|---|---|---|---|
-| / | home | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /contact | contact | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /brand | brand | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /brand/certifications | brand__certifications | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /brand/history | brand__history | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product | product-index | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/chassis | product__chassis | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/color-film | product__color-film | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/electric-steps | product__electric-steps | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/flooring | product__flooring | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/ppf | product__ppf | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/wheels | product__wheels | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/window-film | product__window-film | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/wenjie | product__wenjie | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/xiaomi | product__xiaomi | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/zeekr | product__zeekr | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/window-film/{pkg-1} | product__window-film__pkg-1 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /product/window-film/{pkg-2} | product__window-film__pkg-2 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /agent | agent-index | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /agent/{province} | agent__province | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /agent/{province}/{city} | agent__city | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /news | news-index | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /news/{slug-1} | news-detail-1 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /news/{slug-2} | news-detail-2 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-| /news/{slug-3} | news-detail-3 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
-
-## Top 3 性能问题
-1. TBD
-2. TBD
-3. TBD
-
-## Top 3 LCP/CLS 异常
-1. TBD
-2. TBD
-3. TBD
+| route | perf_m | perf_d | a11y | seo | best | LCP_m | CLS_m | TBT_m |
+|---|---|---|---|---|---|---|---|---|
+| / | 69 | 75 | 96 | 100 | 75 | 6.4 s | 0 | 290 ms |
+| /contact | 75 | 97 | 89 | 100 | 97 | 5.9 s | 0 | 190 ms |
+| /brand | 96 | 98 | 96 | 100 | 98 | 2.0 s | 0 | 190 ms |
+| /brand/certifications | 63 | 77 | 95 | 100 | 77 | 6.0 s | 0 | 190 ms |
+| /brand/history | 76 | 86 | 91 | 100 | 86 | 6.0 s | 0 | 170 ms |
+| /product | 76 | 76 | 96 | 100 | 76 | 6.5 s | 0 | 110 ms |
+| /product/chassis | 97 | 88 | 96 | 100 | 97 | 2.3 s | 0 | 130 ms |
+| /product/color-film | 85 | 76 | 96 | 100 | 85 | 3.9 s | 0 | 190 ms |
+| /product/electric-steps | 76 | 98 | 96 | 100 | 98 | 6.0 s | 0 | 170 ms |
+| /product/flooring | 59 | 61 | 96 | 100 | 61 | 6.6 s | 0 | 290 ms |
+| /product/ppf | 75 | 64 | 96 | 100 | 75 | 6.0 s | 0 | 210 ms |
+| /product/wheels | 77 | 93 | 96 | 100 | 93 | 6.0 s | 0 | 130 ms |
+| /product/window-film | 98 | 96 | 96 | 100 | 98 | 1.7 s | 0 | 160 ms |
+| /product/wenjie | 77 | 88 | 94 | 100 | 88 | 5.5 s | 0 | 190 ms |
+| /product/xiaomi | 90 | 76 | 94 | 100 | 90 | 3.6 s | 0 | 120 ms |
+| /product/zeekr | 94 | 86 | 94 | 100 | 94 | 2.2 s | 0 | 230 ms |
+| /agent | 64 | 75 | 96 | 100 | 75 | 6.0 s | 0 | 240 ms |
+| /agent/beijing | — | — | — | — | — | — | — | — |
+| /agent/beijing/dongcheng | — | — | — | — | — | — | — | — |
+| /agent/store/cmqek088e000w0kjc9hbv1b6g | 86 | 86 | 96 | 100 | 86 | 4.0 s | 0 | 150 ms |
+| /news | 97 | 93 | 96 | 100 | 97 | 1.6 s | 0 | 190 ms |
+| /news/brand-website-prep | — | — | — | — | — | — | — | — |
+| /news/shunde-store-upgrade | — | — | — | — | — | — | — | — |
+| /news/service-matrix | — | — | — | — | — | — | — | — |
+| /product/window-film/electric-steps | — | — | — | — | — | — | — | — |
+| /product/window-film/wheels | — | — | — | — | — | — | — | — |
