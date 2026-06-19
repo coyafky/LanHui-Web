@@ -38,7 +38,10 @@
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "screenshot:all": "node scripts/audit/screenshot-all.mjs",
+    "lighthouse:run": "node scripts/audit/lighthouse-run.mjs",
+    "audit:full": "npm run screenshot:all && npm run lighthouse:run && playwright test e2e/audit-full-site.spec.ts"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
@@ -82,10 +85,12 @@
     "@vitejs/plugin-react": "^5.0.0",
     "@vitest/coverage-v8": "^3.2.0",
     "@vitest/ui": "^3.2.0",
+    "chrome-launcher": "^1.2.1",
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
     "happy-dom": "^15.11.0",
+    "lighthouse": "^13.4.0",
     "prisma": "^7.8.0",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
