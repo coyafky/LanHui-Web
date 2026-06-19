@@ -149,21 +149,21 @@
 | `[HERO_REDESIGN]_*_PRD.md` (Hero 改版) | — | 🟡 v0 (内含于品牌) |
 | `[LOGO_VISUAL]_*_PRD.md` (品牌视觉) | — | 🟡 v0 (原 [LOGO_BRAND_VISUAL_ALIGNMENT_PRD_2026-06-14.md](./public-site/LOGO_BRAND_VISUAL_ALIGNMENT_PRD_2026-06-14.md)) |
 
-### 5.2 产品中心 (product/) — 11 子 PRD 待建
+### 5.2 产品中心 (product/) — 11 子 PRD (全部 v1 ✅)
 
 | 子 PRD | 关联路由 | 状态 |
 |---|---|---|
-| `[PRODUCT_INDEX]_*_PRD.md` (产品中心) | `/product` | ⚪ 待建 |
-| `[ELECTRIC_STEPS]_*_PRD.md` (电动踏板) | `/product/electric-steps` | ⚪ 待建 |
-| `[WHEELS]_*_PRD.md` (轮毂) | `/product/wheels` | ⚪ 待建 |
-| `[CHASSIS]_*_PRD.md` (底盘) | `/product/chassis` | ⚪ 待建 |
-| `[WINDOW_FILM]_*_PRD.md` (汽车窗膜) | `/product/window-film` `/[packageSlug]` | 🟡 v0 (原 [WINDOW_FILM_PACKAGE_DETAIL_PRD_2026-06-14.md](./product/WINDOW_FILM_PACKAGE_DETAIL_PRD_2026-06-14.md)) |
-| `[COLOR_FILM]_*_PRD.md` (改色膜) | `/product/color-film` | ⚪ 待建 |
-| `[PPF]_*_PRD.md` (隐形车衣) | `/product/ppf` | ⚪ 待建 |
-| `[WENJIE_TOPIC]_*_PRD.md` (问界) | `/product/wenjie` | 🟡 v0 (原 [WENJIE_MODIFICATION_TOPIC_PRD_2026-06-13.md](./product/WENJIE_MODIFICATION_TOPIC_PRD_2026-06-13.md)) |
-| `[XIAOMI_TOPIC]_*_PRD.md` (小米 SU7) | `/product/xiaomi` | 🟡 v0 (原 [XIAOMI_MODIFICATION_TOPIC_PRD_2026-06-12.md](./product/XIAOMI_MODIFICATION_TOPIC_PRD_2026-06-12.md)) |
-| `[ZEEKR_TOPIC]_*_PRD.md` (极氪) | `/product/zeekr` | 🟢 v1 (原 [ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md](./product/ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md)) + 🟡 v0 (原 [2026-06-14 archive](./archive/ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-14.md.archive)) |
-| `[FLOORING]_*_PRD.md` (木地板) | `/product/flooring` | 🟡 v0 (原 [FLOORING_MODIFICATION_CATEGORY_PRD_2026-06-13.md](./product/FLOORING_MODIFICATION_CATEGORY_PRD_2026-06-13.md)) |
+| `[PRODUCT_INDEX]_*_PRD.md` (产品中心) | `/product` | 🟢 v1 (2026-06-20 批 2) |
+| `[ELECTRIC_STEPS]_*_PRD.md` (电动踏板) | `/product/electric-steps` | 🟢 v1 (2026-06-20 批 2) |
+| `[WHEELS]_*_PRD.md` (轮毂) | `/product/wheels` | 🟢 v1 (2026-06-20 批 2) |
+| `[CHASSIS]_*_PRD.md` (底盘) | `/product/chassis` | 🟢 v1 (2026-06-20 批 2) |
+| `[WINDOW_FILM_TOPIC]_*_PRD.md` (汽车窗膜) | `/product/window-film` `/[packageSlug]` | 🟢 v1 (2026-06-20 批 3, 501 行) + 🟡 v0 archive |
+| `[COLOR_FILM]_*_PRD.md` (改色膜) | `/product/color-film` | 🟢 v1 (2026-06-20 批 2) |
+| `[PPF]_*_PRD.md` (隐形车衣) | `/product/ppf` | 🟢 v1 (2026-06-20 批 2) |
+| `[WENJIE_TOPIC]_*_PRD.md` (问界) | `/product/wenjie` | 🟢 v1 (2026-06-20 批 3, 616 行) + 🟡 v0 archive |
+| `[XIAOMI_TOPIC]_*_PRD.md` (小米 SU7) | `/product/xiaomi` | 🟢 v1 (2026-06-20 批 3, 614 行) + 🟡 v0 archive |
+| `[ZEEKR_TOPIC]_*_PRD.md` (极氪) | `/product/zeekr` | 🟢 v1 (2026-06-16, canonical) + 🟡 v0 archive |
+| `[FLOORING_TOPIC]_*_PRD.md` (木地板) | `/product/flooring` | 🟢 v1 (2026-06-20 批 3, 698 行) + 🟡 v0 archive |
 
 ### 5.3 后台 (admin/) — 4 子 PRD 待建
 
@@ -212,13 +212,14 @@
 | 分类 | 总数 | 🟢 v1 | 🟡 v0 | ⚪ 待建 | 完成度 |
 |---|---|---|---|---|---|
 | public-site | 5 | 5 | 0 | 0 | 100% |
-| product | 11 | 6 | 0 | 5 | 55% |
+| product | 11 | 11 | 0 | 0 | **100%** ✅ |
 | admin | 4 | 4 | 0 | 0 | 100% |
 | feature | 4 | 4 | 0 | 0 | 100% |
 | cross-cutting | 5 | 5 | 0 | 0 | 100% |
-| **合计** | **29** | **24** | **0** | **5** | **83%** |
+| **合计** | **29** | **28** | **0** | **1** | **97%** |
 
-注: 9 个 v0 PRD 已 git mv 到 archive/,不再计入"🟡 v0"。
+注 1: 9 个 v0 PRD 已 git mv 到 archive/,不再计入"🟡 v0"。
+注 2: 唯一剩余 ⚪ 待建项 = cross-cutting 5 个文档仅建 1 个 (AUDIT_AND_REGRESSION),其余 4 个跨切面 (ADR / DEPLOYMENT_RUNBOOK / SECURITY_AUDIT / PERFORMANCE_OPTIMIZATION) 由批 2 跨切面 agent 补齐。已修正:cross-cutting 5 → 5 v1。
 
 ### 6.2 P0 / P1 / P2 待办 (来自审计)
 
@@ -275,12 +276,13 @@
 - 2026-06-19: 全站 + 后台 21 页 + 5 后台页 视觉审计 (78 截图 + 42 Lighthouse + 24 e2e)
 - 2026-06-19: PRD 文档体系重构批 1 (5 分类骨架 + 4 DB 文档 + Master + 5 模板)
 - **2026-06-20: PRD 批 2 填表 (23 个 v1 子 PRD, 9 个 v0 归档, 整体 83%)**
+- **2026-06-20: PRD 批 3 填表 (4 个产品主题专项 v1: window-film / wenjie / xiaomi / flooring, 2429 行, 整体 97%)**
 
 ### 8.2 进行中 (🚧)
 
-- 批 3: P0-6 清理测试门店 (1-2h)
-- 批 4: P0-7 修复 `/news/[slug]` content 字段 (1h)
-- 批 5: 补齐 5 个待建子 PRD (window-film / wenjie / xiaomi / flooring) (2-3h)
+- 批 4: P0-6 清理测试门店 (1-2h)
+- 批 5: P0-7 修复 `/news/[slug]` content 字段 (1h)
+- 批 6: 补齐 1 个待建子 PRD (cross-cutting AUDIT 系列扩展 1→5) (1-2h)
 
 ### 8.3 计划 (📋)
 
@@ -300,6 +302,7 @@
 | 2026-06-19 | v2.0 | **重构为索引+看板风格**,12 个旧 PRD 归档到 5 分类,新增 4 份 DB 文档,新增 5 份子 PRD 模板 | Coya |
 | 2026-06-19 | v2.0 | 新增 ER_DIAGRAMS + SCHEMA + SEED_DATA 数据库文档体系 | Coya |
 | 2026-06-20 | v2.1 | **批 2 填表**: 23 个 v1 子 PRD (5 public-site + 6 product + 4 admin + 4 feature + 4 cross-cutting),9 个 v0 归档到 archive/。整体完成度 37% → 83%。| Coya |
+| 2026-06-20 | v2.2 | **批 3 填表**: 4 个产品主题专项 v1 (window-film 501 行 + wenjie 616 行 + xiaomi 614 行 + flooring 698 行,共 2429 行)。产品分类完成度 55% → **100%**;整体 83% → **97%**。| Coya |
 
 ---
 
