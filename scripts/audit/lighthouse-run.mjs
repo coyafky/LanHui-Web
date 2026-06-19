@@ -19,6 +19,7 @@ const ROOT = join(__dirname, "..", "..");
 
 const argv = process.argv.slice(2);
 const DRY_RUN = argv.includes("--dry-run");
+const WITH_LIGHTHOUSE_ADMIN = argv.includes("--with-lighthouse-admin");
 const argVal = (flag) => {
   const a = argv.find((s) => s.startsWith(`${flag}=`));
   return a ? a.split("=").slice(1).join("=") : null;
@@ -52,8 +53,9 @@ async function getRoutes() {
     const raw = JSON.parse(readFileSync(ROUTES_FILE, "utf8"));
     if (Array.isArray(raw)) return raw.map((p) => ({ path: typeof p === "string" ? p : p.path, label: typeof p === "string" ? slugify(p) : (p.label ?? slugify(p.path)) }));
   }
-  const all = await collectRoutes({ withAdmin: false, withDynamic: true, baseUrl: BASE_URL });
-  return all.filter((r) => !r.path.startsWith("/admin"));
+  const all = await collectRoutes({ withAdmin: WITH_LIGHTHOUSE_ADMIN, withDynamic: true, baseUrl: BASE_URL });
+  // 默认排除 /admin 路由(后台管理不做性能跑分);--with-lighthouse-admin 才包含
+  return all.filter((r) => WITH_LIGHTHOUSE_ADMIN || !r.path.startsWith("/admin"));
 }
 
 function pickScore(lhr, key) {
@@ -82,7 +84,7 @@ async function main() {
 
   const routes = await getRoutes();
   const targets = DRY_RUN ? routes.filter((r) => r.path === "/").slice(0, 1) : routes;
-  console.log(`[plan] ${targets.length} routes x ${FORM_FACTORS.length} form factors`);
+  console.log(`[plan] ${targets.length} routes x ${FORM_FACTORS.length} form factors${WITH_LIGHTHOUSE_ADMIN ? " (含 admin)" : ""}`);
 
   const summary = [];
 
