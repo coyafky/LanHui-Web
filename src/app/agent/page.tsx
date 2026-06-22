@@ -3,15 +3,14 @@ import Link from "next/link";
 import {
   MapPin,
   Store as StoreIcon,
-  ArrowRight,
   Building2,
   ChevronRight,
-  Phone,
-  Clock,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getProvinces, getStores } from "@/lib/data";
+import { StoreCard } from "@/components/agent/StoreCard";
+import { sortStoresByLevel } from "@/components/agent/sort-stores";
 
 export const revalidate = 3600;
 
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
 
 export default async function AgentPage() {
   const provinces = await getProvinces();
-  const stores = await getStores();
+  const stores = sortStoresByLevel(await getStores());
   const totalStores = stores.length;
   const totalProvinces = provinces.length;
 
@@ -104,53 +103,21 @@ export default async function AgentPage() {
                 <h2 className="text-2xl font-bold text-white">已开放门店</h2>
               </div>
               <p className="text-xs text-zinc-500 hidden sm:block">
-                Mock 数据 · 后续替换真实数据
+                按门店等级排序 · 旗舰优先
               </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {stores.map((s) => (
-                <Link
-                  key={s.id}
-                  href={`/agent/store/${s.id}`}
-                  className="group block bg-zinc-900 rounded-2xl border border-zinc-800 hover:border-zinc-700 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
-                >
-                  {/* 占位图区域 */}
-                  <div className="relative h-48 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
-                    <Building2 className="w-16 h-16 text-zinc-700 group-hover:text-zinc-600 transition-colors" />
-                    {/* 左上角 LANHUI badge */}
-                    <div className="absolute top-3 left-3">
-                      <span className="bg-zinc-800/90 text-zinc-300 text-xs font-bold px-2.5 py-1 rounded-md backdrop-blur-sm">
-                        LANHUI
-                      </span>
-                    </div>
-                  </div>
-                  {/* 信息区域 */}
-                  <div className="p-6">
-                    <h3 className="text-lg font-bold text-white mb-3">
-                      {s.name}
-                    </h3>
-                    <div className="space-y-2 mb-4">
-                      <div className="flex items-start gap-2 text-sm text-zinc-400">
-                        <MapPin className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
-                        <span className="leading-relaxed">{s.address}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-zinc-400">
-                        <Phone className="w-4 h-4 text-orange-400 flex-shrink-0" />
-                        <span>{s.phone}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-zinc-400">
-                        <Clock className="w-4 h-4 text-orange-400 flex-shrink-0" />
-                        <span>{s.businessHours}</span>
-                      </div>
-                    </div>
-                    <span className="text-orange-400 text-sm font-medium inline-flex items-center">
-                      查看详情
-                      <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            {stores.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {stores.map((s) => (
+                  <StoreCard key={s.id} store={s} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-20 rounded-2xl border border-zinc-800 bg-zinc-900">
+                <Building2 className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
+                <p className="text-zinc-400">暂无已开放门店。</p>
+              </div>
+            )}
           </div>
         </section>
       </main>
