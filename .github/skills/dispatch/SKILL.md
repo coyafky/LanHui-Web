@@ -144,6 +144,14 @@ user-invocable: true
 5. 如有可视页面，验证渲染正确性
 6. 发现 Bug 时生成 Bug 报告
 
+**UI 审查子步骤(可选,2026-06-22 起):** 当子任务命中下方关键词清单中任意一项,且该子任务涉及 UI 改动时,并行启动一次 `ui-ux-pro-max` 跑设计审查,与上述 6 项同时进行。
+
+| 命中条件(任一) | 启动方式 | 产出 |
+|---|---|---|
+| 子任务标题/描述含 `优化 / 审查 / 体检 / 调优 / a11y / accessibility / design system / UI 一致性 / 视觉一致性 / 设计系统` 或 `refine / polish / audit / review / consistency / token` | `subagent_type: general-purpose` + 启动时强制调用 `ui-ux-pro-max` skill | 「设计语言审计报告」(design language / key states / a11y 评估 / 改进建议),作为 Bug 报告的「设计语言审计」附录 |
+
+> ui-ux-pro-max 子步骤**不影响**门禁 3 主流程:即使它失败或超时,tester 主流程仍正常推进并产出标准 Bug 报告;只在设计审查报告完整生成时,作为附录附加。多个 UI 子任务可各自触发并行审查,互不影响。
+
 **Bug 报告格式：**
 
 ```markdown

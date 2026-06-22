@@ -64,6 +64,7 @@ If no Trellis task is active, the spawn prompt is the raw user request; create a
      │         ▼
      ├──► [test]        ── writes tests, runs npm test + npm run test:e2e
      │         │             gate: all tests pass
+     │         │             (optional: UI 优化关键词命中时并行跑 ui-ux-pro-max 设计审查)
      │         ▼
      └──► [check]       ── reviews diff, self-fixes lint/typecheck
                │              gate: check passes
@@ -71,7 +72,8 @@ If no Trellis task is active, the spawn prompt is the raw user request; create a
 [orchestrator merges 4 worktrees → main → reports]
 ```
 
-> **Implement 阶段任务路由(2026-06-22 起,与 `/dispatch` 对齐):** channel agent `implement` 收到子任务时,先做关键词匹配 — UI / 视觉 / 交互任务改用 `webdesign-engineer`(实质为 `general-purpose` agent + 启动时强制调用 `frontend-ui-engineering` skill)。完整路由规则与关键词清单见 `.claude/skills/dispatch/SKILL.md`「阶段 2:任务路由决策」。
+> **Implement 阶段任务路由(2026-06-22 起,与 `/dispatch` 对齐):** channel agent `implement` 收到子任务时,先做关键词匹配 — UI / 视觉 / 交互任务改用 
+`.claude/skills/dispatch/SKILL.md`「阶段 2:任务路由决策」。
 
 ## Worktree Lifecycle
 
@@ -96,6 +98,8 @@ If no Trellis task is active, the spawn prompt is the raw user request; create a
 | `check` | `[trellis, check]` | 5-axis review + self-fix | Phase 4 |
 
 > **Routing rule:** Phase 2 dispatch checks each sub-task's title/description against the UI keyword list (component / page / hero / section / layout / card / modal / form / button / UI / 视觉 / 交互 / responsive / accessibility / a11y / styles / tailwind / shadcn / 配色 / 主题). Matches spawn `webdesign-engineer`; otherwise spawn `implement`. Mirrors `.claude/skills/dispatch/SKILL.md`.
+
+> **UI 优化审查子步骤(2026-06-22 起):** Phase 3 `test` agent 在运行测试时,若子任务标题/描述命中「优化 / 审查 / 体检 / 调优 / a11y / accessibility / design system / UI 一致性 / 视觉一致性 / 设计系统」或 `refine / polish / audit / review / consistency / token`,并行启动一次 `general-purpose` agent 调用 `ui-ux-pro-max` skill 跑设计审查,产出「设计语言审计报告」作为 Bug 报告附录。失败不阻塞 test 主流程。详见 `.claude/skills/dispatch/SKILL.md`「阶段 3:UI 审查子步骤」。
 
 ## Forbidden Operations
 
