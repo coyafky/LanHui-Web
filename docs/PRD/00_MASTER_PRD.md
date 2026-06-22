@@ -137,17 +137,17 @@
 
 按页面类型 5 大分类,每个子 PRD 含 8 段(概述/用户故事/功能/UI/数据/API/验收/变更)。
 
-### 5.1 公开站 (public-site/) — 7 子 PRD 待建
+### 5.1 公开站 (public-site/) — 5 Canonical + 13 独立 PRD
 
-| 子 PRD | 关联路由 | 状态 |
+| Canonical PRD | 关联路由 | 状态 |
 |---|---|---|
-| `[HOMEPAGE]_*_PRD.md` (首页) | `/` | 🟡 v0 (原 [HOMEPAGE_PHONE_CONVERSION_PRD_2026-06-12.md](./public-site/HOMEPAGE_PHONE_CONVERSION_PRD_2026-06-12.md)) |
-| `[BRAND]_*_PRD.md` (品牌) | `/brand` `/brand/certifications` `/brand/history` | ⚪ 待建 |
-| `[CONTACT]_*_PRD.md` (联系) | `/contact` | ⚪ 待建 |
-| `[NEWS]_*_PRD.md` (资讯) | `/news` `/news/[slug]` | ⚪ 待建 |
-| `[AGENT_PUBLIC]_*_PRD.md` (门店网络) | `/agent` `/agent/*` | ⚪ 待建 |
-| `[HERO_REDESIGN]_*_PRD.md` (Hero 改版) | — | 🟡 v0 (内含于品牌) |
-| `[LOGO_VISUAL]_*_PRD.md` (品牌视觉) | — | 🟡 v0 (原 [LOGO_BRAND_VISUAL_ALIGNMENT_PRD_2026-06-14.md](./public-site/LOGO_BRAND_VISUAL_ALIGNMENT_PRD_2026-06-14.md)) |
+| [HOMEPAGE_PRD.md](./public-site/HOMEPAGE_PRD.md) (首页) | `/` | 🟢 v1（canonical，合并 06-20 实现 + 06-22 规划） |
+| [BRAND_PRD.md](./public-site/BRAND_PRD.md) (品牌) | `/brand` `/brand/certifications` `/brand/history` | 🟢 v1（canonical，合并 06-20 实现 + 06-22 规划） |
+| [NEWS_PRD.md](./public-site/NEWS_PRD.md) (资讯) | `/news` `/news/[slug]` | 🟢 v1（canonical，合并 06-20 实现 + 06-22 规划） |
+| [AGENT_PUBLIC_PRD.md](./public-site/AGENT_PUBLIC_PRD.md) (门店网络) | `/agent` `/agent/*` | 🟢 v1（canonical，合并 06-20 实现 + 06-21 规划） |
+| [CONTACT_PRD.md](./public-site/CONTACT_PRD.md) (联系) | `/contact` | 🟢 v1（canonical，合并 06-20 实现 + 06-22 规划） |
+
+另有 13 份独立 06-22 规划 PRD（产品中心、车型项目、膜类产品、Footer 等），详见 [public-site/README.md](./public-site/README.md)。
 
 ### 5.2 产品中心 (product/) — 11 子 PRD (全部 v1 ✅)
 
@@ -169,10 +169,22 @@
 
 | 子 PRD | 关联路由 | 状态 |
 |---|---|---|
-| `[ADMIN_LOGIN]_*_PRD.md` (登录) | `/admin/login` | ⚪ 待建 |
-| `[ADMIN_DASHBOARD]_*_PRD.md` (数据看板) | `/admin` `/admin/analytics` | ⚪ 待建 |
-| `[ARTICLE_MANAGEMENT]_*_PRD.md` (文章管理) | `/admin/articles` 系列 | 🟡 v0 (原 [IMAGE_MANAGEMENT_PRD_2026-06-10.md](./admin/IMAGE_MANAGEMENT_PRD_2026-06-10.md) 含图片管理) |
-| `[STORE_MANAGEMENT]_*_PRD.md` (门店管理) | `/admin/stores` 系列 | 🟡 v0 (原 [STORE_REGION_MANAGEMENT_SYSTEM_PRD_2026-06-14.md](./admin/STORE_REGION_MANAGEMENT_SYSTEM_PRD_2026-06-14.md) + [STORE_REGION_AND_STATUS_PRD_2026-06-14.md](./admin/STORE_REGION_AND_STATUS_PRD_2026-06-14.md)) |
+| [ADMIN_LOGIN_PRD.md](./admin/ADMIN_LOGIN_PRD_2026-06-20.md) (登录) | `/admin/login` | 🟢 v1 |
+| [ADMIN_DASHBOARD_PRD.md](./admin/ADMIN_DASHBOARD_PRD_2026-06-20.md) (数据看板) | `/admin` `/admin/analytics` | 🟢 v1 |
+| [ARTICLE_MANAGEMENT_PRD.md](./admin/ARTICLE_MANAGEMENT_PRD.md) (文章管理) | `/admin/articles` 系列 | 🟢 v1（canonical） |
+| [STORE_MANAGEMENT_PRD.md](./admin/STORE_MANAGEMENT_PRD.md) (门店管理) | `/admin/stores` 系列 | 🟢 v1（canonical） |
+
+#### 5.3.1 2026-06-22 合并为 Canonical PRD
+
+2026-06-21 规划版已从 Trellis 迁回 `docs/PRD/admin/`，与 2026-06-20 实现版合并为单份 Canonical PRD：
+
+| 子系统 | Canonical PRD | 状态 |
+|---|---|---|
+| 门店管理 | [`STORE_MANAGEMENT_PRD.md`](./admin/STORE_MANAGEMENT_PRD.md) | 🟢 v1（合并 06-20 实现 + 06-21 规划） |
+| 文章 CMS | [`ARTICLE_MANAGEMENT_PRD.md`](./admin/ARTICLE_MANAGEMENT_PRD.md) | 🟢 v1（合并 06-20 实现 + 06-21 规划） |
+| 用户行为分析 | [`ANALYTICS_SYSTEM_PRD.md`](./admin/ANALYTICS_SYSTEM_PRD.md) | 🟡 v0.1（迁移自 Trellis） |
+
+旧版本文件存档于 `docs/PRD/admin/archive/`。设计文档存档于 `docs/designs/admin/archive/`。
 
 ### 5.4 跨切面 (feature/) — 4 子 PRD 待建
 
@@ -183,11 +195,16 @@
 | `[SEO_SCHEMA]_*_PRD.md` (SEO 优化) | sitemap/OG/JSON-LD | ⚪ 待建 |
 | `[AUTH_GUARD]_*_PRD.md` (认证守卫) | NextAuth 权限矩阵 | ⚪ 待建 |
 
-### 5.5 横切 (cross-cutting/) — 1 子 PRD (已建)
+### 5.5 横切 (cross-cutting/) — 6 子 PRD (已建)
 
 | 子 PRD | 状态 |
 |---|---|
 | [AUDIT_AND_REGRESSION_PRD_2026-06-19.md](./cross-cutting/AUDIT_AND_REGRESSION_PRD_2026-06-19.md) | 🟢 v1 — 21 个 P0/P1/P2 任务清单 + 完整审计 |
+| [ADR_PRD_2026-06-20.md](./cross-cutting/ADR_PRD_2026-06-20.md) | 🟢 v1 — 架构决策记录体系 |
+| [DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md](./cross-cutting/DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md) | 🟢 v1 — 部署 + 回滚 runbook |
+| [PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md](./cross-cutting/PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md) | 🟢 v1 — Lighthouse 基线 + 性能预算 |
+| [SECURITY_AUDIT_PRD_2026-06-20.md](./cross-cutting/SECURITY_AUDIT_PRD_2026-06-20.md) | 🟢 v1 — OWASP Top 10 加固 |
+| **[DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md](./cross-cutting/DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md)** | **🟡 v0** — Vercel Geist spec 对账 + 14 项 P0/P1/P2 任务 |
 
 ### 5.6 归档 (archive/)
 
@@ -215,11 +232,12 @@
 | product | 11 | 11 | 0 | 0 | **100%** ✅ |
 | admin | 4 | 4 | 0 | 0 | 100% |
 | feature | 4 | 4 | 0 | 0 | 100% |
-| cross-cutting | 5 | 5 | 0 | 0 | 100% |
-| **合计** | **29** | **28** | **0** | **1** | **97%** |
+| cross-cutting | 6 | 5 | 1 | 0 | **100%** |
+| **合计** | **30** | **29** | **1** | **0** | **100%** ✅ |
 
 注 1: 9 个 v0 PRD 已 git mv 到 archive/,不再计入"🟡 v0"。
-注 2: 唯一剩余 ⚪ 待建项 = cross-cutting 5 个文档仅建 1 个 (AUDIT_AND_REGRESSION),其余 4 个跨切面 (ADR / DEPLOYMENT_RUNBOOK / SECURITY_AUDIT / PERFORMANCE_OPTIMIZATION) 由批 2 跨切面 agent 补齐。已修正:cross-cutting 5 → 5 v1。
+注 2: 2026-06-21 增补 DESIGN_SYSTEM_ALIGNMENT v0,源自 Coya 阅读 Vercel Geist 规范后的对账。P0 6 项待执行。
+注 3: 看板整体完成度 97% → **100%**(cross-cutting 5 v1 + 1 v0)。
 
 ### 6.2 P0 / P1 / P2 待办 (来自审计)
 
@@ -303,6 +321,8 @@
 | 2026-06-19 | v2.0 | 新增 ER_DIAGRAMS + SCHEMA + SEED_DATA 数据库文档体系 | Coya |
 | 2026-06-20 | v2.1 | **批 2 填表**: 23 个 v1 子 PRD (5 public-site + 6 product + 4 admin + 4 feature + 4 cross-cutting),9 个 v0 归档到 archive/。整体完成度 37% → 83%。| Coya |
 | 2026-06-20 | v2.2 | **批 3 填表**: 4 个产品主题专项 v1 (window-film 501 行 + wenjie 616 行 + xiaomi 614 行 + flooring 698 行,共 2429 行)。产品分类完成度 55% → **100%**;整体 83% → **97%**。| Coya |
+| 2026-06-21 | v2.3 | **设计系统对齐**:新增 cross-cutting 子 PRD `DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md`(v0,~500 行),基于 Vercel Geist spec 对账 14 项任务(P0×6 / P1×5 / P2×3)。整体 97% → **100%**。| Coya |
+| 2026-06-21 | v2.4 | **admin 文档迁至 Trellis**:4 份 2026-06-21 子 PRD + 5 份 Design 副本迁至 Trellis 父任务 `06-21-admin-system-refactor` 的 4 个子任务(`06-21-admin-{system-total,store,article,analytics}`);原文件 `git mv` 到 `docs/{PRD,designs}/admin/archive/`(只读)。admin 子文档在 §5.3 表格保持"待建/v0"状态以记录 2026-06-20 v1 历史;新增 §5.3.1 区块说明 2026-06-21 活跃文档位置。| Coya |
 
 ---
 

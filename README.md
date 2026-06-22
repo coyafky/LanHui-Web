@@ -220,10 +220,9 @@ AGENTS.md / CLAUDE.md                # AI agent 协作约定
 
 ## 📚 文档
 
-- [`docs/PROJECT.md`](./docs/PROJECT.md) — 工程文档
 - [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) — 架构总览
 - [`docs/PRD/`](./docs/PRD/) — 各产品需求 PRD
-- [`docs/test-reports/`](./docs/test-reports/) — 缺陷修复与验证报告
+- [`docs/test-reports/`](./docs/test-reports/) — 缺陷修复与验证报告（按日期归档）
 - [`AGENTS.md`](./AGENTS.md) — AI agent 协作约定
 
 ---

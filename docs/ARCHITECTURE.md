@@ -10,10 +10,7 @@
 > 最后更新: 2026-06-09 · 项目版本: v0.3.1 · Next.js 16.2.1 · React 19.2.4
 >
 > 与现有文档的关系:
-> - `docs/PROJECT.md` — 源项目(膜小二复刻)的早期工程文档,保留作为历史参考
-> - `docs/PROGRESS.md` — 蓝辉轻改 Phase 1 进度跟踪
 > - `docs/CMS_OPERATIONS.md` — CMS 模块详细操作手册
-> - `docs/EVALUATION.md` — 横向评估
 > - `docs/ARCHITECTURE_IMAGE_STRATEGY.md` — 图像资源策略
 > - **本文档** — 整合**当前**完整架构与执行链路
 >

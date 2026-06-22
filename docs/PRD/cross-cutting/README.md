@@ -11,10 +11,13 @@
 | **部署 Runbook** | [DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md](./DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md) | 🟢 v1 (605 行,P3005 修复 + 3 类回滚) |
 | **安全审计** (OWASP Top 10) | [SECURITY_AUDIT_PRD_2026-06-20.md](./SECURITY_AUDIT_PRD_2026-06-20.md) | 🟢 v1 (654 行,14 项加固 + 60+ 渗透测试) |
 | **性能优化** (Lighthouse 基线) | [PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md](./PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md) | 🟢 v1 (590 行,5 P1 + 7 P2 + 18 路由预算) |
+| **设计系统对齐** (Vercel Geist) | [DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md](./DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md) | 🟡 v0 (14 项 P0/P1/P2 任务,Geist spec 对账) |
 
 ## 完成度
 
-**5/5 子 PRD 已建 (100%)**
+**6/6 子 PRD 已建 (100%)**
+
+> 2026-06-21 增补:DESIGN_SYSTEM_ALIGNMENT_PRD 起步 v0,P0 6 项未执行。
 
 ## 子 PRD 模板
 
