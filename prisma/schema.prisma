@@ -60,35 +60,50 @@ model City {
 }
 
 model Store {
-  id            String           @id @default(cuid())
-  name          String
-  slug          String           @unique
-  provinceSlug  String
-  province      Province         @relation(fields: [provinceSlug], references: [slug], onDelete: Restrict)
-  provinceLabel String
-  citySlug      String
-  city          City             @relation(fields: [citySlug], references: [slug], onDelete: Restrict)
-  cityLabel     String
-  district      String?
-  address       String
-  phone         String
-  phoneTel      String
-  businessHours String?
-  description   String?
-  imageUrl      String?
-  imagePath     String?
-  isActive      Boolean          @default(true)
-  events        AnalyticsEvent[]
-  createdAt     DateTime         @default(now())
-  updatedAt     DateTime         @updatedAt
+  id              String           @id @default(cuid())
+  name            String
+  slug            String?          @unique
+  level           StoreLevel       @default(flagship)
+  provinceSlug    String
+  province        Province         @relation(fields: [provinceSlug], references: [slug], onDelete: Restrict)
+  provinceLabel   String
+  citySlug        String
+  city            City             @relation(fields: [citySlug], references: [slug], onDelete: Restrict)
+  cityLabel       String
+  district        String?
+  address         String
+  phone           String
+  phoneTel        String
+  businessHours   String?
+  description     String?
+  imageUrl        String?
+  imagePath       String?
+  status          String           @default("pending")
+  statusReason    String?
+  statusChangedAt DateTime?
+  statusChangedBy String?
+  isActive        Boolean          @default(true)
+  events          AnalyticsEvent[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   @@index([provinceSlug])
   @@index([citySlug])
   @@index([isActive])
+  @@index([status])
   @@index([slug])
   @@index([isActive, provinceSlug])
+  @@index([status, provinceSlug])
+  @@index([level])
+  @@index([level, status])
 }
 
+enum StoreLevel {
+  flagship
+  premium
+  specialty
+  member
+}
 
 model Article {
   id            String    @id @default(cuid())
