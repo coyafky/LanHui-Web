@@ -19,6 +19,8 @@ export type Store = {
   businessHours: string;
   description: string;
   image?: string; // 图片路径预留
+  /** 门店等级（API 返回，前台展示用），fallback 默认 'flagship' */
+  level?: "flagship" | "premium" | "specialty" | "member";
 };
 
 export const stores: Store[] = [

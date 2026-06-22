@@ -27,6 +27,7 @@ function mapApiStore(raw: any): Store {
     businessHours: raw.businessHours ?? "",
     description: raw.description ?? "",
     image: raw.imageUrl,
+    level: raw.level ?? "flagship",
   };
 }
 

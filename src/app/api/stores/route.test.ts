@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
+import { NextRequest } from "next/server";
 
 const mockAuth = vi.hoisted(() => vi.fn());
 const mockStoreCreate = vi.hoisted(() => vi.fn());
@@ -374,5 +375,140 @@ describe("POST /api/stores — Prisma 7 driverAdapterError P2002 structure", () 
     };
     expect(json.error).toBe("数据已存在");
     expect(json.details?._form).toBeDefined();
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────
+// 子任务 3 增量:GET level 筛选 + POST slug 自动生成
+// ────────────────────────────────────────────────────────────────────
+
+describe("GET /api/stores — level 筛选（子任务 3）", () => {
+  async function loadGet() {
+    const mod = await import("./route");
+    return mod.GET;
+  }
+
+  function buildGetReq(query: string): NextRequest {
+    return new NextRequest(`http://localhost/api/stores?${query}`);
+  }
+
+  it("单个 ?level=flagship → Prisma where.level = { in: [flagship] }", async () => {
+    mockStoreFindMany.mockResolvedValue([{ id: "1", level: "flagship" }]);
+    mockStoreCount.mockResolvedValue(1);
+    const GET = await loadGet();
+    const res = await GET(buildGetReq("level=flagship") as unknown as Parameters<typeof GET>[0]);
+    expect(res.status).toBe(200);
+    expect(mockStoreFindMany).toHaveBeenCalledTimes(1);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      level?: { in?: string[] };
+    };
+    expect(whereArg.level).toEqual({ in: ["flagship"] });
+  });
+
+  it("多值 ?level=flagship&level=premium → { in: [flagship, premium] }", async () => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    const res = await GET(buildGetReq("level=flagship&level=premium") as unknown as Parameters<typeof GET>[0]);
+    expect(res.status).toBe(200);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      level?: { in?: string[] };
+    };
+    expect(whereArg.level).toEqual({ in: ["flagship", "premium"] });
+  });
+
+  it("无 level 参数 → where 不含 level 字段", async () => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    const res = await GET(buildGetReq("") as unknown as Parameters<typeof GET>[0]);
+    expect(res.status).toBe(200);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      level?: unknown;
+    };
+    expect(whereArg.level).toBeUndefined();
+  });
+
+  it("兼容 ?isActive=true → 显式 isActive=true（覆盖默认）", async () => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    const res = await GET(buildGetReq("isActive=true") as unknown as Parameters<typeof GET>[0]);
+    expect(res.status).toBe(200);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      isActive?: boolean;
+    };
+    expect(whereArg.isActive).toBe(true);
+  });
+
+  it("兼容 ?isActive=false → 显式 isActive=false", async () => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    const res = await GET(buildGetReq("isActive=false") as unknown as Parameters<typeof GET>[0]);
+    expect(res.status).toBe(200);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      isActive?: boolean;
+    };
+    expect(whereArg.isActive).toBe(false);
+  });
+});
+
+describe("POST /api/stores — slug 自动生成（子任务 3）", () => {
+  it("body 提供 slug → 尊重传入（不调 findMany 查现有 slug）", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreCreate.mockResolvedValue({ id: "store_x", slug: "my-custom-slug" });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      // 11 位合法 phone(VALID_BODY phone 不通过 Zod PHONE_REGEX)
+      body: JSON.stringify({ ...VALID_BODY, slug: "my-custom-slug", phone: "13800138000" }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    const callArg = mockStoreCreate.mock.calls[0]?.[0] as { data: { slug: string } };
+    expect(callArg.data.slug).toBe("my-custom-slug");
+  });
+
+  it("body.slug 为空字符串 → 自动基于 name 生成", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreFindMany.mockResolvedValue([]); // 没有任何已有 slug
+    mockStoreCreate.mockResolvedValue({ id: "store_y", slug: "shunde-daliang" });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      // phone 必须是 11 位数字(VALID_BODY 的 "0757-2288 1001" 不通过 Zod)
+      body: JSON.stringify({ ...VALID_BODY, slug: "", phone: "13800138000" }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    const callArg = mockStoreCreate.mock.calls[0]?.[0] as { data: { slug: string } };
+    // VALID_BODY.name = "蓝辉轻改顺德大良店" → pinyin 转换后含 'shunde-daliang' 之类的
+    expect(callArg.data.slug).toBeTruthy();
+    expect(callArg.data.slug.length).toBeGreaterThan(0);
+  });
+
+  it("重名时自动追加 -2 后缀（toBaseSlug 冲突）", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    // 实际 pinyin 转换 base 是 "lan-hui-qing-gai-shun-de-da-liang-dian"
+    // mock 已有同名 slug 触发 generateStoreSlug 走追加后缀逻辑
+    mockStoreFindMany.mockResolvedValue([
+      { slug: "lan-hui-qing-gai-shun-de-da-liang-dian" },
+    ]);
+    mockStoreCreate.mockResolvedValue({ id: "store_z" });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      // 故意不传 slug,且用合法 11 位 phone
+      body: JSON.stringify({ ...VALID_BODY, slug: undefined, phone: "13800138000" }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    const callArg = mockStoreCreate.mock.calls[0]?.[0] as { data: { slug: string } };
+    // 不管 base 是什么,只要生成的 slug 包含 -2 后缀就算通过
+    expect(callArg.data.slug).toMatch(/-2$/);
   });
 });
