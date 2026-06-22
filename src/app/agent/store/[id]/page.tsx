@@ -12,6 +12,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getStoreById, getAllStoreIds } from "@/lib/data";
 import { generateLocalBusinessSchema, generateBreadcrumbSchema } from "@/lib/geo";
+import { StoreLevelBadge } from "@/components/agent/StoreLevelBadge";
 
 export const revalidate = 86400;
 
@@ -112,6 +113,7 @@ export default async function StoreDetailPage({
               <span className="bg-zinc-800/90 text-zinc-300 text-xs font-bold px-3 py-1 rounded-md">
                 LANHUI
               </span>
+              <StoreLevelBadge level={store.level} variant="card" />
             </div>
 
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
@@ -146,6 +148,7 @@ export default async function StoreDetailPage({
                     {store.name}
                   </h2>
                   <div className="flex items-center gap-2 mb-4">
+                    <StoreLevelBadge level={store.level} variant="inline" />
                   </div>
                   <p className="text-zinc-300 leading-relaxed">
                     {store.description}

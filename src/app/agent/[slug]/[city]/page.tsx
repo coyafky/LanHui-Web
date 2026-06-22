@@ -2,11 +2,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
   ChevronRight,
-  MapPin,
-  ArrowRight,
   Building2,
-  Phone,
-  Clock,
+  Store as StoreIcon,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -18,6 +15,8 @@ import {
   getProvinces,
 } from "@/lib/data";
 import { generateBreadcrumbSchema } from "@/lib/geo";
+import { StoreCard } from "@/components/agent/StoreCard";
+import { sortStoresByLevel } from "@/components/agent/sort-stores";
 
 export const revalidate = 3600;
 
@@ -61,7 +60,9 @@ export default async function CityStoresPage({
   const { slug, city } = await params;
   const cityData = await getCityBySlug(slug, city);
   if (!cityData) notFound();
-  const storesInCity = await getStores({ province: slug, city });
+  const storesInCity = sortStoresByLevel(
+    await getStores({ province: slug, city }),
+  );
   const provinceName = await provinceLabel(slug);
 
   return (
@@ -124,54 +125,31 @@ export default async function CityStoresPage({
         {/* ── 门店卡片列表 ── */}
         <section className="py-12 md:py-16 bg-black">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-end justify-between mb-8 gap-4">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-orange-500/10">
+                  <StoreIcon className="w-5 h-5 text-orange-400" />
+                </div>
+                <h2 className="text-xl font-bold text-white">门店列表</h2>
+              </div>
+              {storesInCity.length > 0 && (
+                <p className="text-xs text-zinc-500 hidden sm:block">
+                  按门店等级排序 · 旗舰优先
+                </p>
+              )}
+            </div>
             {storesInCity.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {storesInCity.map((store) => (
-                  <Link
-                    key={store.id}
-                    href={`/agent/store/${store.id}`}
-                    className="group block bg-zinc-900 rounded-2xl border border-zinc-800 hover:border-zinc-700 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
-                  >
-                    <div className="relative h-48 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
-                      <Building2 className="w-16 h-16 text-zinc-700 group-hover:text-zinc-600 transition-colors" />
-                      <div className="absolute top-3 left-3">
-                        <span className="bg-zinc-800/90 text-zinc-300 text-xs font-bold px-2.5 py-1 rounded-md backdrop-blur-sm">
-                          LANHUI
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold text-white mb-3">
-                        {store.name}
-                      </h3>
-                      <div className="space-y-2 mb-4">
-                        <div className="flex items-start gap-2 text-sm text-zinc-400">
-                          <MapPin className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
-                          <span className="leading-relaxed">
-                            {store.address}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-zinc-400">
-                          <Phone className="w-4 h-4 text-orange-400 flex-shrink-0" />
-                          <span>{store.phone}</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-zinc-400">
-                          <Clock className="w-4 h-4 text-orange-400 flex-shrink-0" />
-                          <span>{store.businessHours}</span>
-                        </div>
-                      </div>
-                      <span className="text-orange-400 text-sm font-medium inline-flex items-center">
-                        查看详情
-                        <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
-                      </span>
-                    </div>
-                  </Link>
+                  <StoreCard key={store.id} store={store} />
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20">
+              <div className="text-center py-16 rounded-2xl border border-zinc-800 bg-zinc-900">
                 <Building2 className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
-                <p className="text-zinc-400">该城市暂无已开放门店数据。</p>
+                <p className="text-zinc-400">
+                  {cityData.label}暂无已开放门店数据。
+                </p>
               </div>
             )}
           </div>
