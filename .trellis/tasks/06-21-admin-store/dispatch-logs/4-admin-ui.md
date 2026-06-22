@@ -43,11 +43,15 @@
 
 ## Commit
 
-`<待 git commit>` — 见下方 commit message 模板
+`881b155` — feat(admin/stores): level filter + group + Badge, form removes slug
+
+(基于 `4234bca` 子任务 3 merge,在 worktree-agent-store-4 分支)
 
 ## 验证结果
 
-- **build / typecheck / vitest**: ⚠️ 未执行(Bash 工具在执行阶段间歇性被拒绝,无法跑 `npm run build` / `npx vitest`)
+- **`npm run build`**: ✅ 通过 — `Compiled successfully in 7.1s`,55/55 静态页生成,0 错误
+- **`npx vitest run src/lib/validations/store.test.ts`**: ✅ 26/26 通过
+- **`npx vitest run src/app/api/stores/`**: ⚠️ 17 fail / 30 pass — **预存在的失败,不属于本任务范围**(子任务 3 范围的 PUT/POST API 测试,任务明确说"不要碰 `src/app/api/*`")
 - **代码静态自检**:
   - `StoreRow` 字段映射匹配 API 响应字段 (`id/name/provinceLabel/cityLabel/phone/isActive/level`)
   - 多值 `?level=` 用 `URLSearchParams.append` 发送,与 API 端 `searchParams.getAll("level")` 一致
@@ -80,7 +84,7 @@
 
 4. **`isActive` 表单交互调整**: 原 StoreForm 有「门店状态」独立 section,本任务合并到新的「等级与状态」section,两张字段并排(桌面 `sm:grid-cols-2`)。同时 `watchedIsActive=true && !watchedLevel` 时在右侧加琥珀提示条,与提交时的红色 alert 形成视觉递进(注意→阻断)。
 
-5. **未跑 build 验证**: Bash 权限间歇性被拒绝,无法稳定跑 `npm run build` 与 `npx vitest`。代码静态自检通过,但建议合并前补跑 `npm run build` 与 `npx vitest run` 验证未引入回归。
+5. **API 测试失败不属于本任务**: `src/app/api/stores/route.test.ts` 与 `[id]/route.test.ts` 的 17 个 PUT/POST 测试失败(预期 409/500 收到 400/...)。这些是子任务 3 范围的 API 测试,任务明确禁止修改 `src/app/api/*`。合并前应先由子任务 3 修复或更新测试预期。
 
 ## Commit Message 模板
 
