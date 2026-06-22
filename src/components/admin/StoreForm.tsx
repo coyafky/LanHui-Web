@@ -15,9 +15,15 @@ import {
   Image as ImageIcon,
   FileText,
   Eye,
+  Award,
 } from "lucide-react";
 import { z } from "zod";
 import { StoreCreateSchema } from "@/lib/validations/store";
+import {
+  STORE_LEVELS,
+  STORE_LEVEL_LABELS,
+  type StoreLevel,
+} from "@/lib/validations/store";
 import { cn } from "@/lib/utils";
 import {
   RegionSelector,
@@ -42,6 +48,21 @@ interface StoreFormProps {
   showDelete?: boolean;
   onDelete?: () => Promise<void>;
 }
+
+/* ------------------------------------------------------------------ */
+/*  Level badge color mapping                                          */
+/* ------------------------------------------------------------------ */
+
+const LEVEL_BADGE_CLASS: Record<StoreLevel, string> = {
+  flagship:
+    "border-amber-600/60 bg-amber-500/10 text-amber-400",
+  premium:
+    "border-blue-600/60 bg-blue-500/10 text-blue-400",
+  specialty:
+    "border-cyan-600/60 bg-cyan-500/10 text-cyan-400",
+  member:
+    "border-zinc-600 bg-zinc-700/40 text-zinc-300",
+};
 
 /* ------------------------------------------------------------------ */
 /*  Form Field Wrapper                                                 */
@@ -126,11 +147,14 @@ export function StoreForm({
       businessHours: "",
       description: "",
       isActive: true,
+      level: undefined,
       ...defaultValues,
     },
   });
 
   const watchedPhone = watch("phone");
+  const watchedLevel = watch("level");
+  const watchedIsActive = watch("isActive");
 
   /* ---------- Auto-generate phoneTel from phone ---------- */
   useEffect(() => {
@@ -158,6 +182,16 @@ export function StoreForm({
   async function handleFormSubmit(data: StoreFormValues) {
     setSubmitError(null);
     setSubmitSuccess(null);
+
+    // 发布前置校验（PRD §16 D1）：从 pending → active 必须设置 level
+    const wantsPublish = data.isActive === true && !data.status;
+    if (wantsPublish && !data.level) {
+      setSubmitError(
+        "发布前请先选择门店等级(星辉旗舰店 / 星耀尊享店 / 星辰专营店 / 星光会员店)"
+      );
+      return;
+    }
+
     setSubmitting(true);
     try {
       await onSubmit(data);
@@ -239,19 +273,8 @@ export function StoreForm({
             />
           </FieldWrapper>
 
-          {/* Slug */}
-          <FieldWrapper
-            label="URL标识 (slug)"
-            icon={FileText}
-            required
-            error={errors.slug?.message}
-          >
-            <input
-              {...register("slug")}
-              placeholder="例：shunde-daliang"
-              className={inputClasses}
-            />
-          </FieldWrapper>
+          {/* Slug: 系统自动生成，不再展示在表单中 */}
+          <input type="hidden" {...register("slug")} />
 
           {/* Province / City via RegionSelector */}
           <RegionSelector
@@ -282,6 +305,98 @@ export function StoreForm({
               placeholder="例：广东省佛山市顺德区大良街道..."
               className={inputClasses}
             />
+          </FieldWrapper>
+        </div>
+      </section>
+
+      {/* ── Level & Status ── */}
+      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+        <h2 className="mb-4 text-lg font-semibold text-zinc-100">
+          等级与状态
+        </h2>
+        <div className="grid gap-5 sm:grid-cols-2">
+          {/* Level Select */}
+          <FieldWrapper
+            label="门店等级"
+            icon={Award}
+            error={errors.level?.message}
+          >
+            <Controller
+              name="level"
+              control={control}
+              render={({ field }) => (
+                <select
+                  value={field.value ?? ""}
+                  onChange={(e) =>
+                    field.onChange(
+                      e.target.value === ""
+                        ? undefined
+                        : (e.target.value as StoreLevel)
+                    )
+                  }
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                  aria-label="选择门店等级"
+                  className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
+                >
+                  <option value="">暂不设置（待发布）</option>
+                  {STORE_LEVELS.map((lvl) => (
+                    <option key={lvl} value={lvl}>
+                      {STORE_LEVEL_LABELS[lvl]}
+                    </option>
+                  ))}
+                </select>
+              )}
+            />
+            <p className="mt-1 text-xs text-zinc-500">
+              发布（设为营业中）前必须选择门店等级。
+            </p>
+            {watchedLevel && (
+              <span
+                aria-live="polite"
+                className={cn(
+                  "mt-2 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium",
+                  LEVEL_BADGE_CLASS[watchedLevel]
+                )}
+              >
+                {STORE_LEVEL_LABELS[watchedLevel]}
+              </span>
+            )}
+          </FieldWrapper>
+
+          {/* isActive Select */}
+          <FieldWrapper
+            label="营业状态"
+            icon={Eye}
+            error={errors.isActive?.message}
+          >
+            <Controller
+              name="isActive"
+              control={control}
+              render={({ field }) => (
+                <select
+                  value={String(field.value ?? true)}
+                  onChange={(e) => field.onChange(e.target.value === "true")}
+                  onBlur={field.onBlur}
+                  ref={field.ref}
+                  className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
+                >
+                  <option value="true">营业中</option>
+                  <option value="false">下架</option>
+                </select>
+              )}
+            />
+            <p className="mt-1 text-xs text-zinc-500">
+              选择「下架」后，前台 <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-xs">/api/stores</code> 将不再返回该门店，但后台列表仍可见。
+            </p>
+            {watchedIsActive && !watchedLevel && (
+              <p
+                role="alert"
+                className="mt-2 rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-xs text-amber-400"
+              >
+                提示：未选择门店等级，发布动作将被阻断。
+              </p>
+            )}
           </FieldWrapper>
         </div>
       </section>
@@ -364,36 +479,6 @@ export function StoreForm({
             </FieldWrapper>
           )}
         </div>
-      </section>
-
-      {/* ── Store Status ── */}
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-100">门店状态</h2>
-        <p className="mb-3 text-sm text-zinc-400">
-          选择「下架」后，前台 <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-xs">/api/stores</code> 将不再返回该门店，但后台列表仍可见。
-        </p>
-        <FieldWrapper
-          label="营业状态"
-          icon={Eye}
-          error={errors.isActive?.message}
-        >
-          <Controller
-            name="isActive"
-            control={control}
-            render={({ field }) => (
-              <select
-                value={String(field.value ?? true)}
-                onChange={(e) => field.onChange(e.target.value === "true")}
-                onBlur={field.onBlur}
-                ref={field.ref}
-                className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
-              >
-                <option value="true">营业中</option>
-                <option value="false">下架</option>
-              </select>
-            )}
-          />
-        </FieldWrapper>
       </section>
 
       {/* ── Actions ── */}
