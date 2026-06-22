@@ -1,6 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { z } from "zod";
-import { StoreCreateSchema, SLUG_REGEX } from "@/lib/validations/store";
+import {
+  isActiveToStatus,
+  resolveStoreStatus,
+  statusToIsActive,
+  StoreCreateSchema,
+  SLUG_REGEX,
+} from "@/lib/validations/store";
 
 describe("StoreCreateSchema", () => {
   const validData = {
@@ -12,7 +18,7 @@ describe("StoreCreateSchema", () => {
     cityLabel: "佛山",
     district: "顺德大良",
     address: "广东省佛山市顺德区大良街道xxx",
-    phone: "0757-2288 1001",
+    phone: "13800138000",
     businessHours: "09:00-18:00",
     description: "门店描述",
   };
@@ -23,14 +29,16 @@ describe("StoreCreateSchema", () => {
   });
 
   describe("slug 校验", () => {
-    it("拒绝空 slug", () => {
+    it("允许空 slug（API 层会用 generateStoreSlug 兜底）", () => {
       const result = StoreCreateSchema.safeParse({ ...validData, slug: "" });
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.error.flatten().fieldErrors.slug).toContain(
-          "URL标识不能为空"
-        );
-      }
+      expect(result.success).toBe(true);
+    });
+
+    it("允许省略 slug（undefined）", () => {
+      const { slug: _unused, ...withoutSlug } = validData;
+      void _unused;
+      const result = StoreCreateSchema.safeParse(withoutSlug);
+      expect(result.success).toBe(true);
     });
 
     it("拒绝含大写字母的 slug", () => {
@@ -109,19 +117,23 @@ describe("StoreCreateSchema", () => {
 
   describe("AC-5：label 由服务端覆盖（schema 不再强求）", () => {
     it("缺省 provinceLabel 不阻塞 schema 校验（optional）", () => {
-      const { provinceLabel: _omit, ...withoutProvinceLabel } = validData;
+      const withoutProvinceLabel: Partial<typeof validData> = { ...validData };
+      delete withoutProvinceLabel.provinceLabel;
       const result = StoreCreateSchema.safeParse(withoutProvinceLabel);
       expect(result.success).toBe(true);
     });
 
     it("缺省 cityLabel 不阻塞 schema 校验（optional）", () => {
-      const { cityLabel: _omit, ...withoutCityLabel } = validData;
+      const withoutCityLabel: Partial<typeof validData> = { ...validData };
+      delete withoutCityLabel.cityLabel;
       const result = StoreCreateSchema.safeParse(withoutCityLabel);
       expect(result.success).toBe(true);
     });
 
     it("两者都缺省仍可通过（服务端后续注入权威 label）", () => {
-      const { provinceLabel: _p, cityLabel: _c, ...rest } = validData;
+      const rest: Partial<typeof validData> = { ...validData };
+      delete rest.provinceLabel;
+      delete rest.cityLabel;
       const result = StoreCreateSchema.safeParse(rest);
       expect(result.success).toBe(true);
     });
@@ -136,15 +148,23 @@ describe("StoreCreateSchema", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.flatten().fieldErrors.phone).toContain(
-          "电话格式不正确"
+          "联系电话必须为 11 位数字"
         );
       }
     });
 
-    it("接受带空格和连字符的电话", () => {
+    it("拒绝带空格和连字符的电话", () => {
       const result = StoreCreateSchema.safeParse({
         ...validData,
         phone: "0757-2288 1001",
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it("接受 11 位数字", () => {
+      const result = StoreCreateSchema.safeParse({
+        ...validData,
+        phone: "13800138000",
       });
       expect(result.success).toBe(true);
     });
@@ -188,16 +208,36 @@ describe("StoreCreateSchema", () => {
     });
   });
 
-  describe("isActive 字段", () => {
-    it("isActive 缺省值 = true", () => {
+  describe("门店状态字段", () => {
+    it("status 缺省时 schema 不直接补值，交给 API 按场景处理", () => {
       const result = StoreCreateSchema.safeParse(validData);
       expect(result.success).toBe(true);
       if (result.success) {
-        expect(result.data.isActive).toBe(true);
+        expect(result.data.status).toBeUndefined();
+        expect(result.data.isActive).toBeUndefined();
       }
     });
 
-    it("isActive = false 合法", () => {
+    it("status = pending 合法", () => {
+      const result = StoreCreateSchema.safeParse({
+        ...validData,
+        status: "pending",
+      });
+      expect(result.success).toBe(true);
+      if (result.success) {
+        expect(result.data.status).toBe("pending");
+      }
+    });
+
+    it("拒绝非法 status", () => {
+      const result = StoreCreateSchema.safeParse({
+        ...validData,
+        status: "offline",
+      });
+      expect(result.success).toBe(false);
+    });
+
+    it("isActive 兼容字段仍可传入", () => {
       const result = StoreCreateSchema.safeParse({
         ...validData,
         isActive: false,
@@ -214,6 +254,19 @@ describe("StoreCreateSchema", () => {
         isActive: "true",
       });
       expect(result.success).toBe(false);
+    });
+
+    it("状态与兼容布尔字段互转", () => {
+      expect(statusToIsActive("pending")).toBe(false);
+      expect(statusToIsActive("active")).toBe(true);
+      expect(statusToIsActive("suspended")).toBe(false);
+      expect(statusToIsActive("terminated")).toBe(false);
+      expect(isActiveToStatus(true)).toBe("active");
+      expect(isActiveToStatus(false)).toBe("suspended");
+      expect(resolveStoreStatus({})).toBe("pending");
+      expect(resolveStoreStatus({ isActive: true })).toBe("active");
+      expect(resolveStoreStatus({ isActive: false })).toBe("suspended");
+      expect(resolveStoreStatus({ status: "terminated", isActive: true })).toBe("terminated");
     });
   });
 });
