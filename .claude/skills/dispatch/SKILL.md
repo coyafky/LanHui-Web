@@ -7,6 +7,21 @@ user-invocable: true
 
 # Dispatch — 专家团流水线编排引擎
 
+> **Trellis 等价物:** 本 skill 的"流水线编排 + 门禁 + worktree"职责在 Trellis 体系下由 [`.trellis/agents/orchestrator.md`](../../.trellis/agents/orchestrator.md) 承担。
+>
+> - **4 阶段流水线**相同(Architect → Implement → Test → Deploy)
+> - **Worktree 生命周期**程序化(内置 CREATE / DISPATCH / VERIFY / MERGE / CLEANUP)
+> - **入口**:`trellis channel spawn --agent orchestrator`(而非本 skill 的 Claude subagent)
+> - **用户入口 skill**:`/trellis-orchestrator` → `.claude/skills/trellis-orchestrator/SKILL.md`
+>
+> 何时用哪个:
+> - **交互式快速原型** → 用本 skill(`/dispatch` 4 阶段 subagent)
+> - **长时非交互流水线 + worktree 隔离** → 用 Trellis orchestrator agent
+>
+> 详见 `.trellis/agents/orchestrator.md` 与 `docs/architecture/trellis-agents.md`。
+
+---
+
 你是一个 **任务编排调度器**（类似生产线的车间主任）。用户给你一段需求描述（`ARGUMENTS`），你负责：
 
 1. **理解需求** — 解析用户意图，必要时先调用 `/prompt-boost` 生成精确规格
@@ -25,6 +40,7 @@ user-invocable: true
 |------|--------------|------|------|
 | **架构师** | `architect` | 需求分析、架构设计、任务拆解、接口定义 | 设计文档（Markdown） |
 | **实现者** | `coder` | 按规格写代码，严格遵循 TDD | 源代码文件 |
+| **前端工程师** | `general-purpose`（启动时调用 `frontend-ui-engineering` skill） | UI / 视觉 / 交互组件实现 + 可访问性 + 响应式 | 源代码 + 视觉验收清单 |
 | **测试工程师** | `tester` | 发现 Bug 并报告，不做代码修改 | Bug 报告（Markdown） |
 | **部署工程师** | `deployer` | 构建、部署、环境检查、回滚 | 部署状态报告 |
 
@@ -32,6 +48,7 @@ user-invocable: true
 
 - **架构师**只设计不实现 — 产出设计文档，不写业务代码
 - **实现者**只实现不越界 — 严格按 spec 写代码，遵循 TDD
+- **前端工程师**只做 UI 实现 — 不修改 API / 数据层 / 业务逻辑；产物必须附「视觉验收清单」（交互态、可访问性、响应式断点）
 - **测试工程师**只测不修 — 发现 bug 报给 Coder，不做代码修改
 - **部署工程师**只部署不写业务代码 — 负责构建、部署、环境检查、回滚
 
@@ -40,10 +57,12 @@ user-invocable: true
 ## 流水线阶段
 
 ```
-[需求输入] → 架构师 → (门禁1) → 实现者 → (门禁2) → 测试工程师 → (门禁3) → 部署工程师 → [交付]
-                ↓                    ↓                       ↓                        ↓
-            设计文档              源代码                  Bug报告                 部署状态
+[需求输入] → 架构师 → (门禁1) → 任务路由 → 实现者 (coder / webdesign-engineer) → (门禁2) → 测试工程师 → (门禁3) → 部署工程师 → [交付]
+                ↓                                       ↓                                       ↓                       ↓
+            设计文档                              源代码 / UI 组件                       Bug报告                 部署状态
 ```
+
+> **实现者任务路由(2026-06-22 起):** 在「实现者」阶段入口,编排器先做任务分类 — 命中 UI / 视觉 / 交互关键词的子任务委派给**前端工程师 (webdesign-engineer)**,其余继续走**实现者 (coder)**。详见「阶段 2:任务路由决策」。
 
 ### 阶段 1：架构师（Architect）
 
@@ -84,16 +103,26 @@ user-invocable: true
 
 **门禁 1：** 用户确认设计文档后才进入下一阶段。如果用户有修改意见，架构师修订后重新过门禁。
 
-### 阶段 2：实现者（Coder）
+### 阶段 2：实现者（Coder / Webdesign-Engineer）
 
 **输入：** 架构师的设计文档 + 子任务列表
 
+**任务路由决策：** 进入本阶段后,编排器对每个子任务做一次关键词匹配,决定委派对象。
+
+| 命中条件(任一) | 委派角色 | subagent_type | 启动时强制调用 skill |
+|---|---|---|---|
+| 子任务标题/描述含 `component / page / hero / section / layout / card / modal / form / button / nav` 或 `UI / 视觉 / 交互 / responsive / accessibility / a11y / styles / tailwind / shadcn / 配色 / 主题` | **前端工程师 (webdesign-engineer)** | `general-purpose` | `frontend-ui-engineering` |
+| 其他 | **实现者 (coder)** | `coder` | — |
+
+> 关键词匹配不区分大小写;中英文都算;命中 ≥ 1 即路由到 webdesign-engineer。多个子任务可分别路由,互不影响。
+
 **工作内容：**
-1. 按子任务列表逐个实现
+1. 按子任务列表逐个实现(路由后由对应角色执行)
 2. 每个子任务严格按 spec 写代码
 3. 遵循 TDD：先写测试用例（如适用），再写实现
 4. 每个子任务完成后运行 `npx tsc --noEmit` 验证类型安全
 5. 所有子任务完成后运行 `npm run build` 验证构建通过
+6. webdesign-engineer 子任务额外产出「视觉验收清单」(交互态、a11y、响应式断点)
 
 **重要规则：**
 - 每个子任务应在独立的 worktree 中执行（`isolation: "worktree"`），避免主分支污染
@@ -207,8 +236,9 @@ Bug 修复循环最多 3 轮，仍存在 P0/P1 则终止流水线并报告给用
 | 阶段 | 失败条件 | 动作 | 最大重试 |
 |------|---------|------|---------|
 | 架构师 | 用户拒绝设计 | 修订设计，重新过门禁 | 无限制 |
-| 实现者 | tsc/build 不通过 | Coder 修复 | 2 次 |
-| 测试工程师 | P0/P1 Bug | 回退给 Coder 修复 | 3 轮 |
+| 实现者 (coder) | tsc/build 不通过 | Coder 修复 | 2 次 |
+| 前端工程师 (webdesign-engineer) | tsc/build 不通过 或 视觉验收清单不达标 | webdesign-engineer 自修复 | 2 次 |
+| 测试工程师 | P0/P1 Bug | 回退给 coder / webdesign-engineer 修复 | 3 轮 |
 | 部署工程师 | 构建或部署失败 | 回滚到上一版本 | 1 次 |
 
 ---
