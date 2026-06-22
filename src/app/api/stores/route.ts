@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { StoreCreateSchema } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
+import { generateStoreSlug } from "@/lib/store-slug";
 
 export async function GET(request: NextRequest) {
   try {
@@ -13,6 +14,10 @@ export async function GET(request: NextRequest) {
     const limit = Math.min(100, Math.max(1, Number(searchParams.get("limit")) || 20));
     const search = searchParams.get("search");
     const all = searchParams.get("all");
+    // 多值筛选：?level=flagship&level=premium
+    const levels = searchParams.getAll("level");
+    // 旧 API 兼容：?isActive=true/false — 派生为 status / isActive 过滤
+    const isActiveParam = searchParams.get("isActive");
 
     // Only show inactive stores to admins with ?all=true
     let showAll = false;
@@ -24,14 +29,24 @@ export async function GET(request: NextRequest) {
     }
 
     const where: Record<string, unknown> = {};
-    if (!showAll) {
+    if (!showAll && isActiveParam === null) {
+      // 默认只展示 active（兼容旧调用方），显式 ?isActive=false 时一起覆盖
       where.isActive = true;
+    }
+    if (isActiveParam === "true") {
+      where.isActive = true;
+    } else if (isActiveParam === "false") {
+      where.isActive = false;
     }
     if (province) {
       where.provinceSlug = province;
     }
     if (city) {
       where.citySlug = city;
+    }
+    if (levels.length > 0) {
+      // Prisma schema 的 level 字段是 enum,直接用 in
+      where.level = { in: levels };
     }
     if (search) {
       where.OR = [
@@ -128,6 +143,19 @@ export async function POST(request: NextRequest) {
     // 用数据库权威 label 覆盖客户端传来的值（AC-5：不信任客户端 label）
     // 此时 provinceLabel/cityLabel 已为非空 string，但 zod 推导仍是 optional
     // 所以用强制断言向下传递，Prisma schema 要求这两个字段必填非空
+    //
+    // slug 自动生成：客户端可手填也可省略；
+    //   - 传了非空值：尊重（管理后台手填场景）
+    //   - 未传/空串/纯空白：基于 name + 现有 slug 列表自动生成
+    let slug: string | null = parsed.data.slug?.trim() || null;
+    if (!slug) {
+      const existing = await prisma.store.findMany({ select: { slug: true } });
+      const existingSlugs = existing
+        .map((s) => s.slug)
+        .filter((s): s is string => Boolean(s));
+      slug = generateStoreSlug(parsed.data.name, existingSlugs);
+    }
+
     const finalData = {
       ...parsed.data,
       provinceLabel: province.label,
@@ -135,6 +163,7 @@ export async function POST(request: NextRequest) {
       // phoneTel 在 Prisma schema 是必填，schema 改为 optional 后由客户端 useEffect 派生
       phoneTel:
         parsed.data.phoneTel ?? `tel:${parsed.data.phone.replace(/\D/g, "")}`,
+      slug,
     };
 
     const store = await prisma.store.create({

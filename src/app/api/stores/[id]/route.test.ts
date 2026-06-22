@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 
 const mockAuth = vi.hoisted(() => vi.fn());
 const mockStoreFindFirst = vi.hoisted(() => vi.fn());
+const mockStoreFindMany = vi.hoisted(() => vi.fn());
 const mockStoreUpdate = vi.hoisted(() => vi.fn());
 const mockProvinceFindUnique = vi.hoisted(() => vi.fn());
 const mockCityFindUnique = vi.hoisted(() => vi.fn());
@@ -13,6 +14,7 @@ vi.mock("@/lib/prisma", () => ({
   prisma: {
     store: {
       findFirst: mockStoreFindFirst,
+      findMany: mockStoreFindMany,
       update: mockStoreUpdate,
     },
     province: { findUnique: mockProvinceFindUnique },
@@ -61,11 +63,13 @@ beforeEach(() => {
   vi.resetModules();
   mockAuth.mockReset();
   mockStoreFindFirst.mockReset();
+  mockStoreFindMany.mockReset();
   mockStoreUpdate.mockReset();
   mockProvinceFindUnique.mockReset();
   mockCityFindUnique.mockReset();
   mockLogActivity.mockReset();
   mockStoreFindFirst.mockResolvedValue(EXISTING_STORE);
+  mockStoreFindMany.mockResolvedValue([]);
   mockProvinceFindUnique.mockResolvedValue(GUANGDONG_DB);
   mockCityFindUnique.mockResolvedValue(FOSHAN_DB);
   mockStoreUpdate.mockImplementation(async ({ data }) => ({
@@ -80,9 +84,22 @@ async function loadPut() {
   return mod.PUT;
 }
 
+async function loadPatch() {
+  const mod = await import("./route");
+  return mod.PATCH;
+}
+
 function buildPutReq(id: string, body: Record<string, unknown>): NextRequest {
   return new NextRequest(`http://localhost/api/stores/${id}`, {
     method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+}
+
+function buildPatchReq(id: string, body: Record<string, unknown>): NextRequest {
+  return new NextRequest(`http://localhost/api/stores/${id}`, {
+    method: "PATCH",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
   });
@@ -306,5 +323,143 @@ describe("PUT /api/stores/[id] — Prisma 兜底", () => {
       { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PUT>[1],
     );
     expect(res.status).toBe(500);
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────
+// 子任务 3 增量:PATCH /api/stores/[id]
+// ────────────────────────────────────────────────────────────────────
+
+describe("PATCH /api/stores/[id] — 鉴权（子任务 3）", () => {
+  it("未认证返回 401", async () => {
+    mockAuth.mockResolvedValue(null);
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { name: "新名" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(401);
+  });
+
+  it("非 admin 返回 403", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "editor" } });
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { name: "新名" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(403);
+  });
+});
+
+describe("PATCH /api/stores/[id] — level 字段更新（子任务 3）", () => {
+  it("更新 level = premium → 写入 update.data.level", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreFindFirst.mockResolvedValue({ ...EXISTING_STORE, status: "active" });
+    mockStoreUpdate.mockResolvedValue({ ...EXISTING_STORE, level: "premium" });
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { level: "premium" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(200);
+    const callArg = mockStoreUpdate.mock.calls[0]?.[0] as { data: { level: string } };
+    expect(callArg.data.level).toBe("premium");
+  });
+
+  it("非法 level 值 → Zod 验证失败 400", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { level: "invalid-level" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(400);
+  });
+});
+
+describe("PATCH /api/stores/[id] — slug 拒绝手动修改（子任务 3）", () => {
+  it("body 含 slug 字段 → 400 + details.slug", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { slug: "hijack" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as { details?: Record<string, string[]> };
+    expect(json.details?.slug).toBeDefined();
+    // 没碰 store.update
+    expect(mockStoreUpdate).not.toHaveBeenCalled();
+  });
+
+  it("body.slug = null → 仍被拒绝（不允许清空）", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { slug: null }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(400);
+  });
+});
+
+describe("PATCH /api/stores/[id] — name 变化触发 slug 联动（子任务 3）", () => {
+  it("pending 状态下 name 变化 → 自动重生成 slug", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreFindFirst
+      .mockResolvedValueOnce({ ...EXISTING_STORE, status: "pending" }) // PATCH 查 existing
+      .mockResolvedValueOnce([]); // 生成 slug 时查 existingSlugs
+    mockStoreUpdate.mockResolvedValue({
+      ...EXISTING_STORE,
+      name: "新门店名",
+      slug: "xin-mendian-ming",
+      status: "pending",
+    });
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { name: "新门店名" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(200);
+    const callArg = mockStoreUpdate.mock.calls[0]?.[0] as {
+      data: { name: string; slug?: string };
+    };
+    expect(callArg.data.name).toBe("新门店名");
+    // slug 应被自动生成（来自 generateStoreSlug 内部算法）
+    expect(callArg.data.slug).toBeTruthy();
+    expect(typeof callArg.data.slug).toBe("string");
+  });
+
+  it("active 状态下 name 变化 → 不重生成 slug（slug 字段不出现在 update.data）", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreFindFirst.mockResolvedValue({ ...EXISTING_STORE, status: "active" });
+    mockStoreUpdate.mockResolvedValue({ ...EXISTING_STORE, name: "新门店名", status: "active" });
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { name: "新门店名" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(200);
+    const callArg = mockStoreUpdate.mock.calls[0]?.[0] as {
+      data: { name: string; slug?: string };
+    };
+    expect(callArg.data.name).toBe("新门店名");
+    // active 状态:slug 不在 update payload 中
+    expect(callArg.data.slug).toBeUndefined();
+  });
+
+  it("suspended 状态下 name 变化 → 也不重生成 slug", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreFindFirst.mockResolvedValue({ ...EXISTING_STORE, status: "suspended" });
+    mockStoreUpdate.mockResolvedValue({ ...EXISTING_STORE, name: "新名", status: "suspended" });
+    const PATCH = await loadPatch();
+    const res = await PATCH(
+      buildPatchReq("store_1", { name: "新名" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PATCH>[1],
+    );
+    expect(res.status).toBe(200);
+    const callArg = mockStoreUpdate.mock.calls[0]?.[0] as { data: { slug?: string } };
+    expect(callArg.data.slug).toBeUndefined();
   });
 });
