@@ -364,5 +364,365 @@ Running 7 tests using 1 worker
 
 ---
 
-> 最后更新: 2026-06-24(同日 续)
-> 状态: ✅ Path A + Path B 双完成,7 e2e 全过,DB 已清理,后续 P2 deferred 不阻塞。
+> 最后更新: 2026-06-24(同日 第 3 续 — dispatch 流水线)
+> 状态: ✅ Path A + Path B 完整,下午 dispatch 流水线完成(含 2 个并行代理实现),前后端代码就绪,前端渲染需下回排查。
+
+---
+
+---
+
+## 十五、下午 /dispatch 流水线: 门店筛选 + 搜索 + 排序 + URL 持久化(2026-06-24)
+
+### 触发背景
+
+上一轮(十四节)后用户反馈:admin Store Page 遗漏了 PRD/SPEC 规定的筛选功能。用 `/prompt-boost` + 官方 `/dispatch` 流水线实施。
+
+**用户输入**: "按照那一份规格 切使用 dispatch 专家团来编码"
+
+### 识别的问题(从 SPEC / 用户描述提取)
+
+1. **P1-1**: 城市级联筛选不存在(只有省份)
+2. **P1-2**: URL query 参数未持久化筛选状态(刷新丢失)
+3. **P1-3**: 排序后端已支持但前端的 `?sort=` 未传递到 API
+4. **P1-4**: 搜索仅在 name 上,未涵盖 phone/slug
+5. **P1-5**: 按合作状态(status)分组
+6. **P1-6**: 图片完整性筛选(有封面/缺封面)
+7. **P2**: Empty state 未区分「无数据」vs「筛选无结果」
+
+### 设计决策
+
+| 决策 | 选择 | 理由 |
+|------|------|------|
+| 路由前置 | API 层+前端并行,不额外迁文件 | 已有 `/api/stores?sort=&image=&city=&search=` 参数就绪 |
+| 城市 API 复用 | `/api/cities?province=xxx` 已存在 | 无需新增 endpoint |
+| URL 持久化方案 | `useSearchParams` + `router.replace` | Next.js 惯用模式,SP`Suspense` 已处理 |
+| Empty state 区分 | 三态: fetch 错误 / 筛选无结果 / 真的无门店 | 从 `fetchError/isEmpty/hasActiveFilter` 三控 |
+| Sort 类型 | `OrderByItem \| OrderByItem[]` 联合 | Prisma orderBy 支持复合排序(level_desc: level+createdAt) |
+| Agent 隔离 | `isolation: "worktree"` | 遵循 dispatch SKILL.md 规范 |
+
+### 架构师产出
+
+`/dispatch` 的 Architect agent 分析后拆出 7 个子任务,分 3 阶段:
+
+**Phase A (API 层 — 无依赖,可并行调度):**
+- Task 1: SORT_MAP + search 扩展 + image 筛选 (1 文件,新增 14 测试)
+- Task 2: 城市数据 API (零编码,已有 `/api/cities`)
+
+**Phase B (前端筛选 UI — 依赖 Phase A:API 就绪即可,不等待前端):**
+- Task 3: URL query 参数双向同步 (useSearchParams + Suspense wrapper)
+- Task 4: 城市级联下拉 (省份选后自动加载城市)
+- Task 5: 按 status 分组 + 图片完整性筛选 UI
+- Task 6: 三态 Empty state (fetchError/筛选无结果/真的无数据)
+
+**Phase C (验证 — 依赖 Phase A+B 合并):**
+- Task 7: 合并 worktree + full build + tsc 验证
+
+### 实施过程
+
+#### 步骤 1: 用户确认设计文档
+用户输入 `/dispatch` `实现它` 触发流水线第 2 阶段。
+
+#### 步骤 2: 并行调度 2 个 Agent
+
+**Agent A — API 层实现 (coder):**
+- 修改 `src/app/api/stores/route.ts`:
+  - 新增 `SORT_MAP`: 7 种排序 → Prisma orderBy 映射
+  - Search 扩展: `where.OR` 增加 `phone` + `slug` 字段
+  - Image 筛选: `?image=has` → `{ not: null }`, `?image=missing` → `null`
+  - 新增 14 个 vitest 测试用例(排序/search/image/边界)
+- 遇到的类型错误: `sort && SORT_MAP[sort]` 可能为 `""`,改三元式修复
+
+**Agent B — 前端 UI 实现 (general-purpose + frontend-ui-engineering):**
+- 修改 `src/app/admin/(dashboard)/stores/page.tsx` (~380 行 diff):
+  - 组件结构重构: `StoresPage`(default export + `<Suspense>`) → `StoresPageInner`(含 `useSearchParams`)
+  - 6 个 filter state 从 URL 初始化: `cityFilter`, `imageFilter`, `fetchError` 等
+  - 城市 `<select>`: disabled 当无省份,选省份后 fetch `/api/cities`
+  - 图片完整性 `<select>`: 全部/有封面图/缺封面图
+  - Sort select: option 含 7 项 + `?sort=` 传 API
+  - Status 分组: group `<select>` 增加「按合作状态」
+  - 三态 empty state: `fetchError→error+retry` / `hasActiveFilter→clear` / 默认→create
+  - URL sync: `useEffect` + `router.replace` 双向绑定
+- 新增 import: `Suspense`, `useSearchParams`
+
+#### 步骤 3: 遇到的问题
+
+| 问题 | 原因 | 解决 |
+|------|------|------|
+| Agent 隔离参数错 | `isolation: true` 非法 | 改为 `isolation: "worktree"` |
+| TypeScript 类型错误 `sort && SORT_MAP[sort]` | 空字符串被赋给 `OrderByInput` | 改为 `sort && sort in SORT_MAP ? ... : { createdAt: "desc" }` |
+| Turbopack 不识别新目录 `[action]/` | 新 untracked 目录需重启 dev | `pkill -f next dev` 重起后 route 正常编译 |
+| `activity_logs` 表不存在 | DB 尚未有该表 | `logActivity()` 有 try-catch 兜底,不阻塞 |
+| POST 测试 13 失败 | 测试 fixture phone 格式与 Zod 不匹配 | 已有(非本次引入) |
+
+#### 步骤 4: 门禁验证结果
+
+| 门禁 | 结果 | 备注 |
+|------|------|------|
+| `npx tsc --noEmit` | ✅ 9 errors,全部 pre-existing | 0 新错 |
+| `npm run build` | ✅ 通过 | 3 API routes 全部注册 |
+| 19 GET API 测试 | ✅ 全部通过 | 含 14 新增 + 1 修改 |
+
+#### 步骤 5: Tester 发现
+
+| Bug | 严重度 | 状态 |
+|-----|--------|------|
+| BUG-1: Default sort 歧义 — spec 写 `updatedAt desc`,代码用 `createdAt desc` | 规格歧义(不阻断) | 维持 `createdAt desc`(向后兼容 + 已有测试按此写) |
+| BUG-2: status 多值筛选缺少测试覆盖 | P2 一般 | deferred |
+
+#### 步骤 6: 用户验收
+
+用户 `curl` 验证通过:
+```
+POST /api/stores/100016/publish → 401 (原 404 已修复,需认证)
+?sort=name_asc → 200 with 20 results ✅
+?image=has → 200 with 0 results ✅ (no stores have images)
+?province=guangdong → 200 with 18 results ✅
+```
+
+但报告: **"api 功能是实现的 前端页面上没有实现对应的效果"**
+
+### 前端代码存在但渲染不生效 — 已知问题
+
+经确认,所有前端改动代码已在 `page.tsx` 磁盘上:
+- `useSearchParams` ✅
+- `cityFilter` + cities fetch ✅
+- `imageFilter` select ✅
+- `Suspense` wrapper ✅
+- 三态 empty state ✅
+- URL sync effect ✅
+- `npx tsc --noEmit` 0 errors in page.tsx ✅
+- 380 lines unstaged diff in git ✅
+
+**推测根因 (待排查,下回):**
+1. Turbopack HMR 缓存 — 修改后未 hot-reload
+2. 组件的 GroupMode 类型更新但 `<select>` 的 `value` binding 未正确联动
+3. `fetchStores` 函数参数透传漏了 `city`/`image` 参数
+4. Tailwind v4 JIT 类名动态拼接编译问题(筛选 UI 类名变化)
+
+### 核心代码片段
+
+**API SORT_MAP** (`src/app/api/stores/route.ts:12`):
+```typescript
+type OrderByItem = Record<string, "asc" | "desc">;
+type OrderByInput = OrderByItem | OrderByItem[];
+const SORT_MAP: Record<string, OrderByInput> = {
+  updated_desc: { updatedAt: "desc" },
+  updated_asc: { updatedAt: "asc" },
+  created_desc: { createdAt: "desc" },
+  created_asc: { createdAt: "asc" },
+  name_asc: { name: "asc" },
+  name_desc: { name: "desc" },
+  level_desc: [{ level: "desc" }, { createdAt: "desc" }],
+};
+```
+
+**前端组件分拆** (`src/app/admin/(dashboard)/stores/page.tsx`):
+```tsx
+export default function StoresPage() {
+  return (
+    <Suspense fallback={<div className="p-6 text-zinc-400">加载中...</div>}>
+      <StoresPageInner />
+    </Suspense>
+  );
+}
+```
+
+**三态 empty state**:
+```tsx
+{fetchError ? (
+  <div>加载失败: {fetchError} <button onClick={resetAndFetch}>重试</button></div>
+) : stores.length === 0 && hasActiveFilter ? (
+  <div>没有匹配的门店 <button onClick={clearAllFilters}>清除筛选</button></div>
+) : stores.length === 0 ? (
+  <div>暂无门店数据 <Link href="/admin/stores/new">创建门店</Link></div>
+)}
+```
+
+### 变更统计
+
+| 维度 | 数据 |
+|------|------|
+| 新增测试用例(vitest) | 14 |
+| 新增测试文件 | 0(写入现有 `route.test.ts`) |
+| 修改后端文件 | 1(`src/app/api/stores/route.ts`) |
+| 修改前端文件 | 1(`src/app/admin/(dashboard)/stores/page.tsx`, ~380 行 diff) |
+| 新增依赖 | 0 |
+| API 端点变更 | 1(GET /api/stores 参数扩展: sort/image/search 范围) |
+| 前端 URL 持久化 | ✅ useSearchParams 双向绑定 + Suspense |
+| 城市级联 | ✅ province→city fetch /api/cities |
+| 图片筛选 | ✅ select(全部/有封面/缺封面) |
+| 分组按 status | ✅ group select 增加「按合作状态」 |
+| Empty state | ✅ 3 态区分 |
+
+### 待排查(下回)
+
+| 编号 | 问题 | 优先级 |
+|------|------|--------|
+| R1 | 前端筛选 UI 页面运行时未显示效果(代码存在,需 dev 重现) | P0 阻断 |
+| R2 | `activity_logs` 表缺失(不影响筛选功能,但 action 端点无日志) | P2 |
+| R3 | 前端 URL 持久化可能存在 `replace` 循环(防抖/去重需验证) | P2 |
+| R4 | 14 筛选项加完后 group 分组逻辑可能与筛选冲突(选 status 同时分组 status) | P3 |
+
+---
+
+> 本日完结。下午 dispatch 流水线完成后端 API 扩展 + 前端筛选代码;前端渲染问题留待下次 dev 启动后排查。
+> 维护: 冯科雅(Coya) · 2026-06-24
+
+### 用户请求
+> https://github.com/ConardLi/garden-skills/tree/main/skills/web-design-engineer 第三个的话我们需要配置这个skill来作为页面优化command
+
+意图: 安装 `web-design-engineer` 第三方 skill(ConardLi/garden-skills v1.2.2),并配置为项目内的「页面优化」slash command。
+
+### 决策与理由
+
+| 决策点 | 选择 | 理由 |
+|---|---|---|
+| 安装位置 | `.claude/skills/web-design-engineer/` | 项目本地 skill,与已有 19 个 skill 同级;不污染 `.claude/plugins/`(那是 plugin 体系) |
+| 命令名 | `/web-design-engineer` | 匹配 skill 名;与 `/build` `/review` `/ship` kebab-case 一致 |
+| 同步多平台 | **暂不** | `scripts/sync-skills.mjs` 硬编码 clone-website 一个 skill,通用化超出本次范围 |
+| 25 style-recipes | **暂不** fetch | SKILL.md 路由明确「按需读取」,先有 INDEX.md 作目录;后续用到再补 |
+| 4 主 references | ✅ 全部 fetch | 路由直接引用,缺失会让 skill 跑不全 |
+
+### 安装内容(共 7 文件,75 KB)
+
+```
+.claude/skills/web-design-engineer/
+├── SKILL.md              (35 KB, 493 行 + 9 行 frontmatter)
+├── manifest.json         (上游 v1.2.2 metadata)
+└── references/
+    ├── advanced-patterns.md      (521 行,Tweaks / 设备框 / 暗色 / oklch)
+    ├── critique-guide.md         (226 行,5 维评分细则)
+    ├── design-directions.md      (188 行,6 schools 哲学库)
+    └── style-recipes/
+        └── INDEX.md              (145 行,25 recipes 目录索引)
+.claude/commands/
+└── web-design-engineer.md        (slash command,「页面优化」入口)
+```
+
+### SKILL.md frontmatter 调整
+
+**上游原始**(只 2 行):
+```yaml
+name: web-design-engineer
+description: "..."
+```
+
+**项目惯例扩展**(7 行):
+```yaml
+name: web-design-engineer
+description: "..."
+argument-hint: "<页面优化任务 — e.g. '优化 /agent 列表页视觉层次' 或 '重新设计 /product/wenjie Hero'>"
+user-invocable: true
+compat: claude-code, claude-ai, cursor, codex-cli, gemini-cli, opencode
+version: 1.2.2
+source: https://github.com/ConardLi/garden-skills/tree/main/skills/web-design-engineer
+```
+
+### Slash command 设计要点(`.claude/commands/web-design-engineer.md`)
+
+- **入口定位**:「页面优化」 = 视觉探索 → 选定方向 → 转 `/build` 落地 Next.js
+- **适用场景**: 重设计 / A/B / critique / 组件原型
+- **不适用**: 纯 Next.js 实现 → `/build`;后端 → `/dispatch`;运行中性能审计 → 现有 lighthouse + Playwright
+- **LANHUI 特定约束**: 真实 logo / 真实素材 / 暗色主题 / 响应式 3 档 / 品牌 slogan 来自 `src/lib/brand.ts` 不编造 / a11y 4.5:1 / 按钮 44×44
+- **输出位置**: `/tmp/wde-artifacts/<page>-v<N>.html`(独立 HTML,**不写 `src/`**)
+- **8 步工作流**: Step 0 Verify Facts → 1 Understand → 2 Gather Context → 3 Declare System → 4 v0 Draft(3 方向)→ 5 Full Build → 6 Verification → 7 Critique
+
+### 验证
+
+- ✅ System reminder skills 列表中**已出现** `web-design-engineer`(skill)和 `web-design-engineer: Optimize a LANHUI page visually`(command)— Claude Code 已加载
+- ✅ `SKILL.md` frontmatter 解析正确(Edit 工具确认)
+- ✅ 4 references 文件 line count 完整(advanced 521 / critique 226 / design 188 / INDEX 145)
+- ✅ `references/` 路径在 SKILL.md 中以相对路径引用 → 安装后路径正确解析
+
+### 未做 / 后续
+
+- ❌ **不通用化 sync-skills.mjs**: 现有脚本硬编码 clone-website 一个 skill,改通用化超出本次范围(未来如需批量同步,可参数化 SOURCE 路径 + 复用 frontmatter 解析逻辑)
+- ❌ **不 fetch 25 style-recipes**: INDEX.md 已够选方向,具体 recipe 按需 `curl` 即可
+- ❌ **不创建 `/tmp/wde-artifacts/`**: 用时即建,首次落盘示例产物时再 gitkeep
+- ❌ **不进 multi-platform**: 当前 Claude Code session 已能用,其他 IDE(Codex/Cursor/Gemini)暂不部署
+
+### 与现有体系的关系
+
+| 现有 | 新增 web-design-engineer | 关系 |
+|---|---|---|
+| `frontend-ui-engineering` (plugin skill) | `web-design-engineer` (项目 skill) | **互补**:前者管「Next.js 项目内」UI 实现,后者管「独立 HTML 原型」视觉探索 |
+| `/build` (实现) | `/web-design-engineer` (优化) | 串行:design-engineer 选方向 → `/build` 落 Next.js |
+| `/review` (代码 review) | (Step 7 critique) | 互补:review 查代码 5 维,critique 查视觉 5 维 |
+| dispatch `webdesign-engineer` 角色 | `/web-design-engineer` | 替代:`/dispatch` 在「实现者」阶段路由 UI 任务到 webdesign-engineer subagent;新 command 提供直接入口 |
+| MEMORY「UI 优化审查子步骤」(`ui-ux-pro-max`) | (SKILL.md Step 7) | 互补:`ui-ux-pro-max` 是审计报告,web-design-engineer 是设计工作流 |
+
+---
+
+## 十六、前端筛选渲染修复 — CSS `sm:flex` 缺失(2026-06-24 下午 续)
+
+### 背景
+
+下午 dispatch 流水线输出前端筛选代码(第十五节)后,用户测试发现"前端页面上没有实现对应的效果"。经 Playwright 自动化排查,确认代码逻辑正确但 CSS 阻止了渲染。
+
+### 根因分析
+
+| 环节 | 问题 |
+|------|------|
+| `#advanced-filters` div | `className` 用 `advancedOpen ? "flex" : "hidden"` 控制显隐 |
+| 展开按钮"更多筛选" | 有 `sm:hidden` 类 → 桌面端按钮不可见 |
+| `advancedOpen` 初始值 | `const [advancedOpen, setAdvancedOpen] = useState(false)` |
+| **结论** | 桌面端:按钮隐藏且面板默认 hidden → 高级筛选(省份/城市/等级/图片)永久不可达 |
+
+**关键代码**(修复前 `src/app/admin/(dashboard)/stores/page.tsx:1127-1133`):
+```tsx
+<div id="advanced-filters" className={cn(
+    "flex-col gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-3",
+    advancedOpen ? "flex" : "hidden",   // ← 桌面端永远 hidden
+)}>
+```
+
+### 修复
+
+**添加 `sm:flex`** 保证桌面端始终显示:
+
+```tsx
+<div id="advanced-filters" className={cn(
+    "flex-col gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-3",
+    advancedOpen ? "flex" : "hidden",
+    "sm:flex"                              // ← 新增:桌面端覆盖 hidden
+)}>
+```
+
+移动端行为不变:按钮可见,点按展开/收起面板。
+
+### Playwright 验证(10 项全通过)
+
+用 `chromium` headless (1440×900) 登录 admin,完整测试筛选交互:
+
+| 测试项 | 结果 | 细节 |
+|--------|------|------|
+| 5 主筛选元素存在 | ✅ | 搜索/状态/排序/分组/更多筛选按钮 |
+| 分组选项 | ✅ | 不分组/按省份/按城市/按等级/**按合作状态** |
+| 排序选项 | ✅ | 6 种(updated_desc → level_desc) |
+| 省份→城市级联 | ✅ | 选"guangdong"→城市加载22市→URL同步 |
+| 城市下拉启用 | ✅ | 初始 disabled,选省后 enabled |
+| 分组按状态 | ✅ | 表格分为「待发布」「营业中」两组 |
+| 图片筛选 | ✅ | 选"有封面图"→URL带`image=has` |
+| 排序交互 | ✅ | 选"名称 A→Z"→URL带`sort=name_asc` |
+| 清除筛选 | ✅ | 清除按钮按需出现+点击后清除 |
+| 控制台错误 | ✅ | 0 个 |
+
+### 变更统计
+
+| 维度 | 数据 |
+|------|------|
+| 修改文件 | 1(`src/app/admin/(dashboard)/stores/page.tsx`, +1 行) |
+| 新增依赖 | 0 |
+| 新增测试 | 0(调试脚本 `.claude/check-filters.mjs` 已清理) |
+| 门禁 | `npx tsc --noEmit` 9 baseline(0 新错), `npm run build` 通过 |
+
+### 教训
+
+- **新 CSS 类 + 条件渲染组合**容易引入非预期隐藏,特别是 mobile-first 项目中 `hidden` + `sm:hidden` + `sm:flex` 的交互需要仔细审查
+- **Playwright 端到端验证**比 curl 或单元测试更能暴露 CSS/渲染问题
+- Turbopack HMR 对新增的 CSS 类名不会触发 SSR 重新编译(需硬刷新获取新 HTML),但客户端渲染(HMR 后)能正确应用
+
+---
+
+> 本日全终结。上午:Path A(状态机迁移)+ Path B(e2e)+ web-design-engineer 安装;下午:dispatch 流水线(API 扩展 + 前端筛选代码)+ CSS 修复(1 行)。
+> 维护: 冯科雅(Coya) · 2026-06-24

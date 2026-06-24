@@ -5,6 +5,20 @@ import { StoreCreateSchema } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
 import { generateStoreSlug } from "@/lib/store-slug";
 
+type OrderByItem = Record<string, "asc" | "desc">;
+type OrderByInput = OrderByItem | OrderByItem[];
+
+// sort 参数 → Prisma orderBy 映射
+const SORT_MAP: Record<string, OrderByInput> = {
+  updated_desc: { updatedAt: "desc" },
+  updated_asc: { updatedAt: "asc" },
+  created_desc: { createdAt: "desc" },
+  created_asc: { createdAt: "asc" },
+  name_asc: { name: "asc" },
+  name_desc: { name: "desc" },
+  level_desc: [{ level: "desc" }, { createdAt: "desc" }],
+};
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;
@@ -16,6 +30,11 @@ export async function GET(request: NextRequest) {
     const all = searchParams.get("all");
     // 多值筛选：?level=flagship&level=premium
     const levels = searchParams.getAll("level");
+    // 4 态 status 多值筛选：?status=pending&status=active
+    const statusParams = searchParams.getAll("status");
+    const sort = searchParams.get("sort");
+    const image = searchParams.get("image");
+
     // 旧 API 兼容：?isActive=true/false — 派生为 status / isActive 过滤
     const isActiveParam = searchParams.get("isActive");
 
@@ -29,14 +48,32 @@ export async function GET(request: NextRequest) {
     }
 
     const where: Record<string, unknown> = {};
-    if (!showAll && isActiveParam === null) {
-      // 默认只展示 active（兼容旧调用方），显式 ?isActive=false 时一起覆盖
-      where.isActive = true;
-    }
-    if (isActiveParam === "true") {
+    // 优先用 status 4 态筛选（统一字段，消除 isActive + status 双轨裂缝）
+    if (statusParams.length > 0) {
+      const valid = statusParams.filter(
+        (s): s is "pending" | "active" | "suspended" | "terminated" =>
+          s === "pending" ||
+          s === "active" ||
+          s === "suspended" ||
+          s === "terminated"
+      );
+      if (valid.length > 0) {
+        if (showAll) {
+          // admin: 多值 status 自由组合
+          where.status = { in: valid };
+        } else {
+          // 公开契约：非 admin → status 多值筛选时只接受 active；其它状态返回空
+          where.status = { in: valid.filter((s) => s === "active") };
+        }
+      }
+    } else if (isActiveParam === "true") {
       where.isActive = true;
     } else if (isActiveParam === "false") {
       where.isActive = false;
+    } else if (!showAll) {
+      // 默认公开契约：只展示 active
+      // 2026-06-24 修复 P1: 改用 status 统一字段,消除 isActive + status 双轨裂缝
+      where.status = "active";
     }
     if (province) {
       where.provinceSlug = province;
@@ -52,13 +89,25 @@ export async function GET(request: NextRequest) {
       where.OR = [
         { name: { contains: search, mode: "insensitive" } },
         { address: { contains: search, mode: "insensitive" } },
+        { phone: { contains: search, mode: "insensitive" } },
+        { slug: { contains: search, mode: "insensitive" } },
       ];
     }
+
+    if (image === "has") {
+      where.imagePath = { not: null };
+    } else if (image === "missing") {
+      where.imagePath = null;
+    }
+
+    const orderBy: OrderByInput = sort && sort in SORT_MAP
+      ? SORT_MAP[sort as keyof typeof SORT_MAP]
+      : { createdAt: "desc" };
 
     const [stores, total] = await Promise.all([
       prisma.store.findMany({
         where,
-        orderBy: { createdAt: "desc" },
+        orderBy,
         skip: (page - 1) * limit,
         take: limit,
       }),

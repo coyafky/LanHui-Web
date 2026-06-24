@@ -490,6 +490,166 @@ describe("POST /api/stores — slug 自动生成（子任务 3）", () => {
     expect(callArg.data.slug.length).toBeGreaterThan(0);
   });
 
+// ────────────────────────────────────────────────────────────────────
+// 子任务 T3:搜索范围扩展 — phone + slug 模糊搜索
+// ────────────────────────────────────────────────────────────────────
+
+describe("GET /api/stores — 搜索范围扩展（T3）", () => {
+  async function loadGet() {
+    const mod = await import("./route");
+    return mod.GET;
+  }
+
+  function buildGetReq(query: string): NextRequest {
+    return new NextRequest(`http://localhost/api/stores?${query}`);
+  }
+
+  it("?search=0757 → OR 包含 phone 模糊匹配", async () => {
+    mockStoreFindMany.mockResolvedValue([{ id: "1", phone: "0757-2288 1001" }]);
+    mockStoreCount.mockResolvedValue(1);
+    const GET = await loadGet();
+    await GET(buildGetReq("search=0757") as unknown as Parameters<typeof GET>[0]);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      OR?: Array<Record<string, unknown>>;
+    };
+    expect(whereArg.OR).toBeDefined();
+    const phoneClause = whereArg.OR?.find(
+      (c) => typeof c === "object" && c !== null && "phone" in c
+    );
+    expect(phoneClause).toEqual({
+      phone: { contains: "0757", mode: "insensitive" },
+    });
+  });
+
+  it("?search=daliang → OR 包含 slug 模糊匹配", async () => {
+    mockStoreFindMany.mockResolvedValue([{ id: "1", slug: "shunde-daliang" }]);
+    mockStoreCount.mockResolvedValue(1);
+    const GET = await loadGet();
+    await GET(buildGetReq("search=daliang") as unknown as Parameters<typeof GET>[0]);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      OR?: Array<Record<string, unknown>>;
+    };
+    expect(whereArg.OR).toBeDefined();
+    const slugClause = whereArg.OR?.find(
+      (c) => typeof c === "object" && c !== null && "slug" in c
+    );
+    expect(slugClause).toEqual({
+      slug: { contains: "daliang", mode: "insensitive" },
+    });
+  });
+
+  it("?search=大良 → OR 同时包含 name/address/phone/slug 四个字段", async () => {
+    mockStoreFindMany.mockResolvedValue([{ id: "1" }]);
+    mockStoreCount.mockResolvedValue(1);
+    const GET = await loadGet();
+    await GET(buildGetReq("search=%E5%A4%A7%E8%89%AF") as unknown as Parameters<typeof GET>[0]);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      OR?: Array<Record<string, unknown>>;
+    };
+    expect(whereArg.OR).toHaveLength(4);
+    const fields = whereArg.OR?.map((c) => Object.keys(c)[0]);
+    expect(fields).toContain("name");
+    expect(fields).toContain("address");
+    expect(fields).toContain("phone");
+    expect(fields).toContain("slug");
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────
+// 子任务 T2:排序服务端落地 — sort 参数映射
+// ────────────────────────────────────────────────────────────────────
+
+describe("GET /api/stores — 排序服务端落地（T2）", () => {
+  async function loadGet() {
+    vi.resetModules();
+    const mod = await import("./route");
+    return mod.GET;
+  }
+
+  function buildGetReq(query: string): NextRequest {
+    return new NextRequest(`http://localhost/api/stores?${query}`);
+  }
+
+  const sortCases: Array<[string, Record<string, string> | Array<Record<string, string>>]> = [
+    ["sort=updated_desc", { updatedAt: "desc" }],
+    ["sort=updated_asc", { updatedAt: "asc" }],
+    ["sort=created_desc", { createdAt: "desc" }],
+    ["sort=created_asc", { createdAt: "asc" }],
+    ["sort=name_asc", { name: "asc" }],
+    ["sort=name_desc", { name: "desc" }],
+  ];
+
+  it.each(sortCases)("%s → Prisma orderBy: %j", async (query, expected) => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    await GET(buildGetReq(query) as unknown as Parameters<typeof GET>[0]);
+    const orderBy = mockStoreFindMany.mock.calls[0]?.[0]?.orderBy;
+    expect(orderBy).toEqual(expected);
+  });
+
+  it("?sort=level_desc → orderBy: [{ level: desc }, { createdAt: desc }]", async () => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    await GET(buildGetReq("sort=level_desc") as unknown as Parameters<typeof GET>[0]);
+    const orderBy = mockStoreFindMany.mock.calls[0]?.[0]?.orderBy;
+    expect(orderBy).toEqual([{ level: "desc" }, { createdAt: "desc" }]);
+  });
+
+  it("无 sort 参数 → 默认 createdAt desc（向后兼容）", async () => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    await GET(buildGetReq("") as unknown as Parameters<typeof GET>[0]);
+    const orderBy = mockStoreFindMany.mock.calls[0]?.[0]?.orderBy;
+    expect(orderBy).toEqual({ createdAt: "desc" });
+  });
+});
+
+// ────────────────────────────────────────────────────────────────────
+// 子任务 T6:图片完整度筛选 — image=has / image=missing
+// ────────────────────────────────────────────────────────────────────
+
+describe("GET /api/stores — 图片完整度筛选（T6）", () => {
+  async function loadGet() {
+    vi.resetModules();
+    const mod = await import("./route");
+    return mod.GET;
+  }
+
+  function buildGetReq(query: string): NextRequest {
+    return new NextRequest(`http://localhost/api/stores?${query}`);
+  }
+
+  it("?image=has → where.imagePath = { not: null }", async () => {
+    mockStoreFindMany.mockResolvedValue([{ id: "1", imagePath: "/stores/1.webp" }]);
+    mockStoreCount.mockResolvedValue(1);
+    const GET = await loadGet();
+    await GET(buildGetReq("image=has") as unknown as Parameters<typeof GET>[0]);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as Record<string, unknown>;
+    expect(whereArg.imagePath).toEqual({ not: null });
+  });
+
+  it("?image=missing → where.imagePath = null", async () => {
+    mockStoreFindMany.mockResolvedValue([{ id: "1", imagePath: null }]);
+    mockStoreCount.mockResolvedValue(1);
+    const GET = await loadGet();
+    await GET(buildGetReq("image=missing") as unknown as Parameters<typeof GET>[0]);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as Record<string, unknown>;
+    expect(whereArg.imagePath).toBeNull();
+  });
+
+  it("无 image 参数 → where 不含 imagePath 字段", async () => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    await GET(buildGetReq("") as unknown as Parameters<typeof GET>[0]);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as Record<string, unknown>;
+    expect(whereArg.imagePath).toBeUndefined();
+  });
+});
+
   it("重名时自动追加 -2 后缀（toBaseSlug 冲突）", async () => {
     mockAuth.mockResolvedValue({ user: { role: "admin" } });
     // 实际 pinyin 转换 base 是 "lan-hui-qing-gai-shun-de-da-liang-dian"

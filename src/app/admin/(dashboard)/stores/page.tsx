@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   useReactTable,
   getCoreRowModel,
@@ -60,7 +60,7 @@ interface Pagination {
   totalPages: number;
 }
 
-type GroupMode = "none" | "province" | "city" | "level";
+type GroupMode = "none" | "province" | "city" | "level" | "status";
 
 type SortKey =
   | "updated_desc"
@@ -597,7 +597,8 @@ function StoreTable({
 /*  Main Page                                                          */
 /* ------------------------------------------------------------------ */
 
-export default function StoresPage() {
+function StoresPageInner() {
+  const searchParams = useSearchParams();
   // Data state
   const [stores, setStores] = useState<StoreRow[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
@@ -610,17 +611,41 @@ export default function StoresPage() {
   const [provinces, setProvinces] = useState<ProvinceOption[]>([]);
 
   // Filter state
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(
+    () => searchParams.get("search") ?? ""
+  );
   // searchInput 是输入框的草稿值（input 实时绑定），search 是 debounce 后用于触发 fetch 的值
-  const [searchInput, setSearchInput] = useState("");
-  const [provinceFilter, setProvinceFilter] = useState("");
-  const [levelFilter, setLevelFilter] = useState<StoreLevel[]>([]);
+  const [searchInput, setSearchInput] = useState(
+    () => searchParams.get("search") ?? ""
+  );
+  const [provinceFilter, setProvinceFilter] = useState(
+    () => searchParams.get("province") ?? ""
+  );
+  const [cityFilter, setCityFilter] = useState(
+    () => searchParams.get("city") ?? ""
+  );
+  const [cities, setCities] = useState<{ slug: string; label: string }[]>([]);
+  const [levelFilter, setLevelFilter] = useState<StoreLevel[]>(
+    () => searchParams.getAll("level") as StoreLevel[]
+  );
   // 4 态 status 筛选：空 = 全部；非空 = 单值
-  const [statusFilter, setStatusFilter] = useState<StoreStatus | "">("");
+  const [statusFilter, setStatusFilter] = useState<StoreStatus | "">(
+    () => (searchParams.get("status") ?? "") as StoreStatus | ""
+  );
+  const [imageFilter, setImageFilter] = useState<"" | "has" | "missing">(
+    () => (searchParams.get("image") ?? "") as "" | "has" | "missing"
+  );
+  const [fetchError, setFetchError] = useState<string | null>(null);
   // 排序
-  const [sortBy, setSortBy] = useState<SortKey>("updated_desc");
-  const [page, setPage] = useState(1);
-  const [groupMode, setGroupMode] = useState<GroupMode>("none");
+  const [sortBy, setSortBy] = useState<SortKey>(
+    () => (searchParams.get("sort") as SortKey) ?? "updated_desc"
+  );
+  const [page, setPage] = useState(
+    () => Math.max(1, Number(searchParams.get("page")) || 1)
+  );
+  const [groupMode, setGroupMode] = useState<GroupMode>(
+    () => (searchParams.get("group") as GroupMode) ?? "none"
+  );
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
   // Table state
@@ -640,6 +665,7 @@ export default function StoresPage() {
   /* ---------- Fetch stores ---------- */
   const fetchStores = useCallback(async () => {
     setLoading(true);
+    setFetchError(null);
     try {
       const params = new URLSearchParams();
       params.set("page", String(page));
@@ -647,11 +673,13 @@ export default function StoresPage() {
       params.set("all", "true");
       if (search) params.set("search", search);
       if (provinceFilter) params.set("province", provinceFilter);
+      if (cityFilter) params.set("city", cityFilter);
       if (statusFilter) {
         // 显式传 status 即可（多值可扩展为多选）
         params.append("status", statusFilter);
       }
       levelFilter.forEach((lvl) => params.append("level", lvl));
+      if (imageFilter) params.set("image", imageFilter);
       params.set("sort", sortBy);
 
       const res = await fetch(`/api/stores?${params.toString()}`);
@@ -671,11 +699,15 @@ export default function StoresPage() {
         }));
         setStores(rows);
         setPagination(json.pagination);
+      } else {
+        setFetchError(json.error ?? "加载失败");
       }
+    } catch {
+      setFetchError("网络错误，请重试");
     } finally {
       setLoading(false);
     }
-  }, [page, search, provinceFilter, levelFilter, statusFilter, sortBy]);
+  }, [page, search, provinceFilter, cityFilter, levelFilter, statusFilter, imageFilter, sortBy]);
 
   /* ---------- Bulk action handler ---------- */
   const handleBulkAction = useCallback(
@@ -719,6 +751,27 @@ export default function StoresPage() {
   useEffect(() => {
     fetchStores();
   }, [fetchStores]);
+
+  /* ---------- Fetch cities when province changes ---------- */
+  useEffect(() => {
+    if (!provinceFilter) {
+      setCities([]);
+      setCityFilter("");
+      return;
+    }
+    fetch(`/api/cities?province=${provinceFilter}`)
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success) {
+          setCities(
+            res.data.map((c: { slug: string; label: string }) => ({
+              slug: c.slug,
+              label: c.label,
+            }))
+          );
+        }
+      });
+  }, [provinceFilter]);
 
   /* ---------- 状态机动作 handler ---------- */
   function openActionDialog(row: StoreRow, action: StoreAction) {
@@ -772,21 +825,42 @@ export default function StoresPage() {
     }
   }
 
-  /* ---------- Search with debounce ---------- */
-  // 2026-06-24: 补回缺失的 searchInput state + syncQuery stub（前者由前一会话
-  // coder 子 agent 引入 URL 持久化时遗留,后者本应是 useSearchParams + router.replace
-  // 双向同步;P2 deferred,此处用 no-op 占位以通过 tsc,不动业务行为）。
-  const syncQuery = useCallback((_q: Record<string, unknown>) => {
-    /* TODO P2: 用 useSearchParams + router.replace 同步 status/level/province/search/sort 到 URL */
-  }, []);
+  /* ---------- URL query param sync ---------- */
+  useEffect(() => {
+    const sp = new URLSearchParams();
+    if (search) sp.set("search", search);
+    if (provinceFilter) sp.set("province", provinceFilter);
+    if (cityFilter) sp.set("city", cityFilter);
+    if (levelFilter.length) levelFilter.forEach((l) => sp.append("level", l));
+    if (statusFilter) sp.set("status", statusFilter);
+    if (imageFilter) sp.set("image", imageFilter);
+    if (sortBy !== "updated_desc") sp.set("sort", sortBy);
+    if (groupMode !== "none") sp.set("group", groupMode);
+    if (page > 1) sp.set("page", String(page));
+
+    const qs = sp.toString();
+    const newUrl = qs ? `?${qs}` : window.location.pathname;
+    router.replace(newUrl, { scroll: false });
+  }, [
+    search,
+    provinceFilter,
+    cityFilter,
+    levelFilter,
+    statusFilter,
+    imageFilter,
+    sortBy,
+    groupMode,
+    page,
+    router,
+  ]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(searchInput);
       setPage(1);
-      syncQuery({ search: searchInput, page: 1 });
     }, 400);
     return () => clearTimeout(timer);
-  }, [searchInput, syncQuery]);
+  }, [searchInput]);
 
   /* ---------- Keyboard navigation ---------- */
   useEffect(() => {
@@ -848,16 +922,22 @@ export default function StoresPage() {
     setSearchInput("");
     setSearch("");
     setProvinceFilter("");
+    setCityFilter("");
+    setCities([]);
     setLevelFilter([]);
     setStatusFilter("");
+    setImageFilter("");
     setPage(1);
+    setFetchError(null);
   }, []);
 
   const hasActiveFilter =
     search.length > 0 ||
     provinceFilter.length > 0 ||
+    cityFilter.length > 0 ||
     levelFilter.length > 0 ||
-    statusFilter.length > 0;
+    statusFilter.length > 0 ||
+    imageFilter.length > 0;
 
   /* ---------- Grouping ---------- */
   const groupedStores = useMemo(() => {
@@ -879,10 +959,20 @@ export default function StoresPage() {
         key = row.cityLabel || "(未设置)";
         label = key;
         sortKey = key;
-      } else {
+      } else if (groupMode === "level") {
         key = row.level ?? "_none";
         label = row.level ? STORE_LEVEL_LABELS[row.level] : "未设置等级";
         sortKey = row.level ? STORE_LEVEL_SORT_WEIGHTS[row.level] : 99;
+      } else {
+        key = row.status;
+        label = STORE_STATUS_LABELS[row.status];
+        const STATUS_ORDER: Record<StoreStatus, number> = {
+          pending: 0,
+          active: 1,
+          suspended: 2,
+          terminated: 3,
+        };
+        sortKey = STATUS_ORDER[row.status];
       }
 
       if (!buckets.has(key)) {
@@ -1011,6 +1101,7 @@ export default function StoresPage() {
               <option value="province">按省份</option>
               <option value="city">按城市</option>
               <option value="level">按等级</option>
+              <option value="status">按合作状态</option>
             </select>
           </label>
 
@@ -1024,9 +1115,9 @@ export default function StoresPage() {
           >
             <Filter className="h-4 w-4" />
             更多筛选
-            {levelFilter.length + (provinceFilter ? 1 : 0) > 0 && (
+            {levelFilter.length + (provinceFilter ? 1 : 0) + (cityFilter ? 1 : 0) + (imageFilter ? 1 : 0) > 0 && (
               <span className="ml-1 inline-flex h-4 min-w-[1rem] items-center justify-center rounded-full bg-orange-500 px-1 text-[10px] font-semibold text-white">
-                {levelFilter.length + (provinceFilter ? 1 : 0)}
+                {levelFilter.length + (provinceFilter ? 1 : 0) + (cityFilter ? 1 : 0) + (imageFilter ? 1 : 0)}
               </span>
             )}
           </button>
@@ -1037,7 +1128,8 @@ export default function StoresPage() {
           id="advanced-filters"
           className={cn(
             "flex-col gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-3",
-            advancedOpen ? "flex" : "hidden"
+            advancedOpen ? "flex" : "hidden",
+            "sm:flex"
           )}
         >
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -1047,6 +1139,7 @@ export default function StoresPage() {
                 value={provinceFilter}
                 onChange={(e) => {
                   setProvinceFilter(e.target.value);
+                  setCityFilter("");
                   setPage(1);
                 }}
                 className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
@@ -1055,6 +1148,28 @@ export default function StoresPage() {
                 {provinces.map((p) => (
                   <option key={p.slug} value={p.slug}>
                     {p.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="flex items-center gap-2 text-xs text-zinc-400">
+              <span>城市</span>
+              <select
+                value={cityFilter}
+                onChange={(e) => {
+                  setCityFilter(e.target.value);
+                  setPage(1);
+                }}
+                disabled={!provinceFilter}
+                className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <option value="">
+                  {provinceFilter ? "全部城市" : "请先选择省份"}
+                </option>
+                {cities.map((c) => (
+                  <option key={c.slug} value={c.slug}>
+                    {c.label}
                   </option>
                 ))}
               </select>
@@ -1080,12 +1195,55 @@ export default function StoresPage() {
             </span>
             <LevelFilter selected={levelFilter} onToggle={toggleLevel} />
           </div>
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <label className="flex items-center gap-2 text-xs text-zinc-400">
+              <span>图片</span>
+              <select
+                value={imageFilter}
+                onChange={(e) => {
+                  setImageFilter(e.target.value as "" | "has" | "missing");
+                  setPage(1);
+                }}
+                aria-label="按图片完整度筛选"
+                className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
+              >
+                <option value="">全部</option>
+                <option value="has">有封面图</option>
+                <option value="missing">缺封面图</option>
+              </select>
+            </label>
+          </div>
         </div>
       </div>
 
       {/* ── Table ── */}
       {loading ? (
         <TableSkeleton />
+      ) : stores.length === 0 && fetchError ? (
+        <div className="flex flex-col items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900 py-16">
+          <Store className="mb-3 h-12 w-12 text-zinc-700" />
+          <p className="text-sm text-zinc-500">{fetchError}</p>
+          <button
+            type="button"
+            onClick={fetchStores}
+            className="mt-4 text-sm font-medium text-orange-500 hover:text-orange-400"
+          >
+            重试
+          </button>
+        </div>
+      ) : stores.length === 0 && hasActiveFilter ? (
+        <div className="flex flex-col items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900 py-16">
+          <Store className="mb-3 h-12 w-12 text-zinc-700" />
+          <p className="text-sm text-zinc-500">没有符合筛选条件的门店</p>
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="mt-4 text-sm font-medium text-orange-500 hover:text-orange-400"
+          >
+            清除筛选
+          </button>
+        </div>
       ) : stores.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-xl border border-zinc-800 bg-zinc-900 py-16">
           <Store className="mb-3 h-12 w-12 text-zinc-700" />
@@ -1257,5 +1415,19 @@ export default function StoresPage() {
         </ConfirmDialog>
       )}
     </div>
+  );
+}
+
+export default function StoresPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center py-20">
+          <p className="text-sm text-zinc-500">加载中...</p>
+        </div>
+      }
+    >
+      <StoresPageInner />
+    </Suspense>
   );
 }
