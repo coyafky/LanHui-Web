@@ -63,7 +63,7 @@ model Store {
   id              String           @id @default(cuid())
   name            String
   slug            String?          @unique
-  level           StoreLevel       @default(flagship)
+  level           String           @default("flagship")
   provinceSlug    String
   province        Province         @relation(fields: [provinceSlug], references: [slug], onDelete: Restrict)
   provinceLabel   String
@@ -96,13 +96,6 @@ model Store {
   @@index([status, provinceSlug])
   @@index([level])
   @@index([level, status])
-}
-
-enum StoreLevel {
-  flagship
-  premium
-  specialty
-  member
 }
 
 model Article {

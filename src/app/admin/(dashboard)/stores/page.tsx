@@ -26,8 +26,13 @@ import {
   STORE_LEVELS,
   STORE_LEVEL_LABELS,
   STORE_LEVEL_SORT_WEIGHTS,
+  STORE_STATUSES,
+  STORE_STATUS_LABELS,
   type StoreLevel,
+  type StoreStatus,
 } from "@/lib/validations/store";
+import { availableActionsFor, type StoreAction } from "@/lib/validations/store-transitions";
+import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -41,6 +46,7 @@ interface StoreRow {
   phone: string;
   isActive: boolean;
   level: StoreLevel | null;
+  status: StoreStatus;
 }
 
 interface ProvinceOption {
@@ -56,6 +62,14 @@ interface Pagination {
 }
 
 type GroupMode = "none" | "province" | "city" | "level";
+
+type SortKey =
+  | "updated_desc"
+  | "updated_asc"
+  | "created_desc"
+  | "name_asc"
+  | "name_desc"
+  | "level_desc";
 
 /* ------------------------------------------------------------------ */
 /*  Level badge                                                        */
@@ -96,20 +110,26 @@ function LevelBadge({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Status badge                                                       */
+/*  Status badge (4 态)                                                */
 /* ------------------------------------------------------------------ */
 
-function StatusBadge({ isActive }: { isActive: boolean }) {
+const STATUS_BADGE_CLASS: Record<StoreStatus, string> = {
+  pending: "border border-amber-600/60 bg-amber-500/10 text-amber-400",
+  active: "border border-emerald-600/60 bg-emerald-500/10 text-emerald-400",
+  suspended: "border border-blue-600/60 bg-blue-500/10 text-blue-400",
+  terminated: "border border-zinc-600 bg-zinc-700/40 text-zinc-500",
+};
+
+function StatusBadge({ status }: { status: StoreStatus }) {
   return (
     <span
+      aria-label={`状态：${STORE_STATUS_LABELS[status]}`}
       className={cn(
         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-        isActive
-          ? "bg-emerald-500/10 text-emerald-400"
-          : "bg-zinc-600/30 text-zinc-500"
+        STATUS_BADGE_CLASS[status]
       )}
     >
-      {isActive ? "营业中" : "已停用"}
+      {STORE_STATUS_LABELS[status]}
     </span>
   );
 }
@@ -157,53 +177,8 @@ function LevelFilter({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Delete Confirmation Dialog                                         */
+/*  Delete Confirmation Dialog (已抽到 ConfirmDialog)                  */
 /* ------------------------------------------------------------------ */
-
-function DeleteDialog({
-  open,
-  onClose,
-  onConfirm,
-  storeName,
-  deleting,
-}: {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  storeName: string;
-  deleting: boolean;
-}) {
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-      <div className="mx-4 w-full max-w-md rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-        <h3 className="text-lg font-semibold text-zinc-100">确认停用</h3>
-        <p className="mt-2 text-sm text-zinc-400">
-          确定要停用门店「{storeName}」吗？此操作将下架该门店，后续可在编辑页恢复营业。
-        </p>
-        <div className="mt-5 flex justify-end gap-3">
-          <button
-            type="button"
-            onClick={onClose}
-            className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-700"
-          >
-            取消
-          </button>
-          <button
-            type="button"
-            onClick={onConfirm}
-            disabled={deleting}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-red-600 disabled:opacity-50"
-          >
-            {deleting && <Loader2 className="h-4 w-4 animate-spin" />}
-            停用
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 /*  Loading Skeleton                                                   */
@@ -254,7 +229,7 @@ function TableSkeleton() {
 /* ------------------------------------------------------------------ */
 
 function buildColumns(
-  onDelete: (row: StoreRow) => void
+  onAction: (row: StoreRow, action: StoreAction) => void
 ): ColumnDef<StoreRow>[] {
   return [
     {
@@ -275,34 +250,77 @@ function buildColumns(
     },
     { accessorKey: "phone", header: "电话" },
     {
-      accessorKey: "isActive",
+      accessorKey: "status",
       header: "状态",
       cell: ({ getValue }) => (
-        <StatusBadge isActive={getValue() as boolean} />
+        <StatusBadge status={getValue() as StoreStatus} />
       ),
     },
     {
       id: "actions",
       header: "操作",
-      cell: ({ row }) => (
-        <div className="flex items-center gap-2">
-          <Link
-            href={`/admin/stores/${row.original.id}`}
-            className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-orange-400 transition-colors hover:bg-orange-500/10"
-          >
-            <Pencil className="h-3.5 w-3.5" />
-            编辑
-          </Link>
-          <button
-            type="button"
-            onClick={() => onDelete(row.original)}
-            className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/10"
-          >
-            <Trash2 className="h-3.5 w-3.5" />
-            停用
-          </button>
-        </div>
-      ),
+      cell: ({ row }) => {
+        const status = row.original.status;
+        const actions = availableActionsFor(status);
+        return (
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href={`/admin/stores/${row.original.id}`}
+              className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-orange-400 transition-colors hover:bg-orange-500/10"
+            >
+              <Pencil className="h-3.5 w-3.5" />
+              编辑
+            </Link>
+            {actions.length === 0 ? (
+              // terminated：只读
+              <span
+                className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs text-zinc-600"
+                aria-label="已终止合作，只读"
+              >
+                已终止
+              </span>
+            ) : (
+              actions.map((action) => {
+                const ACTION_LABELS: Record<StoreAction, string> = {
+                  publish: "发布",
+                  suspend: "暂停",
+                  resume: "恢复",
+                  terminate: "终止",
+                };
+                const ACTION_COLOR: Record<
+                  StoreAction,
+                  "orange" | "blue" | "red"
+                > = {
+                  publish: "orange",
+                  resume: "orange",
+                  suspend: "red",
+                  terminate: "red",
+                };
+                const color = ACTION_COLOR[action];
+                const cls =
+                  color === "red"
+                    ? "text-red-400 hover:bg-red-500/10"
+                    : color === "blue"
+                      ? "text-blue-400 hover:bg-blue-500/10"
+                      : "text-orange-400 hover:bg-orange-500/10";
+                return (
+                  <button
+                    key={action}
+                    type="button"
+                    onClick={() => onAction(row.original, action)}
+                    className={cn(
+                      "inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
+                      cls
+                    )}
+                  >
+                    {ACTION_LABELS[action]}
+                  </button>
+                );
+              })
+            )}
+          </div>
+        );
+      },
     },
   ];
 }
@@ -392,15 +410,26 @@ export default function StoresPage() {
 
   // Filter state
   const [search, setSearch] = useState("");
+  // searchInput 是输入框的草稿值（input 实时绑定），search 是 debounce 后用于触发 fetch 的值
+  const [searchInput, setSearchInput] = useState("");
   const [provinceFilter, setProvinceFilter] = useState("");
   const [levelFilter, setLevelFilter] = useState<StoreLevel[]>([]);
+  // 4 态 status 筛选：空 = 全部；非空 = 单值
+  const [statusFilter, setStatusFilter] = useState<StoreStatus | "">("");
+  // 排序
+  const [sortBy, setSortBy] = useState<SortKey>("updated_desc");
   const [page, setPage] = useState(1);
   const [groupMode, setGroupMode] = useState<GroupMode>("none");
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
-  // Delete dialog state
-  const [deleteTarget, setDeleteTarget] = useState<StoreRow | null>(null);
-  const [deleting, setDeleting] = useState(false);
+  // Action dialog state（替代原 DeleteDialog）
+  const [actionTarget, setActionTarget] = useState<{
+    row: StoreRow;
+    action: StoreAction;
+  } | null>(null);
+  const [statusReason, setStatusReason] = useState("");
+  const [acting, setActing] = useState(false);
+  const [actionError, setActionError] = useState<string | null>(null);
 
   /* ---------- Fetch stores ---------- */
   const fetchStores = useCallback(async () => {
@@ -412,7 +441,12 @@ export default function StoresPage() {
       params.set("all", "true");
       if (search) params.set("search", search);
       if (provinceFilter) params.set("province", provinceFilter);
+      if (statusFilter) {
+        // 显式传 status 即可（多值可扩展为多选）
+        params.append("status", statusFilter);
+      }
       levelFilter.forEach((lvl) => params.append("level", lvl));
+      params.set("sort", sortBy);
 
       const res = await fetch(`/api/stores?${params.toString()}`);
       const json = await res.json();
@@ -427,6 +461,7 @@ export default function StoresPage() {
           phone: String(d.phone ?? ""),
           isActive: Boolean(d.isActive),
           level: (d.level ?? null) as StoreLevel | null,
+          status: ((d.status ?? "pending") as StoreStatus),
         }));
         setStores(rows);
         setPagination(json.pagination);
@@ -434,7 +469,7 @@ export default function StoresPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, search, provinceFilter, levelFilter]);
+  }, [page, search, provinceFilter, levelFilter, statusFilter, sortBy]);
 
   /* ---------- Fetch provinces for filter ---------- */
   useEffect(() => {
@@ -456,33 +491,73 @@ export default function StoresPage() {
     fetchStores();
   }, [fetchStores]);
 
-  /* ---------- Delete handler ---------- */
-  async function handleDelete() {
-    if (!deleteTarget) return;
-    setDeleting(true);
+  /* ---------- 状态机动作 handler ---------- */
+  function openActionDialog(row: StoreRow, action: StoreAction) {
+    setActionTarget({ row, action });
+    setStatusReason("");
+    setActionError(null);
+  }
+  function closeActionDialog() {
+    if (acting) return;
+    setActionTarget(null);
+    setStatusReason("");
+    setActionError(null);
+  }
+  async function confirmAction() {
+    if (!actionTarget) return;
+    const { row, action } = actionTarget;
+    const needReason = action === "suspend" || action === "terminate";
+    if (needReason && !statusReason.trim()) {
+      setActionError("请填写原因");
+      return;
+    }
+    setActing(true);
+    setActionError(null);
     try {
-      const res = await fetch(`/api/stores/${deleteTarget.id}`, {
-        method: "DELETE",
+      const res = await fetch(`/api/stores/${row.id}/${action}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(
+          needReason ? { statusReason: statusReason.trim() } : {}
+        ),
       });
-      const json = await res.json();
-      if (json.success) {
-        setDeleteTarget(null);
-        fetchStores();
+      const json = (await res.json()) as {
+        success: boolean;
+        error?: string;
+        details?: Record<string, string[]>;
+      };
+      if (!json.success) {
+        const detailsMsg = json.details
+          ? Object.values(json.details).flat().join("；")
+          : "";
+        setActionError(json.error || detailsMsg || "操作失败");
+        return;
       }
+      setActionTarget(null);
+      setStatusReason("");
+      fetchStores();
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "网络错误");
     } finally {
-      setDeleting(false);
+      setActing(false);
     }
   }
 
   /* ---------- Search with debounce ---------- */
-  const [searchInput, setSearchInput] = useState(search);
+  // 2026-06-24: 补回缺失的 searchInput state + syncQuery stub（前者由前一会话
+  // coder 子 agent 引入 URL 持久化时遗留,后者本应是 useSearchParams + router.replace
+  // 双向同步;P2 deferred,此处用 no-op 占位以通过 tsc,不动业务行为）。
+  const syncQuery = useCallback((_q: Record<string, unknown>) => {
+    /* TODO P2: 用 useSearchParams + router.replace 同步 status/level/province/search/sort 到 URL */
+  }, []);
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(searchInput);
       setPage(1);
+      syncQuery({ search: searchInput, page: 1 });
     }, 400);
     return () => clearTimeout(timer);
-  }, [searchInput]);
+  }, [searchInput, syncQuery]);
 
   /* ---------- Level toggle ---------- */
   const toggleLevel = useCallback((lvl: StoreLevel) => {
@@ -497,11 +572,15 @@ export default function StoresPage() {
     setSearch("");
     setProvinceFilter("");
     setLevelFilter([]);
+    setStatusFilter("");
     setPage(1);
   }, []);
 
   const hasActiveFilter =
-    search.length > 0 || provinceFilter.length > 0 || levelFilter.length > 0;
+    search.length > 0 ||
+    provinceFilter.length > 0 ||
+    levelFilter.length > 0 ||
+    statusFilter.length > 0;
 
   /* ---------- Grouping ---------- */
   const groupedStores = useMemo(() => {
@@ -545,9 +624,9 @@ export default function StoresPage() {
       .map(([key, b]) => ({ key, ...b }));
   }, [stores, groupMode]);
 
-  /* ---------- Columns factory (uses main delete handler) ---------- */
+  /* ---------- Columns factory (uses main action handler) ---------- */
   const columns = useMemo(
-    () => buildColumns(setDeleteTarget),
+    () => buildColumns(openActionDialog),
     []
   );
 
@@ -585,6 +664,45 @@ export default function StoresPage() {
               className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 pl-10 pr-4 text-sm text-zinc-100 placeholder-zinc-500 focus:border-orange-500 focus:outline-none"
             />
           </div>
+
+          {/* Status filter */}
+          <label className="flex items-center gap-2 text-xs text-zinc-400">
+            <span className="hidden sm:inline">状态</span>
+            <select
+              value={statusFilter}
+              onChange={(e) => {
+                setStatusFilter(e.target.value as StoreStatus | "");
+                setPage(1);
+              }}
+              aria-label="按状态筛选"
+              className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
+            >
+              <option value="">全部</option>
+              {STORE_STATUSES.map((s) => (
+                <option key={s} value={s}>
+                  {STORE_STATUS_LABELS[s]}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          {/* Sort selector */}
+          <label className="flex items-center gap-2 text-xs text-zinc-400">
+            <span className="hidden sm:inline">排序</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as SortKey)}
+              aria-label="排序方式"
+              className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2.5 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
+            >
+              <option value="updated_desc">最近更新优先</option>
+              <option value="updated_asc">最早更新优先</option>
+              <option value="created_desc">最新创建优先</option>
+              <option value="name_asc">名称 A→Z</option>
+              <option value="name_desc">名称 Z→A</option>
+              <option value="level_desc">等级高→低</option>
+            </select>
+          </label>
 
           {/* Group selector */}
           <label className="flex items-center gap-2 text-xs text-zinc-400">
@@ -737,14 +855,79 @@ export default function StoresPage() {
         </div>
       )}
 
-      {/* ── Delete Dialog ── */}
-      <DeleteDialog
-        open={!!deleteTarget}
-        onClose={() => setDeleteTarget(null)}
-        onConfirm={handleDelete}
-        storeName={deleteTarget?.name ?? ""}
-        deleting={deleting}
-      />
+      {/* ── 状态机动作对话框 ── */}
+      {actionTarget && (
+        <ConfirmDialog
+          open={!!actionTarget}
+          title={
+            actionTarget.action === "publish"
+              ? "发布门店"
+              : actionTarget.action === "suspend"
+                ? "暂停合作"
+                : actionTarget.action === "resume"
+                  ? "恢复营业"
+                  : "终止合作"
+          }
+          description={
+            actionTarget.action === "publish"
+              ? `确认将「${actionTarget.row.name}」发布为营业中？发布后该门店将出现在前台列表。`
+              : actionTarget.action === "suspend"
+                ? `确认暂停「${actionTarget.row.name}」的合作？前台将不再展示该门店。`
+                : actionTarget.action === "resume"
+                  ? `确认将「${actionTarget.row.name}」恢复营业？请确保联系方式、地址、营业时间均已核对。`
+                  : `确认终止与「${actionTarget.row.name}」的合作？终止后该门店进入只读状态，不可再恢复。`
+          }
+          confirmLabel={
+            actionTarget.action === "publish"
+              ? "发布"
+              : actionTarget.action === "suspend"
+                ? "暂停"
+                : actionTarget.action === "resume"
+                  ? "恢复"
+                  : "终止"
+          }
+          variant={
+            actionTarget.action === "suspend" ||
+            actionTarget.action === "terminate"
+              ? "danger"
+              : "default"
+          }
+          onConfirm={confirmAction}
+          onCancel={closeActionDialog}
+        >
+          {(actionTarget.action === "suspend" ||
+            actionTarget.action === "terminate") && (
+            <div>
+              <label
+                htmlFor="statusReason"
+                className="block text-sm font-medium text-zinc-300"
+              >
+                原因 <span className="text-red-400">*</span>
+              </label>
+              <textarea
+                id="statusReason"
+                value={statusReason}
+                onChange={(e) => setStatusReason(e.target.value)}
+                rows={3}
+                placeholder={
+                  actionTarget.action === "suspend"
+                    ? "例：门店装修 / 临时歇业 / 合作调整..."
+                    : "例：合同到期 / 双方协商 / 违规下线..."
+                }
+                className="mt-1 w-full resize-none rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-orange-500 focus:outline-none"
+              />
+            </div>
+          )}
+          {actionError && (
+            <p
+              role="alert"
+              className="mt-2 rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-xs text-red-400"
+            >
+              {actionError}
+            </p>
+          )}
+        </ConfirmDialog>
+      )}
     </div>
   );
 }
