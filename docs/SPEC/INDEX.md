@@ -25,8 +25,8 @@
 docs/SPEC/
 ├── INDEX.md              # ← 你现在在这里：索引 + 状态看板
 ├── _TEMPLATE.md          # SPEC 模板
-├── data-model.md         # 全局数据模型参考
-├── public-site/          # 公开站各模块 SPEC
+├── data-model.md              # 全局数据模型参考
+├── public-site/               # 公开站各模块 SPEC
 │   ├── home.md
 │   ├── brand.md
 │   ├── product-center.md
@@ -40,7 +40,8 @@ docs/SPEC/
 │   ├── login.md
 │   ├── dashboard.md
 │   ├── stores.md
-│   └── articles.md
+│   ├── articles.md
+│   └── analytics.md
 ├── api/                  # API 各模块 SPEC
 │   ├── auth.md
 │   ├── stores.md
@@ -72,10 +73,11 @@ docs/SPEC/
 | 区域 | 模块数 | ✅ 完成 | 🔧 部分 | ⬜ 未开始 | ❌ 有问题 |
 |------|--------|---------|---------|-----------|----------|
 | 公开站 | 9 | 2 | 6 | 0 | 1 |
-| 管理后台 | 4 | 1 | 3 | 0 | 0 |
-| API | 6 | 2 | 3 | 1 | 0 |
+| 管理后台 | 5 | 1 | 4 | 0 | 0 |
+| API | 6 | 3 | 3 | 0 | 0 |
 | 公共组件 | 3 | 3 | 0 | 0 | 0 |
-| **合计** | **22** | **8** | **12** | **1** | **1** |
+| 数据模型 | 1 | 0 | 1 | 0 | 0 |
+| **合计** | **24** | **9** | **14** | **0** | **1** |
 
 ---
 
@@ -227,6 +229,17 @@ docs/SPEC/
 | **关键组件** | ArticleEditor |
 | **备注** | Markdown 编辑器+预览分屏。缺少 `/news/[slug]` 消费端的 content 字段兼容（见 1.7）。canonical PRD 定义 4 状态机（含 withdrawn）+极简发布原则。 |
 
+### 2.5 行为分析 Analytics
+
+| 项目 | 内容 |
+|------|------|
+| **路由** | `/admin/analytics` |
+| **PRD** | 📄 `docs/PRD/admin/ANALYTICS_SYSTEM_PRD.md`（canonical） |
+| **SPEC** | `docs/SPEC/admin/analytics.md` |
+| **状态** | 🔧 **部分完成** |
+| **关键组件** | 分析页面（内联 Recharts） |
+| **备注** | force-dynamic。当前统计总事件（非仅 page_view），缺独立语义事件（product_view/topic_view/article_view）。无咨询渠道分布和数据健康模块。store_view 埋点缺失（P1-13）。 |
+
 ---
 
 ## 三、API
@@ -331,8 +344,8 @@ docs/SPEC/
 | 项目 | 内容 |
 |------|------|
 | **文件** | `docs/SPEC/data-model.md` |
-| **状态** | ⬜ **未开始** |
-| **备注** | 待整理完整的 Prisma Schema + 静态数据类型 + API response 类型。 |
+| **状态** | 🔧 **部分完成** |
+| **备注** | 涵盖 7 个 Prisma 表、6 个静态数据类型、API 响应格式、2 个状态机。需跟踪 schema 变更保持同步。 |
 
 ---
 
@@ -365,7 +378,16 @@ docs/SPEC/
 | PRODUCT_PAGE_SYSTEM_PRD | `docs/PRD/public-site/PRODUCT_PAGE_SYSTEM_PRD_2026-06-22.md` | 产品中心 |
 | VEHICLE_PROJECT_PAGE_PRD | `docs/PRD/public-site/VEHICLE_PROJECT_PAGE_PRD_2026-06-22.md` | 配件产品 |
 | FILM_PRODUCT_EXPERIENCE_PRD | `docs/PRD/public-site/FILM_PRODUCT_EXPERIENCE_PRD_2026-06-22.md` | 膜类产品 |
-| CONSULTATION_CHANNEL_SYSTEM_PRD | `docs/PRD/public-site/CONSULTATION_CHANNEL_SYSTEM_PRD_2026-06-22.md` | 咨询承接 |
+| CONSULTATION_CHANNEL_SYSTEM_PRD | `docs/PRD/public-site/CONSULTATION_CHANNEL_SYSTEM_PRD_2026-06-22.md` | 咨询承接（规划） |
+| BRAND_VEHICLE_PAGES_PRD | `docs/PRD/public-site/BRAND_VEHICLE_PAGES_PRD_2026-06-22.md` | 品牌车型页（规划） |
+| DETAILING_SERVICE_PAGE_PRD | `docs/PRD/public-site/DETAILING_SERVICE_PAGE_PRD_2026-06-22.md` | 精洗服务页（规划） |
+| FOOTER_SOCIAL_LINKS_PRD | `docs/PRD/public-site/FOOTER_SOCIAL_LINKS_PRD_2026-06-22.md` | Footer 社交媒体（规划） |
+| FOOTER_SYSTEM_PRD | `docs/PRD/public-site/FOOTER_SYSTEM_PRD_2026-06-22.md` | Footer 系统（规划） |
+| FRONTEND_PAGE_SYSTEM_PRD | `docs/PRD/public-site/FRONTEND_PAGE_SYSTEM_PRD_2026-06-22.md` | 前端页面体系（规划） |
+| LIGHT_MOD_PROJECT_PAGES_PRD | `docs/PRD/public-site/LIGHT_MOD_PROJECT_PAGES_PRD_2026-06-22.md` | 轻改项目页（规划） |
+| PRODUCT_INFORMATION_ARCHITECTURE_PRD | `docs/PRD/public-site/PRODUCT_INFORMATION_ARCHITECTURE_PRD_2026-06-22.md` | 产品信息架构（规划） |
+| PUBLIC_SITE_SYSTEM_PRD | `docs/PRD/public-site/PUBLIC_SITE_SYSTEM_PRD_2026-06-21.md` | 公开站体系（规划） |
+| STORE_NETWORK_PRD | `docs/PRD/public-site/STORE_NETWORK_PRD_2026-06-21.md` | 门店网络体系（规划） |
 | WENJIE_MODIFICATION_TOPIC_PRD | `docs/PRD/product/WENJIE_MODIFICATION_TOPIC_PRD_2026-06-13.md` | 问界专题 |
 | XIAOMI_MODIFICATION_TOPIC_PRD | `docs/PRD/product/XIAOMI_MODIFICATION_TOPIC_PRD_2026-06-12.md` | 小米专题 |
 | ZEEKR_MODIFICATION_TOPIC_PRD | `docs/PRD/product/ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md` | 极氪专题 |
@@ -373,10 +395,17 @@ docs/SPEC/
 | STORE_MANAGEMENT_PRD | `docs/PRD/admin/STORE_MANAGEMENT_PRD.md` | 后台-门店（canonical） |
 | ARTICLE_MANAGEMENT_PRD | `docs/PRD/admin/ARTICLE_MANAGEMENT_PRD.md` | 后台-文章（canonical） |
 | ANALYTICS_SYSTEM_PRD | `docs/PRD/admin/ANALYTICS_SYSTEM_PRD.md` | 后台-分析（canonical） |
+| CONSULTATION_CHANNEL_ADMIN_PRD | `docs/PRD/admin/CONSULTATION_CHANNEL_ADMIN_PRD_2026-06-22.md` | 后台-咨询渠道（规划） |
+| CONSULTATION_CHANNEL_ROUTES_PRD | `docs/PRD/api/CONSULTATION_CHANNEL_ROUTES_PRD_2026-06-22.md` | 咨询渠道 API（规划） |
+| CONSULTATION_CHANNEL_SCHEMA_PRD | `docs/PRD/database/CONSULTATION_CHANNEL_SCHEMA_PRD_2026-06-22.md` | 咨询渠道 DB（规划） |
 | DESIGN_SYSTEM_ALIGNMENT_PRD | `docs/PRD/cross-cutting/DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md` | 设计系统 |
 | AUDIT_AND_REGRESSION_PRD | `docs/PRD/cross-cutting/AUDIT_AND_REGRESSION_PRD_2026-06-19.md` | 审计回归 |
+| PERFORMANCE_OPTIMIZATION_PRD | `docs/PRD/cross-cutting/PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md` | 性能优化 |
+| SECURITY_AUDIT_PRD | `docs/PRD/cross-cutting/SECURITY_AUDIT_PRD_2026-06-20.md` | 安全审计 |
+| ADR_PRD | `docs/PRD/cross-cutting/ADR_PRD_2026-06-20.md` | 架构决策 |
+| DEPLOYMENT_RUNBOOK_PRD | `docs/PRD/cross-cutting/DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md` | 部署手册 |
 
 ---
 
-> 最后更新: 2026-06-22
+> 最后更新: 2026-06-23
 > 维护: 每次上线/发版后更新本看板的实现状态

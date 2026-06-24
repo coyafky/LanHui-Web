@@ -16,7 +16,7 @@ export function organizationSchema() {
     name: brand.zh,
     alternateName: brand.en,
     url: SITE_URL,
-    logo: `${SITE_URL}/images/logo/logo.png`,
+    logo: `${SITE_URL}/images/logo/lanhui-logo.png`,
     description: brand.shortDescription,
     ...(brand.address !== "广东省佛山市顺德区大良（详细地址待补充）" && {
       address: {

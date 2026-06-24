@@ -11,141 +11,81 @@ alwaysApply: true
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# Website Reverse-Engineer Template
+# 蓝辉轻改 LANHUI — Agent Guide
 
-## What This Is
-A reusable template for reverse-engineering any website into a clean, modern Next.js codebase using AI coding agents. The Next.js + shadcn/ui + Tailwind v4 base is pre-scaffolded — just run `/clone-website <url1> [<url2> ...]`.
-
-## Tech Stack
-- **Framework:** Next.js 16 (App Router, React 19, TypeScript strict)
-- **UI:** shadcn/ui (Radix primitives, Tailwind CSS v4, `cn()` utility)
-- **Icons:** Lucide React (default — will be replaced/supplemented by extracted SVGs)
-- **Styling:** Tailwind CSS v4 with oklch design tokens
-- **Deployment:** Vercel
+Public brand site + `/admin` CMS for 汽车轻改装 / 车身膜（顺德大良店）. Next.js 16.2.1 (App Router) · React 19.2.4 · TS strict · Tailwind v4 (oklch) · Prisma 7.8 (`adapter-pg`) · NextAuth v5 beta · shadcn/ui (**Base UI** primitives, not Radix) · vitest + Playwright. Node **24** (`.nvmrc`).
+Full product/architecture context: `README.md`, `docs/ARCHITECTURE.md`.
 
 ## Commands
-- `npm run dev` — Start dev server
-- `npm run build` — Production build
-- `npm run lint` — ESLint check
-- `npm run typecheck` — TypeScript check
-- `npm run check` — Run lint + typecheck + build
 
-## Code Style
-- TypeScript strict mode, no `any`
-- Named exports, PascalCase components, camelCase utils
-- Tailwind utility classes, no inline styles
-- 2-space indentation
-- Responsive: mobile-first
+| Command | What it does |
+|---|---|
+| `npm run dev` | dev server → :3000 (needs Postgres) |
+| `npm run build` | production build + SSG (**works without Postgres**) |
+| `npm run lint` | `eslint` (flat config) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm run check` | lint → typecheck → `verify:zeekr-images` → build (full gate) |
+| `npm test` / `test:watch` / `test:coverage` | vitest (happy-dom) |
+| `npm run test:e2e` | Playwright (`e2e/`, boots dev server) |
+| `npx vitest run src/lib/x.test.ts` / `-t "name"` | single file / by name |
+| `npx prisma migrate dev --name X` · `npx prisma db seed` · `npx prisma studio` | DB ops |
+| `npx tsx scripts/create-admin.ts --username X --email Y --password Z [--role admin\|editor]` | CLI admin user |
 
-## Design Principles
-- **Pixel-perfect emulation** — match the target's spacing, colors, typography exactly
-- **No personal aesthetic changes during emulation phase** — match 1:1 first, customize later
-- **Real content** — use actual text and assets from the target site, not placeholders
-- **Beauty-first** — every pixel matters
+## Quality gates — current verified state
 
-## Project Structure
-```
-src/
-  app/              # Next.js routes
-  components/       # React components
-    ui/             # shadcn/ui primitives
-    icons.tsx       # Extracted SVG icons as React components
-  lib/
-    utils.ts        # cn() utility (shadcn)
-  types/            # TypeScript interfaces
-  hooks/            # Custom React hooks
-public/
-  images/           # Downloaded images from target site
-  videos/           # Downloaded videos from target site
-  seo/              # Favicons, OG images, webmanifest
-docs/
-  research/         # Inspection output (design tokens, components, layout)
-  design-references/ # Screenshots and visual references
-scripts/            # Asset download scripts
-```
+- `npm run typecheck` has **9 pre-existing errors in 2 test files only** — `src/app/api/analytics/stats/route.test.ts` (BigInt literals need ES2020, but `tsconfig.target` is ES2017) and `src/lib/analytics.test.ts` (tuple casts). **Business code is clean.** Do not report these as regressions; do not "fix" them by lowering/raising target without checking tests. Until resolved, `npm run check` stops at the typecheck step.
+- `npm run build` succeeds **without a running Postgres**: SSG falls back to static data in `src/lib/data.ts` (API-first, static-data fallback). CI (`.github/workflows/ci.yml`) runs build with no DB. `npm run dev`, `/admin`, and API writes DO require a live Postgres.
 
-## MOST IMPORTANT NOTES
-- When launching Claude Code agent teams, ALWAYS have each teammate work in their own worktree branch and merge everyone's work at the end, resolving any merge conflicts smartly since you are basically serving the orchestrator role and have full context to our goals, work given, work achieved, and desired outcomes.
-- After editing `AGENTS.md`, run `bash scripts/sync-agent-rules.sh` to regenerate platform-specific instruction files.
-- After editing `.claude/skills/clone-website/SKILL.md`, run `node scripts/sync-skills.mjs` to regenerate the skill for all platforms.
+## Environment gotchas (hard-earned)
 
-# Website Inspection Guide
+- **Postgres port is 5433, not 5432.** Container `lanhui-postgres`, user/db `lanhui`. Canonical URL: `postgresql://lanhui:lanhui_password@localhost:5433/lanhui`. (`.env.example` wrongly says 5432 — trust the docker run command in `README.md`.)
+- **Env loading differs by command.** `npx prisma *` auto-loads `.env` via `prisma.config.ts` (`dotenv/config`). Direct `npx tsx scripts/*.ts` and `npx tsx prisma/seed.ts` do **not** — run `set -a && source .env && set +a` first (they read `process.env.DATABASE_URL` with no dotenv import).
+- **Image upload is LOCAL storage, not OSS.** `ali-oss` is an installed-but-unused dependency; `/api/upload` writes `public/images/stores/<id>.webp` via `sharp` (q80). The OSS env vars in `.env.example`/`README.md` are not wired. Do not "fix" ali-oss — local storage is the current implementation (admin-only; entity currently limited to `store`).
+- **macOS APFS is case-insensitive.** `zeekr/` and `ZEEKR/` are the same inode; rename via `mv A _tmp && mv _tmp B` to force a case change.
+- Default dev admin (from `prisma/seed.ts`): `admin` / `admin@lanhui.com` / `admin123`. Change in prod.
 
-## How to Reverse-Engineer Any Website
+## Architecture
 
-This guide outlines what to capture when inspecting a target website via Chrome MCP or browser DevTools.
+- **Three route layers:** public site (`src/app/`) SSG-first, dynamic pages enumerate via `generateStaticParams`; CMS `src/app/admin/(dashboard)/*` is `force-dynamic` with `auth()` guard in `layout.tsx`; API `src/app/api/*` route handlers.
+- **API response shape is unified:** `{ success, data?, error?, details? }`. Write handlers require `auth()` + role check + Zod validation.
+- **Data access:** static data lives in `src/lib/{brand,products,store,news,certifications,history,china-regions}.ts`; DB access via `src/lib/prisma.ts` singleton (`PrismaPg` adapter) → `src/lib/data.ts` aggregates (API-first, static fallback). **Never call `prisma.*` directly in RSC** — writes go through API routes.
+- **Auth:** NextAuth v5 beta, Credentials + JWT (no DB sessions). Roles `admin` / `editor`; type extension in `src/types/next-auth.d.ts`.
+- **Client analytics:** `src/components/AnalyticsProvider.tsx` auto pageview on route change + `src/lib/analytics.ts` (buffers 5 events / 10s, `sendBeacon`); server `/api/analytics/track` is rate-limited 60/min/IP with a type whitelist.
 
-## Phase 1: Visual Audit
+## Topic-page pattern (wenjie / xiaomi / zeekr / flooring)
 
-### Screenshots to Capture
-- [ ] Every distinct page — desktop, tablet, mobile
-- [ ] Dark mode variants (if applicable)
-- [ ] Light mode variants (if applicable)
-- [ ] Key interaction states (hover, active, open menus, modals)
-- [ ] Loading/skeleton states
-- [ ] Empty states
-- [ ] Error states
+Each product topic shares this structure — follow it for new topics:
+1. `src/lib/<topic>-products.ts` — static data + **literal types** for image specs (1448×1086, 4:3) to prevent spec drift.
+2. `src/components/<topic>/` — 5 components: `AnchorNav`, `ProductCard` (3-state `imageStatus: matched | pending-review | missing`), `ProductGrid`, `ProductTable`, `TopicBanner`.
+3. `src/app/product/<topic>/page.tsx` — RSC: Hero + anchor nav + per-model sections + service flow + CTA + `ItemList` JSON-LD.
+4. Add `<XxxTopicBanner />` entry in `src/app/product/page.tsx`.
+5. Add a CI verify script (e.g. `scripts/verify-zeekr-images.mjs`) and chain it into `npm run check`.
 
-### Design Tokens to Extract
-- [ ] **Colors** — background, text (primary/secondary/muted), accent, border, hover, error, success, warning
-- [ ] **Typography** — font family, sizes (h1-h6, body, caption, label), weights, line heights, letter spacing
-- [ ] **Spacing** — padding/margin patterns (look for a scale: 4px, 8px, 12px, 16px, 24px, 32px, etc.)
-- [ ] **Border radius** — buttons, cards, avatars, inputs
-- [ ] **Shadows/elevation** — card shadows, dropdown shadows, modal overlay
-- [ ] **Breakpoints** — when does the layout shift? (inspect with DevTools responsive mode)
-- [ ] **Icons** — which icon library? custom SVGs? sizes?
-- [ ] **Avatars** — sizes, shapes, fallback behavior
-- [ ] **Buttons** — all variants (primary, secondary, ghost, icon-only, danger)
-- [ ] **Inputs** — text fields, textareas, selects, checkboxes, toggles
+Theme colors: xiaomi=orange, wenjie=cyan, zeekr=orange, flooring=amber. Image containers: `aspect-[4/3] + object-contain + Next/Image sizes`.
 
-## Phase 2: Component Inventory
+## Testing & Prisma notes
 
-For each distinct UI component, document:
-1. **Name** — what would you call this component?
-2. **Structure** — what HTML elements / child components does it contain?
-3. **Variants** — does it have different sizes, colors, or states?
-4. **States** — default, hover, active, disabled, loading, error, empty
-5. **Responsive behavior** — how does it change at different breakpoints?
-6. **Interactions** — click, hover, focus, keyboard navigation
-7. **Animations** — transitions, entrance/exit animations, micro-interactions
+- API route test pattern: `vi.hoisted` + `vi.mock('@/lib/prisma')` + `vi.resetModules` + dynamic `await import('./route')`.
+- **Prisma 7 + Driver Adapter error shape:** `P2022` (ColumnNotFound) and `P2002` return `{ code, meta: { modelName, driverAdapterError: { cause } } }` — **not** the legacy `meta.target`. Check `meta.driverAdapterError.cause` for the real column/message.
+- Migrations live in `prisma/migrations/`; use `npx prisma migrate deploy` for fresh DBs, then `npx prisma db seed` (writes admin + 27 provinces / 75 cities).
 
-### Common Components to Look For
-- Navigation (top bar, sidebar, bottom bar)
-- Cards / list items
-- Buttons and links
-- Forms and inputs
-- Modals and dialogs
-- Dropdowns and menus
-- Tabs and segmented controls
-- Avatars and user badges
-- Loading skeletons
-- Toast notifications
-- Tooltips and popovers
+## Sync scripts (after editing source-of-truth files)
 
-## Phase 3: Layout Architecture
+- **`AGENTS.md` is the single source of truth.** `CLAUDE.md` and `GEMINI.md` just `@AGENTS.md`. After editing it, run `bash scripts/sync-agent-rules.sh` to regenerate `.github/copilot-instructions.md`, `.clinerules`, `.continue/rules/project.md`, `.amazonq/rules/project.md`.
+- After editing `.claude/skills/clone-website/SKILL.md`, run `node scripts/sync-skills.mjs`.
 
-- [ ] **Grid system** — CSS Grid? Flexbox? Fixed widths?
-- [ ] **Column layout** — how many columns at each breakpoint?
-- [ ] **Max-width** — main content area max-width
-- [ ] **Sticky elements** — header, sidebar, floating buttons
-- [ ] **Z-index layers** — navigation, modals, tooltips, overlays
-- [ ] **Scroll behavior** — infinite scroll, pagination, virtual scrolling
+## AI workflow conventions
 
-## Phase 4: Technical Stack Analysis
+- `/prompt-boost` (natural language → spec) → `/dispatch` (architect → coder → tester → deployer pipeline).
+- **Trellis is configured in `.trellis/`** with the `channel-driven-subagent-dispatch` workflow. Use it for non-trivial AI development tasks so requirements, plans, implementation notes, review output, and spec updates stay auditable.
+- **Codex Desktop is skill-first.** Users should normally speak naturally or invoke `$lanhui-trellis-daily`, `$trellis-start`, `$trellis-continue`, or `$trellis-finish-work`; the agent runs the underlying `.trellis/scripts/*.py` commands. Do not make users memorize Python lifecycle commands.
+- Natural-language routing: “开始/查看项目状态” → `trellis-start`; a new non-trivial feature or audit → request task-creation consent, then `trellis-brainstorm`; “继续当前任务” → `trellis-continue`; “完成/收尾” → `trellis-finish-work`; “回忆上次怎么做” → `trellis-session-insight`.
+- Internal Trellis task flow: create task → fill `prd.md` (plus `design.md` / `implement.md` for complex tasks) → obtain implementation approval → start task → implement/check → update `.trellis/spec/*` when conventions change → finish/archive. Python commands are implementation details used by the agent and CI, not the primary user interface.
+- Lightweight questions, small edits, or user-declined task tracking may skip Trellis for that turn; do not create Trellis tasks without user consent.
+- `.trellis/spec/frontend/` captures this project's frontend conventions for future AI agents. Keep it factual and synced with real code patterns, not aspirational rewrites.
+- Codex users: Trellis hooks need `features.hooks = true` in `~/.codex/config.toml` (Codex 0.129+) and one `/hooks` approval for the Trellis `UserPromptSubmit` hook.
+- **Worktree isolation for parallel agents:** `git worktree add .claude/worktrees/agent-<id> -b worktree-agent-<id> master`; each coder commits in its own worktree; orchestrator merges with `--no-ff` and resolves conflicts.
 
-- [ ] **Framework** — React? Vue? Angular? Check `__NEXT_DATA__`, `__NUXT__`, `ng-version`
-- [ ] **CSS approach** — Tailwind (utility classes), CSS Modules, Styled Components, Emotion, vanilla CSS
-- [ ] **State management** — Redux (check DevTools), React Query, Zustand, Pinia
-- [ ] **API patterns** — REST, GraphQL (check network tab for `/graphql` requests)
-- [ ] **Font loading** — Google Fonts, self-hosted, system fonts
-- [ ] **Image strategy** — CDN, lazy loading, srcset, WebP/AVIF
-- [ ] **Animation library** — Framer Motion, GSAP, CSS transitions only
+## Code style
 
-## Phase 5: Documentation Output
-
-After inspection, create these files in `docs/research/`:
-1. `DESIGN_TOKENS.md` — All extracted colors, typography, spacing
-2. `COMPONENT_INVENTORY.md` — Every component with structure notes
-3. `LAYOUT_ARCHITECTURE.md` — Page layouts, grid system, responsive behavior
-4. `INTERACTION_PATTERNS.md` — Animations, transitions, hover states
-5. `TECH_STACK_ANALYSIS.md` — What the site uses and our chosen equivalents
+TS strict, `any` forbidden · named exports, PascalCase components, camelCase utils · Tailwind utilities only (no inline styles) · 2-space · mobile-first · shared client state via module-level emitter + hook (e.g. `src/lib/wechat-modal.ts`).

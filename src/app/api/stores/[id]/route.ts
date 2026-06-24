@@ -1,7 +1,12 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { StoreUpdateSchema } from "@/lib/validations/store";
+import {
+  resolveStoreStatus,
+  statusToIsActive,
+  StoreUpdateSchema,
+  type StoreStatus,
+} from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
 import { generateStoreSlug } from "@/lib/store-slug";
 
@@ -28,7 +33,7 @@ export async function GET(
     const store = await prisma.store.findFirst({
       where: {
         OR: [{ id }, { slug: id }],
-        ...(all ? {} : { isActive: true }),
+        ...(all ? {} : { status: "active" }),
       },
     });
 
@@ -130,9 +135,25 @@ export async function PUT(
       parsed.data.cityLabel = city.label;
     }
 
+    const updateData: Record<string, unknown> = { ...parsed.data };
+    const nextStatus = resolveStoreStatus(
+      {
+        status: updateData.status as StoreStatus | undefined,
+        isActive: updateData.isActive as boolean | undefined,
+      },
+      existing.status as StoreStatus,
+    );
+    const statusChanged = nextStatus !== existing.status;
+    updateData.status = nextStatus;
+    updateData.isActive = statusToIsActive(nextStatus);
+    if (statusChanged) {
+      updateData.statusChangedAt = new Date();
+      updateData.statusChangedBy = session.user.id;
+    }
+
     const store = await prisma.store.update({
       where: { id: existing.id },
-      data: parsed.data,
+      data: updateData,
     });
 
     await logActivity({
@@ -140,7 +161,12 @@ export async function PUT(
       action: "store.update",
       entity: "store",
       entityId: store.id,
-      metadata: { name: store.name, slug: store.slug, isActive: store.isActive },
+      metadata: {
+        name: store.name,
+        slug: store.slug,
+        status: store.status,
+        previousStatus: existing.status,
+      },
     });
 
     return Response.json({ success: true, data: store });
@@ -227,18 +253,28 @@ export async function DELETE(
       );
     }
 
-    // Soft delete: set isActive = false
+    // PRD 状态动作:列表里的停用操作语义为暂停合作,保留历史资料。
     const store = await prisma.store.update({
       where: { id: existing.id },
-      data: { isActive: false },
+      data: {
+        status: "suspended",
+        isActive: false,
+        statusChangedAt: new Date(),
+        statusChangedBy: session.user.id,
+      },
     });
 
     await logActivity({
       actorId: session.user.id,
-      action: "store.delete",
+      action: "store.suspend",
       entity: "store",
       entityId: existing.id,
-      metadata: { name: existing.name, slug: existing.slug },
+      metadata: {
+        name: existing.name,
+        slug: existing.slug,
+        previousStatus: existing.status,
+        status: "suspended",
+      },
     });
 
     return Response.json({ success: true, data: store });

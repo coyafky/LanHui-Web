@@ -20,7 +20,7 @@ const LOGO_HEIGHT = 724;
 export function Logo({ className = "h-10 w-auto", priority = false }: LogoProps) {
   return (
     <Image
-      src="/images/logo/logo.png"
+      src="/images/logo/lanhui-logo.png"
       alt={`${brand.zh} ${brand.en}`}
       width={LOGO_WIDTH}
       height={LOGO_HEIGHT}

@@ -22,7 +22,10 @@ import { StoreCreateSchema } from "@/lib/validations/store";
 import {
   STORE_LEVELS,
   STORE_LEVEL_LABELS,
+  STORE_STATUSES,
+  STORE_STATUS_LABELS,
   type StoreLevel,
+  type StoreStatus,
 } from "@/lib/validations/store";
 import { cn } from "@/lib/utils";
 import {
@@ -47,6 +50,11 @@ interface StoreFormProps {
   submitLabel?: string;
   showDelete?: boolean;
   onDelete?: () => Promise<void>;
+  /**
+   * 只读模式：所有字段不可编辑、隐藏保存按钮。
+   * 适用于 terminated 门店（spec 7）。
+   */
+  readOnly?: boolean;
 }
 
 /* ------------------------------------------------------------------ */
@@ -104,6 +112,7 @@ export function StoreForm({
   submitLabel = "保存",
   showDelete = false,
   onDelete,
+  readOnly = false,
 }: StoreFormProps) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
@@ -154,6 +163,7 @@ export function StoreForm({
 
   const watchedPhone = watch("phone");
   const watchedLevel = watch("level");
+  const watchedStatus = watch("status");
   const watchedIsActive = watch("isActive");
 
   /* ---------- Auto-generate phoneTel from phone ---------- */
@@ -184,8 +194,8 @@ export function StoreForm({
     setSubmitSuccess(null);
 
     // 发布前置校验（PRD §16 D1）：从 pending → active 必须设置 level
-    const wantsPublish = data.isActive === true && !data.status;
-    if (wantsPublish && !data.level) {
+    const wantsPublish = data.status === "active" && !data.level;
+    if (wantsPublish) {
       setSubmitError(
         "发布前请先选择门店等级(星辉旗舰店 / 星耀尊享店 / 星辰专营店 / 星光会员店)"
       );
@@ -227,16 +237,26 @@ export function StoreForm({
   const inputClasses =
     "w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-orange-500 focus:outline-none";
 
-  // Submit button disabled when region load fails or while submitting
+  // Submit button disabled when region load fails or while submitting or readOnly
   const submitDisabled =
-    submitting || regionLoadState.error !== null;
+    submitting || regionLoadState.error !== null || readOnly;
 
   const submitTitle = regionLoadState.error
     ? "省份/城市加载失败，请刷新或重试"
     : undefined;
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
+    <fieldset disabled={readOnly} className="space-y-8">
+      <form
+        onSubmit={(e) => {
+          if (readOnly) {
+            e.preventDefault();
+            return;
+          }
+          void handleSubmit(handleFormSubmit)(e);
+        }}
+        className="space-y-8"
+      >
       {/* ── Top-level alerts ── */}
       {submitError && (
         <div
@@ -364,32 +384,44 @@ export function StoreForm({
             )}
           </FieldWrapper>
 
-          {/* isActive Select */}
+          {/* 4 态 status Select — 同步 status + isActive 兼容旧契约 */}
           <FieldWrapper
-            label="营业状态"
+            label="门店状态"
             icon={Eye}
-            error={errors.isActive?.message}
+            error={errors.status?.message}
           >
             <Controller
-              name="isActive"
+              name="status"
               control={control}
               render={({ field }) => (
                 <select
-                  value={String(field.value ?? true)}
-                  onChange={(e) => field.onChange(e.target.value === "true")}
+                  value={field.value ?? "pending"}
+                  onChange={(e) => {
+                    const next = e.target.value as StoreStatus;
+                    field.onChange(next);
+                    // 兼容旧 isActive 字段：active ↔ true，其它 ↔ false
+                    setValue("isActive", next === "active", {
+                      shouldDirty: true,
+                    });
+                  }}
                   onBlur={field.onBlur}
                   ref={field.ref}
+                  aria-label="选择门店状态"
                   className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
                 >
-                  <option value="true">营业中</option>
-                  <option value="false">下架</option>
+                  {STORE_STATUSES.map((s) => (
+                    <option key={s} value={s}>
+                      {STORE_STATUS_LABELS[s]}
+                    </option>
+                  ))}
                 </select>
               )}
             />
+            <input type="hidden" {...register("isActive")} />
             <p className="mt-1 text-xs text-zinc-500">
-              选择「下架」后，前台 <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-xs">/api/stores</code> 将不再返回该门店，但后台列表仍可见。
+              状态切换会写入审计日志。暂停/终止合作需填写原因并在编辑页顶部确认。
             </p>
-            {watchedIsActive && !watchedLevel && (
+            {watchedStatus === "active" && !watchedLevel && (
               <p
                 role="alert"
                 className="mt-2 rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-xs text-amber-400"
@@ -482,47 +514,50 @@ export function StoreForm({
       </section>
 
       {/* ── Actions ── */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-3">
-          <Link
-            href="/admin/stores"
-            className="rounded-lg border border-zinc-700 bg-zinc-800 px-5 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-zinc-100"
-          >
-            取消
-          </Link>
-          <button
-            type="submit"
-            disabled={submitDisabled}
-            title={submitTitle}
-            className={cn(
-              "inline-flex items-center gap-2 rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-600 disabled:opacity-50"
-            )}
-          >
-            {submitting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Save className="h-4 w-4" />
-            )}
-            {submitLabel}
-          </button>
-        </div>
+      {!readOnly && (
+        <div className="flex items-center justify-between">
+          <div className="flex gap-3">
+            <Link
+              href="/admin/stores"
+              className="rounded-lg border border-zinc-700 bg-zinc-800 px-5 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-zinc-100"
+            >
+              取消
+            </Link>
+            <button
+              type="submit"
+              disabled={submitDisabled}
+              title={submitTitle}
+              className={cn(
+                "inline-flex items-center gap-2 rounded-lg bg-orange-500 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-600 disabled:opacity-50"
+              )}
+            >
+              {submitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              {submitLabel}
+            </button>
+          </div>
 
-        {showDelete && onDelete && (
-          <button
-            type="button"
-            onClick={handleDelete}
-            disabled={deleting}
-            className="inline-flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-5 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
-          >
-            {deleting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <X className="h-4 w-4" />
-            )}
-            停用门店
-          </button>
-        )}
-      </div>
-    </form>
+          {showDelete && onDelete && (
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={deleting}
+              className="inline-flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-5 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+            >
+              {deleting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <X className="h-4 w-4" />
+              )}
+              停用门店
+            </button>
+          )}
+        </div>
+      )}
+      </form>
+    </fieldset>
   );
 }
