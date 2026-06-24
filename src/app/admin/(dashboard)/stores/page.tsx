@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   useReactTable,
   getCoreRowModel,
@@ -12,11 +13,9 @@ import {
   Plus,
   Search,
   Pencil,
-  Trash2,
   ChevronLeft,
   ChevronRight,
   Store,
-  Loader2,
   Award,
   X as XIcon,
   Filter,
@@ -76,10 +75,10 @@ type SortKey =
 /* ------------------------------------------------------------------ */
 
 const LEVEL_BADGE_CLASS: Record<StoreLevel, string> = {
-  flagship: "border-amber-600/60 bg-amber-500/10 text-amber-400",
-  premium: "border-blue-600/60 bg-blue-500/10 text-blue-400",
-  specialty: "border-cyan-600/60 bg-cyan-500/10 text-cyan-400",
-  member: "border-zinc-600 bg-zinc-700/40 text-zinc-300",
+  flagship: "border-orange-500/60 bg-orange-500/10 text-orange-300",
+  premium: "border-zinc-700/60 bg-zinc-800/60 text-zinc-300",
+  specialty: "border-zinc-700/60 bg-zinc-800/60 text-zinc-300",
+  member: "border-zinc-700/60 bg-zinc-800/60 text-zinc-400",
 };
 
 function LevelBadge({
@@ -110,26 +109,36 @@ function LevelBadge({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Status badge (4 态)                                                */
+/*  Status badge (4 态 — dot+label 风格,不再用 bg 色块)                */
 /* ------------------------------------------------------------------ */
 
-const STATUS_BADGE_CLASS: Record<StoreStatus, string> = {
-  pending: "border border-amber-600/60 bg-amber-500/10 text-amber-400",
-  active: "border border-emerald-600/60 bg-emerald-500/10 text-emerald-400",
-  suspended: "border border-blue-600/60 bg-blue-500/10 text-blue-400",
-  terminated: "border border-zinc-600 bg-zinc-700/40 text-zinc-500",
+const STATUS_DOT_CLASS: Record<StoreStatus, string> = {
+  pending: "bg-amber-400",
+  active: "bg-emerald-400",
+  suspended: "bg-blue-400",
+  terminated: "bg-zinc-500",
 };
 
 function StatusBadge({ status }: { status: StoreStatus }) {
   return (
     <span
       aria-label={`状态：${STORE_STATUS_LABELS[status]}`}
-      className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-        STATUS_BADGE_CLASS[status]
-      )}
+      className="inline-flex items-center gap-1.5"
     >
-      {STORE_STATUS_LABELS[status]}
+      <span
+        className={cn("h-1.5 w-1.5 rounded-full", STATUS_DOT_CLASS[status])}
+        aria-hidden
+      />
+      <span
+        className={cn(
+          "text-xs",
+          status === "terminated"
+            ? "text-zinc-500 line-through"
+            : "text-zinc-300"
+        )}
+      >
+        {STORE_STATUS_LABELS[status]}
+      </span>
     </span>
   );
 }
@@ -163,15 +172,150 @@ function LevelFilter({
             onClick={() => onToggle(lvl)}
             className={cn(
               "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
-              active
+              active && lvl === "flagship"
                 ? LEVEL_BADGE_CLASS[lvl]
-                : "border-zinc-700 bg-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+                : active
+                  ? "border-zinc-600 bg-zinc-700/60 text-zinc-100"
+                  : "border-zinc-700 bg-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
             )}
           >
             {STORE_LEVEL_LABELS[lvl]}
           </button>
         );
       })}
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Keyboard hint component                                            */
+/* ------------------------------------------------------------------ */
+
+function Kbd({ children }: { children: React.ReactNode }) {
+  return (
+    <kbd className="inline-flex h-4 min-w-[1.25rem] items-center justify-center rounded border border-zinc-700 bg-zinc-800 px-1 font-mono text-[10px] text-zinc-300">
+      {children}
+    </kbd>
+  );
+}
+
+function KbdFooter() {
+  return (
+    <div className="sticky bottom-0 z-20 mt-2 flex items-center justify-center gap-4 border-t border-zinc-800 bg-zinc-950/90 px-4 py-2 text-[10px] text-zinc-500 backdrop-blur">
+      <span><Kbd>&uarr;&darr;</Kbd> 移动</span>
+      <span><Kbd>Enter</Kbd> 编辑</span>
+      <span><Kbd>p</Kbd> 发布</span>
+      <span><Kbd>s</Kbd> 暂停</span>
+      <span><Kbd>x</Kbd> 终止</span>
+      <span><Kbd>/</Kbd> 搜索</span>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  KPI strip                                                          */
+/* ------------------------------------------------------------------ */
+
+function KpiTile({
+  label,
+  value,
+  dotClass,
+}: {
+  label: string;
+  value: number;
+  dotClass?: string;
+}) {
+  return (
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-3">
+      <div className="flex items-center gap-2 text-xs text-zinc-500">
+        {dotClass && (
+          <span
+            className={cn("h-1.5 w-1.5 rounded-full", dotClass)}
+            aria-hidden
+          />
+        )}
+        <span>{label}</span>
+      </div>
+      <div className="mt-1 text-2xl font-semibold tabular-nums text-zinc-100">
+        {value}
+      </div>
+    </div>
+  );
+}
+
+function KpiStrip({ stores }: { stores: StoreRow[] }) {
+  const counts = useMemo(
+    () => ({
+      total: stores.length,
+      pending: stores.filter((s) => s.status === "pending").length,
+      active: stores.filter((s) => s.status === "active").length,
+      suspended: stores.filter((s) => s.status === "suspended").length,
+    }),
+    [stores]
+  );
+
+  return (
+    <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <KpiTile label="总店" value={counts.total} />
+      <KpiTile label="待发" value={counts.pending} dotClass="bg-amber-400" />
+      <KpiTile label="营业" value={counts.active} dotClass="bg-emerald-400" />
+      <KpiTile label="暂停" value={counts.suspended} dotClass="bg-blue-400" />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Bulk action bar                                                    */
+/* ------------------------------------------------------------------ */
+
+function BulkBar({
+  selectedIds,
+  onClear,
+  onAction,
+}: {
+  selectedIds: Set<string>;
+  onClear: () => void;
+  onAction: (action: StoreAction) => void;
+}) {
+  if (selectedIds.size === 0) return null;
+  return (
+    <div className="sticky bottom-16 z-30 mx-auto mt-4 flex max-w-3xl items-center gap-3 rounded-xl border border-orange-500/30 bg-zinc-900/95 px-4 py-3 shadow-2xl backdrop-blur-sm">
+      <span className="text-sm font-medium text-zinc-100">
+        已选 {selectedIds.size} 家
+      </span>
+      <div className="ml-auto flex items-center gap-2">
+        <button
+          onClick={() => onAction("publish")}
+          className="rounded-lg bg-orange-500/10 px-3 py-1.5 text-xs font-medium text-orange-400 transition-colors hover:bg-orange-500/20"
+        >
+          发布
+        </button>
+        <button
+          onClick={() => onAction("suspend")}
+          className="rounded-lg bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/20"
+        >
+          暂停
+        </button>
+        <button
+          onClick={() => onAction("resume")}
+          className="rounded-lg bg-orange-500/10 px-3 py-1.5 text-xs font-medium text-orange-400 transition-colors hover:bg-orange-500/20"
+        >
+          恢复
+        </button>
+        <button
+          onClick={() => onAction("terminate")}
+          className="rounded-lg bg-red-500/10 px-3 py-1.5 text-xs font-medium text-red-400 transition-colors hover:bg-red-500/20"
+        >
+          终止
+        </button>
+        <button
+          onClick={onClear}
+          aria-label="清除选择"
+          className="rounded-lg p-1.5 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200"
+        >
+          <XIcon className="h-4 w-4" />
+        </button>
+      </div>
     </div>
   );
 }
@@ -229,9 +373,60 @@ function TableSkeleton() {
 /* ------------------------------------------------------------------ */
 
 function buildColumns(
-  onAction: (row: StoreRow, action: StoreAction) => void
+  onAction: (row: StoreRow, action: StoreAction) => void,
+  selectedIds: Set<string>,
+  setSelectedIds: React.Dispatch<React.SetStateAction<Set<string>>>
 ): ColumnDef<StoreRow>[] {
   return [
+    {
+      id: "select",
+      header: ({ table }) => {
+        const all = table.getRowModel().rows.length;
+        const selected = table
+          .getRowModel()
+          .rows.filter((r) => selectedIds.has(r.original.id)).length;
+        const indeterminate = selected > 0 && selected < all;
+        return (
+          <input
+            type="checkbox"
+            aria-label={`全选 ${all} 条`}
+            checked={selected === all && all > 0}
+            ref={(el) => {
+              if (el) el.indeterminate = indeterminate;
+            }}
+            onChange={() => {
+              const next = new Set(selectedIds);
+              if (selected === all) {
+                table.getRowModel().rows.forEach((r) => next.delete(r.original.id));
+              } else {
+                table.getRowModel().rows.forEach((r) => next.add(r.original.id));
+              }
+              setSelectedIds(next);
+            }}
+            className="h-4 w-4 cursor-pointer rounded border-zinc-700 bg-zinc-800 text-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
+          />
+        );
+      },
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          aria-label={`选择 ${row.original.name}`}
+          checked={selectedIds.has(row.original.id)}
+          onChange={() => {
+            const next = new Set(selectedIds);
+            if (next.has(row.original.id)) {
+              next.delete(row.original.id);
+            } else {
+              next.add(row.original.id);
+            }
+            setSelectedIds(next);
+          }}
+          onClick={(e) => e.stopPropagation()}
+          className="h-4 w-4 cursor-pointer rounded border-zinc-700 bg-zinc-800 text-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
+        />
+      ),
+      size: 44,
+    },
     {
       accessorKey: "name",
       header: "门店名称",
@@ -280,7 +475,7 @@ function buildColumns(
                 已终止
               </span>
             ) : (
-              actions.map((action) => {
+              actions.map((action: StoreAction) => {
                 const ACTION_LABELS: Record<StoreAction, string> = {
                   publish: "发布",
                   suspend: "暂停",
@@ -332,9 +527,13 @@ function buildColumns(
 function StoreTable({
   rows,
   columns,
+  activeRowIdx,
+  onRowClick,
 }: {
   rows: StoreRow[];
   columns: ColumnDef<StoreRow>[];
+  activeRowIdx: number | null;
+  onRowClick?: (idx: number) => void;
 }) {
   const table = useReactTable({
     data: rows,
@@ -371,9 +570,11 @@ function StoreTable({
           {table.getRowModel().rows.map((row, i) => (
             <tr
               key={row.id}
+              onClick={() => onRowClick?.(i)}
               className={cn(
-                "border-b border-zinc-800/50 transition-colors hover:bg-zinc-800/80",
-                i % 2 === 0 ? "bg-zinc-900" : "bg-zinc-800/50"
+                "border-b border-zinc-800/50 transition-colors hover:bg-zinc-800/80 cursor-pointer",
+                i % 2 === 0 ? "bg-zinc-900" : "bg-zinc-800/50",
+                activeRowIdx === i && "ring-1 ring-inset ring-orange-500/40 bg-zinc-800/80"
               )}
             >
               {row.getVisibleCells().map((cell) => (
@@ -421,6 +622,11 @@ export default function StoresPage() {
   const [page, setPage] = useState(1);
   const [groupMode, setGroupMode] = useState<GroupMode>("none");
   const [advancedOpen, setAdvancedOpen] = useState(false);
+
+  // Table state
+  const router = useRouter();
+  const [activeRowIdx, setActiveRowIdx] = useState(0);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
   // Action dialog state（替代原 DeleteDialog）
   const [actionTarget, setActionTarget] = useState<{
@@ -470,6 +676,29 @@ export default function StoresPage() {
       setLoading(false);
     }
   }, [page, search, provinceFilter, levelFilter, statusFilter, sortBy]);
+
+  /* ---------- Bulk action handler ---------- */
+  const handleBulkAction = useCallback(
+    (action: StoreAction) => {
+      // 对单个 selected 门店触发,复用 openActionDialog
+      const ids = [...selectedIds];
+      if (ids.length === 0) return;
+      const row = stores.find((s) => s.id === ids[0]);
+      if (row) openActionDialog(row, action);
+    },
+    [selectedIds, stores]
+  );
+
+  /* ---------- Sync selectedIds when stores reload ---------- */
+  useEffect(() => {
+    setSelectedIds((prev) => {
+      const next = new Set<string>();
+      prev.forEach((id) => {
+        if (stores.some((s) => s.id === id)) next.add(id);
+      });
+      return next;
+    });
+  }, [stores]);
 
   /* ---------- Fetch provinces for filter ---------- */
   useEffect(() => {
@@ -559,6 +788,54 @@ export default function StoresPage() {
     return () => clearTimeout(timer);
   }, [searchInput, syncQuery]);
 
+  /* ---------- Keyboard navigation ---------- */
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const rows = stores;
+      if (!rows.length) return;
+
+      if (e.key === "ArrowDown" || e.key === "j") {
+        e.preventDefault();
+        setActiveRowIdx((i) => Math.min(i + 1, rows.length - 1));
+      } else if (e.key === "ArrowUp" || e.key === "k") {
+        e.preventDefault();
+        setActiveRowIdx((i) => Math.max(i - 1, 0));
+      } else if (e.key === "Enter" && rows[activeRowIdx]) {
+        e.preventDefault();
+        router.push(`/admin/stores/${rows[activeRowIdx].id}`);
+      } else if (
+        e.key === "p" ||
+        e.key === "s" ||
+        e.key === "r" ||
+        e.key === "x"
+      ) {
+        const map: Record<string, StoreAction> = {
+          p: "publish",
+          s: "suspend",
+          r: "resume",
+          x: "terminate",
+        };
+        const action = map[e.key];
+        const row = rows[activeRowIdx];
+        if (row && availableActionsFor(row.status).includes(action)) {
+          e.preventDefault();
+          openActionDialog(row, action);
+        }
+      } else if (e.key === "/") {
+        e.preventDefault();
+        document
+          .querySelector<HTMLInputElement>('input[type="text"]')
+          ?.focus();
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [stores, activeRowIdx, router]);
+
   /* ---------- Level toggle ---------- */
   const toggleLevel = useCallback((lvl: StoreLevel) => {
     setLevelFilter((prev) =>
@@ -626,12 +903,26 @@ export default function StoresPage() {
 
   /* ---------- Columns factory (uses main action handler) ---------- */
   const columns = useMemo(
-    () => buildColumns(openActionDialog),
-    []
+    () => buildColumns(openActionDialog, selectedIds, setSelectedIds),
+    [selectedIds]
   );
 
   return (
     <div>
+      {/* ── Crumb ── */}
+      <nav
+        aria-label="面包屑"
+        className="mb-2 hidden text-xs text-zinc-500 sm:block"
+      >
+        <Link href="/admin" className="hover:text-zinc-300">
+          Admin
+        </Link>
+        <span className="mx-1.5">/</span>
+        <span className="text-zinc-400">运营</span>
+        <span className="mx-1.5">/</span>
+        <span className="text-zinc-300">门店管理</span>
+      </nav>
+
       {/* ── Header ── */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
@@ -649,6 +940,9 @@ export default function StoresPage() {
           新建门店
         </Link>
       </div>
+
+      {/* ── KPI Strip ── */}
+      <KpiStrip stores={stores} />
 
       {/* ── Filters ── */}
       <div className="mb-4 space-y-3">
@@ -742,8 +1036,8 @@ export default function StoresPage() {
         <div
           id="advanced-filters"
           className={cn(
-            "flex flex-col gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-3",
-            advancedOpen ? "flex" : "hidden sm:flex"
+            "flex-col gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-3",
+            advancedOpen ? "flex" : "hidden"
           )}
         >
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -815,19 +1109,28 @@ export default function StoresPage() {
                   {bucket.rows.length}
                 </span>
               </div>
-              <StoreTable rows={bucket.rows} columns={columns} />
+              <StoreTable
+                rows={bucket.rows}
+                columns={columns}
+                activeRowIdx={null}
+              />
             </section>
           ))}
         </div>
       ) : (
-        <StoreTable rows={stores} columns={columns} />
+        <StoreTable
+          rows={stores}
+          columns={columns}
+          activeRowIdx={activeRowIdx}
+          onRowClick={(i) => setActiveRowIdx(i)}
+        />
       )}
 
       {/* ── Pagination ── */}
       {pagination.totalPages > 1 && (
-        <div className="mt-4 flex items-center justify-between">
+        <div className="mt-4 flex items-center justify-between gap-4">
           <p className="text-sm text-zinc-500">
-            第 {pagination.page} / {pagination.totalPages} 页，共{" "}
+            第 {pagination.page} / {pagination.totalPages} 页 &middot; 共{" "}
             {pagination.total} 条
           </p>
           <div className="flex items-center gap-2">
@@ -840,6 +1143,21 @@ export default function StoresPage() {
               <ChevronLeft className="h-4 w-4" />
               上一页
             </button>
+            <select
+              value={page}
+              onChange={(e) => setPage(Number(e.target.value))}
+              aria-label="跳转到页码"
+              className="w-16 rounded-lg border border-zinc-700 bg-zinc-800 px-2 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
+            >
+              {Array.from(
+                { length: pagination.totalPages },
+                (_, i) => i + 1
+              ).map((p) => (
+                <option key={p} value={p}>
+                  {p}
+                </option>
+              ))}
+            </select>
             <button
               type="button"
               onClick={() =>
@@ -854,6 +1172,16 @@ export default function StoresPage() {
           </div>
         </div>
       )}
+
+      {/* ── Bulk action bar ── */}
+      <BulkBar
+        selectedIds={selectedIds}
+        onClear={() => setSelectedIds(new Set())}
+        onAction={handleBulkAction}
+      />
+
+      {/* ── KBD footer ── */}
+      <KbdFooter />
 
       {/* ── 状态机动作对话框 ── */}
       {actionTarget && (
