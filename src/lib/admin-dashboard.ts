@@ -219,3 +219,334 @@ export async function logActivity(input: {
     }
   }
 }
+
+// ============================================
+// Dashboard v2 数据层（T1+T4 phase A）
+// 保留旧导出兼容性，仅追加 V2 实现
+// 后续 Phase B/C 将替换旧调用方
+// ============================================
+
+import type { Session } from "next-auth";
+
+export type DashboardWelcomeV2 = {
+  userName: string;
+  today: string;
+  summaryText: string;
+  severity: "ok" | "warn" | "error";
+};
+
+export type TodoItemV2 = {
+  id: string;
+  severity: "P0" | "P1";
+  title: string;
+  count?: number;
+  description: string;
+  href: string;
+  hrefLabel: string;
+};
+
+export type TodoSummaryV2 = {
+  items: TodoItemV2[];
+  totalCount: number;
+};
+
+// V2 KPI：monthlyContactIntent 替代旧的 monthlyReservations
+export type DashboardKpiV2 = {
+  activeStores: number;
+  publishedArticles: number;
+  monthlyPageViews: number;
+  monthlyContactIntent: number;
+};
+
+// V2 StoreSummary：四态 + 等级 + Top 10 + 缺资料
+export type StoreSummaryV2 = {
+  byStatus: {
+    status: "pending" | "active" | "suspended" | "terminated";
+    label: string;
+    count: number;
+  }[];
+  topProvinces: { provinceSlug: string; provinceLabel: string; count: number }[];
+  byLevel: { level: string; label: string; count: number }[];
+  missingProfile: number;
+};
+
+export type ContentSummaryV2 = {
+  byStatus: { status: string; label: string; count: number }[];
+  recent7dPublished: number;
+  topCategories: { category: string; count: number }[];
+  missingCover: number;
+};
+
+export type InterestSummaryV2 = {
+  dailyTrend30d: { date: string; pv: number }[];
+  topProductInterest: { productKey: string; productName: string; count: number }[];
+  topTopicInterest: { topicKey: string; topicName: string; count: number }[];
+  topStoreViews: { storeId: string; storeName: string; count: number }[];
+  contactTrend30d: { date: string; count: number }[];
+  zeroReason: "real" | "tracking-missing" | "event-incompatible" | "query-failed" | null;
+};
+
+export type QuickActionV2 = {
+  href: string;
+  label: string;
+  desc: string;
+  iconName: string;
+  visible: boolean;
+  disabled?: boolean;
+  disabledHint?: string;
+};
+
+export type DashboardSummaryV2 = {
+  welcome: DashboardWelcomeV2 | null;
+  todoSummary: TodoSummaryV2 | null;
+  kpi: DashboardKpiV2 | null;
+  storeSummary: StoreSummaryV2 | null;
+  contentSummary: ContentSummaryV2 | null;
+  interestSummary: InterestSummaryV2 | null;
+  recentActivity: RecentActivity | null;
+  quickActions: QuickActionV2[];
+  fetchedAt: string;
+};
+
+const STORE_STATUS_LABELS_V2: Record<"pending" | "active" | "suspended" | "terminated", string> = {
+  pending: "待发布",
+  active: "营业中",
+  suspended: "暂停合作",
+  terminated: "终止合作",
+};
+
+const STORE_LEVEL_LABELS_V2: Record<string, string> = {
+  flagship: "旗舰店",
+  premium: "高级店",
+  standard: "标准店",
+};
+
+// V2 门店摘要：四态分布 + 等级 + Top 10 + 缺资料
+// 兼容旧 isActive fallback（旧数据无 status 字段时）
+export async function getStoreSummary(): Promise<DashboardFetchResult<StoreSummaryV2>> {
+  try {
+    const all = await prisma.store.findMany({
+      select: {
+        status: true,
+        isActive: true,
+        provinceSlug: true,
+        provinceLabel: true,
+        level: true,
+        address: true,
+        phone: true,
+        imageUrl: true,
+        imagePath: true,
+      },
+    });
+
+    // 四态分布
+    const byStatusMap = new Map<"pending" | "active" | "suspended" | "terminated", number>();
+    for (const s of all) {
+      const effective: "pending" | "active" | "suspended" | "terminated" =
+        s.status === "pending" ||
+        s.status === "active" ||
+        s.status === "suspended" ||
+        s.status === "terminated"
+          ? s.status
+          : s.isActive
+            ? "active"
+            : "pending";
+      byStatusMap.set(effective, (byStatusMap.get(effective) ?? 0) + 1);
+    }
+    const byStatus = (["pending", "active", "suspended", "terminated"] as const).map((status) => ({
+      status,
+      label: STORE_STATUS_LABELS_V2[status],
+      count: byStatusMap.get(status) ?? 0,
+    }));
+
+    // Top 10 营业中门店省份
+    const byProvinceMap = new Map<string, { provinceLabel: string; count: number }>();
+    for (const s of all) {
+      const isActive =
+        s.status === "active" || (s.isActive && s.status !== "suspended" && s.status !== "terminated");
+      if (!isActive) continue;
+      const existing = byProvinceMap.get(s.provinceSlug);
+      if (existing) existing.count++;
+      else byProvinceMap.set(s.provinceSlug, { provinceLabel: s.provinceLabel, count: 1 });
+    }
+    const topProvinces = Array.from(byProvinceMap.entries())
+      .map(([provinceSlug, v]) => ({ provinceSlug, provinceLabel: v.provinceLabel, count: v.count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    // 等级分布（active + pending + isActive fallback）
+    const byLevelMap = new Map<string, number>();
+    for (const s of all) {
+      const isVisible =
+        s.status === "active" ||
+        s.status === "pending" ||
+        (s.isActive && s.status !== "suspended" && s.status !== "terminated");
+      if (!isVisible) continue;
+      const lvl = s.level || "unknown";
+      byLevelMap.set(lvl, (byLevelMap.get(lvl) ?? 0) + 1);
+    }
+    const byLevel = Array.from(byLevelMap.entries())
+      .map(([level, count]) => ({ level, label: STORE_LEVEL_LABELS_V2[level] ?? level, count }))
+      .sort((a, b) => b.count - a.count);
+
+    // 缺资料门店：active/pending 且缺封面/地址/电话
+    const missingProfile = all.filter(
+      (s) =>
+        (s.status === "active" ||
+          s.status === "pending" ||
+          (s.isActive && s.status !== "suspended" && s.status !== "terminated")) &&
+        ((!s.imageUrl && !s.imagePath) || !s.address?.trim() || !s.phone?.trim()),
+    ).length;
+
+    return {
+      ok: true,
+      data: { byStatus, topProvinces, byLevel, missingProfile },
+    };
+  } catch (error) {
+    if (typeof console !== "undefined") {
+      console.warn(
+        "[dashboard] getStoreSummary failed:",
+        error instanceof Error ? error.message : error,
+      );
+    }
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+      data: null,
+    };
+  }
+}
+
+// V2 占位实现（后续 Phase 替换）
+export async function getWelcomeV2(
+  session: Session | null,
+): Promise<DashboardFetchResult<DashboardWelcomeV2>> {
+  return {
+    ok: true,
+    data: {
+      userName: session?.user?.name ?? "用户",
+      today: new Date().toLocaleDateString("zh-CN", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        weekday: "long",
+      }),
+      summaryText: "运营正常，今日无待办。",
+      severity: "ok",
+    },
+  };
+}
+
+export async function getTodoSummaryV2(): Promise<DashboardFetchResult<TodoSummaryV2>> {
+  return { ok: true, data: { items: [], totalCount: 0 } };
+}
+
+export async function getKpiSnapshotV2(): Promise<DashboardFetchResult<DashboardKpiV2>> {
+  return {
+    ok: true,
+    data: {
+      activeStores: 0,
+      publishedArticles: 0,
+      monthlyPageViews: 0,
+      monthlyContactIntent: 0,
+    },
+  };
+}
+
+export async function getContentSummaryV2(): Promise<DashboardFetchResult<ContentSummaryV2>> {
+  return {
+    ok: true,
+    data: { byStatus: [], recent7dPublished: 0, topCategories: [], missingCover: 0 },
+  };
+}
+
+export async function getInterestSummaryV2(): Promise<DashboardFetchResult<InterestSummaryV2>> {
+  return {
+    ok: true,
+    data: {
+      dailyTrend30d: [],
+      topProductInterest: [],
+      topTopicInterest: [],
+      topStoreViews: [],
+      contactTrend30d: [],
+      zeroReason: null,
+    },
+  };
+}
+
+// V2 聚合函数：接收 session，按 role 过滤快捷入口
+export async function getDashboardSummaryV2(session: Session | null): Promise<DashboardSummaryV2> {
+  const results = await Promise.allSettled([
+    getWelcomeV2(session),
+    getTodoSummaryV2(),
+    getKpiSnapshotV2(),
+    getStoreSummary(),
+    getContentSummaryV2(),
+    getInterestSummaryV2(),
+    getRecentActivity(10),
+  ]);
+
+  const extract = <T>(r: PromiseSettledResult<DashboardFetchResult<T>>): T | null =>
+    r.status === "fulfilled" && r.value.ok ? r.value.data : null;
+
+  const role = session?.user?.role ?? "editor";
+
+  const quickActions: QuickActionV2[] = [
+    {
+      href: "/admin/articles/new",
+      label: "新建文章",
+      desc: "撰写新闻或行业文章",
+      iconName: "FileText",
+      visible: true,
+    },
+    {
+      href: "/admin/stores/new",
+      label: "新建门店",
+      desc: "添加一个新门店到网络",
+      iconName: "Plus",
+      visible: role === "admin",
+    },
+    {
+      href: "/admin/analytics",
+      label: "查看分析",
+      desc: "访问趋势与门店热度",
+      iconName: "BarChart3",
+      visible: true,
+    },
+    {
+      href: "/admin/consultation-channels",
+      label: "管理咨询渠道",
+      desc: "配置企业微信/电话/导航等承接渠道",
+      iconName: "MessageCircle",
+      visible: role === "admin",
+      disabled: true,
+      disabledHint: "规划中，预计下一版本上线",
+    },
+    {
+      href: "/admin/stores?image=missing",
+      label: "查看待完善门店",
+      desc: "补全资料与封面图",
+      iconName: "ImageOff",
+      visible: true,
+    },
+    {
+      href: "/admin/articles?status=draft",
+      label: "查看草稿文章",
+      desc: "继续编辑未发布的文章",
+      iconName: "FileEdit",
+      visible: true,
+    },
+  ];
+
+  return {
+    welcome: extract(results[0]),
+    todoSummary: extract(results[1]),
+    kpi: extract(results[2]),
+    storeSummary: extract(results[3]),
+    contentSummary: extract(results[4]),
+    interestSummary: extract(results[5]),
+    recentActivity: extract(results[6]),
+    quickActions,
+    fetchedAt: new Date().toISOString(),
+  };
+}
