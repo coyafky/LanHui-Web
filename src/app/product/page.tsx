@@ -11,6 +11,10 @@ import { ProductHero } from "@/components/product/ProductHero";
 import { FilmServiceMap } from "@/components/product/FilmServiceMap";
 import { LightModMap } from "@/components/product/LightModMap";
 import { VehicleTopicMap } from "@/components/product/VehicleTopicMap";
+import { CollapsibleSection } from "@/components/product/CollapsibleSection";
+import { MobileProductContent } from "@/components/product/MobileProductContent";
+import { P1ServiceCard } from "@/components/product/P1ServiceCard";
+import { CombosPlaceholder } from "@/components/product/CombosPlaceholder";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -22,7 +26,7 @@ export default function ProductCenter() {
   const liveBrands = getLiveBrands();
   const liveServices = getLiveServices();
 
-  // 按 group 拆分, 严格遵循 PRD §4.3 的 3 主题拆分
+  // P0 三大地图分组
   const filmServices = liveServices.filter(
     (s: ServiceRoute) => s.group === "film"
   );
@@ -30,33 +34,84 @@ export default function ProductCenter() {
     (s: ServiceRoute) => s.group === "light_mod"
   );
 
+  // P1 服务 — 移动端折叠区显示 (PRD §4.5 maxVisible=4 默认)
+  const p1Services = ALL_SERVICES.filter(
+    (s: ServiceRoute) => s.priority === "P1"
+  );
+
+  // 移动端 sticky tab — 3 段内容切换
+  const mobileTabs = [
+    { id: "vehicle", label: "按车型", accentColor: "violet" as const },
+    { id: "project", label: "按项目", accentColor: "cyan" as const },
+    { id: "combo", label: "组合", accentColor: "orange" as const },
+  ];
+
   return (
     <>
       <Header />
       <main className="flex-grow flex flex-col">
         {/* Phase 1: ProductHero — 车辆剪影 + 4 材质切片 + 11 品牌矩阵 */}
-        <ProductHero liveBrands={liveBrands} plannedCount={ALL_SERVICES.length} />
+        <ProductHero
+          liveBrands={liveBrands}
+          plannedCount={ALL_SERVICES.length}
+        />
 
-        {/* Phase 2: 按车型找 — violet 主题 11 品牌矩阵 + 3 重点品牌放大 */}
-        <section
-          id="vehicle-topics"
-          className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <VehicleTopicMap brands={liveBrands} />
-          </div>
-        </section>
+        {/* Phase 3: 移动端三段切换 / 桌面端平铺 */}
+        <MobileProductContent tabs={mobileTabs}>
+          {/* Tab 1: 按车型 — violet 主题 11 品牌矩阵 + 3 重点品牌放大 */}
+          <section
+            id="vehicle-topics"
+            className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900"
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <VehicleTopicMap brands={liveBrands} />
+            </div>
+          </section>
 
-        {/* Phase 2: 按项目看 — FilmServiceMap (cyan) + LightModMap (orange) */}
-        <section
-          id="service-projects"
-          className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 md:space-y-8">
-            <FilmServiceMap services={filmServices} />
-            <LightModMap services={lightModServices} />
-          </div>
-        </section>
+          {/* Tab 2: 按项目 — FilmServiceMap + LightModMap + P1 折叠区 */}
+          <section
+            id="service-projects"
+            className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900"
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 md:space-y-8">
+              <FilmServiceMap services={filmServices} />
+              <LightModMap services={lightModServices} />
+
+              {/* P1 折叠区 — amber 主题, 移动端前 3 个默认可见 */}
+              {p1Services.length > 0 && (
+                <section
+                  aria-labelledby="p1-services-title"
+                  className="relative overflow-hidden rounded-3xl border border-amber-900/40 bg-zinc-950"
+                >
+                  <div className="p-6 md:p-8">
+                    <div className="mb-6">
+                      <p className="text-xs tracking-widest text-amber-400 mb-2">
+                        P1 SERVICES · 整理中的服务
+                      </p>
+                      <h3
+                        id="p1-services-title"
+                        className="text-xl md:text-2xl font-bold text-white"
+                      >
+                        更多服务正在整理
+                      </h3>
+                      <p className="text-zinc-400 mt-2 text-sm md:text-base">
+                        部分项目仍在打磨方案细节，欢迎到店沟通具体需求。
+                      </p>
+                    </div>
+                    <CollapsibleSection maxVisible={3}>
+                      {p1Services.map((s) => (
+                        <P1ServiceCard key={s.serviceSlug} service={s} />
+                      ))}
+                    </CollapsibleSection>
+                  </div>
+                </section>
+              )}
+            </div>
+          </section>
+
+          {/* Tab 3: 组合 — Phase 4 替换为 RecommendationCombos */}
+          <CombosPlaceholder />
+        </MobileProductContent>
       </main>
       <Footer />
     </>
