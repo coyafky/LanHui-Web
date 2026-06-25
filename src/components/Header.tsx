@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, MapPin, Menu, MessageCircle, X } from "lucide-react";
 import { brand } from "@/lib/brand";
-import { products } from "@/lib/products";
+import { ALL_SERVICES } from "@/lib/product-routes";
 import { Logo } from "@/components/Logo";
 import { openWeChatModal } from "@/lib/wechat-modal";
 
@@ -23,9 +23,9 @@ const NAV_ITEMS: NavItem[] = [
     label: "产品中心",
     href: "/product",
     matchPrefix: "/product",
-    children: products.map((p) => ({
-      label: p.name,
-      href: `/product/${p.slug}`,
+    children: ALL_SERVICES.map((s) => ({
+      label: s.navLabel,
+      href: s.canonicalPath,
     })),
   },
   { label: "门店服务", href: "/agent", matchPrefix: "/agent" },
