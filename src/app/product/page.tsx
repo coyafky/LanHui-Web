@@ -14,7 +14,8 @@ import { VehicleTopicMap } from "@/components/product/VehicleTopicMap";
 import { CollapsibleSection } from "@/components/product/CollapsibleSection";
 import { MobileProductContent } from "@/components/product/MobileProductContent";
 import { P1ServiceCard } from "@/components/product/P1ServiceCard";
-import { CombosPlaceholder } from "@/components/product/CombosPlaceholder";
+import { RecommendationCombos } from "@/components/product/RecommendationCombos";
+import { ProductFAQ } from "@/components/product/ProductFAQ";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -34,7 +35,7 @@ export default function ProductCenter() {
     (s: ServiceRoute) => s.group === "light_mod"
   );
 
-  // P1 服务 — 移动端折叠区显示 (PRD §4.5 maxVisible=4 默认)
+  // P1 服务 — 移动端折叠区显示
   const p1Services = ALL_SERVICES.filter(
     (s: ServiceRoute) => s.priority === "P1"
   );
@@ -46,17 +47,50 @@ export default function ProductCenter() {
     { id: "combo", label: "组合", accentColor: "orange" as const },
   ];
 
+  // JSON-LD: CollectionPage + ItemList (PRD §7.6 SEO)
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "产品中心 | 蓝辉轻改 LANHUI",
+    description:
+      "蓝辉轻改产品中心，按车型找方案，按项目看服务。覆盖汽车膜系、轻改装备与 11 个热门新能源车型升级方案。",
+    url: "/product",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: [
+        ...liveBrands.map((b, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: b.title,
+          url: b.canonicalPath,
+        })),
+        ...liveServices.map((s, i) => ({
+          "@type": "ListItem",
+          position: liveBrands.length + i + 1,
+          name: s.title,
+          url: s.canonicalPath,
+        })),
+      ],
+    },
+  };
+
   return (
     <>
       <Header />
       <main className="flex-grow flex flex-col">
+        {/* JSON-LD structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
         {/* Phase 1: ProductHero — 车辆剪影 + 4 材质切片 + 11 品牌矩阵 */}
         <ProductHero
           liveBrands={liveBrands}
           plannedCount={ALL_SERVICES.length}
         />
 
-        {/* Phase 3: 移动端三段切换 / 桌面端平铺 */}
+        {/* Phase 3-4: 移动端三段切换 / 桌面端平铺 */}
         <MobileProductContent tabs={mobileTabs}>
           {/* Tab 1: 按车型 — violet 主题 11 品牌矩阵 + 3 重点品牌放大 */}
           <section
@@ -109,9 +143,12 @@ export default function ProductCenter() {
             </div>
           </section>
 
-          {/* Tab 3: 组合 — Phase 4 替换为 RecommendationCombos */}
-          <CombosPlaceholder />
+          {/* Tab 3: 组合 — 4 个推荐组合 (Phase 4) */}
+          <RecommendationCombos />
         </MobileProductContent>
+
+        {/* Phase 4: FAQ — 不在 tab 内, 始终可见 */}
+        <ProductFAQ />
       </main>
       <Footer />
     </>
