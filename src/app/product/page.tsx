@@ -5,6 +5,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { products, productGroups, PRODUCT_ICON_MAP } from "@/lib/products";
 import type { Product } from "@/lib/products";
+import { ALL_BRANDS } from "@/lib/product-routes";
+import { ProductHero } from "@/components/product/ProductHero";
 import { XiaomiTopicBanner } from "@/components/xiaomi/XiaomiTopicBanner";
 import { WenjieTopicBanner } from "@/components/wenjie/WenjieTopicBanner";
 import { ZeekrTopicBanner } from "@/components/zeekr/ZeekrTopicBanner";
@@ -13,36 +15,29 @@ import { FlooringTopicBanner } from "@/components/product/FlooringTopicBanner";
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
   description:
-    "蓝辉轻改产品中心，覆盖轻改装备（电动踏板、轮毂升级、底盘升级）与汽车膜系（窗膜、改色膜、隐形车衣）共 6 个产品方向。",
+    "蓝辉轻改产品中心，按车型找方案，按项目看服务。覆盖汽车膜系（隐形车衣、窗膜、改色膜）、轻改装备（电动踏板、轮毂升级、底盘升级）与问界、小米、极氪等热门新能源车型升级方案。",
 };
 
 export default function ProductCenter() {
+  const liveBrands = ALL_BRANDS.filter((b) => b.status === "live");
+  const plannedCount = ALL_BRANDS.length - liveBrands.length;
+
   return (
     <>
       <Header />
       <main className="flex-grow flex flex-col">
-        {/* Hero */}
-        <section className="relative bg-zinc-950 text-white overflow-hidden">
-          <div className="absolute inset-0 -z-0" aria-hidden>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-950/30 via-zinc-950 to-zinc-950" />
-            <div className="absolute -top-32 left-1/3 w-96 h-96 rounded-full bg-blue-700/20 blur-3xl" />
-            <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-orange-500/15 blur-3xl" />
-          </div>
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
-            <p className="text-sm tracking-widest text-orange-400 mb-3">PRODUCTS</p>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">产品中心</h1>
-            <p className="text-lg md:text-xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              蓝辉轻改当前覆盖 6 个产品方向，分轻改装备与汽车膜系两大组，先了解大类，再到店沟通具体方案。
-            </p>
-          </div>
-        </section>
+        {/* Phase 1: 新 Hero — 车辆剪影 + 4 材质切片 + 11 品牌矩阵 */}
+        <ProductHero liveBrands={liveBrands} plannedCount={plannedCount} />
 
-        {/* 热门车型与改装专题 */}
-        <section className="py-16 bg-zinc-950 border-t border-zinc-900">
+        {/* 热门车型与改装专题（id 锚点给 Hero 的"按车型找"链接） */}
+        <section
+          id="vehicle-topics"
+          className="py-16 bg-zinc-950 border-t border-zinc-900"
+        >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
               <p className="text-sm tracking-widest text-blue-400 mb-2">
-                VEHICLE TOPICS
+                VEHICLE TOPICS · 按车型找
               </p>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
                 热门车型与改装专题
@@ -60,13 +55,14 @@ export default function ProductCenter() {
           </div>
         </section>
 
-        {/* Product groups */}
+        {/* Product groups（id 锚点给 Hero 的"按项目看"链接） */}
         {productGroups.map((group) => {
           const groupProducts = products.filter((p) => p.group === group.id);
           const isLightMod = group.id === "light-mod";
           return (
             <section
               key={group.id}
+              id={isLightMod ? undefined : "service-projects"}
               className="py-16 bg-zinc-950 border-t border-zinc-900"
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,7 +73,7 @@ export default function ProductCenter() {
                         isLightMod ? "text-blue-400" : "text-orange-400"
                       }`}
                     >
-                      {isLightMod ? "LIGHT MOD" : "FILM SERIES"}
+                      {isLightMod ? "LIGHT MOD · 轻改装" : "FILM SERIES · 车膜系列"}
                     </p>
                     <h2 className="text-2xl md:text-3xl font-bold text-white">
                       {group.label}
