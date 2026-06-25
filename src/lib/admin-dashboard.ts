@@ -323,6 +323,26 @@ const STORE_LEVEL_LABELS_V2: Record<string, string> = {
   standard: "标准店",
 };
 
+const ARTICLE_STATUS_LABELS_V2: Record<string, string> = {
+  draft: "草稿",
+  published: "已发布",
+  archived: "已归档",
+  withdrawn: "已撤回",
+};
+
+const PRODUCT_TOPIC_KEYS_V2 = [
+  "wenjie",
+  "xiaomi",
+  "zeekr",
+  "voyah",
+  "denza",
+  "leadao",
+  "xpeng",
+  "tesla",
+  "li-auto",
+  "wuling",
+] as const;
+
 // V2 门店摘要：四态分布 + 等级 + Top 10 + 缺资料
 // 兼容旧 isActive fallback（旧数据无 status 字段时）
 export async function getStoreSummary(): Promise<DashboardFetchResult<StoreSummaryV2>> {
@@ -585,24 +605,222 @@ export async function getKpiSnapshotV2(): Promise<DashboardFetchResult<Dashboard
 }
 
 export async function getContentSummaryV2(): Promise<DashboardFetchResult<ContentSummaryV2>> {
-  return {
-    ok: true,
-    data: { byStatus: [], recent7dPublished: 0, topCategories: [], missingCover: 0 },
-  };
+  try {
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+    const statusGroups = await prisma.article.groupBy({
+      by: ["status"],
+      _count: { _all: true },
+    });
+    const byStatus = statusGroups
+      .map((g) => ({
+        status: g.status,
+        label: ARTICLE_STATUS_LABELS_V2[g.status] ?? g.status,
+        count: g._count._all,
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    const recent7dPublished = await prisma.article.count({
+      where: { status: "published", publishedAt: { gte: sevenDaysAgo } },
+    });
+
+    const categoryGroups = await prisma.article.groupBy({
+      by: ["category"],
+      where: { status: "published", category: { not: null } },
+      _count: { _all: true },
+    });
+    const topCategories = categoryGroups
+      .map((g) => ({ category: g.category ?? "未分类", count: g._count._all }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+
+    const missingCover = await prisma.article.count({
+      where: { status: "published", featuredImage: null },
+    });
+
+    return {
+      ok: true,
+      data: { byStatus, recent7dPublished, topCategories, missingCover },
+    };
+  } catch (error) {
+    if (typeof console !== "undefined") {
+      console.warn(
+        "[dashboard] getContentSummaryV2 failed:",
+        error instanceof Error ? error.message : error,
+      );
+    }
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+      data: null,
+    };
+  }
+}
+
+function getDaysRange(days: number): { start: Date; end: Date } {
+  const end = new Date();
+  const start = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+  return { start, end };
+}
+
+function fillMissingDays(
+  points: { date: string; count: number }[],
+  start: Date,
+  end: Date,
+): { date: string; count: number }[] {
+  const map = new Map(points.map((p) => [p.date, p.count]));
+  const result: { date: string; count: number }[] = [];
+  const cur = new Date(start);
+  while (cur < end) {
+    const dateStr = cur.toISOString().slice(0, 10);
+    result.push({ date: dateStr, count: map.get(dateStr) ?? 0 });
+    cur.setDate(cur.getDate() + 1);
+  }
+  return result;
 }
 
 export async function getInterestSummaryV2(): Promise<DashboardFetchResult<InterestSummaryV2>> {
-  return {
-    ok: true,
-    data: {
-      dailyTrend30d: [],
-      topProductInterest: [],
-      topTopicInterest: [],
-      topStoreViews: [],
-      contactTrend30d: [],
-      zeroReason: null,
-    },
-  };
+  try {
+    const { start: trendStart, end: trendEnd } = getDaysRange(30);
+    const { start: sevenDaysAgo } = getDaysRange(7);
+
+    const pvEvents = await prisma.analyticsEvent.findMany({
+      where: { type: "pageview", timestamp: { gte: trendStart, lt: trendEnd } },
+      select: { timestamp: true },
+    });
+    const pvByDay = new Map<string, number>();
+    for (const e of pvEvents) {
+      const day = e.timestamp.toISOString().slice(0, 10);
+      pvByDay.set(day, (pvByDay.get(day) ?? 0) + 1);
+    }
+    const dailyTrend30d = fillMissingDays(
+      Array.from(pvByDay.entries()).map(([date, count]) => ({ date, count })),
+      trendStart,
+      trendEnd,
+    ).map((p) => ({ date: p.date, pv: p.count }));
+
+    const productEvents = await prisma.analyticsEvent.findMany({
+      where: { pathname: { startsWith: "/product/" } },
+      select: { pathname: true },
+    });
+    const productCountMap = new Map<string, number>();
+    for (const e of productEvents) {
+      const match = e.pathname.match(/^\/product\/([^\/]+)/);
+      if (!match || !match[1]) continue;
+      const key = match[1];
+      productCountMap.set(key, (productCountMap.get(key) ?? 0) + 1);
+    }
+    const topProductInterest = Array.from(productCountMap.entries())
+      .map(([productKey, count]) => ({ productKey, productName: productKey, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+
+    const topicCountMap = new Map<string, number>();
+    for (const e of productEvents) {
+      const match = e.pathname.match(/^\/product\/([^\/]+)\/([^\/]+)/);
+      if (!match || !match[1]) continue;
+      const topicKey = match[1];
+      topicCountMap.set(topicKey, (topicCountMap.get(topicKey) ?? 0) + 1);
+    }
+    const topTopicInterest = Array.from(topicCountMap.entries())
+      .map(([topicKey, count]) => ({ topicKey, topicName: topicKey, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 5);
+
+    const storeViewGroups = await prisma.analyticsEvent.groupBy({
+      by: ["storeId"],
+      where: { type: "store_view", storeId: { not: null } },
+      _count: { _all: true },
+      orderBy: { _count: { storeId: "desc" } },
+      take: 5,
+    });
+    const storeIds = storeViewGroups
+      .map((g) => g.storeId)
+      .filter((id): id is string => Boolean(id));
+    const stores =
+      storeIds.length > 0
+        ? await prisma.store.findMany({
+            where: { id: { in: storeIds } },
+            select: { id: true, name: true },
+          })
+        : [];
+    const storeNameMap = new Map(stores.map((s) => [s.id, s.name]));
+    const topStoreViews = storeViewGroups
+      .map((g) => ({
+        storeId: g.storeId ?? "",
+        storeName: storeNameMap.get(g.storeId ?? "") ?? "(未知门店)",
+        count: g._count._all,
+      }))
+      .filter((s) => s.storeId !== "");
+
+    const contactEvents = await prisma.analyticsEvent.findMany({
+      where: {
+        type: { in: ["reservation", "form_submit"] },
+        timestamp: { gte: trendStart, lt: trendEnd },
+      },
+      select: { timestamp: true },
+    });
+    const contactByDay = new Map<string, number>();
+    for (const e of contactEvents) {
+      const day = e.timestamp.toISOString().slice(0, 10);
+      contactByDay.set(day, (contactByDay.get(day) ?? 0) + 1);
+    }
+    const contactTrend30d = fillMissingDays(
+      Array.from(contactByDay.entries()).map(([date, count]) => ({ date, count })),
+      trendStart,
+      trendEnd,
+    );
+
+    const last7dTypes = await prisma.analyticsEvent.groupBy({
+      by: ["type"],
+      where: { timestamp: { gte: sevenDaysAgo } },
+      _count: { _all: true },
+    });
+    const last7dTypeSet = new Set(last7dTypes.map((t) => t.type));
+    const last7dEventCount = last7dTypes.reduce((sum, t) => sum + t._count._all, 0);
+
+    let zeroReason: InterestSummaryV2["zeroReason"] = null;
+    if (last7dEventCount === 0) {
+      zeroReason = "real";
+    } else if (
+      !last7dTypeSet.has("pageview") ||
+      !last7dTypeSet.has("store_view") ||
+      (!last7dTypeSet.has("reservation") && !last7dTypeSet.has("form_submit"))
+    ) {
+      zeroReason = "tracking-missing";
+    }
+
+    return {
+      ok: true,
+      data: {
+        dailyTrend30d,
+        topProductInterest,
+        topTopicInterest,
+        topStoreViews,
+        contactTrend30d,
+        zeroReason,
+      },
+    };
+  } catch (error) {
+    if (typeof console !== "undefined") {
+      console.warn(
+        "[dashboard] getInterestSummaryV2 failed:",
+        error instanceof Error ? error.message : error,
+      );
+    }
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+      data: {
+        dailyTrend30d: [],
+        topProductInterest: [],
+        topTopicInterest: [],
+        topStoreViews: [],
+        contactTrend30d: [],
+        zeroReason: "query-failed",
+      },
+    };
+  }
 }
 
 // V2 聚合函数：接收 session，按 role 过滤快捷入口
