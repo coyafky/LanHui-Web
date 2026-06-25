@@ -1,5 +1,5 @@
 import { auth } from "@/lib/auth";
-import { getDashboardSummary } from "@/lib/admin-dashboard";
+import { getContentHealth, getDashboardSummaryV2 } from "@/lib/admin-dashboard";
 import { DashboardKpiCards } from "@/components/admin/DashboardKpiCards";
 import { DashboardContentHealth } from "@/components/admin/DashboardContentHealth";
 import { DashboardStoreNetwork } from "@/components/admin/DashboardStoreNetwork";
@@ -30,14 +30,26 @@ function WelcomeHeader({ name }: { name: string }) {
 export default async function DashboardPage() {
   const session = await auth();
   const userName = session?.user?.name ?? "用户";
-  const summary = await getDashboardSummary();
+  const summary = await getDashboardSummaryV2(session);
+  const contentHealth = await getContentHealth();
   return (
     <div className="space-y-6">
       <WelcomeHeader name={userName} />
-      <DashboardKpiCards kpi={summary.kpi} />
+      <DashboardKpiCards
+        kpi={
+          summary.kpi
+            ? {
+                activeStores: summary.kpi.activeStores,
+                publishedArticles: summary.kpi.publishedArticles,
+                monthlyPageViews: summary.kpi.monthlyPageViews,
+                monthlyReservations: summary.kpi.monthlyContactIntent,
+              }
+            : null
+        }
+      />
       <div className="grid gap-6 xl:grid-cols-2">
-        <DashboardContentHealth data={summary.contentHealth} />
-        <DashboardStoreNetwork data={summary.storeNetwork} />
+        <DashboardContentHealth data={contentHealth.ok ? contentHealth.data : null} />
+        <DashboardStoreNetwork data={summary.storeSummary} />
       </div>
       <DashboardTrendChart />
       <div className="grid gap-6 xl:grid-cols-2">
