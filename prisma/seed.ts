@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 import { MAINLAND_PROVINCES, MAINLAND_CITIES } from "../src/lib/regions/mainland-regions";
+import { mockStore, withSeed } from "../src/lib/test-utils/fixtures";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
@@ -199,6 +200,27 @@ async function main() {
   }
 
   console.log(`✅ 门店创建: ${storeData.length} 条`);
+
+  // ── 4.5 用 faker 追加 30 家「边界样本」门店（id 200001-200030） ──
+  // 用途：让 /admin/stores 列表测试有充足数据；
+  // 覆盖长名/特殊字符/各种 status/level 组合。
+  // 与 storeData 一样用 upsert 保持幂等。
+  withSeed(20260625);
+  const FAKER_STORE_COUNT = 30;
+  for (let i = 0; i < FAKER_STORE_COUNT; i++) {
+    const fakerStore = mockStore({
+      id: String(200001 + i),
+      slug: `faker-${String(200001 + i)}`,
+    });
+    await prisma.store.upsert({
+      where: { id: fakerStore.id },
+      update: fakerStore,
+      create: fakerStore,
+    });
+  }
+  console.log(
+    `✅ faker 边界门店创建: ${FAKER_STORE_COUNT} 条（id 200001-${String(200000 + FAKER_STORE_COUNT).padStart(6, "0")}）`,
+  );
 
   // ── 5. 创建文章种子数据 ──
   const articleData = [
