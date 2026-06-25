@@ -73,8 +73,10 @@ export function MaterialSlice({ sliceKey, href }: Props) {
   if (!slice) return null;
   const { Icon } = slice;
 
-  const Wrapper: typeof MaterialSliceWrapper = href ? MaterialSliceLink : MaterialSliceWrapper;
-  return <Wrapper slice={slice} href={href} Icon={Icon} />;
+  if (href) {
+    return <MaterialSliceLink slice={slice} href={href} Icon={Icon} />;
+  }
+  return <MaterialSliceWrapper slice={slice} Icon={Icon} />;
 }
 
 function MaterialSliceWrapper({
