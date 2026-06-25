@@ -243,6 +243,8 @@ export type TodoItemV2 = {
   description: string;
   href: string;
   hrefLabel: string;
+  disabled?: boolean;
+  disabledHint?: string;
 };
 
 export type TodoSummaryV2 = {
@@ -438,19 +440,148 @@ export async function getWelcomeV2(
 }
 
 export async function getTodoSummaryV2(): Promise<DashboardFetchResult<TodoSummaryV2>> {
-  return { ok: true, data: { items: [], totalCount: 0 } };
+  try {
+    const [
+      pendingStoresCount,
+      missingCoverCount,
+      suspendedStoresCount,
+      draftArticlesCount,
+      withdrawnArticlesCount,
+    ] = await Promise.all([
+      prisma.store.count({ where: { status: "pending" } }),
+      prisma.store.count({
+        where: {
+          status: { in: ["active", "pending"] },
+          AND: [{ OR: [{ imageUrl: null }, { imagePath: null }] }],
+        },
+      }),
+      prisma.store.count({ where: { status: "suspended" } }),
+      prisma.article.count({ where: { status: "draft" } }),
+      prisma.article.count({ where: { status: "withdrawn" } }),
+    ]);
+
+    const items: TodoItemV2[] = [];
+
+    if (pendingStoresCount > 0) {
+      items.push({
+        id: "pending-stores",
+        severity: "P0",
+        title: "待发布门店",
+        count: pendingStoresCount,
+        description: `${pendingStoresCount} 家门店待审核发布`,
+        href: "/admin/stores?status=pending",
+        hrefLabel: "去审核 →",
+      });
+    }
+    if (missingCoverCount > 0) {
+      items.push({
+        id: "missing-cover-stores",
+        severity: "P0",
+        title: "缺封面图门店",
+        count: missingCoverCount,
+        description: `${missingCoverCount} 家门店缺少封面图，影响官网展示`,
+        href: "/admin/stores?image=missing",
+        hrefLabel: "去补图 →",
+      });
+    }
+    items.push({
+      id: "consultation-channels-missing",
+      severity: "P0",
+      title: "未配置默认咨询渠道",
+      description: "请配置企业微信、电话或导航等承接渠道",
+      href: "/admin/consultation-channels",
+      hrefLabel: "规划中",
+      disabled: true,
+      disabledHint: "/admin/consultation-channels 规划中，预计下一版本上线",
+    });
+
+    if (suspendedStoresCount > 0) {
+      items.push({
+        id: "suspended-stores",
+        severity: "P1",
+        title: "暂停合作门店",
+        count: suspendedStoresCount,
+        description: `${suspendedStoresCount} 家门店暂停合作`,
+        href: "/admin/stores?status=suspended",
+        hrefLabel: "查看 →",
+      });
+    }
+    if (draftArticlesCount > 0) {
+      items.push({
+        id: "draft-articles",
+        severity: "P1",
+        title: "草稿文章",
+        count: draftArticlesCount,
+        description: `${draftArticlesCount} 篇文章待发布`,
+        href: "/admin/articles?status=draft",
+        hrefLabel: "去编辑 →",
+      });
+    }
+    if (withdrawnArticlesCount > 0) {
+      items.push({
+        id: "withdrawn-articles",
+        severity: "P1",
+        title: "已撤回文章",
+        count: withdrawnArticlesCount,
+        description: `${withdrawnArticlesCount} 篇文章已撤回`,
+        href: "/admin/articles?status=withdrawn",
+        hrefLabel: "查看 →",
+      });
+    }
+
+    return { ok: true, data: { items, totalCount: items.length } };
+  } catch (error) {
+    if (typeof console !== "undefined") {
+      console.warn(
+        "[dashboard] getTodoSummaryV2 failed:",
+        error instanceof Error ? error.message : error,
+      );
+    }
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+      data: null,
+    };
+  }
 }
 
 export async function getKpiSnapshotV2(): Promise<DashboardFetchResult<DashboardKpiV2>> {
-  return {
-    ok: true,
-    data: {
-      activeStores: 0,
-      publishedArticles: 0,
-      monthlyPageViews: 0,
-      monthlyContactIntent: 0,
-    },
-  };
+  try {
+    const { start, end } = getMonthRange();
+    const [activeStores, publishedArticles, monthlyPageViews, monthlyContactIntent] = await Promise.all([
+      prisma.store.count({
+        where: {
+          OR: [
+            { status: "active" },
+            { isActive: true, status: { notIn: ["suspended", "terminated"] } },
+          ],
+        },
+      }),
+      prisma.article.count({ where: { status: "published" } }),
+      prisma.analyticsEvent.count({
+        where: { type: "pageview", timestamp: { gte: start, lt: end } },
+      }),
+      prisma.analyticsEvent.count({
+        where: { type: { in: ["reservation", "form_submit"] }, timestamp: { gte: start, lt: end } },
+      }),
+    ]);
+    return {
+      ok: true,
+      data: { activeStores, publishedArticles, monthlyPageViews, monthlyContactIntent },
+    };
+  } catch (error) {
+    if (typeof console !== "undefined") {
+      console.warn(
+        "[dashboard] getKpiSnapshotV2 failed:",
+        error instanceof Error ? error.message : error,
+      );
+    }
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+      data: null,
+    };
+  }
 }
 
 export async function getContentSummaryV2(): Promise<DashboardFetchResult<ContentSummaryV2>> {
