@@ -1,60 +1,50 @@
 import { auth } from "@/lib/auth";
-import { getContentHealth, getDashboardSummaryV2 } from "@/lib/admin-dashboard";
+import { getDashboardSummaryV2 } from "@/lib/admin-dashboard";
+import { DashboardWelcome } from "@/components/admin/DashboardWelcome";
+import { DashboardTodoList } from "@/components/admin/DashboardTodoList";
 import { DashboardKpiCards } from "@/components/admin/DashboardKpiCards";
-import { DashboardContentHealth } from "@/components/admin/DashboardContentHealth";
 import { DashboardStoreNetwork } from "@/components/admin/DashboardStoreNetwork";
+import { DashboardContentHealth } from "@/components/admin/DashboardContentHealth";
+import { DashboardInterestPanel } from "@/components/admin/DashboardInterestPanel";
+import { DashboardTrendChart } from "@/components/admin/DashboardTrendChart";
 import { DashboardRecentActivity } from "@/components/admin/DashboardRecentActivity";
 import { DashboardQuickActions } from "@/components/admin/DashboardQuickActions";
-import { DashboardTrendChart } from "@/components/admin/DashboardTrendChart";
 
 export const dynamic = "force-dynamic";
-
-function WelcomeHeader({ name }: { name: string }) {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString("zh-CN", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-  });
-  return (
-    <div className="mb-2">
-      <h1 className="text-2xl font-bold text-zinc-100">仪表盘</h1>
-      <p className="mt-1 text-sm text-zinc-500">
-        欢迎回来，<span className="text-zinc-300">{name}</span> · {dateStr}
-      </p>
-    </div>
-  );
-}
 
 export default async function DashboardPage() {
   const session = await auth();
   const userName = session?.user?.name ?? "用户";
+  const role = session?.user?.role as "admin" | "editor" | undefined;
   const summary = await getDashboardSummaryV2(session);
-  const contentHealth = await getContentHealth();
+
   return (
     <div className="space-y-6">
-      <WelcomeHeader name={userName} />
-      <DashboardKpiCards
-        kpi={
-          summary.kpi
-            ? {
-                activeStores: summary.kpi.activeStores,
-                publishedArticles: summary.kpi.publishedArticles,
-                monthlyPageViews: summary.kpi.monthlyPageViews,
-                monthlyReservations: summary.kpi.monthlyContactIntent,
-              }
-            : null
-        }
-      />
+      {/* A. 欢迎与今日摘要 */}
+      <DashboardWelcome welcome={summary.welcome} userName={userName} />
+
+      {/* B. 今日待办（横跨整行） */}
+      <DashboardTodoList todos={summary.todoSummary} />
+
+      {/* C. 经营 KPI */}
+      <DashboardKpiCards kpi={summary.kpi} />
+
+      {/* D + E. 门店网络 | 内容健康（2 列） */}
       <div className="grid gap-6 xl:grid-cols-2">
-        <DashboardContentHealth data={contentHealth.ok ? contentHealth.data : null} />
         <DashboardStoreNetwork data={summary.storeSummary} />
+        <DashboardContentHealth data={summary.contentSummary} />
       </div>
+
+      {/* F. 用户兴趣与咨询趋势 */}
+      <DashboardInterestPanel data={summary.interestSummary} />
+
+      {/* F.bis 30 天访问趋势（沿用 Phase A 的 DashboardTrendChart） */}
       <DashboardTrendChart />
+
+      {/* G1 + G2. 最近操作 | 快捷入口（2 列） */}
       <div className="grid gap-6 xl:grid-cols-2">
-        <DashboardRecentActivity data={summary.recentActivity} />
-        <DashboardQuickActions />
+        <DashboardRecentActivity data={summary.recentActivity} role={role} />
+        <DashboardQuickActions actions={summary.quickActions} />
       </div>
     </div>
   );
