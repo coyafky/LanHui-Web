@@ -114,7 +114,7 @@
 ## Worktree 内 commit 历史
 
 ```
-00053d9 test(tesla-e2e): 新增 Playwright 三视口截图 (mobile/tablet/desktop)
+b472362 test(tesla-e2e): 新增 Playwright 三视口截图 (mobile/tablet/desktop)
 19b8e72 docs(tesla): 新增最终交付报告 docs/daily/2026-06-26/dispatch/08-tesla-delivery.md
 3c1af6f feat(tesla-verify): 新增 scripts/verify-tesla-content.mjs — 数据 shape + 边界声明 + 合规红线 + JSON-LD 验证
 b8d1edf feat(tesla): 翻转 src/lib/product-routes.ts:53 status planned → live
