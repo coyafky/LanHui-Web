@@ -171,6 +171,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // 小鹏 GX 单车型专题页（XPENG GX L2）
+  const xpengGxModelRoute: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/product/xpeng/gx`,
+      lastModified: LAST_MOD,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+  ];
+
   return [
     ...staticRoutes,
     ...productRoutes,
@@ -180,5 +190,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...newsRoutes,
     ...wenjieModelRoutes,
     ...teslaTopicRoutes,
+    ...xpengGxModelRoute,
   ];
 }
