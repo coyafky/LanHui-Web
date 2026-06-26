@@ -1,0 +1,83 @@
+"use client";
+
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import type { WenjieSeriesFaqItem } from "@/lib/wenjie-series-upgrade-projects";
+
+type WenjieSeriesFaqProps = {
+  items: readonly WenjieSeriesFaqItem[];
+};
+
+const FAQ_LENGTH = 6;
+
+function assertFaqLength(items: readonly WenjieSeriesFaqItem[]): void {
+  if (items.length !== FAQ_LENGTH) {
+    throw new Error(
+      `WenjieSeriesFaq expects ${FAQ_LENGTH} FAQ items, got ${items.length}`,
+    );
+  }
+}
+
+/**
+ * 6 条 FAQ（PRD §13）— Client Component
+ * 一次只展开一项，黑底圆角 2xl + 边框 zinc-800 + ChevronDown 旋转
+ */
+export function WenjieSeriesFaq({ items }: WenjieSeriesFaqProps) {
+  assertFaqLength(items);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-10 md:mb-14">
+          <p className="text-sm tracking-widest text-cyan-400 mb-3">FAQ</p>
+          <h2 className="text-2xl md:text-3xl font-bold text-white">
+            常见问题
+          </h2>
+        </div>
+
+        <div className="space-y-3">
+          {items.map((item, idx) => {
+            const open = openIndex === idx;
+            return (
+              <div
+                key={item.question}
+                className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden"
+              >
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-zinc-800/50 transition-colors"
+                  onClick={() => setOpenIndex(open ? null : idx)}
+                  aria-expanded={open}
+                  aria-controls={`faq-panel-${idx}`}
+                >
+                  <span className="text-sm md:text-base font-semibold text-white">
+                    {item.question}
+                  </span>
+                  <ChevronDown
+                    className={`w-5 h-5 flex-shrink-0 text-cyan-400 transition-transform duration-200 ${
+                      open ? "rotate-180" : ""
+                    }`}
+                    aria-hidden
+                  />
+                </button>
+                <div
+                  id={`faq-panel-${idx}`}
+                  className={`grid transition-all duration-200 ease-out ${
+                    open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-5 pb-5 text-sm text-zinc-400 leading-relaxed">
+                      {item.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
