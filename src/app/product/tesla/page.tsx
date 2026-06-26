@@ -8,7 +8,6 @@ import { TeslaScenarioMatrix } from "@/components/tesla/TeslaScenarioMatrix";
 import { TeslaMoreChoices } from "@/components/tesla/TeslaMoreChoices";
 import { TeslaModelFitNote } from "@/components/tesla/TeslaModelFitNote";
 import { TeslaServiceFlow } from "@/components/tesla/TeslaServiceFlow";
-import { TeslaPosterStub } from "@/components/tesla/TeslaPosterStub";
 import { TeslaFaq } from "@/components/tesla/TeslaFaq";
 import { TeslaTopicViewTrack } from "@/components/tesla/TeslaTopicViewTrack";
 import {
@@ -107,8 +106,6 @@ export default function TeslaTopicPage() {
         <TeslaModelFitNote />
 
         <TeslaServiceFlow steps={teslaServiceSteps} />
-
-        <TeslaPosterStub />
 
         <TeslaFaq items={teslaFaq} />
 
