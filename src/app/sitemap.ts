@@ -139,6 +139,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
+  // 问界车型专题子路由（wenjie M6 / M7 / M8 二级页）
+  const wenjieModelRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/product/wenjie/m6`,
+      lastModified: LAST_MOD,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/product/wenjie/m7`,
+      lastModified: LAST_MOD,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+    {
+      url: `${SITE_URL}/product/wenjie/m8`,
+      lastModified: LAST_MOD,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+  ];
+
   return [
     ...staticRoutes,
     ...productRoutes,
@@ -146,5 +168,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...cityRoutes,
     ...storeRoutes,
     ...newsRoutes,
+    ...wenjieModelRoutes,
   ];
 }
