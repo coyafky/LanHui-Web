@@ -126,10 +126,17 @@ export function WenjieModelProjectGrid<TProject extends ProjectLike>({
     }));
   })();
 
+  // 派生唯一 id：M6 单层级 → "all"；M7/M8 三 tier → "must_have" / "business_upgrade" / "practical_accessory"
+  const tierKey =
+    typeof projects[0]?.tier === "string" && projects[0].tier.length > 0
+      ? projects[0].tier
+      : "all";
+  const headingId = `wenjie-${modelKey.toLowerCase()}-projects-${tierKey}-heading`;
+
   return (
     <section
       className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900"
-      aria-labelledby={`wenjie-${modelKey.toLowerCase()}-projects-heading`}
+      aria-labelledby={headingId}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 md:mb-10">
@@ -137,7 +144,7 @@ export function WenjieModelProjectGrid<TProject extends ProjectLike>({
             PROJECTS
           </p>
           <h2
-            id={`wenjie-${modelKey.toLowerCase()}-projects-heading`}
+            id={headingId}
             className="text-2xl md:text-3xl font-bold text-white mb-2"
           >
             {`${titlePrefix} · ${projects.length} 个项目`}
