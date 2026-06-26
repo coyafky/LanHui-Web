@@ -1,45 +1,117 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
-import { ChevronRight } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PhoneCta } from "@/components/cta/PhoneCta";
-import { WenjieAnchorNav } from "@/components/wenjie/WenjieAnchorNav";
-import { WenjieProductGrid } from "@/components/wenjie/WenjieProductGrid";
-import { WenjieProductTable } from "@/components/wenjie/WenjieProductTable";
+import { WenjieSeriesHero } from "@/components/wenjie/WenjieSeriesHero";
+import { WenjieSeriesFeaturedGrid } from "@/components/wenjie/WenjieSeriesFeaturedGrid";
+import { WenjieSeriesScenarios } from "@/components/wenjie/WenjieSeriesScenarios";
+import { WenjieSeriesMoreChoices } from "@/components/wenjie/WenjieSeriesMoreChoices";
+import { WenjieSeriesSubModelsGrid, type WenjieSeriesSubModel } from "@/components/wenjie/WenjieSeriesSubModelsGrid";
+import { WenjieSeriesPosterStub } from "@/components/wenjie/WenjieSeriesPosterStub";
+import { WenjieSeriesServiceFlow } from "@/components/wenjie/WenjieSeriesServiceFlow";
+import { WenjieSeriesFaq } from "@/components/wenjie/WenjieSeriesFaq";
 import {
-  wenjieProducts,
-  wenjieProductsByModel,
-  wenjieTopicMeta,
-} from "@/lib/wenjie-products";
+  wenjieSeriesFeaturedProjects,
+  wenjieSeriesOptionalProjects,
+  wenjieSeriesScenarios,
+  wenjieSeriesServiceSteps,
+  wenjieSeriesFaq,
+  type WenjieSeriesUpgradeProject,
+} from "@/lib/wenjie-series-upgrade-projects";
+import { wenjieM6UpgradeProjects } from "@/lib/wenjie-m6-upgrade-projects";
+import { wenjieM7UpgradeProjects } from "@/lib/wenjie-m7-upgrade-projects";
+import { wenjieM8UpgradeProjects } from "@/lib/wenjie-m8-upgrade-projects";
+import { getModelRoute } from "@/lib/product-routes";
+
+const PAGE_TITLE = "问界轻改项目｜车衣、隔热膜、二排铝地板、底盘护板与电动踏板｜蓝辉轻改";
+const PAGE_DESCRIPTION =
+  "蓝辉轻改问界系列升级方案，覆盖车衣、隔热膜、二排铝地板、底盘护板、电动踏板、小桌板等 34 个项目，按新车保护、家庭后排、上下车便利、座舱舒适、智能影音、外观升级、露营/户外 7 大场景组合，为问界 M6、M7、M8 提供专属升级方案。";
 
 export const metadata: Metadata = {
-  title: `${wenjieTopicMeta.title} | M7 / M8 / M9 改装配件 | 蓝辉轻改 LANHUI`,
-  description:
-    "蓝辉轻改问界改装专题，展示问界 M7、M8、M9 电动踏板、内饰便利、防护配件、地板尾箱等 44 个款式，支持到店咨询与安装方案沟通。",
-  keywords:
-    "问界改装, 问界M7, 问界M8, 问界M9, 电动踏板, 内饰便利, 防护配件, 蓝辉轻改",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  keywords: [
+    "问界改装",
+    "问界M6",
+    "问界M7",
+    "问界M8",
+    "电动踏板",
+    "车衣",
+    "隔热膜",
+    "底盘护板",
+    "蓝辉轻改",
+  ],
   openGraph: {
-    title: `${wenjieTopicMeta.title} | M7 / M8 / M9 改装配件 | 蓝辉轻改 LANHUI`,
-    description:
-      "问界 M7 / M8 / M9 电动踏板、内饰便利、防护配件，44 个款式按车型分组展示。",
-    images: [wenjieTopicMeta.previewImage],
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [],
     type: "article",
   },
 };
 
-export default function WenjieTopicPage() {
+function buildSubModels(): readonly WenjieSeriesSubModel[] {
+  const m6 = getModelRoute("wenjie", "m6");
+  const m7 = getModelRoute("wenjie", "m7");
+  const m8 = getModelRoute("wenjie", "m8");
+  if (!m6 || !m7 || !m8) {
+    throw new Error("WenjieSeriesPage: missing wenjie M6/M7/M8 route definitions");
+  }
+  return [
+    {
+      modelKey: "M6",
+      navLabel: m6.navLabel,
+      modelName: m6.modelName,
+      canonicalPath: m6.canonicalPath,
+      projectCount: wenjieM6UpgradeProjects.length,
+      hero: "适合家用与城市通勤的 SUV 升级方案，覆盖新车保护、外观个性、电动便利与家庭座舱。",
+    },
+    {
+      modelKey: "M7",
+      navLabel: m7.navLabel,
+      modelName: m7.modelName,
+      canonicalPath: m7.canonicalPath,
+      projectCount: wenjieM7UpgradeProjects.length,
+      hero: "面向家庭出行场景的 6 座旗舰 SUV 升级方案，关注后排舒适、智能影音与底盘防护。",
+    },
+    {
+      modelKey: "M8",
+      navLabel: m8.navLabel,
+      modelName: m8.modelName,
+      canonicalPath: m8.canonicalPath,
+      projectCount: wenjieM8UpgradeProjects.length,
+      hero: "面向商务与高端家庭场景的全尺寸 SUV 升级方案，覆盖外观升级、座舱氛围与露营配置。",
+    },
+  ];
+}
+
+const POSTERS = [
+  { key: "hero", label: "系列预览主视觉" },
+  { key: "scenarios", label: "7 大用车场景视觉" },
+  { key: "models", label: "M6 / M7 / M8 三车型对比" },
+  { key: "service", label: "6 步到店服务流程" },
+] as const;
+
+export default function WenjieSeriesPage() {
+  const allProjects: readonly WenjieSeriesUpgradeProject[] = [
+    ...wenjieSeriesFeaturedProjects,
+    ...wenjieSeriesOptionalProjects,
+  ];
+  const subModels = buildSubModels();
+  const totalProjects = allProjects.length;
+  const totalModels = subModels.length;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "问界改装专题",
+    name: "问界系列项目升级方案",
     description:
-      "蓝辉轻改提供的问界 M7 / M8 / M9 改装款式列表，覆盖电动踏板、内饰便利、防护配件、地板尾箱等。",
-    itemListElement: wenjieProducts.map((p, idx) => ({
+      "蓝辉轻改问界系列升级方案，覆盖车衣、隔热膜、二排铝地板、底盘护板、电动踏板等 34 个项目，为问界 M6、M7、M8 提供专属升级方案。",
+    itemListElement: allProjects.map((p, idx) => ({
       "@type": "ListItem",
       position: idx + 1,
-      name: `问界 ${p.vehicleModel} ${p.productName} 改装款式`,
+      name: `问界系列 ${p.name} 升级项目`,
+      url: `/product/wenjie#${p.key}`,
     })),
   };
 
@@ -47,225 +119,42 @@ export default function WenjieTopicPage() {
     <>
       <Header />
       <main className="flex-grow flex flex-col">
-        {/* Hero */}
-        <section className="relative bg-zinc-950 text-white overflow-hidden">
-          <div className="absolute inset-0 -z-0" aria-hidden>
-            <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/30 via-zinc-950 to-zinc-950" />
-            <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-cyan-700/20 blur-3xl" />
-          </div>
-          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-            <nav className="flex items-center text-sm text-zinc-500 mb-6">
-              <Link
-                href="/product"
-                className="hover:text-white transition-colors"
-              >
-                产品中心
-              </Link>
-              <ChevronRight className="w-4 h-4 mx-2" />
-              <span className="text-zinc-300">{wenjieTopicMeta.title}</span>
-            </nav>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-              <div>
-                <p className="text-sm tracking-widest text-cyan-400 mb-3">
-                  WENJIE TOPIC
-                </p>
-                <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">
-                  {wenjieTopicMeta.title}
-                </h1>
-                <p className="text-base md:text-lg text-zinc-400 max-w-xl leading-relaxed mb-6">
-                  覆盖问界 M7、M8、M9 电动踏板、内饰便利与防护配件款式，按车型分组展示产品清单。
-                </p>
-
-                <div className="flex flex-wrap items-center gap-2 mb-8">
-                  <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
-                    {wenjieTopicMeta.totalProducts} 个款式
-                  </span>
-                  <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
-                    {wenjieTopicMeta.totalModels} 个车型
-                  </span>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-3">
-                  <PhoneCta
-                    source="wenjie_topic_phone_click"
-                    label="电话咨询"
-                    size="lg"
-                    metadata={{ section: "hero" }}
-                  />
-                  <Link
-                    href="/product"
-                    className="inline-flex items-center px-4 py-2 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 text-sm"
-                  >
-                    返回产品中心
-                  </Link>
-                </div>
-              </div>
-
-              <div className="relative">
-                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
-                  <Image
-                    src={wenjieTopicMeta.previewImage}
-                    alt="问界 M7 / M8 / M9 改装款式预览拼图"
-                    fill
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-                <p className="text-xs text-zinc-500 mt-3 text-center">
-                  * 款式预览拼图，仅作整体视觉锚点；不代表安装案例。
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* 锚点导航 */}
-        <WenjieAnchorNav
-          models={[
-            { id: "m7", label: "问界 M7（6 款）" },
-            { id: "m8", label: "问界 M8（22 款）" },
-            { id: "m9", label: "问界 M9（16 款）" },
-          ]}
+        <WenjieSeriesHero
+          title="问界系列项目升级方案｜蓝辉轻改 LANHUI"
+          subtitle="专业轻改，安全可靠，提升体验，焕新出行"
+          totalProjects={totalProjects}
+          totalModels={totalModels}
         />
 
-        {/* M7 分组 */}
-        <section
-          id="m7"
-          className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900 scroll-mt-24"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-8">
-              <p className="text-sm tracking-widest text-cyan-400 mb-2">
-                问界 M7 · 6 款
-              </p>
-              <h2 className="text-2xl md:text-3xl font-bold text-white">
-                问界 M7 改装款式
-              </h2>
-            </div>
-            <WenjieProductGrid products={wenjieProductsByModel.M7} />
-            <div className="mt-10">
-              <h3 className="text-base font-semibold text-zinc-300 mb-3">
-                M7 款式清单
-              </h3>
-              <WenjieProductTable products={wenjieProductsByModel.M7} />
-            </div>
-          </div>
-        </section>
+        <WenjieSeriesFeaturedGrid projects={wenjieSeriesFeaturedProjects} />
 
-        {/* M8 分组 */}
-        <section
-          id="m8"
-          className="py-16 md:py-20 bg-black border-y border-zinc-900 scroll-mt-24"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-8">
-              <p className="text-sm tracking-widest text-cyan-400 mb-2">
-                问界 M8 · 22 款
-              </p>
-              <h2 className="text-2xl md:text-3xl font-bold text-white">
-                问界 M8 改装款式
-              </h2>
-            </div>
-            <WenjieProductGrid products={wenjieProductsByModel.M8} />
-            <div className="mt-10">
-              <h3 className="text-base font-semibold text-zinc-300 mb-3">
-                M8 款式清单
-              </h3>
-              <WenjieProductTable products={wenjieProductsByModel.M8} />
-            </div>
-          </div>
-        </section>
+        <WenjieSeriesScenarios
+          scenarios={wenjieSeriesScenarios}
+          allProjects={allProjects}
+        />
 
-        {/* M9 分组 */}
-        <section
-          id="m9"
-          className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900 scroll-mt-24"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="mb-8">
-              <p className="text-sm tracking-widest text-cyan-400 mb-2">
-                问界 M9 · 16 款
-              </p>
-              <h2 className="text-2xl md:text-3xl font-bold text-white">
-                问界 M9 改装款式
-              </h2>
-            </div>
-            <WenjieProductGrid products={wenjieProductsByModel.M9} />
-            <div className="mt-10">
-              <h3 className="text-base font-semibold text-zinc-300 mb-3">
-                M9 款式清单
-              </h3>
-              <WenjieProductTable products={wenjieProductsByModel.M9} />
-            </div>
-          </div>
-        </section>
+        <WenjieSeriesMoreChoices projects={wenjieSeriesOptionalProjects} />
 
-        {/* 服务流程 */}
-        <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10 md:mb-14">
-              <p className="text-sm tracking-widest text-cyan-400 mb-3">
-                SERVICE FLOW
-              </p>
-              <h2 className="text-2xl md:text-3xl font-bold text-white">
-                到店沟通流程
-              </h2>
-            </div>
+        <WenjieSeriesSubModelsGrid subModels={subModels} />
 
-            <ol className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-              {[
-                {
-                  step: "01",
-                  title: "车型确认",
-                  desc: "确认问界 M7、M8 或 M9 与年款信息。",
-                },
-                {
-                  step: "02",
-                  title: "款式选择",
-                  desc: "到店对照产品表选择电动踏板、内饰便利或防护配件。",
-                },
-                {
-                  step: "03",
-                  title: "安装评估",
-                  desc: "评估原车状态与施工可行性。",
-                },
-                {
-                  step: "04",
-                  title: "施工交付",
-                  desc: "按规范施工交付，提示用车注意事项。",
-                },
-              ].map((s) => (
-                <li
-                  key={s.step}
-                  className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5"
-                >
-                  <p className="text-2xl font-bold text-cyan-400 mb-2">
-                    {s.step}
-                  </p>
-                  <p className="text-sm font-bold text-white mb-1">{s.title}</p>
-                  <p className="text-xs text-zinc-400 leading-relaxed">
-                    {s.desc}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
+        <WenjieSeriesPosterStub posters={POSTERS} />
+
+        <WenjieSeriesServiceFlow steps={wenjieSeriesServiceSteps} />
+
+        <WenjieSeriesFaq items={wenjieSeriesFaq} />
 
         {/* 底部 CTA + 合规说明 */}
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-              需要确认自己车型适合哪几款？
+              需要为你的问界 M6/M7/M8 选几款升级？
             </h2>
             <p className="text-zinc-400 mb-6">
-              电话沟通车型、年款与原车状态，给出可执行的款式组合建议。
+              到店确认车型、年款与原车状态，给出可执行的项目组合建议。
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <PhoneCta
-                source="wenjie_topic_phone_click"
+                source="wenjie_series_footer_phone"
                 label="电话咨询"
                 size="lg"
                 metadata={{ section: "footer" }}
@@ -278,7 +167,7 @@ export default function WenjieTopicPage() {
               </Link>
             </div>
             <p className="text-xs text-zinc-500 mt-6">
-              本页面展示的问界车型改装款式用于蓝辉轻改服务介绍，品牌与车型名称仅用于说明适配对象。
+              本页面展示的问界系列升级项目用于蓝辉轻改服务介绍，品牌与车型名称仅用于说明适配对象。
             </p>
           </div>
         </section>
