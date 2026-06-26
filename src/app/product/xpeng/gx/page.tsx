@@ -7,7 +7,6 @@ import { XpengGxProjectsAndBundles } from "@/components/xpeng/XpengGxProjectsAnd
 import { XpengGxScenarioMatrix } from "@/components/xpeng/XpengGxScenarioMatrix";
 import { XpengGxModelFitNote } from "@/components/xpeng/XpengGxModelFitNote";
 import { XpengGxServiceFlow } from "@/components/xpeng/XpengGxServiceFlow";
-import { XpengGxPosterStub } from "@/components/xpeng/XpengGxPosterStub";
 import { XpengGxFaq } from "@/components/xpeng/XpengGxFaq";
 import { XpengGxTopicViewTrack } from "@/components/xpeng/XpengGxTopicViewTrack";
 import {
@@ -107,8 +106,6 @@ export default function XpengGxTopicPage() {
         />
 
         <XpengGxServiceFlow steps={xpengGxServiceSteps} />
-
-        <XpengGxPosterStub />
 
         <XpengGxFaq items={xpengGxFaq} />
 
