@@ -161,6 +161,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // 特斯拉系列单级专题页（Tesla L1）
+  const teslaTopicRoutes: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/product/tesla`,
+      lastModified: LAST_MOD,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+  ];
+
   return [
     ...staticRoutes,
     ...productRoutes,
@@ -169,5 +179,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...storeRoutes,
     ...newsRoutes,
     ...wenjieModelRoutes,
+    ...teslaTopicRoutes,
   ];
 }
