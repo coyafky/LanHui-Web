@@ -78,9 +78,9 @@ try {
   if (stepCount === 7) pass(`服务步数 = 7 (step 字段 ${stepCount} 处)`);
   else fail(`服务步数应为 7, 实际 ${stepCount}`);
 
-  // 8 FAQ
-  const faqCount = (tsCode.match(/question:/g) ?? []).length;
-  if (faqCount === 8) pass(`FAQ 数 = 8 (question 字段 ${faqCount} 处)`);
+  // 8 FAQ — 只统计 data entry 的 `question:` (排除类型定义 `readonly question: string;`)
+  const faqCount = (tsCode.match(/^\s*question:\s*"/gm) ?? []).length;
+  if (faqCount === 8) pass(`FAQ 数 = 8 (data entry ${faqCount} 处)`);
   else fail(`FAQ 数应为 8, 实际 ${faqCount}`);
 
   // 6 类别标签
@@ -187,10 +187,12 @@ console.log("\n=== 6. TopicBanner 与数据层解耦 ===");
 const bannerPath = join(ROOT, "src/components/xpeng/XpengGxTopicBanner.tsx");
 if (existsSync(bannerPath)) {
   const content = readFileSync(bannerPath, "utf8");
-  if (content.includes("import") && content.includes("xpeng-gx-products")) {
+  // 检查是否有 import 语句指向数据层 (而非仅注释中提及)
+  const importsDataLayer = /^import\s.+from\s+["'].*xpeng-gx-products["']/m.test(content);
+  if (importsDataLayer) {
     fail("XpengGxTopicBanner 不应 import 数据层");
   } else {
-    pass("XpengGxTopicBanner 不依赖数据层 (无 import xpeng-gx-products)");
+    pass("XpengGxTopicBanner 不依赖数据层 (无 import 语句指向 xpeng-gx-products)");
   }
 } else {
   fail("XpengGxTopicBanner.tsx 不存在");
