@@ -76,6 +76,7 @@
 | verify | `node scripts/verify-tesla-content.mjs` | **0 failures**（数据 shape + 边界声明 + 7 项合规红线 + JSON-LD 全通过） |
 | sitemap | `grep product/tesla src/app/sitemap.ts` | ✅ registered（monthly, priority 0.7） |
 | status | `src/lib/product-routes.ts:53` | ✅ `status: "live"` |
+| Playwright | `npx playwright test e2e/tesla-topic.spec.ts` | **3/3 pass**（mobile 390 / tablet 768 / desktop 1440，fullPage 截图归档） |
 
 **关键 note**：build 一次因 pre-existing untracked `src/components/window-film/*` + `src/lib/window-film-details*` + `src/app/product/window-film/[packageSlug]` 缺失失败（worktree 默认不带 untracked 文件），从主 repo 复制后通过。这与 Tesla 无关，是已知 worktree 隔离缺陷。
 
@@ -113,6 +114,8 @@
 ## Worktree 内 commit 历史
 
 ```
+00053d9 test(tesla-e2e): 新增 Playwright 三视口截图 (mobile/tablet/desktop)
+19b8e72 docs(tesla): 新增最终交付报告 docs/daily/2026-06-26/dispatch/08-tesla-delivery.md
 3c1af6f feat(tesla-verify): 新增 scripts/verify-tesla-content.mjs — 数据 shape + 边界声明 + 合规红线 + JSON-LD 验证
 b8d1edf feat(tesla): 翻转 src/lib/product-routes.ts:53 status planned → live
 ```
@@ -149,10 +152,7 @@ c07a49a feat(tesla-ui): TeslaTopicHero — Tesla 专题页 Hero
 
 ## 截图归档
 
-本期 Playwright 三视口截图**未跑**（Docker postgres 未启，dev server 起不来；按任务 D 说明跳过）。
-
-后续如需截图，建议路径：
-- `docs/test-reports/tesla-topic-2026-06-26/{mobile,tablet,desktop}/tesla-topic.png`
+`docs/test-reports/tesla-topic-2026-06-26/{mobile,tablet,desktop}/tesla-topic.png` — Playwright 三视口全页截图（mobile 390 / tablet 768 / desktop 1440），3/3 PASS，fullPage PNG。
 
 ## 收尾
 
