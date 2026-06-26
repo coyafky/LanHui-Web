@@ -88,7 +88,9 @@ describe("wenjie-series-upgrade-projects: optional projects invariants", () => {
   });
 
   it("featured and optional keys do not collide", () => {
-    const featuredKeys = new Set(wenjieSeriesFeaturedProjects.map((p) => p.key));
+    const featuredKeys = new Set<string>(
+      wenjieSeriesFeaturedProjects.map((p) => p.key),
+    );
     for (const p of wenjieSeriesOptionalProjects) {
       expect(featuredKeys.has(p.key)).toBe(false);
     }

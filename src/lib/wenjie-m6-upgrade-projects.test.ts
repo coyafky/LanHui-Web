@@ -77,7 +77,7 @@ describe("wenjie-m6-upgrade-projects: scenarios & bundles", () => {
   });
 
   it("all scenario projectIds reference real project ids", () => {
-    const ids = new Set(wenjieM6UpgradeProjects.map((p) => p.id));
+    const ids = new Set<string>(wenjieM6UpgradeProjects.map((p) => p.id));
     for (const s of wenjieM6Scenarios) {
       for (const id of s.projectIds) {
         expect(ids.has(id)).toBe(true);
@@ -91,7 +91,7 @@ describe("wenjie-m6-upgrade-projects: scenarios & bundles", () => {
   });
 
   it("all bundle projectIds reference real project ids", () => {
-    const ids = new Set(wenjieM6UpgradeProjects.map((p) => p.id));
+    const ids = new Set<string>(wenjieM6UpgradeProjects.map((p) => p.id));
     for (const b of wenjieM6Bundles) {
       for (const id of b.projectIds) {
         expect(ids.has(id)).toBe(true);
