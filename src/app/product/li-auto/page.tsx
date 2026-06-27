@@ -59,8 +59,8 @@ function buildSubModels(): readonly LiAutoSeriesSubModel[] {
       modelName: i8.modelName,
       canonicalPath: i8.canonicalPath,
       projectCount: i8.projectCount ?? 0,
-      hero: "理想 i8 是中大型 SUV 的全新成员，升级方案正在整理中，敬请期待。",
-      isPlanned: true,
+      hero: "面向家庭新能源 SUV 的专属升级方案，覆盖新车保护、家庭座舱与智能显示。",
+      isPlanned: false,
     },
     {
       modelKey: "L9",

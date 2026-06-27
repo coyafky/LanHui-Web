@@ -20,8 +20,8 @@ describe("product-routes registry", () => {
     expect(ALL_SERVICES.filter((s) => s.status === "planned")).toHaveLength(3);
   });
 
-  it("all 14 legacy aliases are mapped", () => {
-    expect(ALL_LEGACY_ALIASES).toHaveLength(14);
+  it("all 15 legacy aliases are mapped", () => {
+    expect(ALL_LEGACY_ALIASES).toHaveLength(15);
   });
 
   it("every model's parent brand is registered", () => {
