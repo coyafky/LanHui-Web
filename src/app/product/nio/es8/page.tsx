@@ -7,12 +7,14 @@ import { NioEs8ProjectGrid } from "@/components/nio/NioEs8ProjectGrid";
 import { NioEs8Bundles } from "@/components/nio/NioEs8Bundles";
 import { NioEs8ServiceFlow } from "@/components/nio/NioEs8ServiceFlow";
 import { NioEs8Faq } from "@/components/nio/NioEs8Faq";
+import { NioEs8TopicViewTrack } from "@/components/nio/NioEs8TopicViewTrack";
 import {
   nioEs8UpgradeProjects,
   nioEs8Scenarios,
   nioEs8Bundles,
   nioEs8ServiceSteps,
   nioEs8Faq,
+  NIO_ES8_PROJECT_COUNT,
 } from "@/lib/nio-products";
 
 const MODEL_KEY = "ES8" as const;
@@ -77,6 +79,13 @@ export default function NioEs8Page() {
     <>
       <Header />
       <main className="flex-grow flex flex-col bg-zinc-950">
+        <NioEs8TopicViewTrack
+          topicKey="nio-es8"
+          brandSlug="nio"
+          modelSlug="es8"
+          projectCount={NIO_ES8_PROJECT_COUNT}
+        />
+
         <NioEs8Hero
           totalProjects={nioEs8UpgradeProjects.length}
           totalScenarios={nioEs8Scenarios.length}
