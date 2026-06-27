@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export type LiAutoSeriesSubModel = {
-  modelKey: "one" | "i8" | "L9" | "MEGA";
+  modelKey: "one" | "i6" | "i8" | "L9" | "MEGA";
   navLabel: string;
   modelName: string;
   canonicalPath: string;
@@ -16,7 +16,7 @@ type LiAutoSeriesSubModelsGridProps = {
   subModels: readonly LiAutoSeriesSubModel[];
 };
 
-const SUB_MODEL_LENGTH = 4;
+const SUB_MODEL_LENGTH = 5;
 
 function assertSubModelLength(subModels: readonly LiAutoSeriesSubModel[]): void {
   if (subModels.length !== SUB_MODEL_LENGTH) {
@@ -49,7 +49,7 @@ export function LiAutoSeriesSubModelsGrid({ subModels }: LiAutoSeriesSubModelsGr
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
           {subModels.map((m) => (
             <article
               key={m.modelKey}

@@ -47,11 +47,12 @@ export const metadata: Metadata = {
 
 function buildSubModels(): readonly LiAutoSeriesSubModel[] {
   const one = getModelRoute("li-auto", "one");
+  const i6 = getModelRoute("li-auto", "i6");
   const i8 = getModelRoute("li-auto", "i8");
   const l9 = getModelRoute("li-auto", "l9");
   const mega = getModelRoute("li-auto", "mega");
-  if (!one || !i8 || !l9 || !mega) {
-    throw new Error("LiAutoSeriesPage: missing li-auto ONE/i8/L9/MEGA route definitions");
+  if (!one || !i6 || !i8 || !l9 || !mega) {
+    throw new Error("LiAutoSeriesPage: missing li-auto ONE/i6/i8/L9/MEGA route definitions");
   }
   return [
     {
@@ -61,6 +62,15 @@ function buildSubModels(): readonly LiAutoSeriesSubModel[] {
       canonicalPath: one.canonicalPath,
       projectCount: one.projectCount ?? 0,
       hero: "面向存量家庭 SUV 车主的轻改方案，覆盖漆面保护、座舱舒适与户外拓展。",
+      isPlanned: false,
+    },
+    {
+      modelKey: "i6",
+      navLabel: i6.navLabel,
+      modelName: i6.modelName,
+      canonicalPath: i6.canonicalPath,
+      projectCount: i6.projectCount ?? 0,
+      hero: "面向城市家庭 SUV 车主的专属升级方案，覆盖新车保护、座舱氛围与智能显示。",
       isPlanned: false,
     },
     {
