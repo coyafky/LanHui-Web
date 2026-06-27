@@ -46,13 +46,23 @@ export const metadata: Metadata = {
 };
 
 function buildSubModels(): readonly LiAutoSeriesSubModel[] {
+  const one = getModelRoute("li-auto", "one");
   const i8 = getModelRoute("li-auto", "i8");
   const l9 = getModelRoute("li-auto", "l9");
   const mega = getModelRoute("li-auto", "mega");
-  if (!i8 || !l9 || !mega) {
-    throw new Error("LiAutoSeriesPage: missing li-auto i8/L9/MEGA route definitions");
+  if (!one || !i8 || !l9 || !mega) {
+    throw new Error("LiAutoSeriesPage: missing li-auto ONE/i8/L9/MEGA route definitions");
   }
   return [
+    {
+      modelKey: "one",
+      navLabel: one.navLabel,
+      modelName: one.modelName,
+      canonicalPath: one.canonicalPath,
+      projectCount: one.projectCount ?? 0,
+      hero: "面向存量家庭 SUV 车主的轻改方案，覆盖漆面保护、座舱舒适与户外拓展。",
+      isPlanned: false,
+    },
     {
       modelKey: "i8",
       navLabel: i8.navLabel,

@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export type LiAutoSeriesSubModel = {
-  modelKey: "i8" | "L9" | "MEGA";
+  modelKey: "one" | "i8" | "L9" | "MEGA";
   navLabel: string;
   modelName: string;
   canonicalPath: string;
@@ -16,7 +16,7 @@ type LiAutoSeriesSubModelsGridProps = {
   subModels: readonly LiAutoSeriesSubModel[];
 };
 
-const SUB_MODEL_LENGTH = 3;
+const SUB_MODEL_LENGTH = 4;
 
 function assertSubModelLength(subModels: readonly LiAutoSeriesSubModel[]): void {
   if (subModels.length !== SUB_MODEL_LENGTH) {
@@ -45,11 +45,11 @@ export function LiAutoSeriesSubModelsGrid({ subModels }: LiAutoSeriesSubModelsGr
             按车型找升级方案
           </h2>
           <p className="text-zinc-400 text-sm md:text-base">
-            3 个车型，分别整理专属项目清单与组合方案
+            4 个车型，分别整理专属项目清单与组合方案
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           {subModels.map((m) => (
             <article
               key={m.modelKey}

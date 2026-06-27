@@ -1,0 +1,77 @@
+import Link from "next/link";
+import { ChevronRight } from "lucide-react";
+
+export type LiAutoOneHeroProps = {
+  totalProjects: number;
+  totalScenarios: number;
+  totalBundles: number;
+  canonicalPath: string;
+};
+
+const SCENARIO_ANCHORS: readonly {
+  key: "refresh_protection" | "family_cabin" | "accessibility" | "outdoor" | "appearance";
+  label: string;
+}[] = [
+  { key: "refresh_protection", label: "老车焕新" },
+  { key: "family_cabin", label: "家庭座舱" },
+  { key: "accessibility", label: "上下车便利" },
+  { key: "outdoor", label: "户外自驾" },
+  { key: "appearance", label: "外观个性" },
+];
+
+export function LiAutoOneHero({
+  totalProjects,
+  totalScenarios,
+  totalBundles,
+  canonicalPath,
+}: LiAutoOneHeroProps) {
+  return (
+    <section className="relative bg-zinc-950 text-white overflow-hidden">
+      <div className="absolute inset-0 -z-0" aria-hidden>
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-950/30 via-zinc-950 to-zinc-950" />
+        <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-amber-700/20 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
+        <nav className="flex items-center text-sm text-zinc-500 mb-6">
+          <Link href="/product" className="hover:text-white transition-colors">产品中心</Link>
+          <ChevronRight className="w-4 h-4 mx-2" />
+          <Link href="/product/li-auto" className="hover:text-white transition-colors">理想系列</Link>
+          <ChevronRight className="w-4 h-4 mx-2" />
+          <span className="text-zinc-300">理想 ONE</span>
+        </nav>
+
+        <p className="text-sm tracking-widest text-amber-400 mb-3">LI AUTO ONE UPGRADE</p>
+        <h1 className="text-3xl md:text-5xl font-bold mb-4 leading-tight">理想 ONE 专属轻改方案</h1>
+        <p className="text-base md:text-lg text-zinc-400 max-w-2xl leading-relaxed mb-6">
+          8 项实用轻改项目，覆盖漆面保护、玻璃隔热、外观焕新、后排便利、座舱氛围、上下车辅助和户外自驾拓展
+          5 大场景；蓝辉轻改顺德大良店到店评估、按标准流程施工。
+        </p>
+
+        <div className="flex flex-wrap items-center gap-2 mb-8">
+          <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
+            {totalProjects} 个升级项目
+          </span>
+          <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
+            {totalScenarios} 大用车场景
+          </span>
+          <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
+            {totalBundles} 个推荐组合
+          </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {SCENARIO_ANCHORS.map((s) => (
+            <a
+              key={s.key}
+              href={`${canonicalPath}#scenario-${s.key}`}
+              className="inline-flex items-center px-3 py-2 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-amber-700/60 text-sm transition-colors"
+            >
+              {s.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
