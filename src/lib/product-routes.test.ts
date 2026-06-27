@@ -6,12 +6,12 @@ import {
 } from "./product-routes";
 
 describe("product-routes registry", () => {
-  it("contains exactly 11 brands", () => {
-    expect(ALL_BRANDS).toHaveLength(11);
+  it("contains exactly 12 brands", () => {
+    expect(ALL_BRANDS).toHaveLength(12);
   });
 
-  it("contains exactly 13 models", () => {
-    expect(ALL_MODELS).toHaveLength(13);
+  it("contains exactly 15 models", () => {
+    expect(ALL_MODELS).toHaveLength(15);
   });
 
   it("contains exactly 10 services (6 P0 live + 1 P1 live + 3 P1 planned)", () => {
@@ -20,8 +20,8 @@ describe("product-routes registry", () => {
     expect(ALL_SERVICES.filter((s) => s.status === "planned")).toHaveLength(3);
   });
 
-  it("all 11 legacy aliases are mapped", () => {
-    expect(ALL_LEGACY_ALIASES).toHaveLength(11);
+  it("all 13 legacy aliases are mapped", () => {
+    expect(ALL_LEGACY_ALIASES).toHaveLength(13);
   });
 
   it("every model's parent brand is registered", () => {
@@ -60,8 +60,8 @@ describe("product-routes registry", () => {
     expect(wenjieModels.map((m) => m.modelSlug).sort()).toEqual(["m6", "m7", "m8"]);
   });
 
-  it("getLiveBrands() returns 3 brands (wenjie, xiaomi, zeekr)", () => {
-    expect(getLiveBrands().map((b) => b.brandSlug).sort()).toEqual(["wenjie", "xiaomi", "zeekr"]);
+  it("getLiveBrands() returns 6 brands (wenjie, xiaomi, zeekr, tesla, xpeng, nio)", () => {
+    expect(getLiveBrands().map((b) => b.brandSlug).sort()).toEqual(["nio", "tesla", "wenjie", "xiaomi", "xpeng", "zeekr"]);
   });
 
   it("legacy aliases do not collide with canonical paths", () => {

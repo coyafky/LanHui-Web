@@ -19,6 +19,7 @@ import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { TeslaTopicBanner } from "@/components/tesla/TeslaTopicBanner";
 import { XpengGxTopicBanner } from "@/components/xpeng/XpengGxTopicBanner";
 import { NioTopicBanner } from "@/components/product/NioTopicBanner";
+import { LiAutoL9TopicBanner } from "@/components/li-auto/LiAutoL9TopicBanner";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -176,6 +177,7 @@ export default function ProductCenter() {
                   <TeslaTopicBanner />
                   <XpengGxTopicBanner />
                   <NioTopicBanner />
+                  <LiAutoL9TopicBanner />
                 </CollapsibleSection>
               </div>
             </section>
