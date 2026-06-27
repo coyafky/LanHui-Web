@@ -170,10 +170,10 @@ export const liAutoL9UpgradeProjects: readonly LiAutoL9UpgradeProject[] = [
     key: "stabilizer-bar",
     name: "平衡杆",
     category: "chassis",
-    summary: "需到店评估安装位，不做性能承诺",
+    summary: "需到店评估安装位和适配情况",
     imageStatus: "pending-review",
     suitableFor: ["driving_protection"],
-    caution: "平衡杆安装需到店确认车身接口和安装位，不做性能提升承诺",
+    caution: "平衡杆安装需到店确认车身接口和安装位，到店评估适配性",
   },
   {
     order: 8,
