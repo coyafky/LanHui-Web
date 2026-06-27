@@ -133,7 +133,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["new_car"],
+    suitableFor: ["protection"],
   },
   {
     order: 3,
@@ -148,7 +148,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["new_car"],
+    suitableFor: ["protection"],
   },
   {
     order: 4,
@@ -192,7 +192,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["new_car", "family", "cabin_protection"],
+    suitableFor: ["protection", "family_cabin"],
   },
   {
     order: 7,
@@ -207,7 +207,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["family", "interior"],
+    suitableFor: ["family_cabin"],
   },
   {
     order: 8,
@@ -222,7 +222,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["driving"],
+    suitableFor: ["driving_protection"],
     caution: "需到店评估安装位和接口",
   },
   {
@@ -267,7 +267,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["family", "interior"],
+    suitableFor: ["family_cabin"],
   },
   {
     order: 12,
@@ -282,7 +282,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["driving"],
+    suitableFor: ["driving_protection"],
   },
   {
     order: 13,
@@ -297,7 +297,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["driving"],
+    suitableFor: ["driving_protection"],
   },
   {
     order: 14,
@@ -312,7 +312,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["new_car", "screen_care"],
+    suitableFor: ["protection"],
   },
   {
     order: 15,
@@ -327,7 +327,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["new_car", "driving"],
+    suitableFor: ["protection", "driving_protection"],
   },
   {
     order: 16,
@@ -342,7 +342,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["appearance", "driving"],
+    suitableFor: ["appearance", "driving_protection"],
   },
   {
     order: 17,
@@ -357,7 +357,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     height: 1086,
     aspectRatio: "4/3",
     imageStatus: "generated-preview",
-    suitableFor: ["family", "interior"],
+    suitableFor: ["family_cabin"],
   },
 ];
 
