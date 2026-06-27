@@ -60,8 +60,8 @@ describe("product-routes registry", () => {
     expect(wenjieModels.map((m) => m.modelSlug).sort()).toEqual(["m6", "m7", "m8"]);
   });
 
-  it("getLiveBrands() returns 6 brands (wenjie, xiaomi, zeekr, tesla, xpeng, nio)", () => {
-    expect(getLiveBrands().map((b) => b.brandSlug).sort()).toEqual(["nio", "tesla", "wenjie", "xiaomi", "xpeng", "zeekr"]);
+  it("getLiveBrands() returns 7 brands (wenjie, xiaomi, zeekr, tesla, xpeng, nio, li-auto)", () => {
+    expect(getLiveBrands().map((b) => b.brandSlug).sort()).toEqual(["li-auto", "nio", "tesla", "wenjie", "xiaomi", "xpeng", "zeekr"]);
   });
 
   it("legacy aliases do not collide with canonical paths", () => {
