@@ -17,6 +17,7 @@
 | `/product/xiaomi` (小米 SU7) | [XIAOMI_TOPIC_PRD_2026-06-20.md](./XIAOMI_TOPIC_PRD_2026-06-20.md) | 🟢 v1 (614 行, 2026-06-20 批 3) |
 | `/product/zeekr` (极氪) | [ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md](./ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md) | 🟢 v1 (canonical,2026-06-16 合并) |
 | `/product/flooring` (木地板) | [FLOORING_TOPIC_PRD_2026-06-20.md](./FLOORING_TOPIC_PRD_2026-06-20.md) | 🟢 v1 (698 行, 2026-06-20 批 3) |
+| `/product/nio/es8` (蔚来 ES8) | [NIO_ES8_TOPIC_PRD_2026-06-27.md](./NIO_ES8_TOPIC_PRD_2026-06-27.md) | 🟡 v0.1 (规划中, 17 项 AI 预览图) |
 
 ## 完成度
 
