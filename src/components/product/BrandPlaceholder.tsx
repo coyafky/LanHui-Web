@@ -25,6 +25,7 @@ const ACCENT_CLASSES: Record<
   blue:    { text: "text-blue-400",    border: "border-blue-800/50",    bg: "bg-blue-950/20",    pill: "bg-blue-950/30 text-blue-300 border-blue-800/50" },
   teal:    { text: "text-teal-400",    border: "border-teal-800/50",    bg: "bg-teal-950/20",    pill: "bg-teal-950/30 text-teal-300 border-teal-800/50" },
   red:     { text: "text-red-400",     border: "border-red-800/50",     bg: "bg-red-950/20",     pill: "bg-red-950/30 text-red-300 border-red-800/50" },
+  sky:     { text: "text-sky-400",     border: "border-sky-800/50",     bg: "bg-sky-950/20",     pill: "bg-sky-950/30 text-sky-300 border-sky-800/50" },
 } as const;
 
 function getEyebrowLabel(
