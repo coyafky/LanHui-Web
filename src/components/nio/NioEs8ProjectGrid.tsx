@@ -6,10 +6,23 @@ import { Badge } from "@/components/ui/badge";
 import { trackClick } from "@/lib/analytics";
 import {
   NIO_ES8_PROJECT_COUNT,
+  type NioEs8Category,
   type NioEs8Scenario,
   type NioEs8ScenarioKey,
   type NioEs8UpgradeProject,
 } from "@/lib/nio-products";
+
+const CATEGORY_LABELS: Record<NioEs8Category, string> = {
+  protection: "漆面保护",
+  film: "膜系",
+  appearance: "外观个性",
+  cabin_protection: "座舱保护",
+  family_cabin: "家庭座舱",
+  chassis: "底盘防护",
+  driving_protection: "行车防护",
+  screen_care: "屏幕养护",
+  interior_care: "内饰养护",
+};
 
 const EXPECTED_PROJECT_COUNT = NIO_ES8_PROJECT_COUNT;
 const SCENARIO_KEYS: readonly NioEs8ScenarioKey[] = [
@@ -74,7 +87,7 @@ function ProjectCard({
         <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800">
           <Image
             src={project.publicPath}
-            alt={`${project.name} AI 预览图`}
+            alt={`${project.name}`}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover"
@@ -84,12 +97,6 @@ function ProjectCard({
             className="absolute top-2 left-2 text-xs font-bold w-8 h-8 flex items-center justify-center rounded-md bg-sky-500/80 text-white"
           >
             {String(project.order).padStart(2, "0")}
-          </span>
-          <span
-            aria-hidden
-            className="absolute top-2 right-2 px-2 py-0.5 rounded-md bg-sky-500/20 text-sky-300 text-[10px]"
-          >
-            AI 预览图
           </span>
         </div>
 
@@ -105,7 +112,7 @@ function ProjectCard({
               variant="outline"
               className="border-sky-700/60 text-sky-300 bg-sky-950/30"
             >
-              {project.category}
+              {CATEGORY_LABELS[project.category]}
             </Badge>
             {scenarioLabel.length > 0 ? (
               <Badge
@@ -116,6 +123,9 @@ function ProjectCard({
               </Badge>
             ) : null}
           </div>
+          <p className="text-[11px] text-zinc-500 mt-3">
+            功能预览 · 按车型确认适配
+          </p>
         </div>
       </button>
 
@@ -129,10 +139,6 @@ function ProjectCard({
       >
         <div className="overflow-hidden">
           <div className="p-4 space-y-3 text-xs text-zinc-400 leading-relaxed">
-            <p>
-              <span className="text-sky-400 font-semibold">生成提示词：</span>
-              {project.promptSummary}
-            </p>
             {project.caution ? (
               <p className="text-amber-400 bg-amber-950/20 border border-amber-900/60 rounded-md px-3 py-2">
                 <span className="font-semibold">注意：</span>

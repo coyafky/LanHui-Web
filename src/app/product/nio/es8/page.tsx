@@ -51,16 +51,6 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * 适配说明区 — 段 1 为 PRD §3.2 原文（一字不改）。
- * 段 2-3 为补充说明，不在 PRD §3.2 范围。
- */
-const FIT_NOTE_PARAGRAPHS: readonly string[] = [
-  "不同年份、批次、版本和配置的蔚来 ES8 在尺寸、接口、安装位和结构上可能存在差异。页面项目只作为轻改方向参考，最终以到店确认和施工评估为准。",
-  "蔚来 ES8 涉及电控系统的项目（电动门、屏幕、电池底部护板等），施工前会与车主确认车辆状况和保修边界。",
-  "本页面 17 项轻改产品目录展示的是 AI 功能预览图（generated-preview），真实施工以到店沟通和现场评估为准。",
-];
-
 export default function NioEs8Page() {
   const jsonLd = {
     "@context": "https://schema.org",
@@ -93,26 +83,6 @@ export default function NioEs8Page() {
           totalBundles={nioEs8Bundles.length}
           canonicalPath={CANONICAL_PATH}
         />
-
-        <section
-          id="scenario-protection"
-          className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900"
-          aria-labelledby="nio-es8-fit-note-heading"
-        >
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2
-              id="nio-es8-fit-note-heading"
-              className="text-xl md:text-2xl font-bold text-white mb-4"
-            >
-              适配说明
-            </h2>
-            <div className="space-y-3 text-sm text-zinc-400 leading-relaxed">
-              {FIT_NOTE_PARAGRAPHS.map((para, i) => (
-                <p key={i}>{para}</p>
-              ))}
-            </div>
-          </div>
-        </section>
 
         <NioEs8ProjectGrid
           projects={nioEs8UpgradeProjects}
