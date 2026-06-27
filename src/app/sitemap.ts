@@ -181,6 +181,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  // 蔚来 ES8 单车型专题页（NIO ES8 L2）
+  const nioEs8ModelRoute: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/product/nio/es8`,
+      lastModified: LAST_MOD,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+  ];
+
   return [
     ...staticRoutes,
     ...productRoutes,
@@ -191,5 +201,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...wenjieModelRoutes,
     ...teslaTopicRoutes,
     ...xpengGxModelRoute,
+    ...nioEs8ModelRoute,
   ];
 }
