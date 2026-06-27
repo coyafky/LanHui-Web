@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { trackClick } from "@/lib/analytics";
@@ -195,6 +195,22 @@ export function NioEs8ProjectGrid({
     return projects.filter((p) => p.suitableFor.includes(activeTab));
   }, [projects, activeTab]);
 
+  /**
+   * 场景 tab 切换 handler：SPEC §E.3a
+   * - 用户实际切换时触发（scenarioKey 实际改变）
+   * - 初次 mount 不触发（直接从初值判断）
+   */
+  const handleTabChange = useCallback(
+    (next: NioEs8ScenarioKey | "all") => {
+      if (next === activeTab) return;
+      trackClick("nio_es8_scenario_filter", {
+        scenarioKey: next,
+      });
+      setActiveTab(next);
+    },
+    [activeTab],
+  );
+
   return (
     <section className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -217,7 +233,7 @@ export function NioEs8ProjectGrid({
             type="button"
             role="tab"
             aria-selected={activeTab === "all"}
-            onClick={() => setActiveTab("all")}
+            onClick={() => handleTabChange("all")}
             className={`px-3 py-2 rounded-md text-sm transition-colors border ${
               activeTab === "all"
                 ? "bg-sky-500/20 border-sky-500 text-sky-200"
@@ -236,7 +252,7 @@ export function NioEs8ProjectGrid({
                 type="button"
                 role="tab"
                 aria-selected={activeTab === s.key}
-                onClick={() => setActiveTab(s.key)}
+                onClick={() => handleTabChange(s.key)}
                 className={`px-3 py-2 rounded-md text-sm transition-colors border ${
                   activeTab === s.key
                     ? "bg-sky-500/20 border-sky-500 text-sky-200"

@@ -1,7 +1,10 @@
+"use client";
+
 import type {
   NioEs8Bundle,
   NioEs8UpgradeProject,
 } from "@/lib/nio-products";
+import { trackClick } from "@/lib/analytics";
 
 export type NioEs8BundlesProps = {
   bundles: readonly NioEs8Bundle[];
@@ -10,11 +13,14 @@ export type NioEs8BundlesProps = {
 };
 
 /**
- * NIO ES8 4 个推荐组合（RSC）
+ * NIO ES8 4 个推荐组合（CC）
  * plan §C.3：
  *   - 4 张组合卡片（grid-cols-1 md:2 lg:4）
  *   - 无 CTA 按钮
  *   - 组合卡片 hover 触发 hash 切换（具体高亮交由 NioEs8ProjectGrid 监听 hashchange）
+ *
+ * SPEC §E.3b：组合卡片内项目标签 `<a>` 点击触发 hash 联动时
+ *   → `nio_es8_bundle_click` 埋点（bundleName 取所属组合名）
  */
 export function NioEs8Bundles({
   bundles,
@@ -22,6 +28,12 @@ export function NioEs8Bundles({
   modelKey,
 }: NioEs8BundlesProps) {
   const projectNameByKey = new Map(allProjects.map((p) => [p.key, p.name]));
+
+  function handleProjectLinkClick(bundle: NioEs8Bundle) {
+    trackClick("nio_es8_bundle_click", {
+      bundleName: bundle.name,
+    });
+  }
 
   return (
     <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
@@ -58,6 +70,7 @@ export function NioEs8Bundles({
                     >
                       <a
                         href={`#project-${pk}`}
+                        onClick={() => handleProjectLinkClick(b)}
                         className="hover:text-sky-200 transition-colors"
                       >
                         {name}
