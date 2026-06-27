@@ -57,7 +57,7 @@ const BRANDS: readonly VehicleBrandRoute[] = [
   { type: "vehicle_brand", brandSlug: "ledao",   brandName: "乐道",  accentColor: "blue",     status: "planned", priority: "P1", canonicalPath: "/product/ledao",   title: "乐道轻改方案", navLabel: "乐道", modelSlugs: ["l90"] },
   { type: "vehicle_brand", brandSlug: "gaoshan", brandName: "高山",  accentColor: "teal",     status: "planned", priority: "P1", canonicalPath: "/product/gaoshan", title: "高山轻改方案", navLabel: "高山", modelSlugs: ["8"] },
   { type: "vehicle_brand", brandSlug: "zhijie",  brandName: "智界",  accentColor: "amber",    status: "planned", priority: "P1", canonicalPath: "/product/zhijie",  title: "智界轻改方案", navLabel: "智界", modelSlugs: ["v9"] },
-  { type: "vehicle_brand", brandSlug: "nio",     brandName: "蔚来",  accentColor: "sky",      status: "planned", priority: "P1", canonicalPath: "/product/nio",     title: "蔚来轻改方案", navLabel: "蔚来", modelSlugs: ["es8"] },
+  { type: "vehicle_brand", brandSlug: "nio",     brandName: "蔚来",  accentColor: "sky",      status: "live",    priority: "P1", canonicalPath: "/product/nio",     title: "蔚来轻改方案", navLabel: "蔚来", modelSlugs: ["es8"] },
 ] as const;
 
 const MODELS: readonly VehicleModelRoute[] = [
@@ -74,7 +74,7 @@ const MODELS: readonly VehicleModelRoute[] = [
   { type: "vehicle_model", brandSlug: "ledao",  modelSlug: "l90",  modelName: "乐道 L90",  parentPath: "/product/ledao",   canonicalPath: "/product/ledao/l90",   title: "乐道 L90 专属升级方案",  navLabel: "L90",  status: "planned", priority: "P1", projectCount: 20, sourcePrd: "docs/PRD/product/LEDAO_L90_TOPIC_PRD_2026-06-24.md", legacyPaths: ["/product/ledao-l90"] },
   { type: "vehicle_model", brandSlug: "gaoshan", modelSlug: "8",   modelName: "高山 8",    parentPath: "/product/gaoshan", canonicalPath: "/product/gaoshan/8",    title: "高山 8 专属升级方案",    navLabel: "8",    status: "planned", priority: "P1", projectCount: 18, sourcePrd: "docs/PRD/product/GAOSHAN_8_TOPIC_PRD_2026-06-25.md", legacyPaths: ["/product/gaoshan-8"] },
   { type: "vehicle_model", brandSlug: "zhijie", modelSlug: "v9",   modelName: "智界 V9",   parentPath: "/product/zhijie",  canonicalPath: "/product/zhijie/v9",   title: "智界 V9 专属升级方案",   navLabel: "V9",   status: "planned", priority: "P1", projectCount: 22, sourcePrd: "docs/PRD/product/ZHIJIE_V9_TOPIC_PRD_2026-06-25.md", legacyPaths: ["/product/zhijie-v9"] },
-  { type: "vehicle_model", brandSlug: "nio",    modelSlug: "es8",  modelName: "蔚来 ES8", parentPath: "/product/nio",     canonicalPath: "/product/nio/es8",    title: "蔚来 ES8 专属升级方案",   navLabel: "ES8",  status: "planned", priority: "P1", projectCount: 17, sourcePrd: "docs/PRD/product/NIO_ES8_TOPIC_PRD_2026-06-27.md", legacyPaths: ["/product/nio-es8"] },
+  { type: "vehicle_model", brandSlug: "nio",    modelSlug: "es8",  modelName: "蔚来 ES8", parentPath: "/product/nio",     canonicalPath: "/product/nio/es8",    title: "蔚来 ES8 专属升级方案",   navLabel: "ES8",  status: "live",    priority: "P1", projectCount: 17, sourcePrd: "docs/PRD/product/NIO_ES8_TOPIC_PRD_2026-06-27.md", legacyPaths: ["/product/nio-es8"] },
 ] as const;
 
 const SERVICES: readonly ServiceRoute[] = [
