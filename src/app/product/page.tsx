@@ -19,6 +19,11 @@ import { ProductFAQ } from "@/components/product/ProductFAQ";
 import { TeslaTopicBanner } from "@/components/tesla/TeslaTopicBanner";
 import { XpengGxTopicBanner } from "@/components/xpeng/XpengGxTopicBanner";
 import { NioTopicBanner } from "@/components/product/NioTopicBanner";
+import { ZhijieV9TopicBanner } from "@/components/zhijie/ZhijieV9TopicBanner";
+import { DenzaD9TopicBanner } from "@/components/denza/DenzaD9TopicBanner";
+import { LedaoL90TopicBanner } from "@/components/ledao/LedaoL90TopicBanner";
+import { Gaoshan8TopicBanner } from "@/components/gaoshan/Gaoshan8TopicBanner";
+import { VoyahDreamerTopicBanner } from "@/components/voyah/VoyahDreamerTopicBanner";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -169,13 +174,18 @@ export default function ProductCenter() {
                     更多车系专题整理中
                   </h3>
                   <p className="text-zinc-400 mt-2 text-sm md:text-base">
-                    特斯拉、小鹏、腾势、岚图、乐道、高山、智界等专题页正在搭建，欢迎到店沟通具体车型需求。
+                    特斯拉、小鹏等专题页正在搭建，欢迎到店沟通具体车型需求。
                   </p>
                 </div>
                 <CollapsibleSection maxVisible={2}>
                   <TeslaTopicBanner />
                   <XpengGxTopicBanner />
                   <NioTopicBanner />
+                  <DenzaD9TopicBanner />
+                  <ZhijieV9TopicBanner />
+                  <LedaoL90TopicBanner />
+                  <Gaoshan8TopicBanner />
+                  <VoyahDreamerTopicBanner />
                 </CollapsibleSection>
               </div>
             </section>
