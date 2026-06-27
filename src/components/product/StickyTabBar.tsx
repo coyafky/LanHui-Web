@@ -40,6 +40,7 @@ const ACCENT_BG: Record<AccentColor, string> = {
   blue: "bg-blue-400",
   teal: "bg-teal-400",
   red: "bg-red-400",
+  sky: "bg-sky-400",
 };
 
 const ACCENT_TEXT: Record<AccentColor, string> = {
@@ -52,6 +53,7 @@ const ACCENT_TEXT: Record<AccentColor, string> = {
   blue: "text-blue-300",
   teal: "text-teal-300",
   red: "text-red-300",
+  sky: "text-sky-300",
 };
 
 export function StickyTabBar({ tabs, activeTab, onChange }: Props) {

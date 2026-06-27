@@ -32,6 +32,7 @@ const ACCENT_BG: Record<AccentColor, string> = {
   blue: "bg-blue-500",
   teal: "bg-teal-500",
   red: "bg-red-500",
+  sky: "bg-sky-500",
 };
 
 const ACCENT_BORDER: Record<AccentColor, string> = {
@@ -44,6 +45,7 @@ const ACCENT_BORDER: Record<AccentColor, string> = {
   blue: "border-blue-400",
   teal: "border-teal-400",
   red: "border-red-400",
+  sky: "border-sky-400",
 };
 
 const ACCENT_TEXT: Record<AccentColor, string> = {
@@ -56,6 +58,7 @@ const ACCENT_TEXT: Record<AccentColor, string> = {
   blue: "text-blue-300",
   teal: "text-teal-300",
   red: "text-red-300",
+  sky: "text-sky-300",
 };
 
 // 第一人称视角 — 与 vehicle-topics 区域呼应
