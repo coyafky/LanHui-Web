@@ -26,6 +26,8 @@ import { Gaoshan8TopicBanner } from "@/components/gaoshan/Gaoshan8TopicBanner";
 import { VoyahDreamerTopicBanner } from "@/components/voyah/VoyahDreamerTopicBanner";
 import { Zeekr9xTopicBanner } from "@/components/zeekr-9x/Zeekr9xTopicBanner";
 import { Zeekr8xTopicBanner } from "@/components/zeekr-8x/Zeekr8xTopicBanner";
+import { XiaomiYu7TopicBanner } from "@/components/xiaomi-yu7/XiaomiYu7TopicBanner";
+import { XiaomiSeriesTopicBanner } from "@/components/xiaomi-series/XiaomiSeriesTopicBanner";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -190,6 +192,8 @@ export default function ProductCenter() {
                   <VoyahDreamerTopicBanner />
                   <Zeekr9xTopicBanner />
                   <Zeekr8xTopicBanner />
+                  <XiaomiYu7TopicBanner />
+                  <XiaomiSeriesTopicBanner />
                 </CollapsibleSection>
               </div>
             </section>

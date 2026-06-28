@@ -13,17 +13,30 @@ import {
   xiaomiProductsByModel,
   xiaomiTopicMeta,
 } from "@/lib/xiaomi-products";
+import {
+  xiaomiSeriesUpgradeProjects,
+  xiaomiSeriesScenarios,
+  xiaomiSeriesUltraZone,
+  xiaomiSeriesServiceSteps,
+  xiaomiSeriesFaq,
+} from "@/lib/xiaomi-series-upgrade-projects";
+import { XiaomiSeriesScenarioMatrix } from "@/components/xiaomi-series/XiaomiSeriesScenarioMatrix";
+import { XiaomiSeriesProjectGrid } from "@/components/xiaomi-series/XiaomiSeriesProjectGrid";
+import { XiaomiSeriesUltraZone } from "@/components/xiaomi-series/XiaomiSeriesUltraZone";
+import { XiaomiSeriesModelFitNote } from "@/components/xiaomi-series/XiaomiSeriesModelFitNote";
+import { XiaomiSeriesServiceFlow } from "@/components/xiaomi-series/XiaomiSeriesServiceFlow";
+import { XiaomiSeriesFaq } from "@/components/xiaomi-series/XiaomiSeriesFaq";
 
 export const metadata: Metadata = {
   title: `${xiaomiTopicMeta.title} | 蓝辉轻改 LANHUI`,
   description:
-    "蓝辉轻改小米改装专题，覆盖小米 SU7 与 YU7 外观件、内饰升级等 18 个款式，按车型分组展示图片与产品表。具体适配与安装请到店沟通。",
+    "蓝辉轻改小米改装专题，覆盖小米 SU7 与 YU7 外观件、内饰升级等款式，以及全系列 21 项升级项目与 Ultra 风格专区，按车型分组展示图片与产品表。具体适配与安装请到店沟通。",
   keywords:
-    "小米改装, 小米SU7, 小米YU7, 外观件, 内饰升级, 前包围, 侧裙, 蓝辉轻改",
+    "小米改装, 小米SU7, 小米YU7, 外观件, 内饰升级, 前包围, 侧裙, Ultra风格, 蓝辉轻改",
   openGraph: {
     title: `${xiaomiTopicMeta.title} | 蓝辉轻改 LANHUI`,
     description:
-      "小米 SU7 / YU7 外观件与内饰升级，18 个改装款式按车型分组展示。",
+      "小米 SU7 / YU7 外观件与内饰升级，全系列 21 项升级项目与 Ultra 风格专区。",
     images: [xiaomiTopicMeta.ogImage],
     type: "article",
   },
@@ -35,13 +48,21 @@ export default function XiaomiTopicPage() {
     "@type": "ItemList",
     name: "小米改装专题",
     description:
-      "蓝辉轻改提供的小米 SU7 / YU7 改装款式列表，覆盖外观件与内饰升级。",
-    itemListElement: xiaomiProducts.map((p, idx) => ({
-      "@type": "ListItem",
-      position: idx + 1,
-      name: `${p.displayName} 改装件`,
-      image: p.image.publicPath,
-    })),
+      "蓝辉轻改提供的小米改装方案，覆盖 SU7 / YU7 外观件与内饰升级，以及全系列 21 项升级项目。",
+    itemListElement: [
+      ...xiaomiProducts.map((p, idx) => ({
+        "@type": "ListItem",
+        position: idx + 1,
+        name: `${p.displayName} 改装件`,
+        image: p.image.publicPath,
+      })),
+      ...xiaomiSeriesUpgradeProjects.map((p, idx) => ({
+        "@type": "ListItem",
+        position: xiaomiProducts.length + idx + 1,
+        name: `${p.name} 升级项目`,
+        description: p.summary,
+      })),
+    ],
   };
 
   return (
@@ -127,6 +148,11 @@ export default function XiaomiTopicPage() {
           models={[
             { id: "su7", label: "小米 SU7（12 款）" },
             { id: "yu7", label: "小米 YU7（6 款）" },
+            { id: "xiaomi-series-scenarios", label: "用车场景" },
+            { id: "xiaomi-series-project-grid", label: "升级项目" },
+            { id: "xiaomi-series-ultra-zone", label: "Ultra 风格" },
+            { id: "xiaomi-series-service-flow", label: "服务流程" },
+            { id: "xiaomi-series-faq", label: "常见问题" },
           ]}
         />
 
@@ -178,40 +204,41 @@ export default function XiaomiTopicPage() {
           </div>
         </section>
 
-        {/* 服务流程 */}
-        <section className="py-16 md:py-20 bg-zinc-950">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-10 md:mb-14">
-              <p className="text-sm tracking-widest text-orange-400 mb-3">
-                SERVICE FLOW
-              </p>
-              <h2 className="text-2xl md:text-3xl font-bold text-white">
-                到店沟通流程
-              </h2>
-            </div>
+        {/* ======== 小米全系列升级方案专区 ======== */}
 
-            <ol className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-              {[
-                { step: "01", title: "车型确认", desc: "确认小米 SU7 或 YU7 与年款信息。" },
-                { step: "02", title: "款式选择", desc: "到店对照产品表与图片选择款式。" },
-                { step: "03", title: "安装评估", desc: "评估原车状态与施工可行性。" },
-                { step: "04", title: "施工交付", desc: "按规范施工交付，提示用车注意事项。" },
-              ].map((s) => (
-                <li
-                  key={s.step}
-                  className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5"
-                >
-                  <p className="text-2xl font-bold text-orange-400 mb-2">
-                    {s.step}
-                  </p>
-                  <p className="text-sm font-bold text-white mb-1">{s.title}</p>
-                  <p className="text-xs text-zinc-400 leading-relaxed">
-                    {s.desc}
-                  </p>
-                </li>
-              ))}
-            </ol>
-          </div>
+        {/* 场景矩阵 */}
+        <section id="xiaomi-series-scenarios">
+          <XiaomiSeriesScenarioMatrix
+            scenarios={xiaomiSeriesScenarios}
+            allProjects={xiaomiSeriesUpgradeProjects}
+          />
+        </section>
+
+        {/* 项目网格 */}
+        <XiaomiSeriesProjectGrid
+          projects={xiaomiSeriesUpgradeProjects}
+          scenarios={xiaomiSeriesScenarios}
+        />
+
+        {/* Ultra 风格专区 */}
+        <section id="xiaomi-series-ultra-zone">
+          <XiaomiSeriesUltraZone
+            items={xiaomiSeriesUltraZone}
+            allProjects={xiaomiSeriesUpgradeProjects}
+          />
+        </section>
+
+        {/* 车型适配说明 */}
+        <XiaomiSeriesModelFitNote />
+
+        {/* 服务流程 — 替换原 4 步流程 */}
+        <section id="xiaomi-series-service-flow">
+          <XiaomiSeriesServiceFlow steps={xiaomiSeriesServiceSteps} />
+        </section>
+
+        {/* FAQ */}
+        <section id="xiaomi-series-faq">
+          <XiaomiSeriesFaq items={xiaomiSeriesFaq} />
         </section>
 
         {/* 底部 CTA */}
