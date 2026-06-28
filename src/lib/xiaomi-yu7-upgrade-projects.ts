@@ -4,7 +4,7 @@
  * 9 项升级项目、5 大用车场景、6 步服务流程、6 条 FAQ。
  * PRD: docs/PRD/product/XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md
  *
- * 所有 imageStatus 设为 "pending-review"（无真实施工图）。
+ * 所有 imageStatus 设为 "missing"（无真实施工图）。
  * 字面量防漂移模式：as const satisfies + runtime count assertion。
  */
 
@@ -17,7 +17,7 @@ export type XiaomiYu7Category =
   | "electric_convenience"
   | "handling";
 
-export type XiaomiYu7ImageStatus = "matched" | "pending-review" | "missing";
+export type XiaomiYu7ImageStatus = "matched" | "missing" | "missing";
 
 export interface XiaomiYu7UpgradeProject {
   readonly id: string;
@@ -63,56 +63,56 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     id: "xy-01", order: 1, name: "软包脚垫", category: "cabin_protection",
     summary: "地毯保护、易清洁、座舱完整感",
     suitableFor: ["刚提车", "家庭用户"],
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-02", order: 2, name: "碳纤维护板", category: "chassis_protection",
     summary: "底部或关键区域保护，强调轻量质感和防护感",
     suitableFor: ["底盘防护", "运动质感"],
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-03", order: 3, name: "平衡杆", category: "handling",
     summary: "提升车身支撑和驾驶稳定感，需到店评估",
     suitableFor: ["操控偏好"],
     caution: "需到店评估安装位和适配性",
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-04", order: 4, name: "运动包围", category: "exterior_parts",
     summary: "强化外观运动感和整车辨识度",
     suitableFor: ["运动风格", "外观升级"],
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-05", order: 5, name: "星空膜", category: "film_style",
     summary: "天幕／玻璃视觉氛围，提升座舱个性",
     suitableFor: ["座舱氛围", "个性偏好"],
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-06", order: 6, name: "星空卷帘", category: "cabin_comfort",
     summary: "天幕遮阳和氛围装饰，提升乘坐舒适",
     suitableFor: ["日晒地区", "座舱舒适"],
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-07", order: 7, name: "香氛系统", category: "cabin_comfort",
     summary: "提升座舱气味体验和精致感",
     suitableFor: ["座舱品质", "舒适偏好"],
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-08", order: 8, name: "电吸门", category: "electric_convenience",
     summary: "关门便利、科技感和豪华感升级",
     suitableFor: ["便利偏好", "豪华感"],
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-09", order: 9, name: "挡泥板", category: "exterior_parts",
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["日常防护", "雨天用车"],
-    imageStatus: "pending-review", sourceArea: "poster_project_matrix",
+    imageStatus: "missing", sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly XiaomiYu7UpgradeProject[];
 

@@ -4,14 +4,14 @@ import { useState } from "react";
 import { ImageIcon } from "lucide-react";
 import { trackClick } from "@/lib/analytics";
 import {
-  XIAOMI_YU7_PROJECT_COUNT,
-  type XiaomiYu7Category,
-  type XiaomiYu7UpgradeProject,
-} from "@/lib/xiaomi-yu7-upgrade-projects";
+  XIAOMI_SU7_PROJECT_COUNT,
+  type XiaomiSu7Category,
+  type XiaomiSu7UpgradeProject,
+} from "@/lib/xiaomi-su7-upgrade-projects";
 
-const EXPECTED_PROJECT_COUNT = XIAOMI_YU7_PROJECT_COUNT;
+const EXPECTED_PROJECT_COUNT = XIAOMI_SU7_PROJECT_COUNT;
 
-const CATEGORY_LABELS: Record<XiaomiYu7Category, string> = {
+const CATEGORY_LABELS: Record<XiaomiSu7Category, string> = {
   cabin_protection: "座舱保护",
   chassis_protection: "底盘防护",
   exterior_parts: "外观件",
@@ -21,23 +21,23 @@ const CATEGORY_LABELS: Record<XiaomiYu7Category, string> = {
   handling: "操控",
 };
 
-function assertProjectCount(projects: readonly XiaomiYu7UpgradeProject[]): void {
+function assertProjectCount(projects: readonly XiaomiSu7UpgradeProject[]): void {
   if (projects.length !== EXPECTED_PROJECT_COUNT) {
     throw new Error(
-      `XiaomiYu7ProjectGrid expects ${EXPECTED_PROJECT_COUNT} projects, got ${projects.length}`,
+      `XiaomiSu7ProjectGrid expects ${EXPECTED_PROJECT_COUNT} projects, got ${projects.length}`,
     );
   }
 }
 
 type ProjectCardProps = {
-  project: XiaomiYu7UpgradeProject;
+  project: XiaomiSu7UpgradeProject;
   open: boolean;
   onToggle: () => void;
 };
 
 function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
   const handleClick = () => {
-    trackClick("xiaomi_yu7_project_click", {
+    trackClick("xiaomi_su7_project_click", {
       projectId: project.id,
       projectName: project.name,
       category: project.category,
@@ -54,7 +54,7 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
         type="button"
         onClick={handleClick}
         aria-expanded={open}
-        aria-controls={`xiaomi-yu7-project-detail-${project.id}`}
+        aria-controls={`xiaomi-su7-project-detail-${project.id}`}
         className="text-left w-full"
       >
         <div className={`relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center ${isMissing ? "border-dashed border-zinc-700" : ""}`}>
@@ -101,7 +101,7 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
       </button>
 
       <div
-        id={`xiaomi-yu7-project-detail-${project.id}`}
+        id={`xiaomi-su7-project-detail-${project.id}`}
         className={`grid transition-all duration-200 ease-out border-t border-zinc-800 ${
           open
             ? "grid-rows-[1fr] opacity-100"
@@ -129,24 +129,19 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
   );
 }
 
-export type XiaomiYu7ProjectGridProps = {
-  projects: readonly XiaomiYu7UpgradeProject[];
+export type XiaomiSu7ProjectGridProps = {
+  projects: readonly XiaomiSu7UpgradeProject[];
 };
 
-/**
- * 小米 YU7 9 项项目网格（Client）
- * Desktop 3x3，Tablet 2 列，Mobile 1 列
- * 每张卡可点击展开 detail panel（suitableFor + caution）
- */
-export function XiaomiYu7ProjectGrid({
+export function XiaomiSu7ProjectGrid({
   projects,
-}: XiaomiYu7ProjectGridProps) {
+}: XiaomiSu7ProjectGridProps) {
   assertProjectCount(projects);
   const [openId, setOpenId] = useState<string | null>(null);
 
   return (
     <section
-      id="xiaomi-yu7-project-grid"
+      id="xiaomi-su7-project-grid"
       className="py-16 md:py-20 bg-black border-t border-zinc-900 scroll-mt-24"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -155,7 +150,7 @@ export function XiaomiYu7ProjectGrid({
             PROJECTS
           </p>
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-            小米 YU7 · {projects.length} 个升级项目
+            小米 SU7 · {projects.length} 个升级项目
           </h2>
           <p className="text-zinc-400 text-sm md:text-base">
             点击任意卡片展开详情。

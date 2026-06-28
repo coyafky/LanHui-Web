@@ -4,7 +4,7 @@
  * 21 项升级项目、7 大场景（含 Ultra 风格专区）、7 步服务流程、7 条 FAQ。
  * PRD: docs/PRD/product/XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md
  *
- * 所有 imageStatus 设为 "pending-review"（无真实施工图）。
+ * 所有 imageStatus 设为 "missing"（无真实施工图）。
  * 字面量防漂移模式：as const satisfies + runtime count assertion。
  */
 
@@ -17,7 +17,7 @@ export type XiaomiSeriesCategory =
   | "convenience"
   | "exterior_lights";
 
-export type XiaomiSeriesImageStatus = "matched" | "pending-review" | "missing";
+export type XiaomiSeriesImageStatus = "matched" | "missing" | "missing";
 
 export interface XiaomiSeriesUpgradeProject {
   readonly id: string;
@@ -79,131 +79,131 @@ export const xiaomiSeriesUpgradeProjects: readonly XiaomiSeriesUpgradeProject[] 
     id: "xs-01", order: 1, name: "车衣", category: "protection",
     summary: "漆面保护、抗轻微剐蹭、保持车漆质感",
     suitableFor: ["刚提车", "日常通勤", "保护优先"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-02", order: 2, name: "隔热膜", category: "protection",
     summary: "隔热、防晒、提升驾乘舒适性",
     suitableFor: ["刚提车", "炎热地区", "隐私需求"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-03", order: 3, name: "改色膜", category: "appearance",
     summary: "改变车身视觉风格，满足个性化表达",
     suitableFor: ["个性用户", "换色需求"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-04", order: 4, name: "360 软包脚垫", category: "protection",
     summary: "地毯保护、易清洁、提升座舱完整感",
     suitableFor: ["刚提车", "家庭用户", "清洁优先"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-05", order: 5, name: "底盘护板", category: "protection",
     summary: "保护底盘关键区域，适合新车基础防护",
     suitableFor: ["刚提车", "路况复杂", "长途"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-06", order: 6, name: "氛围灯", category: "cabin",
     summary: "提升夜间座舱氛围和科技感",
     suitableFor: ["夜间用车", "座舱氛围"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-07", order: 7, name: "仪表中置", category: "cabin",
     summary: "强化驾驶视线信息展示和座舱科技感",
     suitableFor: ["科技偏好", "座舱升级"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-08", order: 8, name: "底盘灯", category: "exterior_lights",
     summary: "增强夜间视觉辨识度，需注意合法合规使用场景",
     suitableFor: ["夜间展示", "个性外观"],
     caution: "需关注合法合规使用场景，具体以当地规定为准",
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-09", order: 9, name: "电动尾翼", category: "appearance",
     summary: "强化运动姿态和视觉张力",
     suitableFor: ["运动用户", "视觉升级"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-10", order: 10, name: "电动遮阳帘", category: "comfort",
     summary: "改善日晒体验，提高乘坐舒适性",
     suitableFor: ["日晒地区", "后排乘客", "家庭用户"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-11", order: 11, name: "电动前机盖", category: "convenience",
     summary: "提升前舱开启便利和仪式感",
     suitableFor: ["便利偏好", "科技体验"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-12", order: 12, name: "Ultra 机盖", category: "ultra_style",
     summary: "强化前脸运动视觉，需确认车型适配",
     suitableFor: ["运动风格", "视觉升级"],
     caution: "需确认车型版本适配",
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-13", order: 13, name: "Ultra 方向盘", category: "ultra_style",
     summary: "提升驾驶区运动感和握持质感",
     suitableFor: ["驾驶体验", "运动风格"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-14", order: 14, name: "Ultra 电子声浪", category: "ultra_style",
     summary: "提升驾驶氛围，不做性能提升承诺",
     suitableFor: ["驾驶氛围", "运动风格"],
     caution: "不做性能提升承诺，具体以到店评估为准",
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-15", order: 15, name: "后排电视", category: "comfort",
     summary: "增强后排娱乐体验，适合家庭／商务使用",
     suitableFor: ["家庭用户", "商务出行", "长途"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-16", order: 16, name: "Ultra 尾翼", category: "ultra_style",
     summary: "运动化尾部视觉升级",
     suitableFor: ["运动风格", "尾部视觉"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-17", order: 17, name: "Ultra 碳纤内饰", category: "ultra_style",
     summary: "提升座舱运动感和材质视觉",
     suitableFor: ["内饰质感", "运动风格"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-18", order: 18, name: "Ultra 拉花", category: "ultra_style",
     summary: "强化车身辨识度和主题风格",
     suitableFor: ["个性外观", "主题风格"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-19", order: 19, name: "座椅按摩", category: "comfort",
     summary: "提升长途乘坐舒适体验",
     suitableFor: ["长途驾驶", "舒适偏好"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-20", order: 20, name: "Ultra 前后包围", category: "ultra_style",
     summary: "强化整车运动姿态和套件完整性",
     suitableFor: ["运动风格", "整车套件"],
     caution: "需确认车型版本适配",
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
   {
     id: "xs-21", order: 21, name: "Ultra 内饰升级", category: "ultra_style",
     summary: "统一内饰主题，提升座舱个性化表达",
     suitableFor: ["内饰主题", "个性风格"],
-    imageStatus: "pending-review", sourceArea: "poster_main_list",
+    imageStatus: "missing", sourceArea: "poster_main_list",
   },
 ] as const satisfies readonly XiaomiSeriesUpgradeProject[];
 

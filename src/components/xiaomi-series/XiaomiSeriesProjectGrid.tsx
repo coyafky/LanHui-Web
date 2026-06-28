@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { ImageIcon } from "lucide-react";
 import { trackClick } from "@/lib/analytics";
 import {
   XIAOMI_SERIES_CATEGORY_LABELS,
@@ -52,6 +53,8 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
     onToggle();
   };
 
+  const isMissing = project.imageStatus === "missing";
+
   return (
     <article className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col">
       <button
@@ -61,8 +64,15 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
         aria-controls={`xiaomi-series-project-detail-${project.id}`}
         className="text-left w-full"
       >
-        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center">
-          <span className="text-zinc-700 text-sm">pending-review</span>
+        <div className={`relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center ${isMissing ? "border-dashed border-zinc-700" : ""}`}>
+          {isMissing ? (
+            <div className="flex flex-col items-center gap-2 text-zinc-600">
+              <ImageIcon className="w-8 h-8" aria-hidden />
+              <span className="text-xs">图片待补充</span>
+            </div>
+          ) : (
+            <span className="text-zinc-700 text-sm">pending-review</span>
+          )}
           <span
             aria-hidden
             className="absolute top-2 left-2 text-xs font-bold w-8 h-8 flex items-center justify-center rounded-md bg-orange-500/80 text-white"

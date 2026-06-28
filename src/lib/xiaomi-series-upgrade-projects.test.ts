@@ -44,9 +44,9 @@ describe("Xiaomi Series data shape", () => {
       });
     });
 
-    it('全部 imageStatus === "pending-review"', () => {
+    it('全部 imageStatus === "missing"', () => {
       for (const p of xiaomiSeriesUpgradeProjects) {
-        expect(p.imageStatus).toBe("pending-review");
+        expect(p.imageStatus).toBe("missing");
       }
     });
 
