@@ -10,8 +10,8 @@ describe("product-routes registry", () => {
     expect(ALL_BRANDS).toHaveLength(12);
   });
 
-  it("contains exactly 18 models", () => {
-    expect(ALL_MODELS).toHaveLength(18);
+  it("contains exactly 19 models", () => {
+    expect(ALL_MODELS).toHaveLength(19);
   });
 
   it("contains exactly 10 services (6 P0 live + 1 P1 live + 3 P1 planned)", () => {
@@ -20,8 +20,8 @@ describe("product-routes registry", () => {
     expect(ALL_SERVICES.filter((s) => s.status === "planned")).toHaveLength(3);
   });
 
-  it("all 17 legacy aliases are mapped", () => {
-    expect(ALL_LEGACY_ALIASES).toHaveLength(17);
+  it("all 18 legacy aliases are mapped", () => {
+    expect(ALL_LEGACY_ALIASES).toHaveLength(18);
   });
 
   it("every model's parent brand is registered", () => {

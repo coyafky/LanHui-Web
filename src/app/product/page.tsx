@@ -24,6 +24,8 @@ import { DenzaD9TopicBanner } from "@/components/denza/DenzaD9TopicBanner";
 import { LedaoL90TopicBanner } from "@/components/ledao/LedaoL90TopicBanner";
 import { Gaoshan8TopicBanner } from "@/components/gaoshan/Gaoshan8TopicBanner";
 import { VoyahDreamerTopicBanner } from "@/components/voyah/VoyahDreamerTopicBanner";
+import { Zeekr9xTopicBanner } from "@/components/zeekr-9x/Zeekr9xTopicBanner";
+import { Zeekr8xTopicBanner } from "@/components/zeekr-8x/Zeekr8xTopicBanner";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -186,6 +188,8 @@ export default function ProductCenter() {
                   <LedaoL90TopicBanner />
                   <Gaoshan8TopicBanner />
                   <VoyahDreamerTopicBanner />
+                  <Zeekr9xTopicBanner />
+                  <Zeekr8xTopicBanner />
                 </CollapsibleSection>
               </div>
             </section>
