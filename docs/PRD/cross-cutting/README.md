@@ -12,12 +12,14 @@
 | **安全审计** (OWASP Top 10) | [SECURITY_AUDIT_PRD_2026-06-20.md](./SECURITY_AUDIT_PRD_2026-06-20.md) | 🟢 v1 (654 行,14 项加固 + 60+ 渗透测试) |
 | **性能优化** (Lighthouse 基线) | [PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md](./PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md) | 🟢 v1 (590 行,5 P1 + 7 P2 + 18 路由预算) |
 | **设计系统对齐** (Vercel Geist) | [DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md](./DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md) | 🟡 v0 (14 项 P0/P1/P2 任务,Geist spec 对账) |
+| **全站功能与性能测试** (81 路由 + Codex 视觉评判) | [FULL_SITE_TEST_PRD_2026-06-29.md](./FULL_SITE_TEST_PRD_2026-06-29.md) | 🟡 规划中 |
+| **Codex 视觉评判提示词模板** | [CODEX_VISUAL_EVAL_PROMPT_2026-06-29.md](./CODEX_VISUAL_EVAL_PROMPT_2026-06-29.md) | 🟢 v1 (可直接复制给 Codex) |
 
 ## 完成度
 
-**6/6 子 PRD 已建 (100%)**
+**8/8 子 PRD 已建 (100%)**
 
-> 2026-06-21 增补:DESIGN_SYSTEM_ALIGNMENT_PRD 起步 v0,P0 6 项未执行。
+> 2026-06-29 增补:全站测试 PRD + Codex 视觉评判提示词模板
 
 ## 子 PRD 模板
 

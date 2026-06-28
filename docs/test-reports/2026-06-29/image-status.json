@@ -1,0 +1,2515 @@
+{
+  "scannedAt": "2026-06-28T16:22:14.999Z",
+  "brands": {
+    "问界-Wenjie Series": {
+      "file": "wenjie-series-upgrade-projects.ts",
+      "total": 34,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 34,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "generated-preview",
+          "name": "隐形车衣"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "二排铝地板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "电动踏板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "内饰镀膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "HUD抬头显示器"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "星空膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "四门隔音"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "后排娱乐电视"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "运动尾翼"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "发动机盖"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "挡泥板内衬"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "流媒体后视镜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "电动门"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "四门密封条"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "改色膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "车顶平台套件"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "内饰硅胶件"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "星空顶"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "旋转座椅"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "尾箱垫"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "腿托"
+        }
+      ]
+    },
+    "问界-M6": {
+      "file": "wenjie-m6-upgrade-projects.ts",
+      "total": 17,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 17,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-paint-film",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-color-paint",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-electric-step",
+          "name": "电动踏板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-floor-mat-360",
+          "name": "360 软包脚垫"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-sway-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-sport-kit",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-ambient-light",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-rear-table",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-mud-flap",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-bug-guard",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-hud",
+          "name": "抬头显示"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-screen-protector",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-door-sill",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m6-license-frame",
+          "name": "牌照框"
+        }
+      ]
+    },
+    "问界-M7": {
+      "file": "wenjie-m7-upgrade-projects.ts",
+      "total": 30,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 30,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-paint-film",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-three-proof-mat",
+          "name": "三防软包脚垫"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-electric-step",
+          "name": "电动踏板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-rear-entertainment",
+          "name": "后排娱乐电视"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-ambient-light",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-rear-table",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-smart-headrest",
+          "name": "智能头枕"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-wheels",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-sway-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-stream-mirror",
+          "name": "流媒体后视镜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-starlight-roof",
+          "name": "星空顶"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-starlight-film",
+          "name": "星空膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-sport-kit",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-roof-platform",
+          "name": "车顶平台套件"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-color-change",
+          "name": "改色"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-leg-rest",
+          "name": "腿托"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-brake-caliper",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-door-sill",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-license-frame",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-screen-protector",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-bug-guard",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-door-seal",
+          "name": "四门密封条"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-trunk-mat",
+          "name": "尾箱垫"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-interior-silicone",
+          "name": "内饰硅胶件"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-mud-flap",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-liner",
+          "name": "内衬"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m7-door-sound-insulation",
+          "name": "四门隔音"
+        }
+      ]
+    },
+    "问界-M8": {
+      "file": "wenjie-m8-upgrade-projects.ts",
+      "total": 30,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 30,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-paint-film",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-three-proof-mat",
+          "name": "三防软包脚垫"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-electric-step",
+          "name": "电动踏板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-rear-entertainment",
+          "name": "后排娱乐电视"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-ambient-light",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-rear-table",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-electric-door",
+          "name": "电动门"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-wheels",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-sway-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-stream-mirror",
+          "name": "流媒体后视镜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-starlight-roof",
+          "name": "星空顶"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-starlight-film",
+          "name": "星空膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-sport-kit",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-roof-platform",
+          "name": "车顶平台套件"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-color-change",
+          "name": "改色"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-leg-rest",
+          "name": "腿托"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-brake-caliper",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-door-sill",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-license-frame",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-screen-protector",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-bug-guard",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-door-seal",
+          "name": "四门密封条"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-trunk-mat",
+          "name": "尾箱垫"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-interior-silicone",
+          "name": "内饰硅胶件"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-mud-flap",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-liner",
+          "name": "内衬"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "id": "m8-door-sound-insulation",
+          "name": "四门隔音"
+        }
+      ]
+    },
+    "小米-Series": {
+      "file": "xiaomi-series-upgrade-projects.ts",
+      "total": 21,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 0,
+        "missing": 21,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "missing",
+          "id": "xs-01",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-02",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-03",
+          "name": "改色膜"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-04",
+          "name": "360 软包脚垫"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-05",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-06",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-07",
+          "name": "仪表中置"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-08",
+          "name": "底盘灯"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-09",
+          "name": "电动尾翼"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-10",
+          "name": "电动遮阳帘"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-11",
+          "name": "电动前机盖"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-12",
+          "name": "Ultra 机盖"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-13",
+          "name": "Ultra 方向盘"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-14",
+          "name": "Ultra 电子声浪"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-15",
+          "name": "后排电视"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-16",
+          "name": "Ultra 尾翼"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-17",
+          "name": "Ultra 碳纤内饰"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-18",
+          "name": "Ultra 拉花"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-19",
+          "name": "座椅按摩"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-20",
+          "name": "Ultra 前后包围"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs-21",
+          "name": "Ultra 内饰升级"
+        }
+      ]
+    },
+    "小米-SU7": {
+      "file": "xiaomi-su7-upgrade-projects.ts",
+      "total": 12,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 0,
+        "missing": 12,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "missing",
+          "id": "xs7-01",
+          "name": "前包围"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-02",
+          "name": "侧裙"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-03",
+          "name": "机盖"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-04",
+          "name": "尾翼"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-05",
+          "name": "后视镜壳"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-06",
+          "name": "刹车油门踏板"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-07",
+          "name": "方向盘"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-08",
+          "name": "座椅背板"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-09",
+          "name": "迎宾踏板"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-10",
+          "name": "中控面板"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-11",
+          "name": "出风口"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xs7-12",
+          "name": "门饰条"
+        }
+      ]
+    },
+    "小米-YU7": {
+      "file": "xiaomi-yu7-upgrade-projects.ts",
+      "total": 9,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 0,
+        "missing": 9,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "missing",
+          "id": "xy-01",
+          "name": "软包脚垫"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xy-02",
+          "name": "碳纤维护板"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xy-03",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xy-04",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xy-05",
+          "name": "星空膜"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xy-06",
+          "name": "星空卷帘"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xy-07",
+          "name": "香氛系统"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xy-08",
+          "name": "电吸门"
+        },
+        {
+          "imageStatus": "missing",
+          "id": "xy-09",
+          "name": "挡泥板"
+        }
+      ]
+    },
+    "极氪-9X": {
+      "file": "zeekr-9x-products.ts",
+      "total": 18,
+      "counts": {
+        "matched": 0,
+        "pending-review": 18,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "id": "ppf",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "paint-graphic",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "duotone-wrap",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "stabilizer-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "floor-mats-360",
+          "name": "360软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "body-kit",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "brake-calipers",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "sill-plate",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "wheels",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "silicon-mat-kit",
+          "name": "硅胶垫套餐"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "mud-flap",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "bug-screen",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "screen-protector",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "license-frame",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "interior-coating",
+          "name": "内饰镀膜"
+        }
+      ]
+    },
+    "极氪-8X": {
+      "file": "zeekr-8x-products.ts",
+      "total": 17,
+      "counts": {
+        "matched": 0,
+        "pending-review": 17,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "id": "ppf",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "graphic-wrap",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "floating-roof",
+          "name": "悬浮顶"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "floor-mats-360",
+          "name": "360软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "stabilizer-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "body-kit",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ambient-lighting",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "rear-table-tray",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "mud-flap",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "bug-screen",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "head-up-display",
+          "name": "抬头显示"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "screen-protector",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "sill-plate",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "license-frame",
+          "name": "牌照框"
+        }
+      ]
+    },
+    "极氪-Series": {
+      "file": "zeekr-products.ts",
+      "total": 0,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": []
+    },
+    "理想-Series": {
+      "file": "li-auto-series-upgrade-projects.ts",
+      "total": 41,
+      "counts": {
+        "matched": 0,
+        "pending-review": 41,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "name": "隐形车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "二排铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动踏板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "内饰镀膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "后排娱乐电视"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "后视镜-天使之翼"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "流媒体后视镜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "冰箱"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "挡泥板内衬"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动门"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "中置喇叭"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "黑化套件"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "4D高音喇叭"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "全车音响"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "改色膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "零重力座椅"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "香氛系统"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "星空顶"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "旋转座椅"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "四门密封条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "腿托"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "星空膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "四门隔音"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "车顶平台套件"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电吸门"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "悬浮顶"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "发动机盖"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "新车保护"
+        }
+      ]
+    },
+    "理想-i6": {
+      "file": "li-auto-i6-products.ts",
+      "total": 20,
+      "counts": {
+        "matched": 0,
+        "pending-review": 20,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "360 软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "星空顶"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "星空膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "香氛系统"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "流媒体后视镜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "迎宾踏板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "HUD 显示保护罩"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "内饰镀膜"
+        }
+      ]
+    },
+    "理想-i8": {
+      "file": "li-auto-i8-products.ts",
+      "total": 20,
+      "counts": {
+        "matched": 0,
+        "pending-review": 20,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "360 软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "香氛系统"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "流媒体后视镜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "显示保护罩"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "内饰镀膜"
+        }
+      ]
+    },
+    "理想-L9": {
+      "file": "li-auto-l9-products.ts",
+      "total": 14,
+      "counts": {
+        "matched": 0,
+        "pending-review": 14,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "name": "隐形车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "隔热窗膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "彩绘改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动踏板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "360 航空脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "铝合金地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "运动轮毂"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "中控钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "HUD 显示罩"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "挡泥板"
+        }
+      ]
+    },
+    "理想-MEGA": {
+      "file": "li-auto-mega-products.ts",
+      "total": 18,
+      "counts": {
+        "matched": 0,
+        "pending-review": 18,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "360 软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "尾翼"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "主副驾电吸门"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "迎宾踏板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "大灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "内饰镀膜"
+        }
+      ]
+    },
+    "理想-ONE": {
+      "file": "li-auto-one-products.ts",
+      "total": 8,
+      "counts": {
+        "matched": 0,
+        "pending-review": 8,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "name": "隐形车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "改色膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动踏板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "旋转座椅"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "车顶平台加爬梯"
+        }
+      ]
+    },
+    "Tesla": {
+      "file": "tesla-products.ts",
+      "total": 42,
+      "counts": {
+        "matched": 0,
+        "pending-review": 42,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "改色膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "360软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "通风座椅"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动门把手"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动前机盖"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动遮阳帘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "Model X/S 同款一体仪表"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "Model S/X 同款方向盘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "音响系统 / B2 中置音响"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "铝合金前/后护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "D形运动方向盘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "屏幕旋转支架"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "YOKE方向盘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "真碳纤维尾翼"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "智能电吸锁"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "车载冰箱"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "车载扶手箱"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "流媒体后视镜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "尾灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "智动门"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "后排小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动尾门"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "碳纤纹套件"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "领航灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "真碳纤维内饰"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "MINI智能仪表"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "智能仪表"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "后排娱乐屏"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "全包真皮座椅"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "电动腿托"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "后排座椅加长"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "智能电吸门"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "八向头枕"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "轮毂盖"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "储物盒系列"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "防护垫系列"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "绒面防护系列"
+        },
+        {
+          "imageStatus": "pending-review",
+          "name": "过滤网系列"
+        }
+      ]
+    },
+    "小鹏-GX": {
+      "file": "xpeng-gx-products.ts",
+      "total": 15,
+      "counts": {
+        "matched": 0,
+        "pending-review": 15,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-ppf",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-paint-art",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-color-film",
+          "name": "改色膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-electric-door",
+          "name": "电动门"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-balance-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-floor-mats",
+          "name": "360 脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-wheel-hub",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-door-sill",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-bug-screen",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-mudguard",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-tempered-film",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-hud-cover",
+          "name": "抬头显示罩"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "xpeng-gx-license-frame",
+          "name": "牌照框"
+        }
+      ]
+    },
+    "NIO-ES8": {
+      "file": "nio-products.ts",
+      "total": 17,
+      "counts": {
+        "matched": 0,
+        "pending-review": 0,
+        "generated-preview": 17,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "generated-preview",
+          "name": "蔚来 ES8 系列主视觉"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "360 脚垫"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "generated-preview",
+          "name": "内饰镀膜"
+        }
+      ]
+    },
+    "腾势-D9": {
+      "file": "denza-d9-products.ts",
+      "total": 23,
+      "counts": {
+        "matched": 0,
+        "pending-review": 23,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-ppf",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-paint-art",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-duotone-film",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-floor-mats",
+          "name": "360软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-balance-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-amxt-bodykit",
+          "name": "amxt包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-bskt-bodykit",
+          "name": "bskt运动包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-tray-table",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-ambient-light",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-drl",
+          "name": "日行灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-hud",
+          "name": "抬头显示"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-ceiling-screen",
+          "name": "吸顶电视"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-d-pillar-light",
+          "name": "D柱灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-roof-rack",
+          "name": "铝合金行李架"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-mudguard",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-bug-screen",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-tempered-film",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-door-sill",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-license-frame",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "denza-d9-interior-coating",
+          "name": "内饰镀膜"
+        }
+      ]
+    },
+    "岚图-梦想家": {
+      "file": "voyah-products.ts",
+      "total": 17,
+      "counts": {
+        "matched": 0,
+        "pending-review": 17,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-ppf",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-paint-art",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-duotone-film",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-floor-mats",
+          "name": "360软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-balance-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-amxt-bodykit",
+          "name": "AMXT包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-bskt-bodykit",
+          "name": "BSKT运动包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-door-sill",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-ambient-light",
+          "name": "氛围灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-license-frame",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-mudguard",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-leg-rest",
+          "name": "腿托"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-tempered-film",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "voyah-dreamer-bug-screen",
+          "name": "防虫网"
+        }
+      ]
+    },
+    "高山-8": {
+      "file": "gaoshan-products.ts",
+      "total": 23,
+      "counts": {
+        "matched": 0,
+        "pending-review": 23,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-ppf",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-paint-art",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-duotone-film",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-floor-mats",
+          "name": "360软包脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-balance-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-amxt-bodykit",
+          "name": "AMXT包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-bskt-bodykit",
+          "name": "BSKT运动包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-power-step",
+          "name": "电动踏板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-brake-calipers",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-badge-light",
+          "name": "车标灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-drl",
+          "name": "日行灯"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-hud",
+          "name": "抬头显示"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-sliding-door",
+          "name": "中开门"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-fragrance",
+          "name": "香氛系统"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-mudguard",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-bug-screen",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-tempered-film",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-step-plate",
+          "name": "铝合金迎宾踏板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-black-kit",
+          "name": "黑化81件套"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "gaoshan-8-interior-coating",
+          "name": "内饰镀膜"
+        }
+      ]
+    },
+    "乐道-L90": {
+      "file": "ledao-l90-products.ts",
+      "total": 21,
+      "counts": {
+        "matched": 0,
+        "pending-review": 21,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-ppf",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-paint-art",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-duotone-film",
+          "name": "双拼改色"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-floating-roof",
+          "name": "悬浮顶"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-balance-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-tray-table",
+          "name": "小桌板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-body-kit",
+          "name": "运动包围"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-floor-mats",
+          "name": "360脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-leg-rest",
+          "name": "腿托"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-trunk-mat",
+          "name": "尾箱垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-hud",
+          "name": "抬头显示"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-wheels",
+          "name": "轮毂"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-mudguard",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-bug-screen",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-tempered-film",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-door-sill",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-brake-calipers",
+          "name": "刹车卡钳"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "ledao-l90-interior-coating",
+          "name": "内饰镀膜"
+        }
+      ]
+    },
+    "智界-V9": {
+      "file": "zhijie-v9-products.ts",
+      "total": 14,
+      "counts": {
+        "matched": 0,
+        "pending-review": 14,
+        "generated-preview": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "projects": [
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-ppf",
+          "name": "车衣"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-window-film",
+          "name": "隔热膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-paint-art",
+          "name": "彩绘"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-color-film",
+          "name": "改色膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-floor-mats",
+          "name": "360 脚垫"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-balance-bar",
+          "name": "平衡杆"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-skid-plate",
+          "name": "底盘护板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-aluminum-floor",
+          "name": "铝地板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-door-sill",
+          "name": "门槛条"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-license-frame",
+          "name": "牌照框"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-mudguard",
+          "name": "挡泥板"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-bug-screen",
+          "name": "防虫网"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-tempered-film",
+          "name": "钢化膜"
+        },
+        {
+          "imageStatus": "pending-review",
+          "id": "zhijie-v9-hud-cover",
+          "name": "抬头显示罩"
+        }
+      ]
+    }
+  },
+  "totals": {
+    "matched": 0,
+    "pending-review": 311,
+    "generated-preview": 128,
+    "missing": 42,
+    "other": 0,
+    "grandTotal": 481
+  }
+}
