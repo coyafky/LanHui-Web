@@ -39,9 +39,9 @@ describe("Xiaomi SU7 data shape", () => {
       });
     });
 
-    it('全部 imageStatus === "missing"', () => {
+    it('全部 imageStatus === "matched"', () => {
       for (const p of xiaomiSu7UpgradeProjects) {
-        expect(p.imageStatus).toBe("missing");
+        expect(p.imageStatus).toBe("matched");
       }
     });
 

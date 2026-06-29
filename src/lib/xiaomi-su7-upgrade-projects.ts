@@ -5,7 +5,7 @@
  * PRD: docs/PRD/product/XIAOMI_TOPIC_PRD_2026-06-20.md
  *      docs/PRD/product/XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md
  *
- * 所有 imageStatus 设为 "missing"（暂无真实施工图）。
+ * imageStatus 根据实际图片可用性设置（matched / missing）。
  * 字面量防漂移模式：as const satisfies + runtime count assertion。
  */
 
@@ -28,6 +28,9 @@ export interface XiaomiSu7UpgradeProject {
   readonly summary: string;
   readonly suitableFor: readonly string[];
   readonly caution?: string;
+  readonly publicPath?: `/images/products/xiaomi/su7/${string}.png`;
+  readonly width?: number;
+  readonly height?: number;
   readonly imageStatus: XiaomiSu7ImageStatus;
   readonly sourceArea: "poster_project_matrix";
 }
@@ -64,75 +67,111 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs7-01", order: 1, name: "前包围", category: "exterior_parts",
     summary: "强化前脸运动感和视觉冲击力",
     suitableFor: ["运动风格", "外观升级"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-01-front-bumper.png",
+    width: 2523,
+    height: 1661,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-02", order: 2, name: "侧裙", category: "exterior_parts",
     summary: "强化车身侧面线条和运动姿态",
     suitableFor: ["运动风格", "外观升级"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-04-side-skirt.png",
+    width: 989,
+    height: 660,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-03", order: 3, name: "机盖", category: "exterior_parts",
     summary: "碳纤或运动风格机盖升级",
     suitableFor: ["运动风格", "轻量化"],
     caution: "需确认车型版本适配",
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-08-hood.png",
+    width: 771,
+    height: 540,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-04", order: 4, name: "尾翼", category: "exterior_parts",
     summary: "提升尾部运动视觉张力",
     suitableFor: ["运动风格", "尾部视觉"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-10-spoiler.png",
+    width: 1081,
+    height: 553,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-05", order: 5, name: "后视镜壳", category: "exterior_parts",
     summary: "碳纤/亮黑后视镜壳替换",
     suitableFor: ["个性外观", "细节升级"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-07-mirror-cover.png",
+    width: 869,
+    height: 545,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-06", order: 6, name: "刹车油门踏板", category: "cabin_comfort",
     summary: "运动金属踏板，提升脚感和驾驶氛围",
     suitableFor: ["驾驶体验", "内饰质感"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-02-pedals.png",
+    width: 781,
+    height: 490,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-07", order: 7, name: "方向盘", category: "cabin_comfort",
     summary: "碳纤/翻毛皮方向盘升级",
     suitableFor: ["驾驶体验", "运动风格"],
     caution: "需确认与原车功能的兼容性",
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-05-steering-wheel.png",
+    width: 800,
+    height: 634,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-08", order: 8, name: "座椅背板", category: "cabin_comfort",
     summary: "座椅背板保护和装饰升级",
     suitableFor: ["内饰保护", "座舱质感"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-03-seat-back-panel.png",
+    width: 654,
+    height: 691,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-09", order: 9, name: "迎宾踏板", category: "cabin_protection",
     summary: "门槛保护，提升上下车质感和防刮擦",
     suitableFor: ["刚提车", "家庭用户"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-11-door-sill-plate.png",
+    width: 748,
+    height: 478,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-10", order: 10, name: "中控面板", category: "cabin_comfort",
     summary: "中控区域面板材质升级",
     suitableFor: ["内饰质感", "科技偏好"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-12-center-console-panel.png",
+    width: 1191,
+    height: 634,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-11", order: 11, name: "出风口", category: "cabin_comfort",
     summary: "出风口装饰件替换",
     suitableFor: ["内饰细节", "个性偏好"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-06-air-vent.png",
+    width: 580,
+    height: 283,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs7-12", order: 12, name: "门饰条", category: "exterior_parts",
     summary: "门边防擦保护和装饰",
     suitableFor: ["日常防护", "外观细节"],
-    imageStatus: "missing", sourceArea: "poster_project_matrix",
+    publicPath: "/images/products/xiaomi/su7/su7-09-door-trim.png",
+    width: 896,
+    height: 620,
+    imageStatus: "matched", sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly XiaomiSu7UpgradeProject[];
 

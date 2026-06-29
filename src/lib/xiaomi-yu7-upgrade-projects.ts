@@ -17,7 +17,7 @@ export type XiaomiYu7Category =
   | "electric_convenience"
   | "handling";
 
-export type XiaomiYu7ImageStatus = "matched" | "missing" | "missing";
+export type XiaomiYu7ImageStatus = "matched" | "pending-review" | "missing";
 
 export interface XiaomiYu7UpgradeProject {
   readonly id: string;
