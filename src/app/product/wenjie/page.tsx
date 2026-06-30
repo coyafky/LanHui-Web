@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PhoneCta } from "@/components/cta/PhoneCta";
 import { WenjieSeriesHero } from "@/components/wenjie/WenjieSeriesHero";
 import { WenjieSeriesFeaturedGrid } from "@/components/wenjie/WenjieSeriesFeaturedGrid";
 import { WenjieSeriesScenarios } from "@/components/wenjie/WenjieSeriesScenarios";
-import { WenjieSeriesMoreChoices } from "@/components/wenjie/WenjieSeriesMoreChoices";
 import { WenjieSeriesSubModelsGrid, type WenjieSeriesSubModel } from "@/components/wenjie/WenjieSeriesSubModelsGrid";
-import { WenjieSeriesPosterStub } from "@/components/wenjie/WenjieSeriesPosterStub";
 import { WenjieSeriesServiceFlow } from "@/components/wenjie/WenjieSeriesServiceFlow";
 import { WenjieSeriesFaq } from "@/components/wenjie/WenjieSeriesFaq";
 import {
@@ -85,13 +82,6 @@ function buildSubModels(): readonly WenjieSeriesSubModel[] {
   ];
 }
 
-const POSTERS = [
-  { key: "hero", label: "系列预览主视觉" },
-  { key: "scenarios", label: "7 大用车场景视觉" },
-  { key: "models", label: "M6 / M7 / M8 三车型对比" },
-  { key: "service", label: "6 步到店服务流程" },
-] as const;
-
 export default function WenjieSeriesPage() {
   const allProjects: readonly WenjieSeriesUpgradeProject[] = [
     ...wenjieSeriesFeaturedProjects,
@@ -133,11 +123,7 @@ export default function WenjieSeriesPage() {
           allProjects={allProjects}
         />
 
-        <WenjieSeriesMoreChoices projects={wenjieSeriesOptionalProjects} />
-
         <WenjieSeriesSubModelsGrid subModels={subModels} />
-
-        <WenjieSeriesPosterStub posters={POSTERS} />
 
         <WenjieSeriesServiceFlow steps={wenjieSeriesServiceSteps} />
 
@@ -152,13 +138,7 @@ export default function WenjieSeriesPage() {
             <p className="text-zinc-400 mb-6">
               到店确认车型、年款与原车状态，给出可执行的项目组合建议。
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <PhoneCta
-                source="wenjie_series_footer_phone"
-                label="电话咨询"
-                size="lg"
-                metadata={{ section: "footer" }}
-              />
+            <div className="flex flex-wrap items-center justify-center gap-3">  
               <Link
                 href="/product"
                 className="inline-flex items-center px-4 py-2 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 text-sm"

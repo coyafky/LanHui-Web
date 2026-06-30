@@ -2,8 +2,7 @@
 
 > 本文档聚焦**「蓝辉轻改 LANHUI」官网项目当前完整架构**,
 > 覆盖前端页面、CMS 管理后台、Prisma + PostgreSQL 数据层、NextAuth 认证体系、
-> 客户端埋点分析、Docker / Nginx 部署,并以**执行流程图**描述关键命令与操作
-> 的端到端调用链。
+> 客户端埋点分析、Docker / Nginx 部署,并描述关键命令与操作的端到端调用链。
 >
 > 适用读者:接手维护的全栈工程师、运维、代码审计者。
 >
@@ -14,40 +13,10 @@
 > - `docs/ARCHITECTURE_IMAGE_STRATEGY.md` — 图像资源策略
 > - **本文档** — 整合**当前**完整架构与执行链路
 >
-> ## 0. 架构图(Visual Overview)
+> ## 0. 架构图说明
 >
-> ### 0.1 系统架构图(组件 + 容器)
-> `docs/diagrams/architecture-overview.html`(由 [archify](https://github.com/tt-a1i/archify) 生成)
-> - **主架构图** — 用户层 → DNS → Nginx → Next.js (公开/SSG/Admin/API/中间件) → PostgreSQL (5 个 Prisma 模型)
-> - **数据流图** — 5 条关键请求路径(访客访问、埋点、登录、创建门店、门店详情)
-> - **图例 + 部署/开发链路/质量门禁速查**
-> - **3 个 Info Card** — Frontend Stack / Backend Stack / Infra
->
-> ### 0.2 路由请求 Sequence 图(端到端时序)
-> `docs/diagrams/sequence-routes.html`(同款工具生成)
-> - **5 个泳道** — Browser / Nginx / Next.js / Prisma / Postgres
-> - **5 个时序面板**:
->   - **Panel A** 公开访问(`/agent/store/[id]` 等 3 个核心路由)
->   - **Panel B** 客户端埋点(pageview → sendBeacon → DB 写入)
->   - **Panel C** 管理员认证(NextAuth + bcrypt + JWT 完整 13 步)
->   - **Panel D** CMS 创建门店(auth + role + Zod + Prisma 9 步)
->   - **Panel E** SEO / Sitemap 动态生成(25+ URL)
->
-> ### 0.3 门店数据 Data Flow 图(资产全生命周期)
-> `docs/diagrams/dataflow-store.html`(同款工具生成)
-> - **5 阶段流水线**(横向 Pipeline) — 单一 Store 实体全生命周期追踪
-> - **5 个阶段**:
->   - **Stage 1 创作 (Authoring)** — Admin Browser / StoreForm / Zod 客户端校验 / POST /api/stores
->   - **Stage 2 传输 (Transport)** — HTTPS / Nginx (gzip + 安全头) / proxy_pass :3000
->   - **Stage 3 校验 (Validation)** — route.ts / auth() / role check / Zod safeParse
->   - **Stage 4 持久化 (Persistence)** — prisma.store.create / SQL 生成 / INSERT INTO "Store"
->   - **Stage 5 发布 (Publish)** — 5a Admin 列表 (router.refresh) / 5b Visitor 详情页 (RSC + ISR + SEO + Analytics)
-> - **Data Asset Evolution 演化带** — 5 个数据快照展示 Store 形态逐步转化:
->   Form Draft → HTTP Request → Validated → DB Row → Rendered HTML
-> - 每阶段含组件、代码注释、数据形态预览、Tech Stack、输出
-> - 跨阶段箭头标注数据传输(JSON / req / valid / row)
->
-> 三张图均带深色/浅色主题切换(T 键)、4× 源分辨率 PNG/JPEG/WebP/SVG 导出能力。
+> 历史生成图表目录已在 2026-06-26 文档清理中移除。后续如需架构图或时序图,
+> 直接在本文使用 Mermaid 小图,或将一次性验证产物放入 `docs/test-reports/<YYYY-MM-DD>/`。
 
 ---
 

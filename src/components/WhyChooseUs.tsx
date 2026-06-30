@@ -17,9 +17,9 @@ const FEATURES = [
   },
   {
     icon: BadgeCheck,
-    title: "官方质保承诺",
+    title: "品牌质保承诺",
     description:
-      "官方质保体系，施工全程记录可追溯，售后无忧，让您放心选择。",
+      "品牌质保体系，施工全程记录可追溯，售后无忧，让您放心选择。",
     color: "yellow",
   },
 ];
@@ -53,7 +53,7 @@ export function WhyChooseUs() {
             为什么选择蓝辉轻改？
           </h2>
           <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
-            从工艺标准到材料品质，再到官方质保——层层保障，让每次升级更安心。
+            从工艺标准到材料品质，再到品牌质保——层层保障，让每次升级更安心。
           </p>
         </div>
 

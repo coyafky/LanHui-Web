@@ -1,7 +1,3 @@
-"use client";
-
-import { ArrowRight } from "lucide-react";
-import { trackClick } from "@/lib/analytics";
 import { Badge } from "@/components/ui/badge";
 import type {
   TeslaProject,
@@ -14,7 +10,8 @@ type TeslaScenarioMatrixProps = {
 };
 
 const SCENARIO_LENGTH = 6;
-const PREVIEW_COUNT = 3;
+
+const scenarioIndexLabels = ["01", "02", "03", "04", "05", "06"] as const;
 
 function assertScenarioLength(scenarios: readonly TeslaScenario[]): void {
   if (scenarios.length !== SCENARIO_LENGTH) {
@@ -25,9 +22,13 @@ function assertScenarioLength(scenarios: readonly TeslaScenario[]): void {
 }
 
 /**
- * 6 大用车场景分类矩阵（Client Component）
- * PRD §8：3 列 / md:2 / sm:1，每卡：场景名 + 描述 + 项目数 + 前 3 项目名 + "查看完整方案"
- * 点击 → 滚动到 scenario-group-{key} + 触发埋点
+ * 6 大用车场景（PRD §8）
+ *
+ * 设计方向：红色性能主题
+ * - 顶部 header 带红色指示符
+ * - 卡片顶部红色强调条纹
+ * - 3 列桌面布局，尾部单卡居中
+ * - 项目列表以圆点标记，红色引导色
  */
 export function TeslaScenarioMatrix({
   scenarios,
@@ -39,76 +40,98 @@ export function TeslaScenarioMatrix({
     allProjects.map((p) => [p.key, p.name] as const),
   );
 
-  function handleScenarioClick(scenario: TeslaScenario) {
-    const targetId = `scenario-group-${scenario.key}`;
-    const el = document.getElementById(targetId);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-    trackClick("tesla_scenario_click", {
-      scenarioKey: scenario.key,
-    });
-  }
-
   return (
-    <section
-      className="py-16 md:py-20 bg-black border-y border-zinc-900"
-      aria-labelledby="tesla-scenarios-heading"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 md:mb-10">
-          <p className="text-sm tracking-widest text-red-400 mb-3">
-            SCENARIOS
-          </p>
-          <h2
-            id="tesla-scenarios-heading"
-            className="text-2xl md:text-3xl font-bold text-white mb-2"
-          >
+    <section className="relative py-20 md:py-24 bg-black border-y border-zinc-900 overflow-hidden">
+      {/* 背景纹理 — 红色光晕 */}
+      <div className="absolute inset-0 -z-0 pointer-events-none" aria-hidden>
+        <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-red-950/10 blur-3xl" />
+        <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-red-950/5 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* 区块头部 */}
+        <div className="mb-12 md:mb-16">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="block w-8 h-px bg-red-600/60" aria-hidden />
+            <p className="text-xs tracking-[0.25em] text-red-400 uppercase">
+              Scenarios
+            </p>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
             6 大用车场景
           </h2>
-          <p className="text-zinc-400 text-sm md:text-base">
+          <p className="text-zinc-500 text-sm md:text-base max-w-xl">
             按场景找升级方案，对应不同项目组合
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {scenarios.map((s) => {
-            const previewNames = s.projectKeys
+        {/* 场景卡片网格 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {scenarios.map((s, idx) => {
+            const projectNames = s.projectKeys
               .map((k) => projectNameByKey.get(k))
-              .filter((name): name is string => Boolean(name))
-              .slice(0, PREVIEW_COUNT);
+              .filter((name): name is string => Boolean(name));
+            const indexLabel = scenarioIndexLabels[idx] ?? String(idx + 1);
+            const isLastAlone =
+              idx === scenarios.length - 1 && scenarios.length % 3 === 1;
+
             return (
-              <button
+              <article
                 key={s.key}
-                type="button"
-                onClick={() => handleScenarioClick(s)}
-                aria-label={`查看 ${s.name} 完整方案`}
-                className="group bg-zinc-900 rounded-2xl border border-zinc-800 hover:border-red-700/60 transition-colors p-5 flex flex-col text-left"
+                className={`group relative bg-zinc-900/80 rounded-2xl border border-zinc-800/80 hover:border-zinc-700/80 transition-colors duration-300 flex flex-col overflow-hidden ${
+                  isLastAlone
+                    ? "lg:col-span-3 lg:max-w-sm lg:mx-auto lg:w-full"
+                    : ""
+                }`}
               >
-                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-red-400 transition-colors">
-                  {s.name}
-                </h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-3 line-clamp-2">
-                  {s.description}
-                </p>
-                <Badge
-                  variant="outline"
-                  className="border-red-900/60 text-red-400 bg-red-950/40 self-start mb-3"
-                >
-                  {`共 ${s.projectKeys.length} 个项目`}
-                </Badge>
-                <ul className="space-y-1 text-xs text-zinc-500 mb-4 flex-1">
-                  {previewNames.map((name) => (
-                    <li key={name} className="line-clamp-1">
-                      · {name}
-                    </li>
-                  ))}
-                </ul>
-                <span className="inline-flex items-center text-sm font-medium text-red-400 group-hover:text-red-300 transition-colors">
-                  查看完整方案
-                  <ArrowRight className="w-4 h-4 ml-1" aria-hidden />
-                </span>
-              </button>
+                {/* 顶部红色强调条纹 */}
+                <div
+                  className="h-0.5 bg-gradient-to-r from-red-500/70 via-red-400/40 to-transparent shrink-0"
+                  aria-hidden
+                />
+
+                <div className="p-5 md:p-6 flex flex-col flex-1">
+                  {/* 索引 + 标题行 */}
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <h3 className="text-lg md:text-xl font-bold text-white leading-snug">
+                      {s.name}
+                    </h3>
+                    <span
+                      className="text-3xl font-bold text-zinc-800 group-hover:text-red-900/60 transition-colors duration-300 leading-none shrink-0"
+                      aria-hidden
+                    >
+                      {indexLabel}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-zinc-500 leading-relaxed mb-4">
+                    {s.description}
+                  </p>
+
+                  <Badge
+                    variant="outline"
+                    className="border-red-800/40 text-red-400/80 bg-red-950/20 self-start mb-4 text-[11px]"
+                  >
+                    共 {s.projectKeys.length} 个项目
+                  </Badge>
+
+                  {/* 完整项目列表 */}
+                  <ul className="space-y-2 flex-1">
+                    {projectNames.map((name) => (
+                      <li
+                        key={name}
+                        className="flex items-center gap-2.5 text-sm text-zinc-300 group-hover:text-zinc-200 transition-colors duration-300"
+                      >
+                        <span
+                          className="block w-1 h-1 rounded-full bg-red-500/50 shrink-0"
+                          aria-hidden
+                        />
+                        {name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
             );
           })}
         </div>

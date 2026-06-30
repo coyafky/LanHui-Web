@@ -76,7 +76,7 @@ export function FilmServiceMap({ services }: Props) {
             漆面与玻璃的全方位膜系
           </h2>
           <p className="text-zinc-400 mt-2 text-sm md:text-base">
-            原厂车衣的隐形盾牌 · 玻璃的隔热卫士 · 改色的视觉表达
+            漆面保护的隐形盾牌 · 玻璃的隔热卫士 · 改色的视觉表达
           </p>
         </div>
 

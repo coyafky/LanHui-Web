@@ -1,8 +1,15 @@
-import { ImageIcon } from "lucide-react";
-import { PhoneCta } from "@/components/cta/PhoneCta";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 
-type WenjieModelImageStatus = "matched" | "pending-review" | "missing";
+type WenjieModelImageStatus = "real" | "generated-preview" | "missing";
+
+type WenjieModelImage = {
+  publicPath: string | null;
+  alt: string;
+  width: 1448;
+  height: 1086;
+  aspectRatio: "4/3";
+};
 
 type ProjectLike = {
   id: string;
@@ -10,6 +17,7 @@ type ProjectLike = {
   category: string;
   summary: string;
   imageStatus: WenjieModelImageStatus;
+  image: WenjieModelImage;
   /** M7/M8 必有；M6 无此字段 */
   tier?: string;
 };
@@ -35,22 +43,27 @@ function WenjieModelProjectCard<TProject extends ProjectLike>({
   modelKey,
   titlePrefix,
 }: ProjectCardProps<TProject>) {
-  const phoneSource = `wenjie_${modelKey.toLowerCase()}_project_consult`;
   const hasTier = typeof project.tier === "string" && project.tier.length > 0;
 
   return (
     <article className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 flex flex-col">
-      <div
-        role="img"
-        aria-label={`${project.name} 项目配图待补`}
-        className="relative aspect-[4/3] rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950 flex flex-col items-center justify-center text-zinc-500 mb-4"
-      >
-        <div
-          className="absolute inset-0 bg-gradient-to-br from-cyan-950/10 via-zinc-950 to-zinc-950"
-          aria-hidden
-        />
-        <ImageIcon className="w-10 h-10 mb-2 relative" aria-hidden />
-        <p className="text-xs relative">图片待补充</p>
+      <div className="relative aspect-[4/3] rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950 mb-4">
+        {project.image.publicPath ? (
+          <Image
+            src={project.image.publicPath}
+            alt={project.image.alt}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div
+            role="img"
+            aria-label={`${project.name} 功能预览`}
+            className="absolute inset-0 bg-gradient-to-br from-cyan-950/30 via-zinc-950 to-zinc-900"
+          />
+        )}
       </div>
 
       <h3 className="text-base md:text-lg font-bold text-white mb-1.5">
@@ -77,17 +90,9 @@ function WenjieModelProjectCard<TProject extends ProjectLike>({
         ) : null}
       </div>
 
-      <PhoneCta
-        source={phoneSource}
-        label="咨询此款"
-        size="sm"
-        metadata={{
-          projectKey: project.id,
-          category: project.category,
-          modelKey,
-          tier: project.tier,
-        }}
-      />
+      <p className="text-[11px] text-zinc-500 mt-auto">
+        {`${modelKey} 功能预览 · 按车型配置确认适配`}
+      </p>
     </article>
   );
 }

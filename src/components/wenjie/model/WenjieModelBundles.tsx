@@ -1,4 +1,3 @@
-import { PhoneCta } from "@/components/cta/PhoneCta";
 import { Badge } from "@/components/ui/badge";
 
 type BundleLike = {
@@ -27,7 +26,7 @@ const PREVIEW_COUNT = 5;
 
 /**
  * 二级页套餐组合 — M6 / M7 / M8 共用
- * 2 列 / sm:1；每卡：套餐名 H3 + 描述 + 项目数 Badge + 前 5 项目名 chips + PhoneCta
+ * 2 列 / sm:1；每卡：套餐名 H3 + 描述 + 项目数 Badge + 前 5 项目名 chips
  */
 export function WenjieModelBundles<
   TBundle extends BundleLike,
@@ -41,8 +40,6 @@ export function WenjieModelBundles<
   const projectNameById = new Map<string, string>(
     allProjects.map((p) => [p.id, p.name] as const),
   );
-
-  const phoneSource = `wenjie_${modelKey.toLowerCase()}_bundle_consult`;
 
   return (
     <section
@@ -61,7 +58,7 @@ export function WenjieModelBundles<
             {`${modelName} · 套餐组合`}
           </h2>
           <p className="text-zinc-400 text-sm md:text-base">
-            {`${bundles.length} 个推荐组合，到店咨询更准确`}
+            {`${bundles.length} 个推荐组合，可按车型配置进一步确认`}
           </p>
         </div>
 
@@ -98,15 +95,9 @@ export function WenjieModelBundles<
                     </li>
                   ))}
                 </ul>
-                <PhoneCta
-                  source={phoneSource}
-                  label="咨询此套餐"
-                  size="sm"
-                  metadata={{
-                    bundleName: b.key,
-                    modelKey,
-                  }}
-                />
+                <p className="text-[11px] text-zinc-500">
+                  {`${modelKey} 组合参考 · 按年款和配置确认适配`}
+                </p>
               </article>
             );
           })}

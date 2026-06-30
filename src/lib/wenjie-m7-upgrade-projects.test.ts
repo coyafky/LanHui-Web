@@ -6,7 +6,7 @@
  *   2. tier 分桶：must_have=5 / business_upgrade=15 / practical_accessory=10
  *   3. id 唯一
  *   4. order 单调递增 1..30
- *   5. imageStatus 全部 "pending-review"（一期）
+ *   5. imageStatus 全部 "generated-preview"（一期）
  */
 
 import { describe, it, expect } from "vitest";
@@ -75,10 +75,19 @@ describe("wenjie-m7-upgrade-projects: projects invariants", () => {
     expect(orders).toEqual(Array.from({ length: 30 }, (_, i) => i + 1));
   });
 
-  it("all imageStatus are 'pending-review' (phase 1)", () => {
+  it("all imageStatus are 'generated-preview'", () => {
     expect(
-      wenjieM7UpgradeProjects.every((p) => p.imageStatus === "pending-review"),
+      wenjieM7UpgradeProjects.every((p) => p.imageStatus === "generated-preview"),
     ).toBe(true);
+  });
+
+  it("all projects have generated public preview images", () => {
+    for (const p of wenjieM7UpgradeProjects) {
+      expect(p.image.publicPath).toMatch(/^\/images\/products\/wenjie\/M7\/generated\/.+\.png$/);
+      expect(p.image.width).toBe(1448);
+      expect(p.image.height).toBe(1086);
+      expect(p.image.aspectRatio).toBe("4/3");
+    }
   });
 
   it("must_have projects all have tier='must_have'", () => {

@@ -11,12 +11,20 @@
  *   §12  6 步服务流程  → wenjieSeriesServiceSteps        (length === 6)
  *   §13  6 条 FAQ      → wenjieSeriesFaq                 (length === 6)
  *
- * 字段值零变更 —— 直接从 PRD 抄写。一期 imageStatus 全部为 "pending-review"。
+ * 字段值零变更 —— 直接从 PRD 抄写。展示图统一使用 generated-preview，
+ * 后续可逐项替换为 real。
  *
  * 命名差异（Architect §1.3 已确认）：
  *   - 一级 PRD §9.1 中 "改色膜" 保留原名
  *   - 一级 PRD §9.1 中 "挡泥板内衬" 保留原名
  */
+
+import {
+  buildWenjieGeneratedPreviewImage,
+  buildWenjieMissingPreviewImage,
+  type WenjiePreviewImage,
+  type WenjiePreviewImageStatus,
+} from "./wenjie-preview-images";
 
 export type WenjieSeriesUpgradePriority = "featured" | "optional";
 
@@ -32,7 +40,7 @@ export type WenjieSeriesUpgradeCategory =
   | "cabin_comfort"
   | "noise_sealing";
 
-export type WenjieSeriesImageStatus = "matched" | "pending-review" | "missing";
+export type WenjieSeriesImageStatus = WenjiePreviewImageStatus;
 
 export type WenjieSeriesApplicableModel = "M6" | "M7" | "M8";
 
@@ -47,10 +55,30 @@ export type WenjieSeriesUpgradeProject = {
   summary: string;
   applicableModels?: readonly WenjieSeriesApplicableModel[];
   imageStatus: WenjieSeriesImageStatus;
+  image: WenjiePreviewImage;
 };
 
+type WenjieSeriesUpgradeProjectRow = Omit<WenjieSeriesUpgradeProject, "image">;
+
+function withWenjieSeriesPreviewImages(
+  projects: readonly WenjieSeriesUpgradeProjectRow[],
+): readonly WenjieSeriesUpgradeProject[] {
+  return projects.map((project) => {
+    if (project.imageStatus === "missing") {
+      return {
+        ...project,
+        ...buildWenjieMissingPreviewImage(project.name),
+      };
+    }
+    return {
+      ...project,
+      ...buildWenjieGeneratedPreviewImage(project.key, project.name),
+    };
+  });
+}
+
 // ---- §7.1 热门推荐 10 项 ----
-export const wenjieSeriesFeaturedProjects = [
+const wenjieSeriesFeaturedProjectRows = [
   {
     key: "wenjie-series-paint-film",
     name: "隐形车衣",
@@ -58,7 +86,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 1,
     summary: "漆面保护、抗日常划痕、新车保护感",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
   },
   {
     key: "wenjie-series-window-film",
@@ -67,7 +95,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 2,
     summary: "隔热、防晒、隐私、驾乘舒适",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
   },
   {
     key: "wenjie-series-rear-aluminum-floor",
@@ -76,7 +104,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 3,
     summary: "二排空间保护、易清洁、后排质感提升",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
   },
   {
     key: "wenjie-series-skid-plate",
@@ -85,7 +113,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 4,
     summary: "应对路面剐蹭、碎石和底部防护",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
   },
   {
     key: "wenjie-series-electric-step",
@@ -94,7 +122,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 5,
     summary: "家庭成员上下车便利，兼顾老人和儿童",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
   },
   {
     key: "wenjie-series-rear-table",
@@ -103,7 +131,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 6,
     summary: "后排办公、用餐、儿童使用场景",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-bug-guard",
@@ -112,7 +140,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 7,
     summary: "减少虫石杂物进入关键散热/进风区域",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
   },
   {
     key: "wenjie-series-door-sill",
@@ -121,7 +149,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 8,
     summary: "上下车高频区域防刮、防踩踏磨损",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-screen-protector",
@@ -130,7 +158,7 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 9,
     summary: "中控/娱乐屏幕防刮保护",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-interior-coating",
@@ -139,12 +167,16 @@ export const wenjieSeriesFeaturedProjects = [
     priority: "featured",
     order: 10,
     summary: "内饰表面防污、易清洁、保持质感",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
-] as const satisfies readonly WenjieSeriesUpgradeProject[];
+] as const satisfies readonly WenjieSeriesUpgradeProjectRow[];
+
+export const wenjieSeriesFeaturedProjects = withWenjieSeriesPreviewImages(
+  wenjieSeriesFeaturedProjectRows,
+);
 
 // ---- §9.1 更多选择 24 项 ----
-export const wenjieSeriesOptionalProjects = [
+const wenjieSeriesOptionalProjectRows = [
   {
     key: "wenjie-series-hud",
     name: "HUD抬头显示器",
@@ -152,7 +184,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 11,
     summary: "智能影音",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-starlight-film",
@@ -161,7 +193,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 12,
     summary: "玻璃膜/座舱氛围",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-door-sound-insulation",
@@ -170,7 +202,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 13,
     summary: "隔音升级",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-mud-flap",
@@ -179,7 +211,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 14,
     summary: "防护配件",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-rear-entertainment",
@@ -188,7 +220,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 15,
     summary: "后排娱乐",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-rear-wing",
@@ -197,7 +229,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 16,
     summary: "外观套件",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-engine-hood",
@@ -206,7 +238,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 17,
     summary: "外观件",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-mud-flap-liner",
@@ -215,7 +247,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 18,
     summary: "防护配件",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-ambient-light",
@@ -224,7 +256,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 19,
     summary: "座舱氛围",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-wheels",
@@ -233,7 +265,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 20,
     summary: "外观升级",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-stream-mirror",
@@ -242,7 +274,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 21,
     summary: "智能影音",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-license-frame",
@@ -251,7 +283,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 22,
     summary: "外观小件",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-electric-door",
@@ -260,7 +292,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 23,
     summary: "电动便利",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-sport-kit",
@@ -269,7 +301,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 24,
     summary: "外观套件",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-door-seal",
@@ -278,7 +310,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 25,
     summary: "隔音/密封",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-brake-caliper",
@@ -287,7 +319,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 26,
     summary: "外观/制动视觉",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-sway-bar",
@@ -296,7 +328,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 27,
     summary: "操控/底盘",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-color-film",
@@ -305,7 +337,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 28,
     summary: "外观个性",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-roof-platform",
@@ -314,7 +346,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 29,
     summary: "户外/露营",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-interior-silicone",
@@ -323,7 +355,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 30,
     summary: "座舱保护",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-starlight-roof",
@@ -332,7 +364,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 31,
     summary: "座舱氛围",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-rotating-seat",
@@ -341,7 +373,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 32,
     summary: "后排舒适",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-trunk-mat",
@@ -350,7 +382,7 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 33,
     summary: "尾箱防护",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
   {
     key: "wenjie-series-leg-rest",
@@ -359,9 +391,13 @@ export const wenjieSeriesOptionalProjects = [
     priority: "optional",
     order: 34,
     summary: "后排舒适",
-    imageStatus: "pending-review",
+    imageStatus: "missing",
   },
-] as const satisfies readonly WenjieSeriesUpgradeProject[];
+] as const satisfies readonly WenjieSeriesUpgradeProjectRow[];
+
+export const wenjieSeriesOptionalProjects = withWenjieSeriesPreviewImages(
+  wenjieSeriesOptionalProjectRows,
+);
 
 // ---- §8 场景分类 7 项 ----
 export type WenjieSeriesScenario = {

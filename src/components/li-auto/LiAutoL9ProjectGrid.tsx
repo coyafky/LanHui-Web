@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { trackClick } from "@/lib/analytics";
 import {
@@ -87,16 +88,25 @@ function ProjectCard({
         aria-controls={`li-auto-l9-project-detail-${project.key}`}
         className="text-left w-full"
       >
-        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center">
-          {/* 占位区域 — 图片全 pending-review，无 publicPath */}
-          <div className="flex flex-col items-center gap-2">
-            <div className="w-12 h-12 rounded-full border-2 border-zinc-700 flex items-center justify-center">
-              <span className="text-zinc-600 text-lg font-bold">
-                {String(project.order).padStart(2, "0")}
-              </span>
+        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center overflow-hidden">
+          {project.publicPath ? (
+            <Image
+              src={project.publicPath}
+              alt={project.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            />
+          ) : (
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 rounded-full border-2 border-zinc-700 flex items-center justify-center">
+                <span className="text-zinc-600 text-lg font-bold">
+                  {String(project.order).padStart(2, "0")}
+                </span>
+              </div>
+              <span className="text-[11px] text-zinc-600">图片审核中</span>
             </div>
-            <span className="text-[11px] text-zinc-600">图片审核中</span>
-          </div>
+          )}
           <span
             aria-hidden
             className="absolute top-2 left-2 text-xs font-bold w-8 h-8 flex items-center justify-center rounded-md bg-amber-500/80 text-white"

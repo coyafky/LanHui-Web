@@ -11,10 +11,32 @@
 | 文档 | 说明 |
 |---|---|
 | **[VISUAL_AUDIT_2026-06-20.md](./VISUAL_AUDIT_2026-06-20.md)** | 主报告 — 评分汇总 + 维度对比 + 改版路线 |
+| **[FRAME_EXPRESSION_AUDIT_2026-06-29.md](./FRAME_EXPRESSION_AUDIT_2026-06-29.md)** | 页面逐帧表达审计 — 基于 Playwright 逐屏截图，分析客户触达、语言组织和转化路径 |
 | **[PROPOSALS.md](./PROPOSALS.md)** | 改版建议清单 — 2 P0 + 6 P1 + 18 P2,估时 + 优先级 |
 | **[scoring/](./scoring/)** | 15 份评分卡(每页 1 份,含子项得分 + 理由 + 改版建议) |
 | **[screenshots/desktop/](./screenshots/desktop/)** | 15 张 desktop 1440 截图 |
 | **[screenshots/mobile/](./screenshots/mobile/)** | 15 张 mobile 390 截图 |
+| **[screenshots/2026-06-29-frame-audit/](./screenshots/2026-06-29-frame-audit/)** | 10 个公开站页面的 desktop/mobile 逐帧截图 + `frames.json` |
+
+---
+
+## 使用边界
+
+`docs/design-reviews/` 用于评估页面美观性和功能模块实现体验，重点包括:
+
+- 视觉层级、密度、留白、色彩和组件一致性。
+- 关键交互状态: hover / focus / loading / empty / error / success。
+- 响应式表现: mobile 390、tablet 768、desktop 1440。
+- 功能模块可用性: 用户能否完成 PRD 定义的关键路径。
+- a11y: 键盘可达、语义化、aria、错误提示。
+
+不在这里写完整需求或实现计划:
+
+- 需求边界放 `docs/PRD/`。
+- 实现合约放 `docs/SPEC/`。
+- 执行计划放 `docs/plans/`。
+- 命令和测试证据放 `docs/test-reports/`。
+- 当日汇总放 `docs/daily/YYYY-MM-DD/`。
 
 ---
 
@@ -60,11 +82,11 @@
 | 日期 | 版本 | 内容 |
 |---|---|---|
 | 2026-06-20 | v0 | 首次视觉质量评审(本次) |
+| 2026-06-29 | v1 | 新增逐帧表达审计，聚焦客户触达、页面语言和转化路径 |
 
 ---
 
 ## 关联
 
-- [../audits/INDEX.md](../audits/INDEX.md) — 2026-06-19 全站综合审计(性能/SEO/a11y/4 维视觉)
 - [../PRD/cross-cutting/AUDIT_AND_REGRESSION_PRD_2026-06-19.md](../PRD/cross-cutting/AUDIT_AND_REGRESSION_PRD_2026-06-19.md) — 06-19 审计 PRD
 - [../../CLAUDE.md](../../CLAUDE.md) — 设计语言基线(dark theme)

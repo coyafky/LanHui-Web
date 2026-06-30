@@ -45,15 +45,16 @@ describe("li-auto-l9-products data shape (B.1)", () => {
       });
     });
 
-    it("全部 imageStatus === \"pending-review\"", () => {
+    it("全部 imageStatus === \"generated-preview\"", () => {
       for (const p of liAutoL9UpgradeProjects) {
-        expect(p.imageStatus).toBe("pending-review");
+        expect(p.imageStatus).toBe("generated-preview");
       }
     });
 
-    it("全部未设置 publicPath（当前无实际图片）", () => {
+    it("全部设置了 publicPath（AI 生成预览图）", () => {
       for (const p of liAutoL9UpgradeProjects) {
-        expect(p.publicPath).toBeUndefined();
+        expect(p.publicPath).toBeDefined();
+        expect(p.publicPath).toMatch(/^\/images\/products\/li-auto\/l9\/generated\/.+\.png$/);
       }
     });
 

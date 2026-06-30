@@ -30,11 +30,12 @@
 | `/product/ppf` | [PPF_PRD_2026-06-20.md](./PPF_PRD_2026-06-20.md) | 🟢 v1 (293 行) |
 | `/product/wenjie` (问界) | [WENJIE_TOPIC_PRD_2026-06-20.md](./WENJIE_TOPIC_PRD_2026-06-20.md) + [WENJIE_SERIES_UPGRADE_PRD_2026-06-24.md](./WENJIE_SERIES_UPGRADE_PRD_2026-06-24.md) + [WENJIE_M6_TOPIC_PRD_2026-06-25.md](./WENJIE_M6_TOPIC_PRD_2026-06-25.md) + [WENJIE_M7_TOPIC_PRD_2026-06-25.md](./WENJIE_M7_TOPIC_PRD_2026-06-25.md) + [WENJIE_M8_TOPIC_PRD_2026-06-25.md](./WENJIE_M8_TOPIC_PRD_2026-06-25.md) | 🟢 v1 车型产品 / 🟡 v0.1 海报升级方案 / 🟡 v0.1 M6 单车型升级方案 / 🟡 v0.1 M7 单车型升级方案 / 🟡 v0.1 M8 单车型升级方案 |
 | `/product/xiaomi` (小米 SU7/YU7) | [XIAOMI_TOPIC_PRD_2026-06-20.md](./XIAOMI_TOPIC_PRD_2026-06-20.md) + [XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md](./XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md) + [XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md](./XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md) | 🟢 v1 系列产品 / 🟡 v0.1 小米系列海报升级方案 / 🟡 v0.1 YU7 海报升级方案 |
-| `/product/zeekr` (极氪) | [ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md](./ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md) + [ZEEKR_9X_UPGRADE_PRD_2026-06-24.md](./ZEEKR_9X_UPGRADE_PRD_2026-06-24.md) | 🟢 v1 系列产品 / 🟡 v0.1 9X 海报升级方案 |
+| `/product/zeekr` (极氪) | [ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md](./ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md) + [ZEEKR_8X_TOPIC_PRD_2026-06-27.md](./ZEEKR_8X_TOPIC_PRD_2026-06-27.md) + [ZEEKR_9X_UPGRADE_PRD_2026-06-24.md](./ZEEKR_9X_UPGRADE_PRD_2026-06-24.md) | 🟢 v1 系列产品 / 🟡 v0.1 8X 单车型升级方案 / 🟡 v0.1 9X 海报升级方案 |
 | `/product/flooring` (木地板) | [FLOORING_TOPIC_PRD_2026-06-20.md](./FLOORING_TOPIC_PRD_2026-06-20.md) | 🟢 v1 (698 行, 2026-06-20 批 3) |
 | `/product/tesla` (特斯拉系列) | [TESLA_TOPIC_PRD_2026-06-24.md](./TESLA_TOPIC_PRD_2026-06-24.md) | 🟡 v0.1（基于特斯拉轻改项目海报规划） |
-| `/product/li-auto` (理想系列) | [LI_AUTO_TOPIC_PRD_2026-06-24.md](./LI_AUTO_TOPIC_PRD_2026-06-24.md) + [LI_AUTO_I8_TOPIC_PRD_2026-06-24.md](./LI_AUTO_I8_TOPIC_PRD_2026-06-24.md) | 🟡 v0.1 理想系列海报规划 / 🟡 v0.2 i8 单车型升级方案 |
+| `/product/li-auto` (理想系列) | [LI_AUTO_TOPIC_PRD_2026-06-24.md](./LI_AUTO_TOPIC_PRD_2026-06-24.md) + [LI_AUTO_ONE_TOPIC_PRD_2026-06-27.md](./LI_AUTO_ONE_TOPIC_PRD_2026-06-27.md) + [LI_AUTO_I6_TOPIC_PRD_2026-06-27.md](./LI_AUTO_I6_TOPIC_PRD_2026-06-27.md) + [LI_AUTO_I8_TOPIC_PRD_2026-06-24.md](./LI_AUTO_I8_TOPIC_PRD_2026-06-24.md) + [LI_AUTO_L9_TOPIC_PRD_2026-06-27.md](./LI_AUTO_L9_TOPIC_PRD_2026-06-27.md) + [LI_AUTO_MEGA_TOPIC_PRD_2026-06-27.md](./LI_AUTO_MEGA_TOPIC_PRD_2026-06-27.md) | 🟡 v0.1 理想系列海报规划 / 🟡 v0.1 ONE 单车型升级方案 / 🟡 v0.1 i6 单车型升级方案 / 🟡 v0.3 i8 单车型升级方案 / 🟡 v0.1 L9 单车型升级方案 / 🟡 v0.1 MEGA 单车型升级方案 |
 | `/product/ledao/l90` (乐道 L90; legacy `/product/ledao-l90`) | [LEDAO_L90_TOPIC_PRD_2026-06-24.md](./LEDAO_L90_TOPIC_PRD_2026-06-24.md) | 🟡 v0.1（基于乐道 L90 升级方案海报规划） |
+| `/product/zeekr/8x` (极氪 8X; legacy `/product/zeekr-8x`) | [ZEEKR_8X_TOPIC_PRD_2026-06-27.md](./ZEEKR_8X_TOPIC_PRD_2026-06-27.md) | 🟡 v0.1（基于极氪 8X 升级方案海报规划） |
 | `/product/zeekr/9x` (极氪 9X; legacy `/product/zeekr-9x`) | [ZEEKR_9X_UPGRADE_PRD_2026-06-24.md](./ZEEKR_9X_UPGRADE_PRD_2026-06-24.md) | 🟡 v0.1（基于极氪 9X 升级方案海报规划） |
 | `/product/denza/d9` (腾势 D9; legacy `/product/denza-d9`) | [DENZA_D9_TOPIC_PRD_2026-06-24.md](./DENZA_D9_TOPIC_PRD_2026-06-24.md) | 🟡 v0.1（基于腾势 D9 升级方案海报规划） |
 | `/product/xiaomi/yu7` (小米 YU7; legacy `/product/xiaomi-yu7`) | [XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md](./XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md) | 🟡 v0.1（基于小米 YU7 轻改方案海报规划） |
@@ -49,8 +50,8 @@
 
 ## 完成度
 
-- **11/11 既有子 PRD v1 已建 (100%)** ✅；新增产品路由总纲、产品入口页 v2、P1 项目服务规划；Tesla / 理想 / 理想 i8 / 问界升级方案 / 问界 M8 / 问界 M7 / 问界 M6 / 乐道 L90 / 极氪 9X / 腾势 D9 / 小米系列 / 小米 YU7 / 岚图梦想家 / 小鹏 GX / 高山8 / 智界 V9 v0.1 规划中
-- 1 = ZEEKR canonical 2026-06-16,10 = 2026-06-20 批 2+3 新写，16 = Tesla / 理想 / 理想 i8 / 问界 / 问界 M8 / 问界 M7 / 问界 M6 / 乐道 L90 / 极氪 9X / 腾势 D9 / 小米系列 / 小米 YU7 / 岚图梦想家 / 小鹏 GX / 高山8 / 智界 V9 2026-06-24~25 海报驱动车型专题规划
+- **11/11 既有子 PRD v1 已建 (100%)** ✅；新增产品路由总纲、产品入口页 v2、P1 项目服务规划；Tesla / 理想 / 理想 ONE / 理想 i6 / 理想 i8 / 理想 L9 / 理想 MEGA / 问界升级方案 / 问界 M8 / 问界 M7 / 问界 M6 / 乐道 L90 / 极氪 8X / 极氪 9X / 腾势 D9 / 小米系列 / 小米 YU7 / 岚图梦想家 / 小鹏 GX / 高山8 / 智界 V9 v0.1 规划中
+- 1 = ZEEKR canonical 2026-06-16,10 = 2026-06-20 批 2+3 新写，21 = Tesla / 理想 / 理想 ONE / 理想 i6 / 理想 i8 / 理想 L9 / 理想 MEGA / 问界 / 问界 M8 / 问界 M7 / 问界 M6 / 乐道 L90 / 极氪 8X / 极氪 9X / 腾势 D9 / 小米系列 / 小米 YU7 / 岚图梦想家 / 小鹏 GX / 高山8 / 智界 V9 2026-06-24~27 海报驱动车型专题规划
 - 4 个 v0 已归档 (FLOORING / WENJIE / XIAOMI / WINDOW_FILM 历史版本)
 
 ## 子 PRD 模板
@@ -125,7 +126,11 @@ WINDOW_FILM 不同于上述 4 主题专项:
 - P1 项目服务规划: [P1_SERVICE_PROJECTS_PRD_2026-06-25.md](./P1_SERVICE_PROJECTS_PRD_2026-06-25.md)
 - Tesla 专题: [TESLA_TOPIC_PRD_2026-06-24.md](./TESLA_TOPIC_PRD_2026-06-24.md)
 - 理想专题: [LI_AUTO_TOPIC_PRD_2026-06-24.md](./LI_AUTO_TOPIC_PRD_2026-06-24.md)
+- 理想 ONE 专题: [LI_AUTO_ONE_TOPIC_PRD_2026-06-27.md](./LI_AUTO_ONE_TOPIC_PRD_2026-06-27.md)
+- 理想 i6 专题: [LI_AUTO_I6_TOPIC_PRD_2026-06-27.md](./LI_AUTO_I6_TOPIC_PRD_2026-06-27.md)
 - 理想 i8 专题: [LI_AUTO_I8_TOPIC_PRD_2026-06-24.md](./LI_AUTO_I8_TOPIC_PRD_2026-06-24.md)
+- 理想 L9 专题: [LI_AUTO_L9_TOPIC_PRD_2026-06-27.md](./LI_AUTO_L9_TOPIC_PRD_2026-06-27.md)
+- 理想 MEGA 专题: [LI_AUTO_MEGA_TOPIC_PRD_2026-06-27.md](./LI_AUTO_MEGA_TOPIC_PRD_2026-06-27.md)
 - 问界升级方案: [WENJIE_SERIES_UPGRADE_PRD_2026-06-24.md](./WENJIE_SERIES_UPGRADE_PRD_2026-06-24.md)
 - 问界 M8 专题: [WENJIE_M8_TOPIC_PRD_2026-06-25.md](./WENJIE_M8_TOPIC_PRD_2026-06-25.md)
 - 问界 M7 专题: [WENJIE_M7_TOPIC_PRD_2026-06-25.md](./WENJIE_M7_TOPIC_PRD_2026-06-25.md)
@@ -135,6 +140,7 @@ WINDOW_FILM 不同于上述 4 主题专项:
 - 腾势 D9 专题: [DENZA_D9_TOPIC_PRD_2026-06-24.md](./DENZA_D9_TOPIC_PRD_2026-06-24.md)
 - 小米系列升级方案: [XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md](./XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md)
 - 小米 YU7 专题: [XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md](./XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md)
+- 极氪 8X 专题: [ZEEKR_8X_TOPIC_PRD_2026-06-27.md](./ZEEKR_8X_TOPIC_PRD_2026-06-27.md)
 - 岚图梦想家专题: [VOYAH_DREAMER_TOPIC_PRD_2026-06-25.md](./VOYAH_DREAMER_TOPIC_PRD_2026-06-25.md)
 - 小鹏 GX 专题: [XPENG_GX_TOPIC_PRD_2026-06-25.md](./XPENG_GX_TOPIC_PRD_2026-06-25.md)
 - 高山8 专题: [GAOSHAN_8_TOPIC_PRD_2026-06-25.md](./GAOSHAN_8_TOPIC_PRD_2026-06-25.md)

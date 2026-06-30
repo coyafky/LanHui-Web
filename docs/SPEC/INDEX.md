@@ -19,17 +19,41 @@
 
 ## 体系说明
 
+### PRD 后的标准落地流程
+
+```text
+docs/PRD/<area>/<topic>.md
+  -> docs/SPEC/<area>/<topic>.md
+  -> docs/plans/<topic>-implementation-plan-<date>.md
+  -> code / build / test
+  -> docs/test-reports/<date>/
+  -> docs/design-reviews/ (涉及页面或 UI 时)
+  -> docs/daily/<date>/INDEX.md
+```
+
+SPEC 负责把 PRD 转成实现合约。复杂任务应补充
+`docs/SPEC/_IMPLEMENTATION_BREAKDOWN_TEMPLATE.md`，明确:
+
+- 编码前使用哪些 skill，参考 `docs/SPEC/_SKILL_ROUTING.md`。
+- 前端怎么实现，包括页面、组件、原型页和 `web-design-engineer` 参考点。
+- API route 怎么对接，包括请求/响应 schema、鉴权、错误码。
+- 后端怎么实现，包括 Prisma、静态数据、migration、seed、fallback。
+- 测试怎么实现，包括 faker/MSW、unit、API route、component、e2e 和三视口浏览器检查。
+
 ### SPEC 文档结构
 
 ```
 docs/SPEC/
 ├── INDEX.md              # ← 你现在在这里：索引 + 状态看板
 ├── _TEMPLATE.md          # SPEC 模板
+├── _IMPLEMENTATION_BREAKDOWN_TEMPLATE.md  # PRD 后实现拆解模板
+├── _SKILL_ROUTING.md     # 编码前 skill 路由和 faker/MSW 使用规则
 ├── data-model.md              # 全局数据模型参考
 ├── public-site/               # 公开站各模块 SPEC
 │   ├── home.md
 │   ├── brand.md
 │   ├── product-center.md
+│   ├── product-prd-spec-map.md
 │   ├── product-topics.md
 │   ├── product-film.md
 │   ├── product-accessories.md
@@ -110,44 +134,48 @@ docs/SPEC/
 | 项目 | 内容 |
 |------|------|
 | **路由** | `/product` |
-| **PRD** | 📄 `docs/PRD/public-site/PRODUCT_PAGE_SYSTEM_PRD_2026-06-22.md` |
+| **PRD** | 📄 `docs/PRD/product/PRODUCT_INDEX_PRD_2026-06-25.md`, `docs/PRD/product/PRODUCT_ROUTE_ARCHITECTURE_PRD_2026-06-25.md` |
 | **SPEC** | `docs/SPEC/public-site/product-center.md` |
+| **PRD→SPEC Map** | `docs/SPEC/public-site/product-prd-spec-map.md` |
 | **状态** | 🔧 **部分完成** |
-| **关键组件** | ProductCenter, FlooringTopicBanner, WenjieTopicBanner, XiaomiTopicBanner, ZeekrTopicBanner |
-| **备注** | LCP 6.5s（P1-5），4 大主题图未设 priority。地板横幅含中文路径。 |
+| **关键组件** | ProductIndexHero, ProductEntrySwitch, BrandModelMatrix, ServiceProjectGrid, UpgradeComboGuide（待实现） |
+| **备注** | v2 目标为新能源车主导购型产品页：车膜 / 轻改装 / 车型专题三大入口；现有 v1 仍偏产品罗列，LCP 6.5s（P1-5）。 |
 
 ### 1.4 产品专题 Product Topics
 
 | 项目 | 内容 |
 |------|------|
-| **路由** | `/product/wenjie`, `/product/xiaomi`, `/product/zeekr`, `/product/flooring` |
-| **PRD** | 📄 `docs/PRD/product/WENJIE_MODIFICATION_TOPIC_PRD_2026-06-13.md`, `XIAOMI_...`, `ZEEKR_...`, `FLOORING_...` |
+| **路由** | `/product/{brandSlug}`, `/product/{brandSlug}/{modelSlug}` |
+| **PRD** | 📄 `docs/PRD/product/*_TOPIC_PRD_*.md`, 车型海报驱动 PRD |
 | **SPEC** | `docs/SPEC/public-site/product-topics.md` |
+| **PRD→SPEC Map** | `docs/SPEC/public-site/product-prd-spec-map.md` |
 | **状态** | 🔧 **部分完成** |
-| **关键组件** | `*/{AnchorNav,ProductCard,ProductGrid,ProductTable,TopicBanner}` |
-| **备注** | Wenjie 全部 pending（P1-4，44 款图未补）。Zeekr 为 canonical 示例（21/23 matched）。Flooring perf 59/61 最差（P1-1）。 |
+| **关键组件** | BrandTopicHero, ModelSwitcher, VehicleTopicHero, AnchorNav, ProductCard, ProductGrid, ProductTable, TopicBanner |
+| **备注** | 品牌页必须预留车型二级分类；单车型页使用 `/product/{brandSlug}/{modelSlug}` canonical route；legacy 平铺路由只做兼容。 |
 
 ### 1.5 膜类产品 Product Film
 
 | 项目 | 内容 |
 |------|------|
 | **路由** | `/product/window-film`, `/product/window-film/[packageSlug]`, `/product/ppf`, `/product/color-film` |
-| **PRD** | 📄 `docs/PRD/public-site/FILM_PRODUCT_EXPERIENCE_PRD_2026-06-22.md` |
+| **PRD** | 📄 `docs/PRD/product/WINDOW_FILM_TOPIC_PRD_2026-06-20.md`, `docs/PRD/product/PPF_PRD_2026-06-20.md`, `docs/PRD/product/COLOR_FILM_PRD_2026-06-20.md` |
 | **SPEC** | `docs/SPEC/public-site/product-film.md` |
+| **PRD→SPEC Map** | `docs/SPEC/public-site/product-prd-spec-map.md` |
 | **状态** | ✅ **完成** |
 | **关键组件** | ProductDetail, FilmPageHero, SpecsTable, StarRating, ServiceProcessSection, WindowFilmPackageCard/Detail, WindowFilmGuide/ParameterExplainer/ScenarioGrid |
-| **备注** | 窗膜 7 套餐+导购+参数解释，PPF/改色膜共用 ProductDetail 布局。 |
+| **备注** | 车膜服务页承接车衣 / 窗膜 / 改色膜，不是车型专题页；v1 已实现，待与新版 `/product` 三大入口联动。 |
 
 ### 1.6 配件类产品 Product Accessories
 
 | 项目 | 内容 |
 |------|------|
-| **路由** | `/product/wheels`, `/product/chassis`, `/product/electric-steps` |
-| **PRD** | `docs/PRD/public-site/VEHICLE_PROJECT_PAGE_PRD_2026-06-22.md` |
+| **路由** | `/product/electric-steps`, `/product/wheels`, `/product/chassis`, `/product/flooring`, P1 planned routes |
+| **PRD** | `docs/PRD/product/ELECTRIC_STEPS_PRD_2026-06-20.md`, `WHEELS_...`, `CHASSIS_...`, `P1_SERVICE_PROJECTS_...` |
 | **SPEC** | `docs/SPEC/public-site/product-accessories.md` |
-| **状态** | ✅ **完成** |
-| **关键组件** | ProductDetail（复用膜类布局） |
-| **备注** | 三个配件页复用 ProductDetail 组件，靠 slug 条件分支渲染不同内容。 |
+| **PRD→SPEC Map** | `docs/SPEC/public-site/product-prd-spec-map.md` |
+| **状态** | 🔧 **部分完成** |
+| **关键组件** | ProductDetail（v1），ServiceProjectHero, ProjectValueGrid, FitSpecTable, AcceptanceChecklist（待实现） |
+| **备注** | P0 轻改装含电动踏板 / 轮毂 / 底盘；P1 含脚垫 / 地板 / 商务舒适升级等，按 live / planned / content_only 管理。 |
 
 ### 1.7 资讯中心 News
 
@@ -376,6 +404,7 @@ docs/SPEC/
 | AGENT_PUBLIC_PRD | `docs/PRD/public-site/AGENT_PUBLIC_PRD.md` | 门店网络（canonical） |
 | CONTACT_PRD | `docs/PRD/public-site/CONTACT_PRD.md` | 联系页面（canonical） |
 | PRODUCT_PAGE_SYSTEM_PRD | `docs/PRD/public-site/PRODUCT_PAGE_SYSTEM_PRD_2026-06-22.md` | 产品中心 |
+| PRODUCT_PRD_SPEC_MAP | `docs/SPEC/public-site/product-prd-spec-map.md` | 产品 PRD → SPEC 映射总表 |
 | VEHICLE_PROJECT_PAGE_PRD | `docs/PRD/public-site/VEHICLE_PROJECT_PAGE_PRD_2026-06-22.md` | 配件产品 |
 | FILM_PRODUCT_EXPERIENCE_PRD | `docs/PRD/public-site/FILM_PRODUCT_EXPERIENCE_PRD_2026-06-22.md` | 膜类产品 |
 | CONSULTATION_CHANNEL_SYSTEM_PRD | `docs/PRD/public-site/CONSULTATION_CHANNEL_SYSTEM_PRD_2026-06-22.md` | 咨询承接（规划） |
@@ -388,10 +417,10 @@ docs/SPEC/
 | PRODUCT_INFORMATION_ARCHITECTURE_PRD | `docs/PRD/public-site/PRODUCT_INFORMATION_ARCHITECTURE_PRD_2026-06-22.md` | 产品信息架构（规划） |
 | PUBLIC_SITE_SYSTEM_PRD | `docs/PRD/public-site/PUBLIC_SITE_SYSTEM_PRD_2026-06-21.md` | 公开站体系（规划） |
 | STORE_NETWORK_PRD | `docs/PRD/public-site/STORE_NETWORK_PRD_2026-06-21.md` | 门店网络体系（规划） |
-| WENJIE_MODIFICATION_TOPIC_PRD | `docs/PRD/product/WENJIE_MODIFICATION_TOPIC_PRD_2026-06-13.md` | 问界专题 |
-| XIAOMI_MODIFICATION_TOPIC_PRD | `docs/PRD/product/XIAOMI_MODIFICATION_TOPIC_PRD_2026-06-12.md` | 小米专题 |
-| ZEEKR_MODIFICATION_TOPIC_PRD | `docs/PRD/product/ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md` | 极氪专题 |
-| FLOORING_MODIFICATION_CATEGORY_PRD | `docs/PRD/product/FLOORING_MODIFICATION_CATEGORY_PRD_2026-06-13.md` | 地板专题 |
+| PRODUCT_ROUTE_ARCHITECTURE_PRD | `docs/PRD/product/PRODUCT_ROUTE_ARCHITECTURE_PRD_2026-06-25.md` | 产品路由治理 |
+| PRODUCT_INDEX_PRD | `docs/PRD/product/PRODUCT_INDEX_PRD_2026-06-25.md` | 产品中心 v2 |
+| P1_SERVICE_PROJECTS_PRD | `docs/PRD/product/P1_SERVICE_PROJECTS_PRD_2026-06-25.md` | P1 项目服务规划 |
+| PRODUCT_TOPIC_AND_SERVICE_PRDS | `docs/PRD/product/README.md` | 全量产品 PRD 索引；逐项映射见 `docs/SPEC/public-site/product-prd-spec-map.md` |
 | STORE_MANAGEMENT_PRD | `docs/PRD/admin/STORE_MANAGEMENT_PRD.md` | 后台-门店（canonical） |
 | ARTICLE_MANAGEMENT_PRD | `docs/PRD/admin/ARTICLE_MANAGEMENT_PRD.md` | 后台-文章（canonical） |
 | ANALYTICS_SYSTEM_PRD | `docs/PRD/admin/ANALYTICS_SYSTEM_PRD.md` | 后台-分析（canonical） |
@@ -407,5 +436,5 @@ docs/SPEC/
 
 ---
 
-> 最后更新: 2026-06-23
+> 最后更新: 2026-06-26
 > 维护: 每次上线/发版后更新本看板的实现状态

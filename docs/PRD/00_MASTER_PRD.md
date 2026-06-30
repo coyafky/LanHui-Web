@@ -1,343 +1,220 @@
-# 蓝辉轻改 LANHUI — Master PRD (索引 + 看板)
+# 蓝辉轻改 LANHUI — Master PRD v3
 
-> 项目级产品需求文档,采用"索引 + 看板"风格,避免重复细节,所有规格下沉到子 PRD。
->
-> **结构原则**: Master 答 *"是什么 / 怎么样"*, 子 PRD 答 *"怎么实现 / 验收"*
->
-> **版本**: v2.0 (2026-06-19 重构)
-> **适用范围**: 蓝辉轻改官方网站 + `/admin` CMS + DB + 部署
-> **维护者**: 冯科雅 (Coya) · AI 部
+> **版本**: v3.0
+> **最后更新**: 2026-06-29
+> **适用范围**: 公开品牌站、产品专题体系、门店网络、资讯、`/admin` CMS、API、数据层、测试与审计体系
+> **文档定位**: 本文回答“蓝辉官网应该是什么、为谁服务、页面如何表达、工程边界是什么”。页面级实现规格下沉到各子 PRD。
 
 ---
 
-## 1. 产品定位
+## 1. 背景
 
-### 1.1 一句话
+蓝辉官网已经从早期的 Vibe Coding 页面，演进成一个包含 64 个页面文件、13 个 API route、249 个 TSX 组件、20 个产品数据模块的 Next.js 16 项目。现状的主要问题不是单点功能缺失，而是：
 
-**蓝辉轻改 LANHUI 是面向汽车轻改装与车身膜服务的品牌官方站 + CMS 一体化系统,从顺德大良出发,为车主提供一站式轻改升级方案。**
+- PRD 文档按日期和功能堆叠，存在路由数量、产品范围、实现状态与当前代码不一致的问题。
+- 页面表达从“品牌官网”扩张到“车型专题 + 服务项目 + CMS + 数据分析”，但缺少统一的信息架构和表达标准。
+- 部分页面视觉完成度依赖 `pending-review` / `missing` 图片状态，容易呈现半成品感。
+- 移动端、桌面端虽然多数可用，但产品中心、车型专题、后台表格等长页面缺少统一的响应式验收口径。
+- 技术栈较新：Next.js 16.2.1、React 19.2.4、Prisma 7.8、Tailwind v4，必须持续遵守项目特定约束。
 
-### 1.2 愿景 / Slogan
+关联审计：
 
-> 让爱车更有型,也好用。
-
-### 1.3 业务范围
-
-| 业务线 | 内容 |
-|---|---|
-| 轻改装服务 | 电动踏板 · 轮毂升级 · 底盘升级 |
-| 车身膜服务 | 汽车窗膜 · 改色膜 · 隐形车衣(PPF) |
-| 主题专项 | wenjie(问界)· xiaomi(小米 SU7)· zeekr(极氪)· flooring(木地板)等 |
-| 门店服务 | 当前 1 家(顺德大良店),未来扩展全国 |
-| 内容运营 | 品牌动态 · 门店动态 · 产品知识 · 产品动态 |
+- `docs/daily/2026-06-29/TECHNICAL_AND_EXPRESSION_AUDIT_2026-06-29.md`
+- `docs/design-reviews/VISUAL_AUDIT_2026-06-20.md`
+- `docs/PRD/cross-cutting/FULL_SITE_TEST_PRD_2026-06-29.md`
 
 ---
 
-## 2. 目标用户
+## 2. 产品定位
 
-| 类型 | 画像 | 核心需求 | 触达页面 |
+### 2.1 一句话
+
+**蓝辉轻改 LANHUI 是面向新能源车主的汽车轻改装与车身膜服务官网，用车型方案、服务项目、真实门店和运营 CMS 支撑“了解方案 → 建立信任 → 咨询到店”的转化闭环。**
+
+### 2.2 核心表达
+
+| 表达层 | 页面必须回答的问题 | 主要承载 |
+|---|---|---|
+| 品牌可信 | 蓝辉是谁，为什么值得信任 | 首页、品牌页、资质、历史、门店 |
+| 车型适配 | 我的车能做什么，哪些项目优先 | 产品中心、品牌页、车型页 |
+| 服务价值 | 车衣、窗膜、踏板、轮毂等项目解决什么问题 | 服务线页面、车型项目卡 |
+| 到店转化 | 我下一步怎么咨询、去哪家店、需要准备什么 | Header CTA、微信弹窗、门店详情、联系页 |
+| 运营可维护 | 内容、门店、文章、分析是否能被后台维护 | `/admin`、API、数据层 |
+
+### 2.3 非目标
+
+- 不把官网做成商城，不做在线支付、库存、订单和物流。
+- 不承诺未验证价格、官方合作、授权资质或施工效果。
+- 不把所有车型项目都做成独立报价页；
+- 不引入新的前端 UI 框架。
+- 不绕过现有 API-first + static fallback 数据模式。
+
+---
+
+## 3. 目标用户
+
+| 用户 | 典型问题 | 核心需求 | 页面入口 |
 |---|---|---|---|
-| **车主 / C 端** | 已购车,关注外观+舒适度 | 品牌信任 · 一站式咨询 · 门店导航 | 公开站全站 |
-| **轻改爱好者** | 了解产品差异 | 技术参数 · 工艺细节 · 案例参考 | 6 大产品线 + 主题专项 |
-| **潜客** | 信息收集阶段,未决 | 资质 · 价格 · 流程 · 联系方式 | 品牌 · 联系我们 |
-| **运营 / 店主** | 蓝辉内部员工 | 内容发布 · 门店管理 · 数据看板 | `/admin` |
+| 新能源新车车主 | 刚提车，先做什么 | 新车保护、隔热、防护、实用升级优先级 | `/`、`/product`、车型页 |
+| 明确车型车主 | 我是问界/小米/极氪/理想车主 | 按车型看可做项目和适配提醒 | `/product/<brand>`、`/product/<brand>/<model>` |
+| 明确项目用户 | 我想贴车衣/窗膜/改色膜/装踏板 | 看服务价值、流程、适配边界 | `/product/<service>` |
+| 本地潜客 | 附近有没有店，怎么联系 | 门店地址、电话、微信、导航 | `/agent`、`/contact` |
+| 蓝辉运营人员 | 要维护门店、文章和数据 | CMS、权限、数据看板、上传 | `/admin` |
 
 ---
 
-## 3. 技术栈
+## 4. 技术栈与工程边界
 
-| 层级 | 选型 | 版本 |
-|---|---|---|
-| 框架 | Next.js (App Router) | 16.2.1 |
-| 运行时 | React | 19.2.4 |
-| 语言 | TypeScript (strict, 禁 `any`) | latest |
-| 样式 | Tailwind CSS (oklch tokens) | v4 |
-| UI 库 | shadcn/ui (Base UI 原语) | latest |
-| 图标 | Lucide React | latest |
-| ORM | Prisma + `@prisma/adapter-pg` | 7.8 |
-| 数据库 | PostgreSQL (容器 `lanhui-postgres`, **端口 5433**) | 16 |
-| 认证 | NextAuth (Credentials + JWT, 无 DB session) | v5 beta |
-| 验证 | Zod | v4 |
-| 测试 | vitest (happy-dom) + Playwright | 3.2 / 1.55 |
-| 部署 | Docker standalone (Node 24 alpine) | — |
-
-> 完整架构图: [../ARCHITECTURE.md](../ARCHITECTURE.md)
-> 数据库设计: [../database/README.md](../database/README.md)
-
----
-
-## 4. 信息架构 (IA)
-
-### 4.1 公开站 (SSG 优先, 13 路由)
-
-```
-/                                  首页 (品牌曝光 + 6 产品入口)
-/brand                             品牌故事
-/brand/certifications              资质证书
-/brand/history                     发展历程
-/contact                           联系方式
-
-/product                           产品中心 (6 + 主题专题入口)
-/product/electric-steps            电动踏板
-/product/wheels                    轮毂升级
-/product/chassis                   底盘升级
-/product/window-film               汽车窗膜 (含子页 /[packageSlug])
-/product/color-film                改色膜
-/product/ppf                       隐形车衣
-/product/wenjie                    问界主题专项
-/product/xiaomi                    小米 SU7 主题专项
-/product/zeekr                     极氪主题专项
-/product/flooring                  木地板主题
-
-/news                              资讯列表 (分页)
-/news/[slug]                       资讯详情 ⚠️ 当前 P0-7 (item.content missing)
-
-/agent                             省份选择
-/agent/[province]                  城市列表 ⚠️ 当前不可达 (404)
-/agent/[province]/[city]           门店列表 ⚠️ 当前不可达 (404)
-/agent/store/[id]                  门店详情
-```
-
-### 4.2 后台 CMS (force-dynamic, 10 路由)
-
-```
-/admin/login                       公开 (登录页)
-/admin                             后台首页 (Dashboard 数据概览) [认证]
-/admin/analytics                   数据分析 (PV / 点击 / 门店) [admin]
-/admin/articles                    文章管理 [editor+]
-/admin/articles/new                新建文章 [editor+]
-/admin/articles/[id]               编辑文章 [editor+]
-/admin/stores                      门店管理 [admin]
-/admin/stores/new                  新建门店 [admin]
-/admin/stores/[id]                 编辑门店 [admin]
-/admin/stores/[id]/image           门店图片上传 [admin]
-```
-
-### 4.3 API (12 路由)
-
-| Method | 路径 | 用途 | 权限 |
-|---|---|---|---|
-| GET | `/api/provinces` | 省份列表 | 公开 |
-| GET | `/api/cities` | 城市列表 (按省) | 公开 |
-| GET | `/api/regions` | 省+市树 | 公开 |
-| GET | `/api/stores` | 门店列表 | 公开 (草稿过滤) |
-| GET / PUT / DELETE | `/api/stores/[id]` | 门店详情 | GET 公开, 写 admin |
-| POST | `/api/stores` | 创建门店 | admin |
-| GET | `/api/articles` | 文章列表 | 公开 (草稿过滤) |
-| GET / PUT / DELETE | `/api/articles/[id]` | 文章详情 | GET 公开, 写 editor+ |
-| POST | `/api/articles` | 创建文章 | editor+ |
-| GET | `/api/articles/categories` | 分类聚合 | 公开 |
-| POST | `/api/auth/*` | NextAuth | 公开 |
-| POST | `/api/analytics/track` | 埋点写入 | 公开 (限流 60/min/IP) |
-| GET | `/api/analytics/stats` | 看板数据 | admin |
-| POST | `/api/upload` | 图片上传 | admin |
-
----
-
-## 5. PRD 子文档地图
-
-按页面类型 5 大分类,每个子 PRD 含 8 段(概述/用户故事/功能/UI/数据/API/验收/变更)。
-
-### 5.1 公开站 (public-site/) — 5 Canonical + 13 独立 PRD
-
-| Canonical PRD | 关联路由 | 状态 |
-|---|---|---|
-| [HOMEPAGE_PRD.md](./public-site/HOMEPAGE_PRD.md) (首页) | `/` | 🟢 v1（canonical，合并 06-20 实现 + 06-22 规划） |
-| [BRAND_PRD.md](./public-site/BRAND_PRD.md) (品牌) | `/brand` `/brand/certifications` `/brand/history` | 🟢 v1（canonical，合并 06-20 实现 + 06-22 规划） |
-| [NEWS_PRD.md](./public-site/NEWS_PRD.md) (资讯) | `/news` `/news/[slug]` | 🟢 v1（canonical，合并 06-20 实现 + 06-22 规划） |
-| [AGENT_PUBLIC_PRD.md](./public-site/AGENT_PUBLIC_PRD.md) (门店网络) | `/agent` `/agent/*` | 🟢 v1（canonical，合并 06-20 实现 + 06-21 规划） |
-| [CONTACT_PRD.md](./public-site/CONTACT_PRD.md) (联系) | `/contact` | 🟢 v1（canonical，合并 06-20 实现 + 06-22 规划） |
-
-另有 13 份独立 06-22 规划 PRD（产品中心、车型项目、膜类产品、Footer 等），详见 [public-site/README.md](./public-site/README.md)。
-
-### 5.2 产品中心 (product/) — 11 子 PRD (全部 v1 ✅)
-
-| 子 PRD | 关联路由 | 状态 |
-|---|---|---|
-| `[PRODUCT_INDEX]_*_PRD.md` (产品中心) | `/product` | 🟢 v1 (2026-06-20 批 2) |
-| `[ELECTRIC_STEPS]_*_PRD.md` (电动踏板) | `/product/electric-steps` | 🟢 v1 (2026-06-20 批 2) |
-| `[WHEELS]_*_PRD.md` (轮毂) | `/product/wheels` | 🟢 v1 (2026-06-20 批 2) |
-| `[CHASSIS]_*_PRD.md` (底盘) | `/product/chassis` | 🟢 v1 (2026-06-20 批 2) |
-| `[WINDOW_FILM_TOPIC]_*_PRD.md` (汽车窗膜) | `/product/window-film` `/[packageSlug]` | 🟢 v1 (2026-06-20 批 3, 501 行) + 🟡 v0 archive |
-| `[COLOR_FILM]_*_PRD.md` (改色膜) | `/product/color-film` | 🟢 v1 (2026-06-20 批 2) |
-| `[PPF]_*_PRD.md` (隐形车衣) | `/product/ppf` | 🟢 v1 (2026-06-20 批 2) |
-| `[WENJIE_TOPIC]_*_PRD.md` (问界) | `/product/wenjie` | 🟢 v1 (2026-06-20 批 3, 616 行) + 🟡 v0 archive |
-| `[XIAOMI_TOPIC]_*_PRD.md` (小米 SU7) | `/product/xiaomi` | 🟢 v1 (2026-06-20 批 3, 614 行) + 🟡 v0 archive |
-| `[ZEEKR_TOPIC]_*_PRD.md` (极氪) | `/product/zeekr` | 🟢 v1 (2026-06-16, canonical) + 🟡 v0 archive |
-| `[FLOORING_TOPIC]_*_PRD.md` (木地板) | `/product/flooring` | 🟢 v1 (2026-06-20 批 3, 698 行) + 🟡 v0 archive |
-
-### 5.3 后台 (admin/) — 4 子 PRD 待建
-
-| 子 PRD | 关联路由 | 状态 |
-|---|---|---|
-| [ADMIN_LOGIN_PRD.md](./admin/ADMIN_LOGIN_PRD_2026-06-20.md) (登录) | `/admin/login` | 🟢 v1 |
-| [ADMIN_DASHBOARD_PRD.md](./admin/ADMIN_DASHBOARD_PRD_2026-06-20.md) (数据看板) | `/admin` `/admin/analytics` | 🟢 v1 |
-| [ARTICLE_MANAGEMENT_PRD.md](./admin/ARTICLE_MANAGEMENT_PRD.md) (文章管理) | `/admin/articles` 系列 | 🟢 v1（canonical） |
-| [STORE_MANAGEMENT_PRD.md](./admin/STORE_MANAGEMENT_PRD.md) (门店管理) | `/admin/stores` 系列 | 🟢 v1（canonical） |
-
-#### 5.3.1 2026-06-22 合并为 Canonical PRD
-
-2026-06-21 规划版已从 Trellis 迁回 `docs/PRD/admin/`，与 2026-06-20 实现版合并为单份 Canonical PRD：
-
-| 子系统 | Canonical PRD | 状态 |
-|---|---|---|
-| 门店管理 | [`STORE_MANAGEMENT_PRD.md`](./admin/STORE_MANAGEMENT_PRD.md) | 🟢 v1（合并 06-20 实现 + 06-21 规划） |
-| 文章 CMS | [`ARTICLE_MANAGEMENT_PRD.md`](./admin/ARTICLE_MANAGEMENT_PRD.md) | 🟢 v1（合并 06-20 实现 + 06-21 规划） |
-| 用户行为分析 | [`ANALYTICS_SYSTEM_PRD.md`](./admin/ANALYTICS_SYSTEM_PRD.md) | 🟡 v0.1（迁移自 Trellis） |
-
-旧版本文件存档于 `docs/PRD/admin/archive/`。设计文档存档于 `docs/designs/admin/archive/`。
-
-### 5.4 跨切面 (feature/) — 4 子 PRD 待建
-
-| 子 PRD | 用途 | 状态 |
-|---|---|---|
-| `[IMAGE_UPLOAD]_*_PRD.md` (图片上传) | 全站图片存储 | ⚪ 待建 (从 IMAGE_MANAGEMENT 拆) |
-| `[ANALYTICS_TRACKING]_*_PRD.md` (埋点系统) | 客户端事件收集 | ⚪ 待建 |
-| `[SEO_SCHEMA]_*_PRD.md` (SEO 优化) | sitemap/OG/JSON-LD | ⚪ 待建 |
-| `[AUTH_GUARD]_*_PRD.md` (认证守卫) | NextAuth 权限矩阵 | ⚪ 待建 |
-
-### 5.5 横切 (cross-cutting/) — 6 子 PRD (已建)
-
-| 子 PRD | 状态 |
+| 层 | 当前约束 |
 |---|---|
-| [AUDIT_AND_REGRESSION_PRD_2026-06-19.md](./cross-cutting/AUDIT_AND_REGRESSION_PRD_2026-06-19.md) | 🟢 v1 — 21 个 P0/P1/P2 任务清单 + 完整审计 |
-| [ADR_PRD_2026-06-20.md](./cross-cutting/ADR_PRD_2026-06-20.md) | 🟢 v1 — 架构决策记录体系 |
-| [DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md](./cross-cutting/DEPLOYMENT_RUNBOOK_PRD_2026-06-20.md) | 🟢 v1 — 部署 + 回滚 runbook |
-| [PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md](./cross-cutting/PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md) | 🟢 v1 — Lighthouse 基线 + 性能预算 |
-| [SECURITY_AUDIT_PRD_2026-06-20.md](./cross-cutting/SECURITY_AUDIT_PRD_2026-06-20.md) | 🟢 v1 — OWASP Top 10 加固 |
-| **[DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md](./cross-cutting/DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md)** | **🟡 v0** — Vercel Geist spec 对账 + 14 项 P0/P1/P2 任务 |
+| Framework | Next.js 16.2.1 App Router；写代码前优先查 `node_modules/next/dist/docs/` |
+| React | React 19.2.4 |
+| Language | TypeScript strict；禁止新增 `any`，已有少量 `eslint-disable no-explicit-any` 需逐步清理 |
+| Styling | Tailwind v4 + `src/app/globals.css` oklch tokens；移动优先 |
+| UI | shadcn/ui + Base UI primitives，不使用 Radix 假设 |
+| Data | 静态数据在 `src/lib/*`；DB 通过 `src/lib/prisma.ts` + `src/lib/data.ts` 聚合 |
+| Auth | NextAuth v5 beta，Credentials + JWT，角色 `admin` / `editor` |
+| Storage | `/api/upload` 当前是本地 WebP 存储，不是 OSS |
+| Testing | vitest + happy-dom + Playwright |
+| Build | `npm run build` 必须在无 Postgres 时成功 |
 
-### 5.6 归档 (archive/)
-
-存放过期 PRD(只读,不维护):
-- [ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-14.md.archive](./archive/ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-14.md.archive) — ZEEKR v0,被 2026-06-16 v1 替代
-
-### 5.7 数据库 (../database/)
-
-| 文档 | 用途 |
-|---|---|
-| [../database/README.md](../database/README.md) | 索引 |
-| [../database/SCHEMA.md](../database/SCHEMA.md) | 7 表逐字段规格 |
-| [../database/ER_DIAGRAMS.md](../database/ER_DIAGRAMS.md) | 4 张 Mermaid ER 图 |
-| [../database/SEED_DATA.md](../database/SEED_DATA.md) | 种子数据 (1 用户 + 27 省 + 75 市) |
+已知质量门禁：`npm run typecheck` 当前有 9 个 pre-existing 测试文件错误，不能当作本次业务代码回归。
 
 ---
 
-## 6. 看板 (Status Dashboard)
+## 5. 信息架构
 
-### 6.1 子 PRD 完成度
+### 5.1 公开站
 
-| 分类 | 总数 | 🟢 v1 | 🟡 v0 | ⚪ 待建 | 完成度 |
-|---|---|---|---|---|---|
-| public-site | 5 | 5 | 0 | 0 | 100% |
-| product | 11 | 11 | 0 | 0 | **100%** ✅ |
-| admin | 4 | 4 | 0 | 0 | 100% |
-| feature | 4 | 4 | 0 | 0 | 100% |
-| cross-cutting | 6 | 5 | 1 | 0 | **100%** |
-| **合计** | **30** | **29** | **1** | **0** | **100%** ✅ |
-
-注 1: 9 个 v0 PRD 已 git mv 到 archive/,不再计入"🟡 v0"。
-注 2: 2026-06-21 增补 DESIGN_SYSTEM_ALIGNMENT v0,源自 Coya 阅读 Vercel Geist 规范后的对账。P0 6 项待执行。
-注 3: 看板整体完成度 97% → **100%**(cross-cutting 5 v1 + 1 v0)。
-
-### 6.2 P0 / P1 / P2 待办 (来自审计)
-
-> 完整列表见 [AUDIT_AND_REGRESSION_PRD_2026-06-19.md](./cross-cutting/AUDIT_AND_REGRESSION_PRD_2026-06-19.md)
-
-| 优先级 | 数量 | 关键任务 |
+| 页面族 | 路由 | 产品职责 |
 |---|---|---|
-| **P0** 阻断 | 7 | P0-1 动态路由 404 (5 个) · P0-6 测试门店污染 · P0-7 资讯详情 404 |
-| **P1** 影响转化 | 8 | P1-7~13 数据失衡 + 埋点失效 + 测试残留 |
-| **P2** 可优化 | 3 | P2-4 图表日期连续性等 |
+| 首页 | `/` | 首屏说清品牌、服务、车型/项目入口、咨询路径 |
+| 品牌 | `/brand` `/brand/certifications` `/brand/history` | 品牌可信、资质、发展历程 |
+| 产品中心 | `/product` | 按车型找 + 按项目找 + 推荐组合 |
+| 服务线 | `/product/ppf` `/window-film` `/color-film` `/electric-steps` `/wheels` `/chassis` `/flooring` 等 | 解释单一服务项目价值和施工边界 |
+| 品牌专题 | `/product/wenjie` `/xiaomi` `/zeekr` `/li-auto` 等 | 车型族导购入口 |
+| 车型页 | `/product/<brand>/<model>` | 单车型项目清单、场景、FAQ、咨询 CTA |
+| 门店 | `/agent` `/agent/[slug]` `/agent/[slug]/[city]` `/agent/store/[id]` | 门店查找、详情、导航 |
+| 资讯 | `/news` `/news/[slug]` | 品牌动态、知识内容、SEO 长尾 |
+| 联系 | `/contact` | 汇总联系方式和到店路径 |
 
-### 6.3 路由健康度
+### 5.2 后台 CMS
 
-| 类别 | 路由数 | 可达 | 不可达 (404) | 完整度 |
-|---|---|---|---|---|
-| 公开站 | 21 | 16 | 5 | 76% |
-| 后台 | 10 | 10 | 0 | 100% |
-| API | 12 | 12 | 0 | 100% |
-| **合计** | **43** | **38** | **5** | **88%** |
+| 页面族 | 路由 | 权限 |
+|---|---|---|
+| 登录 | `/admin/login` | 公开 |
+| Dashboard | `/admin` | admin / editor |
+| Analytics | `/admin/analytics` | admin |
+| Articles | `/admin/articles` `/new` `/[id]` | editor+ |
+| Stores | `/admin/stores` `/new` `/[id]` `/[id]/image` | admin |
 
-### 6.4 性能基线 (Lighthouse, 2026-06-19)
+### 5.3 API
 
-| 维度 | desktop | mobile | 目标 |
-|---|---|---|---|
-| 性能分 | 70-98 | 61-96 | > 90 |
-| LCP | 0.6-6.6s | 0.7-8.0s | < 2.5s |
-| CLS | 0 | 0 | < 0.1 |
-| TBT | < 200ms | < 200ms | < 200ms |
-
----
-
-## 7. Definition of Done (DoD)
-
-每条子 PRD 完成时**必须**满足:
-
-- [ ] **代码**: 实现完整,无 TODO / FIXME
-- [ ] **类型**: `npx tsc --noEmit` 通过(允许 9 个 pre-existing 错)
-- [ ] **构建**: `npm run build` 通过
-- [ ] **测试**: 关键路径有 vitest 单元测试或 Playwright e2e
-- [ ] **响应式**: desktop (1440) / tablet (768) / mobile (390) 三视口验证
-- [ ] **可访问性**: 语义化 HTML + 键盘导航 + 颜色对比 4.5:1
-- [ ] **SEO**: 独立 `<title>` + `<meta description>` + JSON-LD (按需)
-- [ ] **埋点**: 关键交互有 `track()` 调用
-- [ ] **审计**: `/admin/audit-reports/<page>.md` 或类似记录截图+评级
-- [ ] **CHANGELOG**: 子 PRD 底部"变更记录"追加一行
+所有 API 响应必须统一为 `{ success, data?, error?, details? }`。写接口必须执行 `auth()`、角色校验和 Zod 校验。
 
 ---
 
-## 8. 路线图 (Roadmap)
+## 6. 页面表达原则
 
-### 8.1 已完成 (✅)
+### 6.1 文案
 
-- 2026-06-14: ZEEKR 主题专项 v1 (5 组件 + 3 态 UI + CI 脚本)
-- 2026-06-19: 全站 + 后台 21 页 + 5 后台页 视觉审计 (78 截图 + 42 Lighthouse + 24 e2e)
-- 2026-06-19: PRD 文档体系重构批 1 (5 分类骨架 + 4 DB 文档 + Master + 5 模板)
-- **2026-06-20: PRD 批 2 填表 (23 个 v1 子 PRD, 9 个 v0 归档, 整体 83%)**
-- **2026-06-20: PRD 批 3 填表 (4 个产品主题专项 v1: window-film / wenjie / xiaomi / flooring, 2429 行, 整体 97%)**
+- 首屏 H1 必须是品牌、页面对象或明确服务类别，避免空泛口号。
+- 每个页面必须在首屏说明“用户能在这里完成什么判断”。
+- 车型页不能只堆项目名；至少回答“适合谁、解决什么、施工注意什么、下一步怎么咨询”。
+- 不使用假 400 电话、未验证价格、未确认官方合作、占位微信号。
 
-### 8.2 进行中 (🚧)
+### 6.2 视觉
 
-- 批 4: P0-6 清理测试门店 (1-2h)
-- 批 5: P0-7 修复 `/news/[slug]` content 字段 (1h)
-- 批 6: 补齐 1 个待建子 PRD (cross-cutting AUDIT 系列扩展 1→5) (1-2h)
+- 公共基调：深色、克制、专业，避免模板化渐变和无信息装饰。
+- 产品/车型页必须有实际视觉资产或明确的缺图状态，不能出现空白大块。
+- 图片容器统一 4:3 或稳定比例，避免移动端布局跳动。
+- 主题色必须服务识别，不应让多品牌页面只靠换标题区分。
 
-### 8.3 计划 (📋)
+### 6.3 响应式
 
-| 季度 | 计划 |
+| 视口 | 要求 |
 |---|---|
-| Q3 2026 | 主题专项扩展 (BYD / 蔚来 / 理想) · CMS 多语言 · 微信小程序 |
-| Q4 2026 | 客户案例库 · 在线预约 · 支付集成 · 营销自动化 |
-| 2027 H1 | 多门店加盟系统 · 供应链协同 · 数据中台 |
+| 390px mobile | 无横向滚动；CTA 可触达；长列表有折叠/分段/锚点；表格必须可扫读 |
+| 768px tablet | 双列/单列切换不重叠；导航与 CTA 不拥挤 |
+| 1440px desktop | 信息层级清晰；首屏有明确下一步；内容宽度不失控 |
 
 ---
 
-## 9. 变更记录 (CHANGELOG)
+## 7. 修改范围
 
-| 日期 | 版本 | 变更 | 作者 |
-|---|---|---|---|
-| 2026-06-10 | v1.0 | 初版 Master PRD (单文件 386 行) | Coya |
-| 2026-06-19 | v2.0 | **重构为索引+看板风格**,12 个旧 PRD 归档到 5 分类,新增 4 份 DB 文档,新增 5 份子 PRD 模板 | Coya |
-| 2026-06-19 | v2.0 | 新增 ER_DIAGRAMS + SCHEMA + SEED_DATA 数据库文档体系 | Coya |
-| 2026-06-20 | v2.1 | **批 2 填表**: 23 个 v1 子 PRD (5 public-site + 6 product + 4 admin + 4 feature + 4 cross-cutting),9 个 v0 归档到 archive/。整体完成度 37% → 83%。| Coya |
-| 2026-06-20 | v2.2 | **批 3 填表**: 4 个产品主题专项 v1 (window-film 501 行 + wenjie 616 行 + xiaomi 614 行 + flooring 698 行,共 2429 行)。产品分类完成度 55% → **100%**;整体 83% → **97%**。| Coya |
-| 2026-06-21 | v2.3 | **设计系统对齐**:新增 cross-cutting 子 PRD `DESIGN_SYSTEM_ALIGNMENT_PRD_2026-06-21.md`(v0,~500 行),基于 Vercel Geist spec 对账 14 项任务(P0×6 / P1×5 / P2×3)。整体 97% → **100%**。| Coya |
-| 2026-06-21 | v2.4 | **admin 文档迁至 Trellis**:4 份 2026-06-21 子 PRD + 5 份 Design 副本迁至 Trellis 父任务 `06-21-admin-system-refactor` 的 4 个子任务(`06-21-admin-{system-total,store,article,analytics}`);原文件 `git mv` 到 `docs/{PRD,designs}/admin/archive/`(只读)。admin 子文档在 §5.3 表格保持"待建/v0"状态以记录 2026-06-20 v1 历史;新增 §5.3.1 区块说明 2026-06-21 活跃文档位置。| Coya |
-
----
-
-## 10. 跨文档导航
-
-| 我想知道... | 看哪份文档 |
+| 类型 | 范围 |
 |---|---|
-| 产品是什么 / 用户是谁 | 本文档 §1-2 |
-| 技术怎么搭 | [../ARCHITECTURE.md](../ARCHITECTURE.md) |
-| 路由怎么设计 | 本文档 §4 |
-| 某个页面怎么实现 | 子 PRD (按 §5 地图) |
-| 数据怎么存 | [../database/SCHEMA.md](../database/SCHEMA.md) |
-| 数据怎么关系 | [../database/ER_DIAGRAMS.md](../database/ER_DIAGRAMS.md) |
-| 种子数据怎么写 | [../database/SEED_DATA.md](../database/SEED_DATA.md) |
-| 已知 bug / 优化点 | [AUDIT_AND_REGRESSION_PRD_2026-06-19.md](./cross-cutting/AUDIT_AND_REGRESSION_PRD_2026-06-19.md) |
-| 怎么部署 | [../ARCHITECTURE.md §部署](../ARCHITECTURE.md) |
-| 怎么写子 PRD | [./_templates/public-site.md](./_templates/public-site.md) |
-| 某批开发日志(目标/工作流/决策/经验) | [../journal/](../journal/) |
+| 页面 | `src/app/**/page.tsx`，尤其公开站、产品中心、车型页、admin |
+| 组件 | `src/components/**`，尤其 Header、Footer、产品专题组件、admin 表格 |
+| 数据 | `src/lib/product-routes.ts`、`src/lib/*products.ts`、`src/lib/data.ts` |
+| API | `src/app/api/**/route.ts` |
+| 资产 | `public/images/**` |
+| 文档 | `docs/PRD/**`、`docs/design-reviews/**`、`docs/daily/**` |
+
+---
+
+## 8. 验收标准
+
+- [ ] Master PRD 中的路由、页面族、技术栈与当前代码一致。
+- [ ] 每个核心页面族都有页面级 PRD 或页面级 PRD 总览条目。
+- [ ] 公开站核心页面在 390px、768px、1440px 无明显文本重叠、横向滚动和空白失控。
+- [ ] 产品中心能清楚区分“按车型找”和“按项目找”。
+- [ ] 车型页 `pending-review` / `missing` 图片状态有明确 UI 解释，不呈现空白半成品。
+- [ ] `/admin` 页面继续 `force-dynamic` + `auth()` 保护。
+- [ ] `npm run build` 在无 Postgres 环境成功。
+- [ ] 新增或改动 API 保持统一响应结构。
+
+---
+
+## 9. 验证命令
+
+```bash
+npm run lint
+npm run typecheck
+npm run build
+npm test
+npm run test:e2e
+```
+
+UI 改版必须额外执行：
+
+- 390px mobile 浏览器检查
+- 768px tablet 浏览器检查
+- 1440px desktop 浏览器检查
+- 关键页面截图归档到 `docs/daily/<YYYY-MM-DD>/` 或 `docs/design-reviews/`
+
+---
+
+## 10. 风险边界
+
+| 风险 | 约束 |
+|---|---|
+| 内容真实性 | 不写未验证价格、授权、资质、施工承诺 |
+| 图片资产 | 缺图必须可解释；不使用本地绝对路径；比例稳定 |
+| Build | 不能让 SSG 依赖本地 Postgres |
+| Auth | admin 写操作必须校验角色 |
+| Prisma | Prisma 7 adapter 错误形态不同于旧版，测试需按当前结构断言 |
+| 响应式 | 产品长页和后台表格是主要风险点 |
+| 文档漂移 | 新增产品/页面必须同步 `src/lib/product-routes.ts` 与对应 PRD |
+
+---
+
+## 11. 子 PRD 地图
+
+| 类型 | Canonical 文档 |
+|---|---|
+| 页面级 PRD 总览 | `docs/PRD/public-site/PAGE_PRD_SYSTEM_2026-06-29.md` |
+| 产品入口 | `docs/PRD/product/PRODUCT_INDEX_PRD_2026-06-25.md` |
+| 产品路由架构 | `docs/PRD/product/PRODUCT_ROUTE_ARCHITECTURE_PRD_2026-06-25.md` |
+| 全站测试 | `docs/PRD/cross-cutting/FULL_SITE_TEST_PRD_2026-06-29.md` |
+| 视觉评判提示词 | `docs/PRD/cross-cutting/CODEX_VISUAL_EVAL_PROMPT_2026-06-29.md` |
+| Admin | `docs/PRD/admin/README.md` |
+
+---
+
+## 12. 变更记录
+
+| 日期 | 版本 | 变更 |
+|---|---|---|
+| 2026-06-19 | v2 | 索引 + 看板式 Master PRD |
+| 2026-06-29 | v3 | 按当前代码和审计结果重写，补充表达性、响应式、页面级 PRD 约束 |

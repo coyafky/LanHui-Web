@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { ChevronRight, ImageIcon } from "lucide-react";
-import { PhoneCta } from "@/components/cta/PhoneCta";
+import Image from "next/image";
+import { ChevronRight } from "lucide-react";
+import { getWenjieModelHeroImage } from "@/lib/wenjie-preview-images";
 
 export type WenjieModelUpgradeHeroProps = {
   modelKey: "M6" | "M7" | "M8";
@@ -21,7 +22,7 @@ function splitTagline(tagline: string): string[] {
 
 /**
  * 二级页 Hero — M6 / M7 / M8 共用
- * PRD §6：标题 / 副标 / tagline chips / 2 CTA / 面包屑 / 车型预览图占位
+ * PRD §6：标题 / 副标 / tagline chips / 面包屑 / 车型预览图
  * 主题色：cyan（与 WenjieSeriesHero / WenjieTopicBanner 一致）
  *
  * 注意：此组件渲染 H1（页内唯一 H1），内部子组件不要再使用 H1
@@ -36,7 +37,7 @@ export function WenjieModelUpgradeHero({
   canonicalPath,
 }: WenjieModelUpgradeHeroProps) {
   const tags = splitTagline(tagline);
-  const phoneSource = `wenjie_${modelKey.toLowerCase()}_hero_phone`;
+  const heroImage = getWenjieModelHeroImage(modelKey);
 
   return (
     <section
@@ -105,12 +106,6 @@ export function WenjieModelUpgradeHero({
             ) : null}
 
             <div className="flex flex-wrap items-center gap-3">
-              <PhoneCta
-                source={phoneSource}
-                label="电话咨询"
-                size="lg"
-                metadata={{ modelKey, section: "hero" }}
-              />
               <Link
                 href="/product/wenjie"
                 className="inline-flex items-center px-4 py-2.5 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-cyan-700/60 text-sm transition-colors"
@@ -121,20 +116,22 @@ export function WenjieModelUpgradeHero({
           </div>
 
           <div className="relative">
-            <div
-              role="img"
-              aria-label={`${modelName} 升级方案预览图`}
-              className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 flex flex-col items-center justify-center text-zinc-500"
-            >
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
+              <Image
+                src={heroImage.publicPath ?? "/images/products/wenjie/preview.png"}
+                alt={heroImage.alt}
+                fill
+                priority
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
               <div
-                className="absolute inset-0 bg-gradient-to-br from-cyan-950/20 via-zinc-950 to-zinc-950"
+                className="absolute inset-0 bg-gradient-to-t from-zinc-950/35 via-transparent to-transparent"
                 aria-hidden
               />
-              <ImageIcon className="w-12 h-12 mb-3 relative" aria-hidden />
-              <p className="text-sm relative">系列预览图待补</p>
             </div>
             <p className="text-xs text-zinc-500 mt-3 text-center">
-              车型预览图待补；不代表安装案例 · {canonicalPath}
+              功能预览图用于说明升级方向，不代表实车案例 · {canonicalPath}
             </p>
           </div>
         </div>

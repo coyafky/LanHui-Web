@@ -194,32 +194,3 @@ user-invocable: true
 2. 是否直接执行该 Prompt（开始编码）？
 
 如果用户确认执行，按照生成的 Prompt 规格严格实施。
-
----
-
-## Trellis 集成
-
-在 **Trellis 体系**(`.trellis/`)下,本 skill 的 7 阶段项目扫描 + 需求翻译能力由 [`architect` channel agent](../../.trellis/agents/architect.md) 在 headless worker 中复用:
-
-- **入口**:`trellis channel spawn --agent architect --provider claude --cwd <task-path> --jsonl <task-path>/check.jsonl`
-- **用户入口 skill**:`/trellis-architect` → `.claude/skills/trellis-architect/SKILL.md`
-- **产出形态**:从单个精确 Prompt 升级为 **PRD + Design + Implement 三件套**(`.trellis/tasks/<slug>/prd.md` / `design.md` / `implement.md`)
-- **下游消费**:三件套会被 orchestrator agent 自动发现,并按 acceptance criteria 调度 `trellis-implement` → `trellis-test` → `trellis-check`
-
-**何时用哪个:**
-
-| 场景 | 用谁 |
-|---|---|
-| Claude Code 内交互式精炼需求 | 本 skill(`/prompt-boost`) |
-| headless / 自动化 / 流水线输入 | `architect` channel agent |
-| orchestrator 流水线第一阶段 | 自动 spawn `architect`(无需手动调) |
-
-**复用映射**(architect agent 吸收了本 skill 的哪几阶段):
-
-| 本 skill 阶段 | architect agent 对应 |
-|---|---|
-| 阶段一:项目深度扫描 | Core Responsibility 1(project deep scan) |
-| 阶段二:意图理解与消歧 | Core Responsibility 2 + 3 |
-| 阶段三:生成精确 Prompt | Core Responsibility 4(三件套输出) |
-
-详见 `.trellis/agents/architect.md` 与 `docs/architecture/trellis-agents.md`。

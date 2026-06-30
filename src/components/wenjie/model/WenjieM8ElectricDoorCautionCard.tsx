@@ -1,12 +1,11 @@
 import { AlertTriangle } from "lucide-react";
-import { PhoneCta } from "@/components/cta/PhoneCta";
 import type { WenjieM8UpgradeProject } from "@/lib/wenjie-m8-upgrade-projects";
 
 export type WenjieM8ElectricDoorCautionCardProps = {
   project: WenjieM8UpgradeProject;
 };
 
-const FALLBACK_CAUTION = "安装前请咨询蓝辉轻改确认车辆配置适配性";
+const FALLBACK_CAUTION = "安装前需确认车辆配置适配性";
 
 /**
  * M8 电动门专属警示卡
@@ -44,19 +43,9 @@ export function WenjieM8ElectricDoorCautionCard({
           <p className="text-sm text-amber-100/90 leading-relaxed mb-3">
             {cautionText}
           </p>
-          <p className="text-xs text-amber-200/70 mb-4">
+          <p className="text-xs text-amber-200/70">
             {`项目：问界 M8 商务升级 10 · 电动门`}
           </p>
-          <PhoneCta
-            source="wenjie_m8_electric_door_caution"
-            label="咨询安装细节"
-            size="sm"
-            metadata={{
-              projectKey: project.id,
-              tier: project.tier,
-              modelKey: "M8",
-            }}
-          />
         </div>
       </div>
     </aside>

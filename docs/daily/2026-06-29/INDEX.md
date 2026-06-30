@@ -2,8 +2,8 @@
 
 > AI 会话: Claude Code (continued from 2026-06-28)
 > 维护: 冯科雅 (Coya)
-> 主题: 全站功能测试 PRD + Codex 视觉评判提示词 + 测试脚本实现
-> 触发: 用户要求对整个网站进行功能测试和性能测试，并编写 Codex 视觉评判提示词
+> 主题: 全站功能测试 PRD + Codex 视觉评判提示词 + 测试脚本实现 + 技术与表达审计
+> 触发: 用户要求对整个网站进行功能测试、性能测试、视觉评判提示词，并对 Vibe Coding 页面做技术/表达审计与 PRD 重写
 
 ---
 
@@ -13,6 +13,7 @@
 2. **Codex 视觉评判提示词模板** — 编写 `CODEX_VISUAL_EVAL_PROMPT_2026-06-29.md`：5 维评分标准 + 批量工作流
 3. **实现 3 个测试脚本** — 路由可达性扫描 + 图片状态审计 + API 连通性测试
 4. **执行测试并产出报告** — 49 路由扫描 + 24 品牌图片审计 + 13 端点 API probe + 合规 grep
+5. **技术与表达审计** — 编写 `TECHNICAL_AND_EXPRESSION_AUDIT_2026-06-29.md`，并重写 Master PRD + 页面级 PRD 总览
 
 ---
 
@@ -153,3 +154,30 @@
 - 问界页面性能最差（wenjie/m6 8.3s），需排查图片加载策略
 - 6 处禁止词 + PosterStub 残留需修复（P1）
 - `/api/analytics/track` 埋点管道阻塞（P2，06-19 已知）
+
+---
+
+## 九、技术与表达审计
+
+### 关联文档
+
+- `docs/daily/2026-06-29/TECHNICAL_AND_EXPRESSION_AUDIT_2026-06-29.md`
+- `docs/PRD/00_MASTER_PRD.md`
+- `docs/PRD/public-site/PAGE_PRD_SYSTEM_2026-06-29.md`
+
+### 关键结论
+
+| 类别 | 结论 | 优先级 |
+|---|---|---|
+| 文档债 | Master PRD 与当前 64 页面文件、13 API route、产品路由体系不一致 | P0 |
+| 表达债 | 页面能展示内容，但缺少统一“了解蓝辉 → 找方案 → 咨询到店”表达路径 | P0 |
+| 视觉债 | `pending-review` / `missing` 图片状态过多，容易呈现半成品感 | P1 |
+| 工程债 | README/ARCHITECTURE 与 AGENTS 在 OSS、Radix、路由数量等描述上不一致 | P1 |
+
+### 已完成文档改动
+
+| 文件 | 说明 |
+|---|---|
+| `docs/PRD/00_MASTER_PRD.md` | 重写为 v3，明确当前产品定位、信息架构、技术边界、表达原则和验收标准 |
+| `docs/PRD/public-site/PAGE_PRD_SYSTEM_2026-06-29.md` | 新增页面级 PRD 总览，覆盖首页、产品中心、服务线、品牌/车型、门店、资讯、联系、admin |
+| `docs/daily/2026-06-29/TECHNICAL_AND_EXPRESSION_AUDIT_2026-06-29.md` | 新增技术与表达审计报告 |

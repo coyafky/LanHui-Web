@@ -590,7 +590,56 @@ npm run screenshot:all
 
 ---
 
-## 11. 关联文档
+## 12. 修复计划（2026-06-29 测试反馈）
+
+基于 `docs/test-reports/2026-06-29/TEST_REPORT_2026-06-29.md` 发现的 P1 问题，执行以下修复。
+
+### 12.1 Bug 4: 禁止词违规修复
+
+| 文件 | 行 | 旧文本 | 新文本 |
+|---|---|---|---|
+| `src/components/CoreServices.tsx` | 26 | 官方质保系统 | 品牌质保体系 |
+| `src/components/WhyChooseUs.tsx` | 20 | 官方质保承诺 | 品牌质保承诺 |
+| `src/components/WhyChooseUs.tsx` | 22 | 官方质保体系 | 品牌质保体系 |
+| `src/components/WhyChooseUs.tsx` | 56 | 官方质保 | 品牌质保 |
+| `src/components/product/P1ServiceCard.tsx` | 26 | 原厂数据 | 原车数据 |
+| `src/components/product/FilmServiceMap.tsx` | 79 | 原厂车衣的隐形盾牌 | 漆面保护的隐形盾牌 |
+
+### 12.2 Bug 5: WenjieModelPosterStub 清理
+
+- **删除**: `src/components/wenjie/model/WenjieModelPosterStub.tsx`
+- **M6 page**: 移除 import + `<WenjieModelPosterStub>` 渲染块
+- **M7 page**: 移除 import + POSTERS 常量 + `<WenjieModelPosterStub>` 渲染块
+- **M8 page**: 移除 import + POSTERS 常量 + `<WenjieModelPosterStub>` 渲染块
+
+### 12.3 Bug 5 扩展: WenjieSeriesPosterStub 清理
+
+测试报告称 06-27 已清理 Series 层 PosterStub，但实际 grep 仍命中。一并清理：
+
+- **删除**: `src/components/wenjie/WenjieSeriesPosterStub.tsx`
+- **wenjie/page.tsx**: 移除 import + POSTERS 常量 + `<WenjieSeriesPosterStub>` 渲染块
+
+### 12.4 额外发现: 产品数据文件禁止词
+
+Initial grep 仅覆盖组件文件，扩展扫描后额外发现 4 处：
+
+| 文件 | 旧文本 | 新文本 |
+|---|---|---|
+| `src/lib/wenjie-products.ts` (2x) | 原厂风格防虫网 | 经典风格防虫网 |
+| `src/lib/nio-products.ts` (2x) | 原厂升级感 | 运动升级感 |
+| `src/lib/products.ts` | 同款原厂设备 | 同款专业设备 |
+
+### 12.5 验证命令
+```bash
+grep -rE '官方|原厂|100%无损|4S店' src/ --include='*.tsx' --include='*.ts'
+grep -rE 'poster_expand_click|poster_asset_view|PosterStub' src/ --include='*.tsx' --include='*.ts'
+npx tsc --noEmit
+npm run build
+```
+
+---
+
+## 13. 关联文档
 
 - [AUDIT_AND_REGRESSION_PRD_2026-06-19.md](./AUDIT_AND_REGRESSION_PRD_2026-06-19.md) — 前序审计 PRD
 - [PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md](./PERFORMANCE_OPTIMIZATION_PRD_2026-06-20.md) — 性能优化 PRD

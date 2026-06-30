@@ -72,14 +72,14 @@ Theme colors: xiaomi=orange, wenjie=cyan, zeekr=orange, flooring=amber. Image co
 
 ## AI workflow conventions
 
-- `/prompt-boost` (natural language → spec) → `/dispatch` (architect → coder → tester → deployer pipeline).
-- **Trellis is configured in `.trellis/`** with the `channel-driven-subagent-dispatch` workflow. Use it for non-trivial AI development tasks so requirements, plans, implementation notes, review output, and spec updates stay auditable.
-- **Codex Desktop is skill-first.** Users should normally speak naturally or invoke `$lanhui-trellis-daily`, `$trellis-start`, `$trellis-continue`, or `$trellis-finish-work`; the agent runs the underlying `.trellis/scripts/*.py` commands. Do not make users memorize Python lifecycle commands.
-- Natural-language routing: “开始/查看项目状态” → `trellis-start`; a new non-trivial feature or audit → request task-creation consent, then `trellis-brainstorm`; “继续当前任务” → `trellis-continue`; “完成/收尾” → `trellis-finish-work`; “回忆上次怎么做” → `trellis-session-insight`.
-- Internal Trellis task flow: create task → fill `prd.md` (plus `design.md` / `implement.md` for complex tasks) → obtain implementation approval → start task → implement/check → update `.trellis/spec/*` when conventions change → finish/archive. Python commands are implementation details used by the agent and CI, not the primary user interface.
-- Lightweight questions, small edits, or user-declined task tracking may skip Trellis for that turn; do not create Trellis tasks without user consent.
-- `.trellis/spec/frontend/` captures this project's frontend conventions for future AI agents. Keep it factual and synced with real code patterns, not aspirational rewrites.
-- Codex users: Trellis hooks need `features.hooks = true` in `~/.codex/config.toml` (Codex 0.129+) and one `/hooks` approval for the Trellis `UserPromptSubmit` hook.
+- Primary workflow: `/prompt-boost` (natural language → precise prompt) → `/spec` (PRD) → `/plan` (implementation plan) → `/dispatch` or `/build` → `/test` → `/review` → `/ship`.
+- `/prompt-boost` is the discovery layer for vague requests. It should produce project-aware context, affected files, scope boundaries, acceptance criteria, ambiguities, and the recommended next command.
+- PRDs must cover: background, goals, non-goals, modification scope, acceptance criteria, verification commands, and risk boundaries.
+- `/plan` must map every approved PRD requirement to concrete files, task order, verification commands, browser checks for frontend work, and rollback notes.
+- `/dispatch` is the multi-role execution coordinator (architect → coder / frontend engineer → tester → optional deployer). Use worktree isolation for parallel implementation and rerun quality gates after merging.
+- `/build` is the direct single-agent implementation path for approved plans. Implement one vertical slice at a time and verify before moving on.
+- `/test` validates against the PRD acceptance criteria, not coder intent. Frontend work requires browser checks across 390px, 768px, and 1440px.
+- Daily work notes and artifacts belong under `docs/daily/<YYYY-MM-DD>/`; root-level screenshots or temporary artifacts should be moved into the matching daily or test-report folder.
 - **Worktree isolation for parallel agents:** `git worktree add .claude/worktrees/agent-<id> -b worktree-agent-<id> master`; each coder commits in its own worktree; orchestrator merges with `--no-ff` and resolves conflicts.
 
 ## Code style

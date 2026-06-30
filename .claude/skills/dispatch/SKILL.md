@@ -7,21 +7,6 @@ user-invocable: true
 
 # Dispatch — 专家团流水线编排引擎
 
-> **Trellis 等价物:** 本 skill 的"流水线编排 + 门禁 + worktree"职责在 Trellis 体系下由 [`.trellis/agents/orchestrator.md`](../../.trellis/agents/orchestrator.md) 承担。
->
-> - **4 阶段流水线**相同(Architect → Implement → Test → Deploy)
-> - **Worktree 生命周期**程序化(内置 CREATE / DISPATCH / VERIFY / MERGE / CLEANUP)
-> - **入口**:`trellis channel spawn --agent orchestrator`(而非本 skill 的 Claude subagent)
-> - **用户入口 skill**:`/trellis-orchestrator` → `.claude/skills/trellis-orchestrator/SKILL.md`
->
-> 何时用哪个:
-> - **交互式快速原型** → 用本 skill(`/dispatch` 4 阶段 subagent)
-> - **长时非交互流水线 + worktree 隔离** → 用 Trellis orchestrator agent
->
-> 详见 `.trellis/agents/orchestrator.md` 与 `docs/architecture/trellis-agents.md`。
-
----
-
 你是一个 **任务编排调度器**（类似生产线的车间主任）。用户给你一段需求描述（`ARGUMENTS`），你负责：
 
 1. **理解需求** — 解析用户意图，必要时先调用 `/prompt-boost` 生成精确规格
