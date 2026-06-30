@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ChevronRight, ImageIcon } from "lucide-react";
-import { PhoneCta } from "@/components/cta/PhoneCta";
+import Image from "next/image";
+import { ChevronRight } from "lucide-react";
 import { getModelRoute } from "@/lib/product-routes";
+import { wenjieSeriesHeroImage } from "@/lib/wenjie-preview-images";
 
 type WenjieSeriesHeroProps = {
   title: string;
@@ -28,7 +29,7 @@ const SUB_MODEL_ANCHORS: readonly SubModelAnchor[] = (() => {
 
 /**
  * 一级专题页 Hero
- * PRD §3 / §6：标题 / 副标 / 统计 / CTA / 面包屑 / 系列预览图占位
+ * PRD §3 / §6：标题 / 副标 / 统计 / 面包屑 / 系列预览图
  * 主题色：cyan（与既有 WenjieTopicBanner 一致）
  */
 export function WenjieSeriesHero({
@@ -80,12 +81,7 @@ export function WenjieSeriesHero({
             </div>
 
             <div className="flex flex-wrap items-center gap-3">
-              <PhoneCta
-                source="wenjie_series_hero_phone"
-                label="电话咨询"
-                size="lg"
-                metadata={{ section: "hero" }}
-              />
+            
               <div className="flex flex-wrap items-center gap-2">
                 {SUB_MODEL_ANCHORS.map((m) => (
                   <Link
@@ -101,17 +97,22 @@ export function WenjieSeriesHero({
           </div>
 
           <div className="relative">
-            <div
-              role="img"
-              aria-label="问界系列升级款式预览图"
-              className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900 flex flex-col items-center justify-center text-zinc-500"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-950/20 via-zinc-950 to-zinc-950" aria-hidden />
-              <ImageIcon className="w-12 h-12 mb-3 relative" aria-hidden />
-              <p className="text-sm relative">系列预览图</p>
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
+              <Image
+                src={wenjieSeriesHeroImage.publicPath ?? "/images/products/wenjie/preview.png"}
+                alt={wenjieSeriesHeroImage.alt}
+                fill
+                priority
+                sizes="(min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-zinc-950/35 via-transparent to-transparent"
+                aria-hidden
+              />
             </div>
             <p className="text-xs text-zinc-500 mt-3 text-center">
-              系列预览图待补；不代表安装案例
+              功能预览图用于说明升级方向，不代表实车案例
             </p>
           </div>
         </div>

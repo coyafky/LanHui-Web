@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, ImageIcon } from "lucide-react";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { getWenjieModelHeroImage } from "@/lib/wenjie-preview-images";
 
 export type WenjieSeriesSubModel = {
   modelKey: "M6" | "M7" | "M8";
@@ -27,7 +29,7 @@ function assertSubModelLength(subModels: readonly WenjieSeriesSubModel[]): void 
 
 /**
  * 3 子车型卡片（PRD §10）
- * 每卡：4:3 图占位 + H3 + 数量 Badge + 简短 hero + 跳子页 CTA
+ * 每卡：4:3 功能预览图 + H3 + 数量 Badge + 简短 hero + 跳子页 CTA
  */
 export function WenjieSeriesSubModelsGrid({ subModels }: WenjieSeriesSubModelsGridProps) {
   assertSubModelLength(subModels);
@@ -53,13 +55,14 @@ export function WenjieSeriesSubModelsGrid({ subModels }: WenjieSeriesSubModelsGr
               key={m.modelKey}
               className="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden flex flex-col"
             >
-              <div
-                role="img"
-                aria-label={`${m.modelName} 升级款式预览图`}
-                className="relative aspect-[4/3] bg-zinc-950 border-b border-dashed border-zinc-800 flex flex-col items-center justify-center text-zinc-500"
-              >
-                <ImageIcon className="w-8 h-8 mb-2" aria-hidden />
-                <p className="text-xs">{m.modelName} 升级款式预览图待补</p>
+              <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800">
+                <Image
+                  src={getWenjieModelHeroImage(m.modelKey).publicPath ?? "/images/products/wenjie/preview.png"}
+                  alt={`${m.modelName} 升级款式功能预览图`}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover"
+                />
               </div>
               <div className="p-5 flex flex-col gap-3 flex-1">
                 <Badge

@@ -1,5 +1,4 @@
 import { Badge } from "@/components/ui/badge";
-import { PhoneCta } from "@/components/cta/PhoneCta";
 import type { WenjieSeriesUpgradeProject } from "@/lib/wenjie-series-upgrade-projects";
 
 type WenjieSeriesMoreChoicesProps = {
@@ -19,7 +18,7 @@ function assertOptionalLength(projects: readonly WenjieSeriesUpgradeProject[]): 
 
 /**
  * 24 更多选择紧凑卡片（PRD §9.1）
- * 4 列 / md:3 / sm:2，no image，name + summary + 适用车型 + PhoneCta
+ * 4 列 / md:3 / sm:2，no image，name + summary + 功能提示
  */
 export function WenjieSeriesMoreChoices({ projects }: WenjieSeriesMoreChoicesProps) {
   assertOptionalLength(projects);
@@ -69,18 +68,10 @@ export function WenjieSeriesMoreChoices({ projects }: WenjieSeriesMoreChoicesPro
               <p className="text-xs text-zinc-400 leading-relaxed mb-3 flex-1">
                 {p.summary}
               </p>
-              <PhoneCta
-                source="wenjie_series_optional_consult"
-                label="咨询此款"
-                variant="outline"
-                size="sm"
-                className="w-full"
-                metadata={{
-                  projectKey: p.key,
-                  category: p.category,
-                  priority: "optional",
-                }}
-              />
+              <div className="mt-auto h-1.5 rounded-full bg-gradient-to-r from-cyan-500/70 via-sky-400/30 to-transparent" />
+              <p className="mt-2 text-[11px] text-zinc-500">
+                可按 M6 / M7 / M8 车型确认适配
+              </p>
             </article>
           ))}
         </div>
