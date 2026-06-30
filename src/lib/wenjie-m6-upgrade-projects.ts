@@ -11,11 +11,19 @@
  *   §13 7 步服务流程   → wenjieM6ServiceSteps    (length === 7)
  *   §14 7 条 FAQ       → wenjieM6Faq             (length === 7)
  *
- * 字段值零变更 —— 直接从 PRD §7 表格抄写。一期 imageStatus 全部为 "pending-review"。
+ * 字段值零变更 —— 直接从 PRD §7 表格抄写。展示图统一使用 generated-preview，
+ * 后续可逐项替换为 real。
  *
  * 命名差异（Architect §1.3）：
  *   - M6 软包脚垫保留原名 "360 软包脚垫"
  */
+
+import {
+  buildWenjieGeneratedPreviewImage,
+  type WenjieModelCategory,
+  type WenjiePreviewImage,
+  type WenjiePreviewImageStatus,
+} from "./wenjie-preview-images";
 
 export type WenjieM6UpgradeCategory =
   | "protection"
@@ -25,7 +33,7 @@ export type WenjieM6UpgradeCategory =
   | "family_cabin"
   | "screen_care";
 
-export type WenjieM6ImageStatus = "matched" | "pending-review" | "missing";
+export type WenjieM6ImageStatus = WenjiePreviewImageStatus;
 
 export type WenjieM6SourceArea = "poster_project_matrix";
 
@@ -39,11 +47,23 @@ export type WenjieM6UpgradeProject = {
   suitableFor: readonly string[];
   caution?: string;
   imageStatus: WenjieM6ImageStatus;
+  image: WenjiePreviewImage;
   sourceArea: WenjieM6SourceArea;
 };
 
+type WenjieM6UpgradeProjectRow = Omit<WenjieM6UpgradeProject, "image">;
+
+function withWenjieM6PreviewImages(
+  projects: readonly WenjieM6UpgradeProjectRow[],
+): readonly WenjieM6UpgradeProject[] {
+  return projects.map((project) => ({
+    ...project,
+    ...buildWenjieGeneratedPreviewImage(project.id, project.name, "M6"),
+  }));
+}
+
 // ---- §7 17 个项目 ----
-export const wenjieM6UpgradeProjects = [
+const wenjieM6UpgradeProjectRows = [
   {
     id: "m6-paint-film",
     order: 1,
@@ -51,7 +71,7 @@ export const wenjieM6UpgradeProjects = [
     category: "protection",
     summary: "漆面保护、日常轻微划痕防护、新车质感保持",
     suitableFor: ["新车保护", "日常轻微划痕防护"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -61,7 +81,7 @@ export const wenjieM6UpgradeProjects = [
     category: "protection",
     summary: "隔热、防晒、隐私和驾乘舒适",
     suitableFor: ["隔热防晒", "隐私保护", "长途驾乘"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -71,7 +91,7 @@ export const wenjieM6UpgradeProjects = [
     category: "appearance",
     summary: "主题化车身视觉表达，提升辨识度",
     suitableFor: ["外观个性表达"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -81,7 +101,7 @@ export const wenjieM6UpgradeProjects = [
     category: "electric_convenience",
     summary: "上下车便利，适合家庭成员和高频出入场景",
     suitableFor: ["家庭高频出入", "老人儿童上下车"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -91,7 +111,7 @@ export const wenjieM6UpgradeProjects = [
     category: "family_cabin",
     summary: "地毯保护、易清洁、提升座舱完整感",
     suitableFor: ["地毯保护", "易清洁"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -101,7 +121,7 @@ export const wenjieM6UpgradeProjects = [
     category: "family_cabin",
     summary: "后排空间保护、易清洁、提升车内质感",
     suitableFor: ["后排空间", "家庭出行"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -112,7 +132,7 @@ export const wenjieM6UpgradeProjects = [
     summary: "车身支撑和驾驶稳定感，需到店评估",
     suitableFor: ["车身支撑"],
     caution: "需到店评估",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -122,7 +142,7 @@ export const wenjieM6UpgradeProjects = [
     category: "appearance",
     summary: "强化整车运动姿态和视觉完整度",
     suitableFor: ["外观运动"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -132,7 +152,7 @@ export const wenjieM6UpgradeProjects = [
     category: "family_cabin",
     summary: "提升夜间座舱氛围和科技感",
     suitableFor: ["夜间氛围"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -142,7 +162,7 @@ export const wenjieM6UpgradeProjects = [
     category: "protection",
     summary: "保护底部关键区域，适合新车基础防护",
     suitableFor: ["新车基础防护", "底部防护"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -152,7 +172,7 @@ export const wenjieM6UpgradeProjects = [
     category: "family_cabin",
     summary: "后排办公、用餐、儿童使用场景",
     suitableFor: ["后排办公", "儿童使用"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -162,7 +182,7 @@ export const wenjieM6UpgradeProjects = [
     category: "chassis",
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["车身侧面清洁"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -172,7 +192,7 @@ export const wenjieM6UpgradeProjects = [
     category: "chassis",
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["行车防护"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -183,7 +203,7 @@ export const wenjieM6UpgradeProjects = [
     summary: "提升驾驶信息可视化和科技感，需确认安装适配",
     suitableFor: ["驾驶信息可视化"],
     caution: "需确认安装适配",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -193,7 +213,7 @@ export const wenjieM6UpgradeProjects = [
     category: "screen_care",
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["屏幕防刮"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -203,7 +223,7 @@ export const wenjieM6UpgradeProjects = [
     category: "protection",
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["上下车高频区域"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
   {
@@ -213,10 +233,14 @@ export const wenjieM6UpgradeProjects = [
     category: "appearance",
     summary: "优化车头/车尾细节，提升视觉完整度",
     suitableFor: ["外观小件"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
     sourceArea: "poster_project_matrix",
   },
-] as const satisfies readonly WenjieM6UpgradeProject[];
+] as const satisfies readonly WenjieM6UpgradeProjectRow[];
+
+export const wenjieM6UpgradeProjects = withWenjieM6PreviewImages(
+  wenjieM6UpgradeProjectRows,
+);
 
 // ---- §8 6 个场景 ----
 export type WenjieM6Scenario = {

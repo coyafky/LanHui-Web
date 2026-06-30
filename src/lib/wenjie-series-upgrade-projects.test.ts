@@ -5,7 +5,7 @@
  *   1. 长度字面量（featured=10, optional=24, scenarios=7, steps=6, faq=6）
  *   2. key 唯一
  *   3. order 单调递增
- *   4. imageStatus 全部 "pending-review"（一期）
+ *   4. imageStatus 全部 "generated-preview"（一期）
  */
 
 import { describe, it, expect } from "vitest";
@@ -57,9 +57,9 @@ describe("wenjie-series-upgrade-projects: featured projects invariants", () => {
     ).toBe(true);
   });
 
-  it("all featured imageStatus are 'pending-review' (phase 1)", () => {
+  it("all featured imageStatus are 'generated-preview'", () => {
     expect(
-      wenjieSeriesFeaturedProjects.every((p) => p.imageStatus === "pending-review"),
+      wenjieSeriesFeaturedProjects.every((p) => p.imageStatus === "generated-preview"),
     ).toBe(true);
   });
 });
@@ -81,10 +81,19 @@ describe("wenjie-series-upgrade-projects: optional projects invariants", () => {
     ).toBe(true);
   });
 
-  it("all optional imageStatus are 'pending-review' (phase 1)", () => {
+  it("all optional imageStatus are 'generated-preview'", () => {
     expect(
-      wenjieSeriesOptionalProjects.every((p) => p.imageStatus === "pending-review"),
+      wenjieSeriesOptionalProjects.every((p) => p.imageStatus === "generated-preview"),
     ).toBe(true);
+  });
+
+  it("all projects have generated public preview images", () => {
+    for (const p of [...wenjieSeriesFeaturedProjects, ...wenjieSeriesOptionalProjects]) {
+      expect(p.image.publicPath).toBeNull();
+      expect(p.image.width).toBe(1448);
+      expect(p.image.height).toBe(1086);
+      expect(p.image.aspectRatio).toBe("4/3");
+    }
   });
 
   it("featured and optional keys do not collide", () => {

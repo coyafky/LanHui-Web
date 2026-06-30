@@ -5,15 +5,10 @@
  * 构建期一次性写入；运行时不读取 .hermes/ 或微信缓存绝对路径。
  *
  * 重要提示：
- *   - 源 manifest 的 productRows 没有图片绑定字段，
- *     manifest.imageMatchingNote 明确："Images were extracted from reconstructed
- *     Excel drawing payloads. Product-level matching still needs manual review
- *     before binding images to product rows."
- *   - 按 PRD §7.3 规则："无法匹配图片的产品必须显示'图片待补充'状态，
- *     不得误配其他产品图片。"
- *   - 因此本轮 44 条数据全部 imageStatus="pending"，publicPath=null。
- *   - 等业务人工核对 contact-sheet.jpg 后，由架构师逐项标记为 "matched"
- *     并填入 publicPath，前端无需改组件即可自动切换为真实图。
+ *   - 源 manifest 的 productRows 没有图片绑定字段，真实产品图仍需人工核对。
+ *   - 旧 M7/M8/M9 明细数据保留 pending 状态，避免误配真实产品图。
+ *   - 新问界系列页和 M6/M7/M8 专题页使用 generated-preview 功能预览图，
+ *     真实图片可后续逐项替换。
  */
 
 export type WenjieVehicleModel = "M7" | "M8" | "M9";
@@ -190,10 +185,10 @@ export const wenjieProducts: WenjieProduct[] = [
     vehicleModel: "M8",
     orderInModel: 6,
     sourceRow: 17,
-    productName: "原厂风格防虫网",
+    productName: "经典风格防虫网",
     category: "防护配件",
     imageStatus: "pending",
-    image: { publicPath: null, alt: buildPendingAlt("M8", "原厂风格防虫网") },
+    image: { publicPath: null, alt: buildPendingAlt("M8", "经典风格防虫网") },
   },
   {
     id: "wenjie-m8-007",
