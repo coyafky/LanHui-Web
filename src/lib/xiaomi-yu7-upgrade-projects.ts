@@ -28,6 +28,10 @@ export interface XiaomiYu7UpgradeProject {
   readonly suitableFor: readonly string[];
   readonly caution?: string;
   readonly imageStatus: XiaomiYu7ImageStatus;
+  readonly publicPath?: string;
+  readonly width?: number;
+  readonly height?: number;
+  readonly aspectRatio?: string;
   readonly sourceArea: "poster_project_matrix";
 }
 
