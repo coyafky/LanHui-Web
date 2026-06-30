@@ -30,7 +30,7 @@ export function buildWenjieGeneratedPreviewImage(
 ): WenjiePreviewImageFields {
   const publicPath = modelCategory
     ? `/images/products/wenjie/${modelCategory}/generated/${key}.png`
-    : null;
+    : `/images/products/wenjie/generated/${key.replace(/^wenjie-/, "")}.png`;
   return {
     imageStatus: "generated-preview",
     image: {
@@ -44,7 +44,7 @@ export function buildWenjieGeneratedPreviewImage(
 }
 
 export const wenjieSeriesHeroImage: WenjiePreviewImage = {
-  publicPath: null,
+  publicPath: "/images/products/wenjie/generated/series-hero.png",
   alt: "问界系列轻改功能预览图",
   width: WENJIE_PREVIEW_IMAGE_WIDTH,
   height: WENJIE_PREVIEW_IMAGE_HEIGHT,

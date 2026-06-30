@@ -89,7 +89,7 @@ describe("wenjie-series-upgrade-projects: optional projects invariants", () => {
 
   it("all projects have generated public preview images", () => {
     for (const p of [...wenjieSeriesFeaturedProjects, ...wenjieSeriesOptionalProjects]) {
-      expect(p.image.publicPath).toBeNull();
+      expect(p.image.publicPath).toMatch(/^\/images\/products\/wenjie\/generated\/series-.+\.png$/);
       expect(p.image.width).toBe(1448);
       expect(p.image.height).toBe(1086);
       expect(p.image.aspectRatio).toBe("4/3");
