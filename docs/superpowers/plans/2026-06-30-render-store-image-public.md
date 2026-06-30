@@ -44,7 +44,7 @@ base-ref: b95e20743d27c83f8bb376d57f55e11756d1a995
 
 - [x] 任务 1 全部步骤（7 个子步骤）
 
-- [ ] **步骤 1：编写失败的测试**
+- [x] **步骤 1：编写失败的测试**
 
 在 `src/lib/data.test.ts`（如不存在则新建）顶部 mock `fetch`，通过 `getStores` 间接验证映射：
 
@@ -144,12 +144,12 @@ describe("mapApiStore (via getStores fallback path)", () => {
 });
 ```
 
-- [ ] **步骤 2：运行测试验证失败**
+- [x] **步骤 2：运行测试验证失败**
 
 运行：`npx vitest run src/lib/data.test.ts`
 预期：FAIL — `stores[0].image` 拿到的是 `imageUrl`（因 mapApiStore 当前 line 29 只用 `raw.imageUrl`），且 `stores[0].isActive` 为 `undefined`。
 
-- [ ] **步骤 3：在 `Store` 类型加 `isActive` 字段**
+- [x] **步骤 3：在 `Store` 类型加 `isActive` 字段**
 
 修改 `src/lib/store.ts`，在 `Store` 类型加：
 
@@ -158,7 +158,7 @@ describe("mapApiStore (via getStores fallback path)", () => {
 isActive?: boolean;
 ```
 
-- [ ] **步骤 4：修改 `mapApiStore`**
+- [x] **步骤 4：修改 `mapApiStore`**
 
 修改 `src/lib/data.ts` 中 `mapApiStore`，将 `image: raw.imageUrl` 替换为优先级映射，并新增 `isActive`：
 
@@ -167,17 +167,17 @@ image: raw.imagePath ?? raw.imageUrl ?? undefined,
 isActive: raw.isActive ?? true,
 ```
 
-- [ ] **步骤 5：运行测试验证通过**
+- [x] **步骤 5：运行测试验证通过**
 
 运行：`npx vitest run src/lib/data.test.ts`
 预期：4 个用例全 PASS。
 
-- [ ] **步骤 6：跑 typecheck 确认无新错**
+- [x] **步骤 6：跑 typecheck 确认无新错**
 
 运行：`npx tsc --noEmit`
 预期：0 新错（CLAUDE.md 已知 9 个 test 旧错不计；本任务只动 `data.ts` + `store.ts` 类型）。
 
-- [ ] **步骤 7：Commit**
+- [x] **步骤 7：Commit**
 
 ```bash
 git add src/lib/store.ts src/lib/data.ts src/lib/data.test.ts
@@ -193,7 +193,7 @@ git commit -m "feat(data): map store imagePath and isActive fields"
 
 - [x] 任务 2 全部步骤（6 个子步骤）
 
-- [ ] **步骤 1：在文件顶部加 `Image` import 与 `BLUR_DATA_URL` 常量**
+- [x] **步骤 1：在文件顶部加 `Image` import 与 `BLUR_DATA_URL` 常量**
 
 修改 `src/app/agent/store/[id]/page.tsx` 顶部 imports：
 
@@ -215,7 +215,7 @@ const BLUR_DATA_URL =
   "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/v3AgAA=";
 ```
 
-- [ ] **步骤 2：替换左栏 Building2 占位**
+- [x] **步骤 2：替换左栏 Building2 占位**
 
 修改 `src/app/agent/store/[id]/page.tsx:130-141`，将整个左栏占位块替换为：
 
@@ -233,11 +233,11 @@ const BLUR_DATA_URL =
 </div>
 ```
 
-- [ ] **步骤 3：删除 `Building2` import（若已不再使用）**
+- [x] **步骤 3：删除 `Building2` import（若已不再使用）**
 
 执行 `grep -n "Building2" src/app/agent/store/[id]/page.tsx` 确认是否还有引用，若仅在 import 行则删除。
 
-- [ ] **步骤 4：跑 typecheck 与 build**
+- [x] **步骤 4：跑 typecheck 与 build**
 
 ```bash
 npx tsc --noEmit
@@ -246,7 +246,7 @@ npm run build
 
 预期：typecheck 0 新错；build 通过且 SSG 输出包含 `/agent/store/[id]` 静态化页面。
 
-- [ ] **步骤 5：手动浏览器验证**
+- [x] **步骤 5：手动浏览器验证**
 
 打开 dev server（`npm run dev`），访问：
 - `/agent/store/100001`（静态 fallback 无图 → 应显示 `placeholders/store.webp`，无破图）
@@ -254,7 +254,7 @@ npm run build
 
 DevTools Network 面板：确认 `/_next/image?url=...` 请求命中，srcset 包含多个尺寸。
 
-- [ ] **步骤 6：Commit**
+- [x] **步骤 6：Commit**
 
 ```bash
 git add src/app/agent/store/[id]/page.tsx
@@ -271,7 +271,7 @@ git commit -m "feat(store-detail): render store image with Next/Image"
 
 - [x] 任务 3 全部步骤（6 个子步骤）
 
-- [ ] **步骤 1：创建文件 `src/components/FeaturedStores.tsx`**
+- [x] **步骤 1：创建文件 `src/components/FeaturedStores.tsx`**
 
 完整内容：
 
@@ -345,7 +345,7 @@ export async function FeaturedStores() {
 }
 ```
 
-- [ ] **步骤 2：在首页挂载 `<FeaturedStores />`**
+- [x] **步骤 2：在首页挂载 `<FeaturedStores />`**
 
 修改 `src/app/page.tsx`：
 
@@ -375,7 +375,7 @@ export default function Home() {
 }
 ```
 
-- [ ] **步骤 3：跑 typecheck 与 build**
+- [x] **步骤 3：跑 typecheck 与 build**
 
 ```bash
 npx tsc --noEmit
@@ -384,7 +384,7 @@ npm run build
 
 预期：typecheck 0 新错；build 通过，SSG 静态化首页。
 
-- [ ] **步骤 4：手动浏览器验证**
+- [x] **步骤 4：手动浏览器验证**
 
 启动 dev server（`npm run dev`），访问 `/`：
 - 桌面 1440px：4 列网格；平板 768px：2 列；移动 390px：1 列
@@ -392,13 +392,13 @@ npm run build
 - 每张卡 hover：图片 `scale-105`、卡片边框变亮
 - 点击卡片跳转到 `/agent/store/{id}`
 
-- [ ] **步骤 5：空守卫验证**
+- [x] **步骤 5：空守卫验证**
 
 若 `getStores` 返回空数组：整个 section 不渲染（DOM 中无 `<section>`）。
 
 验证方法：临时把 `limit: 4` 改为 `limit: 0`，访问 `/`，推荐位 section 应消失。验证后恢复 `limit: 4`。
 
-- [ ] **步骤 6：Commit**
+- [x] **步骤 6：Commit**
 
 ```bash
 git add src/components/FeaturedStores.tsx src/app/page.tsx
@@ -414,7 +414,7 @@ git commit -m "feat(home): add FeaturedStores RSC section"
 
 - [x] 任务 4 全部步骤（6 个子步骤）
 
-- [ ] **步骤 1：扩展 `PublishCheck` 类型**
+- [x] **步骤 1：扩展 `PublishCheck` 类型**
 
 修改 `src/app/admin/(dashboard)/stores/[id]/page.tsx`，加 import 并扩展接口：
 
@@ -431,7 +431,7 @@ interface PublishCheck {
 }
 ```
 
-- [ ] **步骤 2：在 `image` 项挂 Link**
+- [x] **步骤 2：在 `image` 项挂 Link**
 
 修改 `publishChecks` 数组中 `key: "image"` 项：
 
@@ -452,7 +452,7 @@ interface PublishCheck {
 },
 ```
 
-- [ ] **步骤 3：在渲染分支显示 action**
+- [x] **步骤 3：在渲染分支显示 action**
 
 修改渲染 `PublishCheck` 列表的 div，在 `<p>{c.hint}</p>` 之后加：
 
@@ -460,7 +460,7 @@ interface PublishCheck {
 {c.action && <div className="mt-1">{c.action}</div>}
 ```
 
-- [ ] **步骤 4：跑 typecheck 与 build**
+- [x] **步骤 4：跑 typecheck 与 build**
 
 ```bash
 npx tsc --noEmit
@@ -469,7 +469,7 @@ npm run build
 
 预期：typecheck 0 新错；build 通过。
 
-- [ ] **步骤 5：手动浏览器验证**
+- [x] **步骤 5：手动浏览器验证**
 
 1. 启动 dev server，登录 admin（默认 `admin / admin123`）
 2. 访问 `/admin/stores/100001`
@@ -478,7 +478,7 @@ npm run build
    - 若无图：显示「上传门店图 →」蓝色链接
 4. 点击链接，跳转至 `/admin/stores/100001/image` uploader
 
-- [ ] **步骤 6：Commit**
+- [x] **步骤 6：Commit**
 
 ```bash
 git add src/app/admin/\(dashboard\)/stores/\[id\]/page.tsx

@@ -35,6 +35,34 @@
 | 5 | done | 9386055 | 0/2 | ✅ DONE |
 | final-review | dispatching | — | 0/2 | ⏳ in_progress |
 
+### Final review 报告（已归档）
+- reviewer: 派发一次性最终完整 agent（review_mode: thorough, 最多 2 轮里第 1 轮）
+- STATUS: REVIEW_DONE_WITH_IMPORTANT, Confidence: HIGH
+- 0 CRITICAL / 3 IMPORTANT / 7 MEDIUM / 5 LOW
+- Spec compliance 5/5 PASS（5 Requirement / 13 Scenario 全覆盖）
+- Ready for build-phase guard: YES
+
+**Findings 摘要与接受理由（主会话决策）**：
+
+| 编号 | 等级 | 内容 | 主会话决策 |
+|------|------|------|-----------|
+| IMP-1 | IMPORTANT | Plan/Design Doc 行号预测（130-142、213-218）与实际（135-145、215-228）有 5 行漂移 | **接受为 follow-up**。纯文档漂移，不影响代码；archive 阶段刷新即可。 |
+| IMP-2 | IMPORTANT | 4 张 `priority` 推荐位图与前 4 屏 LCP 抢占 | **接受为 known trade-off**。spec Scenario "Featured store image priority" 明确要求 "each card"，当前符合 spec 不改。Design Doc §Risks R1 已评估。 |
+| IMP-3 | IMPORTANT | `image: imagePath ?? imageUrl ?? undefined` 空串误触发 imageUrl fallback | **接受为已知边界**。spec 只覆盖 null/undefined 三态；admin upload 经 sharp 写入实际不可能产生空串。 |
+| MED-1 | MEDIUM | placeholder 路径 `/images/placeholders/store.webp` 硬编码 2 处 | **接受为 follow-up**。2 处不深依赖，本周期可接受。 |
+| MED-2 | MEDIUM | `BLUR_DATA_URL` 字面量重复 2 处 | **接受为 follow-up**。同 MED-1。 |
+| MED-4 | MEDIUM | 验证报告未注明"4 张图 fallback placeholder 时 preload 合并为 1 个 URL" | **接受为 follow-up**。当前 SSG 验证场景下事实，无 PR-grade 误解。 |
+| MED-5 | MEDIUM | Task 4 用 `use(params)` 替代 spec 中 `${storeData.id}` | ✅ **判定为改进**（异步鲁棒、URL 等价） |
+| MED-6 | MEDIUM | data.test.ts 缺 `vi.resetModules` 测试隔离 | **接受为 follow-up**。当前 8/8 PASS，无运行时影响。 |
+| MED-7 | MEDIUM | FeaturedStores section 缺 `aria-labelledby` | **接受为 follow-up**。与同区 ProductsQuickEntry 一致，a11y 可优化。 |
+| LOW-1~5 | LOW | 风格与命名建议 | **接受为 follow-up**。无影响。 |
+
+**审查证据链**：spec/design/plan + 11 commits + 5 文件 + 4 任务 + Task 5 验证报告 + Next.js 16 image.md 现行 API。
+
+**完成**：`checkoff 6662731` 后，进度文件已记录 5/5 tasks done + final-review accepted → **可推进 build guard → phase: verify → /comet-verify**。
+
+---
+
 ### Task 5 实施摘要（已归档）
 - 提交：`9386055 docs(verify): task 5 verification report for store image rendering`
 - Typecheck：0 新错（9 个旧错全是已豁免的 test 文件）
