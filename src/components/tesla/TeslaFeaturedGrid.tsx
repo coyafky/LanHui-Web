@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { trackClick } from "@/lib/analytics";
 import { Badge } from "@/components/ui/badge";
@@ -94,10 +95,22 @@ export function TeslaFeaturedGrid({ projects, scenarios }: TeslaFeaturedGridProp
                 <div
                   role="img"
                   aria-label={`${p.name} 升级项目预览图`}
-                  className="relative aspect-[4/3] bg-zinc-950 border-b border-dashed border-zinc-800 flex flex-col items-center justify-center text-zinc-500"
+                  className="relative aspect-[4/3] bg-zinc-950 border-b border-dashed border-zinc-800 flex flex-col items-center justify-center text-zinc-500 overflow-hidden"
                 >
-                  <ImageIcon className="w-8 h-8 mb-2" aria-hidden />
-                  <p className="text-xs">图片待补充</p>
+                  {p.publicPath ? (
+                    <Image
+                      src={p.publicPath}
+                      alt={`${p.name} 升级项目预览图`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                    />
+                  ) : (
+                    <>
+                      <ImageIcon className="w-8 h-8 mb-2" aria-hidden />
+                      <p className="text-xs">图片待补充</p>
+                    </>
+                  )}
                 </div>
                 <div className="p-4 flex flex-col gap-3 flex-1">
                   <div className="flex flex-wrap items-center gap-2">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { trackClick } from "@/lib/analytics";
 import {
@@ -85,24 +86,38 @@ function ProjectCard({
         aria-controls={`li-auto-i8-project-detail-${project.key}`}
         className="text-left w-full"
       >
-        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center">
-          {/* pending-review gradient placeholder */}
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-950/20 via-zinc-950 to-zinc-900" />
-          <span
-            aria-hidden
-            className="relative text-5xl font-bold text-zinc-800 select-none"
-          >
-            {String(project.order).padStart(2, "0")}
-          </span>
+        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center overflow-hidden">
+          {project.publicPath ? (
+            <Image
+              src={project.publicPath}
+              alt={project.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            />
+          ) : (
+            <>
+              {/* pending-review gradient placeholder */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-950/20 via-zinc-950 to-zinc-900" />
+              <span
+                aria-hidden
+                className="relative text-5xl font-bold text-zinc-800 select-none"
+              >
+                {String(project.order).padStart(2, "0")}
+              </span>
+            </>
+          )}
           <span
             aria-hidden
             className="absolute top-2 left-2 text-xs font-bold w-8 h-8 flex items-center justify-center rounded-md bg-amber-500/80 text-white"
           >
             {String(project.order).padStart(2, "0")}
           </span>
-          <span className="absolute top-2 right-2 text-[10px] px-2 py-1 rounded-md bg-zinc-900/80 border border-zinc-700/60 text-zinc-400">
-            图片审核中
-          </span>
+          {!project.publicPath && (
+            <span className="absolute top-2 right-2 text-[10px] px-2 py-1 rounded-md bg-zinc-900/80 border border-zinc-700/60 text-zinc-400">
+              图片审核中
+            </span>
+          )}
         </div>
 
         <div className="p-4">
@@ -129,7 +144,7 @@ function ProjectCard({
             ) : null}
           </div>
           <p className="text-[11px] text-zinc-500 mt-3">
-            图片审核中 · 按车型确认适配
+            {project.publicPath ? "功能预览 · 按车型确认适配" : "图片审核中 · 按车型确认适配"}
           </p>
         </div>
       </button>

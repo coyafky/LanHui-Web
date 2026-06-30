@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { trackClick } from "@/lib/analytics";
 import {
@@ -57,8 +58,16 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
         aria-controls={`xiaomi-yu7-project-detail-${project.id}`}
         className="text-left w-full"
       >
-        <div className={`relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center ${isMissing ? "border-dashed border-zinc-700" : ""}`}>
-          {isMissing ? (
+        <div className={`relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center overflow-hidden ${isMissing && !project.publicPath ? "border-dashed border-zinc-700" : ""}`}>
+          {project.publicPath ? (
+            <Image
+              src={project.publicPath}
+              alt={project.name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          ) : isMissing ? (
             <div className="flex flex-col items-center gap-2 text-zinc-600">
               <ImageIcon className="w-8 h-8" aria-hidden />
               <span className="text-xs">图片待补充</span>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import type { LiAutoSeriesUpgradeProject } from "@/lib/li-auto-series-upgrade-projects";
 
@@ -46,12 +47,22 @@ export function LiAutoSeriesFeaturedGrid({ projects }: LiAutoSeriesFeaturedGridP
               id={p.key}
               className="bg-zinc-900 rounded-2xl border border-zinc-800 overflow-hidden flex flex-col"
             >
-              <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800">
-                <div
-                  role="img"
-                  aria-label={`${p.name} 升级项目功能预览`}
-                  className="absolute inset-0 bg-gradient-to-br from-amber-950/30 via-zinc-950 to-zinc-900"
-                />
+              <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 overflow-hidden">
+                {p.publicPath ? (
+                  <Image
+                    src={p.publicPath}
+                    alt={`${p.name} 升级项目功能预览`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                ) : (
+                  <div
+                    role="img"
+                    aria-label={`${p.name} 升级项目功能预览`}
+                    className="absolute inset-0 bg-gradient-to-br from-amber-950/30 via-zinc-950 to-zinc-900"
+                  />
+                )}
               </div>
               <div className="p-4 flex flex-col gap-3 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
