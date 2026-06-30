@@ -184,4 +184,4 @@ API: GET /api/<route>   # 例: /api/articles?category=xxx
 
 ## 附录 B: 截图占位
 
-实施完成后,在 `docs/audits/screenshots/<viewport>/<page>.png` 存放三视口截图。
+实施完成后,在 `docs/test-reports/<YYYY-MM-DD>/<topic>/` 存放三视口验证截图；如是视觉评审,同步记录到 `docs/design-reviews/`。

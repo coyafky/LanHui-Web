@@ -3,14 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PhoneCta } from "@/components/cta/PhoneCta";
 import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
 import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelProjectGrid";
 import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScenarios";
 import { WenjieModelBundles } from "@/components/wenjie/model/WenjieModelBundles";
 import { WenjieModelServiceFlow } from "@/components/wenjie/model/WenjieModelServiceFlow";
 import { WenjieModelFaq } from "@/components/wenjie/model/WenjieModelFaq";
-import { WenjieModelPosterStub } from "@/components/wenjie/model/WenjieModelPosterStub";
 import { getModelRoute } from "@/lib/product-routes";
 import {
   wenjieM6UpgradeProjects,
@@ -90,17 +88,6 @@ export default function WenjieM6Page() {
           modelName="问界 M6"
         />
 
-        <WenjieModelPosterStub
-          modelKey="M6"
-          modelName="问界 M6"
-          posters={[
-            { key: "hero", label: "M6 系列海报 · 主形象" },
-            { key: "features", label: "M6 升级项目矩阵" },
-            { key: "bundles", label: "M6 套餐组合" },
-            { key: "service", label: "M6 服务流程" },
-          ]}
-        />
-
         <WenjieModelServiceFlow
           steps={wenjieM6ServiceSteps}
           modelKey="M6"
@@ -121,15 +108,9 @@ export default function WenjieM6Page() {
               想为问界 M6 选择合适的升级组合？
             </h2>
             <p className="text-sm md:text-base text-zinc-400 leading-relaxed mb-8">
-              电话咨询，到店评估后给出 M6 专属方案；也可返回问界系列查看 M7 / M8 项目。
+              可先查看 M6 项目组合，也可返回问界系列对比 M7 / M8 的升级方向。
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <PhoneCta
-                source="wenjie_m6_bottom_phone"
-                label="电话咨询"
-                size="lg"
-                metadata={{ modelKey: "M6", section: "bottom" }}
-              />
               <Link
                 href="/product/wenjie"
                 className="inline-flex items-center px-4 py-2.5 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-cyan-700/60 text-sm transition-colors"

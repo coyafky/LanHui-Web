@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PhoneCta } from "@/components/cta/PhoneCta";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import {
   wenjieM8MustHaveProjects,
@@ -21,20 +20,12 @@ import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelPro
 import { WenjieM8ElectricDoorCautionCard } from "@/components/wenjie/model/WenjieM8ElectricDoorCautionCard";
 import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScenarios";
 import { WenjieModelBundles } from "@/components/wenjie/model/WenjieModelBundles";
-import { WenjieModelPosterStub } from "@/components/wenjie/model/WenjieModelPosterStub";
 import { WenjieModelServiceFlow } from "@/components/wenjie/model/WenjieModelServiceFlow";
 import { WenjieModelFaq } from "@/components/wenjie/model/WenjieModelFaq";
 
 const MODEL_KEY = "M8" as const;
 const MODEL_NAME = "问界 M8";
 const CANONICAL_PATH = "/product/wenjie/m8";
-
-const POSTERS = [
-  { key: "m8-poster-must-have", label: "必改产品系列" },
-  { key: "m8-poster-business-upgrade", label: "高级商务升级系列" },
-  { key: "m8-poster-practical-accessory", label: "实用小配件系列" },
-  { key: "m8-poster-whole-vehicle", label: "整车效果系列" },
-] as const;
 
 export const metadata: Metadata = {
   title:
@@ -148,12 +139,6 @@ export default async function WenjieM8Page() {
           modelName={MODEL_NAME}
         />
 
-        <WenjieModelPosterStub
-          modelKey={MODEL_KEY}
-          modelName={MODEL_NAME}
-          posters={POSTERS}
-        />
-
         <WenjieModelServiceFlow
           steps={wenjieM8ServiceSteps}
           modelKey={MODEL_KEY}
@@ -172,18 +157,12 @@ export default async function WenjieM8Page() {
               NEXT STEP
             </p>
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              {`${MODEL_NAME} 升级方案 · 咨询`}
+              {`${MODEL_NAME} 升级方案 · 项目总览`}
             </h2>
             <p className="text-zinc-400 text-sm md:text-base mb-8">
-              确认车型、配置和项目组合后到店评估，蓝辉轻改团队按标准流程施工。
+              结合车型、配置和项目组合查看升级方向，重点关注电动门等结构件适配说明。
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <PhoneCta
-                source="wenjie_m8_bottom_phone"
-                label="电话咨询"
-                size="lg"
-                metadata={{ modelKey: MODEL_KEY, section: "bottom" }}
-              />
               <Link
                 href="/product/wenjie"
                 className="inline-flex items-center px-4 py-2.5 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-cyan-700/60 text-sm transition-colors"

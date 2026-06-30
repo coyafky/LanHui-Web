@@ -3,13 +3,17 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ChevronDown, MapPin, Menu, MessageCircle, X } from "lucide-react";
+import { ChevronDown, ChevronRight, MapPin, Menu, MessageCircle, X } from "lucide-react";
 import { brand } from "@/lib/brand";
-import { ALL_SERVICES } from "@/lib/product-routes";
+import { ALL_BRANDS, ALL_MODELS, getLiveServices } from "@/lib/product-routes";
 import { Logo } from "@/components/Logo";
 import { openWeChatModal } from "@/lib/wechat-modal";
 
-type NavChild = { label: string; href: string };
+type NavChild = {
+  label: string;
+  href: string;
+  children?: NavChild[];
+};
 type NavItem = {
   label: string;
   href?: string;
@@ -17,16 +21,37 @@ type NavItem = {
   children?: NavChild[];
 };
 
+const LIVE_SERVICES = getLiveServices();
+
 const NAV_ITEMS: NavItem[] = [
   { label: "首页", href: "/" },
   {
     label: "产品中心",
     href: "/product",
     matchPrefix: "/product",
-    children: ALL_SERVICES.map((s) => ({
-      label: s.navLabel,
-      href: s.canonicalPath,
-    })),
+    children: [
+      // 服务分类
+      ...LIVE_SERVICES.map((s) => ({
+        label: s.navLabel,
+        href: s.canonicalPath,
+      })),
+      // 品牌车型（一级品牌 + 二级车型）
+      ...ALL_BRANDS.filter((b) => b.status === "live")
+        .map((b) => ({
+          label: b.brandName,
+          href: b.canonicalPath,
+          children: b.modelSlugs
+            .map((ms) => {
+              const m = ALL_MODELS.find(
+                (mod) => mod.brandSlug === b.brandSlug && mod.modelSlug === ms,
+              );
+              return m
+                ? { label: m.navLabel, href: m.canonicalPath }
+                : null;
+            })
+            .filter((c): c is NavChild => c !== null),
+        })),
+    ],
   },
   { label: "门店服务", href: "/agent", matchPrefix: "/agent" },
   {
@@ -193,6 +218,48 @@ export function Header() {
                       <div className="bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/40 p-1.5">
                         {item.children.map((child) => {
                           const childActive = pathname === child.href;
+                          // 品牌（有子车型）→ 右箭头 + 右侧 flyout
+                          if (child.children && child.children.length > 0) {
+                            return (
+                              <div
+                                key={child.label}
+                                className="relative group/brand"
+                              >
+                                <Link
+                                  href={child.href}
+                                  className={`flex items-center justify-between px-4 py-2.5 text-sm rounded-lg transition-colors ${
+                                    childActive
+                                      ? "text-orange-400 bg-orange-400/10"
+                                      : "text-zinc-300 hover:text-white hover:bg-white/5"
+                                  }`}
+                                  onClick={() => setOpenDropdown(null)}
+                                >
+                                  <span>{child.label}</span>
+                                  <ChevronRight className="w-3 h-3 text-zinc-600 group-hover/brand:text-zinc-400 transition-colors" />
+                                </Link>
+                                {/* Sub-flyout: 车型列表 */}
+                                <div className="absolute left-full top-0 ml-1 w-28 bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/40 p-1.5 opacity-0 invisible group-hover/brand:opacity-100 group-hover/brand:visible transition-all duration-150 origin-left">
+                                  {child.children.map((model) => {
+                                    const modelActive = pathname === model.href;
+                                    return (
+                                      <Link
+                                        key={model.label}
+                                        href={model.href}
+                                        className={`block px-3 py-2 text-sm rounded-lg transition-colors ${
+                                          modelActive
+                                            ? "text-orange-400 bg-orange-400/10"
+                                            : "text-zinc-300 hover:text-white hover:bg-white/5"
+                                        }`}
+                                        onClick={() => setOpenDropdown(null)}
+                                      >
+                                        {model.label}
+                                      </Link>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            );
+                          }
                           return (
                             <Link
                               key={child.label}
@@ -208,55 +275,12 @@ export function Header() {
                             </Link>
                           );
                         })}
-                      </div>
-                    </div>
-                  </div>
-                );
-              }
-              return item.children ? (
-                <div key={item.label} className="relative">
-                  <button
-                    type="button"
-                    onClick={() => toggleDropdown(item.label)}
-                    className={`relative inline-flex items-center gap-1 px-3.5 py-2 text-sm font-medium tracking-wide transition-colors ${
-                      active
-                        ? "text-orange-400"
-                        : "text-zinc-400 hover:text-white"
-                    }`}
-                    aria-expanded={openDropdown === item.label}
-                  >
-                    {item.label}
-                    <ChevronDown
-                      className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                        openDropdown === item.label ? "rotate-180" : ""
-                      }`}
-                    />
-                    {active && (
-                      <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-orange-400 rounded-full" />
-                    )}
-                  </button>
-                  <div
-                    className={`absolute left-1/2 -translate-x-1/2 mt-1 w-56 origin-top transition-all duration-200 ${
-                      openDropdown === item.label
-                        ? "opacity-100 scale-100 visible"
-                        : "opacity-0 scale-95 invisible"
-                    }`}
-                  >
-                    <div className="bg-zinc-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/40 p-1.5">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          href={child.href}
-                          className="block px-4 py-2.5 text-sm rounded-lg text-zinc-300 hover:text-white hover:bg-white/5 transition-colors"
-                          onClick={() => setOpenDropdown(null)}
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
                     </div>
                   </div>
                 </div>
-              ) : (
+              );
+              }
+              return (
                 <Link
                   key={item.label}
                   href={item.href!}

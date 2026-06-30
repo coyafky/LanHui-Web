@@ -10,6 +10,18 @@
 
 <!-- 一句话说明这个模块负责什么，不负责什么 -->
 
+## 1.1 Skill 路由
+
+<!-- 参考 docs/SPEC/_SKILL_ROUTING.md，只列本模块需要的 skill -->
+
+| Skill | 是否使用 | 用途 |
+|---|---|---|
+| `next-best-practices` | 是/否 | Next 16 页面、路由、RSC、metadata、route handlers |
+| `react-best-practices` | 是/否 | React 组件、性能、bundle、rerender |
+| `web-design-engineer` | 是/否 | 原型、视觉方向、复杂 UI 状态、设计评审 |
+| `prisma-data-ops` | 是/否 | Prisma、API、事务、分页、raw SQL |
+| faker/MSW | 是/否 | fixtures、API mock、无 DB 组件测试 |
+
 ## 2. 路由 / 入口
 
 | 路径 | 类型 | 说明 | 状态 |
@@ -63,11 +75,42 @@ interface Xxx {
 - [ ] AC1: ...
 - [ ] AC2: ...
 
-## 8. 已知问题
+## 8. 实现拆解
+
+> 复杂模块请同时复制 `docs/SPEC/_IMPLEMENTATION_BREAKDOWN_TEMPLATE.md`，在本节只保留摘要和链接。
+
+### 8.1 前端实现
+
+- 页面/组件:
+- 原型页/视觉参考:
+- `web-design-engineer` 参考点:
+- 响应式视口:
+
+### 8.2 API 对接
+
+- Route handler:
+- 请求/响应 schema:
+- 权限:
+- 错误码:
+
+### 8.3 后端/数据实现
+
+- 静态数据:
+- Prisma / migration:
+- Seed / fallback:
+
+### 8.4 测试实现
+
+- Unit:
+- API route:
+- Component:
+- E2E / browser:
+
+## 9. 已知问题
 
 - [ ] 问题描述（链接到 Issue 或 PRD）
 
-## 9. AI 执行记录
+## 10. AI 执行记录
 
 | 日期 | AI 会话 | 执行内容 | 完成度 | 剩余工作 |
 |------|---------|---------|--------|---------|

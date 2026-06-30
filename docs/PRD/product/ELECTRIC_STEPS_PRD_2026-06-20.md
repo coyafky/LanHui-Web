@@ -62,7 +62,6 @@
 | F6 | SEO metadata:`title` + `description` | P0 | ✅ |
 | F7 | 面包屑导航(`产品中心` 链接 → `电动踏板`) | P0 | ✅ |
 | F8 | Header / Footer 全站统一 | P0 | ✅ |
-| F9 | 全站统一咨询入口(WeChat modal / 电话) | P1 | ✅(由 `Header` 提供,非本产品页私有) |
 
 > 本页**不包含**的功能(由所属分类共担):N 车型款式列表 / 价格表 / 库存 / 后台管理录入 / 第三方电商下单。
 
@@ -83,7 +82,7 @@
 
 | 组件 | 路径 | 类型 | 说明 |
 | --- | --- | --- | --- |
-| `<Header>` | `src/components/Header.tsx` | CC | 全站统一头(导航 + Logo + 咨询入口) |
+| `<Header>` | `src/components/Header.tsx` | CC | 全站统一头(导航 + Logo) |
 | `<Footer>` | `src/components/Footer.tsx` | RSC | 全站统一底 |
 | `<ProductDetail>` | `src/components/ProductDetail.tsx` | RSC | 6 大产品线共享渲染器,按 `product.slug` 分支 |
 | `Sparkles` / `Check` | `lucide-react` | — | 核心价值区 icon |
@@ -103,7 +102,6 @@
 - **面包屑**:`产品中心` 可点击 → `/product`;`电动踏板` 不可点击(当前页)
 - **核心价值卡片**:静态展示,无 hover 态(后续若加入 hover 效果,需在 `ProductDetail` 统一改造,本页不单独写)
 - **服务流程卡片**:无跳转,以编号 `01-04` 为视觉锚点
-- **CTA**:本页**不**含私有 CTA,统一由 `<Header>` 的「联系咨询」按钮触发全站 WeChat modal / 电话(详见 [PRODUCT_INDEX_PRD_2026-06-20.md §4.4](./PRODUCT_INDEX_PRD_2026-06-20.md))
 
 ---
 

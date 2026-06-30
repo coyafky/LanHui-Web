@@ -23,6 +23,21 @@ export const WENJIE_PREVIEW_IMAGE_ASPECT_RATIO: WenjiePreviewImageAspectRatio = 
 
 export type WenjieModelCategory = "M6" | "M7" | "M8";
 
+export function buildWenjieMissingPreviewImage(
+  name: string,
+): WenjiePreviewImageFields {
+  return {
+    imageStatus: "missing",
+    image: {
+      publicPath: null,
+      alt: `问界 ${name} 产品图待补充`,
+      width: WENJIE_PREVIEW_IMAGE_WIDTH,
+      height: WENJIE_PREVIEW_IMAGE_HEIGHT,
+      aspectRatio: WENJIE_PREVIEW_IMAGE_ASPECT_RATIO,
+    },
+  };
+}
+
 export function buildWenjieGeneratedPreviewImage(
   key: string,
   name: string,

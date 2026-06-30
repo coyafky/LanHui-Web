@@ -244,9 +244,9 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     key: "sport-body-kit",
     name: "运动包围",
     category: "appearance",
-    summary: "前唇侧裙后下饰件运动包围套装，原厂升级感。",
+    summary: "前唇侧裙后下饰件运动包围套装，运动升级感。",
     promptSummary:
-      "ES8 风格运动包围，前唇侧裙后下饰件，原厂升级感。",
+      "ES8 风格运动包围，前唇侧裙后下饰件，运动升级感。",
     publicPath: "/images/products/nio-es8/generated/sport-body-kit.png",
     width: 1448,
     height: 1086,

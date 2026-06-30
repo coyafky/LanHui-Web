@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { PhoneCta } from "@/components/cta/PhoneCta";
 import { getModelRoute } from "@/lib/product-routes";
 import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
 import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelProjectGrid";
@@ -11,7 +10,6 @@ import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScena
 import { WenjieModelBundles } from "@/components/wenjie/model/WenjieModelBundles";
 import { WenjieModelServiceFlow } from "@/components/wenjie/model/WenjieModelServiceFlow";
 import { WenjieModelFaq } from "@/components/wenjie/model/WenjieModelFaq";
-import { WenjieModelPosterStub } from "@/components/wenjie/model/WenjieModelPosterStub";
 import {
   wenjieM7Bundles,
   wenjieM7Faq,
@@ -48,13 +46,6 @@ export const metadata: Metadata = {
     type: "article",
   },
 };
-
-const POSTERS: readonly { key: string; label: string }[] = [
-  { key: "m7-poster-must-have", label: "必改产品 · 5 项" },
-  { key: "m7-poster-business", label: "高级商务升级 · 15 项" },
-  { key: "m7-poster-practical", label: "实用小配件 · 10 项" },
-  { key: "m7-poster-overall", label: "问界 M7 综合方案" },
-];
 
 export default function WenjieM7Page() {
   const model = getModelRoute("wenjie", "m7");
@@ -122,12 +113,6 @@ export default function WenjieM7Page() {
           modelName={model.modelName}
         />
 
-        <WenjieModelPosterStub
-          modelKey="M7"
-          modelName={model.modelName}
-          posters={POSTERS}
-        />
-
         <WenjieModelServiceFlow
           steps={wenjieM7ServiceSteps}
           modelKey="M7"
@@ -136,22 +121,16 @@ export default function WenjieM7Page() {
 
         <WenjieModelFaq items={wenjieM7Faq} modelKey="M7" modelName={model.modelName} />
 
-        {/* 底部 CTA + 合规说明 */}
+        {/* 底部导航 + 合规说明 */}
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
               想为你的问界 M7 选几款升级？
             </h2>
             <p className="text-zinc-400 mb-6">
-              到店确认车型、年款与原车状态，给出可执行的项目组合建议。
+              按必改、商务和实用小配件三层结构浏览项目，确认适合自己的升级方向。
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <PhoneCta
-                source="wenjie_m7_footer_phone"
-                label="电话咨询"
-                size="lg"
-                metadata={{ modelKey: "M7", section: "footer" }}
-              />
               <Link
                 href="/product/wenjie"
                 className="inline-flex items-center px-4 py-2 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-cyan-700/60 text-sm"

@@ -60,7 +60,6 @@
 | F5 | 产品卡片:图标 + 产品名 + 组别 + tagline + 「了解详情 →」链接 | P0 | ✅ |
 | F6 | 三视口响应式 | P0 | ✅ |
 | F7 | SEO metadata | P0 | ✅ |
-| F8 | Header / Footer / 全站统一咨询入口 | P0 | ✅ |
 | F9 | 链接到对应产品详情页(`/product/<slug>`) | P0 | ✅ |
 
 ---
@@ -128,10 +127,8 @@
 
 ### 4.6 交互细节
 
-- **Hero**:静态,无 CTA 按钮(联系入口由 `<Header>` 统一提供)
 - **TopicBanner**:整块可点击跳转
 - **产品卡片**:整块 `<Link>`,hover 时 `border-zinc-700` + 箭头 `translate-x-1`
-- **CTA**:本页**不**含私有 CTA
 
 ---
 

@@ -20,6 +20,7 @@
 
 | PRD | 说明 | 版本 |
 |---|---|---|
+| [`PAGE_PRD_SYSTEM_2026-06-29.md`](./PAGE_PRD_SYSTEM_2026-06-29.md) | 页面级 PRD 总览，统一首页、产品中心、服务线、品牌/车型、门店、资讯、联系、admin 的表达和验收口径 | v1 |
 | [`PUBLIC_SITE_SYSTEM_PRD_2026-06-21.md`](./PUBLIC_SITE_SYSTEM_PRD_2026-06-21.md) | 公开站总 PRD，定义克制营销原则 | v0 |
 | [`FRONTEND_PAGE_SYSTEM_PRD_2026-06-22.md`](./FRONTEND_PAGE_SYSTEM_PRD_2026-06-22.md) | 新版前端页面系统 PRD | v0.1 |
 | [`PRODUCT_PAGE_SYSTEM_PRD_2026-06-22.md`](./PRODUCT_PAGE_SYSTEM_PRD_2026-06-22.md) | 产品中心与产品详情的统一模式 | v0.1 |

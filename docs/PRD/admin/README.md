@@ -11,6 +11,19 @@
 
 该模块仍处于规划阶段，未进入编码。
 
+## 2026-06-24 Dashboard 工作台规划
+
+- [ADMIN_DASHBOARD_PRD_2026-06-24.md](./ADMIN_DASHBOARD_PRD_2026-06-24.md) — 按“三棱镜理论”重写 `/admin` Dashboard：实现什么、怎么实现、怎么验收。
+- [ADMIN_DASHBOARD_PRD_2026-06-20.md](./ADMIN_DASHBOARD_PRD_2026-06-20.md) — 保留为旧实现说明，记录当前 KPI、图表、Analytics API 和历史修复点。
+
+新版 Dashboard 的定位从“数据概览页”升级为“总部每日经营工作台”，重点增加今日待办、异常提醒、咨询渠道健康、门店/内容/兴趣摘要和明确验收口径。
+
+## 2026-06-25 Settings 系统设置规划
+
+- [ADMIN_SETTINGS_PRD_2026-06-25.md](./ADMIN_SETTINGS_PRD_2026-06-25.md) — `/admin/settings` 基础配置中心：品牌信息、咨询渠道摘要、站点 SEO、账号权限说明。
+
+Settings 当前定位为后台基础配置中心，不做大而全系统设置；V1 不包含完整账号管理、OSS 配置、媒体库、支付订单或产品页独立 CTA。
+
 ## Canonical PRD（合并后）
 
 2026-06-20 实现版与 2026-06-21 规划版已合并为单份 canonical PRD。旧版本存档于 `archive/`。
@@ -35,18 +48,20 @@
 | 路由 | Canonical PRD | 状态 |
 |---|---|---|
 | `/admin/login` | [`ADMIN_LOGIN_PRD_2026-06-20.md`](./ADMIN_LOGIN_PRD_2026-06-20.md) | 🟢 v1 |
-| `/admin` (Dashboard) | [`ADMIN_DASHBOARD_PRD_2026-06-20.md`](./ADMIN_DASHBOARD_PRD_2026-06-20.md) | 🟢 v1（含 `/admin/analytics`） |
+| `/admin` (Dashboard) | [`ADMIN_DASHBOARD_PRD_2026-06-24.md`](./ADMIN_DASHBOARD_PRD_2026-06-24.md) + [`2026-06-20 实现说明`](./ADMIN_DASHBOARD_PRD_2026-06-20.md) | 🟡 v0.1 工作台规划 / 🟢 v1 现状实现 |
 | `/admin/analytics` | [`ANALYTICS_SYSTEM_PRD.md`](./ANALYTICS_SYSTEM_PRD.md) | 🟡 v0.1 规划 |
 | `/admin/articles` `/new` `/[id]` | [`ARTICLE_MANAGEMENT_PRD.md`](./ARTICLE_MANAGEMENT_PRD.md) | 🟢 v1 实现 / 🟡 v0.2 目标 |
 | `/admin/stores` `/new` `/[id]` `/[id]/image` | [`STORE_MANAGEMENT_PRD.md`](./STORE_MANAGEMENT_PRD.md) | 🟢 v1 实现 / 🟢 v0.3 目标 |
+| `/admin/settings` | [`ADMIN_SETTINGS_PRD_2026-06-25.md`](./ADMIN_SETTINGS_PRD_2026-06-25.md) | 🟡 v0.1 规划 |
 
 ## 完成度
 
-**5 份 Canonical PRD，10 个 admin 路由全覆盖：**
+**5 份 Canonical PRD + 4 份日期版 PRD，11 个 admin 路由纳入规划：**
 - `/admin/login` (1)
 - `/admin` + `/admin/analytics` (2)
 - `/admin/articles*` (3)
 - `/admin/stores*` (4)
+- `/admin/settings` (1)
 
 ## 子 PRD 模板
 
@@ -90,6 +105,7 @@ Canonical PRD（无日期后缀，持续更新）：
 - `ADMIN_LOGIN_PRD_2026-06-20.md`
 - `ADMIN_DASHBOARD_PRD_2026-06-20.md`
 - `CONSULTATION_CHANNEL_ADMIN_PRD_2026-06-22.md`
+- `ADMIN_SETTINGS_PRD_2026-06-25.md`
 
 ## 归档（`archive/`）
 

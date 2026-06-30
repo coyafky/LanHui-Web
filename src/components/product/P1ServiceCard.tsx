@@ -23,7 +23,7 @@ const ICON_MAP: Record<string, typeof Sparkles> = {
 };
 
 const TAGLINE_MAP: Record<string, string> = {
-  flooring: "原厂数据精准开模 · 不卡座椅滑轨",
+  flooring: "原车数据精准开模 · 不卡座椅滑轨",
   "floor-mats": "360° 全包覆 · 易清洁 · 不影响气囊弹出",
   "business-comfort": "座椅通风/加热/按摩 · 接待场景升级",
   "skid-plate": "原车数据开模 · 不破线束 · 不影响离地间隙",

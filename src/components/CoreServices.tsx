@@ -23,7 +23,7 @@ const SERVICES = [
     icon: ShieldCheck,
     title: "品质与质保",
     description:
-      "专业技师持证上岗，施工全程记录，官方质保系统覆盖所有服务项目，售后无忧。",
+      "专业技师持证上岗，施工全程记录，品牌质保体系覆盖所有服务项目，售后无忧。",
     href: "/brand",
     accent: "yellow",
   },
