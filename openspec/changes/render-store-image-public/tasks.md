@@ -15,14 +15,14 @@
 
 ## 3. Homepage featured stores section
 
-- [ ] 3.1 新建 `src/components/FeaturedStores.tsx` (RSC)
-- [ ] 3.2 在 `src/app/page.tsx` 导入并渲染 `<FeaturedStores />`（置于 `ProductsQuickEntry` 之后）
-- [ ] 3.3 组件内调用 `getStores({ limit: 4 })` 并筛选 `s.isActive !== false`
-- [ ] 3.4 实现 4 列响应式网格（mobile 1, sm 2, lg 4）
-- [ ] 3.5 每卡：4:3 图片容器 + 门店名 + 城市标签 + 整卡可点击
-- [ ] 3.6 图片：Next/Image + `priority` + `sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"` + `placeholder="blur"`
-- [ ] 3.7 当 `stores.length === 0` 时不渲染整个 section
-- [ ] 3.8 视觉与 `ProductsQuickEntry` 对齐（标题 `tracking-widest text-blue-400`、卡片 `bg-zinc-900 border-zinc-800`）
+- [x] 3.1 新建 `src/components/FeaturedStores.tsx` (RSC)
+- [x] 3.2 在 `src/app/page.tsx` 导入并渲染 `<FeaturedStores />`（置于 `ProductsQuickEntry` 之后）
+- [x] 3.3 组件内调用 `getStores({ limit: 4 })` 并筛选 `s.isActive !== false`
+- [x] 3.4 实现 4 列响应式网格（mobile 1, sm 2, lg 4）
+- [x] 3.5 每卡：4:3 图片容器 + 门店名 + 城市标签 + 整卡可点击
+- [x] 3.6 图片：Next/Image + `priority` + `sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"` + `placeholder="blur"`
+- [x] 3.7 当 `stores.length === 0` 时不渲染整个 section
+- [x] 3.8 视觉与 `ProductsQuickEntry` 对齐（标题 `tracking-widest text-blue-400`、卡片 `bg-zinc-900 border-zinc-800`）
 
 ## 3a. Admin store detail image link
 

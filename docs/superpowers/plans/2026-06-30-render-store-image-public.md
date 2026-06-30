@@ -269,7 +269,7 @@ git commit -m "feat(store-detail): render store image with Next/Image"
 - 新增：`src/components/FeaturedStores.tsx`（默认导出 `FeaturedStores` async RSC）
 - 修改：`src/app/page.tsx`（导入并挂载）
 
-- [ ] 任务 3 全部步骤（6 个子步骤）
+- [x] 任务 3 全部步骤（6 个子步骤）
 
 - [ ] **步骤 1：创建文件 `src/components/FeaturedStores.tsx`**
 
