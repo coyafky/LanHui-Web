@@ -21,6 +21,8 @@ export type Store = {
   image?: string; // 图片路径预留
   /** 门店等级（API 返回，前台展示用），fallback 默认 'flagship' */
   level?: "flagship" | "premium" | "specialty" | "member";
+  /** 门店是否对公开站可见（API 字段；fallback 默认 true） */
+  isActive?: boolean;
 };
 
 export const stores: Store[] = [

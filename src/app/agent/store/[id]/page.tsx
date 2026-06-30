@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
   MapPin,
   Phone,
   Clock,
-  Building2,
   ChevronRight,
 } from "lucide-react";
 import { Header } from "@/components/Header";
@@ -15,6 +15,10 @@ import { generateLocalBusinessSchema, generateBreadcrumbSchema } from "@/lib/geo
 import { StoreLevelBadge } from "@/components/agent/StoreLevelBadge";
 
 export const revalidate = 86400;
+
+/** Next/Image placeholder：1x1 灰图 base64，避免 CLS（~30 字节） */
+const BLUR_DATA_URL =
+  "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/v3AgAA=";
 
 export async function generateStaticParams() {
   const ids = await getAllStoreIds();
@@ -129,15 +133,15 @@ export default async function StoreDetailPage({
               {/* 左侧：门店主图 */}
               <div>
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-zinc-900 border border-zinc-800">
-                  <div className="absolute inset-0 bg-gradient-to-br from-zinc-700 via-zinc-800 to-zinc-900" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Building2 className="w-24 h-24 text-zinc-600" />
-                  </div>
-                  <div className="absolute top-4 left-4">
-                    <span className="bg-zinc-800/90 text-zinc-300 text-xs font-bold px-3 py-1 rounded-md backdrop-blur-sm">
-                      LANHUI
-                    </span>
-                  </div>
+                  <Image
+                    src={store.image ?? "/images/placeholders/store.webp"}
+                    alt={`${store.name} 门头实景`}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    placeholder="blur"
+                    blurDataURL={BLUR_DATA_URL}
+                    className="object-cover"
+                  />
                 </div>
               </div>
 

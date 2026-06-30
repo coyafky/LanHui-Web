@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use, useMemo } from "react";
+import { useState, useEffect, use, useMemo, type ReactNode } from "react";
 import Link from "next/link";
 import { StoreForm, type StoreFormValues } from "@/components/admin/StoreForm";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
@@ -37,6 +37,8 @@ interface PublishCheck {
   label: string;
   ok: boolean;
   hint?: string;
+  /** 可选的操作链接/按钮，渲染在 hint 下方 */
+  action?: ReactNode;
 }
 
 const LEVEL_BADGE_CLASS: Record<StoreLevel, string> = {
@@ -216,6 +218,14 @@ export default function EditStorePage({
         hint: !storeData.imagePath
           ? "建议上传；缺失时仍可发布"
           : undefined,
+        action: (
+          <Link
+            href={`/admin/stores/${id}/image`}
+            className="inline-flex items-center gap-1.5 text-sm text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            {storeData.imagePath ? "管理主图 →" : "上传门店图 →"}
+          </Link>
+        ),
       },
     ];
   }, [storeData, storeLevel]);
@@ -477,6 +487,9 @@ export default function EditStorePage({
                   </p>
                   {c.hint && (
                     <p className="mt-0.5 text-zinc-500">{c.hint}</p>
+                  )}
+                  {c.action && (
+                    <div className="mt-1">{c.action}</div>
                   )}
                 </div>
               </li>

@@ -83,3 +83,75 @@ describe("getArticles", () => {
     });
   });
 });
+
+describe("mapApiStore (via getStores fallback path)", () => {
+  it("imagePath 优先于 imageUrl", async () => {
+    mockFetchResponse({
+      success: true,
+      data: [{
+        id: "s1", name: "测试店",
+        provinceSlug: "guangdong", provinceLabel: "广东",
+        citySlug: "foshan", cityLabel: "佛山",
+        address: "x", phone: "1", phoneTel: "tel:1",
+        imagePath: "/images/stores/s1.webp",
+        imageUrl: "https://legacy.example/x.jpg",
+        isActive: true,
+      }],
+    });
+    const { getStores } = await import("./data");
+    const stores = await getStores({ limit: 1 });
+    expect(stores[0].image).toBe("/images/stores/s1.webp");
+    expect(stores[0].isActive).toBe(true);
+  });
+
+  it("imagePath=null 时 fallback 到 imageUrl", async () => {
+    mockFetchResponse({
+      success: true,
+      data: [{
+        id: "s1", name: "测试店",
+        provinceSlug: "guangdong", provinceLabel: "广东",
+        citySlug: "foshan", cityLabel: "佛山",
+        address: "x", phone: "1", phoneTel: "tel:1",
+        imagePath: null,
+        imageUrl: "https://legacy.example/x.jpg",
+        isActive: true,
+      }],
+    });
+    const { getStores } = await import("./data");
+    const stores = await getStores({ limit: 1 });
+    expect(stores[0].image).toBe("https://legacy.example/x.jpg");
+  });
+
+  it("两者都为 null → image = undefined", async () => {
+    mockFetchResponse({
+      success: true,
+      data: [{
+        id: "s1", name: "测试店",
+        provinceSlug: "guangdong", provinceLabel: "广东",
+        citySlug: "foshan", cityLabel: "佛山",
+        address: "x", phone: "1", phoneTel: "tel:1",
+        imagePath: null, imageUrl: null,
+        isActive: true,
+      }],
+    });
+    const { getStores } = await import("./data");
+    const stores = await getStores({ limit: 1 });
+    expect(stores[0].image).toBeUndefined();
+  });
+
+  it("isActive 字段缺失 → 默认 true", async () => {
+    mockFetchResponse({
+      success: true,
+      data: [{
+        id: "s1", name: "测试店",
+        provinceSlug: "guangdong", provinceLabel: "广东",
+        citySlug: "foshan", cityLabel: "佛山",
+        address: "x", phone: "1", phoneTel: "tel:1",
+        // isActive 故意省略
+      }],
+    });
+    const { getStores } = await import("./data");
+    const stores = await getStores({ limit: 1 });
+    expect(stores[0].isActive).toBe(true);
+  });
+});
