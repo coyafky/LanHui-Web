@@ -412,7 +412,7 @@ git commit -m "feat(home): add FeaturedStores RSC section"
 **文件：**
 - 修改：`src/app/admin/(dashboard)/stores/[id]/page.tsx`（`PublishCheck` 类型 + 渲染分支 + `image` 项）
 
-- [ ] 任务 4 全部步骤（6 个子步骤）
+- [x] 任务 4 全部步骤（6 个子步骤）
 
 - [ ] **步骤 1：扩展 `PublishCheck` 类型**
 

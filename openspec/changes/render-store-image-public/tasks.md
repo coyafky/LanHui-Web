@@ -26,9 +26,9 @@
 
 ## 3a. Admin store detail image link
 
-- [ ] 3a.1 修改 `src/app/admin/(dashboard)/stores/[id]/page.tsx` 第 213-218 行 `publishChecks` 中 `key: "image"` 项：增加 Link 跳转到 `/admin/stores/${storeData.id}/image`
-- [ ] 3a.2 链接样式：蓝色 inline 链接 + 右侧箭头（与项目其他 inline link 风格一致）
-- [ ] 3a.3 已上传状态显示"查看/更新"，未上传显示"上传门店图"
+- [x] 3a.1 修改 `src/app/admin/(dashboard)/stores/[id]/page.tsx` 第 213-218 行 `publishChecks` 中 `key: "image"` 项：增加 Link 跳转到 `/admin/stores/${storeData.id}/image`
+- [x] 3a.2 链接样式：蓝色 inline 链接 + 右侧箭头（与项目其他 inline link 风格一致）
+- [x] 3a.3 已上传状态显示"查看/更新"，未上传显示"上传门店图"
 
 ## 4. Verification
 
