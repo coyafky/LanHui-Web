@@ -26,8 +26,9 @@ function mapApiStore(raw: any): Store {
     phoneTel: raw.phoneTel,
     businessHours: raw.businessHours ?? "",
     description: raw.description ?? "",
-    image: raw.imageUrl,
+    image: raw.imagePath ?? raw.imageUrl ?? undefined,
     level: raw.level ?? "flagship",
+    isActive: raw.isActive ?? true,
   };
 }
 
