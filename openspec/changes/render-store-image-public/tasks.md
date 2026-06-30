@@ -6,12 +6,12 @@
 
 ## 2. Public store detail page
 
-- [ ] 2.1 修改 `src/app/agent/store/[id]/page.tsx` 第 130-142 行：用 `Next/Image` 替换 `Building2` 占位
-- [ ] 2.2 添加 `placeholder="blur"` + `blurDataURL` 常量（1x1 灰图 base64）
-- [ ] 2.3 添加 `sizes="(min-width: 768px) 50vw, 100vw"` 和 `fill` 属性
-- [ ] 2.4 添加 `alt={\`${store.name} 门头实景\`}`
-- [ ] 2.5 添加 `src={store.image ?? "/images/placeholders/store.webp"}` 降级
-- [ ] 2.6 验证：`npm run build` 通过
+- [x] 2.1 修改 `src/app/agent/store/[id]/page.tsx` 第 130-142 行：用 `Next/Image` 替换 `Building2` 占位
+- [x] 2.2 添加 `placeholder="blur"` + `blurDataURL` 常量（1x1 灰图 base64）
+- [x] 2.3 添加 `sizes="(min-width: 768px) 50vw, 100vw"` 和 `fill` 属性
+- [x] 2.4 添加 `alt={\`${store.name} 门头实景\`}`
+- [x] 2.5 添加 `src={store.image ?? "/images/placeholders/store.webp"}` 降级
+- [x] 2.6 验证：`npm run build` 通过
 
 ## 3. Homepage featured stores section
 

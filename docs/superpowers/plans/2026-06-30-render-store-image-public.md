@@ -191,7 +191,7 @@ git commit -m "feat(data): map store imagePath and isActive fields"
 **文件：**
 - 修改：`src/app/agent/store/[id]/page.tsx` imports + 第 131-141 行占位 DOM
 
-- [ ] 任务 2 全部步骤（6 个子步骤）
+- [x] 任务 2 全部步骤（6 个子步骤）
 
 - [ ] **步骤 1：在文件顶部加 `Image` import 与 `BLUR_DATA_URL` 常量**
 
