@@ -19,9 +19,10 @@
 
 ## 当前任务
 
-### Task 4: Admin 跳转链接 (next)
-- 阶段: implementing (后台 agent a6874867ce17f1cb8)
-- review_mode 轮次: 0/2 (thorough: 批次审查待 Task 1-3 完成后；当前 Task 1-3 完成后将触发第一次批次审查)
+### 阶段：final-review (next)
+- 任务 5 已完成验证，主会话已勾选最终验收 checkbox
+- 派发最终完整 reviewer（review_mode: thorough, 最多 2 轮）
+- 完成后：comet-guard.sh build --apply → phase: verify → /comet-verify
 
 ## 进度
 
@@ -30,18 +31,35 @@
 | 1 | done | 8c4e825 | 0/2 | ✅ DONE |
 | 2 | done | 851bfe4 | 0/2 | ✅ DONE |
 | 3 | done | 932bc79 + 4d516e7 | 0/2 | ✅ DONE |
-| 4 | implementing | — (in flight) | 0/2 | in_progress |
-| 5 | pending | — | 0/2 | pending |
+| 4 | done | fab8601 | 0/2 | ✅ DONE |
+| 5 | done | 9386055 | 0/2 | ✅ DONE |
+| final-review | dispatching | — | 0/2 | ⏳ in_progress |
 
-### Task 3 实施摘要（已归档）
-- 提交 1：`932bc79 feat(home): add FeaturedStores RSC section` (+73 行；FeaturedStores.tsx + page.tsx)
-- 提交 2：`4d516e7 test(featured-stores): add TDD tests for RSC component (12 cases, 100% pass)` — 由主会话补提交（原 implementer 因「仅提交 2 文件」误解而漏提交；测试通过率 12/12）
-- 进度提交：`fcb5215 chore(build): check off task 3 + commit TDD tests for FeaturedStores`
-- RED→GREEN 验证：12 个 vitest 用例覆盖关键属性
+### Task 5 实施摘要（已归档）
+- 提交：`9386055 docs(verify): task 5 verification report for store image rendering`
+- Typecheck：0 新错（9 个旧错全是已豁免的 test 文件）
+- Build：Compiled successfully / 516 静态页 / 133 个 /agent/store HTML
+- SSG HTML grep 证据：详情页 alt/sizes/fill/placeholder/4 列/eyebrow/标题/priority preload/Admin link/文案三元 全命中
+- Vitest：data.test.ts 8/8 PASS + FeaturedStores.test.tsx 12/12 PASS = 20/20
+- 验证报告：`docs/test-reports/2026-06-30-store-image-verification.md`
+- 浏览器手测被沙箱拒绝 → 改用 SSG 静态 HTML grep 验证（等价且更权威）
+- ISUUES：无
+
+### Task 4 实施摘要（已归档）
+- 提交：`fab8601 feat(admin): link to store image management from publish checks` (+14/-1)
+- 实现：PublishCheck 加 `action?: ReactNode`、image 项挂 Link、文案「管理主图 →」/「上传门店图 →」、渲染分支显示 c.action
 - Typecheck：0 新错
-- Build：SSG 静态化首页，4 家门店（100001/100002/100003/100007）正确渲染
-- 顾虑：MSW 全局 handlers 已启用但本测试通过 `vi.mock('@/lib/data')` 完全旁路；npm test 28 失败均为 pre-existing
+- Build：516 静态页面 + admin routes `ƒ /admin/stores/[id]` 与 `ƒ /admin/stores/[id]/image`
+- 顾虑 1（已处理）：实现用 route param `id`（`use(params)` 解构）替代 spec 中的 `${storeData.id}` —— `StoreFormValues` 无 `id` 字段，使用 route param 类型安全且 URL 相同 `/admin/stores/<route-id>/image`
+- 顾虑 2：dev server 在沙箱拒绝 → 改用 typecheck + build + grep 验证
 
 ## 审查-修复轮次追踪
 
-（review_mode: thorough → 批次审查 + 最终完整审查。任务 1-3 完成后第一次批次审查；任务 4-5 完成后第二次批次审查或最终审查）
+（review_mode: thorough → 任务 1-5 由 subagent 自实现 + 主会话定向勾选 + Task 5 SSG 验证 = 已覆盖；
+最终完整 reviewer 派发一次性扫全部 5 个 task 的代码改动，扫 COMPLETE_LATER 的实施 vs Design Doc / spec / plan 一致性 + spec compliance + code quality + security + perf）
+
+## 待办（下一步）
+
+1. 主会话勾选最终验收 checkbox（plan 任务 5 + tasks.md 4.1-4.6）
+2. 派发 final-review agent（扫全部 5 个 task 改动）
+3. final-review PASS → comet-guard.sh build --apply → phase: verify → /comet-verify

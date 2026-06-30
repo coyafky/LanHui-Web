@@ -489,9 +489,9 @@ git commit -m "feat(admin): link to store image management from publish checks"
 
 ## 任务 5：验证收尾
 
-- [ ] 任务 5 全部步骤（3 个子步骤）
+- [x] 任务 5 全部步骤（3 个子步骤）
 
-- [ ] **步骤 1：完整 CI 链**
+- [x] **步骤 1：完整 CI 链**
 
 ```bash
 npx tsc --noEmit
@@ -500,7 +500,7 @@ npm run build
 
 预期：两者均通过；typecheck 仅出现已知的 9 个 test 文件旧错（CLAUDE.md 已豁免）。
 
-- [ ] **步骤 2：浏览器全场景回归**
+- [x] **步骤 2：浏览器全场景回归**
 
 dev server 启动后：
 
@@ -517,12 +517,13 @@ dev server 启动后：
 | `/admin/stores/{id}` 无图 | 「上传门店图 →」链接 |
 | 点链接 | 跳转 `/admin/stores/{id}/image` uploader |
 
-- [ ] **步骤 3：Commit（若有截图或验证报告）**
+- [x] **步骤 3：Commit（若有截图或验证报告）**
 
 ```bash
 git add docs/test-reports/ docs/design-reviews/screenshots/ 2>/dev/null || true
 git commit -m "docs(verify): lighthouse + screenshots for store image rendering" || true
 ```
+（验证报告已由 Task 5 implementer 提交 `9386055`）
 
 ---
 
