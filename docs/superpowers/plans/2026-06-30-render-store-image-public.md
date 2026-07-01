@@ -2,6 +2,7 @@
 change: render-store-image-public
 design-doc: docs/superpowers/specs/2026-06-30-render-store-image-public-design.md
 base-ref: b95e20743d27c83f8bb376d57f55e11756d1a995
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 # 公开站渲染门店主图 — 实现计划
@@ -17,6 +18,7 @@ base-ref: b95e20743d27c83f8bb376d57f55e11756d1a995
 
 **技术栈：** Next.js 16.2.1（App Router）+ React 19.2.4 + `next/image` + TS strict + Tailwind v4。无新依赖。
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 涉及文件结构（任务编排前置）
@@ -33,6 +35,7 @@ base-ref: b95e20743d27c83f8bb376d57f55e11756d1a995
 
 **风险约束：** TypeScript strict + `any` 禁用；`Store.image` 已是 `string | undefined`，扩展 `isActive` 字段必须先改类型。`PublishCheck` 在 admin 页面内部定义，扩展字段需同步两处（类型 + 渲染）。
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 任务 1：扩展 `Store` 类型并修复 `mapApiStore` 映射
@@ -184,6 +187,7 @@ git add src/lib/store.ts src/lib/data.ts src/lib/data.test.ts
 git commit -m "feat(data): map store imagePath and isActive fields"
 ```
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 任务 2：公开详情页替换 Building2 占位
@@ -261,6 +265,7 @@ git add src/app/agent/store/[id]/page.tsx
 git commit -m "feat(store-detail): render store image with Next/Image"
 ```
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 任务 3：新增首页 `<FeaturedStores />` RSC
@@ -405,6 +410,7 @@ git add src/components/FeaturedStores.tsx src/app/page.tsx
 git commit -m "feat(home): add FeaturedStores RSC section"
 ```
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 任务 4：Admin 详情页补「管理门店主图」跳转链接
@@ -485,6 +491,7 @@ git add src/app/admin/\(dashboard\)/stores/\[id\]/page.tsx
 git commit -m "feat(admin): link to store image management from publish checks"
 ```
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 任务 5：验证收尾
@@ -525,6 +532,7 @@ git commit -m "docs(verify): lighthouse + screenshots for store image rendering"
 ```
 （验证报告已由 Task 5 implementer 提交 `9386055`）
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 自检清单
@@ -548,6 +556,7 @@ git commit -m "docs(verify): lighthouse + screenshots for store image rendering"
 - Design Doc 说详情页「Building2 占位 130-142 行」—— 实际外层 `<div>` 起 130 行、Building2 在 134 行、闭合 141 行，按 131-141 标注
 - Design Doc 说 `publishChecks` 在「第 213-218 行」—— 实际 `key:"image"` 在 212-219 行，按实际行号标注
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 关键修正点（执行时务必确认）
@@ -557,6 +566,7 @@ git commit -m "docs(verify): lighthouse + screenshots for store image rendering"
 3. 详情页 `Building2` icon 在替换图片后**删除**其 import 以避免 lint 警告
 4. `next.config.ts` 已配 `images.formats: ["image/avif", "image/webp"]`，无需新增 remote pattern
 
+archived-with: 2026-06-30-render-store-image-public
 ---
 
 ## 执行交接

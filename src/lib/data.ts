@@ -26,7 +26,7 @@ function mapApiStore(raw: any): Store {
     phoneTel: raw.phoneTel,
     businessHours: raw.businessHours ?? "",
     description: raw.description ?? "",
-    image: raw.imagePath ?? raw.imageUrl ?? undefined,
+    image: raw.imagePath ?? undefined,
     level: raw.level ?? "flagship",
     isActive: raw.isActive ?? true,
   };
@@ -74,12 +74,14 @@ export async function getStores(params?: {
   province?: string;
   city?: string;
   limit?: number;
+  sort?: "public_featured";
 }): Promise<Store[]> {
   try {
     const searchParams = new URLSearchParams();
     if (params?.province) searchParams.set("province", params.province);
     if (params?.city) searchParams.set("city", params.city);
     if (params?.limit) searchParams.set("limit", String(params.limit));
+    if (params?.sort) searchParams.set("sort", params.sort);
 
     const res = await fetch(`${API_BASE}/api/stores?${searchParams}`, {
       next: { revalidate: 3600 },

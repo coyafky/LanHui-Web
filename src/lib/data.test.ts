@@ -85,7 +85,7 @@ describe("getArticles", () => {
 });
 
 describe("mapApiStore (via getStores fallback path)", () => {
-  it("imagePath 优先于 imageUrl", async () => {
+  it("只使用 imagePath（imageUrl 字段已弃用）", async () => {
     mockFetchResponse({
       success: true,
       data: [{
@@ -104,7 +104,7 @@ describe("mapApiStore (via getStores fallback path)", () => {
     expect(stores[0].isActive).toBe(true);
   });
 
-  it("imagePath=null 时 fallback 到 imageUrl", async () => {
+  it("imagePath=null 时 image=undefined（不再回退 imageUrl，避免外部 URL 被 next/image 拒绝）", async () => {
     mockFetchResponse({
       success: true,
       data: [{
@@ -119,7 +119,7 @@ describe("mapApiStore (via getStores fallback path)", () => {
     });
     const { getStores } = await import("./data");
     const stores = await getStores({ limit: 1 });
-    expect(stores[0].image).toBe("https://legacy.example/x.jpg");
+    expect(stores[0].image).toBeUndefined();
   });
 
   it("两者都为 null → image = undefined", async () => {
@@ -153,5 +153,15 @@ describe("mapApiStore (via getStores fallback path)", () => {
     const { getStores } = await import("./data");
     const stores = await getStores({ limit: 1 });
     expect(stores[0].isActive).toBe(true);
+  });
+
+  it("sort=public_featured 会透传到 /api/stores 查询参数", async () => {
+    mockFetchResponse({ success: true, data: [] });
+    const { getStores } = await import("./data");
+    await getStores({ limit: 4, sort: "public_featured" });
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining("sort=public_featured"),
+      expect.objectContaining({ next: { revalidate: 3600 } }),
+    );
   });
 });
