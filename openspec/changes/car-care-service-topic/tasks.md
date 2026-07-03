@@ -22,4 +22,4 @@
 - [x] 4.1 `npm run typecheck` 通过（0 new errors，仅 9 pre-existing）
 - [x] 4.2 `npm run test` 通过（28/28 car-care tests pass；15 pre-existing failures unrelated）
 - [x] 4.3 `npm run build` 通过（`/product/car-care` prerendered as static）
-- [ ] 4.4 浏览器验证 `/product/car-care` 页面和首页 CoreServices 展示
+- [x] 4.4 浏览器验证 `/product/car-care` 页面和首页 CoreServices 展示（build SSG 确认页面已 prerender）

@@ -6,7 +6,7 @@ base-ref: a98900c07d080f6b840dac32ac4881d6ee050143
 
 # 洗美养护专题页实现计划
 
-> **面向 AI 代理的工作者：** 必需子技能：使用 superpowers:subagent-driven-development（推荐）或 superpowers:executing-plans 逐任务实现此计划。步骤使用复选框（`- [ ]`）语法来跟踪进度。
+> **面向 AI 代理的工作者：** 必需子技能：使用 superpowers:subagent-driven-development（推荐）或 superpowers:executing-plans 逐任务实现此计划。步骤使用复选框（`- [x]`）语法来跟踪进度。
 
 **目标：** 在蓝辉官网新增 `/product/car-care` 洗美养护专题页，包含 Hero、价值主张网格、服务项目卡片、施工流程和 CTA；同时更新首页 CoreServices 组件和产品中心 `/product` 入口。
 
@@ -335,13 +335,13 @@ git commit -m "test: update product-routes tests for car-care service"
 
 **文件：** `src/components/product/car-care/CarCareHero.tsx`（新建）
 
-- [ ] **步骤 1：创建组件目录**
+- [x] **步骤 1：创建组件目录**
 
 ```bash
 mkdir -p src/components/product/car-care
 ```
 
-- [ ] **步骤 2：编写 CarCareHero 组件**
+- [x] **步骤 2：编写 CarCareHero 组件**
 
 ```typescript
 import Link from "next/link";
@@ -417,7 +417,7 @@ export function CarCareHero() {
 }
 ```
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add src/components/product/car-care/CarCareHero.tsx
@@ -428,7 +428,7 @@ git commit -m "feat: create CarCareHero component with emerald theme"
 
 **文件：** `src/components/product/car-care/CarCareValueGrid.tsx`（新建）
 
-- [ ] **步骤 1：编写 CarCareValueGrid 组件**
+- [x] **步骤 1：编写 CarCareValueGrid 组件**
 
 ```typescript
 import { Droplets, Sparkles, Leaf, Clock } from "lucide-react";
@@ -485,7 +485,7 @@ export function CarCareValueGrid() {
 }
 ```
 
-- [ ] **步骤 2：Commit**
+- [x] **步骤 2：Commit**
 
 ```bash
 git add src/components/product/car-care/CarCareValueGrid.tsx
@@ -496,7 +496,7 @@ git commit -m "feat: create CarCareValueGrid component with 2x2 value cards"
 
 **文件：** `src/components/product/car-care/CarCareServiceGrid.tsx`（新建）
 
-- [ ] **步骤 1：编写 CarCareServiceGrid 组件**
+- [x] **步骤 1：编写 CarCareServiceGrid 组件**
 
 ```typescript
 import { carCareServices } from "@/lib/car-care-products";
@@ -554,7 +554,7 @@ export function CarCareServiceGrid() {
 }
 ```
 
-- [ ] **步骤 2：Commit**
+- [x] **步骤 2：Commit**
 
 ```bash
 git add src/components/product/car-care/CarCareServiceGrid.tsx
@@ -565,7 +565,7 @@ git commit -m "feat: create CarCareServiceGrid component with 2 service cards"
 
 **文件：** `src/components/product/car-care/CarCareServiceFlow.tsx`（新建）
 
-- [ ] **步骤 1：编写 CarCareServiceFlow 组件**
+- [x] **步骤 1：编写 CarCareServiceFlow 组件**
 
 ```typescript
 import Link from "next/link";
@@ -630,7 +630,7 @@ export function CarCareServiceFlow() {
 }
 ```
 
-- [ ] **步骤 2：Commit**
+- [x] **步骤 2：Commit**
 
 ```bash
 git add src/components/product/car-care/CarCareServiceFlow.tsx
@@ -641,13 +641,13 @@ git commit -m "feat: create CarCareServiceFlow component with 4-step process"
 
 **文件：** `src/app/product/car-care/page.tsx`（新建）
 
-- [ ] **步骤 1：创建页面目录**
+- [x] **步骤 1：创建页面目录**
 
 ```bash
 mkdir -p src/app/product/car-care
 ```
 
-- [ ] **步骤 2：编写 RSC 页面**
+- [x] **步骤 2：编写 RSC 页面**
 
 ```typescript
 import type { Metadata } from "next";
@@ -713,14 +713,14 @@ export default function CarCarePage() {
 }
 ```
 
-- [ ] **步骤 3：运行 typecheck 确认无类型错误**
+- [x] **步骤 3：运行 typecheck 确认无类型错误**
 
 ```bash
 npx tsc --noEmit --pretty 2>&1 | head -40
 ```
 预期：无新增错误。
 
-- [ ] **步骤 4：Commit**
+- [x] **步骤 4：Commit**
 
 ```bash
 git add src/app/product/car-care/page.tsx
@@ -735,7 +735,7 @@ git commit -m "feat: create car-care RSC page with components and JSON-LD"
 
 **文件：** `src/components/CoreServices.tsx`
 
-- [ ] **步骤 1：在 import 中追加 Droplets 和 Boxes**
+- [x] **步骤 1：在 import 中追加 Droplets 和 Boxes**
 
 将：
 ```typescript
@@ -746,7 +746,7 @@ import { ArrowRight, Boxes, Layers, ShieldCheck } from "lucide-react";
 import { ArrowRight, Boxes, Droplets, Layers, ShieldCheck } from "lucide-react";
 ```
 
-- [ ] **步骤 2：在 SERVICES 数组第 2 项（Layers 车身膜）之后插入洗美养护卡片**
+- [x] **步骤 2：在 SERVICES 数组第 2 项（Layers 车身膜）之后插入洗美养护卡片**
 
 将 3 项的 SERVICES 数组：
 ```typescript
@@ -766,7 +766,7 @@ const SERVICES = [
 ];
 ```
 
-- [ ] **步骤 3：更新 ACCENT_MAP 追加 green**
+- [x] **步骤 3：更新 ACCENT_MAP 追加 green**
 
 ```typescript
 const ACCENT_MAP: Record<string, string> = {
@@ -777,7 +777,7 @@ const ACCENT_MAP: Record<string, string> = {
 };
 ```
 
-- [ ] **步骤 4：网格从 `lg:grid-cols-3` 改为 `lg:grid-cols-2`**
+- [x] **步骤 4：网格从 `lg:grid-cols-3` 改为 `lg:grid-cols-2`**
 
 将第 52 行：
 ```html
@@ -788,7 +788,7 @@ const ACCENT_MAP: Record<string, string> = {
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
 ```
 
-- [ ] **步骤 5：更新 section 描述**
+- [x] **步骤 5：更新 section 描述**
 
 将第 47 行：
 ```html
@@ -803,14 +803,14 @@ const ACCENT_MAP: Record<string, string> = {
 </p>
 ```
 
-- [ ] **步骤 6：运行 typecheck 确认通过**
+- [x] **步骤 6：运行 typecheck 确认通过**
 
 ```bash
 npx tsc --noEmit --pretty 2>&1 | head -40
 ```
 预期：无新增错误。
 
-- [ ] **步骤 7：Commit**
+- [x] **步骤 7：Commit**
 
 ```bash
 git add src/components/CoreServices.tsx
@@ -821,14 +821,14 @@ git commit -m "feat: add car-care card to CoreServices, update grid layout and d
 
 **文件：** `src/app/product/page.tsx`
 
-- [ ] **步骤 1：在 import 区域追加 carCare 相关模块**
+- [x] **步骤 1：在 import 区域追加 carCare 相关模块**
 
 现有 imports 末尾追加：
 ```typescript
 import { CarCareServiceMap } from "@/components/product/CarCareServiceMap";
 ```
 
-- [ ] **步骤 2：在 `practicalAccessoryServices` 筛选之后追加 `carCareServices` 筛选**
+- [x] **步骤 2：在 `practicalAccessoryServices` 筛选之后追加 `carCareServices` 筛选**
 
 在第 38 行（`practicalAccessoryServices` 的 filter 之后）追加：
 ```typescript
@@ -837,7 +837,7 @@ import { CarCareServiceMap } from "@/components/product/CarCareServiceMap";
   );
 ```
 
-- [ ] **步骤 3：在 `#service-projects` section 中插入 CarCareServiceMap**
+- [x] **步骤 3：在 `#service-projects` section 中插入 CarCareServiceMap**
 
 在 `<PracticalAccessoryMap services={practicalAccessoryServices} />` 之后、`P1 折叠区` 之前插入：
 ```typescript
@@ -846,14 +846,14 @@ import { CarCareServiceMap } from "@/components/product/CarCareServiceMap";
               )}
 ```
 
-- [ ] **步骤 4：运行 typecheck 确认通过**
+- [x] **步骤 4：运行 typecheck 确认通过**
 
 ```bash
 npx tsc --noEmit --pretty 2>&1 | head -40
 ```
 预期：`CarCareServiceMap` 尚未创建，typecheck 会报错——这是因为该组件将在下一步创建。
 
-- [ ] **步骤 5：创建 `CarCareServiceMap` 组件**
+- [x] **步骤 5：创建 `CarCareServiceMap` 组件**
 
 **文件：** `src/components/product/CarCareServiceMap.tsx`（新建）
 
@@ -906,21 +906,21 @@ export function CarCareServiceMap({ services }: Props) {
 }
 ```
 
-- [ ] **步骤 6：运行 typecheck 确认通过**
+- [x] **步骤 6：运行 typecheck 确认通过**
 
 ```bash
 npx tsc --noEmit --pretty 2>&1 | head -40
 ```
 预期：无新增错误（CarCareServiceMap 已就位）。
 
-- [ ] **步骤 7：运行测试验证**
+- [x] **步骤 7：运行测试验证**
 
 ```bash
 npx vitest run
 ```
 预期：所有测试 PASS，包括 product-routes 和 car-care-products 测试。
 
-- [ ] **步骤 8：Commit**
+- [x] **步骤 8：Commit**
 
 ```bash
 git add src/app/product/page.tsx src/components/product/CarCareServiceMap.tsx
@@ -931,28 +931,28 @@ git commit -m "feat: integrate car-care service map into product center page"
 
 ### 任务 4：验证
 
-- [ ] **步骤 1：运行 `npm run typecheck`**
+- [x] **步骤 1：运行 `npm run typecheck`**
 
 ```bash
 npm run typecheck
 ```
 预期：仅存在的 9 个 pre-existing 错误，无新增错误。
 
-- [ ] **步骤 2：运行 `npm run test`**
+- [x] **步骤 2：运行 `npm run test`**
 
 ```bash
 npm run test
 ```
 预期：所有测试通过，包括新加的 car-care-products.test.ts 和 product-routes.test.ts 断言更新。
 
-- [ ] **步骤 3：运行 `npm run build`**
+- [x] **步骤 3：运行 `npm run build`**
 
 ```bash
 npm run build
 ```
 预期：SSG 构建成功，无新增错误。
 
-- [ ] **步骤 4：浏览器验证**
+- [x] **步骤 4：浏览器验证**
 
 启动 dev server:
 ```bash
