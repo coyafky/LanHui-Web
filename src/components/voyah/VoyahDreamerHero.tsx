@@ -1,12 +1,27 @@
 import Link from "next/link";
-import { ChevronRight, Sparkles } from "lucide-react";
+import Image from "next/image";
+import { ChevronRight } from "lucide-react";
+import type { VoyahDreamerProductImage } from "@/lib/voyah-products";
 
 type VoyahDreamerHeroProps = {
   title: string;
   subtitle: string;
+  description: string;
   totalProjects: number;
   scenarioCount: number;
+  heroImage: VoyahDreamerProductImage;
 };
+
+const SCENARIO_ANCHORS: readonly {
+  id: string;
+  label: string;
+}[] = [
+  { id: "scenario-new-car-protection", label: "新车保护" },
+  { id: "scenario-appearance", label: "外观个性" },
+  { id: "scenario-chassis-protection", label: "底盘防护" },
+  { id: "scenario-mpv-comfort", label: "MPV 舒适" },
+  { id: "scenario-cabin-care", label: "座舱维护" },
+];
 
 /**
  * 岚图梦想家单车型轻改页 Hero（Server Component）
@@ -19,8 +34,10 @@ type VoyahDreamerHeroProps = {
 export function VoyahDreamerHero({
   title,
   subtitle,
+  description,
   totalProjects,
   scenarioCount,
+  heroImage,
 }: VoyahDreamerHeroProps) {
   return (
     <section
@@ -28,25 +45,33 @@ export function VoyahDreamerHero({
       aria-labelledby="voyah-dreamer-hero-title"
     >
       <div className="absolute inset-0 -z-0" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-950/30 via-zinc-950 to-zinc-950" />
-        <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-violet-700/20 blur-3xl" />
-        <div className="absolute -bottom-24 left-0 w-72 h-72 rounded-full bg-violet-900/20 blur-3xl" />
+        {heroImage.publicPath ? (
+          <Image
+            src={heroImage.publicPath}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-30"
+          />
+        ) : null}
+        <div className="absolute inset-0 bg-zinc-950/82" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.88)_42%,rgba(9,9,11,0.58)_100%)]" />
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
         <nav className="flex items-center text-sm text-zinc-500 mb-6" aria-label="面包屑">
-          <Link href="/" className="hover:text-white transition-colors">
-            首页
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
           <Link href="/product" className="hover:text-white transition-colors">
             产品中心
           </Link>
           <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <span className="text-zinc-300">岚图 / 梦想家</span>
+          <Link href="/product/voyah" className="hover:text-white transition-colors">
+            岚图系列
+          </Link>
+          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
+          <span className="text-zinc-300">岚图梦想家</span>
         </nav>
 
-        <p className="text-sm tracking-widest text-violet-400 mb-3 inline-flex items-center gap-2">
-          <Sparkles className="w-4 h-4" aria-hidden />
+        <p className="text-sm tracking-widest text-violet-400 mb-3">
           VOYAH DREAMER UPGRADE
         </p>
         <h1
@@ -59,9 +84,7 @@ export function VoyahDreamerHero({
           {subtitle}
         </p>
         <p className="text-sm text-zinc-400 max-w-2xl leading-relaxed mb-6">
-          蓝辉轻改针对岚图梦想家提供从新车保护到座舱维护的完整轻改方向，
-          涵盖新车保护、外观个性、底盘与行车防护、MPV 后排舒适和座舱维护五大类别。
-          所有项目以方向参考为主，最终以到店确认和实际施工评估为准。
+          {description}
         </p>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -71,6 +94,18 @@ export function VoyahDreamerHero({
           <span className="text-sm px-3 py-1.5 rounded-md bg-violet-950/40 border border-violet-900/60 text-violet-400">
             {scenarioCount} 大用车场景
           </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2 mt-8">
+          {SCENARIO_ANCHORS.map((s) => (
+            <a
+              key={s.id}
+              href={`#${s.id}`}
+              className="inline-flex items-center px-3 py-2 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-violet-700/60 text-sm transition-colors"
+            >
+              {s.label}
+            </a>
+          ))}
         </div>
       </div>
     </section>

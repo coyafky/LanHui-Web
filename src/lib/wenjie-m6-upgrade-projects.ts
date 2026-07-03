@@ -20,7 +20,6 @@
 
 import {
   buildWenjieGeneratedPreviewImage,
-  type WenjieModelCategory,
   type WenjiePreviewImage,
   type WenjiePreviewImageStatus,
 } from "./wenjie-preview-images";

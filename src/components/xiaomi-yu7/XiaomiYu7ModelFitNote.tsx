@@ -2,7 +2,7 @@ import { AlertTriangle } from "lucide-react";
 
 /**
  * 车型适配边界说明（Server Component）
- * 橙色主题，与 Zeekr9xModelFitNote 相同模式
+ * 橙色主题，与车型专题页提示组件模式一致
  */
 export function XiaomiYu7ModelFitNote() {
   return (

@@ -1,13 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   MapPin,
   Phone,
   Clock,
   ArrowRight,
-  Building2,
 } from "lucide-react";
 import type { Store } from "@/lib/store";
 import { StoreLevelBadge } from "./StoreLevelBadge";
+
+const STORE_PLACEHOLDER = "/images/placeholders/store.webp";
+const BLUR_DATA_URL =
+  "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/v3AgAA=";
 
 /**
  * 公开站门店卡片 —— /agent、/agent/[slug]、/agent/[slug]/[city] 共用。
@@ -26,9 +30,17 @@ export function StoreCard({ store }: { store: Store }) {
       className="group block bg-zinc-900 rounded-2xl border border-zinc-800 hover:border-zinc-700 overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/20"
       aria-label={`${store.name} 门店详情`}
     >
-      {/* 占位图区域 */}
-      <div className="relative h-48 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
-        <Building2 className="w-16 h-16 text-zinc-700 group-hover:text-zinc-600 transition-colors" />
+      {/* 门店主图区域 */}
+      <div className="relative h-48 overflow-hidden bg-zinc-950">
+        <Image
+          src={store.image ?? STORE_PLACEHOLDER}
+          alt={`${store.name} 门头实景`}
+          fill
+          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+          placeholder="blur"
+          blurDataURL={BLUR_DATA_URL}
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+        />
         {/* 左上角 LANHUI badge */}
         <div className="absolute top-3 left-3">
           <span className="bg-zinc-800/90 text-zinc-300 text-xs font-bold px-2.5 py-1 rounded-md backdrop-blur-sm">

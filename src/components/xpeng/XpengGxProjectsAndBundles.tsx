@@ -5,24 +5,27 @@ import { XpengGxProjectGrid } from "@/components/xpeng/XpengGxProjectGrid";
 import { XpengGxBundleList } from "@/components/xpeng/XpengGxBundleList";
 import {
   type XpengGxBundle,
+  type XpengGxScenario,
   type XpengGxUpgradeProject,
 } from "@/lib/xpeng-gx-products";
 
 type XpengGxProjectsAndBundlesProps = {
   projects: readonly XpengGxUpgradeProject[];
+  scenarios: readonly XpengGxScenario[];
   bundles: readonly XpengGxBundle[];
 };
 
 /**
  * 组合组件：ProjectGrid (上) + BundleList (下)
  *
- * 状态提升：高亮 bundleKey 在此组件内管理，BundleList 点击 → 滚动到 ProjectGrid + 高亮
- * 用户决策 #7：组合点击 → 滚动到 ProjectGrid + 高亮组合内项目 + bundle_click 埋点
+ * 兼容保留：页面主流程已对齐极氪 9X，直接使用 XpengGxProjectGrid。
+ * 若旧入口继续使用本组件，BundleList 点击仍会滚动到 ProjectGrid。
  *
  * 字段顺序遵循 SPEC §12：ProjectGrid → BundleList
  */
 export function XpengGxProjectsAndBundles({
   projects,
+  scenarios,
   bundles,
 }: XpengGxProjectsAndBundlesProps) {
   const [highlightBundleKey, setHighlightBundleKey] = useState<string | null>(
@@ -33,22 +36,18 @@ export function XpengGxProjectsAndBundles({
     setHighlightBundleKey((prev) => (prev === bundleKey ? null : bundleKey));
     // 滚动到 ProjectGrid 顶部
     if (typeof window !== "undefined") {
-      const el = document.getElementById("xpeng-gx-projects-heading");
+      const el = document.getElementById("xpeng-gx-project-grid");
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
   }, []);
 
-  // 从 bundleKey 反查 projectIds（用于高亮）
-  const activeBundle = bundles.find((b) => b.key === highlightBundleKey);
-  const highlightProjectIds = activeBundle?.projectIds ?? [];
-
   return (
     <>
       <XpengGxProjectGrid
         projects={projects}
-        highlightProjectIds={highlightProjectIds}
+        scenarios={scenarios}
       />
       <XpengGxBundleList
         bundles={bundles}

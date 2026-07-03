@@ -1,11 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight } from "lucide-react";
+import type { Zeekr8xProductImage } from "@/lib/zeekr-8x-products";
 
 export type Zeekr8xHeroProps = {
   readonly totalProjects: number;
   readonly totalScenarios: number;
-  readonly totalBundles: number;
   readonly canonicalPath: string;
+  readonly heroImage: Zeekr8xProductImage;
 };
 
 const SCENARIO_ANCHORS: readonly {
@@ -21,19 +23,29 @@ const SCENARIO_ANCHORS: readonly {
 
 /**
  * 极氪 8X 二级页 Hero（RSC）
- * ORANGE 主题色；含 bundles 统计 chip。
+ * ORANGE 主题色；结构对齐 9X 单车型页 Hero。
  */
 export function Zeekr8xHero({
   totalProjects,
   totalScenarios,
-  totalBundles,
   canonicalPath,
+  heroImage,
 }: Zeekr8xHeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
       <div className="absolute inset-0 -z-0" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-950/30 via-zinc-950 to-zinc-950" />
-        <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-orange-700/20 blur-3xl" />
+        {heroImage.publicPath ? (
+          <Image
+            src={heroImage.publicPath}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-30"
+          />
+        ) : null}
+        <div className="absolute inset-0 bg-zinc-950/80" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.88)_42%,rgba(9,9,11,0.58)_100%)]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
@@ -72,12 +84,6 @@ export function Zeekr8xHero({
           </span>
           <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
             {totalScenarios} 大用车场景
-          </span>
-          <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
-            {totalBundles} 个推荐组合
-          </span>
-          <span className="text-sm px-3 py-1.5 rounded-md bg-orange-950/40 border border-orange-800/60 text-orange-300">
-            orange 主题
           </span>
         </div>
 

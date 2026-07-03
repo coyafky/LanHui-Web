@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   ZEEKR_9X_CATEGORY_LABELS,
   ZEEKR_9X_FAQ_COUNT,
+  ZEEKR_9X_HERO_IMAGE,
   ZEEKR_9X_PROJECT_COUNT,
   ZEEKR_9X_SCENARIO_COUNT,
   ZEEKR_9X_SERVICE_STEP_COUNT,
@@ -41,16 +42,35 @@ describe("Zeekr 9X data shape (Task D)", () => {
       });
     });
 
-    it('全部 imageStatus === "pending-review"', () => {
+    it('全部 imageStatus === "generated-preview"', () => {
       for (const p of zeekr9xUpgradeProjects) {
-        expect(p.imageStatus).toBe("pending-review");
+        expect(p.imageStatus).toBe("generated-preview");
       }
     });
 
-    it("没有 generated-preview 状态（9X 不使用）", () => {
+    it("全部项目图指向 zeekr-9x generated 目录", () => {
       for (const p of zeekr9xUpgradeProjects) {
-        expect(p.imageStatus).not.toBe("generated-preview");
+        expect(p.image.publicPath).toMatch(
+          /^\/images\/products\/zeekr-9x\/generated\/[a-z0-9-]+\.png$/,
+        );
+        expect(p.image.alt).toContain(`极氪 9X ${p.name}`);
+        expect(p.image.width).toBe(1448);
+        expect(p.image.height).toBe(1086);
+        expect(p.image.aspectRatio).toBe("4/3");
       }
+    });
+
+    it("图片路径唯一", () => {
+      const paths = zeekr9xUpgradeProjects.map((p) => p.image.publicPath);
+      expect(new Set(paths).size).toBe(paths.length);
+    });
+
+    it("hero 图使用 generated 主视觉", () => {
+      expect(ZEEKR_9X_HERO_IMAGE.publicPath).toBe(
+        "/images/products/zeekr-9x/generated/hero.png",
+      );
+      expect(ZEEKR_9X_HERO_IMAGE.width).toBe(1448);
+      expect(ZEEKR_9X_HERO_IMAGE.height).toBe(1086);
     });
 
     it('全部 sourceArea === "poster_project_matrix"', () => {

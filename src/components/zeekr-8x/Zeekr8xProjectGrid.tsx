@@ -1,17 +1,22 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Badge } from "@/components/ui/badge";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
+import { AlertCircle, ImageIcon } from "lucide-react";
 import { trackClick } from "@/lib/analytics";
 import {
-  ZEEKR_8X_PROJECT_COUNT,
   ZEEKR_8X_CATEGORY_LABELS,
+  ZEEKR_8X_PROJECT_COUNT,
   type Zeekr8xCategory,
   type Zeekr8xScenario,
   type Zeekr8xUpgradeProject,
 } from "@/lib/zeekr-8x-products";
 
 const EXPECTED_PROJECT_COUNT = ZEEKR_8X_PROJECT_COUNT;
+
+const CATEGORY_ORDER = Object.keys(
+  ZEEKR_8X_CATEGORY_LABELS,
+) as Zeekr8xCategory[];
 
 function assertProjectCount(projects: readonly Zeekr8xUpgradeProject[]): void {
   if (projects.length !== EXPECTED_PROJECT_COUNT) {
@@ -21,11 +26,9 @@ function assertProjectCount(projects: readonly Zeekr8xUpgradeProject[]): void {
   }
 }
 
-const ALL_CATEGORIES = Object.keys(ZEEKR_8X_CATEGORY_LABELS) as Zeekr8xCategory[];
-
 export type Zeekr8xProjectGridProps = {
   readonly projects: readonly Zeekr8xUpgradeProject[];
-  readonly modelKey: "8X";
+  readonly scenarios: readonly Zeekr8xScenario[];
 };
 
 type ProjectCardProps = {
@@ -35,6 +38,19 @@ type ProjectCardProps = {
 };
 
 function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
+  const image = project.image ?? {
+    publicPath: null,
+    alt: `极氪 8X ${project.name} 图片待补充`,
+  };
+  const statusLabel =
+    project.imageStatus === "generated-preview"
+      ? "效果预览"
+      : project.imageStatus === "matched"
+        ? "实拍匹配"
+        : project.imageStatus === "pending-review"
+          ? "待复核"
+          : "图片待补充";
+
   const handleClick = () => {
     trackClick("zeekr_8x_project_click", {
       projectId: project.id,
@@ -46,7 +62,10 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
   };
 
   return (
-    <article className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col">
+    <article
+      id={`zeekr-8x-project-${project.id}`}
+      className="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col scroll-mt-24"
+    >
       <button
         type="button"
         onClick={handleClick}
@@ -54,22 +73,40 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
         aria-controls={`zeekr-8x-project-detail-${project.id}`}
         className="text-left w-full"
       >
-        {/* 图片占位区（pending-review：无实图） */}
-        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center">
-          <div className="text-center p-4">
-            <div className="text-3xl font-bold text-orange-400 mb-1">
-              {String(project.order).padStart(2, "0")}
-            </div>
-            <p className="text-[11px] text-zinc-600">图片待补充</p>
-          </div>
-          {project.imageStatus === "generated-preview" ? (
-            <span
-              aria-hidden
-              className="absolute top-2 right-2 text-[10px] px-1.5 py-0.5 rounded bg-orange-500/80 text-white"
+        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center overflow-hidden">
+          {image.publicPath ? (
+            <>
+              <Image
+                src={image.publicPath}
+                alt={image.alt}
+                fill
+                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                className="object-contain p-2 transition-transform duration-300 group-hover:scale-[1.02]"
+                loading="lazy"
+              />
+              <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-md border border-orange-700/60 bg-zinc-950/80 px-2 py-0.5 text-[10px] font-medium text-orange-200">
+                {project.imageStatus === "generated-preview" ? (
+                  <AlertCircle className="h-3 w-3" aria-hidden />
+                ) : null}
+                {statusLabel}
+              </span>
+            </>
+          ) : (
+            <div
+              role="img"
+              aria-label={image.alt}
+              className="flex flex-col items-center justify-center text-zinc-500"
             >
-              预览图
-            </span>
-          ) : null}
+              <ImageIcon className="mb-2 h-8 w-8" aria-hidden />
+              <p className="text-xs">{statusLabel}</p>
+            </div>
+          )}
+          <span
+            aria-hidden
+            className="absolute top-2 left-2 text-xs font-bold w-8 h-8 flex items-center justify-center rounded-md bg-orange-500/80 text-white"
+          >
+            {String(project.order).padStart(2, "0")}
+          </span>
         </div>
 
         <div className="p-4">
@@ -80,15 +117,20 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
             {project.summary}
           </p>
           <div className="flex flex-wrap items-center gap-1.5">
-            <Badge
-              variant="outline"
-              className="border-orange-700/60 text-orange-300 bg-orange-950/30"
-            >
+            <span className="inline-flex items-center px-2 py-0.5 rounded-md border border-orange-900/60 text-orange-400 bg-orange-950/30 text-xs">
               {ZEEKR_8X_CATEGORY_LABELS[project.category]}
-            </Badge>
+            </span>
+            {project.suitableFor.slice(0, 2).map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center px-2 py-0.5 rounded-md border border-zinc-700 text-zinc-400 bg-zinc-800/50 text-xs"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
           <p className="text-[11px] text-zinc-500 mt-3">
-            部分项目需到店评估适配性
+            功能预览 · 按车型确认适配
           </p>
         </div>
       </button>
@@ -118,38 +160,69 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
 
 /**
  * 极氪 8X 17 项项目网格（Client）
- * - 全部分类 tab 筛选
- * - 每张卡可点击展开 detail panel（含 caution）
- * - 埋点 zeekr_8x_project_click
- * - 支持 hash 高亮（来自 Zeekr8xBundles 点击联动）
+ * - 分类 tab 切换
+ * - 场景筛选（通过 #scenario-{id} hash 驱动）
+ * - 每张卡可点击展开 detail panel
+ * - 埋点 zeekr_8x_project_click / zeekr_8x_category_filter
  */
 export function Zeekr8xProjectGrid({
   projects,
-  modelKey,
+  scenarios,
 }: Zeekr8xProjectGridProps) {
   assertProjectCount(projects);
 
+  const sectionRef = useRef<HTMLElement>(null);
   const [activeCategory, setActiveCategory] = useState<Zeekr8xCategory | "all">("all");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [activeScenarioId, setActiveScenarioId] = useState<string | null>(null);
 
-  // hash 高亮（来自 Zeekr8xBundles 的 hashchange）
-  useEffect(() => {
-    const sync = () => {
-      const hash = window.location.hash.replace(/^#/, "");
-      const m = hash.match(/^project-(.+)$/);
-      if (m && typeof m[1] === "string") {
-        setOpenId(m[1]);
-      }
-    };
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
+  const activeScenario = useMemo(() => {
+    if (!activeScenarioId) return null;
+    return scenarios.find((s) => s.id === activeScenarioId) ?? null;
+  }, [activeScenarioId, scenarios]);
+
+  const handleHashChange = useCallback(() => {
+    const hash = window.location.hash.replace(/^#/, "");
+    const projectMatch = hash.match(/^(?:zeekr-8x-project-|project-)(.+)$/);
+    if (projectMatch) {
+      setOpenId(projectMatch[1]);
+      setActiveScenarioId(null);
+      return;
+    }
+
+    const scenarioMatch = hash.match(/^scenario-(.+)$/);
+    if (scenarioMatch) {
+      setActiveScenarioId(scenarioMatch[1]);
+      sectionRef.current?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
+    setActiveScenarioId(null);
   }, []);
 
+  useEffect(() => {
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, [handleHashChange]);
+
+  const scenarioFilteredProjects = useMemo<readonly Zeekr8xUpgradeProject[]>(() => {
+    if (!activeScenario) return projects;
+    const idSet = new Set(activeScenario.projectIds);
+    return projects.filter((p) => idSet.has(p.id));
+  }, [projects, activeScenario]);
+
   const filteredProjects = useMemo<readonly Zeekr8xUpgradeProject[]>(() => {
-    if (activeCategory === "all") return projects;
-    return projects.filter((p) => p.category === activeCategory);
-  }, [projects, activeCategory]);
+    if (activeCategory === "all") return scenarioFilteredProjects;
+    return scenarioFilteredProjects.filter((p) => p.category === activeCategory);
+  }, [scenarioFilteredProjects, activeCategory]);
+
+  const handleScenarioClear = useCallback(() => {
+    trackClick("zeekr_8x_scenario_clear", {});
+    setActiveScenarioId(null);
+    setActiveCategory("all");
+    window.location.hash = "";
+  }, []);
 
   const handleTabChange = useCallback(
     (next: Zeekr8xCategory | "all") => {
@@ -163,10 +236,16 @@ export function Zeekr8xProjectGrid({
   );
 
   return (
-    <section className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900">
+    <section
+      ref={sectionRef}
+      id="zeekr-8x-project-grid"
+      className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900 scroll-mt-24"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 md:mb-10">
-          <p className="text-sm tracking-widest text-orange-400 mb-3">PROJECTS</p>
+          <p className="text-sm tracking-widest text-orange-400 mb-3">
+            PROJECTS
+          </p>
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
             极氪 8X · {projects.length} 个升级项目
           </h2>
@@ -174,6 +253,21 @@ export function Zeekr8xProjectGrid({
             按分类筛选；点击任意卡片展开详情。
           </p>
         </div>
+
+        {activeScenario ? (
+          <div className="flex items-center gap-2 mb-4 px-4 py-2 rounded-lg bg-orange-950/20 border border-orange-900/40">
+            <span className="text-sm text-orange-300">
+              当前筛选：{activeScenario.name}场景
+            </span>
+            <button
+              type="button"
+              onClick={handleScenarioClear}
+              className="ml-auto text-xs px-2 py-1 rounded-md border border-orange-800/60 text-orange-400 hover:bg-orange-950/40 transition-colors"
+            >
+              清除筛选
+            </button>
+          </div>
+        ) : null}
 
         <div
           role="tablist"
@@ -191,10 +285,12 @@ export function Zeekr8xProjectGrid({
                 : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-orange-700/60"
             }`}
           >
-            全部（{projects.length}）
+            全部（{scenarioFilteredProjects.length}）
           </button>
-          {ALL_CATEGORIES.map((cat) => {
-            const count = projects.filter((p) => p.category === cat).length;
+          {CATEGORY_ORDER.map((cat) => {
+            const count = scenarioFilteredProjects.filter(
+              (p) => p.category === cat,
+            ).length;
             if (count === 0) return null;
             return (
               <button
@@ -226,7 +322,11 @@ export function Zeekr8xProjectGrid({
           ))}
         </div>
 
-        <span className="sr-only">{`model: ${modelKey}`}</span>
+        {filteredProjects.length === 0 ? (
+          <p className="text-center text-zinc-500 text-sm py-8">
+            当前筛选条件下没有项目
+          </p>
+        ) : null}
       </div>
     </section>
   );

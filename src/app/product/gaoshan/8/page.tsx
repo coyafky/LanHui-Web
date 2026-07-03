@@ -9,8 +9,8 @@ import { Gaoshan8ProjectGrid } from "@/components/gaoshan/Gaoshan8ProjectGrid";
 import { Gaoshan8ScenarioMatrix } from "@/components/gaoshan/Gaoshan8ScenarioMatrix";
 import { Gaoshan8ServiceFlow } from "@/components/gaoshan/Gaoshan8ServiceFlow";
 import { Gaoshan8Faq } from "@/components/gaoshan/Gaoshan8Faq";
-import { Gaoshan8ModelFitNote } from "@/components/gaoshan/Gaoshan8ModelFitNote";
 import {
+  GAOSHAN_8_HERO_IMAGE,
   gaoshan8UpgradeProjects,
   gaoshan8Scenarios,
   gaoshan8ServiceSteps,
@@ -37,7 +37,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    images: [],
+    images: GAOSHAN_8_HERO_IMAGE.publicPath
+      ? [
+          {
+            url: GAOSHAN_8_HERO_IMAGE.publicPath,
+            width: GAOSHAN_8_HERO_IMAGE.width ?? 1448,
+            height: GAOSHAN_8_HERO_IMAGE.height ?? 1086,
+            alt: GAOSHAN_8_HERO_IMAGE.alt,
+          },
+        ]
+      : [],
     type: "article",
   },
 };
@@ -73,7 +82,7 @@ export default function Gaoshan8TopicPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main className="flex-grow flex flex-col bg-zinc-950">
         <Gaoshan8TopicViewTrack
           topicKey="gaoshan-8"
           totalProjects={totalProjects}
@@ -86,16 +95,18 @@ export default function Gaoshan8TopicPage() {
           description="蓝辉轻改针对高山 8 提供从新车保护到座舱维护的完整轻改方向，涵盖新车保护、商务外观、外观个性、MPV后排舒适、底盘与行车防护、灯光氛围、智能与屏幕保护和座舱维护八大类别。所有项目以方向参考为主，最终以到店确认和实际施工评估为准。"
           totalProjects={totalProjects}
           scenarioCount={totalScenarios}
+          heroImage={GAOSHAN_8_HERO_IMAGE}
         />
-
-        <Gaoshan8ProjectGrid projects={gaoshan8UpgradeProjects} />
 
         <Gaoshan8ScenarioMatrix
           scenarios={gaoshan8Scenarios}
           allProjects={gaoshan8UpgradeProjects}
         />
 
-        <Gaoshan8ModelFitNote />
+        <Gaoshan8ProjectGrid
+          projects={gaoshan8UpgradeProjects}
+          scenarios={gaoshan8Scenarios}
+        />
 
         <Gaoshan8ServiceFlow steps={gaoshan8ServiceSteps} />
 

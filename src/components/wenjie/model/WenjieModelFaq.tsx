@@ -27,7 +27,7 @@ export function WenjieModelFaq({
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 md:mb-14">
-          <p className="text-sm tracking-widest text-cyan-400 mb-3">FAQ</p>
+          <p className="text-sm tracking-widest text-orange-400 mb-3">FAQ</p>
           <h2
             id={`wenjie-${modelKey.toLowerCase()}-faq-heading`}
             className="text-2xl md:text-3xl font-bold text-white"
@@ -55,7 +55,7 @@ export function WenjieModelFaq({
                     {item.question}
                   </span>
                   <ChevronDown
-                    className={`w-5 h-5 flex-shrink-0 text-cyan-400 transition-transform duration-200 ${
+                    className={`w-5 h-5 flex-shrink-0 text-orange-400 transition-transform duration-200 ${
                       open ? "rotate-180" : ""
                     }`}
                     aria-hidden

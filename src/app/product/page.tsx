@@ -14,21 +14,7 @@ import { VehicleTopicMap } from "@/components/product/VehicleTopicMap";
 import { CollapsibleSection } from "@/components/product/CollapsibleSection";
 import { MobileProductContent } from "@/components/product/MobileProductContent";
 import { P1ServiceCard } from "@/components/product/P1ServiceCard";
-import { RecommendationCombos } from "@/components/product/RecommendationCombos";
-import { ProductFAQ } from "@/components/product/ProductFAQ";
-import { TeslaTopicBanner } from "@/components/tesla/TeslaTopicBanner";
-import { XpengGxTopicBanner } from "@/components/xpeng/XpengGxTopicBanner";
-import { NioTopicBanner } from "@/components/product/NioTopicBanner";
-import { ZhijieV9TopicBanner } from "@/components/zhijie/ZhijieV9TopicBanner";
-import { DenzaD9TopicBanner } from "@/components/denza/DenzaD9TopicBanner";
-import { LedaoL90TopicBanner } from "@/components/ledao/LedaoL90TopicBanner";
-import { Gaoshan8TopicBanner } from "@/components/gaoshan/Gaoshan8TopicBanner";
-import { VoyahDreamerTopicBanner } from "@/components/voyah/VoyahDreamerTopicBanner";
-import { Zeekr9xTopicBanner } from "@/components/zeekr-9x/Zeekr9xTopicBanner";
-import { Zeekr8xTopicBanner } from "@/components/zeekr-8x/Zeekr8xTopicBanner";
-import { XiaomiYu7TopicBanner } from "@/components/xiaomi-yu7/XiaomiYu7TopicBanner";
-import { XiaomiSeriesTopicBanner } from "@/components/xiaomi-series/XiaomiSeriesTopicBanner";
-import { XiaomiSu7TopicBanner } from "@/components/xiaomi-su7/XiaomiSu7TopicBanner";
+import { PracticalAccessoryMap } from "@/components/product/PracticalAccessoryMap";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -47,17 +33,19 @@ export default function ProductCenter() {
   const lightModServices = liveServices.filter(
     (s: ServiceRoute) => s.group === "light_mod"
   );
-
-  // P1 服务 — 移动端折叠区显示
-  const p1Services = ALL_SERVICES.filter(
-    (s: ServiceRoute) => s.priority === "P1"
+  const practicalAccessoryServices = liveServices.filter(
+    (s: ServiceRoute) => s.group === "practical_accessory"
   );
 
-  // 移动端 sticky tab — 3 段内容切换
+  // P1 planned 服务 — 移动端折叠区显示
+  const p1Services = ALL_SERVICES.filter(
+    (s: ServiceRoute) => s.priority === "P1" && s.status === "planned"
+  );
+
+  // 移动端 sticky tab — 车型 / 项目内容切换
   const mobileTabs = [
     { id: "vehicle", label: "按车型", accentColor: "violet" as const },
     { id: "project", label: "按项目", accentColor: "cyan" as const },
-    { id: "combo", label: "组合", accentColor: "orange" as const },
   ];
 
   // JSON-LD: CollectionPage + ItemList (PRD §7.6 SEO)
@@ -123,6 +111,7 @@ export default function ProductCenter() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 md:space-y-8">
               <FilmServiceMap services={filmServices} />
               <LightModMap services={lightModServices} />
+              <PracticalAccessoryMap services={practicalAccessoryServices} />
 
               {/* P1 折叠区 — amber 主题, 移动端前 3 个默认可见 */}
               {p1Services.length > 0 && (
@@ -155,55 +144,7 @@ export default function ProductCenter() {
               )}
             </div>
           </section>
-
-          {/* Tab 3: 组合 — 4 个推荐组合 (Phase 4) */}
-          <RecommendationCombos />
         </MobileProductContent>
-
-        {/* 整理中车系折叠区 — amber 主题, 与 P1 服务折叠区对称 */}
-        <section
-          aria-labelledby="planned-brands-title"
-          className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <section className="relative overflow-hidden rounded-3xl border border-amber-900/40 bg-zinc-950">
-              <div className="p-6 md:p-8">
-                <div className="mb-6">
-                  <p className="text-xs tracking-widest text-amber-400 mb-2">
-                    PLANNED BRANDS · 整理中的车系专题
-                  </p>
-                  <h3
-                    id="planned-brands-title"
-                    className="text-xl md:text-2xl font-bold text-white"
-                  >
-                    更多车系专题整理中
-                  </h3>
-                  <p className="text-zinc-400 mt-2 text-sm md:text-base">
-                    特斯拉、小鹏等专题页正在搭建，欢迎到店沟通具体车型需求。
-                  </p>
-                </div>
-                <CollapsibleSection maxVisible={2}>
-                  <TeslaTopicBanner />
-                  <XpengGxTopicBanner />
-                  <NioTopicBanner />
-                  <DenzaD9TopicBanner />
-                  <ZhijieV9TopicBanner />
-                  <LedaoL90TopicBanner />
-                  <Gaoshan8TopicBanner />
-                  <VoyahDreamerTopicBanner />
-                  <Zeekr9xTopicBanner />
-                  <Zeekr8xTopicBanner />
-                  <XiaomiYu7TopicBanner />
-                  <XiaomiSeriesTopicBanner />
-                  <XiaomiSu7TopicBanner />
-                </CollapsibleSection>
-              </div>
-            </section>
-          </div>
-        </section>
-
-        {/* Phase 4: FAQ — 不在 tab 内, 始终可见 */}
-        <ProductFAQ />
       </main>
       <Footer />
     </>

@@ -2,7 +2,7 @@
  * 极氪 8X 专题页静态数据
  *
  * 派生自 docs/PRD/product/ZEEKR_8X_TOPIC_PRD_2026-06-27.md。
- * 所有 imageStatus 为 "pending-review"（无实际图片）。
+ * 所有项目使用 generated-preview 图例（非真实施工图）。
  */
 
 export type Zeekr8xImageStatus =
@@ -10,6 +10,14 @@ export type Zeekr8xImageStatus =
   | "generated-preview"
   | "pending-review"
   | "missing";
+
+export type Zeekr8xProductImage = {
+  readonly publicPath: string | null;
+  readonly alt: string;
+  readonly width: 1448 | null;
+  readonly height: 1086 | null;
+  readonly aspectRatio: "4/3" | null;
+};
 
 export type Zeekr8xCategory =
   | "protection"
@@ -39,6 +47,7 @@ export type Zeekr8xUpgradeProject = {
   readonly suitableFor: readonly string[];
   readonly caution?: string;
   readonly imageStatus: Zeekr8xImageStatus;
+  readonly image: Zeekr8xProductImage;
 };
 
 export type Zeekr8xScenario = {
@@ -87,6 +96,23 @@ export const ZEEKR_8X_CATEGORY_LABELS: Record<Zeekr8xCategory, string> = {
   detail_care: "细节装饰",
 };
 
+const GENERATED_IMAGE_BASE = "/images/products/zeekr-8x/generated";
+
+function generatedImage(fileName: string, displayName: string): Zeekr8xProductImage {
+  return {
+    publicPath: `${GENERATED_IMAGE_BASE}/${fileName}`,
+    alt: `极氪 8X ${displayName} 效果预览图`,
+    width: 1448,
+    height: 1086,
+    aspectRatio: "4/3",
+  };
+}
+
+export const ZEEKR_8X_HERO_IMAGE: Zeekr8xProductImage = generatedImage(
+  "hero.png",
+  "主视觉",
+);
+
 // ---- 17 个升级项目 ----
 
 export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
@@ -97,7 +123,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "protection",
     summary: "漆面保护、日常划痕防护、保持车身质感",
     suitableFor: ["new-car-protection"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("paint-protection-film.png", "车衣"),
   },
   {
     id: "window-film",
@@ -106,7 +133,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "film",
     summary: "隔热、防晒、隐私与驾乘舒适",
     suitableFor: ["new-car-protection"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("window-film.png", "隔热膜"),
   },
   {
     id: "graphic-wrap",
@@ -115,7 +143,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "appearance",
     summary: "主题化车身视觉和个性表达",
     suitableFor: ["appearance-upgrade"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("custom-wrap-art.png", "彩绘"),
   },
   {
     id: "floating-roof",
@@ -124,7 +153,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "appearance",
     summary: "强化车顶视觉分层和整车侧面辨识度",
     suitableFor: ["appearance-upgrade"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("floating-roof-wrap.png", "悬浮顶"),
   },
   {
     id: "floor-mats-360",
@@ -133,7 +163,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "cabin_protection",
     summary: "全包围脚垫、易清洁、保护原车地毯",
     suitableFor: ["new-car-protection", "family-cabin"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("soft-floor-mats.png", "360软包脚垫"),
   },
   {
     id: "aluminum-floor",
@@ -143,7 +174,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     summary: "后排和尾箱易清洁，提升耐用与质感",
     suitableFor: ["family-cabin"],
     caution: "不同批次地板接口可能存在差异",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("aluminum-flooring.png", "铝地板"),
   },
   {
     id: "stabilizer-bar",
@@ -153,7 +185,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     summary: "需到店评估安装位，不做性能承诺",
     suitableFor: ["driving-protection"],
     caution: "需到店评估安装位和适配性",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("stabilizer-bar.png", "平衡杆"),
   },
   {
     id: "body-kit",
@@ -162,7 +195,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "appearance",
     summary: "强化前后杠、侧裙等区域的视觉完整度",
     suitableFor: ["appearance-upgrade"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("sport-body-kit.png", "运动包围"),
   },
   {
     id: "ambient-lighting",
@@ -171,7 +205,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "cabin_atmosphere",
     summary: "夜间座舱氛围与内饰观感升级",
     suitableFor: ["family-cabin"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("ambient-lighting.png", "氛围灯"),
   },
   {
     id: "skid-plate",
@@ -180,7 +215,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "chassis",
     summary: "加强底部关键区域防护，适合新车基础防护",
     suitableFor: ["new-car-protection", "driving-protection"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("underbody-guard.png", "底盘护板"),
   },
   {
     id: "rear-table-tray",
@@ -189,7 +225,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "family_cabin",
     summary: "后排办公、用餐、儿童使用和短途休息",
     suitableFor: ["family-cabin"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("folding-table.png", "小桌板"),
   },
   {
     id: "mud-flap",
@@ -198,7 +235,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "driving_protection",
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["driving-protection"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("mud-flaps.png", "挡泥板"),
   },
   {
     id: "bug-screen",
@@ -207,7 +245,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "driving_protection",
     summary: "减少虫石杂物进入前部格栅或进风区域",
     suitableFor: ["driving-protection"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("grille-mesh.png", "防虫网"),
   },
   {
     id: "head-up-display",
@@ -217,7 +256,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     summary: "驾驶信息显示和科技感，需确认接口和安装位",
     suitableFor: ["smart-display"],
     caution: "需确认接口、安装位和使用边界",
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("head-up-display.png", "抬头显示"),
   },
   {
     id: "screen-protector",
@@ -226,7 +266,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "screen_care",
     summary: "中控屏幕防刮保护，降低高频触控磨损",
     suitableFor: ["new-car-protection", "smart-display"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("screen-protector.png", "钢化膜"),
   },
   {
     id: "sill-plate",
@@ -235,7 +276,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "detail_care",
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["appearance-upgrade", "family-cabin"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("door-sill-trim.png", "门槛条"),
   },
   {
     id: "license-frame",
@@ -244,7 +286,8 @@ export const zeekr8xUpgradeProjects: readonly Zeekr8xUpgradeProject[] = [
     category: "detail_care",
     summary: "车头车尾细节装饰和牌照区域保护",
     suitableFor: ["appearance-upgrade"],
-    imageStatus: "pending-review",
+    imageStatus: "generated-preview",
+    image: generatedImage("license-plate-frame.png", "牌照框"),
   },
 ];
 

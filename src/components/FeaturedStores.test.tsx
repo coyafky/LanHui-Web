@@ -2,7 +2,7 @@
  * FeaturedStores RSC tests (TDD RED→GREEN)
  *
  * 覆盖任务 3 验收点：
- *  - 调用 getStores({ limit: 4 })
+ *  - 调用 getStores({ limit: 4, sort: "public_featured" })
  *  - 过滤 isActive !== false（缺失字段视为 active）
  *  - 4 列响应式 grid、空守卫返回 null
  *  - 视觉属性：tracking-widest + text-blue-400 + bg-zinc-900 + priority
@@ -96,11 +96,14 @@ describe("FeaturedStores", () => {
     cleanup();
   });
 
-  it("R1: 调用 getStores({ limit: 4 })", async () => {
+  it("R1: 调用 getStores({ limit: 4, sort: public_featured })", async () => {
     getStoresMock.mockResolvedValueOnce([]);
     await renderRSC();
     await waitFor(() => expect(getStoresMock).toHaveBeenCalledTimes(1));
-    expect(getStoresMock).toHaveBeenCalledWith({ limit: 4 });
+    expect(getStoresMock).toHaveBeenCalledWith({
+      limit: 4,
+      sort: "public_featured",
+    });
   });
 
   it("R2: 渲染标题「推荐门店」与英文 eyebrow FEATURED STORES", async () => {

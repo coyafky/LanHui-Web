@@ -2,28 +2,65 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { CarMatGallery } from "@/components/product/carmat/CarMatGallery";
+import { CarMatHero } from "@/components/product/carmat/CarMatHero";
+import { CarMatServiceFlow } from "@/components/product/carmat/CarMatServiceFlow";
+import { CarMatValueGrid } from "@/components/product/carmat/CarMatValueGrid";
+import { carMatGalleryImages } from "@/lib/carmat-products";
 import { getServiceRoute } from "@/lib/product-routes";
-import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
 
 export const metadata: Metadata = {
-  title: "360 软包脚垫｜蓝辉轻改 LANHUI",
-  description: "蓝辉轻改提供 360 软包脚垫服务，适合家用与商务车型，到店沟通方案。",
+  title: "汽车垫与 360 软包脚垫｜蓝辉轻改 LANHUI",
+  description:
+    "蓝辉轻改汽车垫与 360 软包脚垫产品展示，汇集多款座舱、后排、尾箱与细节效果图，具体车型适配以到店沟通为准。",
+  openGraph: {
+    title: "汽车垫与 360 软包脚垫｜蓝辉轻改 LANHUI",
+    description:
+      "查看蓝辉轻改现有汽车垫产品图库，围绕新车保护、家庭通勤和商务后排场景提供方案参考。",
+    images: [
+      {
+        url: carMatGalleryImages[0]!.publicPath,
+        width: carMatGalleryImages[0]!.width,
+        height: carMatGalleryImages[0]!.height,
+        alt: carMatGalleryImages[0]!.alt,
+      },
+    ],
+  },
 };
 
-export default async function FloorMatsPage() {
+export default function FloorMatsPage() {
   const service = getServiceRoute("floor-mats");
   if (!service || service.type !== "service_category") notFound();
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "汽车垫与 360 软包脚垫",
+    description: metadata.description,
+    url: service.canonicalPath,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: carMatGalleryImages.map((image, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: image.title,
+        image: image.publicPath,
+      })),
+    },
+  };
+
   return (
     <>
       <Header />
       <main className="flex-grow">
-        <BrandPlaceholder
-          title={service.title}
-          subtitle={`${service.title}服务由蓝辉轻改提供，方案由团队整理中。`}
-          status={service.status}
-          accentColor="blue"
-          serviceMeta={{ group: service.group, priority: service.priority }}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <CarMatHero />
+        <CarMatValueGrid />
+        <CarMatGallery />
+        <CarMatServiceFlow />
       </main>
       <Footer />
     </>

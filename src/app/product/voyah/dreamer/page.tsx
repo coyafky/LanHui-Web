@@ -9,12 +9,12 @@ import { VoyahDreamerProjectGrid } from "@/components/voyah/VoyahDreamerProjectG
 import { VoyahDreamerScenarioMatrix } from "@/components/voyah/VoyahDreamerScenarioMatrix";
 import { VoyahDreamerServiceFlow } from "@/components/voyah/VoyahDreamerServiceFlow";
 import { VoyahDreamerFaq } from "@/components/voyah/VoyahDreamerFaq";
-import { VoyahDreamerModelFitNote } from "@/components/voyah/VoyahDreamerModelFitNote";
 import {
   voyahDreamerUpgradeProjects,
   voyahDreamerScenarios,
   voyahDreamerServiceSteps,
   voyahDreamerFaq,
+  VOYAH_DREAMER_HERO_IMAGE,
 } from "@/lib/voyah-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 
@@ -38,7 +38,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    images: [],
+    images: VOYAH_DREAMER_HERO_IMAGE.publicPath
+      ? [VOYAH_DREAMER_HERO_IMAGE.publicPath]
+      : [],
     type: "article",
   },
 };
@@ -74,7 +76,7 @@ export default function VoyahDreamerTopicPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main className="flex-grow flex flex-col bg-zinc-950">
         <VoyahDreamerTopicViewTrack
           topicKey="voyah-dreamer"
           totalProjects={totalProjects}
@@ -84,18 +86,21 @@ export default function VoyahDreamerTopicPage() {
         <VoyahDreamerHero
           title="岚图梦想家专属升级方案"
           subtitle="岚图梦想家单车型轻改 · MPV 全场景升级参考"
+          description="蓝辉轻改针对岚图梦想家提供从新车保护到座舱维护的完整轻改方向，涵盖新车保护、外观个性、底盘与行车防护、MPV 后排舒适和座舱维护五大类别。所有项目以方向参考为主，最终以到店确认和实际施工评估为准。"
           totalProjects={totalProjects}
           scenarioCount={totalScenarios}
+          heroImage={VOYAH_DREAMER_HERO_IMAGE}
         />
-
-        <VoyahDreamerProjectGrid projects={voyahDreamerUpgradeProjects} />
 
         <VoyahDreamerScenarioMatrix
           scenarios={voyahDreamerScenarios}
           allProjects={voyahDreamerUpgradeProjects}
         />
 
-        <VoyahDreamerModelFitNote />
+        <VoyahDreamerProjectGrid
+          projects={voyahDreamerUpgradeProjects}
+          scenarios={voyahDreamerScenarios}
+        />
 
         <VoyahDreamerServiceFlow steps={voyahDreamerServiceSteps} />
 

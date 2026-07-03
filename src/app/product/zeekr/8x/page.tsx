@@ -6,22 +6,19 @@ import { Zeekr8xHero } from "@/components/zeekr-8x/Zeekr8xHero";
 import { Zeekr8xTopicViewTrack } from "@/components/zeekr-8x/Zeekr8xTopicViewTrack";
 import { Zeekr8xScenarioMatrix } from "@/components/zeekr-8x/Zeekr8xScenarioMatrix";
 import { Zeekr8xProjectGrid } from "@/components/zeekr-8x/Zeekr8xProjectGrid";
-import { Zeekr8xBundles } from "@/components/zeekr-8x/Zeekr8xBundles";
-import { Zeekr8xModelFitNote } from "@/components/zeekr-8x/Zeekr8xModelFitNote";
 import { Zeekr8xServiceFlow } from "@/components/zeekr-8x/Zeekr8xServiceFlow";
 import { Zeekr8xFaq } from "@/components/zeekr-8x/Zeekr8xFaq";
 import {
+  ZEEKR_8X_HERO_IMAGE,
+  ZEEKR_8X_PROJECT_COUNT,
   zeekr8xUpgradeProjects,
   zeekr8xScenarios,
-  zeekr8xBundles,
   zeekr8xServiceSteps,
   zeekr8xFaq,
-  ZEEKR_8X_PROJECT_COUNT,
 } from "@/lib/zeekr-8x-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { notFound } from "next/navigation";
 
-const MODEL_KEY = "8X" as const;
 const MODEL_NAME = "极氪 8X";
 const CANONICAL_PATH = "/product/zeekr/8x";
 
@@ -49,7 +46,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    images: [],
+    images: ZEEKR_8X_HERO_IMAGE.publicPath
+      ? [
+          {
+            url: ZEEKR_8X_HERO_IMAGE.publicPath,
+            width: ZEEKR_8X_HERO_IMAGE.width ?? 1448,
+            height: ZEEKR_8X_HERO_IMAGE.height ?? 1086,
+            alt: ZEEKR_8X_HERO_IMAGE.alt,
+          },
+        ]
+      : [],
     type: "article",
   },
 };
@@ -72,7 +78,7 @@ export default function Zeekr8xPage() {
       position: p.order,
       name: p.name,
       category: p.category,
-      url: `${CANONICAL_PATH}#project-${p.id}`,
+      url: `${CANONICAL_PATH}#zeekr-8x-project-${p.id}`,
     })),
   };
 
@@ -90,28 +96,19 @@ export default function Zeekr8xPage() {
         <Zeekr8xHero
           totalProjects={zeekr8xUpgradeProjects.length}
           totalScenarios={zeekr8xScenarios.length}
-          totalBundles={zeekr8xBundles.length}
           canonicalPath={CANONICAL_PATH}
+          heroImage={ZEEKR_8X_HERO_IMAGE}
         />
 
         <Zeekr8xScenarioMatrix
           scenarios={zeekr8xScenarios}
-          projects={zeekr8xUpgradeProjects}
-          canonicalPath={CANONICAL_PATH}
+          allProjects={zeekr8xUpgradeProjects}
         />
 
         <Zeekr8xProjectGrid
           projects={zeekr8xUpgradeProjects}
-          modelKey={MODEL_KEY}
+          scenarios={zeekr8xScenarios}
         />
-
-        <Zeekr8xBundles
-          bundles={zeekr8xBundles}
-          allProjects={zeekr8xUpgradeProjects}
-          modelKey={MODEL_KEY}
-        />
-
-        <Zeekr8xModelFitNote />
 
         <Zeekr8xServiceFlow steps={zeekr8xServiceSteps} />
 

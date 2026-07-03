@@ -8,8 +8,8 @@
  *   §7   20 项热门轻改产品目录  → liAutoI6UpgradeProjects  (length === 20)
  *   §8   5 大用车场景           → liAutoI6Scenarios        (length === 5)
  *   §9   5 个推荐组合           → liAutoI6Bundles          (length === 5)
- *   §11  7 步服务流程           → liAutoI6ServiceSteps     (length === 7)
- *   §11  9 条 FAQ               → liAutoI6Faq              (length === 9)
+ *   §11  6 步服务流程           → liAutoI6ServiceSteps     (length === 6)
+ *   §11  6 条 FAQ               → liAutoI6Faq              (length === 6)
  *
  * 字面量防漂移（参考 NIO ES8 模式）：
  *   - 图片状态 `pending-review`，暂无 publicPath
@@ -60,11 +60,11 @@ export type LiAutoI6UpgradeProject = {
 };
 
 export type LiAutoI6ScenarioKey =
-  | "protection"
-  | "cabin_atmosphere"
-  | "appearance"
-  | "smart_screen"
-  | "driving_protection";
+  | "new-car-protection"
+  | "appearance-style"
+  | "cabin-care"
+  | "chassis-driving"
+  | "premium-quality";
 
 export type LiAutoI6Scenario = {
   key: LiAutoI6ScenarioKey;
@@ -82,7 +82,7 @@ export type LiAutoI6Bundle = {
 };
 
 export type LiAutoI6ServiceStep = {
-  step: number;
+  order: number;
   title: string;
   description: string;
 };
@@ -92,13 +92,29 @@ export type LiAutoI6FaqItem = {
   answer: string;
 };
 
+export type LiAutoI6HeroImage = {
+  publicPath: "/images/products/li-auto/i6/generated/hero.png";
+  alt: "理想 i6 专属升级方案主视觉";
+  width: 1448;
+  height: 1086;
+  aspectRatio: "4/3";
+};
+
 // ---- 字面量约束（防漂移）----
 
 export const LI_AUTO_I6_PROJECT_COUNT = 20;
 export const LI_AUTO_I6_SCENARIO_COUNT = 5;
 export const LI_AUTO_I6_BUNDLE_COUNT = 5;
-export const LI_AUTO_I6_SERVICE_STEP_COUNT = 7;
-export const LI_AUTO_I6_FAQ_COUNT = 9;
+export const LI_AUTO_I6_SERVICE_STEP_COUNT = 6;
+export const LI_AUTO_I6_FAQ_COUNT = 6;
+
+export const LI_AUTO_I6_HERO_IMAGE: LiAutoI6HeroImage = {
+  publicPath: "/images/products/li-auto/i6/generated/hero.png",
+  alt: "理想 i6 专属升级方案主视觉",
+  width: 1448,
+  height: 1086,
+  aspectRatio: "4/3",
+};
 
 // ---- 20 项轻改项目（PRD §7，与海报顺序对齐）----
 
@@ -373,8 +389,8 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
 
 export const liAutoI6Scenarios: readonly LiAutoI6Scenario[] = [
   {
-    key: "protection",
-    name: "新车基础保护",
+    key: "new-car-protection",
+    name: "新车保护",
     description: "适合刚提车用户，优先解决漆面、玻璃、地毯、底盘、屏幕和座舱保护",
     projectKeys: [
       "paint-protection-film",
@@ -386,20 +402,8 @@ export const liAutoI6Scenarios: readonly LiAutoI6Scenario[] = [
     ],
   },
   {
-    key: "cabin_atmosphere",
-    name: "座舱氛围与舒适",
-    description: "面向夜间氛围、家庭乘坐、后排使用和座舱精致感",
-    projectKeys: [
-      "star-ceiling",
-      "star-film",
-      "fragrance-system",
-      "rear-table-tray",
-      "interior-coating",
-    ],
-  },
-  {
-    key: "appearance",
-    name: "外观个性升级",
+    key: "appearance-style",
+    name: "外观个性",
     description: "强化 i6 城市 SUV 的视觉辨识度和个性表达",
     projectKeys: [
       "graphic-wrap",
@@ -409,18 +413,21 @@ export const liAutoI6Scenarios: readonly LiAutoI6Scenario[] = [
     ],
   },
   {
-    key: "smart_screen",
-    name: "智能屏幕与显示保护",
-    description: "保护高频显示和触控区域，提升智能座舱体验",
+    key: "cabin-care",
+    name: "座舱防护",
+    description: "面向夜间氛围、家庭乘坐、后排使用和座舱精致感",
     projectKeys: [
-      "streaming-rearview-mirror",
-      "screen-protector",
-      "hud-cover",
+      "star-ceiling",
+      "star-film",
+      "fragrance-system",
+      "rear-table-tray",
+      "interior-coating",
+      "floor-mats-360",
     ],
   },
   {
-    key: "driving_protection",
-    name: "行车与日常防护",
+    key: "chassis-driving",
+    name: "底盘与行车防护",
     description: "关注底部防护、前部格栅、泥水飞溅和上下车区域",
     projectKeys: [
       "underbody-skid-plate",
@@ -428,6 +435,19 @@ export const liAutoI6Scenarios: readonly LiAutoI6Scenario[] = [
       "bug-screen",
       "mud-flap",
       "welcome-step",
+    ],
+  },
+  {
+    key: "premium-quality",
+    name: "高端质感",
+    description: "提升智能座舱、显示保护、香氛氛围和座舱精致感",
+    projectKeys: [
+      "streaming-rearview-mirror",
+      "screen-protector",
+      "hud-cover",
+      "star-ceiling",
+      "fragrance-system",
+      "interior-coating",
     ],
   },
 ];
@@ -495,47 +515,42 @@ export const liAutoI6Bundles: readonly LiAutoI6Bundle[] = [
   },
 ];
 
-// ---- 7 步服务流程（PRD §11）----
+// ---- 6 步服务流程（PRD §11）----
 
 export const liAutoI6ServiceSteps: readonly LiAutoI6ServiceStep[] = [
   {
-    step: 1,
+    order: 1,
     title: "车型确认",
     description: "确认理想 i6 的年份、批次、版本和配置",
   },
   {
-    step: 2,
+    order: 2,
     title: "项目选择",
     description: "根据新车保护、座舱氛围、外观个性、智能屏幕或行车防护选择项目",
   },
   {
-    step: 3,
+    order: 3,
     title: "到店评估",
-    description: "确认安装位、接口、材料、工期和风险提示",
+    description: "确认安装位、接口、材料、工期、风险提示和项目组合",
   },
   {
-    step: 4,
-    title: "方案确认",
-    description: "确认项目组合、施工时间和注意事项",
-  },
-  {
-    step: 5,
+    order: 4,
     title: "施工安装",
     description: "按项目标准施工，并做好车身和内饰保护",
   },
   {
-    step: 6,
+    order: 5,
     title: "验收交付",
     description: "检查外观、功能和安装细节",
   },
   {
-    step: 7,
+    order: 6,
     title: "售后支持",
     description: "提供使用注意事项和后续维护建议",
   },
 ];
 
-// ---- 9 条 FAQ（PRD §11）----
+// ---- 6 条 FAQ（PRD §11）----
 
 export const liAutoI6Faq: readonly LiAutoI6FaqItem[] = [
   {
@@ -562,18 +577,6 @@ export const liAutoI6Faq: readonly LiAutoI6FaqItem[] = [
   {
     question: "行车防护项目有哪些？",
     answer: "底盘护板、平衡杆、防虫网、挡泥板、迎宾踏板；关注底部防护、前部格栅和上下车区域。",
-  },
-  {
-    question: "可以只做单个项目吗？",
-    answer: "可以，页面项目既支持单项了解，也支持组合方案；具体施工内容以到店评估为准。",
-  },
-  {
-    question: "是否影响原车质保？",
-    answer: "不做不影响质保的承诺；具体以车辆情况和项目评估为准，施工前会告知风险与边界。",
-  },
-  {
-    question: "工期多久？",
-    answer: "根据项目组合、库存和施工排期确认；不同项目工期差异较大，到店评估后会给出明确工期。",
   },
 ];
 

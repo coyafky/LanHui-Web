@@ -1,12 +1,14 @@
 import { NextRequest } from "next/server";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { StoreCreateSchema } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
 import { generateStoreSlug } from "@/lib/store-slug";
 
-type OrderByItem = Record<string, "asc" | "desc">;
-type OrderByInput = OrderByItem | OrderByItem[];
+type OrderByInput =
+  | Prisma.StoreOrderByWithRelationInput
+  | Prisma.StoreOrderByWithRelationInput[];
 
 // sort 参数 → Prisma orderBy 映射
 const SORT_MAP: Record<string, OrderByInput> = {
@@ -17,6 +19,10 @@ const SORT_MAP: Record<string, OrderByInput> = {
   name_asc: { name: "asc" },
   name_desc: { name: "desc" },
   level_desc: [{ level: "desc" }, { createdAt: "desc" }],
+  public_featured: [
+    { imagePath: { sort: "asc", nulls: "last" } },
+    { createdAt: "asc" },
+  ],
 };
 
 export async function GET(request: NextRequest) {

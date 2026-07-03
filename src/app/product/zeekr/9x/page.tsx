@@ -6,11 +6,11 @@ import { Footer } from "@/components/Footer";
 import { Zeekr9xHero } from "@/components/zeekr-9x/Zeekr9xHero";
 import { Zeekr9xScenarioMatrix } from "@/components/zeekr-9x/Zeekr9xScenarioMatrix";
 import { Zeekr9xProjectGrid } from "@/components/zeekr-9x/Zeekr9xProjectGrid";
-import { Zeekr9xModelFitNote } from "@/components/zeekr-9x/Zeekr9xModelFitNote";
 import { Zeekr9xServiceFlow } from "@/components/zeekr-9x/Zeekr9xServiceFlow";
 import { Zeekr9xFaq } from "@/components/zeekr-9x/Zeekr9xFaq";
 import { Zeekr9xTopicViewTrack } from "@/components/zeekr-9x/Zeekr9xTopicViewTrack";
 import {
+  ZEEKR_9X_HERO_IMAGE,
   ZEEKR_9X_PROJECT_COUNT,
   zeekr9xFaq,
   zeekr9xScenarios,
@@ -45,7 +45,16 @@ export const metadata: Metadata = {
   openGraph: {
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
-    images: [],
+    images: ZEEKR_9X_HERO_IMAGE.publicPath
+      ? [
+          {
+            url: ZEEKR_9X_HERO_IMAGE.publicPath,
+            width: ZEEKR_9X_HERO_IMAGE.width ?? 1448,
+            height: ZEEKR_9X_HERO_IMAGE.height ?? 1086,
+            alt: ZEEKR_9X_HERO_IMAGE.alt,
+          },
+        ]
+      : [],
     type: "article",
   },
 };
@@ -84,6 +93,7 @@ export default function Zeekr9xPage() {
         <Zeekr9xHero
           totalProjects={zeekr9xUpgradeProjects.length}
           scenarioCount={zeekr9xScenarios.length}
+          heroImage={ZEEKR_9X_HERO_IMAGE}
         />
 
         {/* 场景矩阵 */}
@@ -99,8 +109,6 @@ export default function Zeekr9xPage() {
           projects={zeekr9xUpgradeProjects}
           scenarios={zeekr9xScenarios}
         />
-
-        <Zeekr9xModelFitNote />
 
         {/* 服务流程 */}
         <Zeekr9xServiceFlow steps={zeekr9xServiceSteps} />

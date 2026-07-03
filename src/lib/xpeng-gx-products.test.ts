@@ -153,10 +153,19 @@ describe("bundle.projectIds 引用", () => {
 });
 
 describe("imageStatus 字段", () => {
-  it("所有项目 imageStatus 是 matched/pending-review/missing", () => {
-    const valid = ["matched", "pending-review", "missing"];
+  it("所有项目 imageStatus 是 matched/generated-preview/pending-review/missing", () => {
+    const valid = ["matched", "generated-preview", "pending-review", "missing"];
     for (const p of xpengGxUpgradeProjects) {
       expect(valid).toContain(p.imageStatus);
+    }
+  });
+
+  it("所有项目图片规格为 1448x1086 / 4:3", () => {
+    for (const p of xpengGxUpgradeProjects) {
+      expect(p.image.publicPath).toMatch(/^\/images\/products\/xpeng-gx\/generated\//);
+      expect(p.image.width).toBe(1448);
+      expect(p.image.height).toBe(1086);
+      expect(p.image.aspectRatio).toBe("4/3");
     }
   });
 });

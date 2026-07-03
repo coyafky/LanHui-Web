@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   ZEEKR_8X_BUNDLE_COUNT,
   ZEEKR_8X_FAQ_COUNT,
+  ZEEKR_8X_HERO_IMAGE,
   ZEEKR_8X_PROJECT_COUNT,
   ZEEKR_8X_SCENARIO_COUNT,
   ZEEKR_8X_SERVICE_STEP_COUNT,
@@ -55,6 +56,37 @@ describe("zeekr-8x-products data shape (Task A + D)", () => {
       for (const p of zeekr8xUpgradeProjects) {
         expect(p.suitableFor.length).toBeGreaterThan(0);
       }
+    });
+
+    it('全部 imageStatus === "generated-preview"', () => {
+      for (const p of zeekr8xUpgradeProjects) {
+        expect(p.imageStatus).toBe("generated-preview");
+      }
+    });
+
+    it("全部项目图指向 zeekr-8x generated 目录", () => {
+      for (const p of zeekr8xUpgradeProjects) {
+        expect(p.image.publicPath).toMatch(
+          /^\/images\/products\/zeekr-8x\/generated\/[a-z0-9-]+\.png$/,
+        );
+        expect(p.image.alt).toContain(`极氪 8X ${p.name}`);
+        expect(p.image.width).toBe(1448);
+        expect(p.image.height).toBe(1086);
+        expect(p.image.aspectRatio).toBe("4/3");
+      }
+    });
+
+    it("图片路径唯一", () => {
+      const paths = zeekr8xUpgradeProjects.map((p) => p.image.publicPath);
+      expect(new Set(paths).size).toBe(paths.length);
+    });
+
+    it("hero 图使用 generated 主视觉", () => {
+      expect(ZEEKR_8X_HERO_IMAGE.publicPath).toBe(
+        "/images/products/zeekr-8x/generated/hero.png",
+      );
+      expect(ZEEKR_8X_HERO_IMAGE.width).toBe(1448);
+      expect(ZEEKR_8X_HERO_IMAGE.height).toBe(1086);
     });
 
     it('project 4 的 name 包含 "悬浮顶"（8X unique）', () => {

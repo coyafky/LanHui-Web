@@ -3,21 +3,20 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { LiAutoI6Hero } from "@/components/li-auto/LiAutoI6Hero";
+import { LiAutoI6ScenarioMatrix } from "@/components/li-auto/LiAutoI6ScenarioMatrix";
 import { LiAutoI6ProjectGrid } from "@/components/li-auto/LiAutoI6ProjectGrid";
-import { LiAutoI6Bundles } from "@/components/li-auto/LiAutoI6Bundles";
 import { LiAutoI6ServiceFlow } from "@/components/li-auto/LiAutoI6ServiceFlow";
 import { LiAutoI6Faq } from "@/components/li-auto/LiAutoI6Faq";
 import { LiAutoI6TopicViewTrack } from "@/components/li-auto/LiAutoI6TopicViewTrack";
 import {
   liAutoI6UpgradeProjects,
   liAutoI6Scenarios,
-  liAutoI6Bundles,
   liAutoI6ServiceSteps,
   liAutoI6Faq,
   LI_AUTO_I6_PROJECT_COUNT,
+  LI_AUTO_I6_HERO_IMAGE,
 } from "@/lib/li-auto-i6-products";
 
-const MODEL_KEY = "i6" as const;
 const MODEL_NAME = "理想 i6";
 const CANONICAL_PATH = "/product/li-auto/i6";
 
@@ -34,7 +33,19 @@ export const metadata: Metadata = {
     "理想 i6 底盘护板", "理想 i6 内饰镀膜", "蓝辉轻改",
   ],
   alternates: { canonical: CANONICAL_PATH },
-  openGraph: { title: PAGE_TITLE, description: PAGE_DESCRIPTION, images: [], type: "article" },
+  openGraph: {
+    title: PAGE_TITLE,
+    description: PAGE_DESCRIPTION,
+    images: [
+      {
+        url: LI_AUTO_I6_HERO_IMAGE.publicPath,
+        width: LI_AUTO_I6_HERO_IMAGE.width,
+        height: LI_AUTO_I6_HERO_IMAGE.height,
+        alt: LI_AUTO_I6_HERO_IMAGE.alt,
+      },
+    ],
+    type: "article",
+  },
 };
 
 export default function LiAutoI6Page() {
@@ -48,7 +59,7 @@ export default function LiAutoI6Page() {
       position: p.order,
       name: p.name,
       category: p.category,
-      url: `${CANONICAL_PATH}#${p.key}`,
+      url: `${CANONICAL_PATH}#li-auto-i6-project-${p.key}`,
     })),
   };
 
@@ -66,19 +77,19 @@ export default function LiAutoI6Page() {
         <LiAutoI6Hero
           totalProjects={liAutoI6UpgradeProjects.length}
           totalScenarios={liAutoI6Scenarios.length}
-          totalBundles={liAutoI6Bundles.length}
+          heroImage={LI_AUTO_I6_HERO_IMAGE}
         />
+
+        <section className="scroll-mt-24" id="scenario-new-car-protection">
+          <LiAutoI6ScenarioMatrix
+            scenarios={liAutoI6Scenarios}
+            allProjects={liAutoI6UpgradeProjects}
+          />
+        </section>
 
         <LiAutoI6ProjectGrid
           projects={liAutoI6UpgradeProjects}
           scenarios={liAutoI6Scenarios}
-          modelKey={MODEL_KEY}
-        />
-
-        <LiAutoI6Bundles
-          bundles={liAutoI6Bundles}
-          allProjects={liAutoI6UpgradeProjects}
-          modelKey={MODEL_KEY}
         />
 
         <LiAutoI6ServiceFlow steps={liAutoI6ServiceSteps} />
@@ -87,13 +98,13 @@ export default function LiAutoI6Page() {
         {/* 底部 CTA */}
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p className="text-sm tracking-widest text-amber-400 mb-3">NEXT STEP</p>
+            <p className="text-sm tracking-widest text-orange-400 mb-3">NEXT STEP</p>
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">{`${MODEL_NAME} 升级方案 · 到店评估`}</h2>
             <p className="text-zinc-400 text-sm md:text-base mb-8">确认车型、配置和项目组合后到店评估，蓝辉轻改团队按标准流程施工。</p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/product/li-auto"
-                className="inline-flex items-center px-4 py-2.5 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-amber-700/60 text-sm transition-colors"
+                className="inline-flex items-center px-4 py-2.5 rounded-md border border-orange-900/60 bg-orange-950/30 text-orange-300 hover:text-orange-200 hover:border-orange-700/60 text-sm transition-colors"
               >
                 返回理想系列
               </Link>

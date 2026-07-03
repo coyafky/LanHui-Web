@@ -1,9 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronRight } from "lucide-react";
+import type { Zeekr9xProductImage } from "@/lib/zeekr-9x-products";
 
 export type Zeekr9xHeroProps = {
   totalProjects: number;
   scenarioCount: number;
+  heroImage: Zeekr9xProductImage;
 };
 
 const SCENARIO_ANCHORS: readonly {
@@ -27,12 +30,23 @@ const SCENARIO_ANCHORS: readonly {
 export function Zeekr9xHero({
   totalProjects,
   scenarioCount,
+  heroImage,
 }: Zeekr9xHeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
       <div className="absolute inset-0 -z-0" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-950/30 via-zinc-950 to-zinc-950" />
-        <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-orange-700/20 blur-3xl" />
+        {heroImage.publicPath ? (
+          <Image
+            src={heroImage.publicPath}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-30"
+          />
+        ) : null}
+        <div className="absolute inset-0 bg-zinc-950/80" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.88)_42%,rgba(9,9,11,0.58)_100%)]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">

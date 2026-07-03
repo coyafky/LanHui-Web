@@ -59,7 +59,7 @@ export function XpengGxBundleList({
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 md:mb-10">
-          <p className="text-sm tracking-widest text-emerald-400 mb-3">
+          <p className="text-sm tracking-widest text-orange-400 mb-3">
             RECOMMENDATION BUNDLES
           </p>
           <h2
@@ -89,26 +89,26 @@ export function XpengGxBundleList({
                 aria-label={`查看 ${b.name} 组合详情`}
                 className={`group bg-zinc-900 rounded-2xl border transition-colors p-5 flex flex-col text-left ${
                   isActive
-                    ? "border-emerald-700/60 bg-emerald-950/20"
-                    : "border-zinc-800 hover:border-emerald-700/60"
+                    ? "border-orange-700/60 bg-orange-950/20"
+                    : "border-zinc-800 hover:border-orange-700/60"
                 }`}
               >
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <Package
                     className={`w-5 h-5 flex-shrink-0 ${
-                      isActive ? "text-emerald-400" : "text-zinc-500"
+                      isActive ? "text-orange-400" : "text-zinc-500"
                     }`}
                     aria-hidden
                   />
-                  <span className="text-xs px-2 py-0.5 rounded-md bg-emerald-950/40 border border-emerald-900/60 text-emerald-400">
+                  <span className="text-xs px-2 py-0.5 rounded-md bg-orange-950/40 border border-orange-900/60 text-orange-400">
                     {`${b.projectIds.length} 项`}
                   </span>
                 </div>
                 <h3
                   className={`text-base font-bold mb-2 transition-colors ${
                     isActive
-                      ? "text-emerald-300"
-                      : "text-white group-hover:text-emerald-400"
+                      ? "text-orange-300"
+                      : "text-white group-hover:text-orange-400"
                   }`}
                 >
                   {b.name}
@@ -131,8 +131,8 @@ export function XpengGxBundleList({
                 <span
                   className={`inline-flex items-center text-sm font-medium transition-colors ${
                     isActive
-                      ? "text-emerald-300"
-                      : "text-emerald-400 group-hover:text-emerald-300"
+                      ? "text-orange-300"
+                      : "text-orange-400 group-hover:text-orange-300"
                   }`}
                 >
                   查看组合详情

@@ -4,28 +4,38 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import type { LiAutoI6FaqItem } from "@/lib/li-auto-i6-products";
 
+const EXPECTED_FAQ_COUNT = 6;
+
 type LiAutoI6FaqProps = {
   items: readonly LiAutoI6FaqItem[];
 };
 
+function assertFaqCount(items: readonly LiAutoI6FaqItem[]): void {
+  if (items.length !== EXPECTED_FAQ_COUNT) {
+    throw new Error(
+      `LiAutoI6Faq expects ${EXPECTED_FAQ_COUNT} items, got ${items.length}`,
+    );
+  }
+}
+
 export function LiAutoI6Faq({ items }: LiAutoI6FaqProps) {
+  assertFaqCount(items);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const toggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
-    <section className="py-16 md:py-20 bg-zinc-950">
+    <section
+      className="py-16 md:py-20 bg-black border-t border-zinc-900"
+      aria-labelledby="li-auto-i6-faq-heading"
+    >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-10">
-          <p className="text-sm tracking-widest text-amber-400 mb-3">FAQ</p>
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+        <div className="text-center mb-10 md:mb-14">
+          <p className="text-sm tracking-widest text-orange-400 mb-3">FAQ</p>
+          <h2
+            id="li-auto-i6-faq-heading"
+            className="text-2xl md:text-3xl font-bold text-white"
+          >
             常见问题
           </h2>
-          <p className="text-zinc-400 text-sm md:text-base">
-            关于理想 i6 升级项目的常见疑问
-          </p>
         </div>
 
         <div className="space-y-3">
@@ -33,27 +43,40 @@ export function LiAutoI6Faq({ items }: LiAutoI6FaqProps) {
             const isOpen = openIndex === index;
             return (
               <div
-                key={index}
-                className="rounded-2xl border border-zinc-800 bg-zinc-900/50 overflow-hidden"
+                key={item.question}
+                className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden"
               >
                 <button
                   type="button"
-                  onClick={() => toggle(index)}
-                  className="w-full flex items-center justify-between p-5 text-left text-sm font-medium text-white hover:text-amber-400 transition-colors"
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-zinc-800/50 transition-colors"
                   aria-expanded={isOpen}
+                  aria-controls={`li-auto-i6-faq-panel-${index}`}
                 >
-                  <span>{item.question}</span>
+                  <span className="text-sm md:text-base font-semibold text-white">
+                    {item.question}
+                  </span>
                   <ChevronDown
-                    className={`w-4 h-4 shrink-0 ml-4 transition-transform duration-200 ${
+                    className={`w-5 h-5 flex-shrink-0 text-orange-400 transition-transform duration-200 ${
                       isOpen ? "rotate-180" : ""
                     }`}
+                    aria-hidden
                   />
                 </button>
-                {isOpen && (
-                  <div className="px-5 pb-5 text-sm text-zinc-400 leading-relaxed">
-                    {item.answer}
+                <div
+                  id={`li-auto-i6-faq-panel-${index}`}
+                  className={`grid transition-all duration-200 ease-out ${
+                    isOpen
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-5 pb-5 text-sm text-zinc-400 leading-relaxed">
+                      {item.answer}
+                    </p>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

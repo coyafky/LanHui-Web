@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   ALL_BRANDS, ALL_MODELS, ALL_SERVICES, ALL_LEGACY_ALIASES,
   getBrandRoute, getModelRoute, getServiceRoute, getCanonicalFor,
-  getModelsByBrand, getLiveBrands, getLiveServices,
+  getModelsByBrand, getLiveBrands,
 } from "./product-routes";
 
 describe("product-routes registry", () => {
@@ -14,10 +14,10 @@ describe("product-routes registry", () => {
     expect(ALL_MODELS).toHaveLength(19);
   });
 
-  it("contains exactly 10 services (6 P0 live + 1 P1 live + 3 P1 planned)", () => {
+  it("contains exactly 10 services (6 P0 live + 2 P1 live + 2 P1 planned)", () => {
     expect(ALL_SERVICES).toHaveLength(10);
-    expect(ALL_SERVICES.filter((s) => s.status === "live")).toHaveLength(7);
-    expect(ALL_SERVICES.filter((s) => s.status === "planned")).toHaveLength(3);
+    expect(ALL_SERVICES.filter((s) => s.status === "live")).toHaveLength(8);
+    expect(ALL_SERVICES.filter((s) => s.status === "planned")).toHaveLength(2);
   });
 
   it("all 18 legacy aliases are mapped", () => {
@@ -53,6 +53,7 @@ describe("product-routes registry", () => {
   it("getServiceRoute() finds known services", () => {
     expect(getServiceRoute("ppf")?.group).toBe("film");
     expect(getServiceRoute("business-comfort")?.status).toBe("planned");
+    expect(getServiceRoute("floor-mats")?.status).toBe("live");
   });
 
   it("getModelsByBrand() returns models for a brand", () => {

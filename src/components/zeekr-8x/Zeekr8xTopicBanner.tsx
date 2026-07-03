@@ -24,7 +24,7 @@ export function Zeekr8xTopicBanner() {
             极氪 8X 专属升级方案
           </h3>
           <p className="text-sm text-zinc-400 leading-relaxed">
-            17 项热门轻改产品，5 大用车场景，5 个推荐组合。
+            17 项热门轻改产品，覆盖 5 大用车场景。
             从漆面保护到智能屏幕，从外观个性到家庭座舱。
           </p>
         </div>

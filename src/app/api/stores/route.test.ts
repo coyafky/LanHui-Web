@@ -34,7 +34,7 @@ const VALID_BODY = {
   citySlug: "foshan",
   cityLabel: "佛山",
   address: "广东省佛山市顺德区大良街道xxx",
-  phone: "0757-2288 1001",
+  phone: "13800138000",
 };
 
 const GUANGDONG_DB = {
@@ -595,6 +595,18 @@ describe("GET /api/stores — 排序服务端落地（T2）", () => {
     await GET(buildGetReq("sort=level_desc") as unknown as Parameters<typeof GET>[0]);
     const orderBy = mockStoreFindMany.mock.calls[0]?.[0]?.orderBy;
     expect(orderBy).toEqual([{ level: "desc" }, { createdAt: "desc" }]);
+  });
+
+  it("?sort=public_featured → 有图优先，其次旧门店优先", async () => {
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    await GET(buildGetReq("sort=public_featured") as unknown as Parameters<typeof GET>[0]);
+    const orderBy = mockStoreFindMany.mock.calls[0]?.[0]?.orderBy;
+    expect(orderBy).toEqual([
+      { imagePath: { sort: "asc", nulls: "last" } },
+      { createdAt: "asc" },
+    ]);
   });
 
   it("无 sort 参数 → 默认 createdAt desc（向后兼容）", async () => {

@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
+import { AlertCircle, ImageIcon } from "lucide-react";
 import { trackClick } from "@/lib/analytics";
 import {
   ZEEKR_9X_CATEGORY_LABELS,
@@ -42,6 +44,15 @@ type ProjectCardProps = {
 };
 
 function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
+  const statusLabel =
+    project.imageStatus === "generated-preview"
+      ? "效果预览"
+      : project.imageStatus === "matched"
+        ? "实拍匹配"
+        : project.imageStatus === "pending-review"
+          ? "待复核"
+          : "图片待补充";
+
   const handleClick = () => {
     trackClick("zeekr_9x_project_click", {
       projectId: project.id,
@@ -53,7 +64,7 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
   };
 
   return (
-    <article className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col">
+    <article className="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col">
       <button
         type="button"
         onClick={handleClick}
@@ -61,8 +72,34 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
         aria-controls={`zeekr-9x-project-detail-${project.id}`}
         className="text-left w-full"
       >
-        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center">
-          <span className="text-zinc-700 text-sm">pending-review</span>
+        <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center overflow-hidden">
+          {project.image.publicPath ? (
+            <>
+              <Image
+                src={project.image.publicPath}
+                alt={project.image.alt}
+                fill
+                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                className="object-contain p-2 transition-transform duration-300 group-hover:scale-[1.02]"
+                loading="lazy"
+              />
+              <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-md border border-orange-700/60 bg-zinc-950/80 px-2 py-0.5 text-[10px] font-medium text-orange-200">
+                {project.imageStatus === "generated-preview" ? (
+                  <AlertCircle className="h-3 w-3" aria-hidden />
+                ) : null}
+                {statusLabel}
+              </span>
+            </>
+          ) : (
+            <div
+              role="img"
+              aria-label={project.image.alt}
+              className="flex flex-col items-center justify-center text-zinc-500"
+            >
+              <ImageIcon className="mb-2 h-8 w-8" aria-hidden />
+              <p className="text-xs">{statusLabel}</p>
+            </div>
+          )}
           <span
             aria-hidden
             className="absolute top-2 left-2 text-xs font-bold w-8 h-8 flex items-center justify-center rounded-md bg-orange-500/80 text-white"

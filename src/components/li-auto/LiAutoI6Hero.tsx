@@ -1,76 +1,83 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { ChevronRight } from "lucide-react";
+import type { LiAutoI6HeroImage } from "@/lib/li-auto-i6-products";
 
 const SCENARIO_ANCHORS = [
-  { key: "protection", label: "新车基础保护" },
-  { key: "cabin_atmosphere", label: "座舱氛围与舒适" },
-  { key: "appearance", label: "外观个性升级" },
-  { key: "smart_screen", label: "智能屏幕" },
-  { key: "driving_protection", label: "行车与日常防护" },
+  { key: "new-car-protection", label: "新车保护" },
+  { key: "appearance-style", label: "外观个性" },
+  { key: "cabin-care", label: "座舱防护" },
+  { key: "chassis-driving", label: "底盘与行车防护" },
+  { key: "premium-quality", label: "高端质感" },
 ] as const;
 
 type LiAutoI6HeroProps = {
   totalProjects: number;
   totalScenarios: number;
-  totalBundles: number;
+  heroImage: LiAutoI6HeroImage;
 };
 
 export function LiAutoI6Hero({
   totalProjects,
   totalScenarios,
-  totalBundles,
+  heroImage,
 }: LiAutoI6HeroProps) {
   return (
-    <section className="relative py-16 md:py-20 bg-black overflow-hidden">
-      {/* 背景装饰 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-amber-950/10 via-zinc-950 to-black pointer-events-none" />
+    <section className="relative bg-zinc-950 text-white overflow-hidden">
+      <div className="absolute inset-0 -z-0" aria-hidden>
+        <Image
+          src={heroImage.publicPath}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-30"
+        />
+        <div className="absolute inset-0 bg-zinc-950/80" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.88)_42%,rgba(9,9,11,0.58)_100%)]" />
+      </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* 面包屑 */}
-        <nav className="mb-6 flex items-center gap-2 text-sm text-zinc-500">
-          <Link href="/product" className="hover:text-zinc-300 transition-colors">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
+        <nav className="flex items-center text-sm text-zinc-500 mb-6" aria-label="面包屑">
+          <Link href="/product" className="hover:text-white transition-colors">
             产品中心
           </Link>
-          <span aria-hidden>/</span>
-          <Link href="/product/li-auto" className="hover:text-zinc-300 transition-colors">
-            理想
+          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
+          <Link href="/product/li-auto" className="hover:text-white transition-colors">
+            理想系列
           </Link>
-          <span aria-hidden>/</span>
+          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
           <span className="text-zinc-300">理想 i6</span>
         </nav>
 
-        {/* 主标题 */}
+        <p className="text-sm tracking-widest text-orange-400 mb-3">
+          LI AUTO I6 UPGRADE
+        </p>
         <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
           理想 i6 专属升级方案
         </h1>
-        <p className="text-zinc-400 text-sm md:text-base max-w-2xl mb-6 leading-relaxed">
-          围绕新车保护、玻璃隔热、外观个性、座舱氛围、智能显示、底盘防护和内饰养护，
-          为理想 i6 车主提供系统化轻改项目参考。
+        <p className="text-base md:text-lg text-zinc-400 max-w-2xl leading-relaxed mb-6">
+          热门轻改产品目录：围绕新车保护、隔热改色、座舱防护、底盘保护、外观个性和高端
+          SUV 出行场景，20 项升级项目供选择；蓝辉轻改顺德大良店到店评估、按标准流程施工。
         </p>
 
-        {/* 统计标签 */}
-        <div className="flex flex-wrap gap-3 mb-8">
-          <span className="inline-flex items-center px-3 py-1.5 rounded-md bg-amber-950/30 border border-amber-700/40 text-amber-400 text-xs font-medium">
-            {totalProjects} 项热门项目
+        <div className="flex flex-wrap items-center gap-2 mb-8">
+          <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
+            {totalProjects} 个升级项目
           </span>
-          <span className="inline-flex items-center px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-medium">
+          <span className="text-sm px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300">
             {totalScenarios} 大用车场景
-          </span>
-          <span className="inline-flex items-center px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300 text-xs font-medium">
-            {totalBundles} 个推荐组合
           </span>
         </div>
 
-        {/* 场景锚点导航 */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap items-center gap-2">
           {SCENARIO_ANCHORS.map((s) => (
             <a
               key={s.key}
               href={`#scenario-${s.key}`}
-              className="inline-flex items-center px-3 py-1.5 rounded-md border border-zinc-800 text-zinc-400 hover:text-white hover:border-amber-700/60 text-xs transition-colors"
+              className="inline-flex items-center px-3 py-2 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-orange-700/60 text-sm transition-colors"
             >
               {s.label}
-              <ArrowRight className="w-3 h-3 ml-1" />
             </a>
           ))}
         </div>
