@@ -6,7 +6,7 @@
 export type ProductRouteType = "service_category" | "vehicle_brand" | "vehicle_model";
 export type ProductRouteStatus = "live" | "planned";
 export type ProductRoutePriority = "P0" | "P1" | "P2";
-export type ServiceGroup = "film" | "light_mod" | "business_comfort" | "practical_accessory";
+export type ServiceGroup = "film" | "light_mod" | "business_comfort" | "practical_accessory" | "car_care";
 export type AccentColor =
   | "cyan" | "orange" | "amber" | "emerald" | "violet"
   | "pink" | "blue" | "teal" | "red" | "sky";
@@ -93,6 +93,7 @@ const SERVICES: readonly ServiceRoute[] = [
   { type: "service_category", serviceSlug: "floor-mats",      title: "360 软包脚垫",      navLabel: "360 软包脚垫", group: "practical_accessory",   status: "live",    priority: "P1", canonicalPath: "/product/floor-mats" },
   { type: "service_category", serviceSlug: "business-comfort", title: "商务舒适升级",     navLabel: "商务舒适升级", group: "business_comfort",      status: "planned", priority: "P1", canonicalPath: "/product/business-comfort" },
   { type: "service_category", serviceSlug: "skid-plate",      title: "底盘护板",          navLabel: "底盘护板",     group: "light_mod",             status: "planned", priority: "P1", canonicalPath: "/product/skid-plate" },
+  { type: "service_category", serviceSlug: "car-care",       title: "洗美养护",          navLabel: "洗美养护",     group: "car_care",              status: "live",    priority: "P0", canonicalPath: "/product/car-care" },
 ] as const;
 
 export const ALL_BRANDS: readonly VehicleBrandRoute[] = BRANDS;
