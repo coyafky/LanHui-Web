@@ -1,0 +1,76 @@
+{
+  "topic": "tesla",
+  "generatedAt": "2026-06-26",
+  "width": 1448,
+  "height": 1086,
+  "aspectRatio": "4/3",
+  "styleReference": "bright blue-white premium EV catalog, sunset terrace/showroom, no text, no logos",
+  "items": [
+    {
+      "key": "hero",
+      "name": "特斯拉系列主视觉",
+      "publicPath": "/images/products/tesla/generated/hero.png",
+      "promptSummary": "White Model 3/Y-style electric sedan in a clean sunset showroom terrace with subtle light modification cues."
+    },
+    {
+      "key": "paint-protection-film",
+      "name": "车衣",
+      "publicPath": "/images/products/tesla/generated/paint-protection-film.png",
+      "promptSummary": "Clear paint protection film on a glossy white EV hood and fender in a bright detailing bay."
+    },
+    {
+      "key": "window-film",
+      "name": "隔热膜",
+      "publicPath": "/images/products/tesla/generated/window-film.png",
+      "promptSummary": "Lightly tinted thermal window film on a white EV side window with blue sky reflections."
+    },
+    {
+      "key": "color-change-film",
+      "name": "改色膜",
+      "publicPath": "/images/products/tesla/generated/color-change-film.png",
+      "promptSummary": "Satin blue-green color-change vinyl wrap on a Model 3/Y-style side panel."
+    },
+    {
+      "key": "soft-floor-mats",
+      "name": "360软包脚垫",
+      "publicPath": "/images/products/tesla/generated/soft-floor-mats.png",
+      "promptSummary": "Custom-fit soft floor mats in a clean minimalist EV footwell."
+    },
+    {
+      "key": "underbody-skid-plate",
+      "name": "底盘护板",
+      "publicPath": "/images/products/tesla/generated/underbody-skid-plate.png",
+      "promptSummary": "Silver underbody protection panel visible beneath a white electric sedan in a bright workshop."
+    },
+    {
+      "key": "ambient-light",
+      "name": "氛围灯",
+      "publicPath": "/images/products/tesla/generated/ambient-light.png",
+      "promptSummary": "Tasteful ambient light strips along a minimalist EV dashboard and door panels."
+    },
+    {
+      "key": "ventilated-seat",
+      "name": "通风座椅",
+      "publicPath": "/images/products/tesla/generated/ventilated-seat.png",
+      "promptSummary": "Perforated ventilated seat upgrade with a subtle cool airflow feel inside a clean EV cabin."
+    },
+    {
+      "key": "electric-door-handle",
+      "name": "电动门把手",
+      "publicPath": "/images/products/tesla/generated/electric-door-handle.png",
+      "promptSummary": "Flush electric door handle slightly extended on a white EV side panel."
+    },
+    {
+      "key": "electric-frunk",
+      "name": "电动前机盖",
+      "publicPath": "/images/products/tesla/generated/electric-frunk.png",
+      "promptSummary": "Powered front trunk upgrade with hood open and clean frunk storage area."
+    },
+    {
+      "key": "electric-sunshade",
+      "name": "电动遮阳帘",
+      "publicPath": "/images/products/tesla/generated/electric-sunshade.png",
+      "promptSummary": "Panoramic roof electric sunshade partially closed inside a bright EV cabin."
+    }
+  ]
+}

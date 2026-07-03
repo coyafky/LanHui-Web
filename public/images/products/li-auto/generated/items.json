@@ -1,0 +1,242 @@
+[
+  {
+    "key": "li-auto-paint-protection-film",
+    "name": "隐形车衣",
+    "category": "core_protection",
+    "order": 1
+  },
+  {
+    "key": "li-auto-window-film",
+    "name": "隔热膜",
+    "category": "core_protection",
+    "order": 2
+  },
+  {
+    "key": "li-auto-second-row-aluminum-floor",
+    "name": "二排铝地板",
+    "category": "family_comfort",
+    "order": 3
+  },
+  {
+    "key": "li-auto-skid-plate",
+    "name": "底盘护板",
+    "category": "core_protection",
+    "order": 4
+  },
+  {
+    "key": "li-auto-electric-step",
+    "name": "电动踏板",
+    "category": "electric_convenience",
+    "order": 5
+  },
+  {
+    "key": "li-auto-rear-table",
+    "name": "小桌板",
+    "category": "family_comfort",
+    "order": 6
+  },
+  {
+    "key": "li-auto-bug-guard",
+    "name": "防虫网",
+    "category": "core_protection",
+    "order": 7
+  },
+  {
+    "key": "li-auto-door-sill",
+    "name": "门槛条",
+    "category": "core_protection",
+    "order": 8
+  },
+  {
+    "key": "li-auto-screen-protector",
+    "name": "钢化膜",
+    "category": "screen_care",
+    "order": 9
+  },
+  {
+    "key": "li-auto-interior-coating",
+    "name": "内饰镀膜",
+    "category": "interior_care",
+    "order": 10
+  },
+  {
+    "key": "li-auto-rear-entertainment",
+    "name": "后排娱乐电视",
+    "category": "family_entertainment",
+    "order": 11
+  },
+  {
+    "key": "li-auto-wing-mirror-trim",
+    "name": "后视镜-天使之翼",
+    "category": "appearance",
+    "order": 12
+  },
+  {
+    "key": "li-auto-streaming-mirror",
+    "name": "流媒体后视镜",
+    "category": "tech_screen",
+    "order": 13
+  },
+  {
+    "key": "li-auto-mud-flap",
+    "name": "挡泥板",
+    "category": "chassis_protection",
+    "order": 14
+  },
+  {
+    "key": "li-auto-ambient-light",
+    "name": "氛围灯",
+    "category": "family_comfort",
+    "order": 15
+  },
+  {
+    "key": "li-auto-wheels",
+    "name": "轮毂",
+    "category": "appearance",
+    "order": 16
+  },
+  {
+    "key": "li-auto-fridge",
+    "name": "冰箱",
+    "category": "family_comfort",
+    "order": 17
+  },
+  {
+    "key": "li-auto-wheel-liner",
+    "name": "挡泥板内衬",
+    "category": "chassis_protection",
+    "order": 18
+  },
+  {
+    "key": "li-auto-electric-door",
+    "name": "电动门",
+    "category": "electric_convenience",
+    "order": 19
+  },
+  {
+    "key": "li-auto-sport-kit",
+    "name": "运动包围",
+    "category": "appearance",
+    "order": 20
+  },
+  {
+    "key": "li-auto-center-speaker",
+    "name": "中置喇叭",
+    "category": "audio_upgrade",
+    "order": 21
+  },
+  {
+    "key": "li-auto-license-frame",
+    "name": "牌照框",
+    "category": "appearance",
+    "order": 22
+  },
+  {
+    "key": "li-auto-sway-bar",
+    "name": "平衡杆",
+    "category": "chassis_protection",
+    "order": 23
+  },
+  {
+    "key": "li-auto-blackout-kit",
+    "name": "黑化套件",
+    "category": "appearance",
+    "order": 24
+  },
+  {
+    "key": "li-auto-4d-tweeter",
+    "name": "4D高音喇叭",
+    "category": "audio_upgrade",
+    "order": 25
+  },
+  {
+    "key": "li-auto-brake-caliper",
+    "name": "刹车卡钳",
+    "category": "appearance",
+    "order": 26
+  },
+  {
+    "key": "li-auto-full-audio",
+    "name": "全车音响",
+    "category": "audio_upgrade",
+    "order": 27
+  },
+  {
+    "key": "li-auto-color-change-film",
+    "name": "改色膜",
+    "category": "appearance",
+    "order": 28
+  },
+  {
+    "key": "li-auto-zero-gravity-seat",
+    "name": "零重力座椅",
+    "category": "family_comfort",
+    "order": 29
+  },
+  {
+    "key": "li-auto-fragrance-system",
+    "name": "香氛系统",
+    "category": "family_comfort",
+    "order": 30
+  },
+  {
+    "key": "li-auto-starlight-roof",
+    "name": "星空顶",
+    "category": "family_comfort",
+    "order": 31
+  },
+  {
+    "key": "li-auto-swivel-seat",
+    "name": "旋转座椅",
+    "category": "family_comfort",
+    "order": 32
+  },
+  {
+    "key": "li-auto-door-seal",
+    "name": "四门密封条",
+    "category": "noise_sealing",
+    "order": 33
+  },
+  {
+    "key": "li-auto-leg-rest",
+    "name": "腿托",
+    "category": "family_comfort",
+    "order": 34
+  },
+  {
+    "key": "li-auto-starlight-film",
+    "name": "星空膜",
+    "category": "family_comfort",
+    "order": 35
+  },
+  {
+    "key": "li-auto-door-sound-insulation",
+    "name": "四门隔音",
+    "category": "noise_sealing",
+    "order": 36
+  },
+  {
+    "key": "li-auto-roof-platform",
+    "name": "车顶平台套件",
+    "category": "outdoor",
+    "order": 37
+  },
+  {
+    "key": "li-auto-soft-close-door",
+    "name": "电吸门",
+    "category": "electric_convenience",
+    "order": 38
+  },
+  {
+    "key": "li-auto-floating-roof",
+    "name": "悬浮顶",
+    "category": "appearance",
+    "order": 39
+  },
+  {
+    "key": "li-auto-engine-hood",
+    "name": "发动机盖",
+    "category": "appearance",
+    "order": 40
+  }
+]

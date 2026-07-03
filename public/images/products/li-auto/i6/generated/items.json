@@ -1,0 +1,122 @@
+[
+  {
+    "key": "i6-paint-protection-film",
+    "name": "车衣",
+    "category": "protection",
+    "order": 1
+  },
+  {
+    "key": "i6-window-film",
+    "name": "隔热膜",
+    "category": "protection",
+    "order": 2
+  },
+  {
+    "key": "i6-color-graphic",
+    "name": "彩绘",
+    "category": "appearance",
+    "order": 3
+  },
+  {
+    "key": "i6-two-tone-color",
+    "name": "双拼改色",
+    "category": "appearance",
+    "order": 4
+  },
+  {
+    "key": "i6-floor-mat-360",
+    "name": "360软包脚垫",
+    "category": "family_cabin",
+    "order": 5
+  },
+  {
+    "key": "i6-starlight-roof",
+    "name": "星空顶",
+    "category": "family_cabin",
+    "order": 6
+  },
+  {
+    "key": "i6-sway-bar",
+    "name": "平衡杆",
+    "category": "chassis",
+    "order": 7
+  },
+  {
+    "key": "i6-starlight-film",
+    "name": "星空膜",
+    "category": "family_cabin",
+    "order": 8
+  },
+  {
+    "key": "i6-skid-plate",
+    "name": "底盘护板",
+    "category": "protection",
+    "order": 9
+  },
+  {
+    "key": "i6-rear-table",
+    "name": "小桌板",
+    "category": "family_cabin",
+    "order": 10
+  },
+  {
+    "key": "i6-fragrance-system",
+    "name": "香氛系统",
+    "category": "family_cabin",
+    "order": 11
+  },
+  {
+    "key": "i6-wheels",
+    "name": "轮毂",
+    "category": "appearance",
+    "order": 12
+  },
+  {
+    "key": "i6-streaming-mirror",
+    "name": "流媒体后视镜",
+    "category": "tech_screen",
+    "order": 13
+  },
+  {
+    "key": "i6-screen-protector",
+    "name": "钢化膜",
+    "category": "screen_care",
+    "order": 14
+  },
+  {
+    "key": "i6-brake-caliper",
+    "name": "刹车卡钳",
+    "category": "appearance",
+    "order": 15
+  },
+  {
+    "key": "i6-door-sill",
+    "name": "门槛条",
+    "category": "protection",
+    "order": 16
+  },
+  {
+    "key": "i6-bug-guard",
+    "name": "防虫网",
+    "category": "protection",
+    "order": 17
+  },
+  {
+    "key": "i6-mud-flap",
+    "name": "挡泥板",
+    "category": "chassis",
+    "order": 18
+  },
+  {
+    "key": "i6-hud-protector",
+    "name": "HUD显示保护罩",
+    "category": "screen_care",
+    "order": 19
+  },
+  {
+    "key": "i6-interior-coating",
+    "name": "内饰镀膜",
+    "category": "interior_care",
+    "order": 20
+  }
+]

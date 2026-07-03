@@ -1,0 +1,110 @@
+[
+  {
+    "key": "mega-paint-protection-film",
+    "name": "车衣",
+    "category": "protection",
+    "order": 1
+  },
+  {
+    "key": "mega-window-film",
+    "name": "隔热膜",
+    "category": "protection",
+    "order": 2
+  },
+  {
+    "key": "mega-color-graphic",
+    "name": "彩绘",
+    "category": "appearance",
+    "order": 3
+  },
+  {
+    "key": "mega-two-tone-color",
+    "name": "双拼改色",
+    "category": "appearance",
+    "order": 4
+  },
+  {
+    "key": "mega-aluminum-floor",
+    "name": "铝地板",
+    "category": "family_cabin",
+    "order": 5
+  },
+  {
+    "key": "mega-sway-bar",
+    "name": "平衡杆",
+    "category": "chassis",
+    "order": 6
+  },
+  {
+    "key": "mega-floor-mat-360",
+    "name": "360软包脚垫",
+    "category": "family_cabin",
+    "order": 7
+  },
+  {
+    "key": "mega-skid-plate",
+    "name": "底盘护板",
+    "category": "protection",
+    "order": 8
+  },
+  {
+    "key": "mega-sport-kit",
+    "name": "包围",
+    "category": "appearance",
+    "order": 9
+  },
+  {
+    "key": "mega-bug-guard",
+    "name": "防虫网",
+    "category": "protection",
+    "order": 10
+  },
+  {
+    "key": "mega-rear-wing",
+    "name": "尾翼",
+    "category": "appearance",
+    "order": 11
+  },
+  {
+    "key": "mega-front-electric-doors",
+    "name": "主副驾电吸门",
+    "category": "electric_convenience",
+    "order": 12
+  },
+  {
+    "key": "mega-brake-caliper",
+    "name": "刹车卡钳",
+    "category": "appearance",
+    "order": 13
+  },
+  {
+    "key": "mega-welcome-pedal",
+    "name": "迎宾踏板",
+    "category": "electric_convenience",
+    "order": 14
+  },
+  {
+    "key": "mega-rear-table",
+    "name": "小桌板",
+    "category": "family_cabin",
+    "order": 15
+  },
+  {
+    "key": "mega-headlight",
+    "name": "大灯",
+    "category": "appearance",
+    "order": 16
+  },
+  {
+    "key": "mega-wheels",
+    "name": "轮毂",
+    "category": "appearance",
+    "order": 17
+  },
+  {
+    "key": "mega-interior-coating",
+    "name": "内饰镀膜",
+    "category": "interior_care",
+    "order": 18
+  }
+]

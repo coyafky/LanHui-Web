@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LANHUI Hero v0 Prototype</title>
+    <style>
+      :root {
+        --bg: #050607;
+        --bg-2: #0b0d10;
+        --panel: rgba(20, 22, 26, 0.78);
+        --panel-2: rgba(12, 14, 18, 0.86);
+        --line: rgba(255, 255, 255, 0.1);
+        --line-strong: rgba(255, 255, 255, 0.18);
+        --text: #f6f7f8;
+        --muted: #9ca3af;
+        --soft: #d8dde4;
+        --blue: #2f83ff;
+        --blue-dim: rgba(47, 131, 255, 0.16);
+        --orange: #ff8a16;
+        --orange-dim: rgba(255, 138, 22, 0.14);
+        --amber: #f6b544;
+        --silver: #c8d0d8;
+        --shadow: 0 22px 80px rgba(0, 0, 0, 0.42);
+        --radius: 12px;
+        --font: "Alibaba PuHuiTi", "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font);
+      }
+
+      body {
+        overflow-x: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      select {
+        font: inherit;
+      }
+
+      .page {
+        min-height: 100vh;
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          radial-gradient(circle at 70% 12%, rgba(47, 131, 255, 0.16), transparent 30%),
+          linear-gradient(135deg, #07080a 0%, #050607 48%, #11100e 100%);
+        background-size: 72px 72px, 72px 72px, auto, auto;
+      }
+
+      .topbar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 72px;
+        padding: 0 clamp(20px, 5vw, 72px);
+        background: rgba(5, 6, 7, 0.72);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(18px);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .logo img {
+        width: 116px;
+        height: auto;
+        display: block;
+      }
+
+      .prototype-mark {
+        display: inline-flex;
+        align-items: center;
+        height: 26px;
+        padding: 0 10px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(246, 247, 248, 0.68);
+        font-size: 14px;
+      }
+
+      .nav a {
+        padding: 8px 12px;
+        border-radius: 999px;
+      }
+
+      .nav a.active,
+      .nav a:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .hero-shell {
+        position: relative;
+        min-height: 100vh;
+        padding: 112px clamp(20px, 5vw, 72px) 48px;
+        display: grid;
+        align-items: center;
+      }
+
+      .variant {
+        display: none;
+        width: min(1480px, 100%);
+        margin: 0 auto;
+      }
+
+      body[data-variant="atlas"] .variant-atlas,
+      body[data-variant="vehicle"] .variant-vehicle,
+      body[data-variant="showcase"] .variant-showcase {
+        display: grid;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        width: fit-content;
+        margin-bottom: 22px;
+        padding: 7px 10px;
+        border: 1px solid rgba(47, 131, 255, 0.24);
+        border-radius: 999px;
+        background: rgba(47, 131, 255, 0.08);
+        color: #b6d0ff;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--orange);
+        box-shadow: 0 0 18px rgba(255, 138, 22, 0.8);
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 920px;
+        font-size: clamp(44px, 7.2vw, 112px);
+        line-height: 0.92;
+        letter-spacing: 0;
+        text-wrap: pretty;
+      }
+
+      .lead {
+        max-width: 720px;
+        margin: 26px 0 0;
+        color: rgba(216, 221, 228, 0.82);
+        font-size: clamp(16px, 1.45vw, 22px);
+        line-height: 1.78;
+        text-wrap: pretty;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 34px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 18px;
+        border: 1px solid var(--line-strong);
+        border-radius: 10px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.055);
+        transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+      }
+
+      .button.primary {
+        border-color: rgba(255, 138, 22, 0.42);
+        background: linear-gradient(180deg, rgba(255, 138, 22, 0.96), rgba(207, 89, 4, 0.96));
+        box-shadow: 0 14px 34px rgba(255, 110, 11, 0.2);
+      }
+
+      .button:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.32);
+      }
+
+      .variant-atlas {
+        grid-template-columns: minmax(0, 0.92fr) minmax(480px, 1.08fr);
+        gap: clamp(32px, 5vw, 74px);
+      }
+
+      .atlas-copy {
+        align-self: center;
+      }
+
+      .module-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 42px;
+        max-width: 680px;
+      }
+
+      .mini-card {
+        min-height: 92px;
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .mini-card strong {
+        display: block;
+        color: #fff;
+        font-size: 15px;
+        margin-bottom: 7px;
+      }
+
+      .mini-card span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .atlas-board {
+        position: relative;
+        min-height: 646px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 20px;
+        overflow: hidden;
+        background: linear-gradient(150deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025));
+        box-shadow: var(--shadow);
+      }
+
+      .atlas-board::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+        background-size: 44px 44px;
+        mask-image: linear-gradient(to bottom, black, transparent 78%);
+        opacity: 0.72;
+      }
+
+      .scene-image {
+        position: absolute;
+        inset: auto -12% -2% -10%;
+        width: 124%;
+        max-width: none;
+        height: auto;
+        filter: saturate(0.94) contrast(1.04);
+      }
+
+      .atlas-overlay {
+        position: absolute;
+        inset: 24px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: max-content 1fr max-content;
+        gap: 14px;
+      }
+
+      .metric-bar {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .metric {
+        padding: 12px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.46);
+        backdrop-filter: blur(14px);
+      }
+
+      .metric b {
+        display: block;
+        color: #fff;
+        font-size: 16px;
+        margin-bottom: 3px;
+      }
+
+      .metric small {
+        color: var(--muted);
+      }
+
+      .product-tile {
+        align-self: end;
+        min-height: 150px;
+        padding: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        border-radius: 14px;
+        background: rgba(4, 6, 8, 0.72);
+        backdrop-filter: blur(16px);
+      }
+
+      .product-tile:nth-child(4) {
+        grid-column: 2;
+      }
+
+      .tile-label {
+        color: var(--orange);
+        font-size: 12px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+      }
+
+      .product-tile h3 {
+        margin: 12px 0 7px;
+        font-size: 22px;
+      }
+
+      .product-tile p {
+        margin: 0;
+        color: rgba(216, 221, 228, 0.72);
+        line-height: 1.62;
+        font-size: 14px;
+      }
+
+      .vehicle-dock {
+        grid-column: 1 / -1;
+        align-self: end;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.5);
+        color: rgba(246, 247, 248, 0.78);
+        font-size: 13px;
+        backdrop-filter: blur(12px);
+      }
+
+      .chip.hot {
+        color: #fff;
+        border-color: rgba(47, 131, 255, 0.38);
+        background: rgba(47, 131, 255, 0.16);
+      }
+
+      .variant-vehicle {
+        grid-template-columns: 0.96fr 1.04fr;
+        gap: clamp(28px, 5vw, 72px);
+      }
+
+      .vehicle-panel {
+        position: relative;
+        min-height: 620px;
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: var(--shadow);
+      }
+
+      .vehicle-panel img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .vehicle-panel::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.72));
+      }
+
+      .vehicle-card-stack {
+        position: absolute;
+        z-index: 2;
+        right: 20px;
+        bottom: 20px;
+        left: 20px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .vehicle-card {
+        padding: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 12px;
+        background: rgba(3, 5, 8, 0.74);
+        backdrop-filter: blur(16px);
+      }
+
+      .vehicle-card b {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .vehicle-card span {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .vehicle-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 38px;
+        max-width: 700px;
+      }
+
+      .brand-cell {
+        min-height: 86px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.022));
+        transition: transform 180ms ease, border-color 180ms ease;
+      }
+
+      .brand-cell:hover {
+        transform: translateY(-3px);
+        border-color: rgba(255, 138, 22, 0.35);
+      }
+
+      .brand-cell strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 18px;
+      }
+
+      .brand-cell span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .variant-showcase {
+        grid-template-columns: 0.82fr 1.18fr;
+        gap: clamp(28px, 4vw, 58px);
+      }
+
+      .showcase-wall {
+        display: grid;
+        grid-template-columns: 1fr 0.82fr;
+        grid-template-rows: 260px 190px 190px;
+        gap: 12px;
+        min-height: 662px;
+      }
+
+      .showcase-card {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .showcase-card.large {
+        grid-row: span 2;
+      }
+
+      .showcase-card.wide {
+        grid-column: span 2;
+      }
+
+      .showcase-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: saturate(0.92) contrast(1.03);
+      }
+
+      .showcase-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, transparent 38%, rgba(0, 0, 0, 0.76));
+      }
+
+      .caption {
+        position: absolute;
+        z-index: 1;
+        right: 16px;
+        bottom: 14px;
+        left: 16px;
+      }
+
+      .caption b {
+        display: block;
+        font-size: 17px;
+      }
+
+      .caption span {
+        color: rgba(216, 221, 228, 0.78);
+        font-size: 12px;
+      }
+
+      .product-catalog {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 42px;
+      }
+
+      .catalog-item {
+        min-height: 118px;
+        padding: 15px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .catalog-item small {
+        color: var(--orange);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .catalog-item b {
+        display: block;
+        margin: 10px 0 6px;
+      }
+
+      .catalog-item span {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+
+      .tweaks-toggle {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 60;
+        min-height: 42px;
+        padding: 0 14px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        color: #fff;
+        background: rgba(12, 14, 18, 0.88);
+        backdrop-filter: blur(16px);
+        cursor: pointer;
+      }
+
+      .tweaks {
+        position: fixed;
+        right: 20px;
+        bottom: 72px;
+        z-index: 60;
+        width: 300px;
+        padding: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 14px;
+        background: rgba(12, 14, 18, 0.94);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .tweaks[hidden] {
+        display: none;
+      }
+
+      .tweaks h2 {
+        margin: 0 0 12px;
+        font-size: 15px;
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+        margin-top: 12px;
+      }
+
+      .field label {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .field select,
+      .field input {
+        width: 100%;
+        min-height: 38px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 8px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.075);
+        padding: 0 10px;
+      }
+
+      body[data-density="compact"] .lead {
+        max-width: 600px;
+        font-size: clamp(15px, 1.2vw, 18px);
+      }
+
+      body[data-density="compact"] h1 {
+        font-size: clamp(40px, 6vw, 92px);
+      }
+
+      body[data-density="compact"] .atlas-board,
+      body[data-density="compact"] .vehicle-panel,
+      body[data-density="compact"] .showcase-wall {
+        min-height: 560px;
+      }
+
+      @media (max-width: 1100px) {
+        .nav {
+          display: none;
+        }
+
+        .variant-atlas,
+        .variant-vehicle,
+        .variant-showcase {
+          grid-template-columns: 1fr;
+        }
+
+        .variant-showcase .showcase-wall {
+          order: -1;
+        }
+
+        .atlas-board,
+        .vehicle-panel,
+        .showcase-wall {
+          min-height: 540px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .topbar {
+          height: 64px;
+          padding: 0 18px;
+        }
+
+        .logo img {
+          width: 92px;
+        }
+
+        .prototype-mark {
+          display: none;
+        }
+
+        .hero-shell {
+          min-height: auto;
+          padding: 92px 18px 32px;
+        }
+
+        h1 {
+          font-size: clamp(38px, 12vw, 48px);
+          line-height: 0.98;
+        }
+
+        .lead {
+          margin-top: 20px;
+          font-size: 16px;
+          line-height: 1.68;
+        }
+
+        .actions {
+          margin-top: 26px;
+        }
+
+        .module-strip,
+        .metric-bar,
+        .vehicle-card-stack,
+        .vehicle-grid,
+        .product-catalog {
+          grid-template-columns: 1fr;
+        }
+
+        .module-strip {
+          display: none;
+        }
+
+        .atlas-board,
+        .vehicle-panel,
+        .showcase-wall {
+          min-height: 400px;
+        }
+
+        .atlas-overlay {
+          inset: 14px;
+          grid-template-columns: 1fr;
+        }
+
+        .product-tile:nth-child(4) {
+          grid-column: auto;
+        }
+
+        .product-tile {
+          min-height: 112px;
+          padding: 14px;
+        }
+
+        .product-tile h3 {
+          font-size: 18px;
+        }
+
+        .product-tile p {
+          font-size: 13px;
+        }
+
+        .showcase-wall {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(4, 190px);
+        }
+
+        .showcase-card.large,
+        .showcase-card.wide {
+          grid-row: auto;
+          grid-column: auto;
+        }
+
+        .actions {
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+        }
+
+        .tweaks {
+          right: 12px;
+          left: 12px;
+          bottom: 68px;
+          width: auto;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body data-variant="atlas" data-density="normal">
+    <div class="page">
+      <header class="topbar" aria-label="Prototype header">
+        <div class="logo">
+          <img src="assets/lanhui-brand/lanhui-logo.png" alt="LANHUI 蓝辉轻改" />
+          <span class="prototype-mark">Hero v0</span>
+        </div>
+        <nav class="nav" aria-label="首屏原型导航">
+          <a class="active" href="#">首页</a>
+          <a href="#">产品中心</a>
+          <a href="#">车型方案</a>
+          <a href="#">品牌介绍</a>
+        </nav>
+      </header>
+
+      <main class="hero-shell">
+        <section class="variant variant-atlas" aria-label="Product Atlas hero">
+          <div class="atlas-copy">
+            <p class="eyebrow">LANHUI PRODUCT ATLAS</p>
+            <h1>新能源车轻改产品与车型升级方案</h1>
+            <p class="lead">
+              围绕热门新能源车型，蓝辉轻改展示电动踏板、轮毂升级、底盘升级、汽车窗膜、改色膜、隐形车衣等产品模块，帮助用户先理解产品体系，再进入具体车型或项目详情。
+            </p>
+            <div class="actions" aria-label="低压浏览入口">
+              <a class="button primary" href="#">查看产品中心</a>
+              <a class="button" href="#">按车型查看</a>
+              <a class="button" href="#">获取产品资料</a>
+            </div>
+            <div class="module-strip" aria-label="产品体系总览">
+              <div class="mini-card"><strong>轻改装备</strong><span>踏板、轮毂、底盘、地板等实用与姿态升级。</span></div>
+              <div class="mini-card"><strong>汽车膜系</strong><span>窗膜、改色膜、隐形车衣，覆盖隔热、外观与保护。</span></div>
+              <div class="mini-card"><strong>车型方案</strong><span>按小米、问界、极氪、理想等车型组织产品入口。</span></div>
+            </div>
+          </div>
+
+          <div class="atlas-board" aria-label="产品体系视觉板">
+            <img class="scene-image" src="assets/lanhui-brand/home-product.png" alt="蓝辉轻改产品展示与施工场景" />
+            <div class="atlas-overlay">
+              <div class="metric-bar">
+                <div class="metric"><b>6 个产品方向</b><small>首页核心模块</small></div>
+                <div class="metric"><b>按车型浏览</b><small>降低选择成本</small></div>
+                <div class="metric"><b>产品资料优先</b><small>低压继续了解</small></div>
+              </div>
+              <div class="product-tile">
+                <span class="tile-label">Light Mod</span>
+                <h3>电动踏板 / 轮毂 / 底盘</h3>
+                <p>从上下车便利、姿态升级到驾驶质感，先按用车场景理解产品。</p>
+              </div>
+              <div class="product-tile">
+                <span class="tile-label">Film System</span>
+                <h3>窗膜 / 改色膜 / 车衣</h3>
+                <p>从隔热隐私、颜色风格到车漆保护，建立清楚的膜系入口。</p>
+              </div>
+              <div class="vehicle-dock">
+                <span class="chip hot">小米 SU7 / YU7</span>
+                <span class="chip hot">问界 M 系</span>
+                <span class="chip">极氪</span>
+                <span class="chip">理想</span>
+                <span class="chip">腾势</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="variant variant-vehicle" aria-label="Vehicle First hero">
+          <div>
+            <p class="eyebrow">VEHICLE-FIRST ENTRY</p>
+            <h1>先选车型，再看适配产品</h1>
+            <p class="lead">
+              对新能源车主来说，“我的车能做什么”比“产品叫什么”更直接。首屏把车型入口前置，再把轻改装备、膜系和舒适升级作为车型下的产品层。
+            </p>
+            <div class="actions">
+              <a class="button primary" href="#">查看车型方案</a>
+              <a class="button" href="#">浏览产品模块</a>
+            </div>
+            <div class="vehicle-grid">
+              <a class="brand-cell" href="#"><strong>小米</strong><span>SU7 / YU7 升级方案</span></a>
+              <a class="brand-cell" href="#"><strong>问界</strong><span>M6 / M7 / M8 产品方向</span></a>
+              <a class="brand-cell" href="#"><strong>极氪</strong><span>9X / 8X 轻改入口</span></a>
+              <a class="brand-cell" href="#"><strong>理想 / 腾势</strong><span>家庭与商务场景产品</span></a>
+            </div>
+          </div>
+          <div class="vehicle-panel">
+            <img src="assets/lanhui-brand/xiaomi-preview.png" alt="小米车型轻改方案预览" />
+            <div class="vehicle-card-stack">
+              <div class="vehicle-card"><b>外观升级</b><span>轮毂 / 改色 / 车衣</span></div>
+              <div class="vehicle-card"><b>实用升级</b><span>踏板 / 地板 / 脚垫</span></div>
+              <div class="vehicle-card"><b>驾乘体验</b><span>窗膜 / 底盘 / 舒适件</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="variant variant-showcase" aria-label="Showcase Wall hero">
+          <div>
+            <p class="eyebrow">PRODUCT SHOWCASE WALL</p>
+            <h1>让产品先被看见</h1>
+            <p class="lead">
+              这个方向把真实产品图和车型图放到首屏中心，让用户先感知产品效果，再通过卡片进入对应模块。适合后续补足更多实拍图后升级成主版本。
+            </p>
+            <div class="actions">
+              <a class="button primary" href="#">查看产品图集</a>
+              <a class="button" href="#">进入产品中心</a>
+            </div>
+            <div class="product-catalog">
+              <div class="catalog-item"><small>01</small><b>电动踏板</b><span>上下车便利，适合 SUV / MPV 场景。</span></div>
+              <div class="catalog-item"><small>02</small><b>轮毂升级</b><span>姿态与风格入口，按数据适配。</span></div>
+              <div class="catalog-item"><small>03</small><b>底盘升级</b><span>稳定性、支撑与日常驾驶质感。</span></div>
+              <div class="catalog-item"><small>04</small><b>汽车窗膜</b><span>隔热、防晒、隐私与清晰视野。</span></div>
+              <div class="catalog-item"><small>05</small><b>改色膜</b><span>外观风格变化，不走喷漆路径。</span></div>
+              <div class="catalog-item"><small>06</small><b>隐形车衣</b><span>车漆保护、防刮与长期养护。</span></div>
+            </div>
+          </div>
+          <div class="showcase-wall">
+            <figure class="showcase-card large">
+              <img src="assets/lanhui-brand/home-product.png" alt="蓝辉轻改产品展示场景" />
+              <figcaption class="caption"><b>品牌产品场景</b><span>真实资产位：门店 / 展示 / 施工</span></figcaption>
+            </figure>
+            <figure class="showcase-card">
+              <img src="assets/lanhui-brand/electric-step.png" alt="蓝辉轻改电动踏板产品图" />
+              <figcaption class="caption"><b>电动踏板</b><span>轻改装备</span></figcaption>
+            </figure>
+            <figure class="showcase-card">
+              <img src="assets/lanhui-brand/wheel.png" alt="蓝辉轻改轮毂升级产品图" />
+              <figcaption class="caption"><b>轮毂升级</b><span>姿态升级</span></figcaption>
+            </figure>
+            <figure class="showcase-card wide">
+              <img src="assets/lanhui-brand/zeekr-preview.png" alt="极氪车型轻改产品方案预览" />
+              <figcaption class="caption"><b>车型方案</b><span>按品牌 / 车型组织产品入口</span></figcaption>
+            </figure>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <button class="tweaks-toggle" type="button" aria-expanded="false" aria-controls="tweaks">Tweaks</button>
+    <aside id="tweaks" class="tweaks" hidden>
+      <h2>Tweaks</h2>
+      <div class="field">
+        <label for="variant">Hero direction</label>
+        <select id="variant">
+          <option value="atlas">Product Atlas</option>
+          <option value="vehicle">Vehicle First</option>
+          <option value="showcase">Showcase Wall</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="density">Content density</label>
+        <select id="density">
+          <option value="normal">Normal</option>
+          <option value="compact">Compact</option>
+        </select>
+      </div>
+    </aside>
+
+    <script>
+      const body = document.body;
+      const toggle = document.querySelector(".tweaks-toggle");
+      const panel = document.querySelector("#tweaks");
+      const variant = document.querySelector("#variant");
+      const density = document.querySelector("#density");
+
+      const savedVariant = localStorage.getItem("lanhuiHeroVariant") || "atlas";
+      const savedDensity = localStorage.getItem("lanhuiHeroDensity") || "normal";
+
+      body.dataset.variant = savedVariant;
+      body.dataset.density = savedDensity;
+      variant.value = savedVariant;
+      density.value = savedDensity;
+
+      toggle.addEventListener("click", () => {
+        const isHidden = panel.hasAttribute("hidden");
+        panel.toggleAttribute("hidden", !isHidden);
+        toggle.setAttribute("aria-expanded", String(isHidden));
+      });
+
+      variant.addEventListener("change", (event) => {
+        body.dataset.variant = event.target.value;
+        localStorage.setItem("lanhuiHeroVariant", event.target.value);
+      });
+
+      density.addEventListener("change", (event) => {
+        body.dataset.density = event.target.value;
+        localStorage.setItem("lanhuiHeroDensity", event.target.value);
+      });
+    </script>
+  </body>
+</html>
