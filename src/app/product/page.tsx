@@ -15,6 +15,7 @@ import { CollapsibleSection } from "@/components/product/CollapsibleSection";
 import { MobileProductContent } from "@/components/product/MobileProductContent";
 import { P1ServiceCard } from "@/components/product/P1ServiceCard";
 import { PracticalAccessoryMap } from "@/components/product/PracticalAccessoryMap";
+import { CarCareServiceMap } from "@/components/product/CarCareServiceMap";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -35,6 +36,9 @@ export default function ProductCenter() {
   );
   const practicalAccessoryServices = liveServices.filter(
     (s: ServiceRoute) => s.group === "practical_accessory"
+  );
+  const carCareServices = liveServices.filter(
+    (s: ServiceRoute) => s.group === "car_care"
   );
 
   // P1 planned 服务 — 移动端折叠区显示
@@ -112,6 +116,10 @@ export default function ProductCenter() {
               <FilmServiceMap services={filmServices} />
               <LightModMap services={lightModServices} />
               <PracticalAccessoryMap services={practicalAccessoryServices} />
+
+              {carCareServices.length > 0 && (
+                <CarCareServiceMap services={carCareServices} />
+              )}
 
               {/* P1 折叠区 — amber 主题, 移动端前 3 个默认可见 */}
               {p1Services.length > 0 && (
