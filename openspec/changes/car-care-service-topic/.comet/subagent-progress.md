@@ -7,9 +7,9 @@
 
 ## Task Progress
 
-| # | Task | Status | Commits | Tests |
-|---|------|--------|---------|-------|
-| 1 | 路由注册 + 数据层 | done | 55997d1, 623fe69, f41b0de | 19/19 pass, 0 new type errors |
-| 2 | 页面组件 | implementing | - | - |
-| 3 | 首页与产品中心集成 | pending | - | - |
-| 4 | 验证 | pending | - | - |
+| # | Task | Status | Commits |
+|---|------|--------|---------|
+| 1 | 路由注册 + 数据层 | done | 55997d1, 623fe69, f41b0de |
+| 2 | 页面组件 | done | 3f673ae, 21e528e, 75469af, 00574cd, 807d139 |
+| 3 | 首页与产品中心集成 | done | 1b3caaf, a10f8a7, 48d655d |
+| 4 | 验证 | done | typecheck/test/build pass, code review APPROVE |
