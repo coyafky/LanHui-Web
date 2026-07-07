@@ -14,8 +14,8 @@
 
 - [x] 3.1 新增 `src/lib/observability.ts`：`captureException(error, context?)` 包装，SENTRY_DSN 未配置时仅 logger.error，已配置时上报 Sentry
 - [x] 3.2 新增 `src/lib/observability.test.ts`：测试 Sentry 未配置时不抛错、logger 被调用
-- [ ] 3.3 安装 @sentry/nextjs，新增 `sentry.server.config.ts`、`sentry.client.config.ts`，DSN 缺失时零配置运行
-- [ ] 3.4 按 Sentry 当前推荐方式更新 `next.config.ts` 和 `src/instrumentation.ts`（如需要）
+- [x] 3.3 安装 @sentry/nextjs，新增 `sentry.server.config.ts`、`sentry.client.config.ts`，DSN 缺失时零配置运行
+- [x] 3.4 按 Sentry 当前推荐方式更新 `next.config.ts` 和 `src/instrumentation.ts`（如需要）
 
 ## 4. API Route 日志替换（读接口）
 
