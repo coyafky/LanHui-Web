@@ -12,6 +12,9 @@ export default defineConfig({
     coverage: { reporter: ['text', 'html'] },
   },
   resolve: {
-    alias: { '@': path.resolve(__dirname, './src') },
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      'server-only': path.resolve(__dirname, './vitest.server-only-stub.ts'),
+    },
   },
 });

@@ -9,6 +9,12 @@ import {
 } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
 import { generateStoreSlug } from "@/lib/store-slug";
+import {
+  checkFlagshipPerCity,
+  FLAGSHIP_CONFLICT_RESPONSE,
+  FLAGSHIP_CONFLICT_STATUS,
+  isFlagshipConflictError,
+} from "@/lib/stores/flagship-constraint";
 
 export async function GET(
   request: NextRequest,
@@ -135,6 +141,22 @@ export async function PUT(
       parsed.data.cityLabel = city.label;
     }
 
+    // 旗舰店唯一性校验：同城市最多 1 个 flagship
+    const putTargetLevel = (parsed.data.level ?? existing.level) as string;
+    const putTargetProvince = parsed.data.provinceSlug ?? existing.provinceSlug;
+    const putTargetCity = parsed.data.citySlug ?? existing.citySlug;
+    const flagshipCheck = await checkFlagshipPerCity({
+      provinceSlug: putTargetProvince,
+      citySlug: putTargetCity,
+      level: putTargetLevel,
+      excludeStoreId: existing.id,
+    });
+    if (!flagshipCheck.ok) {
+      return Response.json(FLAGSHIP_CONFLICT_RESPONSE, {
+        status: FLAGSHIP_CONFLICT_STATUS,
+      });
+    }
+
     const updateData: Record<string, unknown> = { ...parsed.data };
     const nextStatus = resolveStoreStatus(
       {
@@ -194,6 +216,11 @@ export async function PUT(
       "code" in error &&
       (error as { code?: string }).code === "P2002"
     ) {
+      if (isFlagshipConflictError(error)) {
+        return Response.json(FLAGSHIP_CONFLICT_RESPONSE, {
+          status: FLAGSHIP_CONFLICT_STATUS,
+        });
+      }
       const target = (error as { meta?: { target?: string[] } }).meta?.target;
       if (target?.includes("slug")) {
         return Response.json(
@@ -388,6 +415,22 @@ export async function PATCH(
       parsed.data.cityLabel = city.label;
     }
 
+    // 旗舰店唯一性校验：同城市最多 1 个 flagship
+    const patchTargetLevel = (parsed.data.level ?? existing.level) as string;
+    const patchTargetProvince = parsed.data.provinceSlug ?? existing.provinceSlug;
+    const patchTargetCity = parsed.data.citySlug ?? existing.citySlug;
+    const patchFlagshipCheck = await checkFlagshipPerCity({
+      provinceSlug: patchTargetProvince,
+      citySlug: patchTargetCity,
+      level: patchTargetLevel,
+      excludeStoreId: existing.id,
+    });
+    if (!patchFlagshipCheck.ok) {
+      return Response.json(FLAGSHIP_CONFLICT_RESPONSE, {
+        status: FLAGSHIP_CONFLICT_STATUS,
+      });
+    }
+
     // 联动重生成 slug: name 变化 且 status === "pending"
     // 排除 currentStore 自己的 slug,避免和"自己"判重
     if (
@@ -441,6 +484,11 @@ export async function PATCH(
       "code" in error &&
       (error as { code?: string }).code === "P2002"
     ) {
+      if (isFlagshipConflictError(error)) {
+        return Response.json(FLAGSHIP_CONFLICT_RESPONSE, {
+          status: FLAGSHIP_CONFLICT_STATUS,
+        });
+      }
       const prismaErr = error as {
         meta?: {
           modelName?: string;

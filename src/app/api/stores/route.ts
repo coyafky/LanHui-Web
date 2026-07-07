@@ -5,6 +5,12 @@ import { auth } from "@/lib/auth";
 import { StoreCreateSchema } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
 import { generateStoreSlug } from "@/lib/store-slug";
+import {
+  checkFlagshipPerCity,
+  FLAGSHIP_CONFLICT_RESPONSE,
+  FLAGSHIP_CONFLICT_STATUS,
+  isFlagshipConflictError,
+} from "@/lib/stores/flagship-constraint";
 
 type OrderByInput =
   | Prisma.StoreOrderByWithRelationInput
@@ -198,7 +204,20 @@ export async function POST(request: NextRequest) {
     // 用数据库权威 label 覆盖客户端传来的值（AC-5：不信任客户端 label）
     // 此时 provinceLabel/cityLabel 已为非空 string，但 zod 推导仍是 optional
     // 所以用强制断言向下传递，Prisma schema 要求这两个字段必填非空
-    //
+
+    // 旗舰店唯一性校验：同城市最多 1 个 flagship
+    const targetLevel = parsed.data.level ?? "flagship";
+    const flagshipCheck = await checkFlagshipPerCity({
+      provinceSlug: parsed.data.provinceSlug,
+      citySlug: parsed.data.citySlug,
+      level: targetLevel,
+    });
+    if (!flagshipCheck.ok) {
+      return Response.json(FLAGSHIP_CONFLICT_RESPONSE, {
+        status: FLAGSHIP_CONFLICT_STATUS,
+      });
+    }
+
     // slug 自动生成：客户端可手填也可省略；
     //   - 传了非空值：尊重（管理后台手填场景）
     //   - 未传/空串/纯空白：基于 name + 现有 slug 列表自动生成
@@ -258,6 +277,12 @@ export async function POST(request: NextRequest) {
       "code" in error &&
       (error as { code?: string }).code === "P2002"
     ) {
+      // 旗舰店唯一约束
+      if (isFlagshipConflictError(error)) {
+        return Response.json(FLAGSHIP_CONFLICT_RESPONSE, {
+          status: FLAGSHIP_CONFLICT_STATUS,
+        });
+      }
       // Prisma 7 + Driver Adapter 抛出新结构 P2002 error：
       //   { code: "P2002", meta: { driverAdapterError: { cause: { constraint: { fields: ["slug"] } } } } }
       // 旧 Prisma ≤ 6 用 `meta.target`，保留兜底以防御未来回滚。

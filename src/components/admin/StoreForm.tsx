@@ -42,12 +42,15 @@ export type StoreFormValues = z.infer<typeof StoreCreateSchema>;
 
 interface StoreFormProps {
   defaultValues?: Partial<StoreFormValues>;
+  /** 允许页面头部/外部按钮通过 form 属性触发表单提交。 */
+  formId?: string;
   /**
    * 提交回调。StoreForm 在成功后统一跳转到列表页 /admin/stores。
    * 抛错时 StoreForm 捕获并在顶部 alert 展示错误信息。
    */
   onSubmit: (data: StoreFormValues) => Promise<void>;
   submitLabel?: string;
+  submitSuccessLabel?: string;
   showDelete?: boolean;
   onDelete?: () => Promise<void>;
   /**
@@ -108,8 +111,10 @@ function FieldWrapper({
 
 export function StoreForm({
   defaultValues,
+  formId,
   onSubmit,
   submitLabel = "保存",
+  submitSuccessLabel = "保存成功",
   showDelete = false,
   onDelete,
   readOnly = false,
@@ -164,7 +169,6 @@ export function StoreForm({
   const watchedPhone = watch("phone");
   const watchedLevel = watch("level");
   const watchedStatus = watch("status");
-  const watchedIsActive = watch("isActive");
 
   /* ---------- Auto-generate phoneTel from phone ---------- */
   useEffect(() => {
@@ -205,7 +209,7 @@ export function StoreForm({
     setSubmitting(true);
     try {
       await onSubmit(data);
-      setSubmitSuccess("门店创建成功");
+      setSubmitSuccess(submitSuccessLabel);
       setTimeout(() => {
         router.push("/admin/stores");
       }, 600);
@@ -248,6 +252,7 @@ export function StoreForm({
   return (
     <fieldset disabled={readOnly} className="space-y-8">
       <form
+        id={formId}
         onSubmit={(e) => {
           if (readOnly) {
             e.preventDefault();
@@ -369,7 +374,7 @@ export function StoreForm({
               )}
             />
             <p className="mt-1 text-xs text-zinc-500">
-              发布（设为营业中）前必须选择门店等级。
+              星辉旗舰店：每个城市最多 1 家。发布（设为营业中）前必须选择门店等级。
             </p>
             {watchedLevel && (
               <span

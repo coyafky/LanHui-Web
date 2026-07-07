@@ -4,6 +4,7 @@ import { NextRequest } from "next/server";
 const mockAuth = vi.hoisted(() => vi.fn());
 const mockStoreCreate = vi.hoisted(() => vi.fn());
 const mockStoreFindMany = vi.hoisted(() => vi.fn());
+const mockStoreFindFirst = vi.hoisted(() => vi.fn());
 const mockStoreCount = vi.hoisted(() => vi.fn());
 const mockProvinceFindUnique = vi.hoisted(() => vi.fn());
 const mockCityFindUnique = vi.hoisted(() => vi.fn());
@@ -15,6 +16,7 @@ vi.mock("@/lib/prisma", () => ({
     store: {
       create: mockStoreCreate,
       findMany: mockStoreFindMany,
+      findFirst: mockStoreFindFirst,
       count: mockStoreCount,
     },
     province: { findUnique: mockProvinceFindUnique },
@@ -58,11 +60,13 @@ beforeEach(() => {
   mockAuth.mockReset();
   mockStoreCreate.mockReset();
   mockStoreFindMany.mockReset();
+  mockStoreFindFirst.mockReset();
   mockStoreCount.mockReset();
   mockProvinceFindUnique.mockReset();
   mockCityFindUnique.mockReset();
   mockLogActivity.mockReset();
   mockStoreFindMany.mockResolvedValue([]);
+  mockStoreFindFirst.mockResolvedValue(null); // 默认无旗舰店冲突
   mockStoreCount.mockResolvedValue(0);
   // 默认值：合法活跃省/市 — 测试可单独覆盖
   mockProvinceFindUnique.mockResolvedValue(GUANGDONG_DB);
@@ -682,5 +686,102 @@ describe("GET /api/stores — 图片完整度筛选（T6）", () => {
     const callArg = mockStoreCreate.mock.calls[0]?.[0] as { data: { slug: string } };
     // 不管 base 是什么,只要生成的 slug 包含 -2 后缀就算通过
     expect(callArg.data.slug).toMatch(/-2$/);
+  });
+});
+
+describe("POST /api/stores — 旗舰店唯一性约束", () => {
+  it("同城市创建第一个 flagship 成功 (201)", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreFindFirst.mockResolvedValue(null); // 无已有旗舰店
+    mockStoreCreate.mockResolvedValue({ id: "store_f1", ...VALID_BODY, level: "flagship" });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ...VALID_BODY, level: "flagship" }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    expect(mockStoreCreate).toHaveBeenCalledTimes(1);
+  });
+
+  it("同城市创建第二个 flagship 返回 409", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    // 已有旗舰店存在
+    mockStoreFindFirst.mockResolvedValue({ id: "store_existing_f", name: "已有旗舰店" });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ...VALID_BODY, level: "flagship" }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(409);
+    const json = (await res.json()) as { error?: string; details?: Record<string, string[]> };
+    expect(json.error).toBe("该城市已存在星辉旗舰店");
+    expect(json.details?.level).toContain("每个城市最多只能设置一个星辉旗舰店");
+    expect(mockStoreCreate).not.toHaveBeenCalled();
+  });
+
+  it("不同城市各自创建 flagship 成功 (201)", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    // 北京没有 flagship → checkFlagshipPerCity 返回 ok
+    mockStoreFindFirst.mockResolvedValue(null);
+    mockProvinceFindUnique.mockResolvedValue({
+      slug: "beijing", label: "北京市", code: "110000", type: "province", isActive: true,
+    });
+    mockCityFindUnique.mockResolvedValue({
+      slug: "beijing", label: "北京市", code: "110100", type: "city", provinceSlug: "beijing", isActive: true,
+    });
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCreate.mockResolvedValue({ id: "store_f_bj", name: "北京旗舰店" });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        ...VALID_BODY,
+        level: "flagship",
+        provinceSlug: "beijing",
+        provinceLabel: "北京市",
+        citySlug: "beijing",
+        cityLabel: "北京市",
+      }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    expect(mockStoreCreate).toHaveBeenCalledTimes(1);
+  });
+
+  it("同城市创建 premium / specialty / member 不受旗舰店约束影响", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    // 广佛已有旗舰店 → 不应影响 premium 创建
+    mockStoreFindFirst.mockResolvedValue(null); // checkFlagshipPerCity 对非 flagship 直接返回 ok，不查 findFirst
+    mockStoreCreate.mockResolvedValue({ id: "store_p1", ...VALID_BODY, level: "premium" });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ...VALID_BODY, level: "premium" }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    expect(mockStoreCreate).toHaveBeenCalledTimes(1);
+  });
+
+  it("已 terminated 旗舰店不阻止同城市创建新旗舰店", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    // terminated flagship not blocking — findFirst for flagship check returns null
+    mockStoreFindFirst.mockResolvedValue(null);
+    mockStoreCreate.mockResolvedValue({ id: "store_f2", ...VALID_BODY, level: "flagship" });
+    const POST = await loadPost();
+    const req = new Request("http://localhost/api/stores", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ ...VALID_BODY, level: "flagship" }),
+    });
+    const res = await POST(req as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    expect(mockStoreCreate).toHaveBeenCalledTimes(1);
   });
 });

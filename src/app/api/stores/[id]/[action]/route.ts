@@ -3,6 +3,12 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { logActivity } from "@/lib/admin-dashboard";
 import {
+  checkFlagshipPerCity,
+  FLAGSHIP_CONFLICT_RESPONSE,
+  FLAGSHIP_CONFLICT_STATUS,
+  isFlagshipConflictError,
+} from "@/lib/stores/flagship-constraint";
+import {
   ACTION_TARGET,
   canTransition,
   type StoreAction,
@@ -164,6 +170,18 @@ export async function POST(
           { status: 400 }
         );
       }
+      // 旗舰店唯一性校验：发布时同城市不能有其他旗舰店
+      const flagshipCheck = await checkFlagshipPerCity({
+        provinceSlug: existing.provinceSlug,
+        citySlug: existing.citySlug,
+        level: existing.level,
+        excludeStoreId: existing.id,
+      });
+      if (!flagshipCheck.ok) {
+        return Response.json(FLAGSHIP_CONFLICT_RESPONSE, {
+          status: FLAGSHIP_CONFLICT_STATUS,
+        });
+      }
     }
 
     /* ---------- 写库（双写 status + isActive） ---------- */
@@ -216,6 +234,11 @@ export async function POST(
       "code" in error &&
       (error as { code?: string }).code === "P2002"
     ) {
+      if (isFlagshipConflictError(error)) {
+        return Response.json(FLAGSHIP_CONFLICT_RESPONSE, {
+          status: FLAGSHIP_CONFLICT_STATUS,
+        });
+      }
       return Response.json(
         {
           success: false,

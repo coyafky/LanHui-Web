@@ -32,7 +32,7 @@ const EXISTING_STORE = {
   citySlug: "foshan",
   cityLabel: "佛山市",
   address: "原地址",
-  phone: "0757-10000001",
+  phone: "13800000001",
   isActive: true,
 };
 
@@ -143,7 +143,7 @@ describe("PUT /api/stores/[id] — 不动省/市的纯字段更新", () => {
     mockAuth.mockResolvedValue({ user: { role: "admin" } });
     const PUT = await loadPut();
     const res = await PUT(
-      buildPutReq("store_1", { phone: "0757-9999 8888" }),
+      buildPutReq("store_1", { phone: "13800009999" }),
       { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PUT>[1],
     );
     expect(res.status).toBe(200);
@@ -154,9 +154,22 @@ describe("PUT /api/stores/[id] — 不动省/市的纯字段更新", () => {
     const callArg = mockStoreUpdate.mock.calls[0]?.[0] as {
       data: { phone: string; provinceLabel?: string };
     };
-    expect(callArg.data.phone).toBe("0757-9999 8888");
+    expect(callArg.data.phone).toBe("13800009999");
     // 没有 provinceSlug → 不重写 provinceLabel
     expect(callArg.data.provinceLabel).toBeUndefined();
+  });
+
+  it("座机格式电话 → 400 参数验证失败", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    const PUT = await loadPut();
+    const res = await PUT(
+      buildPutReq("store_1", { phone: "0757-9999 8888" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PUT>[1],
+    );
+    expect(res.status).toBe(400);
+    const json = (await res.json()) as { details?: Record<string, string[]> };
+    expect(json.details?.phone).toContain("联系电话必须为 11 位数字");
+    expect(mockStoreUpdate).not.toHaveBeenCalled();
   });
 
   it("只更新门店名 → 跳过省/市 DB 校验 + 保留原 label", async () => {
@@ -292,7 +305,7 @@ describe("PUT /api/stores/[id] — Prisma 兜底", () => {
     });
     const PUT = await loadPut();
     const res = await PUT(
-      buildPutReq("store_1", { phone: "0757-0000 0000" }),
+      buildPutReq("store_1", { phone: "13800000002" }),
       { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PUT>[1],
     );
     expect(res.status).toBe(400);
@@ -308,7 +321,7 @@ describe("PUT /api/stores/[id] — Prisma 兜底", () => {
     });
     const PUT = await loadPut();
     const res = await PUT(
-      buildPutReq("store_1", { phone: "0757-0000 0000" }),
+      buildPutReq("store_1", { phone: "13800000003" }),
       { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PUT>[1],
     );
     expect(res.status).toBe(409);
@@ -319,7 +332,7 @@ describe("PUT /api/stores/[id] — Prisma 兜底", () => {
     mockStoreUpdate.mockRejectedValue(new Error("DB down"));
     const PUT = await loadPut();
     const res = await PUT(
-      buildPutReq("store_1", { phone: "0757-0000 0000" }),
+      buildPutReq("store_1", { phone: "13800000004" }),
       { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PUT>[1],
     );
     expect(res.status).toBe(500);
@@ -461,5 +474,48 @@ describe("PATCH /api/stores/[id] — name 变化触发 slug 联动（子任务 3
     expect(res.status).toBe(200);
     const callArg = mockStoreUpdate.mock.calls[0]?.[0] as { data: { slug?: string } };
     expect(callArg.data.slug).toBeUndefined();
+  });
+});
+
+describe("PUT /api/stores/[id] — 旗舰店唯一性约束", () => {
+  it("编辑 non-flagship 为 flagship,同城已有旗舰店 → 409", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    // 1st findFirst: 获取当前门店 (non-flagship)
+    // 2nd findFirst: checkFlagshipPerCity 找到同城已有旗舰店
+    mockStoreFindFirst
+      .mockResolvedValueOnce({ ...EXISTING_STORE, level: "premium" })
+      .mockResolvedValueOnce({ id: "store_existing_f", name: "同城旗舰店" });
+    mockProvinceFindUnique.mockResolvedValue(GUANGDONG_DB);
+    mockCityFindUnique.mockResolvedValue(FOSHAN_DB);
+    const PUT = await loadPut();
+    const res = await PUT(
+      buildPutReq("store_1", {
+        level: "flagship",
+        provinceSlug: "guangdong",
+        citySlug: "foshan",
+      }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PUT>[1],
+    );
+    expect(res.status).toBe(409);
+    const json = (await res.json()) as { error?: string; details?: Record<string, string[]> };
+    expect(json.error).toBe("该城市已存在星辉旗舰店");
+    expect(json.details?.level).toContain("每个城市最多只能设置一个星辉旗舰店");
+    expect(mockStoreUpdate).not.toHaveBeenCalled();
+  });
+
+  it("编辑当前唯一旗舰店的非等级字段成功 (200)", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    // 1st findFirst: 获取当前门店 (flagship)
+    // 2nd findFirst: checkFlagshipPerCity 查同城旗舰店,排除自身后无其他 → null
+    mockStoreFindFirst
+      .mockResolvedValueOnce({ ...EXISTING_STORE, level: "flagship" })
+      .mockResolvedValueOnce(null);
+    const PUT = await loadPut();
+    const res = await PUT(
+      buildPutReq("store_1", { phone: "13800000002" }),
+      { params: Promise.resolve({ id: "store_1" }) } as unknown as Parameters<typeof PUT>[1],
+    );
+    expect(res.status).toBe(200);
+    expect(mockStoreUpdate).toHaveBeenCalledTimes(1);
   });
 });

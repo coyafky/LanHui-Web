@@ -329,3 +329,52 @@ describe("POST /api/stores/[id]/[action] — Prisma 兜底", () => {
     expect(res.status).toBe(500);
   });
 });
+
+describe("POST /api/stores/[id]/publish — 旗舰店唯一性约束", () => {
+  const PENDING_FLAGSHIP = {
+    ...PENDING_STORE,
+    level: "flagship" as const,
+    provinceSlug: "guangdong",
+    citySlug: "foshan",
+  };
+
+  it("发布 flagship 门店,同城已有其他旗舰店 → 409", async () => {
+    mockAuth.mockResolvedValue({ user: { id: "u1", role: "admin" } });
+    // 1st findFirst: 获取当前门店 (flagship, pending)
+    // 2nd findFirst: checkFlagshipPerCity 找到同城已有其他旗舰店
+    mockStoreFindFirst
+      .mockResolvedValueOnce(PENDING_FLAGSHIP)
+      .mockResolvedValueOnce({ id: "store_other_f", name: "同城另一旗舰店" });
+    const POST = await loadPOST();
+    const res = await POST(
+      buildReq("store_pending", null),
+      makeCtx("store_pending", "publish")
+    );
+    expect(res.status).toBe(409);
+    const json = (await res.json()) as { error?: string; details?: Record<string, string[]> };
+    expect(json.error).toBe("该城市已存在星辉旗舰店");
+    expect(json.details?.level).toContain("每个城市最多只能设置一个星辉旗舰店");
+    expect(mockStoreUpdate).not.toHaveBeenCalled();
+  });
+
+  it("发布唯一旗舰店成功 (当前城市无其他旗舰店)", async () => {
+    mockAuth.mockResolvedValue({ user: { id: "u1", role: "admin" } });
+    // 1st findFirst: 获取当前门店 (flagship)
+    // 2nd findFirst: checkFlagshipPerCity 无冲突
+    mockStoreFindFirst
+      .mockResolvedValueOnce(PENDING_FLAGSHIP)
+      .mockResolvedValueOnce(null);
+    mockStoreUpdate.mockResolvedValue({
+      ...PENDING_FLAGSHIP,
+      status: "active",
+      isActive: true,
+    });
+    const POST = await loadPOST();
+    const res = await POST(
+      buildReq("store_pending", null),
+      makeCtx("store_pending", "publish")
+    );
+    expect(res.status).toBe(200);
+    expect(mockStoreUpdate).toHaveBeenCalledTimes(1);
+  });
+});
