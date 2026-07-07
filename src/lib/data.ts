@@ -75,6 +75,8 @@ export async function getStores(params?: {
   city?: string;
   limit?: number;
   sort?: "public_featured";
+  search?: string;
+  level?: string | string[];
 }): Promise<Store[]> {
   try {
     const searchParams = new URLSearchParams();
@@ -82,6 +84,11 @@ export async function getStores(params?: {
     if (params?.city) searchParams.set("city", params.city);
     if (params?.limit) searchParams.set("limit", String(params.limit));
     if (params?.sort) searchParams.set("sort", params.sort);
+    if (params?.search) searchParams.set("search", params.search);
+    if (params?.level) {
+      const levels = Array.isArray(params.level) ? params.level : [params.level];
+      levels.forEach((l) => searchParams.append("level", l));
+    }
 
     const res = await fetch(`${API_BASE}/api/stores?${searchParams}`, {
       next: { revalidate: 3600 },
@@ -95,6 +102,21 @@ export async function getStores(params?: {
     let result = stores;
     if (params?.province) result = result.filter((s) => s.province === params.province);
     if (params?.city) result = result.filter((s) => s.city === params.city);
+    if (params?.level) {
+      const levels = Array.isArray(params.level) ? params.level : [params.level];
+      result = result.filter((s) => levels.includes(s.level ?? "flagship"));
+    }
+    if (params?.search) {
+      const q = params.search.toLowerCase();
+      result = result.filter((s) =>
+        s.name.includes(q) ||
+        s.cityLabel.includes(q) ||
+        s.provinceLabel.includes(q) ||
+        (s.district && s.district.includes(q)) ||
+        s.address.includes(q) ||
+        s.phone.includes(q)
+      );
+    }
     if (params?.limit) result = result.slice(0, params.limit);
     return result;
   }
