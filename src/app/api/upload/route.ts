@@ -56,7 +56,7 @@ async function ensureUploadPermission(entity: string) {
   if (entity === "article" && session.user.role !== "admin" && session.user.role !== "editor") {
     return { ok: false as const, status: 403, error: "权限不足" };
   }
-  return { ok: true as const };
+  return { ok: true as const, userId: session.user.id };
 }
 
 // ── POST ──
@@ -84,12 +84,21 @@ export async function POST(request: NextRequest) {
     const csrf = requireCsrf(request);
     if (!csrf.ok) return csrf.response;
 
-    // 速率限制（上传 API 更严格：10 次/分钟）
+    // 速率限制（上传 API 更严格：10 次/分钟 + 30 次/天/用户）
     const rl = rateLimiter.check("upload:global", 10, 60_000);
     if (!rl.ok) {
       return Response.json(
         { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
         { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
+      );
+    }
+
+    // 每日限制 30 次（单用户维度）
+    const rlDay = rateLimiter.check(`upload:daily:${guard.userId}`, 30, 86_400_000);
+    if (!rlDay.ok) {
+      return Response.json(
+        { success: false, error: "今日上传次数已达上限（30次/天），请明天再试", details: { retryAfter: rlDay.retryAfter } },
+        { status: 429, headers: { "Retry-After": String(rlDay.retryAfter) } }
       );
     }
 
@@ -258,12 +267,21 @@ export async function DELETE(request: NextRequest) {
     const csrf = requireCsrf(request);
     if (!csrf.ok) return csrf.response;
 
-    // 速率限制（上传 API 更严格：10 次/分钟）
+    // 速率限制（上传 API 更严格：10 次/分钟 + 30 次/天/用户）
     const rl = rateLimiter.check("upload:global", 10, 60_000);
     if (!rl.ok) {
       return Response.json(
         { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
         { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
+      );
+    }
+
+    // 每日限制 30 次（单用户维度）
+    const rlDay = rateLimiter.check(`upload:daily:${guard.userId}`, 30, 86_400_000);
+    if (!rlDay.ok) {
+      return Response.json(
+        { success: false, error: "今日上传次数已达上限（30次/天），请明天再试", details: { retryAfter: rlDay.retryAfter } },
+        { status: 429, headers: { "Retry-After": String(rlDay.retryAfter) } }
       );
     }
 

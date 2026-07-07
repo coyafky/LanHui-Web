@@ -25,9 +25,10 @@ export async function GET(_request: NextRequest) {
       data: { token },
     });
 
+    const isProd = process.env.NODE_ENV === "production";
     response.headers.set(
       "Set-Cookie",
-      `lanhui_csrf=${token}; HttpOnly; SameSite=Lax; Path=/`
+      `lanhui_csrf=${token}; HttpOnly; SameSite=Lax; Path=/${isProd ? "; Secure" : ""}`
     );
 
     return response;
