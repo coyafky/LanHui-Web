@@ -15,21 +15,36 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
-import { brand } from "@/lib/brand";
 
-const navItems = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "门店管理", href: "/admin/stores", icon: Store },
-  { label: "文章管理", href: "/admin/articles", icon: FileText },
-  { label: "数据分析", href: "/admin/analytics", icon: BarChart3 },
-  { label: "系统设置", href: "/admin/settings", icon: Settings },
+const navGroups = [
+  {
+    title: "工作台",
+    items: [
+      { label: "仪表盘", href: "/admin", icon: LayoutDashboard },
+    ],
+  },
+  {
+    title: "运营管理",
+    items: [
+      { label: "门店管理", href: "/admin/stores", icon: Store },
+      { label: "文章管理", href: "/admin/articles", icon: FileText },
+    ],
+  },
+  {
+    title: "数据与设置",
+    items: [
+      { label: "数据分析", href: "/admin/analytics", icon: BarChart3 },
+      { label: "系统设置", href: "/admin/settings", icon: Settings },
+    ],
+  },
 ] as const;
 
 interface SidebarProps {
   userName: string;
+  userRole?: string;
 }
 
-export function Sidebar({ userName }: SidebarProps) {
+export function Sidebar({ userName, userRole }: SidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -71,21 +86,24 @@ export function Sidebar({ userName }: SidebarProps) {
         )}
       >
         {/* 品牌 */}
-        <div className="flex h-16 items-center justify-between border-b border-zinc-800 px-6">
+        <div className="flex h-16 items-center gap-3 border-b border-zinc-800 px-5">
           <Link
             href="/admin"
-            className="text-lg font-bold text-zinc-100"
             onClick={() => setMobileOpen(false)}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/10 text-xs font-bold text-orange-400"
           >
-            {brand.zh}
-            <span className="ml-1.5 text-xs font-normal text-zinc-500">
-              管理后台
-            </span>
+            LH
           </Link>
+          <div className="flex flex-col">
+            <span className="text-sm font-semibold text-zinc-100">
+              蓝辉轻改
+            </span>
+            <span className="text-xs text-zinc-500">管理后台</span>
+          </div>
           <button
             type="button"
             onClick={() => setMobileOpen(false)}
-            className="rounded-lg p-1 text-zinc-400 hover:text-white lg:hidden"
+            className="ml-auto rounded-lg p-1 text-zinc-400 hover:text-white lg:hidden"
             aria-label="关闭菜单"
           >
             <X className="h-5 w-5" />
@@ -93,41 +111,66 @@ export function Sidebar({ userName }: SidebarProps) {
         </div>
 
         {/* 导航 */}
-        <nav className="flex-1 space-y-1 px-3 py-4">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const active = isActive(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                  active
-                    ? "bg-orange-500/10 text-orange-500"
-                    : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
-                )}
-              >
-                <Icon className="h-5 w-5 shrink-0" />
-                {item.label}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          {navGroups.map((group, gi) => (
+            <div key={group.title} className={gi > 0 ? "mt-6" : ""}>
+              <div className="mb-1 px-3 text-[11px] font-medium uppercase tracking-wider text-zinc-600">
+                {group.title}
+              </div>
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const active = isActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={cn(
+                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                      active
+                        ? "bg-orange-500/10 text-orange-500"
+                        : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+                    )}
+                  >
+                    <Icon className="h-5 w-5 shrink-0" />
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
-        {/* 用户 & 退出 */}
-        <div className="border-t border-zinc-800 p-4">
-          <div className="mb-3 truncate text-sm text-zinc-400">
-            {userName}
+        {/* 查看官网 */}
+        <div className="border-t border-zinc-800/70 px-4 py-2.5">
+          <Link
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
+          >
+            查看官网 →
+          </Link>
+        </div>
+
+        {/* 用户区 */}
+        <div className="flex items-center gap-3 border-t border-zinc-800/70 px-4 py-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-800 text-xs font-medium text-zinc-400">
+            {userName.charAt(0) || "?"}
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-sm text-zinc-300">{userName}</div>
+            <div className="text-xs text-zinc-500">
+              {userRole ?? "管理员"}
+            </div>
           </div>
           <button
             type="button"
             onClick={handleSignOut}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200"
+            className="rounded-lg p-1.5 text-zinc-600 transition-colors hover:text-zinc-300"
+            aria-label="退出登录"
           >
-            <LogOut className="h-5 w-5 shrink-0" />
-            退出登录
+            <LogOut className="h-4 w-4" />
           </button>
         </div>
       </aside>
