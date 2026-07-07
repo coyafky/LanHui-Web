@@ -1,5 +1,5 @@
 workflow: tweak
-phase: build
+phase: archive
 context_compression: off
 build_mode: direct
 build_pause: null
@@ -12,9 +12,9 @@ auto_transition: true
 base_ref: 5b1593631e825687a9593cba3bebba07e98a9fbc
 design_doc: null
 plan: null
-verify_result: pending
-verification_report: null
-branch_status: pending
+verify_result: pass
+verification_report: docs/superpowers/reports/2026-07-07-article-detail-width-align-verify.md
+branch_status: handled
 created_at: 2026-07-07
-verified_at: null
-archived: false
+verified_at: 2026-07-07
+archived: true

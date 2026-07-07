@@ -81,6 +81,33 @@ async function main() {
   await seedRegions();
 
   // ── 3. 创建门店（从 store.ts Mock 数据迁移，使用自定义6位数字 ID） ──
+  // 先清理：每个城市只保留一个 flagship，其余降级为 premium
+  const flagshipCities = await prisma.store.findMany({
+    where: {
+      level: "flagship",
+      status: { not: "terminated" },
+    },
+    orderBy: { id: "asc" },
+    select: { id: true, provinceSlug: true, citySlug: true },
+  });
+  const seenCities = new Set<string>();
+  const downgradeIds: string[] = [];
+  for (const s of flagshipCities) {
+    const key = `${s.provinceSlug}:${s.citySlug}`;
+    if (seenCities.has(key)) {
+      downgradeIds.push(s.id);
+    } else {
+      seenCities.add(key);
+    }
+  }
+  if (downgradeIds.length > 0) {
+    await prisma.store.updateMany({
+      where: { id: { in: downgradeIds } },
+      data: { level: "premium" },
+    });
+    console.log(`🔧 降级 ${downgradeIds.length} 个重复旗舰店为 premium`);
+  }
+
   // 用 upsert 保持幂等，不删除已有记录，避免破坏 AnalyticsEvent 关联
   const storeData = [
     {
@@ -97,6 +124,7 @@ async function main() {
       phoneTel: "tel:075722881001",
       businessHours: "09:00-18:00",
       description: "蓝辉轻改旗舰服务中心，位于顺德大良核心商圈，提供全品类轻改装备与汽车膜系施工服务，配备独立施工工位与客户休息区。",
+      level: "flagship",
     },
     {
       id: "100002",
@@ -112,6 +140,7 @@ async function main() {
       phoneTel: "tel:075722881002",
       businessHours: "09:00-18:00",
       description: "蓝辉轻改顺德容桂标准店，服务容桂及周边区域车主，提供轻改装备升级与膜系施工。",
+      level: "premium",
     },
     {
       id: "100003",
@@ -127,6 +156,7 @@ async function main() {
       phoneTel: "tel:075786286601",
       businessHours: "09:00-18:00",
       description: "蓝辉轻改佛山南海标准店，位于南海桂城核心商圈，服务南海及周边区域车主，提供轻改装备升级与膜系施工。",
+      level: "specialty",
     },
     {
       id: "100004",
@@ -142,6 +172,7 @@ async function main() {
       phoneTel: "tel:02558188801",
       businessHours: "09:00-18:00",
       description: "蓝辉轻改南京江宁标准店，覆盖江宁及南京南部区域，提供轻改升级与膜系施工服务。",
+      level: "flagship",
     },
     {
       id: "100005",
@@ -157,6 +188,7 @@ async function main() {
       phoneTel: "tel:051262885501",
       businessHours: "09:00-18:00",
       description: "蓝辉轻改苏州园区授权店，服务园区及周边高端社区车主，提供轻改升级方案。",
+      level: "flagship",
     },
     {
       id: "100006",
@@ -172,6 +204,7 @@ async function main() {
       phoneTel: "tel:057188337701",
       businessHours: "09:00-18:00",
       description: "蓝辉轻改杭州萧山标准店，覆盖萧山区及杭州南部新城车主，提供全品类轻改装备与膜系施工。",
+      level: "flagship",
     },
     {
       id: "100007",
@@ -187,6 +220,7 @@ async function main() {
       phoneTel: "tel:075783283301",
       businessHours: "09:00-18:00",
       description: "蓝辉轻改佛山禅城标准店，位于禅城核心商圈，服务佛山主城区车主，提供轻改升级与膜系施工服务。",
+      level: "member",
     },
   ];
 
@@ -207,11 +241,20 @@ async function main() {
   // 与 storeData 一样用 upsert 保持幂等。
   withSeed(20260625);
   const FAKER_STORE_COUNT = 30;
+  const fakerFlagshipCities = new Set<string>();
   for (let i = 0; i < FAKER_STORE_COUNT; i++) {
-    const fakerStore = mockStore({
-      id: String(200001 + i),
-      slug: `faker-${String(200001 + i)}`,
+    const id = String(200001 + i);
+    const raw = mockStore({
+      id,
+      slug: `faker-${id}`,
     });
+    // 确保每城市最多 1 个 flagship
+    const cityKey = `${raw.provinceSlug}:${raw.citySlug}`;
+    const level = raw.level === "flagship" && fakerFlagshipCities.has(cityKey)
+      ? (["premium", "specialty", "member"] as const)[i % 3]
+      : raw.level;
+    if (level === "flagship") fakerFlagshipCities.add(cityKey);
+    const fakerStore = { ...raw, level };
     await prisma.store.upsert({
       where: { id: fakerStore.id },
       update: fakerStore,

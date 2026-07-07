@@ -1,0 +1,8 @@
+- [ ] Task 1: 清理 DB 数据 + 修改 seed.ts 保证每城市最多 1 flagship
+- [ ] Task 2: 新增 `src/lib/stores/flagship-constraint.ts` 可复用校验函数
+- [ ] Task 3: API 层接入 — POST/PUT/PATCH/publish 四入口
+- [ ] Task 4: 数据库层 partial unique index 迁移
+- [ ] Task 5: 后台 UI 等级提示 + 409 错误展示
+- [ ] Task 6: P2002 唯一约束错误友好处理
+- [ ] Task 7: 测试 — 8 个旗舰店约束场景
+- [ ] Task 8: `npm run build` + `npm test` 验证

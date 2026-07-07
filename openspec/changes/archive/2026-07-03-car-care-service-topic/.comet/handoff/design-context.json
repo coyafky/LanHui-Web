@@ -1,0 +1,14 @@
+{
+  "change": "car-care-service-topic",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "c79aece1f58f0ee84d4619fc986871357fa5006564fc6b9f0b6efc24c1122538",
+  "files": [
+    { "path": "openspec/changes/car-care-service-topic/proposal.md", "sha256": "124c5433f5c7933e99cc661ac29babf6f8446766c82d1808ae8b721dc2bd6c40" },
+    { "path": "openspec/changes/car-care-service-topic/design.md", "sha256": "892ead8acf5d76dddf728b92c0700ee688ad178ff4af7b3d0906f48b6440737a" },
+    { "path": "openspec/changes/car-care-service-topic/tasks.md", "sha256": "aff89379e47dd64e1edb067d61b2d3ef69eb85b24bbd36f1c671f326d89a0174" },
+    { "path": "openspec/changes/car-care-service-topic/specs/car-care-page/spec.md", "sha256": "b979f675aa7e8d1b01877e5b6be7722d5c1a554fd5f4d2746917b81f2b4c39c6" }
+  ]
+}

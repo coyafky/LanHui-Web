@@ -1,0 +1,13 @@
+{
+  "change": "flagship-one-per-city",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "f60066ea8a3c0ec22cabf39b324030be38dde994156e62c2911aa0043e65612a",
+  "files": [
+    { "path": "openspec/changes/flagship-one-per-city/proposal.md", "sha256": "54b42d96d322229b9157f895d4d2cf9c3cd3a3b75502752475febeecb410868a" },
+    { "path": "openspec/changes/flagship-one-per-city/design.md", "sha256": "106cc922272dcb12f10b2aaea0130596eab648b30dbfea01f5daa8a2797b1e7c" },
+    { "path": "openspec/changes/flagship-one-per-city/tasks.md", "sha256": "a4ad8b03e8420a9389fe9f84ed5bd0c3b551090eadc2983c048281e69a97092b" }
+  ]
+}
