@@ -49,7 +49,7 @@ export default async function NewsDetailPage({
       <main className="flex-grow flex flex-col">
         {/* Hero */}
         <section className="bg-black text-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
             <nav className="flex items-center text-sm text-zinc-500 mb-6 flex-wrap">
               <Link href="/" className="hover:text-white transition-colors">
                 首页
@@ -84,13 +84,13 @@ export default async function NewsDetailPage({
 
         {/* Body */}
         <section className="py-12 bg-zinc-950">
-          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-zinc-900 rounded-2xl border border-zinc-800 p-6 md:p-10">
               <p className="text-lg text-zinc-200 leading-relaxed mb-8 border-l-4 border-orange-500 pl-4">
                 {item.summary}
               </p>
 
-              <div className="prose prose-invert max-w-none text-zinc-300 leading-relaxed">
+              <div className="prose prose-invert max-w-4xl text-zinc-300 leading-relaxed">
                 <ArticleContent content={item.content ?? ""} />
               </div>
             </div>
@@ -110,7 +110,7 @@ export default async function NewsDetailPage({
         {/* Related */}
         {related.length > 0 && (
           <section className="py-12 bg-black border-t border-zinc-900">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center gap-2 mb-6">
                 <Newspaper className="w-5 h-5 text-orange-400" />
                 <h2 className="text-xl font-bold text-white">相关资讯</h2>
