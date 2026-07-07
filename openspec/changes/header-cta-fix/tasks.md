@@ -5,4 +5,4 @@
 - [x] 修改 `src/components/Header.tsx` L321 desktop CTA: `/agent/store/shunde-daliang` → `/agent`
 - [x] 修改 `src/components/Header.tsx` L424 mobile CTA: `/agent/store/shunde-daliang` → `/agent`
 - [x] `npm run build` 通过
-- [ ] 浏览器验证：点击 CTA → `/agent` 正常渲染（需 dev server）
+- [x] 浏览器验证：HTTP 200，页面标题"全国门店网络"正常渲染
