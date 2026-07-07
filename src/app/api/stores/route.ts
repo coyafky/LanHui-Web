@@ -26,8 +26,9 @@ const SORT_MAP: Record<string, OrderByInput> = {
   name_desc: { name: "desc" },
   level_desc: [{ level: "desc" }, { createdAt: "desc" }],
   public_featured: [
+    { level: "asc" },
     { imagePath: { sort: "asc", nulls: "last" } },
-    { createdAt: "asc" },
+    { createdAt: "desc" },
   ],
 };
 
@@ -103,6 +104,9 @@ export async function GET(request: NextRequest) {
         { address: { contains: search, mode: "insensitive" } },
         { phone: { contains: search, mode: "insensitive" } },
         { slug: { contains: search, mode: "insensitive" } },
+        { provinceLabel: { contains: search, mode: "insensitive" } },
+        { cityLabel: { contains: search, mode: "insensitive" } },
+        { district: { contains: search, mode: "insensitive" } },
       ];
     }
 
