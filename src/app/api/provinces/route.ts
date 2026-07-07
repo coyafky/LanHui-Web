@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const provinces = await prisma.province.findMany({
       where: { isActive: true },
@@ -23,7 +25,8 @@ export async function GET() {
 
     return Response.json({ success: true, data });
   } catch (error) {
-    console.error("[GET /api/provinces]", error);
+    const ctx = getRequestContext(request, "/api/provinces");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

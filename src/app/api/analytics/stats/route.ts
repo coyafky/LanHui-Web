@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server';
 import { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
+import { logger } from '@/lib/logger';
+import { getRequestContext } from '@/lib/request-context';
 
 /**
  * GET /api/analytics/stats
@@ -179,7 +181,8 @@ export async function GET(request: NextRequest) {
 
     return Response.json({ success: true, data: result });
   } catch (error) {
-    console.error('[GET /api/analytics/stats]', error);
+    const ctx = getRequestContext(request, '/api/analytics/stats');
+    logger.error({ event: 'api.error', ...ctx, error });
     return Response.json(
       { success: false, error: '服务器内部错误' },
       { status: 500 }
