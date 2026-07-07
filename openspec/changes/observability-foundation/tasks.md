@@ -28,9 +28,9 @@
 
 ## 5. API Route 日志替换（写接口 + duration）
 
-- [ ] 5.1 替换 `src/app/api/stores/route.ts`（GET/POST）：console.error → logger.error，POST 增加 duration 日志
-- [ ] 5.2 替换 `src/app/api/stores/[id]/route.ts`（GET/PUT/DELETE/PATCH）：console.error → logger.error，写操作增加 duration 日志
-- [ ] 5.3 替换 `src/app/api/stores/[id]/[action]/route.ts`：console.error → logger.error，增加 duration 日志
+- [x] 5.1 替换 `src/app/api/stores/route.ts`（GET/POST）：console.error → logger.error，POST 增加 duration 日志
+- [x] 5.2 替换 `src/app/api/stores/[id]/route.ts`（GET/PUT/DELETE/PATCH）：console.error → logger.error，写操作增加 duration 日志
+- [x] 5.3 替换 `src/app/api/stores/[id]/[action]/route.ts`：console.error → logger.error，增加 duration 日志
 - [ ] 5.4 替换 `src/app/api/articles/route.ts`（GET/POST）：console.error → logger.error，POST 增加 duration 日志
 - [ ] 5.5 替换 `src/app/api/articles/[id]/route.ts`（GET/PUT/DELETE）：console.error → logger.error，写操作增加 duration 日志
 - [ ] 5.6 替换 `src/app/api/articles/[id]/[action]/route.ts`：console.error → logger.error，增加 duration 日志
