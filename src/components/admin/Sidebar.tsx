@@ -146,6 +146,7 @@ export function Sidebar({ userName, userRole }: SidebarProps) {
           <Link
             href="/"
             target="_blank"
+            rel="noopener noreferrer"
             className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
           >
             查看官网 →
@@ -155,7 +156,7 @@ export function Sidebar({ userName, userRole }: SidebarProps) {
         {/* 用户区 */}
         <div className="flex items-center gap-3 border-t border-zinc-800/70 px-4 py-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-800 text-xs font-medium text-zinc-400">
-            {userName.charAt(0)}
+            {userName.charAt(0) || "?"}
           </div>
           <div className="min-w-0 flex-1">
             <div className="truncate text-sm text-zinc-300">{userName}</div>
