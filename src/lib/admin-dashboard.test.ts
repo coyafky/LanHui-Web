@@ -1,6 +1,20 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import type { Session } from "next-auth";
 
+const mockLoggerWarn = vi.hoisted(() => vi.fn());
+const mockLoggerError = vi.hoisted(() => vi.fn());
+const mockLoggerInfo = vi.hoisted(() => vi.fn());
+const mockLoggerDebug = vi.hoisted(() => vi.fn());
+
+vi.mock("@/lib/logger", () => ({
+  logger: {
+    debug: mockLoggerDebug,
+    info: mockLoggerInfo,
+    warn: mockLoggerWarn,
+    error: mockLoggerError,
+  },
+}));
+
 const mockStoreCount = vi.hoisted(() => vi.fn());
 const mockStoreFindMany = vi.hoisted(() => vi.fn());
 const mockArticleCount = vi.hoisted(() => vi.fn());
@@ -41,6 +55,10 @@ beforeEach(() => {
   mockAnalyticsGroupBy.mockReset();
   mockActivityLogFindMany.mockReset();
   mockActivityLogCreate.mockReset();
+  mockLoggerWarn.mockClear();
+  mockLoggerError.mockClear();
+  mockLoggerInfo.mockClear();
+  mockLoggerDebug.mockClear();
 });
 
 async function load() {
@@ -104,13 +122,13 @@ describe("logActivity", () => {
 
   it("失败：不抛错，仅 console.warn", async () => {
     mockActivityLogCreate.mockRejectedValueOnce(new Error("fail"));
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockLoggerWarn.mockClear();
     const { logActivity } = await load();
     await expect(
       logActivity({ actorId: null, action: "x", entity: "y", entityId: "z" })
     ).resolves.toBeUndefined();
-    expect(warnSpy).toHaveBeenCalled();
-    warnSpy.mockRestore();
+    expect(mockLoggerWarn).toHaveBeenCalled();
+    mockLoggerWarn.mockClear();
   });
 });
 
@@ -243,7 +261,7 @@ describe("getTodoSummaryV2", () => {
 
   it("失败：prisma throw → ok=false, data=null, error 包含消息", async () => {
     mockStoreCount.mockRejectedValueOnce(new Error("DB exploded"));
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockLoggerWarn.mockClear();
     const { getTodoSummaryV2 } = await load();
     const r = await getTodoSummaryV2();
     expect(r.ok).toBe(false);
@@ -251,8 +269,8 @@ describe("getTodoSummaryV2", () => {
       expect(r.data).toBeNull();
       expect(r.error).toContain("DB exploded");
     }
-    expect(warnSpy).toHaveBeenCalled();
-    warnSpy.mockRestore();
+    expect(mockLoggerWarn).toHaveBeenCalled();
+    mockLoggerWarn.mockClear();
   });
 });
 
@@ -283,7 +301,7 @@ describe("getKpiSnapshotV2", () => {
 
   it("失败：prisma throw → ok=false, data=null", async () => {
     mockStoreCount.mockRejectedValueOnce(new Error("timeout"));
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockLoggerWarn.mockClear();
     const { getKpiSnapshotV2 } = await load();
     const r = await getKpiSnapshotV2();
     expect(r.ok).toBe(false);
@@ -291,7 +309,7 @@ describe("getKpiSnapshotV2", () => {
       expect(r.data).toBeNull();
       expect(r.error).toContain("timeout");
     }
-    warnSpy.mockRestore();
+    mockLoggerWarn.mockClear();
   });
 });
 
@@ -404,7 +422,7 @@ describe("getStoreSummary", () => {
 
   it("失败：prisma throw → ok=false, data=null", async () => {
     mockStoreFindMany.mockRejectedValueOnce(new Error("store table missing"));
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockLoggerWarn.mockClear();
     const { getStoreSummary } = await load();
     const r = await getStoreSummary();
     expect(r.ok).toBe(false);
@@ -412,7 +430,7 @@ describe("getStoreSummary", () => {
       expect(r.data).toBeNull();
       expect(r.error).toContain("store table missing");
     }
-    warnSpy.mockRestore();
+    mockLoggerWarn.mockClear();
   });
 });
 
@@ -460,7 +478,7 @@ describe("getContentSummaryV2", () => {
 
   it("失败：prisma throw → ok=false, data=null", async () => {
     mockArticleGroupBy.mockRejectedValueOnce(new Error("article.groupBy failed"));
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockLoggerWarn.mockClear();
     const { getContentSummaryV2 } = await load();
     const r = await getContentSummaryV2();
     expect(r.ok).toBe(false);
@@ -468,7 +486,7 @@ describe("getContentSummaryV2", () => {
       expect(r.data).toBeNull();
       expect(r.error).toContain("article.groupBy failed");
     }
-    warnSpy.mockRestore();
+    mockLoggerWarn.mockClear();
   });
 });
 
@@ -574,7 +592,7 @@ describe("getInterestSummaryV2", () => {
 
   it("失败：prisma throw → ok=false, error 包含消息, data 仍返回空 shape (zeroReason = query-failed)", async () => {
     mockAnalyticsFindMany.mockRejectedValueOnce(new Error("analytics down"));
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockLoggerWarn.mockClear();
     const { getInterestSummaryV2 } = await load();
     const r = await getInterestSummaryV2();
     expect(r.ok).toBe(false);
@@ -591,7 +609,7 @@ describe("getInterestSummaryV2", () => {
         expect(r.data.contactTrend30d).toEqual([]);
       }
     }
-    warnSpy.mockRestore();
+    mockLoggerWarn.mockClear();
   });
 });
 
@@ -682,7 +700,7 @@ describe("getDashboardSummaryV2", () => {
   it("部分失败：getTodoSummaryV2 失败 → todoSummary=null, 其他非 null, quickActions 仍填充", async () => {
     // getTodoSummaryV2 失败：第一次 store.count 直接 reject
     mockStoreCount.mockRejectedValueOnce(new Error("todo failed"));
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    mockLoggerWarn.mockClear();
 
     // 其他 6 个数据源都成功
     // getKpiSnapshotV2 (4 counts)
@@ -722,6 +740,6 @@ describe("getDashboardSummaryV2", () => {
     expect(summary.quickActions.length).toBeGreaterThan(0);
     expect(summary.fetchedAt).toBeDefined();
 
-    warnSpy.mockRestore();
+    mockLoggerWarn.mockClear();
   });
 });

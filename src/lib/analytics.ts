@@ -58,7 +58,7 @@ async function flush() {
       // 失败：把 pending 里的事件放回主 buffer 头部
       eventBuffer.unshift(...pendingBuffer);
       pendingBuffer.length = 0;
-      if (typeof console !== 'undefined') {
+      if (typeof console !== 'undefined' && process.env.NODE_ENV === 'development') {
         console.warn('[analytics] flush failed, events returned to buffer');
       }
     }
