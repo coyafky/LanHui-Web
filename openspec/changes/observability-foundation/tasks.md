@@ -7,8 +7,8 @@
 
 ## 2. Request Context 工具
 
-- [ ] 2.1 新增 `src/lib/request-context.ts`：`getRequestContext(request, routeName?)` helper，提取 requestId（x-request-id → x-vercel-id → UUID）、method、route、path、ip、userAgent
-- [ ] 2.2 新增 `src/lib/request-context.test.ts`：测试 header 读取、header 缺失时生成 UUID
+- [x] 2.1 新增 `src/lib/request-context.ts`：`getRequestContext(request, routeName?)` helper，提取 requestId（x-request-id → x-vercel-id → UUID）、method、route、path、ip、userAgent
+- [x] 2.2 新增 `src/lib/request-context.test.ts`：测试 header 读取、header 缺失时生成 UUID
 
 ## 3. Observability / APM 接口
 
