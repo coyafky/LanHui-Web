@@ -15,6 +15,8 @@ import {
   FLAGSHIP_CONFLICT_STATUS,
   isFlagshipConflictError,
 } from "@/lib/stores/flagship-constraint";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 export async function GET(
   request: NextRequest,
@@ -52,7 +54,8 @@ export async function GET(
 
     return Response.json({ success: true, data: store });
   } catch (error) {
-    console.error("[GET /api/stores/[id]]", error);
+    const ctx = getRequestContext(request, "/api/stores/[id]");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -64,6 +67,7 @@ export async function PUT(
   request: NextRequest,
   ctx: RouteContext<"/api/stores/[id]">
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session) {
@@ -191,6 +195,15 @@ export async function PUT(
       },
     });
 
+    const putCtx = getRequestContext(request, "/api/stores/[id]");
+    logger.info({
+      event: "api.request.completed",
+      ...putCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: store });
   } catch (error) {
     // Prisma P2003 = foreign key constraint violation（兜底：省市被并发删除/被禁用）
@@ -241,7 +254,14 @@ export async function PUT(
         { status: 409 }
       );
     }
-    console.error("[PUT /api/stores/[id]]", error);
+    const putErrCtx = getRequestContext(request, "/api/stores/[id]");
+    logger.error({
+      event: "api.request.failed",
+      ...putErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -253,6 +273,7 @@ export async function DELETE(
   _request: NextRequest,
   ctx: RouteContext<"/api/stores/[id]">
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session) {
@@ -304,9 +325,25 @@ export async function DELETE(
       },
     });
 
+    const delCtx = getRequestContext(_request, "/api/stores/[id]");
+    logger.info({
+      event: "api.request.completed",
+      ...delCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: store });
   } catch (error) {
-    console.error("[DELETE /api/stores/[id]]", error);
+    const delErrCtx = getRequestContext(_request, "/api/stores/[id]");
+    logger.error({
+      event: "api.request.failed",
+      ...delErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -327,6 +364,7 @@ export async function PATCH(
   request: NextRequest,
   ctx: RouteContext<"/api/stores/[id]">
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session) {
@@ -461,6 +499,15 @@ export async function PATCH(
       metadata: { name: store.name, slug: store.slug, isActive: store.isActive, level: store.level },
     });
 
+    const patchCtx = getRequestContext(request, "/api/stores/[id]");
+    logger.info({
+      event: "api.request.completed",
+      ...patchCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: store });
   } catch (error) {
     if (
@@ -520,7 +567,14 @@ export async function PATCH(
         { status: 409 }
       );
     }
-    console.error("[PATCH /api/stores/[id]]", error);
+    const patchErrCtx = getRequestContext(request, "/api/stores/[id]");
+    logger.error({
+      event: "api.request.failed",
+      ...patchErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

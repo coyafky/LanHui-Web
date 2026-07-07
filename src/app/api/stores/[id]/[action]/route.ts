@@ -14,6 +14,8 @@ import {
   type StoreAction,
   type StoreStatus,
 } from "@/lib/validations/store-transitions";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 const VALID_ACTIONS: ReadonlySet<StoreAction> = new Set([
   "publish",
@@ -51,6 +53,7 @@ export async function POST(
   request: NextRequest,
   ctx: { params: Promise<{ id: string; action: string }> }
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session) {
@@ -210,6 +213,15 @@ export async function POST(
       },
     });
 
+    const actionCtx = getRequestContext(request, "/api/stores/[id]/[action]");
+    logger.info({
+      event: "api.request.completed",
+      ...actionCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: store });
   } catch (error) {
     // 标准化 Prisma 7 + Driver Adapter P2002 / P2022 等
@@ -248,7 +260,14 @@ export async function POST(
         { status: 409 }
       );
     }
-    console.error("[POST /api/stores/[id]/[action]]", error);
+    const actionErrCtx = getRequestContext(request, "/api/stores/[id]/[action]");
+    logger.error({
+      event: "api.request.failed",
+      ...actionErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

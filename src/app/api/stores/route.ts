@@ -11,6 +11,8 @@ import {
   FLAGSHIP_CONFLICT_STATUS,
   isFlagshipConflictError,
 } from "@/lib/stores/flagship-constraint";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 type OrderByInput =
   | Prisma.StoreOrderByWithRelationInput
@@ -137,7 +139,8 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[GET /api/stores]", error);
+    const ctx = getRequestContext(request, "/api/stores");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -146,6 +149,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session) {
@@ -252,6 +256,15 @@ export async function POST(request: NextRequest) {
       metadata: { name: store.name, slug: store.slug },
     });
 
+    const ctx = getRequestContext(request, "/api/stores");
+    logger.info({
+      event: "api.request.completed",
+      ...ctx,
+      status: 201,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: store }, { status: 201 });
   } catch (error) {
     // Prisma P2003 = foreign key constraint violation（兜底：省市被并发删除/被禁用）
@@ -321,7 +334,14 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       );
     }
-    console.error("[POST /api/stores]", error);
+    const ctx = getRequestContext(request, "/api/stores");
+    logger.error({
+      event: "api.request.failed",
+      ...ctx,
+      status: 500,
+      durationMs: Date.now() - start,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
