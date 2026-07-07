@@ -96,13 +96,13 @@ describe("FeaturedStores", () => {
     cleanup();
   });
 
-  it("R1: 调用 getStores({ limit: 4, sort: public_featured })", async () => {
+  it("R1: 调用 getStores({ level: flagship, limit: 4 })", async () => {
     getStoresMock.mockResolvedValueOnce([]);
     await renderRSC();
     await waitFor(() => expect(getStoresMock).toHaveBeenCalledTimes(1));
     expect(getStoresMock).toHaveBeenCalledWith({
+      level: "flagship",
       limit: 4,
-      sort: "public_featured",
     });
   });
 
@@ -114,6 +114,14 @@ describe("FeaturedStores", () => {
     await renderRSC();
     expect(await screen.findByText("推荐门店")).toBeInTheDocument();
     expect(screen.getByText("FEATURED STORES")).toBeInTheDocument();
+  });
+
+  it("R2a: 渲染副标题「精选星辉旗舰店」", async () => {
+    getStoresMock.mockResolvedValueOnce([createStore({ id: "100001" })]);
+    await renderRSC();
+    expect(
+      await screen.findByText(/精选星辉旗舰店/),
+    ).toBeInTheDocument();
   });
 
   it("R3: eyebrow 使用 tracking-widest + text-blue-400", async () => {
