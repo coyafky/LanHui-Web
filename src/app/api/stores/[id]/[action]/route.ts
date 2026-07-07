@@ -14,6 +14,8 @@ import {
   type StoreAction,
   type StoreStatus,
 } from "@/lib/validations/store-transitions";
+import { requireCsrf } from "@/lib/security/csrf";
+import { rateLimiter } from "@/lib/security/rate-limit";
 
 const VALID_ACTIONS: ReadonlySet<StoreAction> = new Set([
   "publish",
@@ -63,6 +65,19 @@ export async function POST(
       return Response.json(
         { success: false, error: "权限不足" },
         { status: 403 }
+      );
+    }
+
+    // CSRF 校验
+    const csrf = requireCsrf(request);
+    if (!csrf.ok) return csrf.response;
+
+    // 速率限制（60 次/分钟）
+    const rl = rateLimiter.check(`route:${session.user.id}`, 60, 60_000);
+    if (!rl.ok) {
+      return Response.json(
+        { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
       );
     }
 

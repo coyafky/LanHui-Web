@@ -24,6 +24,8 @@ vi.mock("@/lib/prisma", () => ({
   },
 }));
 vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
+vi.mock("@/lib/security/csrf", () => ({ requireCsrf: () => ({ ok: true }) }));
+vi.mock("@/lib/security/rate-limit", () => ({ rateLimiter: { check: () => ({ ok: true, remaining: 59, limit: 60, resetAt: Date.now() + 60_000 }) } }));
 
 // Note: P2 阶段 store-regions 已不再被 POST 引用，移除其 mock
 // vi.mock("@/lib/store-regions", ...) 已删除

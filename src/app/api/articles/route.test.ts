@@ -4,8 +4,10 @@ const mockAuth = vi.hoisted(() => vi.fn());
 const mockArticleCreate = vi.hoisted(() => vi.fn());
 const mockArticleFindUnique = vi.hoisted(() => vi.fn());
 const mockLogActivity = vi.hoisted(() => vi.fn());
+const mockRevalidatePath = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/auth", () => ({ auth: mockAuth }));
+vi.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));
 vi.mock("@/lib/prisma", () => ({
   prisma: {
     article: {
@@ -15,6 +17,8 @@ vi.mock("@/lib/prisma", () => ({
   },
 }));
 vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
+vi.mock("@/lib/security/csrf", () => ({ requireCsrf: () => ({ ok: true }) }));
+vi.mock("@/lib/security/rate-limit", () => ({ rateLimiter: { check: () => ({ ok: true, remaining: 59, limit: 60, resetAt: Date.now() + 60_000 }) } }));
 
 const VALID_BODY = {
   title: "demo",
@@ -31,6 +35,7 @@ beforeEach(() => {
   mockArticleCreate.mockReset();
   mockArticleFindUnique.mockReset();
   mockLogActivity.mockReset();
+  mockRevalidatePath.mockReset();
   mockArticleFindUnique.mockResolvedValue(null);
   mockArticleCreate.mockImplementation(async ({ data }) => ({
     id: "art_1",
