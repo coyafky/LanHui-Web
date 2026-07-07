@@ -318,7 +318,7 @@ export function Header() {
 
             {/* CTA (desktop) */}
             <Link
-              href="/agent/store/shunde-daliang"
+              href="/agent"
               className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 shadow-lg shadow-orange-500/25 hover:shadow-orange-400/30 transition-all duration-300 hover:scale-105"
             >
               <MapPin className="w-4 h-4" />
@@ -421,7 +421,7 @@ export function Header() {
               联系我们
             </button>
             <Link
-              href="/agent/store/shunde-daliang"
+              href="/agent"
               onClick={closeMobileMenu}
               className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl text-base font-semibold text-white bg-gradient-to-r from-orange-500 to-amber-500 shadow-lg shadow-orange-500/25"
             >
