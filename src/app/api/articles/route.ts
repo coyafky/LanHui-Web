@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { ArticleCreateSchema } from "@/lib/validations/article";
 import { logActivity } from "@/lib/admin-dashboard";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 /** 生成简单的 timestamp-based slug */
 function generateSlug(title: string): string {
@@ -77,7 +79,8 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[GET /api/articles]", error);
+    const ctx = getRequestContext(request, "/api/articles");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -87,6 +90,7 @@ export async function GET(request: NextRequest) {
 
 /** POST /api/articles — 创建文章 */
 export async function POST(request: NextRequest) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session?.user) {
@@ -173,9 +177,26 @@ export async function POST(request: NextRequest) {
       metadata: { title: article.title, slug: article.slug },
     });
 
+    const ctx = getRequestContext(request, "/api/articles");
+    logger.info({
+      event: "api.request.completed",
+      ...ctx,
+      status: 201,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: article }, { status: 201 });
   } catch (error) {
-    console.error("[POST /api/articles]", error);
+    const ctx = getRequestContext(request, "/api/articles");
+    logger.error({
+      event: "api.request.failed",
+      ...ctx,
+      status: 500,
+      durationMs: Date.now() - start,
+      userId: undefined,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

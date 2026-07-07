@@ -13,6 +13,8 @@ import path from "node:path";
 import sharp from "sharp";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 // ── 常量 ──
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -57,6 +59,7 @@ async function ensureAdmin() {
 // ── POST ──
 
 export async function POST(request: NextRequest) {
+  const start = Date.now();
   try {
     const guard = await ensureAdmin();
     if (!guard.ok) {
@@ -166,6 +169,15 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    const postCtx = getRequestContext(request, "/api/upload");
+    logger.info({
+      event: "api.request.completed",
+      ...postCtx,
+      status: 201,
+      durationMs: Date.now() - start,
+      userId: undefined,
+    });
+
     return Response.json(
       {
         success: true,
@@ -180,7 +192,15 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("[POST /api/upload]", error);
+    const postErrCtx = getRequestContext(request, "/api/upload");
+    logger.error({
+      event: "api.request.failed",
+      ...postErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      userId: undefined,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -191,6 +211,7 @@ export async function POST(request: NextRequest) {
 // ── DELETE ──
 
 export async function DELETE(request: NextRequest) {
+  const start = Date.now();
   try {
     const guard = await ensureAdmin();
     if (!guard.ok) {
@@ -240,9 +261,26 @@ export async function DELETE(request: NextRequest) {
       data: { imagePath: null },
     });
 
+    const delCtx = getRequestContext(request, "/api/upload");
+    logger.info({
+      event: "api.request.completed",
+      ...delCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: undefined,
+    });
+
     return Response.json({ success: true, data: { path: null } });
   } catch (error) {
-    console.error("[DELETE /api/upload]", error);
+    const delErrCtx = getRequestContext(request, "/api/upload");
+    logger.error({
+      event: "api.request.failed",
+      ...delErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      userId: undefined,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

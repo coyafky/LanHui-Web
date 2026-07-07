@@ -20,7 +20,7 @@ import { getRequestContext } from "@/lib/request-context";
 
 export async function GET(
   request: NextRequest,
-  ctx: RouteContext<"/api/stores/[id]">
+  ctx: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await ctx.params;
@@ -65,7 +65,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  ctx: RouteContext<"/api/stores/[id]">
+  ctx: { params: Promise<{ id: string }> }
 ) {
   const start = Date.now();
   try {
@@ -271,7 +271,7 @@ export async function PUT(
 
 export async function DELETE(
   _request: NextRequest,
-  ctx: RouteContext<"/api/stores/[id]">
+  ctx: { params: Promise<{ id: string }> }
 ) {
   const start = Date.now();
   try {
@@ -362,7 +362,7 @@ export async function DELETE(
  */
 export async function PATCH(
   request: NextRequest,
-  ctx: RouteContext<"/api/stores/[id]">
+  ctx: { params: Promise<{ id: string }> }
 ) {
   const start = Date.now();
   try {

@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { ArticleUpdateSchema } from "@/lib/validations/article";
 import { logActivity } from "@/lib/admin-dashboard";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 /** GET /api/articles/[id] — 获取单篇文章（也支持按 slug 查询） */
 export async function GET(
@@ -52,7 +54,8 @@ export async function GET(
       data: { ...article, viewCount: article.viewCount + 1 },
     });
   } catch (error) {
-    console.error("[GET /api/articles/[id]]", error);
+    const ctx = getRequestContext(request, "/api/articles/[id]");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -65,6 +68,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session?.user) {
@@ -150,9 +154,26 @@ export async function PUT(
       metadata: { title: article.title, slug: article.slug, status: article.status },
     });
 
+    const putCtx = getRequestContext(request, "/api/articles/[id]");
+    logger.info({
+      event: "api.request.completed",
+      ...putCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: article });
   } catch (error) {
-    console.error("[PUT /api/articles/[id]]", error);
+    const putErrCtx = getRequestContext(request, "/api/articles/[id]");
+    logger.error({
+      event: "api.request.failed",
+      ...putErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      userId: undefined,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -165,6 +186,7 @@ export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session?.user) {
@@ -208,9 +230,26 @@ export async function DELETE(
       metadata: { title: existing.title, slug: existing.slug },
     });
 
+    const delCtx = getRequestContext(_request, "/api/articles/[id]");
+    logger.info({
+      event: "api.request.completed",
+      ...delCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true });
   } catch (error) {
-    console.error("[DELETE /api/articles/[id]]", error);
+    const delErrCtx = getRequestContext(_request, "/api/articles/[id]");
+    logger.error({
+      event: "api.request.failed",
+      ...delErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      userId: undefined,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
