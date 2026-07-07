@@ -109,11 +109,11 @@ export async function getStores(params?: {
     if (params?.search) {
       const q = params.search.toLowerCase();
       result = result.filter((s) =>
-        s.name.includes(q) ||
-        s.cityLabel.includes(q) ||
-        s.provinceLabel.includes(q) ||
-        (s.district && s.district.includes(q)) ||
-        s.address.includes(q) ||
+        s.name.toLowerCase().includes(q) ||
+        s.cityLabel.toLowerCase().includes(q) ||
+        s.provinceLabel.toLowerCase().includes(q) ||
+        (s.district && s.district.toLowerCase().includes(q)) ||
+        s.address.toLowerCase().includes(q) ||
         s.phone.includes(q)
       );
     }
