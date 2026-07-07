@@ -1,7 +1,7 @@
 /**
  * 上传 API（PRD §6.1 / §6.2）
  *
- * 本期范围：仅支持 entity="store"。
+ * 支持 entity="store" / entity="article"。
  * 路径策略：服务端按 entity + entityId 拼接，不接受用户输入的文件名。
  * 文件安全：MIME 白名单 + sharp().metadata() 二次验证 + 5MB 限制。
  * 写入策略：临时文件 + rename 原子替换。
@@ -13,15 +13,17 @@ import path from "node:path";
 import sharp from "sharp";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { requireCsrf } from "@/lib/security/csrf";
+import { rateLimiter } from "@/lib/security/rate-limit";
 
 // ── 常量 ──
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 const ENTITY_DIR: Record<string, string> = {
   store: "stores",
+  article: "articles",
   // 架构预留：未来扩展时按 PRD §1.1 模板补全
   // province: "provinces",
-  // article: "articles",
   // product: "products",
 };
 
@@ -31,24 +33,27 @@ const REJECTED_ENTITIES = new Set(["city"]);
 const SUPPORTED_ENTITIES = new Set(Object.keys(ENTITY_DIR));
 
 /** 服务端独立拼路径，杜绝用户控制路径 */
-function buildStorePath(entityId: string): { dir: string; file: string; rel: string } {
+function buildEntityPath(entity: keyof typeof ENTITY_DIR, entityId: string): { dir: string; file: string; rel: string } {
   // 防御：拒绝包含路径分隔符或父目录标记的 id
   if (/[\/\\\.]/.test(entityId) || entityId.includes("..")) {
     throw new Error("非法的 entityId");
   }
-  const dirName = ENTITY_DIR.store;
+  const dirName = ENTITY_DIR[entity];
   const dir = path.join(process.cwd(), "public", "images", dirName);
   const file = `${entityId}.webp`;
   const rel = `/images/${dirName}/${file}`;
   return { dir, file, rel };
 }
 
-async function ensureAdmin() {
+async function ensureUploadPermission(entity: string) {
   const session = await auth();
   if (!session) {
     return { ok: false as const, status: 401, error: "未认证" };
   }
-  if (session.user.role !== "admin") {
+  if (entity === "store" && session.user.role !== "admin") {
+    return { ok: false as const, status: 403, error: "权限不足" };
+  }
+  if (entity === "article" && session.user.role !== "admin" && session.user.role !== "editor") {
     return { ok: false as const, status: 403, error: "权限不足" };
   }
   return { ok: true as const };
@@ -58,11 +63,6 @@ async function ensureAdmin() {
 
 export async function POST(request: NextRequest) {
   try {
-    const guard = await ensureAdmin();
-    if (!guard.ok) {
-      return Response.json({ success: false, error: guard.error }, { status: guard.status });
-    }
-
     const formData = await request.formData();
     const file = formData.get("file");
     const entity = formData.get("entity");
@@ -72,6 +72,24 @@ export async function POST(request: NextRequest) {
       return Response.json(
         { success: false, error: "参数缺失" },
         { status: 400 }
+      );
+    }
+
+    const guard = await ensureUploadPermission(entity);
+    if (!guard.ok) {
+      return Response.json({ success: false, error: guard.error }, { status: guard.status });
+    }
+
+    // CSRF 校验
+    const csrf = requireCsrf(request);
+    if (!csrf.ok) return csrf.response;
+
+    // 速率限制（上传 API 更严格：10 次/分钟）
+    const rl = rateLimiter.check("upload:global", 10, 60_000);
+    if (!rl.ok) {
+      return Response.json(
+        { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
       );
     }
 
@@ -106,6 +124,7 @@ export async function POST(request: NextRequest) {
     }
 
     // ── 实体存在性校验 ──
+    let resolvedEntityId = entityId;
     if (entity === "store") {
       const store = await prisma.store.findFirst({
         where: { OR: [{ id: entityId }, { slug: entityId }] },
@@ -113,6 +132,15 @@ export async function POST(request: NextRequest) {
       if (!store) {
         return Response.json(
           { success: false, error: "门店不存在" },
+          { status: 404 }
+        );
+      }
+      resolvedEntityId = store.id;
+    } else if (entity === "article") {
+      const article = await prisma.article.findUnique({ where: { id: entityId } });
+      if (!article) {
+        return Response.json(
+          { success: false, error: "文章不存在" },
           { status: 404 }
         );
       }
@@ -140,8 +168,8 @@ export async function POST(request: NextRequest) {
     const processed = await sharp(buffer).webp({ quality: 80 }).toBuffer();
     const processedMeta = await sharp(processed).metadata();
 
-    // ── 写入路径（仅 store 分支） ──
-    const { dir, file: fileName, rel } = buildStorePath(entityId);
+    // ── 写入路径 ──
+    const { dir, file: fileName, rel } = buildEntityPath(entity as keyof typeof ENTITY_DIR, resolvedEntityId);
     await fs.mkdir(dir, { recursive: true });
     const finalPath = path.join(dir, fileName);
     const tmpPath = `${finalPath}.${Date.now()}.tmp`;
@@ -161,8 +189,13 @@ export async function POST(request: NextRequest) {
     // ── 更新数据库 ──
     if (entity === "store") {
       await prisma.store.update({
-        where: { id: entityId },
+        where: { id: resolvedEntityId },
         data: { imagePath: rel },
+      });
+    } else if (entity === "article") {
+      await prisma.article.update({
+        where: { id: resolvedEntityId },
+        data: { featuredImage: rel },
       });
     }
 
@@ -192,42 +225,101 @@ export async function POST(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const guard = await ensureAdmin();
-    if (!guard.ok) {
-      return Response.json({ success: false, error: guard.error }, { status: guard.status });
-    }
-
     const { searchParams } = request.nextUrl;
     const entity = searchParams.get("entity");
     const entityId = searchParams.get("entityId");
 
-    if (entity !== "store" || !entityId) {
+    if (!entity || !entityId) {
       return Response.json(
         { success: false, error: "参数缺失" },
         { status: 400 }
       );
     }
 
-    const store = await prisma.store.findFirst({
-      where: { OR: [{ id: entityId }, { slug: entityId }] },
-    });
-    if (!store) {
+    if (REJECTED_ENTITIES.has(entity)) {
       return Response.json(
-        { success: false, error: "门店不存在" },
+        { success: false, error: "City 不支持图片" },
+        { status: 400 }
+      );
+    }
+    if (!SUPPORTED_ENTITIES.has(entity)) {
+      return Response.json(
+        { success: false, error: "本期暂不支持该实体类型" },
+        { status: 400 }
+      );
+    }
+
+    const guard = await ensureUploadPermission(entity);
+    if (!guard.ok) {
+      return Response.json({ success: false, error: guard.error }, { status: guard.status });
+    }
+
+    // CSRF 校验
+    const csrf = requireCsrf(request);
+    if (!csrf.ok) return csrf.response;
+
+    // 速率限制（上传 API 更严格：10 次/分钟）
+    const rl = rateLimiter.check("upload:global", 10, 60_000);
+    if (!rl.ok) {
+      return Response.json(
+        { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
+      );
+    }
+
+    if (entity === "store") {
+      const store = await prisma.store.findFirst({
+        where: { OR: [{ id: entityId }, { slug: entityId }] },
+      });
+      if (!store) {
+        return Response.json(
+          { success: false, error: "门店不存在" },
+          { status: 404 }
+        );
+      }
+
+      if (!store.imagePath) {
+        return Response.json(
+          { success: false, error: "图片不存在" },
+          { status: 404 }
+        );
+      }
+
+      // 物理删除（防穿越：imagePath 必须以 /images/ 开头）
+      if (store.imagePath.startsWith("/images/")) {
+        const abs = path.join(process.cwd(), "public", store.imagePath.replace(/^\//, ""));
+        try {
+          await fs.unlink(abs);
+        } catch {
+          // 文件不存在也不影响 DB 清理
+        }
+      }
+
+      await prisma.store.update({
+        where: { id: store.id },
+        data: { imagePath: null },
+      });
+
+      return Response.json({ success: true, data: { path: null } });
+    }
+
+    const article = await prisma.article.findUnique({ where: { id: entityId } });
+    if (!article) {
+      return Response.json(
+        { success: false, error: "文章不存在" },
         { status: 404 }
       );
     }
 
-    if (!store.imagePath) {
+    if (!article.featuredImage) {
       return Response.json(
         { success: false, error: "图片不存在" },
         { status: 404 }
       );
     }
 
-    // 物理删除（防穿越：imagePath 必须以 /images/ 开头）
-    if (store.imagePath.startsWith("/images/")) {
-      const abs = path.join(process.cwd(), "public", store.imagePath.replace(/^\//, ""));
+    if (article.featuredImage.startsWith("/images/articles/")) {
+      const abs = path.join(process.cwd(), "public", article.featuredImage.replace(/^\//, ""));
       try {
         await fs.unlink(abs);
       } catch {
@@ -235,9 +327,9 @@ export async function DELETE(request: NextRequest) {
       }
     }
 
-    await prisma.store.update({
-      where: { id: store.id },
-      data: { imagePath: null },
+    await prisma.article.update({
+      where: { id: article.id },
+      data: { featuredImage: null },
     });
 
     return Response.json({ success: true, data: { path: null } });

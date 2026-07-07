@@ -24,7 +24,7 @@ type CsrfResult = CsrfOk | CsrfFail;
  * 不匹配或缺失 → 返回 403 + 错误信息。
  */
 export function requireCsrf(request: NextRequest): CsrfResult {
-  const cookie = request.cookies.get("lanhui_csrf");
+  const cookie = request.cookies?.get("lanhui_csrf");
   const headerToken = request.headers.get("x-csrf-token");
 
   if (!cookie || !headerToken || cookie.value !== headerToken) {

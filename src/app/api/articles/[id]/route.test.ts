@@ -12,10 +12,14 @@ const { mockPrisma, mockAuth, mockLogActivity } = vi.hoisted(() => ({
   mockAuth: vi.fn(),
   mockLogActivity: vi.fn(),
 }));
+const mockRevalidatePath = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
 vi.mock("@/lib/auth", () => ({ auth: mockAuth }));
 vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
+vi.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));
+vi.mock("@/lib/security/csrf", () => ({ requireCsrf: () => ({ ok: true }) }));
+vi.mock("@/lib/security/rate-limit", () => ({ rateLimiter: { check: () => ({ ok: true, remaining: 59, limit: 60, resetAt: Date.now() + 60_000 }) } }));
 
 const CUID = "clxxxxxxxxxxxxxxxxxxxxxxxxx"; // 长度 > 20 且 starts with "cl"
 const CUID_ID = "clabcdefghijklmnopqrstuv"; // 24 chars, starts with "cl"
@@ -46,6 +50,7 @@ const existingArticle = {
   title: "Original Title",
   slug: "original-slug",
   content: "# Original\n",
+  category: "新闻",
   status: "draft",
   isSticky: false,
   publishedAt: null,
@@ -61,6 +66,7 @@ beforeEach(() => {
   mockPrisma.article.update.mockReset();
   mockPrisma.article.delete.mockReset();
   mockLogActivity.mockReset();
+  mockRevalidatePath.mockReset();
   mockLogActivity.mockResolvedValue(undefined);
 });
 
@@ -314,6 +320,40 @@ describe("PUT /api/articles/[id] — 业务逻辑", () => {
     expect(capturedUpdateData?.publishedAt).toBeInstanceOf(Date);
     expect((capturedUpdateData?.publishedAt as Date).toISOString()).toBe(fixedDate.toISOString());
     vi.useRealTimers();
+  });
+
+  it("status: published → draft → 409 已发布文章需先撤回", async () => {
+    mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
+    mockPrisma.article.findUnique.mockResolvedValueOnce({
+      ...existingArticle,
+      status: "published",
+    });
+    const { PUT } = await loadRoute();
+    const res = await PUT(
+      buildReq({ status: "draft" }) as unknown as Parameters<typeof PUT>[0],
+      { params: Promise.resolve({ id: CUID_ID }) }
+    );
+    expect(res.status).toBe(409);
+    const json = (await res.json()) as { error?: string };
+    expect(json.error).toBe("已发布文章需先撤回");
+    expect(mockPrisma.article.update).not.toHaveBeenCalled();
+  });
+
+  it("status: archived → published → 409 归档文章需先恢复为草稿", async () => {
+    mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
+    mockPrisma.article.findUnique.mockResolvedValueOnce({
+      ...existingArticle,
+      status: "archived",
+    });
+    const { PUT } = await loadRoute();
+    const res = await PUT(
+      buildReq({ status: "published" }) as unknown as Parameters<typeof PUT>[0],
+      { params: Promise.resolve({ id: CUID_ID }) }
+    );
+    expect(res.status).toBe(409);
+    const json = (await res.json()) as { error?: string };
+    expect(json.error).toBe("归档文章需先恢复为草稿");
+    expect(mockPrisma.article.update).not.toHaveBeenCalled();
   });
 
   it("isSticky: true → 200 + data.isSticky === true", async () => {
