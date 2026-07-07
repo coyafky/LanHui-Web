@@ -19,12 +19,12 @@
 
 ## 4. API Route 日志替换（读接口）
 
-- [ ] 4.1 替换 `src/app/api/analytics/stats/route.ts`：console.error → logger.error
-- [ ] 4.2 替换 `src/app/api/cities/route.ts`：console.error → logger.error
-- [ ] 4.3 替换 `src/app/api/provinces/route.ts`：console.error → logger.error
-- [ ] 4.4 替换 `src/app/api/regions/route.ts`：console.error → logger.error
-- [ ] 4.5 替换 `src/app/api/articles/categories/route.ts`：console.error → logger.error
-- [ ] 4.6 替换 `src/app/api/admin/csrf/route.ts`：console.error → logger.error
+- [x] 4.1 替换 `src/app/api/analytics/stats/route.ts`：console.error → logger.error
+- [x] 4.2 替换 `src/app/api/cities/route.ts`：console.error → logger.error
+- [x] 4.3 替换 `src/app/api/provinces/route.ts`：console.error → logger.error
+- [x] 4.4 替换 `src/app/api/regions/route.ts`：console.error → logger.error
+- [x] 4.5 替换 `src/app/api/articles/categories/route.ts`：console.error → logger.error
+- [x] 4.6 替换 `src/app/api/admin/csrf/route.ts`：console.error → logger.error（文件不存在，跳过）
 
 ## 5. API Route 日志替换（写接口 + duration）
 
