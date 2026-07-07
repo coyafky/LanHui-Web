@@ -16,5 +16,6 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       'server-only': path.resolve(__dirname, './vitest.server-only-stub.ts'),
     },
+    dedupe: ['react', 'react-dom'],
   },
 });

@@ -542,7 +542,7 @@ describe("GET /api/stores — 搜索范围扩展（T3）", () => {
     });
   });
 
-  it("?search=大良 → OR 同时包含 name/address/phone/slug 四个字段", async () => {
+  it("?search=大良 → OR 同时包含 name/address/phone/slug/provinceLabel/cityLabel/district 七个字段", async () => {
     mockStoreFindMany.mockResolvedValue([{ id: "1" }]);
     mockStoreCount.mockResolvedValue(1);
     const GET = await loadGet();
@@ -550,12 +550,15 @@ describe("GET /api/stores — 搜索范围扩展（T3）", () => {
     const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
       OR?: Array<Record<string, unknown>>;
     };
-    expect(whereArg.OR).toHaveLength(4);
+    expect(whereArg.OR).toHaveLength(7);
     const fields = whereArg.OR?.map((c) => Object.keys(c)[0]);
     expect(fields).toContain("name");
     expect(fields).toContain("address");
     expect(fields).toContain("phone");
     expect(fields).toContain("slug");
+    expect(fields).toContain("provinceLabel");
+    expect(fields).toContain("cityLabel");
+    expect(fields).toContain("district");
   });
 });
 
@@ -601,15 +604,16 @@ describe("GET /api/stores — 排序服务端落地（T2）", () => {
     expect(orderBy).toEqual([{ level: "desc" }, { createdAt: "desc" }]);
   });
 
-  it("?sort=public_featured → 有图优先，其次旧门店优先", async () => {
+  it("?sort=public_featured → 旗舰优先 → 有图优先 → 创建时间倒序", async () => {
     mockStoreFindMany.mockResolvedValue([]);
     mockStoreCount.mockResolvedValue(0);
     const GET = await loadGet();
     await GET(buildGetReq("sort=public_featured") as unknown as Parameters<typeof GET>[0]);
     const orderBy = mockStoreFindMany.mock.calls[0]?.[0]?.orderBy;
     expect(orderBy).toEqual([
+      { level: "asc" },
       { imagePath: { sort: "asc", nulls: "last" } },
-      { createdAt: "asc" },
+      { createdAt: "desc" },
     ]);
   });
 

@@ -11,14 +11,14 @@ const STORE_PLACEHOLDER = "/images/placeholders/store.webp";
 /**
  * 首页「推荐门店」section
  * - RSC：零 JS 增量
- * - 数据通过 getStores({ limit: 4, sort: "public_featured" }) 拉取（API 优先 / 静态 fallback）
+ * - 数据通过 getStores({ level: "flagship", limit: 4 }) 拉取（API 优先 / 静态 fallback）
  * - 过滤 s.isActive !== false（向后兼容：缺失字段视为 true）
  * - 空守卫：active.length === 0 时整个 section 不渲染
  * - 4 列响应式：mobile 1 / sm 2 / lg 4
  * - 视觉对齐 ProductsQuickEntry（标题 tracking-widest text-blue-400、卡片 bg-zinc-900 border-zinc-800）
  */
 export async function FeaturedStores() {
-  const stores = await getStores({ limit: 4, sort: "public_featured" });
+  const stores = await getStores({ level: "flagship", limit: 4 });
   const active = stores.filter((s) => s.isActive !== false);
 
   if (active.length === 0) return null;
@@ -33,6 +33,9 @@ export async function FeaturedStores() {
           <h2 className="text-3xl md:text-4xl font-bold text-white">
             推荐门店
           </h2>
+          <p className="mt-4 text-sm text-zinc-500">
+            精选星辉旗舰店，优先展示已开放的旗舰服务中心。
+          </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

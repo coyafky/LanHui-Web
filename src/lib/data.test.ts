@@ -164,4 +164,61 @@ describe("mapApiStore (via getStores fallback path)", () => {
       expect.objectContaining({ next: { revalidate: 3600 } }),
     );
   });
+
+  it("search 参数透传到 /api/stores?search=xxx", async () => {
+    mockFetchResponse({ success: true, data: [] });
+    const { getStores } = await import("./data");
+    await getStores({ search: "佛山" });
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining("search=%E4%BD%9B%E5%B1%B1"),
+      expect.objectContaining({ next: { revalidate: 3600 } }),
+    );
+  });
+
+  it("level 单值透传到 /api/stores?level=flagship", async () => {
+    mockFetchResponse({ success: true, data: [] });
+    const { getStores } = await import("./data");
+    await getStores({ level: "flagship" });
+    expect(global.fetch).toHaveBeenCalledWith(
+      expect.stringContaining("level=flagship"),
+      expect.objectContaining({ next: { revalidate: 3600 } }),
+    );
+  });
+
+  it("level 数组透传到 /api/stores?level=flagship&level=premium", async () => {
+    mockFetchResponse({ success: true, data: [] });
+    const { getStores } = await import("./data");
+    await getStores({ level: ["flagship", "premium"] });
+    const callUrl = (global.fetch as ReturnType<typeof vi.fn>).mock
+      .calls[0][0] as string;
+    expect(callUrl).toContain("level=flagship");
+    expect(callUrl).toContain("level=premium");
+  });
+
+  it("static fallback search 匹配 name/cityLabel/address", async () => {
+    mockFetchResponse(null, { ok: false, status: 500 });
+    const { getStores } = await import("./data");
+    const stores = await getStores({ search: "顺德" });
+    expect(stores.length).toBeGreaterThan(0);
+    stores.forEach((s) => {
+      const matched =
+        s.name.includes("顺德") ||
+        s.cityLabel.includes("顺德") ||
+        s.provinceLabel.includes("顺德") ||
+        s.district.includes("顺德") ||
+        s.address.includes("顺德") ||
+        s.phone.includes("顺德");
+      expect(matched).toBe(true);
+    });
+  });
+
+  it("static fallback level 过滤旗舰店", async () => {
+    mockFetchResponse(null, { ok: false, status: 500 });
+    const { getStores } = await import("./data");
+    const stores = await getStores({ level: "flagship" });
+    expect(stores.length).toBeGreaterThan(0);
+    stores.forEach((s) => {
+      expect(s.level ?? "flagship").toBe("flagship");
+    });
+  });
 });
