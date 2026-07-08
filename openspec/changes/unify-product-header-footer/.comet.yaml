@@ -13,8 +13,8 @@ base_ref: ebedeaa90d8859ea774f44ffdf4a3fec6a5e163f
 design_doc: docs/superpowers/specs/2026-07-08-product-shared-layout-design.md
 plan: docs/superpowers/plans/2026-07-08-product-shared-layout.md
 verify_result: pending
-verification_report: null
-branch_status: pending
+verification_report: docs/superpowers/reports/2026-07-08-unify-product-header-footer-verify.md
+branch_status: handled
 created_at: 2026-07-08
 verified_at: null
 archived: false
