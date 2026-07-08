@@ -33,7 +33,14 @@ export const ArticleFormSchema = z
           val === undefined || val === null || val === "" || /^[a-z0-9-]*$/.test(val),
         "只允许小写字母、数字、短横线",
       ),
-    excerpt: z.string().max(300, "摘要不能超过 300 字").optional().nullable(),
+    excerpt: z
+      .string()
+      .optional()
+      .nullable()
+      .refine(
+        (val) => !val || val.length <= 300,
+        { message: "摘要不能超过 300 字" },
+      ),
     content: z.string().min(1, "内容不能为空"),
     featuredImage: z
       .string()

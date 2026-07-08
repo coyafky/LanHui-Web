@@ -202,12 +202,14 @@ describe("ArticleForm", () => {
   it("auto-generates slug from title when autoSlug is true", async () => {
     const user = userEvent.setup();
     const onTitleChange = vi.fn();
+    const onSlugChange = vi.fn();
 
     render(
       <ArticleForm
         {...createDefaultProps({
           autoSlug: true,
           onTitleChange,
+          onSlugChange,
         })}
       />
     );
@@ -217,6 +219,12 @@ describe("ArticleForm", () => {
 
     // onTitleChange should be called with the changed value
     expect(onTitleChange).toHaveBeenCalled();
+    // onSlugChange should be called with a slug matching expected pattern
+    // "新文章标题" → sanitized to "新文章标题" → slug "新文章标题-{timestamp}"
+    expect(onSlugChange).toHaveBeenCalled();
+    const slugCall = onSlugChange.mock.calls[0][0] as string;
+    expect(slugCall).toMatch(/^[a-z0-9-]+$/);
+    expect(slugCall).not.toContain("_");
   });
 
   /* ------------------------------------------------------------------ */
@@ -227,7 +235,8 @@ describe("ArticleForm", () => {
     const user = userEvent.setup();
     const onTitleChange = vi.fn();
 
-    render(
+    // Render with a field error initially
+    const { rerender } = render(
       <ArticleForm
         {...createDefaultProps({
           fieldErrors: { title: "标题不能为空" },
@@ -236,15 +245,27 @@ describe("ArticleForm", () => {
       />
     );
 
-    // When user types in title field, the component should call onTitleChange
-    // The parent handles error clearing, but the component should clear the
-    // field error from its local display when onChange fires.
-    // This is verified by the field error text disappearing.
+    // Verify error text IS in the DOM initially
+    expect(screen.getByText("标题不能为空")).toBeInTheDocument();
 
+    // When user types in title field, the component should call onTitleChange
     const titleInput = screen.getByPlaceholderText("输入文章标题");
     await user.type(titleInput, "新");
 
     expect(onTitleChange).toHaveBeenCalled();
+
+    // Re-render with cleared fieldErrors (as parent would do)
+    rerender(
+      <ArticleForm
+        {...createDefaultProps({
+          fieldErrors: {},
+          onTitleChange,
+        })}
+      />
+    );
+
+    // Assert error text IS NO longer in the DOM
+    expect(screen.queryByText("标题不能为空")).not.toBeInTheDocument();
   });
 
   /* ------------------------------------------------------------------ */

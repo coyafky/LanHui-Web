@@ -82,6 +82,11 @@ export function ArticleForm({
     useState(slugManuallyEdited);
   const [previewMode, setPreviewMode] = useState<"edit" | "preview">("edit");
 
+  // Sync localSlugManuallyEdited when prop changes (e.g. parent resets after save)
+  useEffect(() => {
+    setLocalSlugManuallyEdited(slugManuallyEdited ?? false);
+  }, [slugManuallyEdited]);
+
   const fieldRefs = useRef<Record<string, HTMLElement | null>>({});
 
   // Auto-focus first error field
@@ -100,7 +105,7 @@ export function ArticleForm({
     if (autoSlug && !localSlugManuallyEdited) {
       const timestamp = Date.now().toString(36);
       const sanitized = value
-        .replace(/[^\w\s-]/g, "")
+        .replace(/[^a-zA-Z0-9\s-]/g, "")
         .trim()
         .replace(/\s+/g, "-")
         .toLowerCase()
