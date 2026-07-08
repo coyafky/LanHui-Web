@@ -72,11 +72,12 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
           `/api/stores?search=${encodeURIComponent(trimmed)}&limit=6&sort=public_featured`,
           { signal: controller.signal },
         );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         // After async gap, re-check conditions
         if (controller.signal.aborted) return;
 
-        const data: StoreSuggestion[] = json.data ?? json;
+        const data: StoreSuggestion[] = json.data ?? [];
 
         if (data.length > 0) {
           setSuggestions(data);
@@ -93,6 +94,7 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
 
     return () => {
       clearTimeout(timer);
+      abortRef.current?.abort();
     };
   }, [trimmed, isComposing]);
 
@@ -165,6 +167,7 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
         e.preventDefault();
         navigateToSearch(value.trim());
       } else if (trimmed) {
+        e.preventDefault();
         navigateToSearch(value.trim());
       }
       return;
