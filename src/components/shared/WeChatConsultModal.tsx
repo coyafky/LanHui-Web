@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
 import { subscribeWeChatModal, closeWeChatModal } from "@/lib/wechat-modal";
+import { wechatOfficialAccount } from "@/lib/contact-channels";
 
 export function WeChatConsultModal() {
   const [open, setOpen] = useState<boolean>(false);
@@ -28,6 +29,8 @@ export function WeChatConsultModal() {
   }, [open]);
 
   if (!open) return null;
+
+  const { qrPath, qrAlt, title, description, scanHint } = wechatOfficialAccount;
 
   return (
     <div
@@ -53,16 +56,16 @@ export function WeChatConsultModal() {
           id="wechat-modal-title"
           className="text-xl font-bold text-white mb-2 pr-8"
         >
-          添加企业微信,1 对 1 咨询车型方案
+          {title}
         </h2>
         <p className="text-sm text-zinc-400 mb-5">
-          扫码后由车型顾问为新能源车主匹配产品与到店方案。
+          {description}
         </p>
 
         <div className="bg-white rounded-xl p-4 flex items-center justify-center mb-4 aspect-square">
           <Image
-            src="/images/brand/wechat-qr.png"
-            alt="蓝辉轻改企业微信二维码"
+            src={qrPath}
+            alt={qrAlt}
             width={220}
             height={220}
             className="w-full h-auto max-w-[220px]"
@@ -70,9 +73,8 @@ export function WeChatConsultModal() {
         </div>
 
         <div className="text-center space-y-1">
-          <p className="text-sm text-zinc-300">蓝辉轻改 · 车型顾问</p>
-          <p className="text-xs text-amber-400/90">微信号:fkycoya(待补充)</p>
-          <p className="text-xs text-zinc-500 pt-2">打开微信扫一扫 ↑</p>
+          <p className="text-sm text-zinc-300">蓝辉轻改</p>
+          <p className="text-xs text-zinc-500 pt-2">{scanHint}</p>
         </div>
       </div>
     </div>

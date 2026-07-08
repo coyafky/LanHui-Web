@@ -2,6 +2,7 @@
 change: admin-article-ux-improvements
 design-doc: docs/superpowers/specs/2026-07-08-admin-article-ux-improvements-design.md
 base-ref: 63009a6dabda1798e5bd98213cd0f7a8e62d89f3
+archived-with: 2026-07-08-admin-article-ux-improvements
 ---
 
 # Admin Article UX 改进 — 实施计划

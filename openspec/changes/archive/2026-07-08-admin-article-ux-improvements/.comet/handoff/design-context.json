@@ -1,0 +1,16 @@
+{
+  "change": "admin-article-ux-improvements",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "27158beddefdfafcdc27232bdd6d72cb48dc82e7833f860d999b97d10051a6b7",
+  "files": [
+    { "path": "openspec/changes/admin-article-ux-improvements/proposal.md", "sha256": "8012580a1b7f3996556d0cacf98e230c0b0822a8e9b38d119e98fe406324d4e8" },
+    { "path": "openspec/changes/admin-article-ux-improvements/design.md", "sha256": "43d7130cb1e073b20a0f25fc968b6500d2d14187f9b0004a589f1a8fc0424ceb" },
+    { "path": "openspec/changes/admin-article-ux-improvements/tasks.md", "sha256": "5b71148d771bf4350a9925a8e126c1ffc3690d8d7fef816ee3ed6944451a5c4d" },
+    { "path": "openspec/changes/admin-article-ux-improvements/specs/article-client-validation/spec.md", "sha256": "db2140042a72148b706fd5de46da2530b640b4908fba7eb234ab81457be052f4" },
+    { "path": "openspec/changes/admin-article-ux-improvements/specs/article-confirm-dialog/spec.md", "sha256": "aa9d1c9586aa3065d7743f01a54a596542b669ef0bcd3c78598e8b6cfbc6e91e" },
+    { "path": "openspec/changes/admin-article-ux-improvements/specs/article-unsaved-guard/spec.md", "sha256": "5ecc57d259bcadeae72a167a1ed7b24e667af8031c3f37492f03d3ae692aa7f0" }
+  ]
+}

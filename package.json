@@ -32,7 +32,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run check:backup && npm run check:breadcrumbs && npm run check:product-layout && npm run build",
+    "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run check:backup && npm run check:breadcrumbs && npm run check:product-layout && npm run check:contact-copy && npm run build",
     "verify:zeekr-images": "node scripts/verify-zeekr-images.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -47,7 +47,8 @@
     "db:restore": "node scripts/db-restore.mjs",
     "check:backup": "node scripts/check-backup-strategy.mjs",
     "check:breadcrumbs": "node scripts/check-product-breadcrumbs.mjs",
-    "check:product-layout": "node scripts/check-product-layout.mjs"
+    "check:product-layout": "node scripts/check-product-layout.mjs",
+    "check:contact-copy": "node scripts/check-production-contact-copy.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

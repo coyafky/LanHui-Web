@@ -2,5 +2,19 @@
   "env": {
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
   },
+  "permissions": {
+    "allow": [
+      "Bash(git add:*)",
+      "Bash(npx vitest:*)",
+      "Bash(npm t:*)",
+      "Read(//Users/fkycoya/Documents/WebsiteClone/lanhui-website/.claude/worktrees/feature+20260708+admin-article-ux-improvements/**)",
+      "Bash(\"$COMET_BASH\" \"$COMET_STATE\" init store-phone-validation-copy tweak)",
+      "Bash(chmod +x \"$COMET_STATE\" \"$COMET_GUARD\" \"$COMET_BASH\")",
+      "Read(//Users/fkycoya/Documents/WebsiteClone/lanhui-website/**)"
+    ],
+    "additionalDirectories": [
+      "/Users/fkycoya/Documents/WebsiteClone/lanhui-website/openspec/changes/admin-article-ux-improvements/.comet/handoff"
+    ]
+  },
   "enabledPlugins": {}
 }
