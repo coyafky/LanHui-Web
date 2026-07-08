@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
 import { Header } from "@/components/Header";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { Footer } from "@/components/Footer";
 import { FlooringFeatureGrid } from "@/components/product/FlooringFeatureGrid";
 import { FlooringStructureGrid } from "@/components/product/FlooringStructureGrid";
@@ -44,6 +44,8 @@ export const metadata: Metadata = {
 };
 
 export default function FlooringTopicPage() {
+  const breadcrumbItems = getProductBreadcrumbs("/product/flooring");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/flooring");
   // 只在页面渲染时构造 JSON-LD，不引入额外 fetch / IO
   const jsonLd = {
     "@context": "https://schema.org",
@@ -77,16 +79,9 @@ export default function FlooringTopicPage() {
             <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-amber-700/20 blur-3xl" />
           </div>
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-            <nav className="flex items-center text-sm text-zinc-500 mb-6">
-              <Link
-                href="/product"
-                className="hover:text-white transition-colors"
-              >
-                产品中心
-              </Link>
-              <ChevronRight className="w-4 h-4 mx-2" />
-              <span className="text-zinc-300">地板改装专题</span>
-            </nav>
+            {breadcrumbItems && breadcrumbItems.length > 0 && (
+              <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
@@ -218,6 +213,12 @@ export default function FlooringTopicPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

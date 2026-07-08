@@ -1,12 +1,12 @@
-import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
+import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 import type { XiaomiSu7HeroImage } from "@/lib/xiaomi-su7-upgrade-projects";
 
 export type XiaomiSu7HeroProps = {
   totalProjects: number;
   totalScenarios: number;
   heroImage: XiaomiSu7HeroImage;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 const SCENARIO_ANCHORS: readonly {
@@ -24,6 +24,7 @@ export function XiaomiSu7Hero({
   totalProjects,
   totalScenarios,
   heroImage,
+  breadcrumbItems,
 }: XiaomiSu7HeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -41,23 +42,7 @@ export function XiaomiSu7Hero({
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6" aria-label="面包屑">
-          <Link
-            href="/product"
-            className="hover:text-white transition-colors"
-          >
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <Link
-            href="/product/xiaomi"
-            className="hover:text-white transition-colors"
-          >
-            小米系列
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <span className="text-zinc-300">小米 SU7</span>
-        </nav>
+        {breadcrumbItems && <Breadcrumbs items={breadcrumbItems} className="mb-6" />}
 
         <p className="text-sm tracking-widest text-orange-400 mb-3">
           XIAOMI SU7 UPGRADE

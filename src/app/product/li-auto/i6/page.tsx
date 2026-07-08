@@ -8,6 +8,7 @@ import { LiAutoI6ProjectGrid } from "@/components/li-auto/LiAutoI6ProjectGrid";
 import { LiAutoI6ServiceFlow } from "@/components/li-auto/LiAutoI6ServiceFlow";
 import { LiAutoI6Faq } from "@/components/li-auto/LiAutoI6Faq";
 import { LiAutoI6TopicViewTrack } from "@/components/li-auto/LiAutoI6TopicViewTrack";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   liAutoI6UpgradeProjects,
   liAutoI6Scenarios,
@@ -49,6 +50,9 @@ export const metadata: Metadata = {
 };
 
 export default function LiAutoI6Page() {
+  const breadcrumbItems = getProductBreadcrumbs("/product/li-auto/i6");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/li-auto/i6");
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -78,6 +82,7 @@ export default function LiAutoI6Page() {
           totalProjects={liAutoI6UpgradeProjects.length}
           totalScenarios={liAutoI6Scenarios.length}
           heroImage={LI_AUTO_I6_HERO_IMAGE}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <section className="scroll-mt-24" id="scenario-new-car-protection">
@@ -119,6 +124,12 @@ export default function LiAutoI6Page() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

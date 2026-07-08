@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   wenjieM8MustHaveProjects,
   wenjieM8BusinessUpgradeProjects,
@@ -65,6 +66,9 @@ export default async function WenjieM8Page() {
     url: `${CANONICAL_PATH}#${p.id}`,
   }));
 
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+  const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -84,6 +88,7 @@ export default async function WenjieM8Page() {
           tagline="必改产品 / 高级商务升级 / 实用小配件"
           totalProjects={wenjieM8UpgradeProjects.length}
           canonicalPath={CANONICAL_PATH}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <WenjieModelProjectGrid
@@ -179,6 +184,12 @@ export default async function WenjieM8Page() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, Shield, Sun } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 import { ServiceGuaranteeSection } from "@/components/film/ServiceGuaranteeSection";
 import { WindowFilmScenarioGrid } from "@/components/window-film/WindowFilmScenarioGrid";
 import type { WindowFilmPackageFull } from "@/lib/window-film-details";
@@ -14,9 +16,10 @@ import type { WindowFilmPackageFull } from "@/lib/window-film-details";
 
 type Props = {
   pkg: WindowFilmPackageFull;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
-export function WindowFilmPackageDetail({ pkg }: Props) {
+export function WindowFilmPackageDetail({ pkg, breadcrumbItems }: Props) {
   const frontNote = pkg.parameterNotes.find((n) => n.position === "front");
   const rearNote = pkg.parameterNotes.find((n) => n.position === "rear");
 
@@ -30,15 +33,9 @@ export function WindowFilmPackageDetail({ pkg }: Props) {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
           {/* Breadcrumb */}
-          <nav className="flex items-center text-sm text-zinc-500 mb-6">
-            <Link
-              href="/product/window-film"
-              className="inline-flex items-center gap-1 hover:text-white transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              返回汽车窗膜
-            </Link>
-          </nav>
+          {breadcrumbItems && breadcrumbItems.length > 0 && (
+            <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+          )}
 
           <p className="text-xs tracking-widest mb-3 text-orange-400 uppercase">
             套餐详情

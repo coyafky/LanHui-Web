@@ -1,14 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
 import { getModelRoute } from "@/lib/product-routes";
 import { wenjieSeriesHeroImage } from "@/lib/wenjie-preview-images";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 
 type WenjieSeriesHeroProps = {
   title: string;
   subtitle: string;
   totalProjects: number;
   totalModels: number;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 type SubModelAnchor = { modelKey: "M6" | "M7" | "M8"; label: string; href: string };
@@ -37,6 +39,7 @@ export function WenjieSeriesHero({
   subtitle,
   totalProjects,
   totalModels,
+  breadcrumbItems,
 }: WenjieSeriesHeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -45,16 +48,9 @@ export function WenjieSeriesHero({
         <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-cyan-700/20 blur-3xl" />
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6">
-          <Link
-            href="/product"
-            className="hover:text-white transition-colors"
-          >
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <span className="text-zinc-300">问界系列升级方案</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div>

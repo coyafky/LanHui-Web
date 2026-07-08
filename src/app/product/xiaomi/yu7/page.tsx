@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   xiaomiYu7UpgradeProjects,
   xiaomiYu7Scenarios,
@@ -50,6 +51,8 @@ export default async function XiaomiYu7Page() {
 
   const projects = xiaomiYu7UpgradeProjects;
   const scenarios = xiaomiYu7Scenarios;
+  const breadcrumbItems = getProductBreadcrumbs("/product/xiaomi/yu7");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/xiaomi/yu7");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -84,6 +87,7 @@ export default async function XiaomiYu7Page() {
           totalProjects={XIAOMI_YU7_PROJECT_COUNT}
           totalScenarios={XIAOMI_YU7_SCENARIO_COUNT}
           heroImage={XIAOMI_YU7_HERO_IMAGE}
+          breadcrumbItems={breadcrumbItems}
         />
 
         {/* 用车场景矩阵 */}
@@ -139,6 +143,12 @@ export default async function XiaomiYu7Page() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

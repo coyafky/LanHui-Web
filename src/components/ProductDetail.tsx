@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { ChevronRight, Check, Sparkles, Shield, Package, Palette, Droplets } from "lucide-react";
+import { Check, Sparkles, Shield, Package, Palette, Droplets } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 import { serviceGuarantee, type Product } from "@/lib/products";
 
 const SPEC_COLUMN_MAP = [
@@ -32,9 +32,10 @@ function StarRating({ rating, max = 7 }: { rating: number; max?: number }) {
 
 type ProductDetailProps = {
   product: Product;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
-export function ProductDetail({ product }: ProductDetailProps) {
+export function ProductDetail({ product, breadcrumbItems }: ProductDetailProps) {
   const isLightMod = product.group === "light-mod";
   const accentText = isLightMod ? "text-blue-400" : "text-orange-400";
   const accentBg = isLightMod ? "bg-blue-500" : "bg-orange-500";
@@ -62,14 +63,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
             />
           </div>
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 text-center">
-            {/* Breadcrumb */}
-            <nav className="flex items-center justify-center text-sm text-zinc-500 mb-6">
-              <Link href="/product" className="hover:text-white transition-colors">
-                产品中心
-              </Link>
-              <ChevronRight className="w-4 h-4 mx-2" />
-              <span className="text-zinc-300">{product.name}</span>
-            </nav>
+            {breadcrumbItems && <Breadcrumbs items={breadcrumbItems} align="center" className="mb-6" />}
             <p className={`inline-block text-xs tracking-widest mb-3 ${accentText}`}>
               {product.groupLabel}
             </p>

@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { carMatGalleryImages } from "@/lib/carmat-products";
 
-export function CarMatHero() {
+export function CarMatHero({ breadcrumbItems }: { breadcrumbItems?: readonly BreadcrumbItem[] }) {
   const heroImage = carMatGalleryImages[0]!;
 
   return (
@@ -19,13 +21,9 @@ export function CarMatHero() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14 md:pt-24 md:pb-20">
-        <nav className="mb-8 flex items-center text-sm text-zinc-500">
-          <Link href="/product" className="hover:text-white transition-colors">
-            产品中心
-          </Link>
-          <ChevronRight className="mx-2 h-4 w-4" aria-hidden="true" />
-          <span className="text-zinc-300">汽车垫</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
 
         <div className="grid gap-10 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>

@@ -18,6 +18,7 @@ import {
   xpengGxFaq,
 } from "@/lib/xpeng-gx-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const CANONICAL_PATH = "/product/xpeng/gx";
 
@@ -70,6 +71,9 @@ export default function XpengGxTopicPage() {
   const totalScenarios = xpengGxScenarios.length;
   const totalBundles = xpengGxBundles.length;
 
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+  const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -99,6 +103,7 @@ export default function XpengGxTopicPage() {
           totalProjects={totalProjects}
           scenarioCount={totalScenarios}
           heroImage={XPENG_GX_HERO_IMAGE}
+          breadcrumbItems={breadcrumbItems}
         />
 
         {/* 场景矩阵 */}
@@ -158,6 +163,12 @@ export default function XpengGxTopicPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

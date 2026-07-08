@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ArrowRight } from "lucide-react";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { ZhijieBrandHero } from "@/components/zhijie/ZhijieBrandHero";
 import { ZhijieBrandServiceFlow } from "@/components/zhijie/ZhijieBrandServiceFlow";
 
@@ -54,6 +55,8 @@ export default function ZhijieBrandPage() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   const v9 = getModelRoute("zhijie", "v9");
   if (!v9) notFound();
+  const breadcrumbItems = getProductBreadcrumbs("/product/zhijie");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/zhijie");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -72,7 +75,7 @@ export default function ZhijieBrandPage() {
     <>
       <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
-        <ZhijieBrandHero totalModels={1} totalProjects={14} />
+        <ZhijieBrandHero totalModels={1} totalProjects={14} breadcrumbItems={breadcrumbItems} />
 
         {/* V9 车型卡 */}
         <section className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900">
@@ -170,6 +173,12 @@ export default function ZhijieBrandPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

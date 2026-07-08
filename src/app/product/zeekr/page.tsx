@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PhoneCta } from "@/components/cta/PhoneCta";
@@ -13,6 +12,8 @@ import {
   zeekrProductsByModel,
   zeekrTopicMeta,
 } from "@/lib/zeekr-products";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: `${zeekrTopicMeta.title} | 9X / 8X / 009 改装配件 | 蓝辉轻改 LANHUI`,
@@ -28,6 +29,8 @@ export const metadata: Metadata = {
 };
 
 export default function ZeekrTopicPage() {
+  const breadcrumbItems = getProductBreadcrumbs("/product/zeekr");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/zeekr");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -51,16 +54,9 @@ export default function ZeekrTopicPage() {
             <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-orange-700/20 blur-3xl" />
           </div>
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-            <nav className="flex items-center text-sm text-zinc-500 mb-6">
-              <Link
-                href="/product"
-                className="hover:text-white transition-colors"
-              >
-                产品中心
-              </Link>
-              <ChevronRight className="w-4 h-4 mx-2" />
-              <span className="text-zinc-300">{zeekrTopicMeta.title}</span>
-            </nav>
+            {breadcrumbItems && breadcrumbItems.length > 0 && (
+              <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               <div>
@@ -289,6 +285,12 @@ export default function ZeekrTopicPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

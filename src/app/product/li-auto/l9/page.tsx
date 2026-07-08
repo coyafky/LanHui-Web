@@ -8,6 +8,7 @@ import { LiAutoL9Bundles } from "@/components/li-auto/LiAutoL9Bundles";
 import { LiAutoL9ServiceFlow } from "@/components/li-auto/LiAutoL9ServiceFlow";
 import { LiAutoL9Faq } from "@/components/li-auto/LiAutoL9Faq";
 import { LiAutoL9TopicViewTrack } from "@/components/li-auto/LiAutoL9TopicViewTrack";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   liAutoL9UpgradeProjects,
   liAutoL9Scenarios,
@@ -51,6 +52,9 @@ export const metadata: Metadata = {
 };
 
 export default function LiAutoL9Page() {
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+  const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -81,6 +85,7 @@ export default function LiAutoL9Page() {
           totalScenarios={liAutoL9Scenarios.length}
           totalBundles={liAutoL9Bundles.length}
           canonicalPath={CANONICAL_PATH}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <section id="li-auto-l9-projects">
@@ -127,6 +132,12 @@ export default function LiAutoL9Page() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

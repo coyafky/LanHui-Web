@@ -17,6 +17,7 @@ import {
   zeekr8xFaq,
 } from "@/lib/zeekr-8x-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { notFound } from "next/navigation";
 
 const MODEL_NAME = "极氪 8X";
@@ -68,6 +69,9 @@ export default function Zeekr8xPage() {
     notFound();
   }
 
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+  const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -98,6 +102,7 @@ export default function Zeekr8xPage() {
           totalScenarios={zeekr8xScenarios.length}
           canonicalPath={CANONICAL_PATH}
           heroImage={ZEEKR_8X_HERO_IMAGE}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <Zeekr8xScenarioMatrix
@@ -148,6 +153,12 @@ export default function Zeekr8xPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

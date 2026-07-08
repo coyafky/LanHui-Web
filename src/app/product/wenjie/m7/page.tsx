@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
 import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelProjectGrid";
 import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScenarios";
@@ -51,6 +52,9 @@ export default function WenjieM7Page() {
   const model = getModelRoute("wenjie", "m7");
   if (!model || model.type !== "vehicle_model") notFound();
 
+  const breadcrumbItems = getProductBreadcrumbs("/product/wenjie/m7");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/wenjie/m7");
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -76,6 +80,7 @@ export default function WenjieM7Page() {
           tagline="必改产品 / 高级商务升级 / 实用小配件"
           totalProjects={30}
           canonicalPath={model.canonicalPath}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <WenjieModelProjectGrid
@@ -151,6 +156,12 @@ export default function WenjieM7Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

@@ -16,6 +16,7 @@ import { MobileProductContent } from "@/components/product/MobileProductContent"
 import { P1ServiceCard } from "@/components/product/P1ServiceCard";
 import { PracticalAccessoryMap } from "@/components/product/PracticalAccessoryMap";
 import { CarCareServiceMap } from "@/components/product/CarCareServiceMap";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "产品中心 | 蓝辉轻改 LANHUI",
@@ -24,6 +25,8 @@ export const metadata: Metadata = {
 };
 
 export default function ProductCenter() {
+  const breadcrumbItems = getProductBreadcrumbs("/product");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product");
   const liveBrands = getLiveBrands();
   const liveServices = getLiveServices();
 
@@ -93,6 +96,7 @@ export default function ProductCenter() {
         <ProductHero
           liveBrands={liveBrands}
           plannedCount={ALL_SERVICES.length}
+          breadcrumbItems={breadcrumbItems}
         />
 
         {/* Phase 3-4: 移动端三段切换 / 桌面端平铺 */}
@@ -155,6 +159,12 @@ export default function ProductCenter() {
         </MobileProductContent>
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

@@ -6,6 +6,7 @@ import {
   getAllWindowFilmPackageSlugsWithDetails,
   getWindowFilmPackageWithDetails,
 } from "@/lib/window-film-details";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 type Params = { packageSlug: string };
 
@@ -47,10 +48,19 @@ export default async function WindowFilmPackagePage({
   const pkg = getWindowFilmPackageWithDetails(packageSlug);
   if (!pkg) notFound();
 
+  const breadcrumbItems = getProductBreadcrumbs("/product/window-film");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/window-film");
+
   return (
     <>
       <Header />
-      <WindowFilmPackageDetail pkg={pkg} />
+      <WindowFilmPackageDetail pkg={pkg} breadcrumbItems={breadcrumbItems} />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

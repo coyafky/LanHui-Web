@@ -1,12 +1,14 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 import { getModelRoute } from "@/lib/product-routes";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 
 type LiAutoSeriesHeroProps = {
   title: string;
   subtitle: string;
   totalProjects: number;
   totalModels: number;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 type SubModelAnchor = { label: string; href: string; isPlanned: boolean };
@@ -34,6 +36,7 @@ export function LiAutoSeriesHero({
   subtitle,
   totalProjects,
   totalModels,
+  breadcrumbItems,
 }: LiAutoSeriesHeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -42,16 +45,9 @@ export function LiAutoSeriesHero({
         <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-amber-700/20 blur-3xl" />
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6">
-          <Link
-            href="/product"
-            className="hover:text-white transition-colors"
-          >
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <span className="text-zinc-300">理想系列升级方案</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div>

@@ -4,6 +4,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelsByBrand } from "@/lib/product-routes";
 import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "高山轻改方案｜蓝辉轻改 LANHUI",
@@ -17,10 +19,15 @@ export default async function GaoshanBrandPage() {
     name: m.modelName,
     href: m.canonicalPath,
   }));
+  const breadcrumbItems = getProductBreadcrumbs("/product/gaoshan");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/gaoshan");
   return (
     <>
       <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow">
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
         <BrandPlaceholder
           title={`${brand.brandName}轻改方案`}
           subtitle={`蓝辉轻改整理${brand.brandName}热门车型的轻改与膜系方案，方案由团队整理中。`}
@@ -30,6 +37,12 @@ export default async function GaoshanBrandPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

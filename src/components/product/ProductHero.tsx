@@ -15,10 +15,13 @@ import { VehicleSilhouette } from "./VehicleSilhouette";
 import { MaterialSlice, type MaterialKey } from "./MaterialSlice";
 import { BrandMatrixMap } from "./BrandMatrixMap";
 import type { VehicleBrandRoute } from "@/lib/product-routes";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 
 type Props = {
   liveBrands: readonly VehicleBrandRoute[];
   plannedCount: number;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 const SLICE_TO_HREF: Record<MaterialKey, string> = {
@@ -30,7 +33,7 @@ const SLICE_TO_HREF: Record<MaterialKey, string> = {
 
 const SLICE_KEYS: readonly MaterialKey[] = ["ppf", "window-film", "wheel", "step"];
 
-export function ProductHero({ liveBrands, plannedCount }: Props) {
+export function ProductHero({ liveBrands, plannedCount, breadcrumbItems }: Props) {
   return (
     <section
       className="relative bg-zinc-950 text-white overflow-hidden border-b border-zinc-900"
@@ -44,6 +47,9 @@ export function ProductHero({ liveBrands, plannedCount }: Props) {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 md:pt-20 md:pb-16">
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
         {/* Eyebrow */}
         <p className="text-xs tracking-widest text-orange-400 mb-3 text-center md:text-left">
           PRODUCT CENTER · 产品中心

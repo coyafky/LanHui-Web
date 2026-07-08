@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 
 export type NioEs8HeroProps = {
   totalProjects: number;
   totalScenarios: number;
   totalBundles: number;
   canonicalPath: string;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 const SCENARIO_ANCHORS: readonly {
@@ -31,6 +33,7 @@ export function NioEs8Hero({
   totalScenarios,
   totalBundles,
   canonicalPath,
+  breadcrumbItems,
 }: NioEs8HeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -40,23 +43,9 @@ export function NioEs8Hero({
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6">
-          <Link
-            href="/product"
-            className="hover:text-white transition-colors"
-          >
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <Link
-            href="/product/nio"
-            className="hover:text-white transition-colors"
-          >
-            蔚来系列
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <span className="text-zinc-300">蔚来 ES8</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
 
         <p className="text-sm tracking-widest text-sky-400 mb-3">
           NIO ES8 UPGRADE
