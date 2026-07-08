@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { getServiceRoute } from "@/lib/product-routes";
 import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -19,7 +17,6 @@ export default async function BusinessComfortPage() {
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/business-comfort");
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow">
         {breadcrumbItems && breadcrumbItems.length > 0 && (
           <Breadcrumbs items={breadcrumbItems} className="mb-6" />
@@ -32,7 +29,6 @@ export default async function BusinessComfortPage() {
           serviceMeta={{ group: service.group, priority: service.priority }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

@@ -1,6 +1,4 @@
 import { Check, Sparkles, Shield, Package, Palette, Droplets } from "lucide-react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 import { serviceGuarantee, type Product } from "@/lib/products";
 
@@ -48,8 +46,6 @@ export function ProductDetail({ product, breadcrumbItems }: ProductDetailProps) 
       : "bg-zinc-950";
 
   return (
-    <>
-      <Header />
       <main className="flex-grow flex flex-col">
         {/* Hero */}
         <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -457,7 +453,5 @@ export function ProductDetail({ product, breadcrumbItems }: ProductDetailProps) 
         </section>
 
       </main>
-      <Footer />
-    </>
   );
 }

@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { LiAutoMegaHero } from "@/components/li-auto/LiAutoMegaHero";
 import { LiAutoMegaProjectGrid } from "@/components/li-auto/LiAutoMegaProjectGrid";
 import { LiAutoMegaBundles } from "@/components/li-auto/LiAutoMegaBundles";
@@ -72,7 +70,6 @@ export default function LiAutoMegaPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <LiAutoMegaTopicViewTrack
           topicKey="li-auto-mega"
@@ -125,7 +122,6 @@ export default function LiAutoMegaPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

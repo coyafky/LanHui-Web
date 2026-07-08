@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
@@ -80,7 +78,6 @@ export default async function XiaomiYu7Page() {
         modelSlug="yu7"
         projectCount={XIAOMI_YU7_PROJECT_COUNT}
       />
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow">
         {/* Hero */}
         <XiaomiYu7Hero
@@ -142,7 +139,6 @@ export default async function XiaomiYu7Page() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

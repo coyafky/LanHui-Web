@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { PhoneCta } from "@/components/cta/PhoneCta";
 import { ZeekrAnchorNav } from "@/components/zeekr/ZeekrAnchorNav";
 import { ZeekrProductGrid } from "@/components/zeekr/ZeekrProductGrid";
@@ -45,7 +43,6 @@ export default function ZeekrTopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         {/* Hero */}
         <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -278,7 +275,6 @@ export default function ZeekrTopicPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       {/* JSON-LD 结构化数据 */}
       <script

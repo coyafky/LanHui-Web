@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { DenzaD9TopicViewTrack } from "@/components/denza/DenzaD9TopicViewTrack";
 import { DenzaD9TopicHero } from "@/components/denza/DenzaD9TopicHero";
 import { DenzaD9ProjectGrid } from "@/components/denza/DenzaD9ProjectGrid";
@@ -81,7 +79,6 @@ export default function DenzaD9TopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <DenzaD9TopicViewTrack
           topicKey="denza-d9"
@@ -148,7 +145,6 @@ export default function DenzaD9TopicPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

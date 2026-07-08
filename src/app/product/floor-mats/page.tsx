@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { CarMatGallery } from "@/components/product/carmat/CarMatGallery";
 import { CarMatHero } from "@/components/product/carmat/CarMatHero";
 import { CarMatServiceFlow } from "@/components/product/carmat/CarMatServiceFlow";
@@ -54,7 +52,6 @@ export default function FloorMatsPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow">
         <script
           type="application/ld+json"
@@ -65,7 +62,6 @@ export default function FloorMatsPage() {
         <CarMatGallery />
         <CarMatServiceFlow />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

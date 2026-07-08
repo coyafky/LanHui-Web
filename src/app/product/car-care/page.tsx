@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { CarCareHero } from "@/components/product/car-care/CarCareHero";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { CarCareValueGrid } from "@/components/product/car-care/CarCareValueGrid";
@@ -50,14 +48,12 @@ export default function CarCarePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <CarCareHero breadcrumbItems={breadcrumbItems} />
         <CarCareValueGrid />
         <CarCareServiceGrid />
         <CarCareServiceFlow />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

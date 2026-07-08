@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
@@ -78,7 +76,6 @@ export default async function WenjieM8Page() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow bg-zinc-950">
         <WenjieModelUpgradeHero
           modelKey={MODEL_KEY}
@@ -183,7 +180,6 @@ export default async function WenjieM8Page() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

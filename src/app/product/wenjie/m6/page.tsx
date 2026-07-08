@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
 import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelProjectGrid";
 import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScenarios";
@@ -89,7 +87,6 @@ export default function WenjieM6Page() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <WenjieModelUpgradeHero
           modelKey="M6"
@@ -174,7 +171,6 @@ export default function WenjieM6Page() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

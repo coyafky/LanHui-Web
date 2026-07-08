@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
 import { WindowFilmPackageDetail } from "@/components/window-film/WindowFilmPackageDetail";
 import {
   getAllWindowFilmPackageSlugsWithDetails,
@@ -53,7 +52,6 @@ export default async function WindowFilmPackagePage({
 
   return (
     <>
-      <Header />
       <WindowFilmPackageDetail pkg={pkg} breadcrumbItems={breadcrumbItems} />
       {breadcrumbSchema && (
         <script

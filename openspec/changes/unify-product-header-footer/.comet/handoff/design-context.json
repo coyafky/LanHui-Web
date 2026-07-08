@@ -1,0 +1,13 @@
+{
+  "change": "unify-product-header-footer",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "62861a0aa564bb07ca1685a99608eee6363691e4c114b8cc0d643be32f4716cd",
+  "files": [
+    { "path": "openspec/changes/unify-product-header-footer/proposal.md", "sha256": "7e1101765e458612e7168025eb509a68357b5dd023cbad6ec97d4b1f69544df2" },
+    { "path": "openspec/changes/unify-product-header-footer/design.md", "sha256": "3fe85699e836a98f211c3def7d0095feb07164c8727b704a30e7b981bb16452a" },
+    { "path": "openspec/changes/unify-product-header-footer/tasks.md", "sha256": "3ca5c129728526597071d7ac414f5649b84714cc271f9490cc53f96a0b523a56" }
+  ]
+}

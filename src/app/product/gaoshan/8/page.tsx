@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { Gaoshan8TopicViewTrack } from "@/components/gaoshan/Gaoshan8TopicViewTrack";
 import { Gaoshan8Hero } from "@/components/gaoshan/Gaoshan8Hero";
 import { Gaoshan8ProjectGrid } from "@/components/gaoshan/Gaoshan8ProjectGrid";
@@ -84,7 +82,6 @@ export default function Gaoshan8TopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <Gaoshan8TopicViewTrack
           topicKey="gaoshan-8"
@@ -144,7 +141,6 @@ export default function Gaoshan8TopicPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       <script
         type="application/ld+json"

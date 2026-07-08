@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Footer } from "@/components/Footer";
 import { FilmPageHero } from "@/components/film/FilmPageHero";
 import { SpecsTable } from "@/components/film/SpecsTable";
 import { ServiceGuaranteeSection } from "@/components/film/ServiceGuaranteeSection";
@@ -165,7 +164,6 @@ export default function WindowFilmPage() {
         <ServiceGuaranteeSection />
       </main>
 
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

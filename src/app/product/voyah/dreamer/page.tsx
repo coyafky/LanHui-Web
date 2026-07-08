@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { VoyahDreamerTopicViewTrack } from "@/components/voyah/VoyahDreamerTopicViewTrack";
 import { VoyahDreamerHero } from "@/components/voyah/VoyahDreamerHero";
 import { VoyahDreamerProjectGrid } from "@/components/voyah/VoyahDreamerProjectGrid";
@@ -78,7 +76,6 @@ export default function VoyahDreamerTopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <VoyahDreamerTopicViewTrack
           topicKey="voyah-dreamer"
@@ -138,7 +135,6 @@ export default function VoyahDreamerTopicPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       <script
         type="application/ld+json"

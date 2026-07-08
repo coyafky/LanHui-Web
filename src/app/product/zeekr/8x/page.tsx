@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { Zeekr8xHero } from "@/components/zeekr-8x/Zeekr8xHero";
 import { Zeekr8xTopicViewTrack } from "@/components/zeekr-8x/Zeekr8xTopicViewTrack";
 import { Zeekr8xScenarioMatrix } from "@/components/zeekr-8x/Zeekr8xScenarioMatrix";
@@ -88,7 +86,6 @@ export default function Zeekr8xPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <Zeekr8xTopicViewTrack
           topicKey="zeekr-8x"
@@ -152,7 +149,6 @@ export default function Zeekr8xPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

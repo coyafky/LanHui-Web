@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { ElectricStepFitmentCloud } from "@/components/product/electric-steps/ElectricStepFitmentCloud";
 import { ElectricStepGallery } from "@/components/product/electric-steps/ElectricStepGallery";
 import { ElectricStepHero } from "@/components/product/electric-steps/ElectricStepHero";
@@ -55,7 +53,6 @@ export default function ElectricStepsPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow">
         <script
           type="application/ld+json"
@@ -67,7 +64,6 @@ export default function ElectricStepsPage() {
         <ElectricStepGallery />
         <ElectricStepServiceFlow />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
