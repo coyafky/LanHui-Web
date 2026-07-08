@@ -2,6 +2,7 @@
 change: store-search-suggestions
 design-doc: docs/superpowers/specs/2026-07-08-store-search-suggestions-design.md
 base-ref: 089fd10bb4632e104876f01aca0bb00013ec8a29
+archived-with: 2026-07-08-store-search-suggestions
 ---
 
 # StoreSearch 下拉建议模块 — 实现计划
@@ -17,6 +18,7 @@ base-ref: 089fd10bb4632e104876f01aca0bb00013ec8a29
 
 **技术栈：** Next.js 16 App Router + React 19 + Tailwind v4 + vitest + @testing-library/react + Lucide React
 
+archived-with: 2026-07-08-store-search-suggestions
 ---
 
 ## 文件清单
@@ -48,6 +50,7 @@ type StoreSuggestion = {
 type DropdownStatus = "idle" | "loading" | "open" | "empty" | "error";
 ```
 
+archived-with: 2026-07-08-store-search-suggestions
 ---
 
 ### 任务 1：API 搜索字段扩展
@@ -99,6 +102,7 @@ type DropdownStatus = "idle" | "loading" | "open" | "empty" | "error";
   git commit -m "feat: extend store search OR to provinceLabel/cityLabel/district"
   ```
 
+archived-with: 2026-07-08-store-search-suggestions
 ---
 
 ### 任务 2：StoreSearch 组件重构 — 添加 suggestions 状态机
@@ -490,6 +494,7 @@ type DropdownStatus = "idle" | "loading" | "open" | "empty" | "error";
   git commit -m "feat: add StoreSearch dropdown with debounce fetch and keyboard nav"
   ```
 
+archived-with: 2026-07-08-store-search-suggestions
 ---
 
 ### 任务 3：StoreSearch 测试
@@ -859,6 +864,7 @@ type DropdownStatus = "idle" | "loading" | "open" | "empty" | "error";
   git commit -m "test: add StoreSearch dropdown tests for debounce/keyboard/IME/empty"
   ```
 
+archived-with: 2026-07-08-store-search-suggestions
 ---
 
 ### 任务 4：最终验证
@@ -908,6 +914,7 @@ type DropdownStatus = "idle" | "loading" | "open" | "empty" | "error";
   git commit -m "feat: store search suggestions dropdown with combobox ARIA"
   ```
 
+archived-with: 2026-07-08-store-search-suggestions
 ---
 
 ## 自检清单
