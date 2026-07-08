@@ -116,8 +116,8 @@ describe("ArticleFormSchema", () => {
       });
       expect(result.success).toBe(false);
       if (!result.success) {
-        expect(result.error.flatten().fieldErrors.slug?.[0]).toMatch(
-          /只允许小写字母/,
+        expect(result.error.flatten().fieldErrors.slug?.[0]).toBe(
+          "只允许小写字母、数字、短横线",
         );
       }
     });
@@ -246,6 +246,19 @@ describe("ArticleFormSchema", () => {
       const result = ArticleFormSchema.safeParse({
         ...validData,
         featuredImage: "/uploads/cover.jpg",
+      });
+      expect(result.success).toBe(false);
+      if (!result.success) {
+        expect(result.error.flatten().fieldErrors.featuredImage?.[0]).toBe(
+          "封面图路径无效",
+        );
+      }
+    });
+
+    it("拒绝外部 URL 图片路径", () => {
+      const result = ArticleFormSchema.safeParse({
+        ...validData,
+        featuredImage: "https://example.com/image.webp",
       });
       expect(result.success).toBe(false);
       if (!result.success) {
