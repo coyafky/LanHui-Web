@@ -58,15 +58,6 @@ function checkPsql() {
   }
 }
 
-function checkGunzip() {
-  try {
-    execFileSync("gunzip", ["--version"], { stdio: "pipe" });
-    return true;
-  } catch {
-    return false;
-  }
-}
-
 function isGzipped(filePath) {
   return filePath.endsWith(".gz");
 }
@@ -162,10 +153,6 @@ function restore() {
   // Read and optionally decompress the backup
   let sqlContent;
   if (isGzipped(filePath)) {
-    if (!checkGunzip()) {
-      console.error("ERROR: gunzip not found. It should be available on all Unix systems.");
-      process.exit(1);
-    }
     console.log(`Decompressing ${filePath}...`);
     sqlContent = gunzipSync(readFileSync(filePath));
   } else {
@@ -186,6 +173,10 @@ function restore() {
       env,
       maxBuffer: 500 * 1024 * 1024, // 500MB
     });
+  } catch (err) {
+    console.error("ERROR: psql restore failed.");
+    console.error(err.stderr?.toString() || err.message);
+    process.exit(1);
   } finally {
     // PGPASSWORD only existed in the forked env
   }

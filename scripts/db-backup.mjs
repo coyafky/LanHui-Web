@@ -77,7 +77,8 @@ function getBackupFiles(dir) {
 function formatBytes(bytes) {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(2)} GB`;
 }
 
 function formatDuration(ms) {
@@ -173,6 +174,10 @@ function backup() {
 
     const compressed = gzipSync(dump, { level: 6 });
     writeFileSync(filePath, compressed);
+  } catch (err) {
+    console.error("ERROR: pg_dump failed. Ensure the database is reachable.");
+    console.error(err.stderr?.toString() || err.message);
+    process.exit(1);
   } finally {
     // PGPASSWORD only existed in the forked env, but clear it anyway
   }
