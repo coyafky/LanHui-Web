@@ -170,7 +170,7 @@ describe("PUT /api/stores/[id] — 不动省/市的纯字段更新", () => {
     );
     expect(res.status).toBe(400);
     const json = (await res.json()) as { details?: Record<string, string[]> };
-    expect(json.details?.phone).toContain("联系电话必须为 11 位数字");
+    expect(json.details?.phone).toContain("请输入 11 位手机号，不支持座机或带横线号码");
     expect(mockStoreUpdate).not.toHaveBeenCalled();
   });
 

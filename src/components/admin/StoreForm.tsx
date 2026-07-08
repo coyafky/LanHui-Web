@@ -436,7 +436,7 @@ export function StoreForm({
         <div className="grid gap-5 sm:grid-cols-2">
           {/* Phone */}
           <FieldWrapper
-            label="联系电话"
+            label="门店联系手机号"
             icon={Phone}
             required
             error={errors.phone?.message}
@@ -444,7 +444,9 @@ export function StoreForm({
             <input
               {...register("phone")}
               type="tel"
-              placeholder="例：0757-2288 1001"
+              inputMode="numeric"
+              maxLength={11}
+              placeholder="请输入 11 位手机号，例如 13800138000"
               className={inputClasses}
             />
           </FieldWrapper>

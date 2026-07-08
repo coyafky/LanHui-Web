@@ -1,0 +1,3 @@
+schema: spec-driven
+created: 2026-07-08
+goal: 将store.phone的手机号校验规则在代码、表单提示、错误文案、测试中统一表达，防止误填座机

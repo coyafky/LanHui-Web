@@ -3,8 +3,8 @@ import { z } from "zod";
 /** URL 标识格式：小写字母、数字、连字符；不允许连续连字符 */
 export const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
-/** PRD 一期：联系电话只接受中国大陆 11 位数字 */
-export const PHONE_REGEX = /^\d{11}$/;
+/** 业务规则：门店联系电话只接受 11 位手机号，不接受座机、分机、短号或带横线号码。 */
+export const MOBILE_PHONE_REGEX = /^\d{11}$/;
 
 export const STORE_STATUSES = [
   "pending",
@@ -96,8 +96,8 @@ export const StoreCreateSchema = z.object({
   phone: z
     .string()
     .trim()
-    .min(1, "联系电话不能为空")
-    .regex(PHONE_REGEX, "联系电话必须为 11 位数字"),
+    .min(1, "门店联系手机号不能为空")
+    .regex(MOBILE_PHONE_REGEX, "请输入 11 位手机号，不支持座机或带横线号码"),
   /**
    * phoneTel 由表单 useEffect 从 phone 自动派生，不作为必填输入。
    * 保留字段以兼容旧数据与 API。

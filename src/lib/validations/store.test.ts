@@ -148,7 +148,7 @@ describe("StoreCreateSchema", () => {
       expect(result.success).toBe(false);
       if (!result.success) {
         expect(result.error.flatten().fieldErrors.phone).toContain(
-          "联系电话必须为 11 位数字"
+          "请输入 11 位手机号，不支持座机或带横线号码"
         );
       }
     });
@@ -167,6 +167,41 @@ describe("StoreCreateSchema", () => {
         phone: "13800138000",
       });
       expect(result.success).toBe(true);
+    });
+
+    describe("手机号格式校验（业务规则：只接受 11 位手机号，不接受座机）", () => {
+      const validPhones = ["13800138000", "19912345678"];
+      const invalidPhones = [
+        { phone: "0757-22881001", desc: "带连字符的座机" },
+        { phone: "075722881001", desc: "12 位数字（无连字符座机）" },
+        { phone: "400-888-8888", desc: "400 服务热线" },
+        { phone: "12345", desc: "短号" },
+        { phone: "1380013800a", desc: "含字母" },
+        { phone: "+8613800138000", desc: "带 +86 国际格式" },
+      ];
+
+      it.each(validPhones)("接受合法手机号：%s", (phone) => {
+        const result = StoreCreateSchema.safeParse({ ...validData, phone });
+        expect(result.success).toBe(true);
+      });
+
+      it.each(invalidPhones)("拒绝非手机号：$desc ($phone)", ({ phone }) => {
+        const result = StoreCreateSchema.safeParse({ ...validData, phone });
+        expect(result.success).toBe(false);
+      });
+
+      it("拒绝非手机号时返回明确错误文案", () => {
+        const result = StoreCreateSchema.safeParse({
+          ...validData,
+          phone: "0757-22881001",
+        });
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          expect(result.error.flatten().fieldErrors.phone).toContain(
+            "请输入 11 位手机号，不支持座机或带横线号码"
+          );
+        }
+      });
     });
   });
 
