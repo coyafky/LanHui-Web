@@ -3,7 +3,7 @@
 ## Purpose
 每个城市（provinceSlug + citySlug）最多只能有 1 个非终止状态的星辉旗舰店（level === "flagship"）。
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: 同城旗舰店唯一性校验（创建入口）
 创建门店时，如果目标城市已存在非终止状态的旗舰店，系统必须拒绝创建。
@@ -63,10 +63,3 @@
 ### Requirement: 后台 UI 等级提示
 后台门店新建/编辑表单中，等级字段旁需展示「星辉旗舰店：每个城市最多 1 家」提示文字；API 返回 409 时需在表单错误区域展示后端错误信息。
 
-## MODIFIED Requirements
-
-_（本次无 MODIFIED 需求，均为新增约束。）_
-
-## REMOVED Requirements
-
-_（本次无 REMOVED 需求。）_
