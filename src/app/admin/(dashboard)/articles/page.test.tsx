@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, cleanup, fireEvent, waitFor } from '@testing-library/react';
 
 /**
- * ArticlesPage per-row menu tests (M1-M4)
+ * ArticlesPage per-row menu tests (M1-M5)
  *
  * 策略：
  * - Mock next/navigation (useRouter, useSearchParams) 和全局 fetch
@@ -36,14 +36,26 @@ const SAMPLE_ARTICLE = {
 };
 
 function mockFetchSuccess() {
-  fetchMock.mockResolvedValue({
-    ok: true,
-    status: 200,
-    json: async () => ({
-      success: true,
-      data: [SAMPLE_ARTICLE],
-      pagination: { page: 1, limit: 20, total: 1, totalPages: 1 },
-    }),
+  fetchMock.mockImplementation((url: string) => {
+    if (url.includes('/categories')) {
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          success: true,
+          data: { categories: [{ value: '新闻', label: '新闻', count: 1 }] },
+        }),
+      });
+    }
+    return Promise.resolve({
+      ok: true,
+      status: 200,
+      json: async () => ({
+        success: true,
+        data: [SAMPLE_ARTICLE],
+        pagination: { page: 1, limit: 20, total: 1, totalPages: 1 },
+      }),
+    });
   });
 }
 
@@ -155,6 +167,32 @@ describe('ArticlesPage per-row menu', () => {
 
     // 此时 openMenuId === null，effect 早返回 → 没有 click listener
     expect(clickListenerAddCount).toBe(0);
+  });
+
+  it('M5: 点击删除后弹出 ConfirmDialog', async () => {
+    render(<ArticlesPage />);
+
+    await waitFor(() => {
+      expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
+    });
+
+    // 打开菜单
+    const moreBtn = findMoreButton();
+    fireEvent.click(moreBtn!);
+
+    await waitFor(() => {
+      expect(screen.getByText('删除')).toBeInTheDocument();
+    });
+
+    // 点击删除
+    const deleteBtn = screen.getByText('删除');
+    fireEvent.click(deleteBtn);
+
+    // ConfirmDialog 应该出现
+    await waitFor(() => {
+      expect(screen.getByText('确认删除文章？')).toBeInTheDocument();
+    });
+    expect(screen.getByText('删除后不可恢复')).toBeInTheDocument();
   });
 });
 

@@ -18,6 +18,8 @@ import {
   Pin,
   PinOff,
 } from "lucide-react";
+import { toast } from "sonner";
+import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 
 interface Article {
   id: string;
@@ -59,6 +61,21 @@ interface CategoryOption {
   label: string;
   count?: number;
 }
+
+type ArticleAction = "publish" | "unpublish" | "archive" | "delete";
+
+const ACTION_LABELS: Record<ArticleAction, string> = {
+  publish: "发布",
+  unpublish: "撤回发布",
+  archive: "归档",
+  delete: "删除",
+};
+
+type PendingArticleConfirm =
+  | { type: "single"; article: Article; action: ArticleAction }
+  | { type: "delete"; article: Article }
+  | { type: "bulk"; action: ArticleAction; ids: string[] }
+  | null;
 
 const STATUS_OPTIONS = [
   { value: "", label: "全部状态" },
@@ -103,6 +120,7 @@ function ArticlesPageContent() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [pendingConfirm, setPendingConfirm] = useState<PendingArticleConfirm>(null);
   const containerRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // 拉取 DB 实际存在的分类字典(失败时降级为 CATEGORIES_FALLBACK)
@@ -173,19 +191,9 @@ function ArticlesPageContent() {
     return () => document.removeEventListener("click", handleClick);
   }, [openMenuId]);
 
-  async function handleTogglePublish(article: Article) {
-    const newStatus = article.status === "published" ? "draft" : "published";
-    const res = await fetch(`/api/articles/${article.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: newStatus }),
-    });
-    if (res.ok) {
-      fetchArticles();
-    } else {
-      const json = await res.json().catch(() => ({}));
-      alert(json.error || `${newStatus === "published" ? "发布" : "退回草稿"}失败`);
-    }
+  function handleTogglePublish(article: Article) {
+    const action: ArticleAction = article.status === "published" ? "unpublish" : "publish";
+    setPendingConfirm({ type: "single", article, action });
   }
 
   async function handleToggleSticky(article: Article) {
@@ -203,15 +211,74 @@ function ArticlesPageContent() {
     }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm("确定要删除这篇文章吗？此操作不可撤销。")) return;
-    const res = await fetch(`/api/articles/${id}`, { method: "DELETE" });
-    if (res.ok) {
-      fetchArticles();
-    } else {
-      const json = await res.json();
-      alert(json.error || "删除失败");
+  function handleDelete(article: Article) {
+    setPendingConfirm({ type: "delete", article });
+  }
+
+  function getConfirmDialogProps(pending: NonNullable<PendingArticleConfirm>) {
+    switch (pending.type) {
+      case "single":
+        return {
+          title: `确认${ACTION_LABELS[pending.action]}文章？`,
+          variant: "default" as const,
+        };
+      case "delete":
+        return {
+          title: "确认删除文章？",
+          description: "删除后不可恢复",
+          confirmLabel: "删除",
+          variant: "danger" as const,
+        };
+      case "bulk": {
+        const isDelete = pending.action === "delete";
+        return {
+          title: `确认对 ${pending.ids.length} 篇文章执行${ACTION_LABELS[pending.action]}吗？`,
+          description: isDelete ? "此操作不可撤销" : undefined,
+          confirmLabel: isDelete ? "删除" : "确认",
+          variant: (isDelete ? "danger" : "default") as const,
+        };
+      }
     }
+  }
+
+  async function handleConfirmAction() {
+    if (!pendingConfirm) return;
+    try {
+      if (pendingConfirm.type === "delete") {
+        const res = await fetch(`/api/articles/${pendingConfirm.article.id}`, {
+          method: "DELETE",
+        });
+        if (res.ok) {
+          toast.success("删除成功");
+          setPendingConfirm(null);
+          fetchArticles();
+          return;
+        }
+        const json = await res.json().catch(() => ({}));
+        toast.error(json.error || "删除失败");
+      } else if (pendingConfirm.type === "single") {
+        const { article, action } = pendingConfirm;
+        const body =
+          action === "publish" ? { status: "published" } : { status: "draft" };
+        const res = await fetch(`/api/articles/${article.id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (res.ok) {
+          toast.success(`${ACTION_LABELS[action]}成功`);
+          setPendingConfirm(null);
+          fetchArticles();
+          return;
+        }
+        const json = await res.json().catch(() => ({}));
+        toast.error(json.error || `${ACTION_LABELS[action]}失败`);
+      }
+      // bulk actions handled in future enhancement
+    } catch {
+      toast.error("网络错误，请重试");
+    }
+    setPendingConfirm(null);
   }
 
   function formatDate(dateStr: string | null) {
@@ -430,7 +497,7 @@ function ArticlesPageContent() {
                             </button>
                             <button
                               type="button"
-                              onClick={() => handleDelete(article.id)}
+                              onClick={() => handleDelete(article)}
                               className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-400 transition-colors hover:bg-zinc-800"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
@@ -476,6 +543,15 @@ function ArticlesPageContent() {
             </button>
           </div>
         </div>
+      )}
+
+      {pendingConfirm && (
+        <ConfirmDialog
+          open
+          {...getConfirmDialogProps(pendingConfirm)}
+          onConfirm={handleConfirmAction}
+          onCancel={() => setPendingConfirm(null)}
+        />
       )}
     </div>
   );
