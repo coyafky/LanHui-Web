@@ -14,10 +14,10 @@ describe("product-routes registry", () => {
     expect(ALL_MODELS).toHaveLength(19);
   });
 
-  it("contains exactly 11 services (7 P0 live + 2 P1 live + 2 P1 planned)", () => {
+  it("contains exactly 11 services (8 P0 live + 2 P1 live + 1 P1 planned)", () => {
     expect(ALL_SERVICES).toHaveLength(11);
-    expect(ALL_SERVICES.filter((s) => s.status === "live")).toHaveLength(9);
-    expect(ALL_SERVICES.filter((s) => s.status === "planned")).toHaveLength(2);
+    expect(ALL_SERVICES.filter((s) => s.status === "live")).toHaveLength(10);
+    expect(ALL_SERVICES.filter((s) => s.status === "planned")).toHaveLength(1);
   });
 
   it("all 18 legacy aliases are mapped", () => {

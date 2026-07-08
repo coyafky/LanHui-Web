@@ -32,10 +32,11 @@ export default function DenzaBrandPage() {
         )}
         <BrandPlaceholder
           title={`${brand.brandName}轻改方案`}
-          subtitle={`蓝辉轻改整理${brand.brandName}热门车型的轻改与膜系方案，方案由团队整理中。`}
+          subtitle="蓝辉轻改为腾势 D9 等车型提供轻改与膜系方案"
           status={brand.status}
           accentColor={brand.accentColor}
           models={models}
+          intro="腾势是比亚迪旗下高端新能源品牌。已收录 1 款车型，提供外观、内饰、底盘及膜系轻改服务。"
         />
       </main>
       {breadcrumbSchema && (
