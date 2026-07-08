@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { Sidebar } from "@/components/admin/Sidebar";
+import { Toaster } from "sonner";
 
 /**
  * Dashboard 路由组布局
@@ -34,6 +35,12 @@ export default async function DashboardLayout({
 
         {/* 页面内容 */}
         <main className="flex-1 bg-zinc-950 p-6">{children}</main>
+        <Toaster
+          position="top-center"
+          toastOptions={{
+            style: { background: "#18181b", color: "#e4e4e7", border: "1px solid #27272a" },
+          }}
+        />
       </div>
     </div>
   );
