@@ -235,7 +235,7 @@ function ArticlesPageContent() {
           title: `确认对 ${pending.ids.length} 篇文章执行${ACTION_LABELS[pending.action]}吗？`,
           description: isDelete ? "此操作不可撤销" : undefined,
           confirmLabel: isDelete ? "删除" : "确认",
-          variant: (isDelete ? "danger" : "default") as const,
+          variant: (isDelete ? "danger" : "default") as "danger" | "default",
         };
       }
     }
