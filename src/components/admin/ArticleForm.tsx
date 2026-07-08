@@ -78,14 +78,10 @@ export function ArticleForm({
   onSubmit,
 }: ArticleFormProps) {
   const [tagInput, setTagInput] = useState("");
-  const [localSlugManuallyEdited, setLocalSlugManuallyEdited] =
-    useState(slugManuallyEdited);
+  const [userEditedSlug, setUserEditedSlug] = useState(false);
+  // Derived: prop override OR user-initiated manual edit
+  const localSlugManuallyEdited = slugManuallyEdited || userEditedSlug;
   const [previewMode, setPreviewMode] = useState<"edit" | "preview">("edit");
-
-  // Sync localSlugManuallyEdited when prop changes (e.g. parent resets after save)
-  useEffect(() => {
-    setLocalSlugManuallyEdited(slugManuallyEdited ?? false);
-  }, [slugManuallyEdited]);
 
   const fieldRefs = useRef<Record<string, HTMLElement | null>>({});
 
@@ -121,7 +117,7 @@ export function ArticleForm({
   function handleSlugChange(value: string) {
     onSlugChange(value);
     if (!localSlugManuallyEdited) {
-      setLocalSlugManuallyEdited(true);
+      setUserEditedSlug(true);
     }
   }
 
