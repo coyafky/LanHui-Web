@@ -1,16 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import { ImageIcon } from "lucide-react";
+import { AlertCircle, ImageIcon } from "lucide-react";
 import { trackClick } from "@/lib/analytics";
 import {
-  XIAOMI_YU7_PROJECT_COUNT,
   type XiaomiYu7Category,
+  type XiaomiYu7Scenario,
   type XiaomiYu7UpgradeProject,
 } from "@/lib/xiaomi-yu7-upgrade-projects";
-
-const EXPECTED_PROJECT_COUNT = XIAOMI_YU7_PROJECT_COUNT;
 
 const CATEGORY_LABELS: Record<XiaomiYu7Category, string> = {
   cabin_protection: "座舱保护",
@@ -22,13 +20,15 @@ const CATEGORY_LABELS: Record<XiaomiYu7Category, string> = {
   handling: "操控",
 };
 
-function assertProjectCount(projects: readonly XiaomiYu7UpgradeProject[]): void {
-  if (projects.length !== EXPECTED_PROJECT_COUNT) {
-    throw new Error(
-      `XiaomiYu7ProjectGrid expects ${EXPECTED_PROJECT_COUNT} projects, got ${projects.length}`,
-    );
-  }
-}
+const CATEGORY_ORDER: readonly XiaomiYu7Category[] = [
+  "film_style",
+  "exterior_parts",
+  "cabin_comfort",
+  "cabin_protection",
+  "chassis_protection",
+  "electric_convenience",
+  "handling",
+];
 
 type ProjectCardProps = {
   project: XiaomiYu7UpgradeProject;
@@ -37,6 +37,15 @@ type ProjectCardProps = {
 };
 
 function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
+  const statusLabel =
+    project.imageStatus === "generated-preview"
+      ? "效果预览"
+      : project.imageStatus === "matched"
+        ? "实拍匹配"
+        : project.imageStatus === "pending-review"
+          ? "待复核"
+          : "图片待补充";
+
   const handleClick = () => {
     trackClick("xiaomi_yu7_project_click", {
       projectId: project.id,
@@ -50,7 +59,7 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
   const isMissing = project.imageStatus === "missing";
 
   return (
-    <article className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col">
+    <article className="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden flex flex-col">
       <button
         type="button"
         onClick={handleClick}
@@ -60,20 +69,29 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
       >
         <div className={`relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800 flex items-center justify-center overflow-hidden ${isMissing && !project.publicPath ? "border-dashed border-zinc-700" : ""}`}>
           {project.publicPath ? (
-            <Image
-              src={project.publicPath}
-              alt={project.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            />
+            <>
+              <Image
+                src={project.publicPath}
+                alt={`小米 YU7 ${project.name} 效果预览图`}
+                fill
+                className="object-contain p-2 transition-transform duration-300 group-hover:scale-[1.02]"
+                sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+              />
+              <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-md border border-orange-700/60 bg-zinc-950/80 px-2 py-0.5 text-[10px] font-medium text-orange-200">
+                {project.imageStatus === "generated-preview" ||
+                project.imageStatus === "pending-review" ? (
+                  <AlertCircle className="h-3 w-3" aria-hidden />
+                ) : null}
+                {statusLabel}
+              </span>
+            </>
           ) : isMissing ? (
             <div className="flex flex-col items-center gap-2 text-zinc-600">
               <ImageIcon className="w-8 h-8" aria-hidden />
-              <span className="text-xs">图片待补充</span>
+              <span className="text-xs">{statusLabel}</span>
             </div>
           ) : (
-            <span className="text-zinc-700 text-sm">pending-review</span>
+            <span className="text-zinc-700 text-sm">{statusLabel}</span>
           )}
           <span
             aria-hidden
@@ -140,23 +158,87 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
 
 export type XiaomiYu7ProjectGridProps = {
   projects: readonly XiaomiYu7UpgradeProject[];
+  scenarios: readonly XiaomiYu7Scenario[];
 };
 
-/**
- * 小米 YU7 9 项项目网格（Client）
- * Desktop 3x3，Tablet 2 列，Mobile 1 列
- * 每张卡可点击展开 detail panel（suitableFor + caution）
- */
 export function XiaomiYu7ProjectGrid({
   projects,
+  scenarios,
 }: XiaomiYu7ProjectGridProps) {
-  assertProjectCount(projects);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [activeCategory, setActiveCategory] = useState<XiaomiYu7Category | "all">("all");
   const [openId, setOpenId] = useState<string | null>(null);
+  const [activeScenarioId, setActiveScenarioId] = useState<string | null>(null);
+
+  const activeScenario = useMemo(() => {
+    if (!activeScenarioId) return null;
+    return scenarios.find((s) => s.id === activeScenarioId) ?? null;
+  }, [activeScenarioId, scenarios]);
+
+  const handleHashChange = useCallback(() => {
+    const hash = window.location.hash.replace(/^#/, "");
+    const projectMatch = hash.match(/^xiaomi-yu7-project-(.+)$/);
+    if (projectMatch) {
+      setOpenId(projectMatch[1]);
+      setActiveScenarioId(null);
+      return;
+    }
+
+    const scenarioMatch = hash.match(/^scenario-(.+)$/);
+    if (scenarioMatch) {
+      setActiveScenarioId(scenarioMatch[1]);
+      sectionRef.current?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+
+    setActiveScenarioId(null);
+  }, []);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(handleHashChange);
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [handleHashChange]);
+
+  const scenarioFilteredProjects = useMemo<readonly XiaomiYu7UpgradeProject[]>(() => {
+    if (!activeScenario) return projects;
+    const idSet = new Set(activeScenario.projectIds);
+    return projects.filter((p) => idSet.has(p.id));
+  }, [projects, activeScenario]);
+
+  const filteredProjects = useMemo<readonly XiaomiYu7UpgradeProject[]>(() => {
+    if (activeCategory === "all") return scenarioFilteredProjects;
+    return scenarioFilteredProjects.filter(
+      (p) => p.category === activeCategory,
+    );
+  }, [scenarioFilteredProjects, activeCategory]);
+
+  const handleScenarioClear = useCallback(() => {
+    trackClick("xiaomi_yu7_scenario_clear", {});
+    setActiveScenarioId(null);
+    setActiveCategory("all");
+    window.location.hash = "";
+  }, []);
+
+  const handleCategoryChange = useCallback(
+    (cat: XiaomiYu7Category | "all") => {
+      if (cat === activeCategory) return;
+      trackClick("xiaomi_yu7_category_filter", {
+        category: cat,
+      });
+      setActiveCategory(cat);
+    },
+    [activeCategory],
+  );
 
   return (
     <section
+      ref={sectionRef}
       id="xiaomi-yu7-project-grid"
-      className="py-16 md:py-20 bg-black border-t border-zinc-900 scroll-mt-24"
+      className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900 scroll-mt-24"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 md:mb-10">
@@ -167,12 +249,69 @@ export function XiaomiYu7ProjectGrid({
             小米 YU7 · {projects.length} 个升级项目
           </h2>
           <p className="text-zinc-400 text-sm md:text-base">
-            点击任意卡片展开详情。
+            按分类筛选；点击任意卡片展开详情。
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p) => (
+        {activeScenario ? (
+          <div className="flex items-center gap-2 mb-4 px-4 py-2 rounded-lg bg-orange-950/20 border border-orange-900/40">
+            <span className="text-sm text-orange-300">
+              当前筛选：{activeScenario.name}场景
+            </span>
+            <button
+              type="button"
+              onClick={handleScenarioClear}
+              className="ml-auto text-xs px-2 py-1 rounded-md border border-orange-800/60 text-orange-400 hover:bg-orange-950/40 transition-colors"
+            >
+              清除筛选
+            </button>
+          </div>
+        ) : null}
+
+        <div
+          role="tablist"
+          aria-label="按分类筛选项目"
+          className="flex flex-wrap items-center gap-2 mb-8"
+        >
+          <button
+            type="button"
+            role="tab"
+            aria-selected={activeCategory === "all"}
+            onClick={() => handleCategoryChange("all")}
+            className={`px-3 py-2 rounded-md text-sm transition-colors border ${
+              activeCategory === "all"
+                ? "bg-orange-500/20 border-orange-500 text-orange-200"
+                : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-orange-700/60"
+            }`}
+          >
+            全部（{scenarioFilteredProjects.length}）
+          </button>
+          {CATEGORY_ORDER.map((cat) => {
+            const count = scenarioFilteredProjects.filter(
+              (p) => p.category === cat,
+            ).length;
+            if (count === 0) return null;
+            return (
+              <button
+                key={cat}
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === cat}
+                onClick={() => handleCategoryChange(cat)}
+                className={`px-3 py-2 rounded-md text-sm transition-colors border ${
+                  activeCategory === cat
+                    ? "bg-orange-500/20 border-orange-500 text-orange-200"
+                    : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-orange-700/60"
+                }`}
+              >
+                {CATEGORY_LABELS[cat]}（{count}）
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredProjects.map((p) => (
             <ProjectCard
               key={p.id}
               project={p}
@@ -182,9 +321,9 @@ export function XiaomiYu7ProjectGrid({
           ))}
         </div>
 
-        {projects.length === 0 ? (
+        {filteredProjects.length === 0 ? (
           <p className="text-center text-zinc-500 text-sm py-8">
-            暂无项目
+            当前筛选条件下没有项目
           </p>
         ) : null}
       </div>

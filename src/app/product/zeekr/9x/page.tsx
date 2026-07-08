@@ -82,7 +82,7 @@ export default function Zeekr9xPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <Zeekr9xTopicViewTrack
           topicKey="zeekr-9x"
           brandSlug="zeekr"

@@ -52,7 +52,7 @@ export default function FloorMatsPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow">
+      <main id="main-content" tabIndex={-1} className="flex-grow">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

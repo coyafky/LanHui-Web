@@ -78,7 +78,7 @@ export default function ZhijieV9TopicPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <ZhijieV9TopicViewTrack
           topicKey="zhijie-v9"
           totalProjects={totalProjects}

@@ -102,6 +102,21 @@
 
 ## 5. 测试实现规格
 
+### 5.0 TDD RED 阶段（编码前必须完成）
+
+进入 Build Slice 前，必须先把 SPEC §7 的测试用例清单转化为测试文件骨架，并验证它们全部 FAIL。
+
+| AC-ID | 测试文件 | 测试用例名 | RED 验证 |
+|-------|---------|-----------|---------|
+| XXX-AC-01 | `xxx.test.ts` | "should create → 201" | ❌ FAIL |
+| XXX-AC-02 | `xxx.test.ts` | "missing name → 400" | ❌ FAIL |
+
+- [ ] 所有测试骨架已创建
+- [ ] `npx vitest run <test-file>` 确认全部 FAIL（RED phase）
+- [ ] mock/prisma/auth stub 已就位（参考现有 route.test.ts 模式：`vi.hoisted` + `vi.mock('@/lib/prisma')` + `vi.resetModules` + 动态 `await import('./route')`）
+
+### 5.1 测试类型覆盖
+
 | 类型 | 文件 | 覆盖内容 |
 |---|---|---|
 | Unit | `src/lib/*.test.ts` | ... |

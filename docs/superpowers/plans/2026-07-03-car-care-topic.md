@@ -2,6 +2,7 @@
 change: car-care-service-topic
 design-doc: docs/superpowers/specs/2026-07-03-car-care-topic-design.md
 base-ref: a98900c07d080f6b840dac32ac4881d6ee050143
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 # 洗美养护专题页实现计划
@@ -14,6 +15,7 @@ base-ref: a98900c07d080f6b840dac32ac4881d6ee050143
 
 **技术栈：** Lucide React icons（Droplets, Sparkles, Leaf, Clock, SprayCan 等）、现有 `product-routes.ts` 路由注册模式、`CoreServices.tsx` 扩展模式、Tailwind v4 emerald 色系。
 
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 ## 文件结构
@@ -32,6 +34,7 @@ base-ref: a98900c07d080f6b840dac32ac4881d6ee050143
 | `src/components/CoreServices.tsx` | **修改** | 加 Droplets 洗美养护卡片、网格从 `lg:grid-cols-3` 改为 `lg:grid-cols-2`、更新 section 描述 |
 | `src/app/product/page.tsx` | **修改** | 加 car-care 筛选 + 在 `#service-projects` 区域渲染 CarCareServiceMap 入口 |
 
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 ### 任务 1：路由注册 + 静态数据层
@@ -325,6 +328,7 @@ git add src/lib/product-routes.test.ts
 git commit -m "test: update product-routes tests for car-care service"
 ```
 
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 ### 任务 2：页面组件
@@ -727,6 +731,7 @@ git add src/app/product/car-care/page.tsx
 git commit -m "feat: create car-care RSC page with components and JSON-LD"
 ```
 
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 ### 任务 3：首页与产品中心集成
@@ -927,6 +932,7 @@ git add src/app/product/page.tsx src/components/product/CarCareServiceMap.tsx
 git commit -m "feat: integrate car-care service map into product center page"
 ```
 
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 ### 任务 4：验证
@@ -964,6 +970,7 @@ npm run dev
 2. **首页** — CoreServices 展示 4 个卡片（含洗美养护），网格为 md:grid-cols-2
 3. **`/product`** — 项目区域展示 CarCareServiceMap 入口卡片
 
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 ## 自检清单
@@ -997,6 +1004,7 @@ npm run dev
 - `CarCarePage` 使用 `export default function CarCarePage()`（RSC 约定）
 - JSON-LD 结构字段名与 schema.org ItemList 规范一致
 
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 ## 总结
@@ -1021,6 +1029,7 @@ npm run dev
 
 **验证步骤：** typecheck → test → build → 浏览器验证。
 
+archived-with: 2026-07-03-car-care-service-topic
 ---
 
 **计划已完成并保存到 `docs/superpowers/plans/2026-07-03-car-care-topic.md`。两种执行方式：**

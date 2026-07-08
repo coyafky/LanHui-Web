@@ -84,8 +84,8 @@
 | [XIAOMI_TOPIC_PRD_2026-06-20.md](../../PRD/product/XIAOMI_TOPIC_PRD_2026-06-20.md) | `/product/xiaomi` | [product-topics.md](./product-topics.md) | [product-center.md](./product-center.md), [topic-pattern.md](../components/topic-pattern.md) | 已实现 v1，待拆 SU7/YU7 |
 | [XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md](../../PRD/product/XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md) | `/product/xiaomi` | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | 规划中 |
 | [ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md](../../PRD/product/ZEEKR_MODIFICATION_TOPIC_PRD_2026-06-16.md) | `/product/zeekr` | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | canonical 示例 |
-| [TESLA_TOPIC_PRD_2026-06-24.md](../../PRD/product/TESLA_TOPIC_PRD_2026-06-24.md) | `/product/tesla` | [product-topics.md](./product-topics.md) | [product-center.md](./product-center.md), [topic-pattern.md](../components/topic-pattern.md) | 待实现 |
-| [LI_AUTO_TOPIC_PRD_2026-06-24.md](../../PRD/product/LI_AUTO_TOPIC_PRD_2026-06-24.md) | `/product/li-auto` | [product-topics.md](./product-topics.md) | [product-center.md](./product-center.md), [topic-pattern.md](../components/topic-pattern.md) | 待实现 |
+| [TESLA_TOPIC_PRD_2026-06-24.md](../../PRD/product/TESLA_TOPIC_PRD_2026-06-24.md) | `/product/tesla` | [product-topics.md](./product-topics.md) | [models/tesla.md](./product/models/tesla.md), [product-center.md](./product-center.md), [topic-pattern.md](../components/topic-pattern.md) | ⬜ 未开始（驱动型 SPEC 已创建） |
+| [LI_AUTO_TOPIC_PRD_2026-06-24.md](../../PRD/product/LI_AUTO_TOPIC_PRD_2026-06-24.md) | `/product/li-auto` | [product-topics.md](./product-topics.md) | [models/li-auto.md](./product/models/li-auto.md), [product-center.md](./product-center.md), [topic-pattern.md](../components/topic-pattern.md) | ⬜ 未开始（驱动型 SPEC 已创建） |
 
 ---
 
@@ -108,6 +108,12 @@
 | [LEDAO_L90_TOPIC_PRD_2026-06-24.md](../../PRD/product/LEDAO_L90_TOPIC_PRD_2026-06-24.md) | `/product/ledao/l90` | `/product/ledao-l90` | [models/ledao-l90.md](./product/models/ledao-l90.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | ⚪ planned (P1, 20 项目) |
 | [GAOSHAN_8_TOPIC_PRD_2026-06-25.md](../../PRD/product/GAOSHAN_8_TOPIC_PRD_2026-06-25.md) | `/product/gaoshan/8` | `/product/gaoshan-8` | [models/gaoshan-8.md](./product/models/gaoshan-8.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | ⚪ planned (P1, 23 项目,modelSlug=`8`) |
 | [ZHIJIE_V9_TOPIC_PRD_2026-06-25.md](../../PRD/product/ZHIJIE_V9_TOPIC_PRD_2026-06-25.md) | `/product/zhijie/v9` | `/product/zhijie-v9` | [models/zhijie-v9.md](./product/models/zhijie-v9.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | ⚪ planned (P1, 22 项目) |
+| [ZEEKR_8X_TOPIC_PRD_2026-06-27.md](../../PRD/backlog/product/ZEEKR_8X_TOPIC_PRD_2026-06-27.md) 🆕 | `/product/zeekr/8x` | `/product/zeekr-8x` | [models/zeekr-8x.md](./product/models/zeekr-8x.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | ⬜ 未开始 (P1, 17 项目) |
+| [LI_AUTO_I6_TOPIC_PRD_2026-06-27.md](../../PRD/backlog/product/LI_AUTO_I6_TOPIC_PRD_2026-06-27.md) 🆕 | `/product/li-auto/i6` | `/product/li-auto-i6` | [models/li-auto-i6.md](./product/models/li-auto-i6.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | ⬜ 未开始 (P1, 20 项目) |
+| [LI_AUTO_ONE_TOPIC_PRD_2026-06-27.md](../../PRD/backlog/product/LI_AUTO_ONE_TOPIC_PRD_2026-06-27.md) 🆕 | `/product/li-auto/one` | `/product/li-auto-one` | [models/li-auto-one.md](./product/models/li-auto-one.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | ⬜ 未开始 (P1, 8 项目) |
+| [NIO_ES8_TOPIC_PRD_2026-06-27.md](../../PRD/product/NIO_ES8_TOPIC_PRD_2026-06-27.md) 🆕 | `/product/nio/es8` | `/product/nio-es8` | [models/nio-es8.md](./product/models/nio-es8.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | 🔧 部分完成 (P1, 17 项目;数据层+图片 ready) |
+| [TESLA_TOPIC_PRD_2026-06-24.md](../../PRD/backlog/product/TESLA_TOPIC_PRD_2026-06-24.md) 🆕 | `/product/tesla` | (暂无) | [models/tesla.md](./product/models/tesla.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | ⬜ 未开始 (P1, 品牌总专题, 10+30 项目) |
+| [LI_AUTO_TOPIC_PRD_2026-06-24.md](../../PRD/backlog/product/LI_AUTO_TOPIC_PRD_2026-06-24.md) 🆕 | `/product/li-auto` | (暂无) | [models/li-auto.md](./product/models/li-auto.md) | [product-topics.md](./product-topics.md) | [topic-pattern.md](../components/topic-pattern.md) | ⬜ 未开始 (P1, 品牌总专题, 10+30 项目) |
 
 说明：
 
@@ -142,7 +148,8 @@
 
 ---
 
-> 最后更新: 2026-06-25
+> 最后更新: 2026-07-07
+> 🆕 新增 6 份驱动型 SPEC：nio-es8, zeekr-8x, tesla, li-auto, li-auto-one, li-auto-i6
 
 ---
 
@@ -156,9 +163,9 @@
 | 膜类服务 | [product-film.md](./product-film.md) | ✅ 3 膜类 + 7 套餐子页全落地 | 11 组件(1 共享 + 10 窗膜/film) | 4(3 膜 + 7 子页) |
 | 轻改装备 + 实用配件 | [product-accessories.md](./product-accessories.md) | 🔧 4 live + 3 P1 planned | 6 组件(1 共享 + 5 flooring) | 4 live + 3 planned(404 until built) |
 | 品牌 / 车型专题 | [product-topics.md](./product-topics.md) | 🔧 3 品牌 live + 8 planned + 13 车型 planned | 15 组件(3 品牌 × 5) | 3 live + 8 brand dir + 13 model dir built-but-empty |
-| **13 单车型专题** | [product/models/](./product/models/) × 13 | ⚪ **全部 planned,无 page.tsx** | 0 组件(待新建) | 13 dir built(空),等 8 个父品牌上线后逐个落地 |
+| **19 车型/品牌专题** | [product/models/](./product/models/) × 19 | 🔧 1 部分完成(nio-es8) + ⬜ 18 planned | 0 组件(待新建) | 19 dir built(空),等父品牌上线后逐个落地 |
 
 > 注:已落地 SPEC 状态基于 `git log` + `src/app/product/*/page.tsx` 实际核验(2026-06-25);P1 planned 服务仅在 `product-routes.ts` 注册,无 `page.tsx`。
 >
-> **13 单车型 SPEC 落地路径**:6 P0(问界 M6/M7/M8 + 小米 SU7/YU7 + 极氪 9X)需要等父品牌页上线后逐个实现;7 P1(理想 i8 / 腾势 D9 / 岚图梦想家 / 小鹏 GX / 乐道 L90 / 高山 8 / 智界 V9)优先级次之。每个 SPEC 已明确列出「实施 TODO」6 步(数据源 → 图资源 → 5 组件 → page.tsx → verify 脚本 → 入口链接)。
+> **19 车型/品牌专题 SPEC 落地路径**:6 P0(问界 M6/M7/M8 + 小米 SU7/YU7 + 极氪 9X)需要等父品牌页上线后逐个实现;13 P1(理想 i6/i8/ONE/L9/MEGA + 极氪 8X + 腾势 D9 + 岚图梦想家 + 小鹏 GX + 乐道 L90 + 高山 8 + 智界 V9 + NIO ES8 + 特斯拉品牌专题 + 理想品牌专题)优先级次之。每个 SPEC 已明确列出「实施 TODO」6 步(数据源 → 图资源 → 5 组件 → page.tsx → verify 脚本 → 入口链接)。
 

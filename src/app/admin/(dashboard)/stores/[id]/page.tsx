@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, use, useMemo, type ReactNode } from "react";
+import { toast } from "sonner";
 import Link from "next/link";
 import { StoreForm, type StoreFormValues } from "@/components/admin/StoreForm";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
@@ -12,6 +13,7 @@ import {
   Award,
   ChevronLeft,
   Check,
+  Save,
   XCircle,
   Pause,
   Play,
@@ -68,6 +70,7 @@ export default function EditStorePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const editFormId = "store-edit-form";
   const [storeData, setStoreData] = useState<StoreFormValues | null>(null);
   const [storeLevel, setStoreLevel] = useState<StoreLevel | null>(null);
   const [storeSlug, setStoreSlug] = useState<string | null>(null);
@@ -103,9 +106,13 @@ export default function EditStorePage({
         const detailsMsg = json.details
           ? Object.values(json.details).flat().join("；")
           : "";
-        setActionError(json.error || detailsMsg || "操作失败");
+        const errMsg = json.error || detailsMsg || "操作失败";
+        setActionError(errMsg);
+        toast.error(errMsg);
         return;
       }
+      const actionLabel = ACTION_TARGET[action].label;
+      toast.success(`${actionLabel}成功`);
       if (json.data?.status) {
         setStoreStatus(json.data.status);
         if (storeData) {
@@ -145,6 +152,7 @@ export default function EditStorePage({
             phoneTel: d.phoneTel ?? "",
             businessHours: d.businessHours ?? "",
             description: d.description ?? "",
+            imagePath: d.imagePath ?? null,
             isActive: d.isActive ?? true,
             level: d.level ?? undefined,
           });
@@ -228,7 +236,7 @@ export default function EditStorePage({
         ),
       },
     ];
-  }, [storeData, storeLevel]);
+  }, [id, storeData, storeLevel]);
 
   const canPublish = publishChecks
     .filter((c) => c.key !== "image")
@@ -278,10 +286,20 @@ export default function EditStorePage({
             )}
           </div>
 
-          {/* 状态机动作按钮组 */}
-          {storeStatus && storeStatus !== "terminated" && (
+          {/* 顶部保存与状态机动作按钮组 */}
+          {(storeData || storeStatus) && storeStatus !== "terminated" && (
             <div className="flex flex-wrap items-center gap-2">
-              {availableActionsFor(storeStatus).map((action) => {
+              {storeData && (
+                <button
+                  type="submit"
+                  form={editFormId}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-orange-500 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-orange-600"
+                >
+                  <Save className="h-3.5 w-3.5" />
+                  保存修改
+                </button>
+              )}
+              {storeStatus && availableActionsFor(storeStatus).map((action) => {
                 const target = ACTION_TARGET[action];
                 const Icon = ACTION_ICON[action];
                 const isDanger = target.destructive;
@@ -322,9 +340,11 @@ export default function EditStorePage({
 
         {storeData && (
           <StoreForm
+            formId={editFormId}
             defaultValues={storeData}
             onSubmit={handleSubmit}
             submitLabel="保存修改"
+            submitSuccessLabel="门店保存成功"
             readOnly={storeStatus === "terminated"}
           />
         )}

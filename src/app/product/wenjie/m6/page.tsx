@@ -86,7 +86,7 @@ export default function WenjieM6Page() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <WenjieModelUpgradeHero
           modelKey="M6"
           modelName="问界 M6"

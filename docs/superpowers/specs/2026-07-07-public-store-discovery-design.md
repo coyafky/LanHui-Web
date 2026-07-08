@@ -2,6 +2,8 @@
 comet_change: public-store-discovery
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-07-public-store-discovery
+status: final
 ---
 
 # Design: 公开站门店搜索 + 推荐门店旗舰化

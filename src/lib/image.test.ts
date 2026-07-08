@@ -2,17 +2,15 @@ import { describe, it, expect } from 'vitest';
 import { getStoreImage, getCityImage, PLACEHOLDER_PATHS } from './image';
 
 describe('image helpers', () => {
-  it('getStoreImage: imagePath 优先', () => {
+  it('getStoreImage: 使用 imagePath', () => {
     expect(getStoreImage({ imagePath: '/x.webp' })).toBe('/x.webp');
-    expect(getStoreImage({ imagePath: '/x.webp', imageUrl: '/y.jpg' })).toBe('/x.webp');
   });
 
-  it('getStoreImage: imagePath=null → 回落 imageUrl', () => {
-    expect(getStoreImage({ imagePath: null, imageUrl: '/old.jpg' })).toBe('/old.jpg');
+  it('getStoreImage: imagePath=null → 占位图', () => {
+    expect(getStoreImage({ imagePath: null })).toBe(PLACEHOLDER_PATHS.store);
   });
 
-  it('getStoreImage: 都为 null → 占位图', () => {
-    expect(getStoreImage({ imagePath: null, imageUrl: null })).toBe(PLACEHOLDER_PATHS.store);
+  it('getStoreImage: 未提供 imagePath → 占位图', () => {
     expect(getStoreImage({})).toBe(PLACEHOLDER_PATHS.store);
   });
 

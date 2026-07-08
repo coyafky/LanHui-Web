@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
+    <main id="main-content" tabIndex={-1} className="flex min-h-screen items-center justify-center bg-zinc-950 px-4">
       <div className="w-full max-w-md">
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900 p-8 shadow-2xl">
           {/* Logo & Title */}
@@ -115,6 +115,6 @@ export default function AdminLoginPage() {
           {brand.zh} {brand.en} &copy; {brand.foundedYear}
         </p>
       </div>
-    </div>
+    </main>
   );
 }

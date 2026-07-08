@@ -82,7 +82,7 @@ export default function Gaoshan8TopicPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <Gaoshan8TopicViewTrack
           topicKey="gaoshan-8"
           totalProjects={totalProjects}

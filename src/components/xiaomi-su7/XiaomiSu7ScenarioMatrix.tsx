@@ -12,10 +12,21 @@ export type XiaomiSu7ScenarioMatrixProps = {
   projects: readonly XiaomiSu7UpgradeProject[];
 };
 
+const EXPECTED_SCENARIO_COUNT = 5;
+
+function assertScenarioCount(scenarios: readonly XiaomiSu7Scenario[]): void {
+  if (scenarios.length !== EXPECTED_SCENARIO_COUNT) {
+    throw new Error(
+      `XiaomiSu7ScenarioMatrix expects ${EXPECTED_SCENARIO_COUNT} scenarios, got ${scenarios.length}`,
+    );
+  }
+}
+
 export function XiaomiSu7ScenarioMatrix({
   scenarios,
   projects,
 }: XiaomiSu7ScenarioMatrixProps) {
+  assertScenarioCount(scenarios);
   const projectNameById = new Map(projects.map((p) => [p.id, p.name]));
 
   const handleScenarioClick = useCallback(
@@ -29,7 +40,7 @@ export function XiaomiSu7ScenarioMatrix({
   );
 
   return (
-    <section className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900">
+    <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8 md:mb-10">
           <p className="text-sm tracking-widest text-orange-400 mb-3">
@@ -39,11 +50,11 @@ export function XiaomiSu7ScenarioMatrix({
             小米 SU7 · {scenarios.length} 大用车场景
           </h2>
           <p className="text-zinc-400 text-sm md:text-base">
-            按用车场景选择升级方向。
+            按用车场景选择升级方向；点击场景卡片查看对应项目。
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {scenarios.map((s) => (
             <a
               key={s.id}
@@ -54,7 +65,9 @@ export function XiaomiSu7ScenarioMatrix({
               <h3 className="text-lg font-bold text-white mb-1.5">
                 {s.name}
               </h3>
-              <p className="text-xs text-orange-300 mb-3">{s.description}</p>
+              <p className="text-xs text-orange-300 mb-3 leading-relaxed">
+                {s.description}
+              </p>
 
               <p className="text-xs text-zinc-500 mb-2">
                 含 {s.projectIds.length} 个项目

@@ -13,9 +13,10 @@
 ```text
 需求输入
   -> docs/PRD/
-  -> docs/SPEC/
+  -> docs/SPEC/  (驱动型：含 Zod schema + 错误矩阵 + 测试用例清单)
+  -> 写失败测试 (RED phase — TDD 前置)
   -> docs/plans/
-  -> 实现与验证
+  -> 实现与验证 (GREEN + REFACTOR)
   -> docs/test-reports/
   -> docs/design-reviews/ (涉及页面/UI 时)
   -> docs/daily/YYYY-MM-DD/
@@ -25,8 +26,9 @@
 [`AI_DELIVERY_LOOP.md`](./AI_DELIVERY_LOOP.md) 的闭环执行:
 
 ```text
-Idea -> Intake -> Context Scan -> PRD Patch -> SPEC Contract -> Plan
-     -> Build Slice -> Test & Visual Review -> Fix Loop -> Ship -> Retro
+Idea -> Intake -> Context Scan -> PRD Patch -> SPEC Contract (含测试清单)
+     -> RED (写失败测试) -> Plan -> Build Slice (让测试通过) -> Test & Visual Review
+     -> Fix Loop -> Ship -> Retro
 ```
 
 | 阶段 | 目录 | 目的 | 必须回答的问题 |
@@ -62,18 +64,39 @@ PRD 模板位置:
 - `docs/PRD/_templates/feature.md`
 - `docs/PRD/_templates/cross-cutting.md`
 
+**PRD 分级（2026-07-07）:** "规划中，未授权编码" PRD 已移入 `docs/PRD/backlog/`（34 个）。
+进入执行时移回对应目录，并先写出驱动型 SPEC 再编码。参见 `docs/PRD/backlog/README.md`。
+
 ---
 
 ## 3. SPEC 规范
 
-PRD 批准后进入 SPEC。SPEC 不重复产品愿景，重点写实现合约:
+PRD 批准后进入 SPEC。SPEC 不重复产品愿景，重点写实现合约。
+
+**2026-07-07 升级**: SPEC 从"记录型"升级为"驱动型"（10 节模板）。AI 可直接以 SPEC 为 prompt 开始编码，不需回问。
+详见 `docs/SPEC/_TEMPLATE.md`。
+
+驱动型 SPEC 必须覆盖 10 节:
+1. 职责范围
+2. 路由/入口
+3. 数据模型（含 Zod/TS 代码块，AI 可直接复制）
+4. 关键组件
+5. **业务规则**（"当...时，系统必须..."）← 新增
+6. **错误处理矩阵**（错误码→HTTP→消息→details）← 新增
+7. **测试用例清单**（至少 5 个，实现前写出并看到失败）← 新增
+8. API 合约（含完整请求/响应示例）
+9. 验收条件
+10. 已知问题 + AI 执行记录 + 验收追溯
+
+已升级 SPEC: `api/stores.md`, `api/articles.md`, `admin/stores.md`, `public-site/home.md`。
+旧版归档为 `<name>-v1-post-hoc.md`。
 
 - Skills: 按任务类型声明 `next-best-practices`、`react-best-practices`、`web-design-engineer`、`prisma-data-ops`、faker/MSW 等使用边界。
 - Frontend: 页面结构、组件拆分、状态、响应式、图片/资产、可访问性。
 - Prototype: 如需视觉探索，先产出原型页或截图说明；`web-design-engineer` 作为视觉/交互参考角色，不替代 PRD。
 - API: route handler、HTTP 方法、请求/响应 schema、权限、错误码、限流。
 - Backend/Data: Prisma 模型、静态数据、数据访问边界、迁移和 seed。
-- Tests: faker fixtures、MSW handlers、unit/integration/e2e/browser checks 的覆盖点。
+- Tests: faker fixtures、MSW handlers、unit/integration/e2e/browser checks 的覆盖点。**实现前必须先写出失败测试（RED phase）。**
 - Review: 在 Claude 工作流中可调用 Codex review 插件做独立代码审查，审查结果应回填到计划、测试报告或 daily。
 
 通用模板:

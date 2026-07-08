@@ -77,7 +77,7 @@ export default function LedaoL90TopicPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <LedaoL90TopicViewTrack
           topicKey="ledao-l90"
           totalProjects={totalProjects}

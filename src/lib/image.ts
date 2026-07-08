@@ -5,7 +5,7 @@
  * 该文件专门为「实体字段 → 渲染路径」服务。
  *
  * 优先级（本期）：
- *   getStoreImage: imagePath（新）→ imageUrl（过渡）→ 占位图
+ *   getStoreImage: imagePath → 占位图
  *   getCityImage:  复用 provinceImageUrl → 全国默认占位图
  */
 
@@ -16,17 +16,12 @@ export const PLACEHOLDER_PATHS = {
 
 /**
  * 解析门店主图路径。
- * 优先级：imagePath（新字段）→ imageUrl（过渡期）→ 占位图。
+ * 优先级：imagePath → 占位图。
  */
 export function getStoreImage(store: {
   imagePath?: string | null;
-  imageUrl?: string | null;
 }): string {
-  return (
-    store.imagePath ||
-    store.imageUrl ||
-    PLACEHOLDER_PATHS.store
-  );
+  return store.imagePath || PLACEHOLDER_PATHS.store;
 }
 
 /**

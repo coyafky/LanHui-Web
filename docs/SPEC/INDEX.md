@@ -2,6 +2,8 @@
 
 > PRD → SPEC → Status 三层体系。
 > PRD 定义需求（要做什么），SPEC 定义合约（怎么做/长什么样），Status 跟踪进度（做到哪了）。
+>
+> **2026-07-07 升级**: SPEC 已从"记录型"升级为"驱动型"。新增 SPEC 必须包含业务规则（§5）、错误处理矩阵（§6）、测试用例清单（§7），遵循 `docs/SPEC/_TEMPLATE.md` 10 节格式。`docs/AI_DELIVERY_LOOP.md` 已嵌入 TDD 检查点。
 
 ---
 
@@ -57,6 +59,8 @@ docs/SPEC/
 │   ├── product-topics.md
 │   ├── product-film.md
 │   ├── product-accessories.md
+│   ├── product/             # 单车型/品牌专题 SPEC
+│   │   └── models/          # 19 个车型专题 SPEC（13 原有 + 6 新增）
 │   ├── news.md
 │   ├── agent-store.md
 │   └── contact.md
@@ -68,11 +72,15 @@ docs/SPEC/
 │   └── analytics.md
 ├── api/                  # API 各模块 SPEC
 │   ├── auth.md
-│   ├── stores.md
-│   ├── articles.md
+│   ├── stores.md          🚀 驱动型
+│   ├── stores-v1-post-hoc.md  (旧版归档)
+│   ├── articles.md        🚀 驱动型
+│   ├── articles-v1-post-hoc.md  (旧版归档)
 │   ├── regions.md
 │   ├── upload.md
 │   └── analytics.md
+├── deploy/               # 部署与运维 SPEC
+│   └── operations.md      ⬜ 上线部署检查清单 + smoke test + 回滚方案
 └── components/           # 公共组件 SPEC
     ├── ui.md
     ├── shared.md
@@ -89,6 +97,14 @@ docs/SPEC/
 | ❌ **有问题** | 已实现但存在需要修复的 bug |
 | 📄 **有 PRD** | 该模块有对应的 PRD 文档 |
 | 📄 **有 SPEC** | 该模块有 SPEC 文档 |
+| 🚀 **驱动型** | SPEC 已升级为驱动型（含 Zod/错误矩阵/测试清单） |
+
+### 驱动型 vs 记录型 SPEC
+
+| 类型 | 特征 | 已升级 |
+|------|------|-----------|
+| **驱动型** 🚀 | 含 Zod schema、错误矩阵、测试用例清单、业务规则 | `api/stores.md`, `api/articles.md`, `admin/stores.md`, `public-site/home.md` + 6 份新车型 SPEC |
+| **记录型** 📄 | 仅有基本路由/组件/状态标记（旧版模板） | 其余 20 份 SPEC（待逐步升级） |
 
 ---
 
@@ -96,12 +112,15 @@ docs/SPEC/
 
 | 区域 | 模块数 | ✅ 完成 | 🔧 部分 | ⬜ 未开始 | ❌ 有问题 |
 |------|--------|---------|---------|-----------|----------|
-| 公开站 | 9 | 2 | 6 | 0 | 1 |
+| 公开站 | 9 (+19 车型) | 2 | 7 | 0 (+18) | 1 |
 | 管理后台 | 5 | 1 | 4 | 0 | 0 |
 | API | 6 | 3 | 3 | 0 | 0 |
 | 公共组件 | 3 | 3 | 0 | 0 | 0 |
 | 数据模型 | 1 | 0 | 1 | 0 | 0 |
-| **合计** | **24** | **9** | **14** | **0** | **1** |
+| 部署运维 | 1 | 0 | 0 | 1 | 0 |
+| **合计** | **25 (+19)** | **9** | **15** | **1 (+18)** | **1** |
+
+> 已升级 10 份驱动型 SPEC 🚀：`api/stores.md`, `api/articles.md`, `admin/stores.md`, `public-site/home.md` + 6 份新车型 SPEC（nio-es8/zeekr-8x/tesla/li-auto/li-auto-one/li-auto-i6）
 
 ---
 
@@ -113,7 +132,7 @@ docs/SPEC/
 |------|------|
 | **路由** | `/` |
 | **PRD** | 📄 `docs/PRD/public-site/HOMEPAGE_PRD.md`（canonical） |
-| **SPEC** | `docs/SPEC/public-site/home.md` |
+| **SPEC** | 🚀 `docs/SPEC/public-site/home.md`（驱动型，2026-07-07 升级） |
 | **状态** | 🔧 **部分完成** |
 | **关键组件** | Hero, Header, CoreServices, ProductsQuickEntry, WhyChooseUs, Footer |
 | **备注** | Hero 含企业微信弹窗 CTA。全站布局在 root layout.tsx。22 日规划提出首页重新设计方向（车型入口+信任闭环）。 |
@@ -152,6 +171,38 @@ docs/SPEC/
 | **状态** | 🔧 **部分完成** |
 | **关键组件** | BrandTopicHero, ModelSwitcher, VehicleTopicHero, AnchorNav, ProductCard, ProductGrid, ProductTable, TopicBanner |
 | **备注** | 品牌页必须预留车型二级分类；单车型页使用 `/product/{brandSlug}/{modelSlug}` canonical route；legacy 平铺路由只做兼容。 |
+
+### 1.4.1 单车型/品牌专题 Model & Brand SPECs
+
+> 每个车型/品牌专题有独立驱动型 SPEC，位于 `docs/SPEC/public-site/product/models/`。
+> 格式遵循 `docs/SPEC/_TEMPLATE.md` 10 节，含完整 TS 数据模型、业务规则、AC-ID 测试用例。
+
+| SPEC | Canonical Route | 项目数 | 场景数 | 主题色 | 状态 |
+|------|----------------|--------|--------|--------|------|
+| [wenjie-m6](public-site/product/models/wenjie-m6.md) | `/product/wenjie/m6` | 30 | 5 | cyan | ⬜ planned |
+| [wenjie-m7](public-site/product/models/wenjie-m7.md) | `/product/wenjie/m7` | 32 | 5 | cyan | ⬜ planned |
+| [wenjie-m8](public-site/product/models/wenjie-m8.md) | `/product/wenjie/m8` | 30 | 5 | cyan | ⬜ planned |
+| [xiaomi-su7](public-site/product/models/xiaomi-su7.md) | `/product/xiaomi/su7` | 26 | 5 | orange | ⬜ planned |
+| [xiaomi-yu7](public-site/product/models/xiaomi-yu7.md) | `/product/xiaomi/yu7` | 28 | 5 | orange | ⬜ planned |
+| [zeekr-9x](public-site/product/models/zeekr-9x.md) | `/product/zeekr/9x` | 25 | 5 | orange | ⬜ planned |
+| [zeekr-8x](public-site/product/models/zeekr-8x.md) 🆕 | `/product/zeekr/8x` | 17 | 5 | orange | ⬜ 未开始 |
+| [li-auto-i8](public-site/product/models/li-auto-i8.md) | `/product/li-auto/i8` | 25 | 5 | amber | ⬜ planned |
+| [li-auto-l9](public-site/product/models/li-auto-l9.md) | `/product/li-auto/l9` | 22 | 5 | amber | ⬜ planned |
+| [li-auto-mega](public-site/product/models/li-auto-mega.md) | `/product/li-auto/mega` | 20 | 5 | amber | ⬜ planned |
+| [li-auto-i6](public-site/product/models/li-auto-i6.md) 🆕 | `/product/li-auto/i6` | 20 | 5 | amber | ⬜ 未开始 |
+| [li-auto-one](public-site/product/models/li-auto-one.md) 🆕 | `/product/li-auto/one` | 8 | 4 | amber | ⬜ 未开始 |
+| [li-auto](public-site/product/models/li-auto.md) 🆕 | `/product/li-auto` | 10+30 | 6 | amber | ⬜ 未开始（品牌总专题） |
+| [nio-es8](public-site/product/models/nio-es8.md) 🆕 | `/product/nio/es8` | 17 | 4 | sky | 🔧 部分完成 |
+| [tesla](public-site/product/models/tesla.md) 🆕 | `/product/tesla` | 10+30 | 6 | red | ⬜ 未开始（品牌总专题） |
+| [denza-d9](public-site/product/models/denza-d9.md) | `/product/denza/d9` | 22 | 5 | blue | ⬜ planned |
+| [voyah-dreamer](public-site/product/models/voyah-dreamer.md) | `/product/voyah/dreamer` | 20 | 5 | cyan | ⬜ planned |
+| [ledao-l90](public-site/product/models/ledao-l90.md) | `/product/ledao/l90` | 20 | 5 | green | ⬜ planned |
+| [gaoshan-8](public-site/product/models/gaoshan-8.md) | `/product/gaoshan/8` | 23 | 5 | slate | ⬜ planned |
+| [xpeng-gx](public-site/product/models/xpeng-gx.md) | `/product/xpeng/gx` | 22 | 5 | emerald | ⬜ planned |
+| [zhijie-v9](public-site/product/models/zhijie-v9.md) | `/product/zhijie/v9` | 22 | 5 | indigo | ⬜ planned |
+
+> 🆕 = 2026-07-07 新增驱动型 SPEC（共 6 份）。16 份已有模型 SPEC + 3 份品牌总专题 SPEC = 19 份。
+> 全部含完整 TS 数据模型、业务规则、AC-ID 测试用例清单、组件树、路由注册。
 
 ### 1.5 膜类产品 Product Film
 
@@ -241,7 +292,7 @@ docs/SPEC/
 |------|------|
 | **路由** | `/admin/stores`, `/admin/stores/new`, `/admin/stores/[id]`, `/admin/stores/[id]/image` |
 | **PRD** | 📄 `docs/PRD/admin/STORE_MANAGEMENT_PRD.md`（canonical） |
-| **SPEC** | `docs/SPEC/admin/stores.md` |
+| **SPEC** | 🚀 `docs/SPEC/admin/stores.md`（驱动型，2026-07-07 升级） |
 | **状态** | 🔧 **部分完成** |
 | **关键组件** | StoreForm, RegionSelector, EntityImageUploader, Sidebar |
 | **备注** | TanStack Table + 筛选/分组/搜索/分页。等级筛选+分组+Badge。图片上传（本地存储 webp q80）。canonical PRD 定义 4 状态机+迁移方案。 |
@@ -288,7 +339,7 @@ docs/SPEC/
 |------|------|
 | **路由** | `GET/POST /api/stores`, `GET/PUT/DELETE/PATCH /api/stores/[id]` |
 | **PRD** | `docs/PRD/api/` |
-| **SPEC** | `docs/SPEC/api/stores.md` |
+| **SPEC** | 🚀 `docs/SPEC/api/stores.md`（驱动型，2026-07-07 升级） |
 | **状态** | ✅ **完成** |
 | **备注** | Zod 校验 + slug 自动生成 + 省市 DB 覆盖。Prisma 7 Driver Adapter 错误形态（P2022）。 |
 
@@ -298,7 +349,7 @@ docs/SPEC/
 |------|------|
 | **路由** | `GET/POST /api/articles`, `GET/PUT/DELETE /api/articles/[id]`, `GET /api/articles/categories` |
 | **PRD** | `docs/PRD/api/` |
-| **SPEC** | `docs/SPEC/api/articles.md` |
+| **SPEC** | 🚀 `docs/SPEC/api/articles.md`（驱动型，2026-07-07 升级） |
 | **状态** | 🔧 **部分完成** |
 | **备注** | 公开只返回 published。slug 自动生成唯一性。categories 从 DB 实际数据聚合。 |
 
@@ -331,6 +382,19 @@ docs/SPEC/
 | **SPEC** | `docs/SPEC/api/analytics.md` |
 | **状态** | 🔧 **部分完成** |
 | **备注** | track 限流 60/min/IP，type 白名单。stats 支持日期范围+分组。埋点严重失衡：695 PV vs ~5 click（P1-12）。 |
+
+---
+
+### 3.7 部署与运维
+
+| 项目 | 内容 |
+|------|------|
+| **路由** | — |
+| **PRD** | `docs/PRD/00_MASTER_PRD.md` §10 风险边界 |
+| **SPEC** | ⬜ `docs/SPEC/deploy/operations.md`（2026-07-07 新建） |
+| **状态** | ⬜ **未开始** |
+| **关键组件** | Docker Compose (app/dev/postgres/nginx), Caddy, healthcheck |
+| **备注** | 包含部署前检查清单（10 项）、smoke test（10 项）、回滚方案（Docker 镜像 + DB）、监控告警阈值。`/api/health` 端点尚未实现。 |
 
 ---
 
@@ -436,5 +500,6 @@ docs/SPEC/
 
 ---
 
-> 最后更新: 2026-06-26
+> 最后更新: 2026-07-07
 > 维护: 每次上线/发版后更新本看板的实现状态
+> 本次更新: 新增 6 份驱动型车型/品牌 SPEC（nio-es8, zeekr-8x, tesla, li-auto, li-auto-one, li-auto-i6）

@@ -73,7 +73,7 @@ export default function TeslaTopicPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <TeslaTopicViewTrack
           topicKey="tesla"
           totalProjects={totalProjects}

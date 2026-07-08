@@ -44,15 +44,15 @@ const COLOR_MAP: Record<string, { ring: string; bg: string; text: string }> = {
 
 export function WhyChooseUs() {
   return (
-    <section className="py-20 bg-zinc-950">
+    <section className="py-14 sm:py-20 bg-zinc-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 sm:mb-16">
           <p className="text-sm tracking-widest text-orange-400 mb-3">WHY LANHUI</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
             为什么选择蓝辉轻改？
           </h2>
-          <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto">
             从工艺标准到材料品质，再到品牌质保——层层保障，让每次升级更安心。
           </p>
         </div>
@@ -64,7 +64,7 @@ export function WhyChooseUs() {
             return (
               <div
                 key={title}
-                className="bg-zinc-900 p-8 rounded-2xl border border-zinc-800 hover:border-zinc-700 hover:shadow-xl transition-all"
+                className="bg-zinc-900 p-5 sm:p-8 rounded-2xl border border-zinc-800 hover:border-zinc-700 hover:shadow-xl transition-all"
               >
                 <div
                   className={`w-14 h-14 ${palette.bg} ${palette.text} rounded-xl flex items-center justify-center mb-6 border ${palette.ring}`}

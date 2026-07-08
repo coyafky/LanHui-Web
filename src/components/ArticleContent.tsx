@@ -2,8 +2,14 @@
 
 import Markdown from "react-markdown";
 
+function normalizeMarkdownContent(content: string): string {
+  return content.replace(/\\n/g, "\n").replace(/\\r/g, "");
+}
+
 export function ArticleContent({ content }: { content: string }) {
   if (!content) return null;
+
+  const normalized = normalizeMarkdownContent(content);
 
   return (
     <Markdown
@@ -59,7 +65,7 @@ export function ArticleContent({ content }: { content: string }) {
         ),
       }}
     >
-      {content}
+      {normalized}
     </Markdown>
   );
 }

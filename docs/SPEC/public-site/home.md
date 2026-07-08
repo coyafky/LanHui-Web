@@ -1,123 +1,170 @@
-# SPEC: 首页 Homepage
+# SPEC: 首页（Homepage）
 
+> 功能规格说明书 — `/` 首页的组件树、数据来源、响应式行为和验收标准。
 > 对应 PRD：`docs/PRD/public-site/HOMEPAGE_PRD.md`
-> 实现状态：🔧 **部分完成**
+> 实现状态：`🔧 部分完成`
 
 ---
 
 ## 1. 职责范围
 
-网站入口页面。负责品牌第一印象、核心价值传达、产品快速入口、CTA 转化（微信咨询引导）。
+首屏传达品牌身份、核心服务、产品入口、咨询路径。负责"用户 5 秒内理解蓝辉是谁、能做什么、下一步去哪"。不负责产品详情、门店详情或资讯内容（由对应子页面负责）。
 
-## 2. 路由
+## 1.1 Skill 路由
+
+| Skill | 是否使用 | 用途 |
+|---|---|---|
+| `next-best-practices` | 是 | RSC、metadata、JSON-LD |
+| `react-best-practices` | 是 | RSC/CC 边界、性能优化 |
+| `web-design-engineer` | 是 | 首页原型、视觉方向、首屏 CTA |
+| `prisma-data-ops` | 否 | 首页全部为静态数据 |
+| faker/MSW | 否 | — |
+
+## 2. 路由 / 入口
 
 | 路径 | 类型 | 说明 | 状态 |
 |------|------|------|------|
-| `/` | page (RSC) | 首页 Home | ✅ |
+| `/` | page (RSC) | 首页，5 组件组合 | 🔧 |
+| SSR fallback | — | 无需 `getStaticParams`，路径无动态段 | ✅ |
 
-## 3. 功能清单
+## 3. 数据模型
 
-| ID | 功能 | 状态 | 说明 |
-|----|------|------|------|
-| F1 | Hero 主视觉区 | ✅ | 渐变背景 + 微信弹窗 CTA |
-| F2 | 为什么选我们 | ✅ | 3 特性卡片：专业工艺、优质材料、官方质保 |
-| F3 | 核心服务 | ✅ | 3 可点击卡片：轻改方案、车身膜、品质质保 |
-| F4 | 产品快速入口 | ✅ | 6 产品分类网格入口 |
-| F5 | Header | ✅ | 粘性导航、滚动收缩、移动端滑面板 |
-| F6 | Footer | ✅ | 品牌列+导航+产品+联系+ICP |
-| F7 | 微信咨询弹窗 | ✅ | 全屏叠加，emitter 驱动 |
-| F8 | 电话降级策略 | ✅ | 门店电话→品牌总机→400 |
-| F9 | 车型专题入口 | ⚪ | 待补（问界/小米/极氪等车型卡片） |
-| F10 | 真实门店卡片展示 | ⚪ | 动态读取门店数据并展示 |
-| F11 | 最新文章展示 | ⚪ | 从 CMS 读取最新文章列表 |
-| F12 | 服务流程说明区 | ⚪ | 到店沟通→车型确认→方案推荐→施工交付 |
-| F13 | 服务流程与售后承诺 | ⚪ | 施工标准化流程与质保承诺 |
+### 3.1 静态数据源
 
-## 4. SSR/ISR 配置
+首页全部数据来自静态模块，无 API 调用：
 
-| 配置项 | 值 | 说明 |
-|--------|-----|------|
-| 渲染策略 | SSG 优先 | 构建时生成静态 HTML |
-| ISR revalidate | 3600 | 每小时触发一次重新验证 |
-| `force-dynamic` | 否 | 首页不走动态渲染 |
-| 数据获取 | 构建时读取静态数据 | 来自 `src/lib/brand.ts` 和 `src/lib/products.ts` |
+| 数据模块 | 文件 | 提供内容 |
+|---------|------|---------|
+| `brand` | `src/lib/brand.ts` | 品牌名称、slogan、门店位置、联系方式 |
+| `products` | `src/lib/products.ts` | 服务类别（6 大类：轻改 + 膜） |
+| `productRoutes` | `src/lib/product-routes.ts` | 产品路由入口（按品牌/按项目） |
 
-## 5. JSON-LD
+### 3.2 品牌数据（关键字段）
 
-首页输出结构化数据，在 `<head>` 中注入 `<script type="application/ld+json">`：
+```typescript
+export const brand = {
+  zh: "蓝辉轻改",
+  en: "LANHUI",
+  slogan: "让爱车更有型，也更好用",
+  foundedYear: 2026,
+  currentStore: "顺德大良店",
+  city: "广东佛山 · 顺德大良",
+  phone: "联系方式待补充",            // ⚠️ 占位文案
+  phoneTel: "#contact",
+  icp: "ICP备案号待备案",            // ⚠️ 占位文案
+  address: "广东省佛山市顺德区大良（详细地址待补充）",  // ⚠️ 占位文案
+  businessHours: "营业时间待确认",    // ⚠️ 占位文案
+  email: "lanhui@example.com",       // ⚠️ 占位邮箱
+} as const;
+```
 
-- **Schema 类型**: `Organization`
-- **必填字段**: `name`, `url`, `logo`, `description`
-- **可选字段**: `address`, `contactPoint`, `sameAs`
-- **数据源**: `src/lib/brand.ts`
-- **实现方式**: RSC 中直接输出 JSON-LD script tag
+## 4. 关键组件
 
-## 6. 页面结构（从上到下）
+| 组件 | 路径 | Client? | 职责 |
+|------|------|---------|------|
+| `Header` | `src/components/Header.tsx` | 是 (CC) | 全局导航、品牌 logo、CTA 按钮 |
+| `Hero` | `src/components/Hero.tsx` | 是 (CC) | 首屏品牌陈述、主 CTA（微信弹窗）、副 CTA |
+| `WhyChooseUs` | `src/components/WhyChooseUs.tsx` | 是 (CC) | 信任建立区：精选案例/资质/优势 |
+| `CoreServices` | `src/components/CoreServices.tsx` | 是 (CC) | 6 大服务类别卡片 |
+| `ProductsQuickEntry` | `src/components/ProductsQuickEntry.tsx` | 是 (CC) | 品牌车系快速入口 |
+| `Footer` | `src/components/Footer.tsx` | 是 (CC) | 品牌信息、备案号、联系、导航 |
+| `WeChatConsultModal` | `src/components/shared/WeChatConsultModal.tsx` | 是 (CC) | 全局微信咨询弹窗（`src/lib/wechat-modal.ts` emitter 驱动） |
 
-| Section | 组件 | Client/RSC | 说明 |
-|---------|------|-----------|------|
-| 全局导航 | `<Header />` | Client | 粘性，滚动收缩，移动端滑面板 |
-| 主视觉 | `<Hero />` | Client | 渐变背景，微信弹窗 CTA |
-| 为什么选我们 | `<WhyChooseUs />` | RSC | 3 特性卡片：专业工艺、优质材料、官方质保 |
-| 核心服务 | `<CoreServices />` | Client | 3 可点击卡片：轻改方案、车身膜、品质质保 |
-| 产品快速入口 | `<ProductsQuickEntry />` | Client | 6 产品分类网格入口 |
-| 页脚 | `<Footer />` | Client | 品牌列+导航+产品+联系+ICP |
-| 微信弹窗 | `<WeChatConsultModal />` | Client | 全屏叠加，emitter 驱动，挂载在 layout.tsx |
+### 4.1 页面组合
 
-> 电话降级策略：`<Hero />` 中的咨询电话按优先级降级——优先显示门店电话，门店电话不可用时回退品牌总机，均不可用时显示 400 占位。
+```tsx
+// src/app/page.tsx
+export default function Home() {
+  return (
+    <>
+      <Header />
+      <main>
+        <Hero />
+        <WhyChooseUs />
+        <CoreServices />
+        <ProductsQuickEntry />
+      </main>
+      <Footer />
+    </>
+  );
+}
+```
 
-## 7. 关键数据
+注意：`WeChatConsultModal` 挂载在 `src/app/layout.tsx` 中，非首页独有。
 
-- 品牌信息：`src/lib/brand.ts`
-- 产品分类：`src/lib/products.ts`（6 categories）
+## 5. 业务规则
 
-## 8. 电话降级策略
+| # | 规则 | 触发条件 | 系统行为 |
+|---|------|---------|---------|
+| BR1 | 首屏 H1 必须是品牌名或核心服务 | 页面渲染 | Hero 组件渲染品牌 slogan 和主服务描述 |
+| BR2 | 主 CTA 打开微信咨询弹窗 | 点击 "在线咨询" 按钮 | 触发 `wechat-modal` emitter → WeChatConsultModal 显示 |
+| BR3 | 副 CTA 导航到产品页 | 点击 "查看方案" 按钮 | 导航到 `/product` |
+| BR4 | 品牌联系人信息集中管理 | Footer 渲染 | 从 `brand` 对象读取 phone/address/email |
+| BR5 | 服务类别入口可点击 | 点击 CoreServices 卡片 | 导航到对应 `/product/<service>` 页面 |
+| BR6 | 品牌车系入口可点击 | 点击 ProductsQuickEntry 卡片 | 导航到对应 `/product/<brand>` 页面 |
+| BR7 | 移动端菜单 | Header hamburger 点击 | 展开全屏菜单，Escape 关闭，聚焦管理 |
 
-首页涉及电话展示的位置（Hero CTA、Footer 联系方式）按以下优先级降级：
+## 6. UI 状态
 
-| 优先级 | 来源 | 示例 | 说明 |
-|--------|------|------|------|
-| P0 | 门店电话 | `brand.ts > phone` | 从品牌配置读取门店电话；待门店数据库启用后改从 DB 读取 |
-| P1 | 品牌总机 | `brand.ts > phone`（硬编码回退） | 门店电话无数据时展示品牌总机 |
-| P2 | 400 占位 | `"400-xxx-xxxx"` | 均不可用时展示 400 占位，提示"咨询请点击微信" |
+| 状态 | 触发条件 | UI 表现 |
+|------|---------|---------|
+| loading | 页面首次渲染 | Next.js SSR → 直接交付完整 HTML，无客户端 loading |
+| error | 渲染异常 | `error.tsx` 边界捕获，显示错误 + 重试 |
+| 微信弹窗 | 点击 CTA / Header 微信按钮 | 弹窗显示，包含微信二维码和微信号 |
+| 移动菜单 | hamburger 点击 | 全屏 overlay 菜单 |
 
-现状：当前 `brand.ts` 中 `phone` 为占位值 `"联系方式待补充"`，所有电话展示位实际均处于 P2 降级状态。
+## 7. 图片规格
 
-## 9. 性能基线
+| 位置 | 图片类型 | 推荐规格 | 优先级 |
+|------|---------|---------|--------|
+| Hero 背景 | 品牌形象图/施工场景 | 1440×800, WebP | 高（`priority` loading） |
+| CoreServices 图标 | 服务类别图标 | 80×80, SVG/WebP | 中 |
+| ProductsQuickEntry 品牌 logo | 品牌标识 | 120×60, WebP | 中 |
 
-| 指标 | 目标值 | 说明 |
-|------|--------|------|
-| LCP | < 2.5s (desktop) | 最大内容渲染时间 |
-| CLS | = 0 | 累计布局偏移 |
-| FCP | < 1.5s | 首次内容渲染 |
-| TBT | < 200ms | 总阻塞时间 |
-| 图片优化 | WebP + 声明宽高比 | 所有 <Image /> 组件设 `aspect-[4/3]` 或显式宽高 |
+## 8. 响应式
 
-## 10. 验收条件
+| 视口 | 要求 |
+|------|------|
+| 390px | Hero 文字不溢出；CTA 按钮 100% 宽度；CoreServices 单列卡片；ProductsQuickEntry 2 列网格 |
+| 768px | Hero 文字+CTA 左对齐；CoreServices 2 列；ProductsQuickEntry 3 列 |
+| 1440px | 全宽展示；内容最大宽度约束（max-w-7xl）；首屏信息层级清晰 |
 
-- [ ] F1-F8 所有功能正常渲染
-- [ ] Hero CTA 打开微信弹窗
-- [ ] 产品入口链接指向正确产品页
-- [ ] 移动端响应式适配（320px / 768px / 1024px / 1440px）
-- [ ] LCP desktop < 2.5s
-- [ ] CLS = 0
-- [ ] JSON-LD Organization schema 在首页 HTML 中可验证
-- [ ] SSR/ISR 配置生效：构建产物为静态 HTML，revalidate 写入响应头
-- [ ] 电话显示按降级策略正确回退
+## 9. 测试用例清单
 
-## 11. 已知问题
+| AC-ID | 场景 | 输入 | 预期 | 类型 |
+|-------|------|------|------|------|
+| HOME-AC-01 | 首页 SSR 渲染 | GET / | 200，HTML 含品牌名和 Hero 文案 | happy |
+| HOME-AC-02 | Hero CTA 点击 | 点击 "在线咨询" | 微信弹窗打开 | happy |
+| HOME-AC-03 | Hero 副 CTA 点击 | 点击 "查看方案" | 导航到 /product | happy |
+| HOME-AC-04 | CoreServices 卡片导航 | 点击任一服务卡片 | 导航到正确 /product/<service> | happy |
+| HOME-AC-05 | 390px 无横向滚动 | 浏览器 390px 宽度 | 无 overflow-x，CTA 全宽可触 | edge |
+| HOME-AC-06 | 768px 双列布局 | 浏览器 768px 宽度 | CoreServices 2 列，无重叠 | edge |
+| HOME-AC-07 | 1440px 内容不失控 | 浏览器 1440px | 内容在 max-w-7xl 内居中 | edge |
+| HOME-AC-08 | 移动端菜单开关 | 390px 点击 hamburger | 菜单展开；Escape 关闭 | edge |
+| HOME-AC-09 | Footer 占位信息不暴露 | 检查 Footer 内容 | phone/email/icp 非生产占位时不展示或标注"即将上线" | edge |
+| HOME-AC-10 | JSON-LD 结构化数据 | 查看页面 `<head>` | 含 WebSite/Organization schema | happy |
+| HOME-AC-11 | build 不依赖 DB | `npm run build` | 成功，首页 SSG 预渲染 | happy |
 
-- [ ] **P1-5** LCP 6.5s：产品入口大图（`/product` 的 4 大主题图）未设 `priority`，导致首页 LCP 超标。修复：在 ProductsQuickEntry 中为主题入口图添加 `priority` 属性或 `fetchPriority="high"`。
-- [ ] **P1** `brand.ts` 中 `phone` 为占位值，电话降级实际处于 P2 状态。修复：待门店数据库启用后从 DB 读取真实门店电话。
+## 10. 已知问题
 
----
+- [ ] **联系信息占位**：`brand.ts` 中 phone/address/email 全为占位文案，生产环境 Footer 会暴露假信息
+- [ ] **Header CTA 链接不存在**：`/agent/store/shunde-daliang` 可能 404
+- [ ] **无 favicon/icon/apple-touch-icon**：SEO 和品牌识别受损
+- [ ] **无 OGP 图片**：社交媒体分享无预览图
+- [ ] **无 json+ld**：缺少 WebSite/Organization 结构化数据
+- [ ] **微信弹窗暴露测试微信号**：`WeChatConsultModal` 中显示 `微信号:fkycoya(待补充)`
+- [ ] **移动菜单无 focus trap**：键盘导航可逃出菜单到页面背景
+- [ ] **无 skip-to-content 链接**：无障碍缺陷
 
-> 最后更新: 2026-06-22
-
-## 12. AI 执行记录
+## 11. AI 执行记录
 
 | 日期 | AI 会话 | 执行内容 | 完成度 | 剩余工作 |
 |------|---------|---------|--------|---------|
-| 2026-06-14 | Claude Code | Hero 重写（渐变背景 + 微信 CTA） | 完成 | — |
-| 2026-06-20 | Claude Code | Hero/WhyChooseUs/CoreServices/ProductsQuickEntry 实现 | 完成 | — |
-| 2026-06-22 | Claude Code | Canonical PRD 合并 + SPEC 文档创建 | 完成 | — |
+| 2026-06-10 | Claude Code | 首页初始实现 | 完成 | — |
+| 2026-06-14 | Claude Code | Hero 重写 | 完成 | — |
+| 2026-07-07 | Claude Code | 驱动型 SPEC 重写 | 完成 | 已知问题中 8 项待修 |
+
+---
+
+> 最后更新: 2026-07-07
+> 旧版 SPEC 归档为 `public-site/home-v1-post-hoc.md`

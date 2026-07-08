@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 const navGroups = [
   {
@@ -47,6 +48,19 @@ interface SidebarProps {
 export function Sidebar({ userName, userRole }: SidebarProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const sidebarButtonRef = useRef<HTMLButtonElement>(null);
+  const sidebarPanelRef = useRef<HTMLElement>(null);
+
+  const closeMobileMenu = useCallback(() => {
+    setMobileOpen(false);
+  }, []);
+
+  useFocusTrap({
+    active: mobileOpen,
+    containerRef: sidebarPanelRef,
+    restoreFocusRef: sidebarButtonRef,
+    onEscape: closeMobileMenu,
+  });
 
   function isActive(href: string) {
     if (href === "/admin") return pathname === "/admin";
@@ -62,6 +76,7 @@ export function Sidebar({ userName, userRole }: SidebarProps) {
       {/* 移动端汉堡按钮 */}
       <button
         type="button"
+        ref={sidebarButtonRef}
         onClick={() => setMobileOpen(true)}
         className="fixed left-4 top-4 z-50 rounded-lg bg-zinc-800 p-2 text-zinc-400 hover:text-white lg:hidden"
         aria-label="打开菜单"
@@ -73,13 +88,17 @@ export function Sidebar({ userName, userRole }: SidebarProps) {
       {mobileOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/60 lg:hidden"
-          onClick={() => setMobileOpen(false)}
+          onClick={closeMobileMenu}
           aria-hidden="true"
         />
       )}
 
       {/* 侧边栏 */}
       <aside
+        ref={sidebarPanelRef}
+        role={mobileOpen ? "dialog" : undefined}
+        aria-modal={mobileOpen ? true : undefined}
+        aria-label={mobileOpen ? "后台导航菜单" : undefined}
         className={cn(
           "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-zinc-900 transition-transform duration-200 lg:static lg:translate-x-0",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
@@ -89,7 +108,7 @@ export function Sidebar({ userName, userRole }: SidebarProps) {
         <div className="flex h-16 items-center gap-3 border-b border-zinc-800 px-5">
           <Link
             href="/admin"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-orange-500/20 bg-orange-500/10 text-xs font-bold text-orange-400"
           >
             LH
@@ -102,7 +121,7 @@ export function Sidebar({ userName, userRole }: SidebarProps) {
           </div>
           <button
             type="button"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
             className="ml-auto rounded-lg p-1 text-zinc-400 hover:text-white lg:hidden"
             aria-label="关闭菜单"
           >
@@ -124,7 +143,7 @@ export function Sidebar({ userName, userRole }: SidebarProps) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={closeMobileMenu}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                       active

@@ -75,7 +75,7 @@ export default async function WenjieM8Page() {
   return (
     <>
       <Header />
-      <main className="flex-grow bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow bg-zinc-950">
         <WenjieModelUpgradeHero
           modelKey={MODEL_KEY}
           modelName={MODEL_NAME}

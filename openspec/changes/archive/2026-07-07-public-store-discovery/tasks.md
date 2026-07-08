@@ -1,0 +1,6 @@
+- [x] Task 1: 扩展 `getStores` 参数 — 新增 `search` 和 `level`，同步更新 API 调用和静态 fallback
+- [x] Task 2: 调整 API 搜索字段 + `public_featured` 排序为旗舰优先
+- [x] Task 3: 新增 `StoreSearch` Client Component（搜索框 UI + URL 跳转逻辑）
+- [x] Task 4: 更新 `/agent` 页面 — 集成搜索组件、接收 searchParams、展示搜索结果和空状态
+- [x] Task 5: 更新 `FeaturedStores` — 只展示星辉旗舰店（level === "flagship"）
+- [x] Task 6: 更新/补充测试 + `npm run build` 验证

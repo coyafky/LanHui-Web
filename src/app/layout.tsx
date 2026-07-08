@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { organizationSchema } from "@/lib/schema";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import { SkipToContent } from "@/components/SkipToContent";
 import { WeChatConsultModal } from "@/components/shared/WeChatConsultModal";
 import "./globals.css";
 
@@ -40,6 +41,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" className="h-full antialiased dark">
       <body className="min-h-full flex flex-col bg-zinc-950 text-white">
+        <SkipToContent />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

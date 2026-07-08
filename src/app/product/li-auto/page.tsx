@@ -129,7 +129,7 @@ export default function LiAutoSeriesPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <LiAutoSeriesHero
           title="理想系列项目升级方案｜蓝辉轻改 LANHUI"
           subtitle="围绕新车保护、隔热防晒、底盘防护、二排舒适和家庭出行场景，为理想车主提供系统化轻改项目参考。"

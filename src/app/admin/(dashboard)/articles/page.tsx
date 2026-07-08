@@ -3,27 +3,37 @@
 import { Suspense, useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 import {
   Plus,
   Search,
   Trash2,
   Pencil,
   Eye,
-  EyeOff,
   MoreHorizontal,
   ChevronLeft,
   ChevronRight,
-  Check,
   X,
   Pin,
   PinOff,
+  Check,
 } from "lucide-react";
+
+type ArticleStatus = "draft" | "published" | "withdrawn" | "archived";
+type ArticleAction =
+  | "publish"
+  | "withdraw"
+  | "republish"
+  | "archive"
+  | "restore"
+  | "sticky"
+  | "unsticky";
 
 interface Article {
   id: string;
   title: string;
   slug: string;
-  status: string;
+  status: ArticleStatus;
   category: string | null;
   publishedAt: string | null;
   viewCount: number;
@@ -42,6 +52,7 @@ interface Pagination {
 const STATUS_MAP: Record<string, { label: string; className: string }> = {
   draft: { label: "草稿", className: "bg-zinc-700 text-zinc-300" },
   published: { label: "已发布", className: "bg-emerald-900/50 text-emerald-400" },
+  withdrawn: { label: "已撤回", className: "bg-amber-900/50 text-amber-400" },
   archived: { label: "已归档", className: "bg-yellow-900/50 text-yellow-400" },
 };
 
@@ -64,8 +75,28 @@ const STATUS_OPTIONS = [
   { value: "", label: "全部状态" },
   { value: "draft", label: "草稿" },
   { value: "published", label: "已发布" },
+  { value: "withdrawn", label: "已撤回" },
   { value: "archived", label: "已归档" },
 ];
+
+const ACTION_LABELS: Record<ArticleAction | "delete", string> = {
+  publish: "发布",
+  withdraw: "撤回",
+  republish: "重新发布",
+  archive: "归档",
+  restore: "恢复草稿",
+  sticky: "置顶",
+  unsticky: "取消置顶",
+  delete: "删除",
+};
+
+function actionsForArticle(article: Article): ArticleAction[] {
+  const stickyAction: ArticleAction = article.isSticky ? "unsticky" : "sticky";
+  if (article.status === "draft") return ["publish", "archive", stickyAction];
+  if (article.status === "published") return ["withdraw", stickyAction];
+  if (article.status === "withdrawn") return ["republish", "archive", stickyAction];
+  return ["restore"];
+}
 
 export default function ArticlesPage() {
   return (
@@ -78,17 +109,20 @@ export default function ArticlesPage() {
 function ArticlesPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const created = searchParams.get("created");
-  const updated = searchParams.get("updated");
-  const [banner, setBanner] = useState<{ type: "created" | "updated"; title: string } | null>(null);
 
+  // 处理从新建/编辑页传来的 query params,转为 toast 并清理 URL
   useEffect(() => {
+    const created = searchParams.get("created");
+    const updated = searchParams.get("updated");
     if (created) {
-      setBanner({ type: "created", title: decodeURIComponent(created) });
+      toast.success("创建成功", { description: decodeURIComponent(created) });
     } else if (updated) {
-      setBanner({ type: "updated", title: decodeURIComponent(updated) });
+      toast.success("更新成功", { description: decodeURIComponent(updated) });
     }
-  }, [created, updated]);
+    if (created || updated) {
+      router.replace("/admin/articles");
+    }
+  }, [searchParams, router]);
 
   const [articles, setArticles] = useState<Article[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
@@ -103,6 +137,7 @@ function ArticlesPageContent() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const containerRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // 拉取 DB 实际存在的分类字典(失败时降级为 CATEGORIES_FALLBACK)
@@ -116,7 +151,7 @@ function ArticlesPageContent() {
           data?: { categories: CategoryOption[] };
         };
         if (cancelled) return;
-        if (json.success && json.data) {
+        if (json.success && Array.isArray(json.data?.categories)) {
           setCategories(json.data.categories);
         } else {
           setCategories(CATEGORIES_FALLBACK);
@@ -160,6 +195,10 @@ function ArticlesPageContent() {
     fetchArticles();
   }, [fetchArticles]);
 
+  useEffect(() => {
+    setSelectedIds(new Set());
+  }, [pagination.page, statusFilter, categoryFilter, search]);
+
   // 点击菜单外部关闭
   useEffect(() => {
     if (!openMenuId) return;
@@ -173,33 +212,41 @@ function ArticlesPageContent() {
     return () => document.removeEventListener("click", handleClick);
   }, [openMenuId]);
 
-  async function handleTogglePublish(article: Article) {
-    const newStatus = article.status === "published" ? "draft" : "published";
-    const res = await fetch(`/api/articles/${article.id}`, {
-      method: "PUT",
+  async function handleArticleAction(article: Article, action: ArticleAction) {
+    const needsConfirm = action === "withdraw" || action === "archive" || action === "restore";
+    if (needsConfirm && !confirm(`确认${ACTION_LABELS[action]}这篇文章吗？`)) return;
+    const res = await fetch(`/api/articles/${article.id}/${action}`, {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: newStatus }),
+      body: JSON.stringify({}),
     });
     if (res.ok) {
-      fetchArticles();
+      setOpenMenuId(null);
+      await fetchArticles();
     } else {
       const json = await res.json().catch(() => ({}));
-      alert(json.error || `${newStatus === "published" ? "发布" : "退回草稿"}失败`);
+      toast.error(`${ACTION_LABELS[action]}失败`, {
+        description: json.error || "请稍后重试",
+      });
     }
   }
 
-  async function handleToggleSticky(article: Article) {
-    const newSticky = !article.isSticky;
-    const res = await fetch(`/api/articles/${article.id}`, {
-      method: "PUT",
+  async function handleBulkAction(action: "publish" | "withdraw" | "archive" | "delete") {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`确认对 ${selectedIds.size} 篇文章执行${ACTION_LABELS[action]}吗？`)) return;
+    const res = await fetch("/api/articles/bulk", {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isSticky: newSticky }),
+      body: JSON.stringify({ action, ids: Array.from(selectedIds) }),
     });
     if (res.ok) {
-      fetchArticles();
+      setSelectedIds(new Set());
+      await fetchArticles();
     } else {
       const json = await res.json().catch(() => ({}));
-      alert(json.error || `${newSticky ? "置顶" : "取消置顶"}失败`);
+      toast.error(`批量${ACTION_LABELS[action]}失败`, {
+        description: json.error || "请稍后重试",
+      });
     }
   }
 
@@ -207,11 +254,43 @@ function ArticlesPageContent() {
     if (!confirm("确定要删除这篇文章吗？此操作不可撤销。")) return;
     const res = await fetch(`/api/articles/${id}`, { method: "DELETE" });
     if (res.ok) {
-      fetchArticles();
+      setSelectedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
+      await fetchArticles();
     } else {
-      const json = await res.json();
-      alert(json.error || "删除失败");
+      const json = await res.json().catch(() => ({}));
+      toast.error("删除失败", {
+        description: json.error || "请稍后重试",
+      });
     }
+  }
+
+  const visibleArticleIds = articles.map((article) => article.id);
+  const allVisibleSelected =
+    visibleArticleIds.length > 0 && visibleArticleIds.every((id) => selectedIds.has(id));
+
+  function toggleAllVisible() {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (allVisibleSelected) {
+        visibleArticleIds.forEach((id) => next.delete(id));
+      } else {
+        visibleArticleIds.forEach((id) => next.add(id));
+      }
+      return next;
+    });
+  }
+
+  function toggleArticleSelection(id: string) {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   }
 
   function formatDate(dateStr: string | null) {
@@ -225,25 +304,6 @@ function ArticlesPageContent() {
 
   return (
     <div>
-      {banner && (
-        <div className="mb-6 flex items-center justify-between rounded-lg border border-emerald-900/50 bg-emerald-950/50 px-4 py-3 text-sm text-emerald-400">
-          <div className="flex items-center gap-2">
-            <Check className="h-4 w-4" />
-            <span>文章 &quot;{banner.title}&quot; {banner.type === "created" ? "创建" : "更新"}成功</span>
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              setBanner(null);
-              router.replace("/admin/articles");
-            }}
-            className="text-emerald-400 hover:text-emerald-300"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-      )}
-
       {/* 页头 */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-2xl font-bold text-zinc-100">文章管理</h1>
@@ -303,11 +363,65 @@ function ArticlesPageContent() {
         </select>
       </div>
 
+      {selectedIds.size > 0 && (
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-orange-500/30 bg-orange-500/10 px-4 py-3">
+          <span className="text-sm text-orange-200">
+            已选择 {selectedIds.size} 篇文章
+          </span>
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => void handleBulkAction("publish")}
+              className="rounded-lg border border-orange-500/40 px-3 py-1.5 text-xs font-medium text-orange-200 transition-colors hover:bg-orange-500/15"
+            >
+              批量发布
+            </button>
+            <button
+              type="button"
+              onClick={() => void handleBulkAction("withdraw")}
+              className="rounded-lg border border-orange-500/40 px-3 py-1.5 text-xs font-medium text-orange-200 transition-colors hover:bg-orange-500/15"
+            >
+              批量撤回
+            </button>
+            <button
+              type="button"
+              onClick={() => void handleBulkAction("archive")}
+              className="rounded-lg border border-orange-500/40 px-3 py-1.5 text-xs font-medium text-orange-200 transition-colors hover:bg-orange-500/15"
+            >
+              批量归档
+            </button>
+            <button
+              type="button"
+              onClick={() => void handleBulkAction("delete")}
+              className="rounded-lg border border-red-500/40 px-3 py-1.5 text-xs font-medium text-red-300 transition-colors hover:bg-red-500/10"
+            >
+              批量删除
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedIds(new Set())}
+              className="rounded-lg border border-zinc-700 px-3 py-1.5 text-xs font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
+            >
+              清空
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* 表格 */}
       <div className="overflow-x-auto rounded-xl border border-zinc-800">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-zinc-800 bg-zinc-900/50">
             <tr>
+              <th className="w-10 px-4 py-3">
+                <input
+                  type="checkbox"
+                  aria-label="选择当前页全部文章"
+                  checked={allVisibleSelected}
+                  onChange={toggleAllVisible}
+                  className="accent-orange-500"
+                />
+              </th>
               <th className="px-4 py-3 font-medium text-zinc-400">标题</th>
               <th className="px-4 py-3 font-medium text-zinc-400">分类</th>
               <th className="px-4 py-3 font-medium text-zinc-400">状态</th>
@@ -320,13 +434,13 @@ function ArticlesPageContent() {
           <tbody className="divide-y divide-zinc-800/50">
             {loading ? (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-zinc-500">
+                <td colSpan={8} className="px-4 py-12 text-center text-zinc-500">
                   加载中...
                 </td>
               </tr>
             ) : articles.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-zinc-500">
+                <td colSpan={8} className="px-4 py-12 text-center text-zinc-500">
                   暂无文章
                 </td>
               </tr>
@@ -338,6 +452,15 @@ function ArticlesPageContent() {
                     key={article.id}
                     className="group transition-colors hover:bg-zinc-900/50"
                   >
+                    <td className="px-4 py-3">
+                      <input
+                        type="checkbox"
+                        aria-label={`选择文章 ${article.title}`}
+                        checked={selectedIds.has(article.id)}
+                        onChange={() => toggleArticleSelection(article.id)}
+                        className="accent-orange-500"
+                      />
+                    </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         {article.isSticky && (
@@ -394,40 +517,29 @@ function ArticlesPageContent() {
                               <Pencil className="h-3.5 w-3.5" />
                               编辑
                             </Link>
-                            <button
-                              type="button"
-                              onClick={() => handleTogglePublish(article)}
-                              className="flex w-full items-center gap-2 px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
-                            >
-                              {article.status === "published" ? (
-                                <>
-                                  <EyeOff className="h-3.5 w-3.5" />
-                                  取消发布
-                                </>
-                              ) : (
-                                <>
-                                  <Eye className="h-3.5 w-3.5" />
-                                  发布
-                                </>
-                              )}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleToggleSticky(article)}
-                              className="flex w-full items-center gap-2 px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
-                            >
-                              {article.isSticky ? (
-                                <>
-                                  <PinOff className="h-3.5 w-3.5" />
-                                  取消置顶
-                                </>
-                              ) : (
-                                <>
-                                  <Pin className="h-3.5 w-3.5" />
-                                  置顶
-                                </>
-                              )}
-                            </button>
+                            {actionsForArticle(article).map((action) => {
+                              const Icon =
+                                action === "publish" || action === "republish"
+                                  ? Eye
+                                  : action === "sticky"
+                                    ? Pin
+                                    : action === "unsticky"
+                                      ? PinOff
+                                      : action === "restore"
+                                        ? Check
+                                        : X;
+                              return (
+                                <button
+                                  key={action}
+                                  type="button"
+                                  onClick={() => void handleArticleAction(article, action)}
+                                  className="flex w-full items-center gap-2 px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
+                                >
+                                  <Icon className="h-3.5 w-3.5" />
+                                  {ACTION_LABELS[action]}
+                                </button>
+                              );
+                            })}
                             <button
                               type="button"
                               onClick={() => handleDelete(article.id)}

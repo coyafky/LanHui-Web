@@ -54,7 +54,7 @@ export default function LiAutoOnePage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <LiAutoOneTopicViewTrack
           topicKey="li-auto-one"
           brandSlug="li-auto"

@@ -87,7 +87,7 @@ export default function XpengGxTopicPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <XpengGxTopicViewTrack
           topicKey="xpeng-gx"
           totalProjects={totalProjects}

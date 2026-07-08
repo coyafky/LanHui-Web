@@ -46,12 +46,12 @@ const ACCENT_STRIPE: Record<AccentColor, string> = {
 
 export function ProductsQuickEntry() {
   return (
-    <section className="py-20 bg-zinc-950 border-t border-zinc-900">
+    <section className="py-14 sm:py-20 bg-zinc-950 border-t border-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
           <div>
             <p className="text-sm tracking-widest text-orange-400 mb-3">PRODUCTS</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">产品快速入口</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">产品快速入口</h2>
             <p className="text-zinc-400 max-w-xl">
               蓝辉轻改当前覆盖 6 个产品方向，先了解大类，再到店沟通具体方案。
             </p>
@@ -76,14 +76,14 @@ export function ProductsQuickEntry() {
           <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-8 gap-4">
             <div>
               <p className="text-sm tracking-widest text-blue-400 mb-3">BRANDS</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">品牌车型</h3>
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-white mb-2">品牌车型</h3>
               <p className="text-zinc-400 max-w-xl">
                 按品牌找到你的车型，查看专属升级方案。
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 min-[360px]:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4">
             {ALL_BRANDS.filter((b) => b.status === "live").map((brand) => {
               const models = ALL_MODELS.filter(
                 (m) => m.brandSlug === brand.brandSlug,
@@ -99,14 +99,14 @@ export function ProductsQuickEntry() {
                     aria-hidden
                   />
 
-                  <div className="p-4">
+                  <div className="p-4 min-w-0">
                     {/* 品牌名链接 */}
                     <Link
                       href={brand.canonicalPath}
-                      className={`inline-flex items-center gap-1.5 text-sm font-bold hover:underline underline-offset-4 transition-colors ${ACCENT_TEXT[brand.accentColor]}`}
+                      className={`inline-flex items-center gap-1.5 text-sm font-bold hover:underline underline-offset-4 transition-colors break-words ${ACCENT_TEXT[brand.accentColor]}`}
                     >
                       {brand.brandName}
-                      <ChevronRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
+                      <ChevronRight className="w-3 h-3 shrink-0 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" />
                     </Link>
 
                     {/* 车型标签列表 */}
@@ -116,7 +116,7 @@ export function ProductsQuickEntry() {
                           <Link
                             key={m.modelSlug}
                             href={m.canonicalPath}
-                            className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs border transition-colors hover:border-zinc-500 ${ACCENT_BG_SUBTLE[brand.accentColor]}`}
+                            className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs border transition-colors hover:border-zinc-500 break-words max-w-full ${ACCENT_BG_SUBTLE[brand.accentColor]}`}
                           >
                             {m.navLabel}
                           </Link>
@@ -159,7 +159,7 @@ function ProductCard({ product }: { product: Product }) {
           }`}
         />
       </div>
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <div className="flex items-center justify-between mb-4">
           <span
             className={`inline-flex items-center justify-center w-11 h-11 rounded-lg border ${

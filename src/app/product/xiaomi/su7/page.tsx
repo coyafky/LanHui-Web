@@ -10,21 +10,35 @@ import {
   xiaomiSu7Faq,
   XIAOMI_SU7_PROJECT_COUNT,
   XIAOMI_SU7_SCENARIO_COUNT,
+  XIAOMI_SU7_HERO_IMAGE,
 } from "@/lib/xiaomi-su7-upgrade-projects";
 import { XiaomiSu7TopicViewTrack } from "@/components/xiaomi-su7/XiaomiSu7TopicViewTrack";
 import { XiaomiSu7Hero } from "@/components/xiaomi-su7/XiaomiSu7Hero";
 import { XiaomiSu7ScenarioMatrix } from "@/components/xiaomi-su7/XiaomiSu7ScenarioMatrix";
 import { XiaomiSu7ProjectGrid } from "@/components/xiaomi-su7/XiaomiSu7ProjectGrid";
-import { XiaomiSu7ModelFitNote } from "@/components/xiaomi-su7/XiaomiSu7ModelFitNote";
 import { XiaomiSu7ServiceFlow } from "@/components/xiaomi-su7/XiaomiSu7ServiceFlow";
 import { XiaomiSu7Faq } from "@/components/xiaomi-su7/XiaomiSu7Faq";
 
 export const metadata: Metadata = {
-  title: "小米 SU7 轻改项目｜前包围、侧裙、方向盘与中控面板｜蓝辉轻改",
+  title: "小米 SU7 轻改项目｜车衣隔热膜Ultra机盖方向盘｜蓝辉轻改",
   description:
-    "蓝辉轻改提供小米 SU7 专属轻改方案参考，覆盖前包围、侧裙、机盖、尾翼、后视镜壳、方向盘、中控面板、迎宾踏板等 12 项轻改项目。",
+    "蓝辉轻改提供小米 SU7 专属轻改方案参考，覆盖车衣、隔热膜、改色膜、360软包脚垫、底盘护板、氛围灯、仪表中置、电动尾翼、电动遮阳帘、Ultra机盖、Ultra方向盘、Ultra前后包围等 21 项轻改项目。",
   alternates: {
     canonical: "/product/xiaomi/su7",
+  },
+  openGraph: {
+    title: "小米 SU7 轻改项目｜车衣隔热膜Ultra机盖方向盘｜蓝辉轻改",
+    description:
+      "蓝辉轻改提供小米 SU7 专属轻改方案参考，覆盖车衣、隔热膜、改色膜、360软包脚垫、底盘护板、氛围灯、仪表中置、电动尾翼、电动遮阳帘、Ultra机盖、Ultra方向盘、Ultra前后包围等 21 项轻改项目。",
+    images: [
+      {
+        url: XIAOMI_SU7_HERO_IMAGE.publicPath,
+        width: XIAOMI_SU7_HERO_IMAGE.width,
+        height: XIAOMI_SU7_HERO_IMAGE.height,
+        alt: XIAOMI_SU7_HERO_IMAGE.alt,
+      },
+    ],
+    type: "article",
   },
 };
 
@@ -64,24 +78,24 @@ export default async function XiaomiSu7Page() {
         projectCount={XIAOMI_SU7_PROJECT_COUNT}
       />
       <Header />
-      <main className="flex-grow">
+      <main id="main-content" tabIndex={-1} className="flex-grow">
         {/* Hero */}
         <XiaomiSu7Hero
           totalProjects={XIAOMI_SU7_PROJECT_COUNT}
           totalScenarios={XIAOMI_SU7_SCENARIO_COUNT}
+          heroImage={XIAOMI_SU7_HERO_IMAGE}
         />
 
         {/* 用车场景矩阵 */}
-        <XiaomiSu7ScenarioMatrix
-          scenarios={scenarios}
-          projects={projects}
-        />
+        <section className="scroll-mt-24" id="scenario-new-car-protection">
+          <XiaomiSu7ScenarioMatrix
+            scenarios={scenarios}
+            projects={projects}
+          />
+        </section>
 
         {/* 项目网格 */}
-        <XiaomiSu7ProjectGrid projects={projects} />
-
-        {/* 适配说明 */}
-        <XiaomiSu7ModelFitNote />
+        <XiaomiSu7ProjectGrid projects={projects} scenarios={scenarios} />
 
         {/* 6 步服务流程 */}
         <XiaomiSu7ServiceFlow steps={xiaomiSu7ServiceSteps} />
@@ -90,24 +104,27 @@ export default async function XiaomiSu7Page() {
         <XiaomiSu7Faq items={xiaomiSu7Faq} />
 
         {/* CTA section */}
-        <section className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900">
+        <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p className="text-sm tracking-widest text-orange-400 mb-3">
+              NEXT STEP
+            </p>
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              以上项目仅供参考
+              小米 SU7 升级方案 · 到店评估
             </h2>
             <p className="text-zinc-400 text-sm md:text-base leading-relaxed mb-8">
               不同批次和配置存在差异，具体适配请到店确认。蓝辉轻改顺德大良店提供到店评估和按标准流程施工服务。
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-3">
               <a
                 href="/product/xiaomi"
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-orange-500/20 border border-orange-500 text-orange-200 hover:bg-orange-500/30 transition-colors text-sm font-semibold"
+                className="inline-flex items-center px-4 py-2 rounded-md border border-orange-900/60 bg-orange-950/30 text-orange-300 hover:text-orange-200 hover:border-orange-700/60 text-sm transition-colors"
               >
                 查看小米系列
               </a>
               <a
                 href="/product"
-                className="inline-flex items-center px-6 py-3 rounded-xl bg-zinc-800 border border-zinc-700 text-zinc-300 hover:bg-zinc-700 transition-colors text-sm font-semibold"
+                className="inline-flex items-center px-4 py-2 rounded-md border border-zinc-700 text-zinc-300 hover:text-white hover:border-zinc-500 text-sm transition-colors"
               >
                 返回产品中心
               </a>

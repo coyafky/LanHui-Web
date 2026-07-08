@@ -39,7 +39,7 @@ export default async function AgentPage({
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         {/* ── Hero Section ── */}
         <section className="relative bg-zinc-950 text-white overflow-hidden">
           <div className="absolute inset-0 -z-0" aria-hidden="true">

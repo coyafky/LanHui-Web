@@ -12,6 +12,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import Image from "next/image";
+import { toast } from "sonner";
 import { Loader2, Upload, Trash2, Replace, ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -74,6 +75,7 @@ export function EntityImageUploader({
           throw new Error(json.error ?? `上传失败 (${res.status})`);
         }
         setState("idle");
+        toast.success("图片上传成功");
         onUploadSuccess?.(json.data.path, {
           size: json.data.size,
           width: json.data.width,
@@ -83,6 +85,7 @@ export function EntityImageUploader({
         const msg = e instanceof Error ? e.message : "上传失败";
         setError({ message: msg });
         setState("error");
+        toast.error("图片上传失败", { description: msg });
       }
     },
     [entity, entityId, onUploadSuccess]
@@ -135,11 +138,13 @@ export function EntityImageUploader({
         throw new Error(json.error ?? `删除失败 (${res.status})`);
       }
       setState("idle");
+      toast.success("图片已删除");
       onDeleteSuccess?.();
     } catch (e) {
       const msg = e instanceof Error ? e.message : "删除失败";
       setError({ message: msg });
       setState("error");
+      toast.error("图片删除失败", { description: msg });
     }
   };
 

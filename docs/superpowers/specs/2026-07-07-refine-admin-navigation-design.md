@@ -2,6 +2,8 @@
 comet_change: refine-admin-navigation
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-07-refine-admin-navigation
+status: final
 ---
 
 # 管理后台导航体验优化

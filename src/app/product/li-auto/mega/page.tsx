@@ -69,7 +69,7 @@ export default function LiAutoMegaPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <LiAutoMegaTopicViewTrack
           topicKey="li-auto-mega"
           brandSlug="li-auto"

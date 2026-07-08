@@ -108,7 +108,7 @@ export default function WenjieSeriesPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <WenjieSeriesHero
           title="问界系列项目升级方案｜蓝辉轻改 LANHUI"
           subtitle="专业轻改，安全可靠，提升体验，焕新出行"

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import Link from "next/link";
 import { ArrowLeft, X } from "lucide-react";
 
@@ -66,7 +67,7 @@ export default function EditArticlePage({
           data?: { categories: CategoryOption[] };
         };
         if (cancelled) return;
-        if (json.success && json.data) {
+        if (json.success && Array.isArray(json.data?.categories)) {
           setCategories(json.data.categories);
         } else {
           setCategories(CATEGORIES_FALLBACK);
@@ -146,14 +147,17 @@ export default function EditArticlePage({
 
       const json = await res.json();
       if (!json.success) {
-        setError(json.error || "更新失败");
+        const errMsg = json.error || "更新失败";
+        setError(errMsg);
+        toast.error("更新失败", { description: errMsg });
         return;
       }
 
-      const titleForBanner = encodeURIComponent(title || "文章");
-      router.push(`/admin/articles?updated=${titleForBanner}`);
+      toast.success("更新成功", { description: title || "文章" });
+      router.push("/admin/articles");
     } catch {
       setError("网络错误，请重试");
+      toast.error("网络错误，请重试");
     } finally {
       setSaving(false);
     }

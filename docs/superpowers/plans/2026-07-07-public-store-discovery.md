@@ -2,6 +2,7 @@
 change: public-store-discovery
 design-doc: docs/superpowers/specs/2026-07-07-public-store-discovery-design.md
 base-ref: 3f5ce59ef05926d8d6ad81fc0a70ad29ac9dce11
+archived-with: 2026-07-07-public-store-discovery
 ---
 
 # Implementation Plan: 公开站门店搜索 + 推荐门店旗舰化

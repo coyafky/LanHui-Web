@@ -46,7 +46,7 @@ export default async function NewsDetailPage({
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         {/* Hero */}
         <section className="bg-black text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">

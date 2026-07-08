@@ -69,7 +69,7 @@ export default function NioEs8Page() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <NioEs8TopicViewTrack
           topicKey="nio-es8"
           brandSlug="nio"

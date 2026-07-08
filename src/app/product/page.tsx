@@ -82,7 +82,7 @@ export default function ProductCenter() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         {/* JSON-LD structured data */}
         <script
           type="application/ld+json"

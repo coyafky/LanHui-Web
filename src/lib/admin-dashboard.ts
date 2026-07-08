@@ -355,7 +355,6 @@ export async function getStoreSummary(): Promise<DashboardFetchResult<StoreSumma
         level: true,
         address: true,
         phone: true,
-        imageUrl: true,
         imagePath: true,
       },
     });
@@ -416,7 +415,7 @@ export async function getStoreSummary(): Promise<DashboardFetchResult<StoreSumma
         (s.status === "active" ||
           s.status === "pending" ||
           (s.isActive && s.status !== "suspended" && s.status !== "terminated")) &&
-        ((!s.imageUrl && !s.imagePath) || !s.address?.trim() || !s.phone?.trim()),
+        (!s.imagePath || !s.address?.trim() || !s.phone?.trim()),
     ).length;
 
     return {
@@ -466,7 +465,7 @@ export async function getTodoSummaryV2(): Promise<DashboardFetchResult<TodoSumma
       prisma.store.count({
         where: {
           status: { in: ["active", "pending"] },
-          AND: [{ OR: [{ imageUrl: null }, { imagePath: null }] }],
+          imagePath: null,
         },
       }),
       prisma.store.count({ where: { status: "suspended" } }),

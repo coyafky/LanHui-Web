@@ -79,7 +79,7 @@ export default function DenzaD9TopicPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <DenzaD9TopicViewTrack
           topicKey="denza-d9"
           totalProjects={totalProjects}

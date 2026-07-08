@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import Link from "next/link";
 import {
   X,
@@ -123,7 +124,6 @@ export function StoreForm({
   const [submitting, setSubmitting] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
   const [regionLoadState, setRegionLoadState] = useState<RegionLoadState>({
     loading: true,
     error: null,
@@ -195,7 +195,6 @@ export function StoreForm({
   /* ---------- Submit handler ---------- */
   async function handleFormSubmit(data: StoreFormValues) {
     setSubmitError(null);
-    setSubmitSuccess(null);
 
     // 发布前置校验（PRD §16 D1）：从 pending → active 必须设置 level
     const wantsPublish = data.status === "active" && !data.level;
@@ -209,7 +208,7 @@ export function StoreForm({
     setSubmitting(true);
     try {
       await onSubmit(data);
-      setSubmitSuccess(submitSuccessLabel);
+      toast.success(submitSuccessLabel);
       setTimeout(() => {
         router.push("/admin/stores");
       }, 600);
@@ -219,6 +218,7 @@ export function StoreForm({
           ? err.message
           : "创建失败，请稍后重试或联系管理员";
       setSubmitError(msg);
+      toast.error(msg);
     } finally {
       setSubmitting(false);
     }
@@ -269,14 +269,6 @@ export function StoreForm({
           className="rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400"
         >
           {submitError}
-        </div>
-      )}
-      {submitSuccess && (
-        <div
-          role="status"
-          className="rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-400"
-        >
-          {submitSuccess}
         </div>
       )}
 

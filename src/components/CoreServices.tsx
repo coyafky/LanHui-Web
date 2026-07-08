@@ -18,13 +18,13 @@ const ACCENT_MAP: Record<string, string> = {
 
 export function CoreServices() {
   return (
-    <section className="py-20 bg-black border-t border-zinc-900">
+    <section className="py-14 sm:py-20 bg-black border-t border-zinc-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 sm:mb-16">
           <p className="text-sm tracking-widest text-blue-400 mb-3">SERVICES</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">核心服务</h2>
-          <p className="text-lg text-zinc-400">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">核心服务</h2>
+          <p className="text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             从洗美养护、贴膜服务到轻改装备，蓝辉轻改提供一条龙式升级服务，让每次到店都物超所值。
           </p>
         </div>

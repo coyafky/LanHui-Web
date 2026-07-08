@@ -20,7 +20,7 @@ export default async function XpengBrandPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow">
+      <main id="main-content" tabIndex={-1} className="flex-grow">
         <BrandPlaceholder
           title={`${brand.brandName}轻改方案`}
           subtitle={`蓝辉轻改整理${brand.brandName}热门车型的轻改与膜系方案，方案由团队整理中。`}

@@ -68,7 +68,7 @@ export default function LiAutoL9Page() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <LiAutoL9TopicViewTrack
           topicKey="li-auto-l9"
           brandSlug="li-auto"

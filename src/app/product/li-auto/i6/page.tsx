@@ -66,7 +66,7 @@ export default function LiAutoI6Page() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <LiAutoI6TopicViewTrack
           topicKey="li-auto-i6"
           brandSlug="li-auto"

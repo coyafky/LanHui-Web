@@ -20,36 +20,37 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-40">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14 sm:pt-20 sm:pb-16 md:py-40">
         <div className="max-w-2xl">
           <p className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-blue-950/60 border border-blue-800/50 text-blue-300 text-xs tracking-widest">
             <span className="w-1.5 h-1.5 rounded-full bg-orange-400" />
             {brand.en} · 汽车轻改装
           </p>
-          <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-4 leading-tight text-white">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-4 leading-tight text-white max-w-full break-words">
             {brand.zh}
           </h1>
-          <p className="text-xl md:text-2xl font-bold text-white mb-3 mt-2">
+          <p className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-3 mt-2 max-w-full break-words leading-snug">
             源头工厂制造能力,新能源车主一站式升级服务
           </p>
-          <p className="text-lg md:text-xl text-zinc-300 mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-zinc-300 mb-10 leading-relaxed max-w-full break-words">
             依托 800 亩制造厂区与轻改产品供应链,蓝辉轻改围绕汽车膜、轮毂、电动踏板、地板总成、改装件等产品,为新能源车主提供车型适配、产品推荐与到店施工服务。
           </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
             <button
               type="button"
               onClick={() => openWeChatModal()}
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 shadow-lg shadow-blue-900/30 transition-colors"
+              className="inline-flex w-full min-w-0 items-center justify-center rounded-lg px-5 py-3.5 text-center text-sm font-medium leading-snug sm:w-auto sm:px-8 sm:py-4 sm:text-base text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 shadow-lg shadow-blue-900/30 transition-colors"
             >
-              <MessageCircle className="mr-2 w-5 h-5" />
-              添加企业微信咨询车型方案
+              <MessageCircle className="mr-2 h-5 w-5 shrink-0" />
+              <span className="sm:hidden">企业微信咨询</span>
+              <span className="hidden sm:inline">添加企业微信咨询车型方案</span>
             </button>
             <Link
               href="/product"
-              className="inline-flex items-center justify-center px-8 py-4 text-base font-medium rounded-lg text-white bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 transition-colors"
+              className="inline-flex w-full min-w-0 items-center justify-center rounded-lg px-5 py-3.5 text-center text-sm font-medium leading-snug sm:w-auto sm:px-8 sm:py-4 sm:text-base text-white bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 transition-colors"
             >
               查看产品中心
-              <ArrowRight className="ml-2 w-5 h-5" />
+              <ArrowRight className="ml-2 h-5 w-5 shrink-0" />
             </Link>
           </div>
         </div>

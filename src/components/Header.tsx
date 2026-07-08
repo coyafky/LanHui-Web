@@ -8,6 +8,7 @@ import { brand } from "@/lib/brand";
 import { ALL_BRANDS, ALL_MODELS, getLiveServices } from "@/lib/product-routes";
 import { Logo } from "@/components/Logo";
 import { openWeChatModal } from "@/lib/wechat-modal";
+import { useFocusTrap } from "@/lib/use-focus-trap";
 
 type NavChild = {
   label: string;
@@ -72,6 +73,8 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   const isActive = (item: NavItem) => {
@@ -128,6 +131,14 @@ export function Header() {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
+
+  // Mobile menu focus trap
+  useFocusTrap({
+    active: mobileOpen,
+    containerRef: mobilePanelRef,
+    restoreFocusRef: mobileButtonRef,
+    onEscape: closeMobileMenu,
+  });
 
   return (
     <header
@@ -328,6 +339,7 @@ export function Header() {
             {/* Mobile menu button */}
             <button
               type="button"
+              ref={mobileButtonRef}
               className="lg:hidden relative inline-flex items-center justify-center w-10 h-10 rounded-lg text-zinc-300 hover:text-white hover:bg-white/5 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="切换菜单"
@@ -359,6 +371,10 @@ export function Header() {
 
         {/* Slide-in panel */}
         <div
+          ref={mobilePanelRef}
+          role="dialog"
+          aria-modal={mobileOpen}
+          aria-label="移动端导航菜单"
           className={`absolute right-0 top-0 h-full w-full max-w-sm bg-zinc-950 border-l border-white/5 shadow-2xl transition-transform duration-300 ease-out ${
             mobileOpen ? "translate-x-0" : "translate-x-full"
           }`}
@@ -487,26 +503,29 @@ function MobileDropdown({
         className={`overflow-hidden transition-all duration-200 ease-out ${
           open ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
         }`}
+        aria-hidden={!open}
       >
-        <div className="pl-4 mt-1 space-y-0.5">
-          {item.children!.map((child) => {
-            const childActive = pathname === child.href;
-            return (
-              <Link
-                key={child.label}
-                href={child.href}
-                onClick={onClose}
-                className={`flex items-center px-4 py-3 rounded-lg text-sm transition-colors min-h-[44px] ${
-                  childActive
-                    ? "text-orange-400 bg-orange-400/10"
-                    : "text-zinc-500 hover:text-white hover:bg-white/5"
-                }`}
-              >
-                {child.label}
-              </Link>
-            );
-          })}
-        </div>
+        {open && (
+          <div className="pl-4 mt-1 space-y-0.5">
+            {item.children!.map((child) => {
+              const childActive = pathname === child.href;
+              return (
+                <Link
+                  key={child.label}
+                  href={child.href}
+                  onClick={onClose}
+                  className={`flex items-center px-4 py-3 rounded-lg text-sm transition-colors min-h-[44px] ${
+                    childActive
+                      ? "text-orange-400 bg-orange-400/10"
+                      : "text-zinc-500 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  {child.label}
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

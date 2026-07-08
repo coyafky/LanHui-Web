@@ -19,7 +19,7 @@ export function XiaomiSu7TopicBanner() {
             小米 SU7 专属升级方案
           </h3>
           <p className="text-sm text-zinc-400 leading-relaxed">
-            覆盖前包围、侧裙、机盖、尾翼、方向盘、中控面板等 12
+            覆盖车衣、隔热膜、改色膜、底盘护板、Ultra 机盖、Ultra 方向盘等 21
             项热门升级项目，按 5 大用车场景分类。
           </p>
         </div>

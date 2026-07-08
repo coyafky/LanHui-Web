@@ -1,0 +1,16 @@
+{
+  "change": "admin-security-foundation",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "9908f41d091609cdf3858924908cc487802fdbdc2e20f349892123f4dc4c36a9",
+  "files": [
+    { "path": "openspec/changes/admin-security-foundation/proposal.md", "sha256": "2a0a7e30ac158aeca999ffeb1a0521f1c890705754663f195da19b8a8b81c8cd" },
+    { "path": "openspec/changes/admin-security-foundation/design.md", "sha256": "a26e67d4c41b8361f3f49261fa64f3935da59adfa28b378a9f1737a4ef9515e2" },
+    { "path": "openspec/changes/admin-security-foundation/tasks.md", "sha256": "05dd6c4cc6c88e2640ea6e81143231f89efde93604edefc2197854f9e0d10ce6" },
+    { "path": "openspec/changes/admin-security-foundation/specs/api-rate-limiting/spec.md", "sha256": "c3af90c2c09f53a2332004673914ac85855910343db0a0573ce41ca0433c4959" },
+    { "path": "openspec/changes/admin-security-foundation/specs/api-security-guard/spec.md", "sha256": "c79cde65a42f74f3f087e09969c835d8099a427a7a69d5d39d1aca0be2800263" },
+    { "path": "openspec/changes/admin-security-foundation/specs/csrf-protection/spec.md", "sha256": "f738cbc0df12cba2dae2b94e14d731732360f80b7f37e4e9959f39207d4fb718" }
+  ]
+}

@@ -2,6 +2,7 @@
 change: refine-admin-navigation
 design-doc: docs/superpowers/specs/2026-07-07-refine-admin-navigation-design.md
 base-ref: a3bd355fa7175f240da7301557dfadce007c4fee
+archived-with: 2026-07-07-refine-admin-navigation
 ---
 
 # 实施计划：refine-admin-navigation

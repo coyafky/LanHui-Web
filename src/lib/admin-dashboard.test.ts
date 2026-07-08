@@ -196,7 +196,7 @@ describe("getTodoSummaryV2", () => {
   it("全部计数 > 0：所有 todo + P0 在 P1 之前 + consultation-channels 始终 disabled", async () => {
     // getTodoSummaryV2 调用 5 次 prisma.count:
     // 1. store.count where status=pending -> 3
-    // 2. store.count where status in [active,pending] AND (imageUrl null OR imagePath null) -> 2
+    // 2. store.count where status in [active,pending] AND imagePath=null -> 2
     // 3. store.count where status=suspended -> 1
     // 4. article.count where status=draft -> 4
     // 5. article.count where status=withdrawn -> 1
@@ -325,7 +325,6 @@ describe("getStoreSummary", () => {
         level: "flagship",
         address: "顺德大良",
         phone: "13800000001",
-        imageUrl: null,
         imagePath: "/img/1.webp",
       },
       {
@@ -336,7 +335,6 @@ describe("getStoreSummary", () => {
         level: "premium",
         address: "深圳福田",
         phone: "13800000002",
-        imageUrl: "/img/2.webp",
         imagePath: null,
       },
       {
@@ -347,7 +345,6 @@ describe("getStoreSummary", () => {
         level: "standard",
         address: "厦门",
         phone: "13800000003",
-        imageUrl: null,
         imagePath: null,
       },
       {
@@ -358,7 +355,6 @@ describe("getStoreSummary", () => {
         level: "standard",
         address: "济南",
         phone: "13800000004",
-        imageUrl: null,
         imagePath: null,
       },
       {
@@ -369,7 +365,6 @@ describe("getStoreSummary", () => {
         level: "standard",
         address: "石家庄",
         phone: "13800000005",
-        imageUrl: null,
         imagePath: null,
       },
       {
@@ -381,7 +376,6 @@ describe("getStoreSummary", () => {
         level: "premium",
         address: "广州",
         phone: "",
-        imageUrl: null,
         imagePath: null,
       },
     ]);
@@ -415,8 +409,8 @@ describe("getStoreSummary", () => {
       expect(r.data.topProvinces.length).toBeLessThanOrEqual(10);
       expect(r.data.topProvinces.length).toBe(2);
 
-      // missingProfile：active + 无图无电话那一条
-      expect(r.data.missingProfile).toBe(2);
+      // missingProfile：门店图片只认 imagePath；旧 imageUrl 不再作为门店主图来源
+      expect(r.data.missingProfile).toBe(3);
     }
   });
 

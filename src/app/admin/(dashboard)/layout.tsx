@@ -1,12 +1,14 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { Sidebar } from "@/components/admin/Sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 /**
  * Dashboard 路由组布局
  *
  * - auth 守卫：未登录重定向到 /admin/login
  * - 侧边栏 + 主内容区布局
+ * - 挂载全局 toast 通知系统
  */
 export default async function DashboardLayout({
   children,
@@ -27,7 +29,10 @@ export default async function DashboardLayout({
       />
 
       {/* 主内容区 */}
-      <main className="flex-1 bg-zinc-950 p-6">{children}</main>
+      <main id="main-content" tabIndex={-1} className="flex-1 bg-zinc-950 p-6">{children}</main>
+
+      {/* 全局 Toast 通知 */}
+      <Toaster />
     </div>
   );
 }

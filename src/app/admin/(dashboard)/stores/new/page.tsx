@@ -28,7 +28,11 @@ export default function NewStorePage() {
         <Plus className="h-6 w-6 text-orange-500" />
         <h1 className="text-2xl font-bold text-zinc-100">新建门店</h1>
       </div>
-      <StoreForm onSubmit={handleSubmit} submitLabel="创建门店" />
+      <StoreForm
+        onSubmit={handleSubmit}
+        submitLabel="创建门店"
+        submitSuccessLabel="门店创建成功"
+      />
     </div>
   );
 }

@@ -66,7 +66,7 @@ export default function ContactPage() {
   return (
     <>
       <Header />
-      <main className="flex-grow flex flex-col">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         {/* 模块 1: Hero 区 */}
         <section className="relative bg-zinc-950 text-white overflow-hidden">
           <div className="absolute inset-0 -z-0" aria-hidden>

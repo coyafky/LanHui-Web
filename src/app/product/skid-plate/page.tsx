@@ -16,7 +16,7 @@ export default async function SkidPlatePage() {
   return (
     <>
       <Header />
-      <main className="flex-grow">
+      <main id="main-content" tabIndex={-1} className="flex-grow">
         <BrandPlaceholder
           title={service.title}
           subtitle={`${service.title}服务由蓝辉轻改提供，方案由团队整理中。`}

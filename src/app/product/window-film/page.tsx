@@ -85,7 +85,7 @@ export default function WindowFilmPage() {
         breadcrumbLabel={product.name}
       />
 
-      <main className="flex-grow flex flex-col bg-zinc-950">
+      <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         {/* ====== 痛点说明（PRD §6.1） ====== */}
         <section className="py-16 bg-zinc-950 border-t border-white/5">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
