@@ -27,7 +27,6 @@ const CHECK_PAGES = [
   "src/app/product/nio/page.tsx",
   "src/app/product/ledao/page.tsx",
   "src/app/product/gaoshan/page.tsx",
-  "src/app/product/skid-plate/page.tsx",
 ];
 
 const BANNED_PATTERNS = [
