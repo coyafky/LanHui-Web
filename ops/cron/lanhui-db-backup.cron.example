@@ -1,0 +1,20 @@
+# 蓝辉轻改 LANHUI — PostgreSQL 每日备份 Crontab
+#
+# 安装方式:
+#   crontab -e
+#   (粘贴以下内容)
+#
+# 生产环境注意事项:
+#   1. 确认 DATABASE_URL 已在 crontab 环境中设置或通过 .env 加载
+#   2. 备份目录 (BACKUP_DIR) 不要放在容器临时层或应用目录内
+#   3. 推荐将 backups/ 目录同步到对象存储（阿里云 OSS）或异机目录
+#   4. 至少每月做一次恢复演练（见 docs/DATABASE_BACKUP_RUNBOOK.md）
+#   5. 确保 pg_dump 可用（macOS: brew install libpq, Ubuntu: apt install postgresql-client）
+
+# 每日凌晨 3 点执行数据库备份
+# 日志输出到 /var/log/lanhui-db-backup.log
+0 3 * * * cd /opt/lanhui-website && /usr/bin/npm run db:backup >> /var/log/lanhui-db-backup.log 2>&1
+
+# 每周日凌晨 4 点清理超过 30 天的旧备份
+# （db-backup.mjs 内置保留策略，此行为冗余清理，防备脚本 --no-retention 被误用）
+0 4 * * 0 find /opt/lanhui-website/backups -name "lanhui-db_*.sql.gz" -mtime +30 -delete

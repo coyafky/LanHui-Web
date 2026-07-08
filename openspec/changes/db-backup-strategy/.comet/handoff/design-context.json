@@ -1,0 +1,16 @@
+{
+  "change": "db-backup-strategy",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "ca458051df48bd3d9da148d90c349a7b6a02ac3dd5f2597c170559aeb2a2b704",
+  "files": [
+    { "path": "openspec/changes/db-backup-strategy/proposal.md", "sha256": "5c342e404220f3a2a96b2f1f48b5038adaccc0eb9af1f07ca693f56780c60338" },
+    { "path": "openspec/changes/db-backup-strategy/design.md", "sha256": "6095f1799bd01b720122745c824f5fc1799dc1477d8b08ea9db84aa9353ac2cf" },
+    { "path": "openspec/changes/db-backup-strategy/tasks.md", "sha256": "9e983f51c828c835183f73166ac637d5e4bab4839db818bbf34b170bcd3c5f2f" },
+    { "path": "openspec/changes/db-backup-strategy/specs/db-backup-policy-check/spec.md", "sha256": "97909237ba82d84b049710c80a0fe35b0c55f21ac63ade0cfaa321d63bb8e2e6" },
+    { "path": "openspec/changes/db-backup-strategy/specs/db-backup/spec.md", "sha256": "5a35f9c63bd09058cb881fec18f892df4b38e3f2334ec69858c6299457944101" },
+    { "path": "openspec/changes/db-backup-strategy/specs/db-restore/spec.md", "sha256": "44f3fa40371f6a58fc3dab902c09893318123360ff90e1afa26cfd79266a5dda" }
+  ]
+}

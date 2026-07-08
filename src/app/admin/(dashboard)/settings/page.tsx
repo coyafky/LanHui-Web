@@ -8,6 +8,10 @@ import {
   Cpu,
   Server,
   Radio,
+  Database,
+  FileText,
+  Terminal,
+  Clock,
 } from "lucide-react";
 
 type ObservabilityStatus = {
@@ -158,6 +162,70 @@ export default function SettingsPage() {
             })}
           </div>
         )}
+      </div>
+
+      {/* 数据库备份策略 */}
+      <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <Database className="h-5 w-5 text-orange-500" />
+          <h2 className="text-lg font-semibold text-zinc-100">数据库备份策略</h2>
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex items-center justify-between rounded-lg border border-zinc-800/50 bg-zinc-900/50 px-4 py-3">
+            <div className="flex items-center gap-3">
+              <FileText className="h-4 w-4 text-zinc-500" />
+              <div>
+                <p className="text-sm font-medium text-zinc-200">备份 Runbook</p>
+                <p className="text-xs text-zinc-500">docs/DATABASE_BACKUP_RUNBOOK.md</p>
+              </div>
+            </div>
+            <span className="inline-flex items-center rounded-lg bg-green-500/10 px-3 py-1 text-sm font-medium text-green-400">
+              已配置
+            </span>
+          </div>
+
+          <div className="flex items-center justify-between rounded-lg border border-zinc-800/50 bg-zinc-900/50 px-4 py-3">
+            <div className="flex items-center gap-3">
+              <Clock className="h-4 w-4 text-zinc-500" />
+              <div>
+                <p className="text-sm font-medium text-zinc-200">自动备份策略</p>
+                <p className="text-xs text-zinc-500">每日凌晨 3 点 · 保留 30 天 · gzip 压缩</p>
+              </div>
+            </div>
+            <span className="inline-flex items-center rounded-lg bg-green-500/10 px-3 py-1 text-sm font-medium text-green-400">
+              已配置
+            </span>
+          </div>
+
+          <div className="rounded-lg border border-zinc-800/50 bg-zinc-900/50 px-4 py-3">
+            <div className="flex items-center gap-3 mb-3">
+              <Terminal className="h-4 w-4 text-zinc-500" />
+              <p className="text-sm font-medium text-zinc-200">推荐命令</p>
+            </div>
+            <div className="space-y-2 font-mono text-sm">
+              <div className="rounded bg-zinc-950 px-3 py-2 text-zinc-300">
+                <span className="text-zinc-600"># 手动备份</span>
+                <br />
+                npm run db:backup
+              </div>
+              <div className="rounded bg-zinc-950 px-3 py-2 text-zinc-300">
+                <span className="text-zinc-600"># 预览备份命令（不执行）</span>
+                <br />
+                npm run db:backup:dry-run
+              </div>
+              <div className="rounded bg-zinc-950 px-3 py-2 text-amber-300">
+                <span className="text-zinc-600"># 恢复数据库（需确认）</span>
+                <br />
+                npm run db:restore -- ./backups/备份文件名.sql.gz --yes
+              </div>
+            </div>
+          </div>
+
+          <p className="text-xs text-zinc-600">
+            备份不会在 Web 后台执行。请通过终端运行命令。详细说明见 Runbook。
+          </p>
+        </div>
       </div>
     </div>
   );
