@@ -82,6 +82,20 @@ describe("useUnsavedChangesGuard", () => {
     expect(result.current.confirmDialogProps.open).toBe(true);
   });
 
+  it("sets correct dialog title, description, and variant", () => {
+    const { result } = renderHook(() => useUnsavedChangesGuard(true, false));
+
+    act(() => {
+      result.current.confirmLeave(() => {});
+    });
+
+    expect(result.current.confirmDialogProps.title).toBe("有未保存的修改");
+    expect(result.current.confirmDialogProps.description).toContain("丢失");
+    expect(result.current.confirmDialogProps.variant).toBe("danger");
+    expect(result.current.confirmDialogProps.confirmLabel).toBe("离开页面");
+    expect(result.current.confirmDialogProps.cancelLabel).toBe("继续编辑");
+  });
+
   it("executes callback and closes dialog on confirm", async () => {
     const { result } = renderHook(() => useUnsavedChangesGuard(true, false));
     const callback = vi.fn();
