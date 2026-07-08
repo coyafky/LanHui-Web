@@ -13,7 +13,7 @@ base_ref: bf571fa2068d3e14cb20fd6efab0b3f687592845
 design_doc: docs/superpowers/specs/2026-07-08-fix-news-content-contract-design.md
 plan: docs/superpowers/plans/2026-07-08-fix-news-content-contract.md
 verify_result: pending
-verification_report: null
+verification_report: docs/superpowers/reports/2026-07-08-fix-news-content-contract-verify.md
 branch_status: pending
 created_at: 2026-07-08
 verified_at: null
