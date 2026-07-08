@@ -17,6 +17,7 @@ import {
   VOYAH_DREAMER_HERO_IMAGE,
 } from "@/lib/voyah-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "岚图梦想家轻改升级方案｜车衣隔热膜铝地板包围腿托｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -53,6 +54,7 @@ export default function VoyahDreamerTopicPage() {
 
   const totalProjects = voyahDreamerUpgradeProjects.length;
   const totalScenarios = voyahDreamerScenarios.length;
+  const breadcrumbItems = getProductBreadcrumbs("/product/voyah/dreamer");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -90,6 +92,7 @@ export default function VoyahDreamerTopicPage() {
           totalProjects={totalProjects}
           scenarioCount={totalScenarios}
           heroImage={VOYAH_DREAMER_HERO_IMAGE}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <VoyahDreamerScenarioMatrix

@@ -1,12 +1,12 @@
-import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
+import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 import type { DenzaD9ProductImage } from "@/lib/denza-d9-products";
 
 type DenzaD9TopicHeroProps = {
   totalProjects: number;
   scenarioCount: number;
   heroImage: DenzaD9ProductImage;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 const SCENARIO_ANCHORS: readonly {
@@ -28,6 +28,7 @@ export function DenzaD9TopicHero({
   totalProjects,
   scenarioCount,
   heroImage,
+  breadcrumbItems,
 }: DenzaD9TopicHeroProps) {
   return (
     <section
@@ -49,17 +50,7 @@ export function DenzaD9TopicHero({
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.92)_46%,rgba(9,9,11,0.62)_100%)]" />
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6" aria-label="面包屑">
-          <Link href="/product" className="hover:text-white transition-colors">
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <Link href="/product/denza" className="hover:text-white transition-colors">
-            腾势系列
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <span className="text-zinc-300">腾势 D9</span>
-        </nav>
+        {breadcrumbItems && <Breadcrumbs items={breadcrumbItems} className="mb-6" />}
 
         <p className="text-sm tracking-widest text-orange-400 mb-3">
           DENZA D9 UPGRADE

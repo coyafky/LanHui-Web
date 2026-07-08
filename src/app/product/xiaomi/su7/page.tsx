@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 import {
   xiaomiSu7UpgradeProjects,
   xiaomiSu7Scenarios,
@@ -50,6 +51,7 @@ export default async function XiaomiSu7Page() {
 
   const projects = xiaomiSu7UpgradeProjects;
   const scenarios = xiaomiSu7Scenarios;
+  const breadcrumbItems = getProductBreadcrumbs("/product/xiaomi/su7");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -84,6 +86,7 @@ export default async function XiaomiSu7Page() {
           totalProjects={XIAOMI_SU7_PROJECT_COUNT}
           totalScenarios={XIAOMI_SU7_SCENARIO_COUNT}
           heroImage={XIAOMI_SU7_HERO_IMAGE}
+          breadcrumbItems={breadcrumbItems}
         />
 
         {/* 用车场景矩阵 */}

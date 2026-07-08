@@ -1,6 +1,5 @@
-import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
+import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 import type { VoyahDreamerProductImage } from "@/lib/voyah-products";
 
 type VoyahDreamerHeroProps = {
@@ -10,6 +9,7 @@ type VoyahDreamerHeroProps = {
   totalProjects: number;
   scenarioCount: number;
   heroImage: VoyahDreamerProductImage;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 const SCENARIO_ANCHORS: readonly {
@@ -38,6 +38,7 @@ export function VoyahDreamerHero({
   totalProjects,
   scenarioCount,
   heroImage,
+  breadcrumbItems,
 }: VoyahDreamerHeroProps) {
   return (
     <section
@@ -59,17 +60,7 @@ export function VoyahDreamerHero({
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#09090b_0%,rgba(9,9,11,0.88)_42%,rgba(9,9,11,0.58)_100%)]" />
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6" aria-label="面包屑">
-          <Link href="/product" className="hover:text-white transition-colors">
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <Link href="/product/voyah" className="hover:text-white transition-colors">
-            岚图系列
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <span className="text-zinc-300">岚图梦想家</span>
-        </nav>
+        {breadcrumbItems && <Breadcrumbs items={breadcrumbItems} className="mb-6" />}
 
         <p className="text-sm tracking-widest text-violet-400 mb-3">
           VOYAH DREAMER UPGRADE

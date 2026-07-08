@@ -1,9 +1,10 @@
-import Link from "next/link";
-import { ChevronRight, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
+import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 
 type ZhijieBrandHeroProps = {
   totalModels: number;
   totalProjects: number;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 /**
@@ -16,6 +17,7 @@ type ZhijieBrandHeroProps = {
 export function ZhijieBrandHero({
   totalModels,
   totalProjects,
+  breadcrumbItems,
 }: ZhijieBrandHeroProps) {
   return (
     <section
@@ -28,17 +30,7 @@ export function ZhijieBrandHero({
         <div className="absolute -bottom-24 left-0 w-72 h-72 rounded-full bg-amber-900/20 blur-3xl" />
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6" aria-label="面包屑">
-          <Link href="/" className="hover:text-white transition-colors">
-            首页
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <Link href="/product" className="hover:text-white transition-colors">
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <span className="text-zinc-300">智界</span>
-        </nav>
+        {breadcrumbItems && <Breadcrumbs items={breadcrumbItems} className="mb-6" />}
 
         <p className="text-sm tracking-widest text-amber-400 mb-3 inline-flex items-center gap-2">
           <Sparkles className="w-4 h-4" aria-hidden />

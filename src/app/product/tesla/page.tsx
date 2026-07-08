@@ -10,6 +10,7 @@ import { TeslaModelFitNote } from "@/components/tesla/TeslaModelFitNote";
 import { TeslaServiceFlow } from "@/components/tesla/TeslaServiceFlow";
 import { TeslaFaq } from "@/components/tesla/TeslaFaq";
 import { TeslaTopicViewTrack } from "@/components/tesla/TeslaTopicViewTrack";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 import {
   teslaFeaturedProjects,
   teslaOptionalProjects,
@@ -56,6 +57,7 @@ export default function TeslaTopicPage() {
   const allProjects = [...teslaFeaturedProjects, ...teslaOptionalProjects];
   const totalProjects = allProjects.length;
   const totalScenarios = teslaScenarios.length;
+  const breadcrumbItems = getProductBreadcrumbs("/product/tesla");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -86,6 +88,7 @@ export default function TeslaTopicPage() {
           totalProjects={totalProjects}
           modelNames={TESLA_MODEL_NAMES}
           scenarioCount={totalScenarios}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <TeslaFeaturedGrid

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
+import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 import { getModelRoute } from "@/lib/product-routes";
 import { xiaomiTopicMeta } from "@/lib/xiaomi-products";
 
@@ -9,6 +9,7 @@ type XiaomiSeriesHeroProps = {
   subtitle: string;
   totalProjects: number;
   totalModels: number;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 type SubModelAnchor = {
@@ -34,6 +35,7 @@ export function XiaomiSeriesHero({
   subtitle,
   totalProjects,
   totalModels,
+  breadcrumbItems,
 }: XiaomiSeriesHeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -43,16 +45,7 @@ export function XiaomiSeriesHero({
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6" aria-label="面包屑">
-          <Link
-            href="/product"
-            className="hover:text-white transition-colors"
-          >
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <span className="text-zinc-300">小米系列升级方案</span>
-        </nav>
+        {breadcrumbItems && <Breadcrumbs items={breadcrumbItems} className="mb-6" />}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div>

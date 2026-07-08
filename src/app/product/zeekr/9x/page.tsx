@@ -18,6 +18,7 @@ import {
   zeekr9xUpgradeProjects,
 } from "@/lib/zeekr-9x-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 
 const CANONICAL_PATH = "/product/zeekr/9x";
 
@@ -65,6 +66,8 @@ export default function Zeekr9xPage() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   if (!model || model.type !== "vehicle_model") notFound();
 
+  const breadcrumbItems = getProductBreadcrumbs("/product/zeekr/9x");
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -94,6 +97,7 @@ export default function Zeekr9xPage() {
           totalProjects={zeekr9xUpgradeProjects.length}
           scenarioCount={zeekr9xScenarios.length}
           heroImage={ZEEKR_9X_HERO_IMAGE}
+          breadcrumbItems={breadcrumbItems}
         />
 
         {/* 场景矩阵 */}
