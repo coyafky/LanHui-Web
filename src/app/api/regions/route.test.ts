@@ -57,7 +57,7 @@ describe("GET /api/regions", () => {
   it("成功：返回 RegionTree（含直辖市子节点）", async () => {
     mockFindMany.mockResolvedValue(FIXTURE_PROVINCES);
     const GET = await loadGet();
-    const res = await GET();
+    const res = await GET(new Request("http://localhost/api/regions"));
     expect(res.status).toBe(200);
     const json = (await res.json()) as {
       success: boolean;
@@ -94,7 +94,7 @@ describe("GET /api/regions", () => {
   it("传递正确查询参数给 prisma（isActive=true + order asc + cities include）", async () => {
     mockFindMany.mockResolvedValue([]);
     const GET = await loadGet();
-    await GET();
+    await GET(new Request("http://localhost/api/regions"));
     expect(mockFindMany).toHaveBeenCalledTimes(1);
     const callArg = mockFindMany.mock.calls[0]?.[0] as {
       where: { isActive: boolean };
@@ -120,7 +120,7 @@ describe("GET /api/regions", () => {
     }));
     mockFindMany.mockResolvedValue(bigFixture);
     const GET = await loadGet();
-    const res = await GET();
+    const res = await GET(new Request("http://localhost/api/regions"));
     const json = (await res.json()) as { data: unknown[] };
     expect(json.data).toHaveLength(31);
   });
@@ -129,7 +129,7 @@ describe("GET /api/regions", () => {
     // prisma 收到 where: { isActive: true } 即可保证结果中不含 false 的省
     mockFindMany.mockResolvedValue([]);
     const GET = await loadGet();
-    await GET();
+    await GET(new Request("http://localhost/api/regions"));
     const callArg = mockFindMany.mock.calls[0]?.[0] as {
       where: Record<string, unknown>;
       include: { cities: { where: Record<string, unknown> } };
@@ -141,7 +141,7 @@ describe("GET /api/regions", () => {
   it("错误：prisma 抛出 → 500 + success=false", async () => {
     mockFindMany.mockRejectedValue(new Error("DB down"));
     const GET = await loadGet();
-    const res = await GET();
+    const res = await GET(new Request("http://localhost/api/regions"));
     expect(res.status).toBe(500);
     const json = (await res.json()) as { success: boolean; error?: string };
     expect(json.success).toBe(false);

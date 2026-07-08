@@ -1,0 +1,14 @@
+{
+  "change": "observability-foundation",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "dc984ebd8e75027b3135461637e4e4a345c07b73eab7c4d3832df5df84c9cba7",
+  "files": [
+    { "path": "openspec/changes/observability-foundation/proposal.md", "sha256": "601d5ad1a0ac1c4bc5cef84e9b6f9927aeb154632c9a6cb0e45e71c7ca9a3403" },
+    { "path": "openspec/changes/observability-foundation/design.md", "sha256": "e7edc7d8e5f4566418467e5a126ce472564b2c82dee61776202f3f9b58f0cc99" },
+    { "path": "openspec/changes/observability-foundation/tasks.md", "sha256": "47f7799fb84f44867c02f4dfa030cc6d1832eb179793221020a8897f6d7b7ad2" },
+    { "path": "openspec/changes/observability-foundation/specs/server-observability/spec.md", "sha256": "73da4553e7e5dcaecd56627b6fea5f15f1c058bf26904ecf56c0bea46f73759d" }
+  ]
+}

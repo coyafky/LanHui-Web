@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
 const mockGroupBy = vi.hoisted(() => vi.fn());
+const mockLoggerError = vi.hoisted(() => vi.fn());
 
 vi.mock("@/lib/prisma", () => ({
   prisma: {
@@ -9,10 +10,14 @@ vi.mock("@/lib/prisma", () => ({
     },
   },
 }));
+vi.mock("@/lib/logger", () => ({
+  logger: { debug: vi.fn(), info: vi.fn(), warn: vi.fn(), error: mockLoggerError },
+}));
 
 beforeEach(() => {
   vi.resetModules();
   mockGroupBy.mockReset();
+  mockLoggerError.mockClear();
 });
 
 async function loadGet() {
@@ -31,7 +36,7 @@ describe("GET /api/articles/categories — 分类字典", () => {
     ]);
 
     const GET = await loadGet();
-    const res = await GET();
+    const res = await GET(new Request("http://localhost/api/articles/categories"));
     expect(res.status).toBe(200);
 
     const json = (await res.json()) as {
@@ -51,7 +56,7 @@ describe("GET /api/articles/categories — 分类字典", () => {
     mockGroupBy.mockResolvedValue([]);
 
     const GET = await loadGet();
-    const res = await GET();
+    const res = await GET(new Request("http://localhost/api/articles/categories"));
     expect(res.status).toBe(200);
 
     const json = (await res.json()) as {
@@ -61,17 +66,15 @@ describe("GET /api/articles/categories — 分类字典", () => {
   });
 
   it("Prisma 抛错 → 返回 500 + 标准错误结构", async () => {
-    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     mockGroupBy.mockRejectedValue(new Error("DB down"));
 
     const GET = await loadGet();
-    const res = await GET();
+    const res = await GET(new Request("http://localhost/api/articles/categories"));
     expect(res.status).toBe(500);
 
     const json = (await res.json()) as { success: boolean; error: string };
     expect(json.success).toBe(false);
     expect(json.error).toBe("服务器内部错误");
-    expect(consoleSpy).toHaveBeenCalledOnce();
-    consoleSpy.mockRestore();
+    expect(mockLoggerError).toHaveBeenCalled();
   });
 });

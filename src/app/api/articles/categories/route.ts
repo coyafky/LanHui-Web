@@ -1,11 +1,13 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 /** GET /api/articles/categories — 返回 DB 中实际存在的文章分类字典
  *
  *  与 `/api/articles` 公开 GET 一致：本接口也是公开元数据，不需要鉴权。
  *  过滤掉 category 为 NULL 的文章，按 value 升序排序让 UI 渲染稳定。
  */
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const groups = await prisma.article.groupBy({
       by: ["category"],
@@ -39,7 +41,8 @@ export async function GET() {
       data: { categories },
     });
   } catch (error) {
-    console.error("[GET /api/articles/categories]", error);
+    const ctx = getRequestContext(request, "/api/articles/categories");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

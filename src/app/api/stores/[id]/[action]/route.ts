@@ -14,8 +14,8 @@ import {
   type StoreAction,
   type StoreStatus,
 } from "@/lib/validations/store-transitions";
-import { requireCsrf } from "@/lib/security/csrf";
-import { rateLimiter } from "@/lib/security/rate-limit";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 const VALID_ACTIONS: ReadonlySet<StoreAction> = new Set([
   "publish",
@@ -53,6 +53,7 @@ export async function POST(
   request: NextRequest,
   ctx: { params: Promise<{ id: string; action: string }> }
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session) {
@@ -65,19 +66,6 @@ export async function POST(
       return Response.json(
         { success: false, error: "权限不足" },
         { status: 403 }
-      );
-    }
-
-    // CSRF 校验
-    const csrf = requireCsrf(request);
-    if (!csrf.ok) return csrf.response;
-
-    // 速率限制（60 次/分钟）
-    const rl = rateLimiter.check(`route:${session.user.id}`, 60, 60_000);
-    if (!rl.ok) {
-      return Response.json(
-        { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
-        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
       );
     }
 
@@ -225,6 +213,15 @@ export async function POST(
       },
     });
 
+    const actionCtx = getRequestContext(request, "/api/stores/[id]/[action]");
+    logger.info({
+      event: "api.request.completed",
+      ...actionCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: store });
   } catch (error) {
     // 标准化 Prisma 7 + Driver Adapter P2002 / P2022 等
@@ -263,7 +260,14 @@ export async function POST(
         { status: 409 }
       );
     }
-    console.error("[POST /api/stores/[id]/[action]]", error);
+    const actionErrCtx = getRequestContext(request, "/api/stores/[id]/[action]");
+    logger.error({
+      event: "api.request.failed",
+      ...actionErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

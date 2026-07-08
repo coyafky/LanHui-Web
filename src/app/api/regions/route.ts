@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 export type RegionTreeCity = {
   slug: string;
@@ -15,7 +17,7 @@ export type RegionTreeNode = {
   cities: RegionTreeCity[];
 };
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const provinces = await prisma.province.findMany({
       where: { isActive: true },
@@ -43,7 +45,8 @@ export async function GET() {
 
     return Response.json({ success: true, data });
   } catch (error) {
-    console.error("[GET /api/regions]", error);
+    const ctx = getRequestContext(request, "/api/regions");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

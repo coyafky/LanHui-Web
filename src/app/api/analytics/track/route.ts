@@ -1,5 +1,7 @@
 import { headers } from 'next/headers';
 import { prisma } from '@/lib/prisma';
+import { logger } from '@/lib/logger';
+import { getRequestContext } from '@/lib/request-context';
 
 /**
  * POST /api/analytics/track
@@ -46,6 +48,7 @@ interface TrackEventInput {
 }
 
 export async function POST(request: Request) {
+  const start = Date.now();
   try {
     // 提取客户端信息
     const headersList = await headers();
@@ -68,6 +71,7 @@ export async function POST(request: Request) {
 
     // 限流检查
     if (!checkRateLimit(rateLimitKey)) {
+      logger.warn({ event: "analytics.rate_limited", ip: rateLimitKey });
       return Response.json(
         { success: false, error: '请求过于频繁' },
         { status: 429 }
@@ -106,10 +110,11 @@ export async function POST(request: Request) {
     }
 
     if (invalidEvents.length > 0) {
-      console.warn(
-        `[POST /api/analytics/track] dropped ${invalidEvents.length} invalid events`,
-        { sample: invalidEvents[0] }
-      );
+      logger.warn({
+        event: "analytics.invalid_event",
+        dropped: invalidEvents.length,
+        sample: invalidEvents[0],
+      });
     }
 
     if (validEvents.length === 0) {
@@ -134,13 +139,30 @@ export async function POST(request: Request) {
       data: records as Array<Parameters<typeof prisma.analyticsEvent.createMany>[0] extends { data: infer D } ? D : never>,
     });
 
+    const trackCtx = getRequestContext(request, "/api/analytics/track");
+    logger.info({
+      event: "api.request.completed",
+      ...trackCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      count: result.count,
+      invalidCount: invalidEvents.length,
+    });
+
     return Response.json({
       success: true,
       count: result.count,
       invalidCount: invalidEvents.length,
     });
   } catch (error) {
-    console.error('[POST /api/analytics/track]', error);
+    const trackErrCtx = getRequestContext(request, "/api/analytics/track");
+    logger.error({
+      event: "api.request.failed",
+      ...trackErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      error,
+    });
     return Response.json(
       { success: false, error: '服务器内部错误' },
       { status: 500 }

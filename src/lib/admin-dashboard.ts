@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
 
 export type DashboardKpi = {
   activeStores: number;
@@ -214,9 +215,7 @@ export async function logActivity(input: {
       },
     });
   } catch (error) {
-    if (typeof console !== "undefined") {
-      console.warn("[logActivity] failed:", error instanceof Error ? error.message : error);
-    }
+    logger.warn({ event: "admin-dashboard.fetch.failed", module: "logActivity", error });
   }
 }
 
@@ -425,12 +424,7 @@ export async function getStoreSummary(): Promise<DashboardFetchResult<StoreSumma
       data: { byStatus, topProvinces, byLevel, missingProfile },
     };
   } catch (error) {
-    if (typeof console !== "undefined") {
-      console.warn(
-        "[dashboard] getStoreSummary failed:",
-        error instanceof Error ? error.message : error,
-      );
-    }
+    logger.warn({ event: "admin-dashboard.fetch.failed", module: "getStoreSummary", error });
     return {
       ok: false,
       error: error instanceof Error ? error.message : "Unknown error",
@@ -551,12 +545,7 @@ export async function getTodoSummaryV2(): Promise<DashboardFetchResult<TodoSumma
 
     return { ok: true, data: { items, totalCount: items.length } };
   } catch (error) {
-    if (typeof console !== "undefined") {
-      console.warn(
-        "[dashboard] getTodoSummaryV2 failed:",
-        error instanceof Error ? error.message : error,
-      );
-    }
+    logger.warn({ event: "admin-dashboard.fetch.failed", module: "getTodoSummaryV2", error });
     return {
       ok: false,
       error: error instanceof Error ? error.message : "Unknown error",
@@ -590,12 +579,7 @@ export async function getKpiSnapshotV2(): Promise<DashboardFetchResult<Dashboard
       data: { activeStores, publishedArticles, monthlyPageViews, monthlyContactIntent },
     };
   } catch (error) {
-    if (typeof console !== "undefined") {
-      console.warn(
-        "[dashboard] getKpiSnapshotV2 failed:",
-        error instanceof Error ? error.message : error,
-      );
-    }
+    logger.warn({ event: "admin-dashboard.fetch.failed", module: "getKpiSnapshotV2", error });
     return {
       ok: false,
       error: error instanceof Error ? error.message : "Unknown error",
@@ -643,12 +627,7 @@ export async function getContentSummaryV2(): Promise<DashboardFetchResult<Conten
       data: { byStatus, recent7dPublished, topCategories, missingCover },
     };
   } catch (error) {
-    if (typeof console !== "undefined") {
-      console.warn(
-        "[dashboard] getContentSummaryV2 failed:",
-        error instanceof Error ? error.message : error,
-      );
-    }
+    logger.warn({ event: "admin-dashboard.fetch.failed", module: "getContentSummaryV2", error });
     return {
       ok: false,
       error: error instanceof Error ? error.message : "Unknown error",
@@ -802,12 +781,7 @@ export async function getInterestSummaryV2(): Promise<DashboardFetchResult<Inter
       },
     };
   } catch (error) {
-    if (typeof console !== "undefined") {
-      console.warn(
-        "[dashboard] getInterestSummaryV2 failed:",
-        error instanceof Error ? error.message : error,
-      );
-    }
+    logger.warn({ event: "admin-dashboard.fetch.failed", module: "getInterestSummaryV2", error });
     return {
       ok: false,
       error: error instanceof Error ? error.message : "Unknown error",

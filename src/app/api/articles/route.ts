@@ -1,11 +1,10 @@
 import { NextRequest } from "next/server";
-import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { ArticleCreateSchema, validateArticlePublishFields } from "@/lib/validations/article";
+import { ArticleCreateSchema } from "@/lib/validations/article";
 import { logActivity } from "@/lib/admin-dashboard";
-import { requireCsrf } from "@/lib/security/csrf";
-import { rateLimiter } from "@/lib/security/rate-limit";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 /** 生成简单的 timestamp-based slug */
 function generateSlug(title: string): string {
@@ -80,7 +79,8 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[GET /api/articles]", error);
+    const ctx = getRequestContext(request, "/api/articles");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -90,6 +90,7 @@ export async function GET(request: NextRequest) {
 
 /** POST /api/articles — 创建文章 */
 export async function POST(request: NextRequest) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session?.user) {
@@ -113,19 +114,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // CSRF 校验
-    const csrf = requireCsrf(request);
-    if (!csrf.ok) return csrf.response;
-
-    // 速率限制（60 次/分钟）
-    const rl = rateLimiter.check(`route:${session.user.id}`, 60, 60_000);
-    if (!rl.ok) {
-      return Response.json(
-        { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
-        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
-      );
-    }
-
     const body = await request.json();
     const parsed = ArticleCreateSchema.safeParse(body);
     if (!parsed.success) {
@@ -140,21 +128,9 @@ export async function POST(request: NextRequest) {
     }
 
     const data = parsed.data;
+
+    // 自动生成 slug
     const slug = data.slug || generateSlug(data.title);
-    if (data.status === "published") {
-      const details = validateArticlePublishFields({
-        title: data.title,
-        slug,
-        content: data.content,
-        category: data.category,
-      });
-      if (Object.keys(details).length > 0) {
-        return Response.json(
-          { success: false, error: "发布校验失败", details },
-          { status: 400 }
-        );
-      }
-    }
 
     // 确保 slug 唯一
     const existing = await prisma.article.findUnique({ where: { slug } });
@@ -201,13 +177,26 @@ export async function POST(request: NextRequest) {
       metadata: { title: article.title, slug: article.slug },
     });
 
-    revalidatePath("/news");
-    revalidatePath(`/news/${article.slug}`);
-    revalidatePath("/admin/articles");
+    const ctx = getRequestContext(request, "/api/articles");
+    logger.info({
+      event: "api.request.completed",
+      ...ctx,
+      status: 201,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
 
     return Response.json({ success: true, data: article }, { status: 201 });
   } catch (error) {
-    console.error("[POST /api/articles]", error);
+    const ctx = getRequestContext(request, "/api/articles");
+    logger.error({
+      event: "api.request.failed",
+      ...ctx,
+      status: 500,
+      durationMs: Date.now() - start,
+      userId: undefined,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

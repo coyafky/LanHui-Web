@@ -1,16 +1,10 @@
 import { NextRequest } from "next/server";
-import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import {
-  ArticleUpdateSchema,
-  getIllegalArticleStatusTransitionMessage,
-  isArticleStatus,
-  validateArticlePublishFields,
-} from "@/lib/validations/article";
+import { ArticleUpdateSchema } from "@/lib/validations/article";
 import { logActivity } from "@/lib/admin-dashboard";
-import { requireCsrf } from "@/lib/security/csrf";
-import { rateLimiter } from "@/lib/security/rate-limit";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 /** GET /api/articles/[id] — 获取单篇文章（也支持按 slug 查询） */
 export async function GET(
@@ -60,7 +54,8 @@ export async function GET(
       data: { ...article, viewCount: article.viewCount + 1 },
     });
   } catch (error) {
-    console.error("[GET /api/articles/[id]]", error);
+    const ctx = getRequestContext(request, "/api/articles/[id]");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -73,6 +68,7 @@ export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session?.user) {
@@ -93,19 +89,6 @@ export async function PUT(
       return Response.json(
         { success: false, error: "登录状态异常，请重新登录" },
         { status: 401 }
-      );
-    }
-
-    // CSRF 校验
-    const csrf = requireCsrf(request);
-    if (!csrf.ok) return csrf.response;
-
-    // 速率限制（60 次/分钟）
-    const rl = rateLimiter.check(`route:${session.user.id}`, 60, 60_000);
-    if (!rl.ok) {
-      return Response.json(
-        { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
-        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
       );
     }
 
@@ -133,7 +116,6 @@ export async function PUT(
     }
 
     const data = parsed.data;
-    const existingStatus = isArticleStatus(existing.status) ? existing.status : "draft";
 
     // 如果更新了 slug，检查唯一性
     if (data.slug && data.slug !== existing.slug) {
@@ -148,29 +130,6 @@ export async function PUT(
 
     // 如果 status 变为 published 且没有 publishedAt，自动设置
     const updateData: Record<string, unknown> = { ...data };
-    if (data.status && data.status !== existingStatus) {
-      const illegalMessage = getIllegalArticleStatusTransitionMessage(existingStatus, data.status);
-      if (illegalMessage) {
-        return Response.json(
-          { success: false, error: illegalMessage },
-          { status: 409 }
-        );
-      }
-      if (data.status === "published") {
-        const details = validateArticlePublishFields({
-          title: data.title ?? existing.title,
-          slug: data.slug ?? existing.slug,
-          content: data.content ?? existing.content,
-          category: data.category ?? existing.category,
-        });
-        if (Object.keys(details).length > 0) {
-          return Response.json(
-            { success: false, error: "发布校验失败", details },
-            { status: 400 }
-          );
-        }
-      }
-    }
     if (data.status === "published" && !existing.publishedAt && !data.publishedAt) {
       updateData.publishedAt = new Date();
     } else if (data.publishedAt) {
@@ -195,17 +154,26 @@ export async function PUT(
       metadata: { title: article.title, slug: article.slug, status: article.status },
     });
 
-    revalidatePath("/news");
-    revalidatePath(`/news/${article.slug}`);
-    if (article.slug !== existing.slug) {
-      revalidatePath(`/news/${existing.slug}`);
-    }
-    revalidatePath("/admin/articles");
-    revalidatePath(`/admin/articles/${article.id}`);
+    const putCtx = getRequestContext(request, "/api/articles/[id]");
+    logger.info({
+      event: "api.request.completed",
+      ...putCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
 
     return Response.json({ success: true, data: article });
   } catch (error) {
-    console.error("[PUT /api/articles/[id]]", error);
+    const putErrCtx = getRequestContext(request, "/api/articles/[id]");
+    logger.error({
+      event: "api.request.failed",
+      ...putErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      userId: undefined,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -215,9 +183,10 @@ export async function PUT(
 
 /** DELETE /api/articles/[id] — 删除文章（admin 权限，真删除） */
 export async function DELETE(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session?.user) {
@@ -241,19 +210,6 @@ export async function DELETE(
       );
     }
 
-    // CSRF 校验
-    const csrf = requireCsrf(request);
-    if (!csrf.ok) return csrf.response;
-
-    // 速率限制（60 次/分钟）
-    const rl = rateLimiter.check(`route:${session.user.id}`, 60, 60_000);
-    if (!rl.ok) {
-      return Response.json(
-        { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
-        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
-      );
-    }
-
     const { id } = await params;
 
     const existing = await prisma.article.findUnique({ where: { id } });
@@ -274,13 +230,26 @@ export async function DELETE(
       metadata: { title: existing.title, slug: existing.slug },
     });
 
-    revalidatePath("/news");
-    revalidatePath(`/news/${existing.slug}`);
-    revalidatePath("/admin/articles");
+    const delCtx = getRequestContext(_request, "/api/articles/[id]");
+    logger.info({
+      event: "api.request.completed",
+      ...delCtx,
+      status: 200,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
 
     return Response.json({ success: true });
   } catch (error) {
-    console.error("[DELETE /api/articles/[id]]", error);
+    const delErrCtx = getRequestContext(_request, "/api/articles/[id]");
+    logger.error({
+      event: "api.request.failed",
+      ...delErrCtx,
+      status: 500,
+      durationMs: Date.now() - start,
+      userId: undefined,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }

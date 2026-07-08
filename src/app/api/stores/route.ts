@@ -11,8 +11,8 @@ import {
   FLAGSHIP_CONFLICT_STATUS,
   isFlagshipConflictError,
 } from "@/lib/stores/flagship-constraint";
-import { requireCsrf } from "@/lib/security/csrf";
-import { rateLimiter } from "@/lib/security/rate-limit";
+import { logger } from "@/lib/logger";
+import { getRequestContext } from "@/lib/request-context";
 
 type OrderByInput =
   | Prisma.StoreOrderByWithRelationInput
@@ -28,9 +28,8 @@ const SORT_MAP: Record<string, OrderByInput> = {
   name_desc: { name: "desc" },
   level_desc: [{ level: "desc" }, { createdAt: "desc" }],
   public_featured: [
-    { level: "asc" },
     { imagePath: { sort: "asc", nulls: "last" } },
-    { createdAt: "desc" },
+    { createdAt: "asc" },
   ],
 };
 
@@ -106,9 +105,6 @@ export async function GET(request: NextRequest) {
         { address: { contains: search, mode: "insensitive" } },
         { phone: { contains: search, mode: "insensitive" } },
         { slug: { contains: search, mode: "insensitive" } },
-        { provinceLabel: { contains: search, mode: "insensitive" } },
-        { cityLabel: { contains: search, mode: "insensitive" } },
-        { district: { contains: search, mode: "insensitive" } },
       ];
     }
 
@@ -143,7 +139,8 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("[GET /api/stores]", error);
+    const ctx = getRequestContext(request, "/api/stores");
+    logger.error({ event: "api.error", ...ctx, error });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
@@ -152,6 +149,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const start = Date.now();
   try {
     const session = await auth();
     if (!session) {
@@ -164,19 +162,6 @@ export async function POST(request: NextRequest) {
       return Response.json(
         { success: false, error: "权限不足" },
         { status: 403 }
-      );
-    }
-
-    // CSRF 校验
-    const csrf = requireCsrf(request);
-    if (!csrf.ok) return csrf.response;
-
-    // 速率限制（60 次/分钟）
-    const rl = rateLimiter.check(`route:${session.user.id}`, 60, 60_000);
-    if (!rl.ok) {
-      return Response.json(
-        { success: false, error: "请求过于频繁，请稍后再试", details: { retryAfter: rl.retryAfter } },
-        { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
       );
     }
 
@@ -271,6 +256,15 @@ export async function POST(request: NextRequest) {
       metadata: { name: store.name, slug: store.slug },
     });
 
+    const ctx = getRequestContext(request, "/api/stores");
+    logger.info({
+      event: "api.request.completed",
+      ...ctx,
+      status: 201,
+      durationMs: Date.now() - start,
+      userId: session.user.id,
+    });
+
     return Response.json({ success: true, data: store }, { status: 201 });
   } catch (error) {
     // Prisma P2003 = foreign key constraint violation（兜底：省市被并发删除/被禁用）
@@ -340,7 +334,14 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       );
     }
-    console.error("[POST /api/stores]", error);
+    const ctx = getRequestContext(request, "/api/stores");
+    logger.error({
+      event: "api.request.failed",
+      ...ctx,
+      status: 500,
+      durationMs: Date.now() - start,
+      error,
+    });
     return Response.json(
       { success: false, error: "服务器内部错误" },
       { status: 500 }
