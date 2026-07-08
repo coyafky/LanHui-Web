@@ -32,7 +32,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run build",
+    "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run check:backup && npm run build",
     "verify:zeekr-images": "node scripts/verify-zeekr-images.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -41,7 +41,11 @@
     "test:e2e": "playwright test",
     "screenshot:all": "node scripts/audit/screenshot-all.mjs",
     "lighthouse:run": "node scripts/audit/lighthouse-run.mjs",
-    "audit:full": "npm run screenshot:all && npm run lighthouse:run && playwright test e2e/audit-full-site.spec.ts"
+    "audit:full": "npm run screenshot:all && npm run lighthouse:run && playwright test e2e/audit-full-site.spec.ts",
+    "db:backup": "node scripts/db-backup.mjs",
+    "db:backup:dry-run": "node scripts/db-backup.mjs --dry-run",
+    "db:restore": "node scripts/db-restore.mjs",
+    "check:backup": "node scripts/check-backup-strategy.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

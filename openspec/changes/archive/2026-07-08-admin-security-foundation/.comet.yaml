@@ -17,6 +17,6 @@ verification_report: docs/superpowers/reports/2026-07-07-admin-security-foundati
 branch_status: handled
 created_at: 2026-07-07
 verified_at: 2026-07-07
-archived: false
+archived: true
 handoff_context: openspec/changes/admin-security-foundation/.comet/handoff/design-context.json
 handoff_hash: 9908f41d091609cdf3858924908cc487802fdbdc2e20f349892123f4dc4c36a9
