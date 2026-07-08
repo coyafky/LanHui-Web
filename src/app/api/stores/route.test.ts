@@ -25,6 +25,11 @@ vi.mock("@/lib/prisma", () => ({
 }));
 vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
 
+const mockLoggerError = vi.hoisted(() => vi.fn());
+vi.mock("@/lib/logger", () => ({
+  logger: { debug: vi.fn(), info: vi.fn(), warn: vi.fn(), error: mockLoggerError },
+}));
+
 // Note: P2 阶段 store-regions 已不再被 POST 引用，移除其 mock
 // vi.mock("@/lib/store-regions", ...) 已删除
 
@@ -293,6 +298,7 @@ describe("POST /api/stores — 创建成功路径", () => {
   it("其他 Prisma 错误返回 500", async () => {
     mockAuth.mockResolvedValue({ user: { role: "admin" } });
     mockStoreCreate.mockRejectedValue(new Error("DB down"));
+    mockLoggerError.mockClear();
     const POST = await loadPost();
     const req = new Request("http://localhost/api/stores", {
       method: "POST",
@@ -301,6 +307,7 @@ describe("POST /api/stores — 创建成功路径", () => {
     });
     const res = await POST(req as unknown as Parameters<typeof POST>[0]);
     expect(res.status).toBe(500);
+    expect(mockLoggerError).toHaveBeenCalled();
   });
 
   it("参数验证失败（schema）返回 400 + 中文 details", async () => {
