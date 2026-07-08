@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { Sidebar } from "@/components/admin/Sidebar";
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "sonner";
 
 /**
  * Dashboard 路由组布局
@@ -31,8 +31,12 @@ export default async function DashboardLayout({
       {/* 主内容区 */}
       <main id="main-content" tabIndex={-1} className="flex-1 bg-zinc-950 p-6">{children}</main>
 
-      {/* 全局 Toast 通知 */}
-      <Toaster />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: { background: "#18181b", color: "#e4e4e7", border: "1px solid #27272a" },
+        }}
+      />
     </div>
   );
 }
