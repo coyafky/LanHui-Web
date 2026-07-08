@@ -1,0 +1,13 @@
+{
+  "change": "fix-news-content-contract",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "75bc1575d941f11defbf8d58d953c14c9ca12b545ef9427a16b0c130eab77fc8",
+  "files": [
+    { "path": "openspec/changes/fix-news-content-contract/proposal.md", "sha256": "2a972c6a4035fc98e3555a45289cce6e7d66c564afe887f6fe859d303cfd7fac" },
+    { "path": "openspec/changes/fix-news-content-contract/design.md", "sha256": "ae79ef3b35bbdbb2ffe327d1994e83d750b2a483ed2f6476f15eefe2a9b2926a" },
+    { "path": "openspec/changes/fix-news-content-contract/tasks.md", "sha256": "4fb9142df2ee04e8fe1ea60aae6982608f47dce319da09d08eb558ab722e1207" }
+  ]
+}

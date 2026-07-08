@@ -91,7 +91,7 @@ export default async function NewsDetailPage({
               </p>
 
               <div className="prose prose-invert max-w-4xl text-zinc-300 leading-relaxed">
-                <ArticleContent content={item.content ?? ""} />
+                <ArticleContent content={item.content || item.summary || ""} />
               </div>
             </div>
 

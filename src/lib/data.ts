@@ -52,19 +52,45 @@ function mapApiCity(raw: any): City {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function mapApiArticle(raw: any): NewsItem {
-  return {
-    slug: raw.slug,
-    title: raw.title,
-    date: raw.publishedAt
-      ? new Date(raw.publishedAt).toISOString().slice(0, 10)
-      : raw.createdAt
+export function normalizeArticle(raw: Record<string, unknown>): NewsItem {
+  const rawContent = raw.content;
+  const rawSummary = raw.summary;
+  const rawExcerpt = raw.excerpt;
+
+  // content fallback: typeof string && trimmed → summary → excerpt → ""
+  const content =
+    typeof rawContent === "string" && rawContent.trim()
+      ? rawContent.trim()
+      : typeof rawSummary === "string" && rawSummary.trim()
+        ? rawSummary.trim()
+        : typeof rawExcerpt === "string" && rawExcerpt.trim()
+          ? rawExcerpt.trim()
+          : "";
+
+  // summary fallback: excerpt → summary → content.slice(0,120) → ""
+  const summary =
+    typeof rawExcerpt === "string" && rawExcerpt.trim()
+      ? rawExcerpt.trim()
+      : typeof rawSummary === "string" && rawSummary.trim()
+        ? rawSummary.trim()
+        : typeof rawContent === "string" && rawContent.trim()
+          ? rawContent.trim().slice(0, 120)
+          : "";
+
+  const date =
+    typeof raw.publishedAt === "string"
+      ? raw.publishedAt.slice(0, 10)
+      : typeof raw.createdAt === "string"
         ? new Date(raw.createdAt).getFullYear().toString()
-        : "2026",
-    category: raw.category ?? "品牌动态",
-    summary: raw.excerpt ?? raw.content?.slice(0, 120) ?? "",
-    content: raw.content ?? "",
+        : "2026";
+
+  return {
+    slug: typeof raw.slug === "string" ? raw.slug : "",
+    title: typeof raw.title === "string" ? raw.title : "未命名",
+    date,
+    category: typeof raw.category === "string" ? raw.category : "品牌动态",
+    summary,
+    content,
   };
 }
 
@@ -215,7 +241,7 @@ export async function getArticles(params?: {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
-    const articles = (json.data ?? []).map(mapApiArticle);
+    const articles = (json.data ?? []).map(normalizeArticle);
     const pagination: ArticlesPagination = json.pagination ?? {
       page,
       limit,
@@ -230,7 +256,7 @@ export async function getArticles(params?: {
     const skip = (page - 1) * limit;
     const paged = result.slice(skip, skip + limit);
     return {
-      articles: paged.map(mapApiArticle),
+      articles: paged,
       pagination: {
         page,
         limit,
@@ -250,7 +276,7 @@ export async function getArticleBySlug(
     });
     if (!res.ok) return null;
     const json = await res.json();
-    return mapApiArticle(json.data);
+    return normalizeArticle(json.data);
   } catch {
     const { newsItems } = await import("@/lib/news");
     return newsItems.find((n) => n.slug === slug) ?? null;

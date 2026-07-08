@@ -222,3 +222,181 @@ describe("mapApiStore (via getStores fallback path)", () => {
     });
   });
 });
+
+describe("normalizeArticle", () => {
+  it("返回完整字段当 raw 包含合法 string content", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test-slug",
+      title: "测试标题",
+      content: "这是正文内容",
+      summary: "这是摘要",
+      excerpt: "这是略缩",
+      category: "产品动态",
+      publishedAt: "2026-03-15T00:00:00Z",
+    });
+    expect(result.content).toBe("这是正文内容");
+    expect(result.summary).toBe("这是略缩");
+    expect(result.title).toBe("测试标题");
+    expect(result.date).toBe("2026-03-15");
+    expect(result.category).toBe("产品动态");
+  });
+
+  it("content fallback: content 非 string → 使用 summary", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: null,
+      summary: "摘要兜底",
+      excerpt: "略缩兜底",
+    });
+    expect(result.content).toBe("摘要兜底");
+  });
+
+  it("content fallback: content 和 summary 均无效 → 使用 excerpt", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: 12345,
+      summary: null,
+      excerpt: "略缩来兜底",
+    });
+    expect(result.content).toBe("略缩来兜底");
+  });
+
+  it("content fallback: 全部无效 → 空字符串", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: undefined,
+      summary: undefined,
+      excerpt: null,
+    });
+    expect(result.content).toBe("");
+  });
+
+  it("content fallback: content 是空字符串 → fallback 到 summary", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: "",
+      summary: "摘要救场",
+    });
+    expect(result.content).toBe("摘要救场");
+  });
+
+  it("summary fallback: summary 无效 → 使用 excerpt", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: "正文内容很长很详细",
+      summary: null,
+      excerpt: "略缩内容",
+    });
+    expect(result.summary).toBe("略缩内容");
+  });
+
+  it("summary fallback: summary 和 excerpt 均无效 → 使用 content 截取前 120 字符", async () => {
+    const { normalizeArticle } = await import("./data");
+    const longContent = "A".repeat(200);
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: longContent,
+      summary: undefined,
+      excerpt: null,
+    });
+    expect(result.summary).toBe("A".repeat(120));
+  });
+
+  it("summary fallback: 全部无效 → 空字符串", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: null,
+      summary: undefined,
+      excerpt: null,
+    });
+    expect(result.summary).toBe("");
+  });
+
+  it("date fallback: publishedAt 无效 + createdAt 有效 → 使用 createdAt 年份", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: "x",
+      createdAt: "2025-06-01T00:00:00Z",
+    });
+    expect(result.date).toBe("2025");
+  });
+
+  it("date fallback: 全部无效 → 默认 2026", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: "x",
+    });
+    expect(result.date).toBe("2026");
+  });
+
+  it("title fallback: 非 string → 未命名", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      content: "x",
+      title: undefined,
+    });
+    expect(result.title).toBe("未命名");
+  });
+
+  it("category fallback: 非 string → 品牌动态", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: "x",
+      category: null,
+    });
+    expect(result.category).toBe("品牌动态");
+  });
+
+  it("slug fallback: 非 string → 空字符串", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: null,
+      title: "T",
+      content: "x",
+    });
+    expect(result.slug).toBe("");
+  });
+
+  it("content.trim() 去除首尾空格", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test",
+      title: "T",
+      content: "  正文内容  ",
+    });
+    expect(result.content).toBe("正文内容");
+  });
+
+  it("raw 无 content 但有 summary → 正确 fallback", async () => {
+    const { normalizeArticle } = await import("./data");
+    const result = normalizeArticle({
+      slug: "test-slug",
+      title: "Test",
+      content: undefined,
+      summary: "My summary",
+    });
+    expect(result.content).toBe("My summary");
+    expect(result.summary).toBe("My summary");
+  });
+});
