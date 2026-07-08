@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/ProductDetail";
 import { getProduct } from "@/lib/products";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "隐形车衣 | 蓝辉轻改 LANHUI",
@@ -12,5 +13,6 @@ export const metadata: Metadata = {
 export default async function PpfPage() {
   const product = getProduct("ppf");
   if (!product) notFound();
-  return <ProductDetail product={product} />;
+  const breadcrumbItems = getProductBreadcrumbs("/product/ppf");
+  return <ProductDetail product={product} breadcrumbItems={breadcrumbItems} />;
 }
