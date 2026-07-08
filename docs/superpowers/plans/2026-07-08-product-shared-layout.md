@@ -2,6 +2,7 @@
 change: unify-product-header-footer
 design-doc: docs/superpowers/specs/2026-07-08-product-shared-layout-design.md
 base-ref: ebedeaa90d8859ea774f44ffdf4a3fec6a5e163f
+archived-with: 2026-07-08-unify-product-header-footer
 ---
 
 # Implementation Plan: Unify Product Header/Footer via Shared Layout
@@ -12,6 +13,7 @@ Create `src/app/product/layout.tsx` as a shared Server Component rendering `<Hea
 
 **Total impact:** 1 new file, ~41 edited files (39 page.tsx + 1 component + 1 check script + package.json). 3 page.tsx (chassis, color-film, ppf) are auto-covered by ProductDetail.tsx edits.
 
+archived-with: 2026-07-08-unify-product-header-footer
 ---
 
 ## Group 1: Create Shared Layout
@@ -39,6 +41,7 @@ Server Component — no `"use client"`, no extra wrappers, no `<main>`.
 
 **Verification:** File exists and exports a default component wrapping children with Header/Footer.
 
+archived-with: 2026-07-08-unify-product-header-footer
 ---
 
 ## Group 2: Remove Header/Footer from Product Pages
@@ -120,6 +123,7 @@ Run after all edits:
 
 Both grep commands must return zero matches.
 
+archived-with: 2026-07-08-unify-product-header-footer
 ---
 
 ## Group 3: Remove Header/Footer from Shared Components
@@ -153,6 +157,7 @@ Both grep commands must return zero matches.
 ! grep -l "Header\|Footer" src/components/ProductDetail.tsx src/components/film/FilmPageHero.tsx
 ```
 
+archived-with: 2026-07-08-unify-product-header-footer
 ---
 
 ## Group 4: Check Script & Package.json
@@ -186,6 +191,7 @@ Chain into the `check` script (before `build`, after existing checks):
 npm run check:product-layout    # must exit 0 with all checks passing
 ```
 
+archived-with: 2026-07-08-unify-product-header-footer
 ---
 
 ## Group 5: Final Verification
@@ -221,6 +227,7 @@ Start dev server and visit:
 
 Check no duplicate Header or Footer appears on any page.
 
+archived-with: 2026-07-08-unify-product-header-footer
 ---
 
 ## Rollback

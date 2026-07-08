@@ -17,6 +17,6 @@ verification_report: docs/superpowers/reports/2026-07-08-unify-product-header-fo
 branch_status: handled
 created_at: 2026-07-08
 verified_at: 2026-07-08
-archived: false
+archived: true
 handoff_context: openspec/changes/unify-product-header-footer/.comet/handoff/design-context.json
 handoff_hash: 62861a0aa564bb07ca1685a99608eee6363691e4c114b8cc0d643be32f4716cd

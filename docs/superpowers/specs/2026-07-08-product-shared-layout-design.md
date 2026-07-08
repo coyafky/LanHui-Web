@@ -2,6 +2,8 @@
 comet_change: unify-product-header-footer
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-08-unify-product-header-footer
+status: final
 ---
 
 # 产品路由共享布局 — 技术设计
