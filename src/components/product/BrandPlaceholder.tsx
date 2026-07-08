@@ -5,6 +5,7 @@ import type { AccentColor, ProductRouteStatus } from "@/lib/product-routes";
 type BrandPlaceholderProps = {
   title: string;
   subtitle?: string;
+  intro?: string;
   status: ProductRouteStatus;
   accentColor: AccentColor;
   models?: readonly { name: string; href?: string }[];
@@ -41,6 +42,7 @@ function getEyebrowLabel(
 export function BrandPlaceholder({
   title,
   subtitle,
+  intro,
   status,
   accentColor,
   models,
@@ -60,6 +62,10 @@ export function BrandPlaceholder({
       ) : (
         <div className="mb-10" />
       )}
+
+      {status === "live" && intro ? (
+        <p className="text-zinc-400 text-sm max-w-2xl text-center mb-10">{intro}</p>
+      ) : null}
 
       {status === "planned" ? (
         <div
