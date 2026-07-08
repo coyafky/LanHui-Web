@@ -27,6 +27,7 @@ interface ArticleData {
   slug: string;
   excerpt: string | null;
   content: string;
+  featuredImage: string | null;
   category: string | null;
   tags: string[];
   status: string;
@@ -133,6 +134,7 @@ export default function EditArticlePage() {
         setTags(article.tags);
         setStatus(article.status as ArticleStatus);
         setIsSticky(article.isSticky);
+        setFeaturedImage(article.featuredImage ?? "");
 
         // 加载完成时保存 snapshot（用于 dirty 对比）
         setSnapshot({
@@ -140,7 +142,7 @@ export default function EditArticlePage() {
           slug: article.slug,
           excerpt: article.excerpt || undefined,
           content: article.content,
-          featuredImage: undefined,
+          featuredImage: article.featuredImage || undefined,
           category: article.category || undefined,
           tags: article.tags,
           status: article.status as ArticleStatus,
