@@ -2,6 +2,7 @@
 change: db-backup-strategy
 design-doc: docs/superpowers/specs/2026-07-08-db-backup-strategy-design.md
 base-ref: 9bd8e6893b6af3510cd88aceb0494d19f7458bc8
+archived-with: 2026-07-08-db-backup-strategy
 ---
 
 # P0-5 数据库备份策略 — 实施计划

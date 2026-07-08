@@ -2,6 +2,8 @@
 comet_change: db-backup-strategy
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-08-db-backup-strategy
+status: final
 ---
 
 # P0-5 数据库备份策略 — 技术设计
