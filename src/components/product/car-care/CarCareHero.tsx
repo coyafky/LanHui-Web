@@ -1,18 +1,16 @@
 import Link from "next/link";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 
-export function CarCareHero() {
+export function CarCareHero({ breadcrumbItems }: { breadcrumbItems?: readonly BreadcrumbItem[] }) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-emerald-950/60 via-zinc-950 to-zinc-950">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-emerald-900/20 via-transparent to-transparent" />
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-        <nav className="flex items-center gap-1 text-sm text-zinc-400 mb-8">
-          <Link href="/product" className="hover:text-white transition-colors">
-            产品中心
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-zinc-200">洗美养护</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-700/50 bg-emerald-950/40 text-emerald-300 text-xs tracking-wider">

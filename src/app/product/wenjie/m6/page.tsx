@@ -9,6 +9,7 @@ import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScena
 import { WenjieModelServiceFlow } from "@/components/wenjie/model/WenjieModelServiceFlow";
 import { WenjieModelFaq } from "@/components/wenjie/model/WenjieModelFaq";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 import { getWenjieModelHeroImage } from "@/lib/wenjie-preview-images";
 import {
   wenjieM6UpgradeProjects,
@@ -69,6 +70,8 @@ export default function WenjieM6Page() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   if (!model || model.type !== "vehicle_model") notFound();
 
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -97,6 +100,7 @@ export default function WenjieM6Page() {
           scenarioCount={wenjieM6Scenarios.length}
           scenarioAnchors={SCENARIO_ANCHORS}
           canonicalPath={CANONICAL_PATH}
+          breadcrumbItems={breadcrumbItems}
         />
 
         {/* 场景矩阵 */}

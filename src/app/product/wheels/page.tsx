@@ -7,6 +7,7 @@ import { WheelHero } from "@/components/product/wheel/WheelHero";
 import { WheelServiceFlow } from "@/components/product/wheel/WheelServiceFlow";
 import { WheelValueGrid } from "@/components/product/wheel/WheelValueGrid";
 import { getServiceRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 import { wheelGalleryImages } from "@/lib/wheel-products";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export const metadata: Metadata = {
 export default function WheelsPage() {
   const service = getServiceRoute("wheels");
   if (!service || service.type !== "service_category") notFound();
+  const breadcrumbItems = getProductBreadcrumbs("/product/wheels");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -57,7 +59,7 @@ export default function WheelsPage() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <WheelHero />
+        <WheelHero breadcrumbItems={breadcrumbItems} />
         <WheelValueGrid />
         <WheelGallery />
         <WheelServiceFlow />

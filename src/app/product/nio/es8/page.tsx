@@ -8,6 +8,7 @@ import { NioEs8Bundles } from "@/components/nio/NioEs8Bundles";
 import { NioEs8ServiceFlow } from "@/components/nio/NioEs8ServiceFlow";
 import { NioEs8Faq } from "@/components/nio/NioEs8Faq";
 import { NioEs8TopicViewTrack } from "@/components/nio/NioEs8TopicViewTrack";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 import {
   nioEs8UpgradeProjects,
   nioEs8Scenarios,
@@ -52,6 +53,8 @@ export const metadata: Metadata = {
 };
 
 export default function NioEs8Page() {
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -82,6 +85,7 @@ export default function NioEs8Page() {
           totalScenarios={nioEs8Scenarios.length}
           totalBundles={nioEs8Bundles.length}
           canonicalPath={CANONICAL_PATH}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <NioEs8ProjectGrid

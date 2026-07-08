@@ -8,6 +8,7 @@ import { LiAutoI8Bundles } from "@/components/li-auto/LiAutoI8Bundles";
 import { LiAutoI8ServiceFlow } from "@/components/li-auto/LiAutoI8ServiceFlow";
 import { LiAutoI8Faq } from "@/components/li-auto/LiAutoI8Faq";
 import { LiAutoI8TopicViewTrack } from "@/components/li-auto/LiAutoI8TopicViewTrack";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 import {
   liAutoI8UpgradeProjects,
   liAutoI8Scenarios,
@@ -52,6 +53,8 @@ export const metadata: Metadata = {
 };
 
 export default function LiAutoI8Page() {
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -82,6 +85,7 @@ export default function LiAutoI8Page() {
           totalScenarios={liAutoI8Scenarios.length}
           totalBundles={liAutoI8Bundles.length}
           canonicalPath={CANONICAL_PATH}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <LiAutoI8ProjectGrid

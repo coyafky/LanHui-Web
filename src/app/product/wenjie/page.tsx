@@ -20,6 +20,7 @@ import { wenjieM6UpgradeProjects } from "@/lib/wenjie-m6-upgrade-projects";
 import { wenjieM7UpgradeProjects } from "@/lib/wenjie-m7-upgrade-projects";
 import { wenjieM8UpgradeProjects } from "@/lib/wenjie-m8-upgrade-projects";
 import { getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "问界轻改项目｜车衣、隔热膜、二排铝地板、底盘护板与电动踏板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -91,6 +92,8 @@ export default function WenjieSeriesPage() {
   const totalProjects = allProjects.length;
   const totalModels = subModels.length;
 
+  const breadcrumbItems = getProductBreadcrumbs("/product/wenjie");
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -114,6 +117,7 @@ export default function WenjieSeriesPage() {
           subtitle="专业轻改，安全可靠，提升体验，焕新出行"
           totalProjects={totalProjects}
           totalModels={totalModels}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <WenjieSeriesFeaturedGrid projects={wenjieSeriesFeaturedProjects} />

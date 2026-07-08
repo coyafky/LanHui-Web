@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 import type { LedaoL90ProductImage } from "@/lib/ledao-l90-products";
 
 type LedaoL90HeroProps = {
   totalProjects: number;
   scenarioCount: number;
   heroImage: LedaoL90ProductImage;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 const SCENARIO_ANCHORS: readonly {
@@ -24,6 +26,7 @@ export function LedaoL90Hero({
   totalProjects,
   scenarioCount,
   heroImage,
+  breadcrumbItems,
 }: LedaoL90HeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -43,17 +46,9 @@ export function LedaoL90Hero({
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6">
-          <Link href="/product" className="hover:text-white transition-colors">
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <Link href="/product/ledao" className="hover:text-white transition-colors">
-            乐道系列
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <span className="text-zinc-300">乐道 L90</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
 
         <p className="text-sm tracking-widest text-orange-400 mb-3">
           LEDAO L90 UPGRADE

@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 import type { ZhijieV9ProductImage } from "@/lib/zhijie-v9-products";
 
 type ZhijieV9TopicHeroProps = {
   totalProjects: number;
   scenarioCount: number;
   heroImage: ZhijieV9ProductImage;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 const SCENARIO_ANCHORS: readonly {
@@ -24,6 +26,7 @@ export function ZhijieV9TopicHero({
   totalProjects,
   scenarioCount,
   heroImage,
+  breadcrumbItems,
 }: ZhijieV9TopicHeroProps) {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -43,17 +46,9 @@ export function ZhijieV9TopicHero({
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6">
-          <Link href="/product" className="hover:text-white transition-colors">
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <Link href="/product/zhijie" className="hover:text-white transition-colors">
-            智界系列
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" aria-hidden />
-          <span className="text-zinc-300">智界 V9</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
 
         <p className="text-sm tracking-widest text-orange-400 mb-3">
           ZHIJIE V9 UPGRADE

@@ -8,6 +8,7 @@ import { LiAutoMegaBundles } from "@/components/li-auto/LiAutoMegaBundles";
 import { LiAutoMegaServiceFlow } from "@/components/li-auto/LiAutoMegaServiceFlow";
 import { LiAutoMegaFaq } from "@/components/li-auto/LiAutoMegaFaq";
 import { LiAutoMegaTopicViewTrack } from "@/components/li-auto/LiAutoMegaTopicViewTrack";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 import {
   liAutoMegaUpgradeProjects,
   liAutoMegaScenarios,
@@ -52,6 +53,8 @@ export const metadata: Metadata = {
 };
 
 export default function LiAutoMegaPage() {
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -82,6 +85,7 @@ export default function LiAutoMegaPage() {
           totalScenarios={liAutoMegaScenarios.length}
           totalBundles={liAutoMegaBundles.length}
           canonicalPath={CANONICAL_PATH}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <section id="li-auto-mega-projects">

@@ -8,6 +8,7 @@ import { LiAutoOneBundles } from "@/components/li-auto/LiAutoOneBundles";
 import { LiAutoOneServiceFlow } from "@/components/li-auto/LiAutoOneServiceFlow";
 import { LiAutoOneFaq } from "@/components/li-auto/LiAutoOneFaq";
 import { LiAutoOneTopicViewTrack } from "@/components/li-auto/LiAutoOneTopicViewTrack";
+import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
 import {
   liAutoOneUpgradeProjects,
   liAutoOneScenarios,
@@ -37,6 +38,8 @@ export const metadata: Metadata = {
 };
 
 export default function LiAutoOnePage() {
+  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -67,6 +70,7 @@ export default function LiAutoOnePage() {
           totalScenarios={liAutoOneScenarios.length}
           totalBundles={liAutoOneBundles.length}
           canonicalPath={CANONICAL_PATH}
+          breadcrumbItems={breadcrumbItems}
         />
 
         <LiAutoOneProjectGrid

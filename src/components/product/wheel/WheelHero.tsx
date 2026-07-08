@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { wheelGalleryImages } from "@/lib/wheel-products";
 
-export function WheelHero() {
+export function WheelHero({ breadcrumbItems }: { breadcrumbItems?: readonly BreadcrumbItem[] }) {
   const heroImage = wheelGalleryImages[0]!;
 
   return (
@@ -19,13 +21,9 @@ export function WheelHero() {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-14 md:pt-24 md:pb-20">
-        <nav className="mb-8 flex items-center text-sm text-zinc-500">
-          <Link href="/product" className="hover:text-white transition-colors">
-            产品中心
-          </Link>
-          <ChevronRight className="mx-2 h-4 w-4" aria-hidden="true" />
-          <span className="text-zinc-300">轮毂升级</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
 
         <div className="grid gap-10 lg:grid-cols-[1fr_420px] lg:items-center">
           <div>

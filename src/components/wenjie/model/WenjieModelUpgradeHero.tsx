@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight } from "lucide-react";
 import { getWenjieModelHeroImage } from "@/lib/wenjie-preview-images";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
+import type { BreadcrumbItem } from "@/components/Breadcrumbs";
 
 export type WenjieModelUpgradeHeroProps = {
   modelKey: "M6" | "M7" | "M8";
@@ -13,6 +14,7 @@ export type WenjieModelUpgradeHeroProps = {
   scenarioCount?: number;
   scenarioAnchors?: readonly { id: string; label: string }[];
   canonicalPath: string;
+  breadcrumbItems?: readonly BreadcrumbItem[];
 };
 
 /**
@@ -27,6 +29,7 @@ export function WenjieModelUpgradeHero({
   totalProjects,
   scenarioCount,
   scenarioAnchors = [],
+  breadcrumbItems,
 }: WenjieModelUpgradeHeroProps) {
   const heroImage = getWenjieModelHeroImage(modelKey);
 
@@ -48,23 +51,9 @@ export function WenjieModelUpgradeHero({
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-12 md:pt-24 md:pb-16">
-        <nav className="flex items-center text-sm text-zinc-500 mb-6">
-          <Link
-            href="/product"
-            className="hover:text-white transition-colors"
-          >
-            产品中心
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <Link
-            href="/product/wenjie"
-            className="hover:text-white transition-colors"
-          >
-            问界系列
-          </Link>
-          <ChevronRight className="w-4 h-4 mx-2" />
-          <span className="text-zinc-300">{modelName}</span>
-        </nav>
+        {breadcrumbItems && breadcrumbItems.length > 0 && (
+          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
+        )}
 
         <p className="text-sm tracking-widest text-orange-400 mb-3">
           {modelName.toUpperCase()} UPGRADE
