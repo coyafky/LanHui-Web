@@ -207,7 +207,7 @@ function ArticlesPageContent() {
       fetchArticles();
     } else {
       const json = await res.json().catch(() => ({}));
-      alert(json.error || `${newSticky ? "置顶" : "取消置顶"}失败`);
+      toast.error(json.error || `${newSticky ? "置顶" : "取消置顶"}失败`);
     }
   }
 

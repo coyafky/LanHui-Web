@@ -289,7 +289,7 @@ describe('ArticlesPage ConfirmDialog', () => {
     });
   });
 
-  it('C: 批量删除弹出 danger dialog', async () => {
+  it('C: 删除操作 danger variant 确认按钮样式', async () => {
     // 注意：当前文章列表页未实现批量操作 UI（复选框 + 批量删除按钮），
     // 无法直接通过用户交互触发批量删除 ConfirmDialog。
     // 单篇删除也使用 danger variant，借此验证 danger 样式生效。
