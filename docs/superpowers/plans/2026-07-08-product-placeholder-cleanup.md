@@ -2,6 +2,7 @@
 change: product-placeholder-cleanup
 design-doc: docs/superpowers/specs/2026-07-08-product-placeholder-cleanup-design.md
 base-ref: 609e4c3c8cdf8792ad6eddaa20577c2c73d7291b
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 # 产品占位页清理 — 实现计划
@@ -43,6 +44,7 @@ base-ref: 609e4c3c8cdf8792ad6eddaa20577c2c73d7291b
 - skid-plate 和 business-comfort 页面不修改 breadcrumbs 相关逻辑（已有的 `getProductBreadcrumbs` 调用保留）
 - 检查脚本使用 Node.js 内置 API，不引入外部依赖
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ### 任务 1：更新产品路由状态
@@ -84,6 +86,7 @@ git add src/lib/product-routes.ts
 git commit -m "feat: promote skid-plate service from planned to live"
 ```
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ### 任务 2：增强 BrandPlaceholder 组件（新增 intro prop）
@@ -150,6 +153,7 @@ git add src/components/product/BrandPlaceholder.tsx
 git commit -m "feat: add intro prop to BrandPlaceholder for live brand descriptions"
 ```
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ### 任务 3：更新 6 个品牌页面文案
@@ -271,6 +275,7 @@ git add src/app/product/denza/page.tsx src/app/product/voyah/page.tsx src/app/pr
 git commit -m "feat: update brand page copy with proper subtitles and intro text"
 ```
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ### 任务 4：底盘护板完整服务页
@@ -500,6 +505,7 @@ git add src/app/product/skid-plate/page.tsx
 git commit -m "feat: replace skid-plate placeholder with full service page"
 ```
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ### 任务 5：商务舒适撤离 — 改为 notFound()
@@ -532,6 +538,7 @@ git add src/app/product/business-comfort/page.tsx
 git commit -m "feat: replace business-comfort placeholder with notFound()"
 ```
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ### 任务 6：检查脚本 + Package.json
@@ -684,6 +691,7 @@ git add scripts/check-product-placeholders.mjs package.json
 git commit -m "feat: add check:product-placeholders verification script"
 ```
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ### 任务 7：最终验证
@@ -723,6 +731,7 @@ npm run check
 ```
 期望：全部通过。
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ## 自检清单
@@ -742,6 +751,7 @@ npm run check
 - `getServiceRoute("skid-plate")` 返回的 `status` 在任务 1 改为 `"live"`，任务 4 使用时读取该值
 - `getProductBreadcrumbs`、`getProductBreadcrumbSchema` 签名与已有类型一致
 
+archived-with: 2026-07-08-product-placeholder-cleanup
 ---
 
 ## 执行提示

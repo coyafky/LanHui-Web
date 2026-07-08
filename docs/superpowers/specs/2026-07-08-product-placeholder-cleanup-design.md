@@ -2,6 +2,8 @@
 comet_change: product-placeholder-cleanup
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-08-product-placeholder-cleanup
+status: final
 ---
 
 # 技术设计：产品占位页清理
