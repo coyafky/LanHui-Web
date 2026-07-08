@@ -8,7 +8,7 @@ import { NioEs8Bundles } from "@/components/nio/NioEs8Bundles";
 import { NioEs8ServiceFlow } from "@/components/nio/NioEs8ServiceFlow";
 import { NioEs8Faq } from "@/components/nio/NioEs8Faq";
 import { NioEs8TopicViewTrack } from "@/components/nio/NioEs8TopicViewTrack";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   nioEs8UpgradeProjects,
   nioEs8Scenarios,
@@ -54,6 +54,7 @@ export const metadata: Metadata = {
 
 export default function NioEs8Page() {
   const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+  const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -130,6 +131,12 @@ export default function NioEs8Page() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

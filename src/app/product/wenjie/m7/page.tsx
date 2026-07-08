@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
 import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelProjectGrid";
 import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScenarios";
@@ -53,6 +53,7 @@ export default function WenjieM7Page() {
   if (!model || model.type !== "vehicle_model") notFound();
 
   const breadcrumbItems = getProductBreadcrumbs("/product/wenjie/m7");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/wenjie/m7");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -155,6 +156,12 @@ export default function WenjieM7Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

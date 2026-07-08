@@ -18,7 +18,7 @@ import {
   zeekr9xUpgradeProjects,
 } from "@/lib/zeekr-9x-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const CANONICAL_PATH = "/product/zeekr/9x";
 
@@ -67,6 +67,7 @@ export default function Zeekr9xPage() {
   if (!model || model.type !== "vehicle_model") notFound();
 
   const breadcrumbItems = getProductBreadcrumbs("/product/zeekr/9x");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/zeekr/9x");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -157,6 +158,12 @@ export default function Zeekr9xPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

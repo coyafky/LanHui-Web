@@ -17,7 +17,7 @@ import {
   zeekr8xFaq,
 } from "@/lib/zeekr-8x-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { notFound } from "next/navigation";
 
 const MODEL_NAME = "极氪 8X";
@@ -70,6 +70,7 @@ export default function Zeekr8xPage() {
   }
 
   const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+  const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -152,6 +153,12 @@ export default function Zeekr8xPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

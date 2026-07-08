@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { getServiceRoute } from "@/lib/product-routes";
 import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "商务舒适升级｜蓝辉轻改 LANHUI",
@@ -16,6 +16,7 @@ export default async function BusinessComfortPage() {
   const service = getServiceRoute("business-comfort");
   if (!service || service.type !== "service_category") notFound();
   const breadcrumbItems = getProductBreadcrumbs("/product/business-comfort");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/business-comfort");
   return (
     <>
       <Header />
@@ -32,6 +33,12 @@ export default async function BusinessComfortPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

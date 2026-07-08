@@ -8,7 +8,7 @@ import { LiAutoI8Bundles } from "@/components/li-auto/LiAutoI8Bundles";
 import { LiAutoI8ServiceFlow } from "@/components/li-auto/LiAutoI8ServiceFlow";
 import { LiAutoI8Faq } from "@/components/li-auto/LiAutoI8Faq";
 import { LiAutoI8TopicViewTrack } from "@/components/li-auto/LiAutoI8TopicViewTrack";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   liAutoI8UpgradeProjects,
   liAutoI8Scenarios,
@@ -54,6 +54,7 @@ export const metadata: Metadata = {
 
 export default function LiAutoI8Page() {
   const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+  const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -130,6 +131,12 @@ export default function LiAutoI8Page() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

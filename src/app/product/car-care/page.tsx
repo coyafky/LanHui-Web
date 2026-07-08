@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CarCareHero } from "@/components/product/car-care/CarCareHero";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { CarCareValueGrid } from "@/components/product/car-care/CarCareValueGrid";
 import { CarCareServiceGrid } from "@/components/product/car-care/CarCareServiceGrid";
 import { CarCareServiceFlow } from "@/components/product/car-care/CarCareServiceFlow";
@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 
 export default function CarCarePage() {
   const breadcrumbItems = getProductBreadcrumbs("/product/car-care");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/car-care");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -57,6 +58,12 @@ export default function CarCarePage() {
         <CarCareServiceFlow />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

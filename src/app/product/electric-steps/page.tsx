@@ -9,7 +9,7 @@ import { ElectricStepServiceFlow } from "@/components/product/electric-steps/Ele
 import { ElectricStepValueGrid } from "@/components/product/electric-steps/ElectricStepValueGrid";
 import { electricStepImages } from "@/lib/electric-step-products";
 import { getServiceRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "电动踏板与迎宾灯带方案｜蓝辉轻改 LANHUI",
@@ -34,6 +34,7 @@ export default function ElectricStepsPage() {
   const service = getServiceRoute("electric-steps");
   if (!service || service.type !== "service_category") notFound();
   const breadcrumbItems = getProductBreadcrumbs("/product/electric-steps");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/electric-steps");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -67,6 +68,12 @@ export default function ElectricStepsPage() {
         <ElectricStepServiceFlow />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

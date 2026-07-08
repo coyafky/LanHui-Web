@@ -29,7 +29,7 @@ import {
 } from "@/lib/xiaomi-yu7-upgrade-projects";
 import { getModelRoute } from "@/lib/product-routes";
 import { xiaomiTopicMeta } from "@/lib/xiaomi-products";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "小米轻改项目｜车衣、隔热膜、Ultra 风格、运动包围与电吸门｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -88,6 +88,7 @@ function buildSubModels(): readonly XiaomiSeriesSubModel[] {
 
 export default function XiaomiTopicPage() {
   const breadcrumbItems = getProductBreadcrumbs("/product/xiaomi");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/xiaomi");
   const allProjects: readonly XiaomiSeriesUpgradeProject[] =
     xiaomiSeriesUpgradeProjects;
   const featuredProjects = allProjects.slice(0, 10);
@@ -161,6 +162,12 @@ export default function XiaomiTopicPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

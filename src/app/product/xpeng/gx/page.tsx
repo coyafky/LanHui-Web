@@ -18,7 +18,7 @@ import {
   xpengGxFaq,
 } from "@/lib/xpeng-gx-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const CANONICAL_PATH = "/product/xpeng/gx";
 
@@ -72,6 +72,7 @@ export default function XpengGxTopicPage() {
   const totalBundles = xpengGxBundles.length;
 
   const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
+  const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -162,6 +163,12 @@ export default function XpengGxTopicPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

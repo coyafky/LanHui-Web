@@ -8,7 +8,7 @@ import { CarMatServiceFlow } from "@/components/product/carmat/CarMatServiceFlow
 import { CarMatValueGrid } from "@/components/product/carmat/CarMatValueGrid";
 import { carMatGalleryImages } from "@/lib/carmat-products";
 import { getServiceRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "汽车垫与 360 软包脚垫｜蓝辉轻改 LANHUI",
@@ -33,6 +33,7 @@ export default function FloorMatsPage() {
   const service = getServiceRoute("floor-mats");
   if (!service || service.type !== "service_category") notFound();
   const breadcrumbItems = getProductBreadcrumbs("/product/floor-mats");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/floor-mats");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -65,6 +66,12 @@ export default function FloorMatsPage() {
         <CarMatServiceFlow />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

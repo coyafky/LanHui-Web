@@ -5,7 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ArrowRight } from "lucide-react";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { ZhijieBrandHero } from "@/components/zhijie/ZhijieBrandHero";
 import { ZhijieBrandServiceFlow } from "@/components/zhijie/ZhijieBrandServiceFlow";
 
@@ -56,6 +56,7 @@ export default function ZhijieBrandPage() {
   const v9 = getModelRoute("zhijie", "v9");
   if (!v9) notFound();
   const breadcrumbItems = getProductBreadcrumbs("/product/zhijie");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/zhijie");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -172,6 +173,12 @@ export default function ZhijieBrandPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

@@ -10,7 +10,7 @@ import { TeslaModelFitNote } from "@/components/tesla/TeslaModelFitNote";
 import { TeslaServiceFlow } from "@/components/tesla/TeslaServiceFlow";
 import { TeslaFaq } from "@/components/tesla/TeslaFaq";
 import { TeslaTopicViewTrack } from "@/components/tesla/TeslaTopicViewTrack";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   teslaFeaturedProjects,
   teslaOptionalProjects,
@@ -58,6 +58,7 @@ export default function TeslaTopicPage() {
   const totalProjects = allProjects.length;
   const totalScenarios = teslaScenarios.length;
   const breadcrumbItems = getProductBreadcrumbs("/product/tesla");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/tesla");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -142,6 +143,12 @@ export default function TeslaTopicPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

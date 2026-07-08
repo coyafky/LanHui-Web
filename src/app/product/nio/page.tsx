@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelsByBrand } from "@/lib/product-routes";
 import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "蔚来轻改方案｜蓝辉轻改 LANHUI",
@@ -20,6 +20,7 @@ export default async function NioBrandPage() {
     href: m.canonicalPath,
   }));
   const breadcrumbItems = getProductBreadcrumbs("/product/nio");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/nio");
   return (
     <>
       <Header />
@@ -36,6 +37,12 @@ export default async function NioBrandPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

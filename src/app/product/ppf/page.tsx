@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/ProductDetail";
 import { getProduct } from "@/lib/products";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "隐形车衣 | 蓝辉轻改 LANHUI",
@@ -14,5 +14,16 @@ export default async function PpfPage() {
   const product = getProduct("ppf");
   if (!product) notFound();
   const breadcrumbItems = getProductBreadcrumbs("/product/ppf");
-  return <ProductDetail product={product} breadcrumbItems={breadcrumbItems} />;
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/ppf");
+  return (
+    <>
+      <ProductDetail product={product} breadcrumbItems={breadcrumbItems} />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
+    </>
+  );
 }

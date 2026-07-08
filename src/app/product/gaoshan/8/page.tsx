@@ -17,7 +17,7 @@ import {
   gaoshan8Faq,
 } from "@/lib/gaoshan-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "高山 8 专属升级方案｜车衣隔热膜铝地板电动踏板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -61,6 +61,7 @@ export default function Gaoshan8TopicPage() {
   const totalProjects = gaoshan8UpgradeProjects.length;
   const totalScenarios = gaoshan8Scenarios.length;
   const breadcrumbItems = getProductBreadcrumbs("/product/gaoshan/8");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/gaoshan/8");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -149,6 +150,12 @@ export default function Gaoshan8TopicPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

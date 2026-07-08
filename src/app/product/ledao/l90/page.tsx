@@ -17,7 +17,7 @@ import {
   ledaoL90Faq,
 } from "@/lib/ledao-l90-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "乐道 L90 轻改项目｜车衣、隔热膜、铝地板、底盘护板与电动踏板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -62,6 +62,7 @@ export default function LedaoL90TopicPage() {
   const totalScenarios = ledaoL90Scenarios.length;
 
   const breadcrumbItems = getProductBreadcrumbs("/product/ledao/l90");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/ledao/l90");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -148,6 +149,12 @@ export default function LedaoL90TopicPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

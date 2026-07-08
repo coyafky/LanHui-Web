@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelsByBrand } from "@/lib/product-routes";
 import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "腾势轻改方案｜蓝辉轻改 LANHUI";
 const PAGE_DESCRIPTION =
@@ -24,6 +24,7 @@ export default function DenzaBrandPage() {
     href: m.canonicalPath,
   }));
   const breadcrumbItems = getProductBreadcrumbs("/product/denza");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/denza");
 
   return (
     <>
@@ -41,6 +42,12 @@ export default function DenzaBrandPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

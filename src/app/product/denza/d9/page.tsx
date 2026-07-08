@@ -17,7 +17,7 @@ import {
   DENZA_D9_HERO_IMAGE,
 } from "@/lib/denza-d9-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "腾势 D9 专属升级方案｜车衣隔热膜铝地板小桌板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -62,6 +62,7 @@ export default function DenzaD9TopicPage() {
   const totalProjects = denzaD9UpgradeProjects.length;
   const totalScenarios = denzaD9Scenarios.length;
   const breadcrumbItems = getProductBreadcrumbs("/product/denza/d9");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/denza/d9");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -148,6 +149,12 @@ export default function DenzaD9TopicPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

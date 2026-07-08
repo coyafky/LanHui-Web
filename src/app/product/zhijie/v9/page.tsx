@@ -17,7 +17,7 @@ import {
   zhijieV9Faq,
 } from "@/lib/zhijie-v9-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "智界 V9 专属升级方案｜车衣隔热膜铝地板钢化膜｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -63,6 +63,7 @@ export default function ZhijieV9TopicPage() {
   const totalScenarios = zhijieV9Scenarios.length;
 
   const breadcrumbItems = getProductBreadcrumbs("/product/zhijie/v9");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/zhijie/v9");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -150,6 +151,12 @@ export default function ZhijieV9TopicPage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

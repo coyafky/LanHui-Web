@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/ProductDetail";
 import { getProduct } from "@/lib/products";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "改色膜 | 蓝辉轻改 LANHUI",
@@ -14,5 +14,16 @@ export default async function ColorFilmPage() {
   const product = getProduct("color-film");
   if (!product) notFound();
   const breadcrumbItems = getProductBreadcrumbs("/product/color-film");
-  return <ProductDetail product={product} breadcrumbItems={breadcrumbItems} />;
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/color-film");
+  return (
+    <>
+      <ProductDetail product={product} breadcrumbItems={breadcrumbItems} />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
+    </>
+  );
 }

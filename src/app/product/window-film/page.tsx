@@ -7,7 +7,7 @@ import { WindowFilmGuide } from "@/components/window-film/WindowFilmGuide";
 import { WindowFilmParameterExplainer } from "@/components/window-film/WindowFilmParameterExplainer";
 import { WindowFilmPackageCard } from "@/components/window-film/WindowFilmPackageCard";
 import { getProduct } from "@/lib/products";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   getAllWindowFilmPackageSlugsWithDetails,
   getWindowFilmPackageWithDetails,
@@ -79,6 +79,7 @@ export default function WindowFilmPage() {
     .filter((p): p is NonNullable<typeof p> => p !== undefined);
 
   const breadcrumbItems = getProductBreadcrumbs("/product/window-film");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/window-film");
 
   return (
     <>
@@ -165,6 +166,12 @@ export default function WindowFilmPage() {
       </main>
 
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

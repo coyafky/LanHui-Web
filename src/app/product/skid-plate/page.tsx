@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { getServiceRoute } from "@/lib/product-routes";
 import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 export const metadata: Metadata = {
   title: "底盘护板｜蓝辉轻改 LANHUI",
@@ -16,6 +16,7 @@ export default async function SkidPlatePage() {
   const service = getServiceRoute("skid-plate");
   if (!service || service.type !== "service_category") notFound();
   const breadcrumbItems = getProductBreadcrumbs("/product/skid-plate");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/skid-plate");
   return (
     <>
       <Header />
@@ -32,6 +33,12 @@ export default async function SkidPlatePage() {
         />
       </main>
       <Footer />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }

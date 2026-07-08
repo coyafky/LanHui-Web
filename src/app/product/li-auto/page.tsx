@@ -18,7 +18,7 @@ import {
   type LiAutoSeriesUpgradeProject,
 } from "@/lib/li-auto-series-upgrade-projects";
 import { getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "理想轻改项目｜理想车衣、隔热膜、二排铝地板、底盘护板与后排舒适升级｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -114,6 +114,7 @@ export default function LiAutoSeriesPage() {
   const totalModels = subModels.length;
 
   const breadcrumbItems = getProductBreadcrumbs("/product/li-auto");
+  const breadcrumbSchema = getProductBreadcrumbSchema("/product/li-auto");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -186,6 +187,12 @@ export default function LiAutoSeriesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {breadcrumbSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+      )}
     </>
   );
 }
