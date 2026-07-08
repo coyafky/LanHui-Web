@@ -105,6 +105,9 @@ export async function GET(request: NextRequest) {
         { address: { contains: search, mode: "insensitive" } },
         { phone: { contains: search, mode: "insensitive" } },
         { slug: { contains: search, mode: "insensitive" } },
+        { provinceLabel: { contains: search, mode: "insensitive" } },
+        { cityLabel: { contains: search, mode: "insensitive" } },
+        { district: { contains: search, mode: "insensitive" } },
       ];
     }
 
