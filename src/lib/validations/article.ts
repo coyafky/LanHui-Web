@@ -17,6 +17,7 @@ export const ArticleUpdateSchema = ArticleCreateSchema.partial();
 
 // 客户端表单校验 — 与 ArticleCreateSchema 独立，提供更友好的错误提示
 export const ARTICLE_STATUSES = ["draft", "published", "archived"] as const;
+export type ArticleStatus = (typeof ARTICLE_STATUSES)[number];
 
 export const LOCAL_ARTICLE_IMAGE_REGEX = /^\/images\/articles\/[\w-]+\.webp$/;
 
