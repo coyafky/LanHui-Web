@@ -11,7 +11,7 @@ import {
 
 describe("ARTICLE_STATUSES", () => {
   it("包含 draft / published / archived", () => {
-    expect(ARTICLE_STATUSES).toEqual(["draft", "published", "archived"]);
+    expect(ARTICLE_STATUSES).toEqual(["draft", "published", "withdrawn", "archived"]);
   });
 });
 

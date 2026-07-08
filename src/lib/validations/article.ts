@@ -34,7 +34,7 @@ export const ARTICLE_ACTION_TARGET: Record<
   unsticky: { from: ARTICLE_STATUSES, to: null, label: "取消置顶" },
 };
 
-const LOCAL_ARTICLE_IMAGE_REGEX = /^\/images\/articles\/[a-zA-Z0-9_-]+\.webp$/;
+export const LOCAL_ARTICLE_IMAGE_REGEX = /^\/images\/articles\/[a-zA-Z0-9_-]+\.webp$/;
 
 export function isArticleStatus(input: unknown): input is ArticleStatus {
   return typeof input === "string" && ARTICLE_STATUSES.includes(input as ArticleStatus);
@@ -99,11 +99,6 @@ export const ArticleCreateSchema = z.object({
 export const ArticleUpdateSchema = ArticleCreateSchema.partial();
 
 // 客户端表单校验 — 与 ArticleCreateSchema 独立，提供更友好的错误提示
-export const ARTICLE_STATUSES = ["draft", "published", "archived"] as const;
-export type ArticleStatus = (typeof ARTICLE_STATUSES)[number];
-
-export const LOCAL_ARTICLE_IMAGE_REGEX = /^\/images\/articles\/[\w-]+\.webp$/;
-
 export const ArticleFormSchema = z
   .object({
     title: z.string().min(1, "标题不能为空"),
