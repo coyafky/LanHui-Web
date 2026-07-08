@@ -1,4 +1,3 @@
-import { Header } from "@/components/Header";
 import { Breadcrumbs, type BreadcrumbItem } from "@/components/Breadcrumbs";
 
 export function FilmPageHero({
@@ -11,8 +10,6 @@ export function FilmPageHero({
   breadcrumbItems?: readonly BreadcrumbItem[];
 }) {
   return (
-    <>
-      <Header />
       <section className="relative bg-zinc-950 text-white overflow-hidden">
         <div
           className="absolute inset-0 -z-0"
@@ -32,6 +29,5 @@ export function FilmPageHero({
           </p>
         </div>
       </section>
-    </>
   );
 }

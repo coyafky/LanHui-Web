@@ -5,8 +5,6 @@ import {
   getLiveServices,
 } from "@/lib/product-routes";
 import type { ServiceRoute } from "@/lib/product-routes";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { ProductHero } from "@/components/product/ProductHero";
 import { FilmServiceMap } from "@/components/product/FilmServiceMap";
 import { LightModMap } from "@/components/product/LightModMap";
@@ -84,7 +82,6 @@ export default function ProductCenter() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         {/* JSON-LD structured data */}
         <script
@@ -158,7 +155,6 @@ export default function ProductCenter() {
           </section>
         </MobileProductContent>
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

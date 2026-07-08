@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { XiaomiSeriesHero } from "@/components/xiaomi-series/XiaomiSeriesHero";
 import { XiaomiSeriesFeaturedGrid } from "@/components/xiaomi-series/XiaomiSeriesFeaturedGrid";
 import { XiaomiSeriesScenarioMatrix } from "@/components/xiaomi-series/XiaomiSeriesScenarioMatrix";
@@ -111,7 +109,6 @@ export default function XiaomiTopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <XiaomiSeriesHero
           title="小米系列项目升级方案｜蓝辉轻改 LANHUI"
@@ -156,7 +153,6 @@ export default function XiaomiTopicPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       <script
         type="application/ld+json"

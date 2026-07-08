@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { getBrandRoute, getModelsByBrand } from "@/lib/product-routes";
 import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -28,7 +26,6 @@ export default function DenzaBrandPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow">
         {breadcrumbItems && breadcrumbItems.length > 0 && (
           <Breadcrumbs items={breadcrumbItems} className="mb-6" />
@@ -41,7 +38,6 @@ export default function DenzaBrandPage() {
           models={models}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

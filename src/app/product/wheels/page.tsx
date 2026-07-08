@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import { WheelGallery } from "@/components/product/wheel/WheelGallery";
 import { WheelHero } from "@/components/product/wheel/WheelHero";
 import { WheelServiceFlow } from "@/components/product/wheel/WheelServiceFlow";
@@ -54,7 +52,6 @@ export default function WheelsPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow">
         <script
           type="application/ld+json"
@@ -65,7 +62,6 @@ export default function WheelsPage() {
         <WheelGallery />
         <WheelServiceFlow />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

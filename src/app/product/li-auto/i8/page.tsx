@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { LiAutoI8Hero } from "@/components/li-auto/LiAutoI8Hero";
 import { LiAutoI8ProjectGrid } from "@/components/li-auto/LiAutoI8ProjectGrid";
 import { LiAutoI8Bundles } from "@/components/li-auto/LiAutoI8Bundles";
@@ -72,7 +70,6 @@ export default function LiAutoI8Page() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <LiAutoI8TopicViewTrack
           topicKey="li-auto-i8"
@@ -130,7 +127,6 @@ export default function LiAutoI8Page() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

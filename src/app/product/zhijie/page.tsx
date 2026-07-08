@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { ArrowRight } from "lucide-react";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
@@ -73,7 +71,6 @@ export default function ZhijieBrandPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <ZhijieBrandHero totalModels={1} totalProjects={14} breadcrumbItems={breadcrumbItems} />
 
@@ -166,7 +163,6 @@ export default function ZhijieBrandPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       {/* JSON-LD 结构化数据 */}
       <script

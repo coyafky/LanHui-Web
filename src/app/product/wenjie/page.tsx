@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { WenjieSeriesHero } from "@/components/wenjie/WenjieSeriesHero";
 import { WenjieSeriesFeaturedGrid } from "@/components/wenjie/WenjieSeriesFeaturedGrid";
 import { WenjieSeriesScenarios } from "@/components/wenjie/WenjieSeriesScenarios";
@@ -111,7 +109,6 @@ export default function WenjieSeriesPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <WenjieSeriesHero
           title="问界系列项目升级方案｜蓝辉轻改 LANHUI"
@@ -157,7 +154,6 @@ export default function WenjieSeriesPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       {/* JSON-LD 结构化数据 */}
       <script

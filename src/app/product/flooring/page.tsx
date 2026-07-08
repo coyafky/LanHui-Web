@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Header } from "@/components/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
-import { Footer } from "@/components/Footer";
 import { FlooringFeatureGrid } from "@/components/product/FlooringFeatureGrid";
 import { FlooringStructureGrid } from "@/components/product/FlooringStructureGrid";
 import { FlooringVehicleGroup } from "@/components/product/FlooringVehicleGroup";
@@ -70,7 +68,6 @@ export default function FlooringTopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         {/* Hero */}
         <section className="relative bg-zinc-950 text-white overflow-hidden">
@@ -206,7 +203,6 @@ export default function FlooringTopicPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       {/* JSON-LD 结构化数据 */}
       <script

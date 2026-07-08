@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
@@ -70,7 +68,6 @@ export default function WenjieM7Page() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <WenjieModelUpgradeHero
           modelKey="M7"
@@ -149,7 +146,6 @@ export default function WenjieM7Page() {
           </div>
         </section>
       </main>
-      <Footer />
 
       {/* JSON-LD 结构化数据 */}
       <script

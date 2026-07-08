@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { ZhijieV9TopicHero } from "@/components/zhijie/ZhijieV9TopicHero";
 import { ZhijieV9ScenarioMatrix } from "@/components/zhijie/ZhijieV9ScenarioMatrix";
 import { ZhijieV9ProjectGrid } from "@/components/zhijie/ZhijieV9ProjectGrid";
@@ -81,7 +79,6 @@ export default function ZhijieV9TopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <ZhijieV9TopicViewTrack
           topicKey="zhijie-v9"
@@ -150,7 +147,6 @@ export default function ZhijieV9TopicPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

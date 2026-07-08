@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { TeslaTopicHero } from "@/components/tesla/TeslaTopicHero";
 import { TeslaFeaturedGrid } from "@/components/tesla/TeslaFeaturedGrid";
 import { TeslaScenarioMatrix } from "@/components/tesla/TeslaScenarioMatrix";
@@ -75,7 +73,6 @@ export default function TeslaTopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <TeslaTopicViewTrack
           topicKey="tesla"
@@ -136,7 +133,6 @@ export default function TeslaTopicPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       {/* JSON-LD 结构化数据 */}
       <script

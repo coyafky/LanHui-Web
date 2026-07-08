@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { XpengGxTopicHero } from "@/components/xpeng/XpengGxTopicHero";
 import { XpengGxScenarioMatrix } from "@/components/xpeng/XpengGxScenarioMatrix";
 import { XpengGxProjectGrid } from "@/components/xpeng/XpengGxProjectGrid";
@@ -90,7 +88,6 @@ export default function XpengGxTopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <XpengGxTopicViewTrack
           topicKey="xpeng-gx"
@@ -162,7 +159,6 @@ export default function XpengGxTopicPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

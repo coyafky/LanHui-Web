@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { NioEs8Hero } from "@/components/nio/NioEs8Hero";
 import { NioEs8ProjectGrid } from "@/components/nio/NioEs8ProjectGrid";
 import { NioEs8Bundles } from "@/components/nio/NioEs8Bundles";
@@ -72,7 +70,6 @@ export default function NioEs8Page() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <NioEs8TopicViewTrack
           topicKey="nio-es8"
@@ -130,7 +127,6 @@ export default function NioEs8Page() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

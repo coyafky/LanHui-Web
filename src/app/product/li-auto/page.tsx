@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { LiAutoSeriesHero } from "@/components/li-auto/LiAutoSeriesHero";
 import { LiAutoSeriesFeaturedGrid } from "@/components/li-auto/LiAutoSeriesFeaturedGrid";
 import { LiAutoSeriesScenarios } from "@/components/li-auto/LiAutoSeriesScenarios";
@@ -132,7 +130,6 @@ export default function LiAutoSeriesPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <LiAutoSeriesHero
           title="理想系列项目升级方案｜蓝辉轻改 LANHUI"
@@ -180,7 +177,6 @@ export default function LiAutoSeriesPage() {
           </div>
         </section>
       </main>
-      <Footer />
 
       {/* JSON-LD 结构化数据 */}
       <script

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 import { LedaoL90TopicViewTrack } from "@/components/ledao/LedaoL90TopicViewTrack";
 import { LedaoL90Hero } from "@/components/ledao/LedaoL90Hero";
 import { LedaoL90ProjectGrid } from "@/components/ledao/LedaoL90ProjectGrid";
@@ -80,7 +78,6 @@ export default function LedaoL90TopicPage() {
 
   return (
     <>
-      <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
         <LedaoL90TopicViewTrack
           topicKey="ledao-l90"
@@ -148,7 +145,6 @@ export default function LedaoL90TopicPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </main>
-      <Footer />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
