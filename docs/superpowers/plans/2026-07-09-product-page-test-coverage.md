@@ -256,7 +256,7 @@ git commit -m "test: add shared product page test utils and refactor car-care te
 - 创建：`src/app/product/product-pages-services.smoke.test.tsx`
 - 依赖：任务 1（test-utils 存在）
 
-- [ ] **步骤 1：编写测试文件**
+- [x] **步骤 1：编写测试文件**
 
 ```tsx
 import { describe, it, expect, vi } from "vitest";
@@ -322,7 +322,7 @@ describe.each(LIVE_SERVICES)(
 );
 ```
 
-- [ ] **步骤 2：运行测试验证通过**
+- [x] **步骤 2：运行测试验证通过**
 
 ```bash
 npx vitest run src/app/product/product-pages-services.smoke.test.tsx -v
@@ -335,7 +335,7 @@ npx vitest run src/app/product/product-pages-services.smoke.test.tsx -v
 - 某些服务页使用 `auth()` 或 `prisma.*` → 如果页面直接调用了 DB，测试会失败。此时需要在该服务页对应的 `page.tsx` 中检查是否调用了 server-only API
 - 如果某个服务页的组件依赖未 mock 的 hook（如 `useRouter`），则补充对应 mock
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add src/app/product/product-pages-services.smoke.test.tsx
@@ -350,7 +350,7 @@ git commit -m "test: add smoke tests for 9 live service pages"
 - 创建：`src/app/product/product-pages-brands.smoke.test.tsx`
 - 依赖：任务 1（test-utils 存在）
 
-- [ ] **步骤 1：编写测试文件**
+- [x] **步骤 1：编写测试文件**
 
 ```tsx
 import { describe, it, expect, vi } from "vitest";
@@ -418,7 +418,7 @@ describe.each(LIVE_BRANDS)(
 );
 ```
 
-- [ ] **步骤 2：运行测试验证通过**
+- [x] **步骤 2：运行测试验证通过**
 
 ```bash
 npx vitest run src/app/product/product-pages-brands.smoke.test.tsx -v
@@ -430,7 +430,7 @@ npx vitest run src/app/product/product-pages-brands.smoke.test.tsx -v
 - 品牌页通常使用大量专有组件（`XiaomiBrandHero`、`WenjieSeriesHero` 等），这些组件可能依赖具体数据。如果某个品牌页的组件抛出错误，该测试会 FAIL。解决方案是在此文件中添加针对该品牌的额外 `vi.mock()` 调用。
 - 常见失败原因：组件中使用了 `useSearchParams()` 或 `useParams()` 等未 mock 的 Next.js hook。
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add src/app/product/product-pages-brands.smoke.test.tsx
@@ -445,7 +445,7 @@ git commit -m "test: add smoke tests for 12 live brand pages"
 - 创建：`src/app/product/product-pages-models.smoke.test.tsx`
 - 依赖：任务 1（test-utils 存在）
 
-- [ ] **步骤 1：编写测试文件**
+- [x] **步骤 1：编写测试文件**
 
 ```tsx
 import { describe, it, expect, vi } from "vitest";
@@ -522,7 +522,7 @@ describe.each(LIVE_MODELS)(
 );
 ```
 
-- [ ] **步骤 2：运行测试验证通过**
+- [x] **步骤 2：运行测试验证通过**
 
 ```bash
 npx vitest run src/app/product/product-pages-models.smoke.test.tsx -v
@@ -534,7 +534,7 @@ npx vitest run src/app/product/product-pages-models.smoke.test.tsx -v
 - 车型页是组件最密集的页面（Hero、ScenarioMatrix、ProjectGrid、ServiceFlow、Faq 等），容易因为未 mock 的组件依赖而失败。
 - 如果某个车型页的 `modelName` 在页面渲染中不是直接以文本出现的（例如只出现在 meta/SEO 中，不在 visible DOM），则需要调整断言策略（例如检查 `document.title` 或改为只断言 render 不崩溃）。
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add src/app/product/product-pages-models.smoke.test.tsx
@@ -549,7 +549,7 @@ git commit -m "test: add smoke tests for 16 live model pages"
 - 创建：`src/app/product/product-pages-index.smoke.test.tsx`
 - 依赖：任务 1（test-utils 存在）
 
-- [ ] **步骤 1：编写测试文件**
+- [x] **步骤 1：编写测试文件**
 
 ```tsx
 import { describe, it, expect, vi } from "vitest";
@@ -647,7 +647,7 @@ describe("window-film/[packageSlug] — 动态路由", () => {
 
 实际的页面级渲染（`<WindowFilmPackageDetail>` 组件加 params）需要更深入 mock（mock `next/navigation` 的 `params`），作为已知限制暂时跳过。
 
-- [ ] **步骤 2：运行测试验证通过**
+- [x] **步骤 2：运行测试验证通过**
 
 ```bash
 npx vitest run src/app/product/product-pages-index.smoke.test.tsx -v
@@ -655,7 +655,7 @@ npx vitest run src/app/product/product-pages-index.smoke.test.tsx -v
 
 预期：7 PASS（4 首页 + 3 动态路由）
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add src/app/product/product-pages-index.smoke.test.tsx
@@ -670,7 +670,7 @@ git commit -m "test: add smoke tests for /product index and window-film dynamic 
 - 创建：`src/lib/product-routes.test.ts`
 - 无依赖（纯逻辑测试，不涉及组件渲染）
 
-- [ ] **步骤 1：编写测试文件**
+- [x] **步骤 1：编写测试文件**
 
 ```tsx
 import { describe, it, expect } from "vitest";
@@ -767,7 +767,7 @@ describe("Planned pages excluded from live coverage", () => {
 });
 ```
 
-- [ ] **步骤 2：运行测试验证通过**
+- [x] **步骤 2：运行测试验证通过**
 
 ```bash
 npx vitest run src/lib/product-routes.test.ts -v
@@ -775,7 +775,7 @@ npx vitest run src/lib/product-routes.test.ts -v
 
 预期：所有 PASS（具体数量取决于 live count + 4 个约束测试）
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add src/lib/product-routes.test.ts
@@ -792,7 +792,7 @@ git commit -m "test: add route registry consistency tests for product-routes.ts"
 
 **背景：** 此脚本扫描 `git ls-files` 中所有 `src/app/product/**/page.tsx` 文件，排除已知 planned 路径和动态路由段，然后验证每个 live 页面是否在 smoke test 的 manifest 映射表中被覆盖。
 
-- [ ] **步骤 1：编写 CI 脚本**
+- [x] **步骤 1：编写 CI 脚本**
 
 ```mjs
 /**
@@ -961,7 +961,7 @@ if (hasError) {
 }
 ```
 
-- [ ] **步骤 2：手动测试脚本**
+- [x] **步骤 2：手动测试脚本**
 
 ```bash
 node scripts/check-product-page-tests.mjs
@@ -969,7 +969,7 @@ node scripts/check-product-page-tests.mjs
 
 预期：输出所有页面检查结果，exit 0
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add scripts/check-product-page-tests.mjs
@@ -984,7 +984,7 @@ git commit -m "ci: add check-product-page-tests anti-regression script"
 - 修改：`package.json`
 - 依赖：任务 8（CI 脚本存在）
 
-- [ ] **步骤 1：修改 package.json 中的 scripts 和 check 链
+- [x] **步骤 1：修改 package.json 中的 scripts 和 check 链
 
 在 `scripts` 对象中加入：
 
@@ -1004,7 +1004,7 @@ git commit -m "ci: add check-product-page-tests anti-regression script"
 "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run check:backup && npm run check:breadcrumbs && npm run check:product-layout && npm run check:contact-copy && npm run check:product-placeholders && npm run check:news-content && npm run check:product-image-copy && npm run check:footer-year && npm run check:product-page-tests && npm run build"
 ```
 
-- [ ] **步骤 2：验证 script 可调用**
+- [x] **步骤 2：验证 script 可调用**
 
 ```bash
 npm run check:product-page-tests
@@ -1012,7 +1012,7 @@ npm run check:product-page-tests
 
 预期：运行 CI 脚本，exit 0
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add package.json
@@ -1025,7 +1025,7 @@ git commit -m "ci: add check:product-page-tests to CI check chain"
 
 **依赖：** 全部任务 1-9 完成
 
-- [ ] **步骤 1：运行全量测试**
+- [x] **步骤 1：运行全量测试**
 
 ```bash
 npm test
@@ -1033,7 +1033,7 @@ npm test
 
 预期：所有测试通过（包括原有测试 + 新 smoke test + 路由一致性测试）
 
-- [ ] **步骤 2：类型检查**
+- [x] **步骤 2：类型检查**
 
 ```bash
 npm run typecheck
@@ -1041,7 +1041,7 @@ npm run typecheck
 
 预期：无新增类型错误（注意：存在 9 个 pre-existing 错误于 test 文件，不视为本计划回归）
 
-- [ ] **步骤 3：构建验证**
+- [x] **步骤 3：构建验证**
 
 ```bash
 npm run build
@@ -1049,7 +1049,7 @@ npm run build
 
 预期：构建通过（无需 Postgres 运行）
 
-- [ ] **步骤 4：CI 脚本验证**
+- [x] **步骤 4：CI 脚本验证**
 
 ```bash
 npm run check:product-page-tests
@@ -1057,7 +1057,7 @@ npm run check:product-page-tests
 
 预期：exit 0，所有 live 页面被覆盖
 
-- [ ] **步骤 5：Commit（如果需要）**
+- [x] **步骤 5：Commit（如果需要）**
 
 ```bash
 git add -A
