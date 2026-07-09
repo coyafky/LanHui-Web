@@ -1,4 +1,4 @@
-export type WenjiePreviewImageStatus = "real" | "generated-preview" | "missing";
+export type WenjiePreviewImageStatus = "real" | "product-preview" | "missing";
 
 export type WenjiePreviewImageWidth = 1448;
 export type WenjiePreviewImageHeight = 1086;
@@ -38,7 +38,7 @@ export function buildWenjieMissingPreviewImage(
   };
 }
 
-export function buildWenjieGeneratedPreviewImage(
+export function buildWenjieProductPreviewImage(
   key: string,
   name: string,
   modelCategory?: WenjieModelCategory,
@@ -47,10 +47,10 @@ export function buildWenjieGeneratedPreviewImage(
     ? `/images/products/wenjie/${modelCategory}/generated/${key}.png`
     : `/images/products/wenjie/generated/${key.replace(/^wenjie-/, "")}.png`;
   return {
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: {
       publicPath,
-      alt: `问界 ${name} 功能预览图`,
+      alt: `问界 ${name} 商品预览效果图`,
       width: WENJIE_PREVIEW_IMAGE_WIDTH,
       height: WENJIE_PREVIEW_IMAGE_HEIGHT,
       aspectRatio: WENJIE_PREVIEW_IMAGE_ASPECT_RATIO,
@@ -60,7 +60,7 @@ export function buildWenjieGeneratedPreviewImage(
 
 export const wenjieSeriesHeroImage: WenjiePreviewImage = {
   publicPath: "/images/products/wenjie/generated/series-hero.png",
-  alt: "问界系列轻改功能预览图",
+  alt: "问界系列轻改商品预览效果图",
   width: WENJIE_PREVIEW_IMAGE_WIDTH,
   height: WENJIE_PREVIEW_IMAGE_HEIGHT,
   aspectRatio: WENJIE_PREVIEW_IMAGE_ASPECT_RATIO,
@@ -71,7 +71,7 @@ export function getWenjieModelHeroImage(
 ): WenjiePreviewImage {
   return {
     publicPath: `/images/products/wenjie/${modelKey}/generated/hero.png`,
-    alt: `问界 ${modelKey} 轻改功能预览图`,
+    alt: `问界 ${modelKey} 轻改商品预览效果图`,
     width: WENJIE_PREVIEW_IMAGE_WIDTH,
     height: WENJIE_PREVIEW_IMAGE_HEIGHT,
     aspectRatio: WENJIE_PREVIEW_IMAGE_ASPECT_RATIO,
