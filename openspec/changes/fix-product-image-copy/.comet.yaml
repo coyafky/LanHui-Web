@@ -1,5 +1,5 @@
 workflow: full
-phase: build
+phase: verify
 context_compression: off
 build_mode: executing-plans
 build_pause: null
@@ -7,13 +7,13 @@ subagent_dispatch: null
 tdd_mode: direct
 review_mode: off
 isolation: branch
-verify_mode: null
+verify_mode: full
 auto_transition: true
 base_ref: a9876ced60ea346341803265d70f84391be85067
 design_doc: docs/superpowers/specs/2026-07-09-fix-product-image-copy-design.md
 plan: docs/superpowers/plans/2026-07-09-fix-product-image-copy.md
 verify_result: pending
-verification_report: null
+verification_report: docs/superpowers/reports/2026-07-09-fix-product-image-copy-verify.md
 branch_status: pending
 created_at: 2026-07-09
 verified_at: null
