@@ -66,7 +66,7 @@ export function LiAutoSeriesSubModelsGrid({ subModels }: LiAutoSeriesSubModelsGr
               }`}>
                 <div
                   role="img"
-                  aria-label={`${m.modelName} 升级款式功能预览图`}
+                  aria-label={`${m.modelName} 升级款式商品预览效果图`}
                   className={`absolute inset-0 ${
                     m.isPlanned
                       ? "bg-gradient-to-br from-zinc-800/30 via-zinc-950 to-zinc-900"

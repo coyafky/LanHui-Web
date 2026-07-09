@@ -5,7 +5,7 @@
  *   1. 长度字面量（projects=17, scenarios=6, bundles=3, steps=7, faq=7）
  *   2. id 唯一
  *   3. order 单调递增 1..17
- *   4. imageStatus 全部 "generated-preview"（一期）
+ *   4. imageStatus 全部 "product-preview"（一期）
  */
 
 import { describe, it, expect } from "vitest";
@@ -51,9 +51,9 @@ describe("wenjie-m6-upgrade-projects: projects invariants", () => {
     expect(orders).toEqual(Array.from({ length: 17 }, (_, i) => i + 1));
   });
 
-  it("all imageStatus are 'generated-preview'", () => {
+  it("all imageStatus are 'product-preview'", () => {
     expect(
-      wenjieM6UpgradeProjects.every((p) => p.imageStatus === "generated-preview"),
+      wenjieM6UpgradeProjects.every((p) => p.imageStatus === "product-preview"),
     ).toBe(true);
   });
 

@@ -7,7 +7,7 @@
  * 重要提示：
  *   - 源 manifest 的 productRows 没有图片绑定字段，真实产品图仍需人工核对。
  *   - 旧 M7/M8/M9 明细数据保留 pending 状态，避免误配真实产品图。
- *   - 新问界系列页和 M6/M7/M8 专题页使用 generated-preview 功能预览图，
+ *   - 新问界系列页和 M6/M7/M8 专题页使用 product-preview 商品预览效果图，
  *     真实图片可后续逐项替换。
  */
 

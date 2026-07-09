@@ -120,9 +120,6 @@ export default function ZhijieBrandPage() {
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
                       <p className="text-6xl font-bold text-amber-900/20">V9</p>
-                      <p className="text-xs text-zinc-600 mt-4">
-                        功能预览图 · 后续补充
-                      </p>
                     </div>
                   </div>
                 </div>

@@ -47,9 +47,9 @@ describe("nio-products data shape (B.1 + F.1)", () => {
       });
     });
 
-    it("全部 imageStatus === \"generated-preview\"", () => {
+    it("全部 imageStatus === \"product-preview\"", () => {
       for (const p of nioEs8UpgradeProjects) {
-        expect(p.imageStatus).toBe("generated-preview");
+        expect(p.imageStatus).toBe("product-preview");
       }
     });
 
@@ -164,11 +164,11 @@ describe("nio-products data shape (B.1 + F.1)", () => {
       }
     });
 
-    it("FAQ 中包含「图片是真实施工案例吗」澄清 generated-preview 状态", () => {
+    it("FAQ 中包含「图片是真实施工案例吗」澄清商品预览效果图状态", () => {
       const hasImageStatusFaq = nioEs8Faq.some(
         (f) =>
           f.question.includes("图片") &&
-          (f.answer.includes("AI") || f.answer.includes("generated-preview")),
+          f.answer.includes("商品预览效果图"),
       );
       expect(hasImageStatusFaq).toBe(true);
     });

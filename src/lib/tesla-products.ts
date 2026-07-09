@@ -29,7 +29,7 @@ export type TeslaProjectCategory =
 
 export type TeslaModel = "Model 3" | "Model Y" | "Model S" | "Model X";
 
-export type TeslaImageStatus = "matched" | "generated-preview" | "pending-review" | "missing";
+export type TeslaImageStatus = "matched" | "product-preview" | "pending-review" | "missing";
 
 export interface TeslaProject {
   /** 稳定 slug, 例 "tesla-featured-paint-ppf" */
@@ -81,7 +81,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-window-film",
@@ -94,7 +94,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-color-film",
@@ -107,7 +107,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-floor-mat",
@@ -120,7 +120,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-skid-plate",
@@ -133,7 +133,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-ambient-light",
@@ -146,7 +146,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-ventilated-seat",
@@ -159,7 +159,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-electric-door-handle",
@@ -172,7 +172,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-electric-front-hood",
@@ -185,7 +185,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "tesla-featured-electric-sunshade",
@@ -198,7 +198,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
 ] as const;
 

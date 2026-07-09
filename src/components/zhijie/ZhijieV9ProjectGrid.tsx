@@ -50,8 +50,8 @@ type ProjectCardProps = {
 
 function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
   const statusLabel =
-    project.imageStatus === "generated-preview"
-      ? "效果预览"
+    project.imageStatus === "product-preview"
+      ? "商品预览效果图"
       : project.imageStatus === "matched"
         ? "实拍匹配"
         : project.imageStatus === "pending-review"
@@ -89,9 +89,7 @@ function ProjectCard({ project, open, onToggle }: ProjectCardProps) {
                 loading="lazy"
               />
               <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-md border border-orange-700/60 bg-zinc-950/80 px-2 py-0.5 text-[10px] font-medium text-orange-200">
-                {project.imageStatus === "generated-preview" ? (
-                  <AlertCircle className="h-3 w-3" aria-hidden />
-                ) : null}
+                
                 {statusLabel}
               </span>
             </>

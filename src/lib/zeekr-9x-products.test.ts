@@ -42,9 +42,9 @@ describe("Zeekr 9X data shape (Task D)", () => {
       });
     });
 
-    it('全部 imageStatus === "generated-preview"', () => {
+    it('全部 imageStatus === "product-preview"', () => {
       for (const p of zeekr9xUpgradeProjects) {
-        expect(p.imageStatus).toBe("generated-preview");
+        expect(p.imageStatus).toBe("product-preview");
       }
     });
 

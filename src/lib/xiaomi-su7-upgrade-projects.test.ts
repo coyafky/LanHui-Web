@@ -39,9 +39,9 @@ describe("Xiaomi SU7 data shape", () => {
       });
     });
 
-    it('全部 imageStatus === "matched"', () => {
+    it('全部 imageStatus === "product-preview"', () => {
       for (const p of xiaomiSu7UpgradeProjects) {
-        expect(p.imageStatus).toBe("matched");
+        expect(p.imageStatus).toBe("product-preview");
       }
     });
 
@@ -70,7 +70,7 @@ describe("Xiaomi SU7 data shape", () => {
     });
 
     it("category 是已知值", () => {
-      const valid = ["cabin_protection", "chassis_protection", "exterior_parts", "film_style", "cabin_comfort", "electric_convenience", "handling"] as const;
+      const valid = ["paint_protection", "cabin_protection", "chassis_protection", "exterior_parts", "film_style", "cabin_comfort", "electric_convenience", "handling", "infotainment"] as const;
       for (const p of xiaomiSu7UpgradeProjects) {
         expect(valid).toContain(p.category);
       }

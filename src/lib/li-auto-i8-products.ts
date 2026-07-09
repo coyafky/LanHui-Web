@@ -18,7 +18,7 @@
 
 export type LiAutoI8ImageStatus =
   | "matched"
-  | "generated-preview"
+  | "product-preview"
   | "pending-review"
   | "missing";
 

@@ -4,7 +4,7 @@
  * 9 项升级项目、5 大用车场景、6 步服务流程、6 条 FAQ。
  * PRD: docs/PRD/product/XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md
  *
- * imageStatus 根据实际图片可用性设置（generated-preview / matched / missing）。
+ * imageStatus 根据实际图片可用性设置（product-preview / matched / missing）。
  * 字面量防漂移模式：as const satisfies + runtime count assertion。
  */
 
@@ -19,7 +19,7 @@ export type XiaomiYu7Category =
 
 export type XiaomiYu7ImageStatus =
   | "matched"
-  | "generated-preview"
+  | "product-preview"
   | "pending-review"
   | "missing";
 
@@ -89,7 +89,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-02", order: 2, name: "碳纤维护板", category: "chassis_protection",
@@ -99,7 +99,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-03", order: 3, name: "平衡杆", category: "handling",
@@ -110,7 +110,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-04", order: 4, name: "运动包围", category: "exterior_parts",
@@ -120,7 +120,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-05", order: 5, name: "星空膜", category: "film_style",
@@ -130,7 +130,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-06", order: 6, name: "星空卷帘", category: "cabin_comfort",
@@ -140,7 +140,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-07", order: 7, name: "香氛系统", category: "cabin_comfort",
@@ -150,7 +150,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-08", order: 8, name: "电吸门", category: "electric_convenience",
@@ -161,7 +161,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xy-09", order: 9, name: "挡泥板", category: "exterior_parts",
@@ -171,7 +171,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly XiaomiYu7UpgradeProject[];
 

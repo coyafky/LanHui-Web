@@ -20,7 +20,7 @@ function assertFeaturedLength(projects: readonly WenjieSeriesUpgradeProject[]): 
 
 /**
  * 10 热门推荐：有图片的卡片网格 + 无图片的列表（左名称/右卖点）
- * PRD §7.1：3 列 / md:2 / sm:1，4:3 功能预览图
+ * PRD §7.1：3 列 / md:2 / sm:1，4:3 商品预览效果图
  */
 export function WenjieSeriesFeaturedGrid({ projects }: WenjieSeriesFeaturedGridProps) {
   assertFeaturedLength(projects);

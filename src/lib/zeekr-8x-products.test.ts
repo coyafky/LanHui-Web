@@ -58,9 +58,9 @@ describe("zeekr-8x-products data shape (Task A + D)", () => {
       }
     });
 
-    it('全部 imageStatus === "generated-preview"', () => {
+    it('全部 imageStatus === "product-preview"', () => {
       for (const p of zeekr8xUpgradeProjects) {
-        expect(p.imageStatus).toBe("generated-preview");
+        expect(p.imageStatus).toBe("product-preview");
       }
     });
 

@@ -57,9 +57,9 @@ describe("li-auto-series-upgrade-projects: featured projects invariants", () => 
     ).toBe(true);
   });
 
-  it("all featured imageStatus are 'generated-preview'", () => {
+  it("all featured imageStatus are 'product-preview'", () => {
     expect(
-      liAutoSeriesFeaturedProjects.every((p) => p.imageStatus === "generated-preview"),
+      liAutoSeriesFeaturedProjects.every((p) => p.imageStatus === "product-preview"),
     ).toBe(true);
   });
 });
@@ -81,9 +81,9 @@ describe("li-auto-series-upgrade-projects: optional projects invariants", () => 
     ).toBe(true);
   });
 
-  it("all optional imageStatus are 'generated-preview'", () => {
+  it("all optional imageStatus are 'product-preview'", () => {
     expect(
-      liAutoSeriesOptionalProjects.every((p) => p.imageStatus === "generated-preview"),
+      liAutoSeriesOptionalProjects.every((p) => p.imageStatus === "product-preview"),
     ).toBe(true);
   });
 

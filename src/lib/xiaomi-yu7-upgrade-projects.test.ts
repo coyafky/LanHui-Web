@@ -39,9 +39,9 @@ describe("Xiaomi YU7 data shape", () => {
       });
     });
 
-    it('全部 imageStatus === "missing"', () => {
+    it('全部 imageStatus === "product-preview"', () => {
       for (const p of xiaomiYu7UpgradeProjects) {
-        expect(p.imageStatus).toBe("missing");
+        expect(p.imageStatus).toBe("product-preview");
       }
     });
 

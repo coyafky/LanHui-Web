@@ -19,7 +19,7 @@
 
 export type NioEs8ImageStatus =
   | "matched"
-  | "generated-preview"
+  | "product-preview"
   | "pending-review"
   | "missing";
 
@@ -116,7 +116,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["hero"],
     caution: "车型主视觉，非升级项目；用于 17 项素材库封面",
   },
@@ -132,7 +132,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["protection"],
   },
   {
@@ -147,7 +147,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["protection"],
   },
   {
@@ -162,7 +162,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["appearance"],
   },
   {
@@ -177,7 +177,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["appearance"],
   },
   {
@@ -191,7 +191,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["protection", "family_cabin"],
   },
   {
@@ -206,7 +206,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["family_cabin"],
   },
   {
@@ -221,7 +221,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["driving_protection"],
     caution: "需到店评估安装位和接口",
   },
@@ -236,7 +236,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["appearance"],
   },
   {
@@ -251,7 +251,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["appearance"],
   },
   {
@@ -266,7 +266,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["family_cabin"],
   },
   {
@@ -281,7 +281,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["driving_protection"],
   },
   {
@@ -296,7 +296,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["driving_protection"],
   },
   {
@@ -311,7 +311,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["protection"],
   },
   {
@@ -326,7 +326,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["protection", "driving_protection"],
   },
   {
@@ -341,7 +341,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["appearance", "driving_protection"],
   },
   {
@@ -356,7 +356,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     suitableFor: ["family_cabin"],
   },
 ];
@@ -542,7 +542,7 @@ export const nioEs8Faq: readonly NioEs8FaqItem[] = [
   {
     question: "图片是真实施工案例吗？",
     answer:
-      "当前展示的是 AI 功能预览图（generated-preview），真实施工以到店沟通和现场评估为准。",
+      "当前展示的是商品预览效果图，真实施工以到店沟通和现场评估为准。",
   },
 ];
 

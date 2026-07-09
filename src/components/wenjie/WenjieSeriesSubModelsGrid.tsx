@@ -29,7 +29,7 @@ function assertSubModelLength(subModels: readonly WenjieSeriesSubModel[]): void 
 
 /**
  * 3 子车型卡片（PRD §10）
- * 每卡：4:3 功能预览图 + H3 + 数量 Badge + 简短 hero + 跳子页 CTA
+ * 每卡：4:3 商品预览效果图 + H3 + 数量 Badge + 简短 hero + 跳子页 CTA
  */
 export function WenjieSeriesSubModelsGrid({ subModels }: WenjieSeriesSubModelsGridProps) {
   assertSubModelLength(subModels);
@@ -58,7 +58,7 @@ export function WenjieSeriesSubModelsGrid({ subModels }: WenjieSeriesSubModelsGr
               <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800">
                 <Image
                   src={getWenjieModelHeroImage(m.modelKey).publicPath ?? "/images/products/wenjie/preview.png"}
-                  alt={`${m.modelName} 升级款式功能预览图`}
+                  alt={`${m.modelName} 升级款式商品预览效果图`}
                   fill
                   sizes="(min-width: 768px) 33vw, 100vw"
                   className="object-cover"
