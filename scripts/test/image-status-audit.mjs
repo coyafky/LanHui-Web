@@ -95,7 +95,7 @@ function main() {
   const results = {
     scannedAt: new Date().toISOString(),
     brands: {},
-    totals: { matched: 0, "pending-review": 0, "generated-preview": 0, missing: 0, other: 0 },
+    totals: { matched: 0, "pending-review": 0, "product-preview": 0, missing: 0, other: 0 },
   };
 
   for (const [brand, file] of Object.entries(BRAND_DATA_FILES)) {
@@ -105,7 +105,7 @@ function main() {
       continue;
     }
 
-    const counts = { matched: 0, "pending-review": 0, "generated-preview": 0, missing: 0, other: 0 };
+    const counts = { matched: 0, "pending-review": 0, "product-preview": 0, missing: 0, other: 0 };
     for (const p of data.projects) {
       if (counts.hasOwnProperty(p.imageStatus)) {
         counts[p.imageStatus]++;
@@ -132,7 +132,7 @@ function main() {
   results.totals.grandTotal =
     results.totals.matched +
     results.totals["pending-review"] +
-    results.totals["generated-preview"] +
+    results.totals["product-preview"] +
     results.totals.missing +
     results.totals.other;
 
@@ -148,7 +148,7 @@ function main() {
     console.log(
       `${brand.padEnd(25)} | ${String(b.total).padStart(5)} | ` +
         `${String(c.matched).padStart(7)} | ${String(c["pending-review"]).padStart(7)} | ` +
-        `${String(c["generated-preview"]).padStart(9)} | ${String(c.missing).padStart(7)} | ${String(c.other).padStart(5)}`
+        `${String(c["product-preview"]).padStart(9)} | ${String(c.missing).padStart(7)} | ${String(c.other).padStart(5)}`
     );
   }
   console.log("─".repeat(90));
@@ -156,7 +156,7 @@ function main() {
   console.log(
     `${"TOTAL".padEnd(25)} | ${String(t.grandTotal).padStart(5)} | ` +
       `${String(t.matched).padStart(7)} | ${String(t["pending-review"]).padStart(7)} | ` +
-      `${String(t["generated-preview"]).padStart(9)} | ${String(t.missing).padStart(7)} | ${String(t.other).padStart(5)}`
+      `${String(t["product-preview"]).padStart(9)} | ${String(t.missing).padStart(7)} | ${String(t.other).padStart(5)}`
   );
 
   // 写入 JSON

@@ -5,7 +5,7 @@
  * PRD: docs/PRD/product/XIAOMI_TOPIC_PRD_2026-06-20.md
  *      docs/PRD/product/XIAOMI_SERIES_UPGRADE_PRD_2026-06-24.md
  *
- * imageStatus 根据实际图片可用性设置（generated-preview / matched / missing）。
+ * imageStatus 根据实际图片可用性设置（product-preview / matched / missing）。
  * 字面量防漂移模式：as const satisfies + runtime count assertion。
  */
 
@@ -22,7 +22,7 @@ export type XiaomiSu7Category =
 
 export type XiaomiSu7ImageStatus =
   | "matched"
-  | "generated-preview"
+  | "product-preview"
   | "pending-review"
   | "missing";
 
@@ -90,7 +90,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-01.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-02", order: 2, name: "隔热膜", category: "film_style",
@@ -99,7 +99,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-02.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-03", order: 3, name: "改色膜", category: "film_style",
@@ -108,7 +108,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-03.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-04", order: 4, name: "360 软包脚垫", category: "cabin_protection",
@@ -117,7 +117,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-04.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-05", order: 5, name: "底盘护板", category: "chassis_protection",
@@ -126,7 +126,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-05.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-06", order: 6, name: "氛围灯", category: "cabin_comfort",
@@ -135,7 +135,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-06.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-07", order: 7, name: "仪表中置", category: "infotainment",
@@ -145,7 +145,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-07.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-08", order: 8, name: "底盘灯", category: "exterior_parts",
@@ -154,7 +154,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-08.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-09", order: 9, name: "电动尾翼", category: "electric_convenience",
@@ -164,7 +164,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-09.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-10", order: 10, name: "电动遮阳帘", category: "electric_convenience",
@@ -173,7 +173,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-10.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-11", order: 11, name: "电动前机盖", category: "electric_convenience",
@@ -183,7 +183,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-11.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-12", order: 12, name: "Ultra 机盖", category: "exterior_parts",
@@ -193,7 +193,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-12.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-13", order: 13, name: "Ultra 方向盘", category: "handling",
@@ -203,7 +203,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-13.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-14", order: 14, name: "Ultra 电子声浪", category: "infotainment",
@@ -213,7 +213,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-14.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-15", order: 15, name: "后排电视", category: "infotainment",
@@ -222,7 +222,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-15.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-16", order: 16, name: "Ultra 尾翼", category: "exterior_parts",
@@ -231,7 +231,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-16.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-17", order: 17, name: "Ultra 碳纤内饰", category: "cabin_comfort",
@@ -240,7 +240,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-17.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-18", order: 18, name: "Ultra 拉花", category: "film_style",
@@ -249,7 +249,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-18.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-19", order: 19, name: "座椅按摩", category: "cabin_comfort",
@@ -258,7 +258,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-19.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-20", order: 20, name: "Ultra 前后包围", category: "exterior_parts",
@@ -267,7 +267,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-20.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
   {
     id: "xs-21", order: 21, name: "Ultra 内饰升级", category: "cabin_comfort",
@@ -276,7 +276,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     publicPath: "/images/products/xiaomi/su7/generated/xs-21.png",
     width: 1448,
     height: 1086,
-    imageStatus: "generated-preview", sourceArea: "poster_project_matrix",
+    imageStatus: "product-preview", sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly XiaomiSu7UpgradeProject[];
 

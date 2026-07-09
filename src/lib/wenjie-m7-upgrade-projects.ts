@@ -13,7 +13,7 @@
  *   §13 8 条 FAQ       → wenjieM7Faq             (length === 8)
  *
  * 字段值零变更 —— 直接从 PRD §7.1/§7.2/§7.3 表格抄写。展示图统一
- * 使用 generated-preview，后续可逐项替换为 real。
+ * 使用 product-preview，后续可逐项替换为 real。
  *
  * 命名差异（Architect §1.3）：
  *   - M7 软包脚垫保留原名 "三防软包脚垫"
@@ -84,7 +84,7 @@ const wenjieM7MustHaveProjectRows = [
     category: "protection",
     summary: "隔热、防晒、隐私和长途驾乘舒适",
     suitableFor: ["隔热防晒", "隐私保护", "长途驾乘"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_must_have",
   },
   {
@@ -95,7 +95,7 @@ const wenjieM7MustHaveProjectRows = [
     category: "protection",
     summary: "漆面保护、日常轻微划痕防护、新车质感保持",
     suitableFor: ["新车保护", "日常轻微划痕防护"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_must_have",
   },
   {
@@ -106,7 +106,7 @@ const wenjieM7MustHaveProjectRows = [
     category: "cabin_comfort",
     summary: "防水、防污、易清洁，适合家庭高频使用",
     suitableFor: ["家庭高频使用", "防水防污"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_must_have",
   },
   {
@@ -117,7 +117,7 @@ const wenjieM7MustHaveProjectRows = [
     category: "protection",
     summary: "保护底部关键区域，适合新车基础防护",
     suitableFor: ["新车基础防护", "底部防护"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_must_have",
   },
   {
@@ -128,7 +128,7 @@ const wenjieM7MustHaveProjectRows = [
     category: "electric_convenience",
     summary: "上下车便利，适合家庭成员和高频出入场景",
     suitableFor: ["家庭高频出入", "老人儿童上下车"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_must_have",
   },
 ] as const satisfies readonly WenjieM7UpgradeProjectRow[];
@@ -147,7 +147,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "business_cabin",
     summary: "提升后排娱乐体验，适合家庭和商务接待",
     suitableFor: ["家庭", "商务接待"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -158,7 +158,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "cabin_comfort",
     summary: "提升夜间座舱氛围和科技感",
     suitableFor: ["夜间氛围"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -169,7 +169,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "cabin_comfort",
     summary: "后排办公、用餐、儿童使用场景",
     suitableFor: ["后排办公", "儿童使用"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -180,7 +180,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "cabin_comfort",
     summary: "后排空间保护、易清洁、提升座舱质感",
     suitableFor: ["后排空间", "家庭出行"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -191,7 +191,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "cabin_comfort",
     summary: "提升乘坐支撑和舒适体验",
     suitableFor: ["乘坐支撑"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -202,7 +202,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "appearance",
     summary: "改变整车侧面姿态和视觉质感",
     suitableFor: ["外观升级"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -214,7 +214,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     summary: "车身支撑和驾驶稳定感，需到店评估",
     suitableFor: ["车身支撑"],
     caution: "需到店评估",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -225,7 +225,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "cabin_comfort",
     summary: "提升后方视野显示和科技感",
     suitableFor: ["后方视野"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -236,7 +236,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "cabin_comfort",
     summary: "强化车内氛围和豪华感",
     suitableFor: ["车内氛围"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -247,7 +247,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "cabin_comfort",
     summary: "提升天幕/玻璃视觉氛围和个性化表达",
     suitableFor: ["天幕/玻璃氛围"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -258,7 +258,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "appearance",
     summary: "强化外观运动姿态和视觉完整度",
     suitableFor: ["外观运动"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -270,7 +270,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     summary: "拓展车顶载物和户外场景表达，需确认适配",
     suitableFor: ["户外露营"],
     caution: "需确认适配",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -281,7 +281,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "appearance",
     summary: "改变车身视觉风格，提升辨识度",
     suitableFor: ["外观个性"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -292,7 +292,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "cabin_comfort",
     summary: "提升长途乘坐舒适",
     suitableFor: ["长途乘坐"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
   {
@@ -303,7 +303,7 @@ const wenjieM7BusinessUpgradeProjectRows = [
     category: "appearance",
     summary: "强化轮毂区域运动视觉，不做制动性能承诺",
     suitableFor: ["轮毂区域视觉"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_business_upgrade",
   },
 ] as const satisfies readonly WenjieM7UpgradeProjectRow[];
@@ -322,7 +322,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "protection",
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["上下车高频区域"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -333,7 +333,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "appearance",
     summary: "优化车头/车尾细节，提升视觉完整度",
     suitableFor: ["外观小件"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -344,7 +344,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "screen_care",
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["屏幕防刮"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -355,7 +355,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "practical_accessory",
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["行车防护"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -366,7 +366,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "noise_sealing",
     summary: "提升门体密封体验，具体效果以安装评估为准",
     suitableFor: ["门体密封"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -377,7 +377,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "practical_accessory",
     summary: "后备箱区域防污、易清洁",
     suitableFor: ["后备箱防污"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -388,7 +388,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "cabin_comfort",
     summary: "保护高频接触区域，提升收纳和防滑体验",
     suitableFor: ["高频接触区域"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -399,7 +399,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "practical_accessory",
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["车身侧面清洁"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -411,7 +411,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     summary: "轮拱/局部区域防护，需确认安装位置",
     suitableFor: ["轮拱/局部防护"],
     caution: "需确认安装位置",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
   {
@@ -422,7 +422,7 @@ const wenjieM7PracticalAccessoryProjectRows = [
     category: "noise_sealing",
     summary: "车门区域隔音处理，具体效果以施工评估为准",
     suitableFor: ["车门隔音"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     sourceArea: "poster_practical_accessory",
   },
 ] as const satisfies readonly WenjieM7UpgradeProjectRow[];

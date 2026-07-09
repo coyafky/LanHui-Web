@@ -4,7 +4,7 @@
  * 9 项升级项目、5 大用车场景、6 步服务流程、6 条 FAQ。
  * PRD: docs/PRD/product/XIAOMI_YU7_UPGRADE_PRD_2026-06-24.md
  *
- * imageStatus 根据实际图片可用性设置（generated-preview / matched / missing）。
+ * imageStatus 根据实际图片可用性设置（product-preview / matched / missing）。
  * 字面量防漂移模式：as const satisfies + runtime count assertion。
  */
 

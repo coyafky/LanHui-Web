@@ -11,7 +11,7 @@
  *   §12  6 步服务流程  → wenjieSeriesServiceSteps        (length === 6)
  *   §13  6 条 FAQ      → wenjieSeriesFaq                 (length === 6)
  *
- * 字段值零变更 —— 直接从 PRD 抄写。展示图统一使用 generated-preview，
+ * 字段值零变更 —— 直接从 PRD 抄写。展示图统一使用 product-preview，
  * 后续可逐项替换为 real。
  *
  * 命名差异（Architect §1.3 已确认）：
@@ -86,7 +86,7 @@ const wenjieSeriesFeaturedProjectRows = [
     priority: "featured",
     order: 1,
     summary: "漆面保护、抗日常划痕、新车保护感",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "wenjie-series-window-film",
@@ -95,7 +95,7 @@ const wenjieSeriesFeaturedProjectRows = [
     priority: "featured",
     order: 2,
     summary: "隔热、防晒、隐私、驾乘舒适",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "wenjie-series-rear-aluminum-floor",
@@ -104,7 +104,7 @@ const wenjieSeriesFeaturedProjectRows = [
     priority: "featured",
     order: 3,
     summary: "二排空间保护、易清洁、后排质感提升",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "wenjie-series-skid-plate",
@@ -113,7 +113,7 @@ const wenjieSeriesFeaturedProjectRows = [
     priority: "featured",
     order: 4,
     summary: "应对路面剐蹭、碎石和底部防护",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "wenjie-series-electric-step",
@@ -122,7 +122,7 @@ const wenjieSeriesFeaturedProjectRows = [
     priority: "featured",
     order: 5,
     summary: "家庭成员上下车便利，兼顾老人和儿童",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "wenjie-series-rear-table",
@@ -140,7 +140,7 @@ const wenjieSeriesFeaturedProjectRows = [
     priority: "featured",
     order: 7,
     summary: "减少虫石杂物进入关键散热/进风区域",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
   },
   {
     key: "wenjie-series-door-sill",

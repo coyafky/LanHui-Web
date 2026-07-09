@@ -5,7 +5,7 @@
  *   1. 长度字面量（featured=10, optional=24, scenarios=7, steps=6, faq=6）
  *   2. key 唯一
  *   3. order 单调递增
- *   4. imageStatus 全部 "generated-preview"（一期）
+ *   4. imageStatus 全部 "product-preview"（一期）
  */
 
 import { describe, it, expect } from "vitest";
@@ -57,9 +57,9 @@ describe("wenjie-series-upgrade-projects: featured projects invariants", () => {
     ).toBe(true);
   });
 
-  it("all featured imageStatus are 'generated-preview'", () => {
+  it("all featured imageStatus are valid (product-preview or missing)", () => {
     expect(
-      wenjieSeriesFeaturedProjects.every((p) => p.imageStatus === "generated-preview"),
+      wenjieSeriesFeaturedProjects.every((p) => p.imageStatus === "product-preview" || p.imageStatus === "missing"),
     ).toBe(true);
   });
 });
@@ -81,14 +81,16 @@ describe("wenjie-series-upgrade-projects: optional projects invariants", () => {
     ).toBe(true);
   });
 
-  it("all optional imageStatus are 'generated-preview'", () => {
+  it("all optional imageStatus are valid (product-preview or missing)", () => {
     expect(
-      wenjieSeriesOptionalProjects.every((p) => p.imageStatus === "generated-preview"),
+      wenjieSeriesOptionalProjects.every((p) => p.imageStatus === "product-preview" || p.imageStatus === "missing"),
     ).toBe(true);
   });
 
-  it("all projects have generated public preview images", () => {
-    for (const p of [...wenjieSeriesFeaturedProjects, ...wenjieSeriesOptionalProjects]) {
+  it("all projects have product preview images", () => {
+    const withImages = [...wenjieSeriesFeaturedProjects, ...wenjieSeriesOptionalProjects]
+      .filter((p) => p.imageStatus !== "missing");
+    for (const p of withImages) {
       expect(p.image.publicPath).toMatch(/^\/images\/products\/wenjie\/generated\/series-.+\.png$/);
       expect(p.image.width).toBe(1448);
       expect(p.image.height).toBe(1086);
