@@ -32,7 +32,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run check:backup && npm run check:breadcrumbs && npm run check:product-layout && npm run check:contact-copy && npm run check:product-placeholders && npm run check:news-content && npm run check:product-image-copy && npm run build",
+    "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run check:backup && npm run check:breadcrumbs && npm run check:product-layout && npm run check:contact-copy && npm run check:product-placeholders && npm run check:news-content && npm run check:product-image-copy && npm run check:footer-year && npm run check:product-page-tests && npm run build",
     "verify:zeekr-images": "node scripts/verify-zeekr-images.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -51,7 +51,9 @@
     "check:contact-copy": "node scripts/check-production-contact-copy.mjs",
     "check:product-placeholders": "node scripts/check-product-placeholders.mjs",
     "check:news-content": "node scripts/check-news-content-contract.mjs",
-    "check:product-image-copy": "node scripts/check-product-image-copy.mjs"
+    "check:product-image-copy": "node scripts/check-product-image-copy.mjs",
+    "check:footer-year": "node scripts/check-footer-copyright-year.mjs",
+    "check:product-page-tests": "node scripts/check-product-page-tests.mjs"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

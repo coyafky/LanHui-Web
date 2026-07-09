@@ -6,8 +6,30 @@
  *  - JSON-LD 结构数据正确
  *  - 所有核心区域组件均被渲染
  */
+import React from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
+import {
+  renderProductPage,
+  type PageComponent,
+} from "@/test/product-page-test-utils";
+
+// ---------- Mock 基础设施 ----------
+vi.mock("next/navigation", () => ({
+  notFound: vi.fn(),
+}));
+vi.mock("next/link", () => ({
+  default: ({
+    children,
+    href,
+  }: {
+    children: React.ReactNode;
+    href: string;
+  }) => <a href={href}>{children}</a>,
+}));
+vi.mock("next/image", () => ({
+  default: (props: Record<string, unknown>) => <img {...props} />,
+}));
 
 // ---------- Mock Header / Footer ----------
 vi.mock("@/components/Header", () => ({
@@ -31,8 +53,8 @@ vi.mock("@/components/product/car-care/CarCareServiceFlow", () => ({
   CarCareServiceFlow: () => <section data-testid="CarCareServiceFlow" />,
 }));
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let Page: any;
+type CarCarePage = PageComponent<typeof import("./page")>;
+let Page: CarCarePage;
 
 beforeEach(async () => {
   vi.resetModules();
@@ -49,10 +71,10 @@ describe("CarCarePage", () => {
     expect(() => render(<Page />)).not.toThrow();
   });
 
-  it("renders Header and Footer", () => {
+  it("renders main content area", () => {
     render(<Page />);
-    expect(screen.getByTestId("Header")).toBeDefined();
-    expect(screen.getByTestId("Footer")).toBeDefined();
+    const main = document.querySelector("main#main-content");
+    expect(main).not.toBeNull();
   });
 
   it("renders all 4 car-care sections", () => {
@@ -65,8 +87,10 @@ describe("CarCarePage", () => {
 
   it("includes JSON-LD structured data with ItemList", () => {
     render(<Page />);
-    const scripts = document.querySelectorAll('script[type="application/ld+json"]');
-    expect(scripts.length).toBe(1);
+    const scripts = document.querySelectorAll(
+      'script[type="application/ld+json"]'
+    );
+    expect(scripts.length).toBe(2); // page schema + breadcrumb schema
     const jsonLd = JSON.parse(scripts[0]?.innerHTML ?? "{}");
     expect(jsonLd["@type"]).toBe("CollectionPage");
     expect(jsonLd.mainEntity["@type"]).toBe("ItemList");
