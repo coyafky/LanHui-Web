@@ -2,6 +2,8 @@
 comet_change: fix-product-image-copy
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-09-fix-product-image-copy
+status: final
 ---
 
 # Design Doc: 产品图片标注修正

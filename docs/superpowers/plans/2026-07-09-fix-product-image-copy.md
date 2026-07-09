@@ -2,6 +2,7 @@
 change: fix-product-image-copy
 design-doc: docs/superpowers/specs/2026-07-09-fix-product-image-copy-design.md
 base-ref: a9876ced60ea346341803265d70f84391be85067
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 # 产品图片标注修正 实现计划
@@ -14,6 +15,7 @@ base-ref: a9876ced60ea346341803265d70f84391be85067
 
 **技术栈：** TypeScript strict, Next.js 16, React 19, Tailwind v4, vitest
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ## 文件结构
@@ -106,6 +108,7 @@ base-ref: a9876ced60ea346341803265d70f84391be85067
 **审计脚本（1 文件）：**
 - `scripts/test/image-status-audit.mjs` — 计数器键 `"generated-preview"` → `"product-preview"`
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ## 任务
@@ -239,6 +242,7 @@ git add scripts/check-product-image-copy.mjs package.json
 git commit -m "feat: add check-product-image-copy script to prevent forbidden copy regression"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 2：核心 lib 类型 + 函数改名
@@ -274,6 +278,7 @@ git add src/lib/wenjie-preview-images.ts
 git commit -m "fix: rename WenjiePreviewImageStatus type and build function"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 3：更新 wenjie upgrade-project 文件的 import 和调用
@@ -318,6 +323,7 @@ git add src/lib/wenjie-m6-upgrade-projects.ts src/lib/wenjie-m7-upgrade-projects
 git commit -m "fix: update wenjie upgrade-project imports and calls for buildWenjieProductPreviewImage"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 4：产品数据文件批量替换（17 文件）
@@ -433,6 +439,7 @@ git add src/lib/li-auto-i6-products.ts src/lib/li-auto-i8-products.ts src/lib/li
 git commit -m "fix: replace generated-preview with product-preview in all product data files"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 5：组件 ProjectGrid badge + alt 更新（12 文件）
@@ -586,6 +593,7 @@ git add src/components/wenjie/model/WenjieModelProjectGrid.tsx src/components/ze
 git commit -m "fix: update ProjectGrid components - replace generated-preview with product-preview, remove AlertCircle badges"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 6：Hero/Grid 免责声明和文案更新
@@ -674,6 +682,7 @@ git add src/components/wenjie/WenjieSeriesHero.tsx src/components/wenjie/WenjieS
 git commit -m "fix: remove disclaimers and update alt text in Hero/Grid components"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 7：页面文件文案修正
@@ -697,6 +706,7 @@ git add src/app/product/zhijie/page.tsx
 git commit -m "fix: remove '功能预览图 · 后续补充' from zhijie product page"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 8：测试文件更新
@@ -807,6 +817,7 @@ git add src/lib/wenjie-m6-upgrade-projects.test.ts src/lib/wenjie-m7-upgrade-pro
 git commit -m "fix: update test assertions and descriptions for product-preview rename"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 9：审计脚本更新
@@ -842,6 +853,7 @@ git add scripts/test/image-status-audit.mjs
 git commit -m "fix: update image-status-audit script counter from generated-preview to product-preview"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ### 任务 10：全链验证
@@ -891,6 +903,7 @@ git add .
 git commit -m "fix: complete product image copy migration - generated-preview to product-preview"
 ```
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ## 验证清单
@@ -903,6 +916,7 @@ git commit -m "fix: complete product image copy migration - generated-preview to
 | build | `npm run build` | 通过 |
 | 浏览器 | 8 个产品页面 | 无禁用文案 |
 
+archived-with: 2026-07-09-fix-product-image-copy
 ---
 
 ## 风险和注意事项
