@@ -88,7 +88,7 @@ export function XiaomiSeriesHero({
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
               <Image
                 src={xiaomiTopicMeta.previewImage}
-                alt="小米系列升级方案功能预览图"
+                alt="小米系列升级方案商品预览效果图"
                 fill
                 priority
                 sizes="(min-width: 1024px) 45vw, 100vw"
@@ -99,9 +99,6 @@ export function XiaomiSeriesHero({
                 aria-hidden
               />
             </div>
-            <p className="text-xs text-zinc-500 mt-3 text-center">
-              功能预览图用于说明升级方向，不代表实车案例
-            </p>
           </div>
         </div>
       </div>

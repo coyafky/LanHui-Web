@@ -58,7 +58,7 @@ export function WenjieSeriesSubModelsGrid({ subModels }: WenjieSeriesSubModelsGr
               <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800">
                 <Image
                   src={getWenjieModelHeroImage(m.modelKey).publicPath ?? "/images/products/wenjie/preview.png"}
-                  alt={`${m.modelName} 升级款式功能预览图`}
+                  alt={`${m.modelName} 升级款式商品预览效果图`}
                   fill
                   sizes="(min-width: 768px) 33vw, 100vw"
                   className="object-cover"

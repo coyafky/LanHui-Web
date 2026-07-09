@@ -55,7 +55,7 @@ export function XiaomiSeriesFeaturedGrid({
               <div className="relative aspect-[4/3] bg-zinc-950 border-b border-zinc-800">
                 <Image
                   src={getPreviewPath(p)}
-                  alt={`小米系列 ${p.name} 升级项目功能预览图`}
+                  alt={`小米系列 ${p.name} 升级项目商品预览效果图`}
                   fill
                   sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   className="object-contain p-2"

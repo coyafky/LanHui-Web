@@ -107,9 +107,6 @@ export function WenjieSeriesHero({
                 aria-hidden
               />
             </div>
-            <p className="text-xs text-zinc-500 mt-3 text-center">
-              功能预览图用于说明升级方向，不代表实车案例
-            </p>
           </div>
         </div>
       </div>

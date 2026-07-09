@@ -63,7 +63,6 @@ export function DenzaBrandHero({
               >
                 <div className="text-center">
                   <p className="text-6xl font-bold text-pink-900/20">Denza</p>
-                  <p className="text-xs text-zinc-600 mt-4">功能预览图 · 后续补充</p>
                 </div>
               </div>
             </div>
