@@ -24,7 +24,7 @@
  */
 
 import {
-  buildWenjieGeneratedPreviewImage,
+  buildWenjieProductPreviewImage,
   type WenjieModelCategory,
   type WenjiePreviewImage,
   type WenjiePreviewImageStatus,
@@ -72,7 +72,7 @@ function withWenjieM8PreviewImages(
 ): readonly WenjieM8UpgradeProject[] {
   return projects.map((project) => ({
     ...project,
-    ...buildWenjieGeneratedPreviewImage(project.id, project.name, "M8"),
+    ...buildWenjieProductPreviewImage(project.id, project.name, "M8"),
   }));
 }
 

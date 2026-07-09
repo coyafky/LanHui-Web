@@ -20,7 +20,7 @@
  */
 
 import {
-  buildWenjieGeneratedPreviewImage,
+  buildWenjieProductPreviewImage,
   buildWenjieMissingPreviewImage,
   type WenjiePreviewImage,
   type WenjiePreviewImageStatus,
@@ -72,7 +72,7 @@ function withWenjieSeriesPreviewImages(
     }
     return {
       ...project,
-      ...buildWenjieGeneratedPreviewImage(project.key, project.name),
+      ...buildWenjieProductPreviewImage(project.key, project.name),
     };
   });
 }

@@ -22,7 +22,7 @@
  */
 
 import {
-  buildWenjieGeneratedPreviewImage,
+  buildWenjieProductPreviewImage,
   type WenjieModelCategory,
   type WenjiePreviewImage,
   type WenjiePreviewImageStatus,
@@ -70,7 +70,7 @@ function withWenjieM7PreviewImages(
 ): readonly WenjieM7UpgradeProject[] {
   return projects.map((project) => ({
     ...project,
-    ...buildWenjieGeneratedPreviewImage(project.id, project.name, "M7"),
+    ...buildWenjieProductPreviewImage(project.id, project.name, "M7"),
   }));
 }
 
