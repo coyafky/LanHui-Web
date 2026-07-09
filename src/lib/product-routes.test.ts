@@ -1,9 +1,15 @@
 import { describe, expect, it } from "vitest";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import {
   ALL_BRANDS, ALL_MODELS, ALL_SERVICES, ALL_LEGACY_ALIASES,
   getBrandRoute, getModelRoute, getServiceRoute, getCanonicalFor,
   getModelsByBrand, getLiveBrands,
 } from "./product-routes";
+
+function pageFileExists(canonicalPath: string): boolean {
+  return existsSync(join(process.cwd(), `src/app${canonicalPath}/page.tsx`));
+}
 
 describe("product-routes registry", () => {
   it("contains exactly 12 brands", () => {
@@ -76,5 +82,49 @@ describe("product-routes registry", () => {
     for (const { from } of ALL_LEGACY_ALIASES) {
       expect(canonicals.has(from), `legacy ${from} collides with a canonical`).toBe(false);
     }
+  });
+
+  describe("file system consistency", () => {
+    const liveBrands = ALL_BRANDS.filter((b) => b.status === "live");
+    const liveModels = ALL_MODELS.filter((m) => m.status === "live");
+    const liveServices = ALL_SERVICES.filter((s) => s.status === "live");
+    const plannedModels = ALL_MODELS.filter((m) => m.status === "planned");
+    const plannedServices = ALL_SERVICES.filter((s) => s.status === "planned");
+
+    // Group 1: Live brand canonicalPath → page.tsx exists
+    describe("live brand canonicalPath → page.tsx exists", () => {
+      it.each(liveBrands)("$canonicalPath -> $brandName", (brand) => {
+        expect(pageFileExists(brand.canonicalPath)).toBe(true);
+      });
+    });
+
+    // Group 2: Live model canonicalPath → page.tsx exists
+    describe("live model canonicalPath → page.tsx exists", () => {
+      it.each(liveModels)("$canonicalPath -> $modelName", (model) => {
+        expect(pageFileExists(model.canonicalPath)).toBe(true);
+      });
+    });
+
+    // Group 3: Live service canonicalPath → page.tsx exists
+    describe("live service canonicalPath → page.tsx exists", () => {
+      it.each(liveServices)("$canonicalPath -> $title", (service) => {
+        expect(pageFileExists(service.canonicalPath)).toBe(true);
+      });
+    });
+
+    // Group 6: Planned pages excluded from live lists
+    describe("planned pages excluded from live", () => {
+      it(`planned models (${plannedModels.length}) not in liveModels`, () => {
+        for (const pm of plannedModels) {
+          expect(liveModels.find((lm) => lm.canonicalPath === pm.canonicalPath)).toBeUndefined();
+        }
+      });
+
+      it(`planned services (${plannedServices.length}) not in liveServices`, () => {
+        for (const ps of plannedServices) {
+          expect(liveServices.find((ls) => ls.canonicalPath === ps.canonicalPath)).toBeUndefined();
+        }
+      });
+    });
   });
 });
