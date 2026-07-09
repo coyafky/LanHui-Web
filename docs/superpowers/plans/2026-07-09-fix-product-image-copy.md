@@ -116,7 +116,7 @@ base-ref: a9876ced60ea346341803265d70f84391be85067
 - 创建：`scripts/check-product-image-copy.mjs`
 - 修改：`package.json`
 
-- [ ] **步骤 1：创建检查脚本**
+- [x] **步骤 1：创建检查脚本**
 
 创建 `scripts/check-product-image-copy.mjs`，扫描产品相关目录，禁止禁用文案回归。
 
@@ -213,7 +213,7 @@ if (foundIssues) {
 process.exit(exitCode);
 ```
 
-- [ ] **步骤 2：package.json 添加脚本并接入 check 链**
+- [x] **步骤 2：package.json 添加脚本并接入 check 链**
 
 在 `package.json` 的 `scripts` 区域找到 `"check:news-content"` 行，在其后添加：
 
@@ -227,12 +227,12 @@ process.exit(exitCode);
 "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run check:backup && npm run check:breadcrumbs && npm run check:product-layout && npm run check:contact-copy && npm run check:product-placeholders && npm run check:news-content && npm run check:product-image-copy && npm run build",
 ```
 
-- [ ] **步骤 3：验证**
+- [x] **步骤 3：验证**
 
 运行：`node scripts/check-product-image-copy.mjs`
 预期：PASS（此时代码中仍有 `generated-preview`，所以会 FAIL——这是正常的，后续修复后它会 PASS）
 
-- [ ] **步骤 4：提交**
+- [x] **步骤 4：提交**
 
 ```bash
 git add scripts/check-product-image-copy.mjs package.json
@@ -246,7 +246,7 @@ git commit -m "feat: add check-product-image-copy script to prevent forbidden co
 **文件：**
 - 修改：`src/lib/wenjie-preview-images.ts`
 
-- [ ] **步骤 1：修改核心类型和函数**
+- [x] **步骤 1：修改核心类型和函数**
 
 在 `src/lib/wenjie-preview-images.ts` 中：
 
@@ -262,12 +262,12 @@ git commit -m "feat: add check-product-image-copy script to prevent forbidden co
 
 6. 第 74 行：`alt: \`问界 ${modelKey} 轻改功能预览图\`` → `alt: \`问界 ${modelKey} 轻改商品预览效果图\``
 
-- [ ] **步骤 2：运行 typecheck 验证**
+- [x] **步骤 2：运行 typecheck 验证**
 
 运行：`npx tsc --noEmit`
 预期：TypeScript 报类型错误（因为上游调用方还在用旧函数名 `buildWenjieGeneratedPreviewImage`）——这是预期行为，后续任务修复。
 
-- [ ] **步骤 3：提交**
+- [x] **步骤 3：提交**
 
 ```bash
 git add src/lib/wenjie-preview-images.ts
@@ -286,32 +286,32 @@ git commit -m "fix: rename WenjiePreviewImageStatus type and build function"
 
 这 4 个文件均 import `buildWenjieGeneratedPreviewImage` 并在数据中调用它。
 
-- [ ] **步骤 1：更新 `wenjie-m6-upgrade-projects.ts`**
+- [x] **步骤 1：更新 `wenjie-m6-upgrade-projects.ts`**
 
 将第 22 行 `buildWenjieGeneratedPreviewImage,` → `buildWenjieProductPreviewImage,`
 将第 60 行 `...buildWenjieGeneratedPreviewImage(project.id, project.name, "M6"),` → `...buildWenjieProductPreviewImage(project.id, project.name, "M6"),`
 
-- [ ] **步骤 2：更新 `wenjie-m7-upgrade-projects.ts`**
+- [x] **步骤 2：更新 `wenjie-m7-upgrade-projects.ts`**
 
 将第 25 行 `buildWenjieGeneratedPreviewImage,` → `buildWenjieProductPreviewImage,`
 将第 73 行 `...buildWenjieGeneratedPreviewImage(project.id, project.name, "M7"),` → `...buildWenjieProductPreviewImage(project.id, project.name, "M7"),`
 
-- [ ] **步骤 3：更新 `wenjie-m8-upgrade-projects.ts`**
+- [x] **步骤 3：更新 `wenjie-m8-upgrade-projects.ts`**
 
 将第 27 行 `buildWenjieGeneratedPreviewImage,` → `buildWenjieProductPreviewImage,`
 将第 75 行 `...buildWenjieGeneratedPreviewImage(project.id, project.name, "M8"),` → `...buildWenjieProductPreviewImage(project.id, project.name, "M8"),`
 
-- [ ] **步骤 4：更新 `wenjie-series-upgrade-projects.ts`**
+- [x] **步骤 4：更新 `wenjie-series-upgrade-projects.ts`**
 
 将第 23 行 `buildWenjieGeneratedPreviewImage,` → `buildWenjieProductPreviewImage,`
 将第 75 行 `...buildWenjieGeneratedPreviewImage(project.key, project.name),` → `...buildWenjieProductPreviewImage(project.key, project.name),`
 
-- [ ] **步骤 5：typecheck 验证**
+- [x] **步骤 5：typecheck 验证**
 
 运行：`npx tsc --noEmit`
 预期：wenjie 相关的类型错误已修复
 
-- [ ] **步骤 6：提交**
+- [x] **步骤 6：提交**
 
 ```bash
 git add src/lib/wenjie-m6-upgrade-projects.ts src/lib/wenjie-m7-upgrade-projects.ts src/lib/wenjie-m8-upgrade-projects.ts src/lib/wenjie-series-upgrade-projects.ts
@@ -332,7 +332,7 @@ git commit -m "fix: update wenjie upgrade-project imports and calls for buildWen
 5. validate 函数中的断言（如 voyah-products.ts 第 468-469 行 `"generated-preview"` → `"product-preview"`）
 6. FAQ 文案（nio-products.ts 第 543-545 行：`"图片是真实施工案例吗？"` 的回答移除 `AI 功能预览图（generated-preview）` 引用）
 
-- [ ] **步骤 1：批量替换 li-auto 6 文件**
+- [x] **步骤 1：批量替换 li-auto 6 文件**
 
 执行 sed 替换 `"generated-preview"` → `"product-preview"` 在：
 - `src/lib/li-auto-i6-products.ts`
@@ -355,7 +355,7 @@ grep -n "generated-preview" src/lib/li-auto-i6-products.ts src/lib/li-auto-i8-pr
 ```
 预期：无输出
 
-- [ ] **步骤 2：替换 `src/lib/nio-products.ts`**
+- [x] **步骤 2：替换 `src/lib/nio-products.ts`**
 
 替换 `"generated-preview"` → `"product-preview"`（类型定义 + 数据值）。
 
@@ -372,15 +372,15 @@ grep -n "generated-preview" src/lib/li-auto-i6-products.ts src/lib/li-auto-i8-pr
       "当前展示的是商品预览效果图，真实施工以到店沟通和现场评估为准。",
 ```
 
-- [ ] **步骤 3：替换 `zeekr-9x-products.ts` 和 `zeekr-8x-products.ts`**
+- [x] **步骤 3：替换 `zeekr-9x-products.ts` 和 `zeekr-8x-products.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g'` 作用于两个文件。
 
-- [ ] **步骤 4：替换 `denza-d9-products.ts`**
+- [x] **步骤 4：替换 `denza-d9-products.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g'` 作用于该文件。
 
-- [ ] **步骤 5：替换 `voyah-products.ts`**
+- [x] **步骤 5：替换 `voyah-products.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g'` 作用于该文件。
 
@@ -391,19 +391,19 @@ grep -n "generated-preview" src/lib/li-auto-i6-products.ts src/lib/li-auto-i8-pr
     }
 ```
 
-- [ ] **步骤 6：替换 `gaoshan-products.ts`**
+- [x] **步骤 6：替换 `gaoshan-products.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g'`
 
-- [ ] **步骤 7：替换 `zhijie-v9-products.ts`**
+- [x] **步骤 7：替换 `zhijie-v9-products.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g'`
 
-- [ ] **步骤 8：替换 `ledao-l90-products.ts`**
+- [x] **步骤 8：替换 `ledao-l90-products.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g'`
 
-- [ ] **步骤 9：替换 `xpeng-gx-products.ts`**
+- [x] **步骤 9：替换 `xpeng-gx-products.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g'`
 
@@ -413,20 +413,20 @@ grep -n "功能预览图\|预览图" src/lib/xpeng-gx-products.ts
 ```
 如果有，逐个替换为 "商品预览效果图"。
 
-- [ ] **步骤 10：替换 `xiaomi-yu7-upgrade-projects.ts`**
+- [x] **步骤 10：替换 `xiaomi-yu7-upgrade-projects.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g'`
 
-- [ ] **步骤 11：替换 `tesla-products.ts`**
+- [x] **步骤 11：替换 `tesla-products.ts`**
 
 `sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/tesla-products.ts`
 
-- [ ] **步骤 12：验证**
+- [x] **步骤 12：验证**
 
 运行：`npx tsc --noEmit`
 预期：类型错误数量相比上一步减少（但仍可能有组件层错误）
 
-- [ ] **步骤 13：提交**
+- [x] **步骤 13：提交**
 
 ```bash
 git add src/lib/li-auto-i6-products.ts src/lib/li-auto-i8-products.ts src/lib/li-auto-l9-products.ts src/lib/li-auto-one-products.ts src/lib/li-auto-mega-products.ts src/lib/li-auto-series-upgrade-projects.ts src/lib/nio-products.ts src/lib/zeekr-9x-products.ts src/lib/zeekr-8x-products.ts src/lib/denza-d9-products.ts src/lib/voyah-products.ts src/lib/gaoshan-products.ts src/lib/zhijie-v9-products.ts src/lib/ledao-l90-products.ts src/lib/xpeng-gx-products.ts src/lib/xiaomi-yu7-upgrade-projects.ts src/lib/tesla-products.ts
@@ -544,11 +544,11 @@ for f in $FILES; do
 done
 ```
 
-- [ ] **步骤 1：执行字符串替换**
+- [x] **步骤 1：执行字符串替换**
 
 运行上述 sed 命令，对所有 12 个文件执行类型和文案替换。
 
-- [ ] **步骤 2：逐个确认并删除 AlertCircle 条件块**
+- [x] **步骤 2：逐个确认并删除 AlertCircle 条件块**
 
 对每个文件，人工确认并删除 `project.imageStatus === "product-preview"` 对应的 AlertCircle 条件块。
 
@@ -574,12 +574,12 @@ project.imageStatus === "pending-review" ? (
 ) : null}
 ```
 
-- [ ] **步骤 3：验证**
+- [x] **步骤 3：验证**
 
 运行：`npx tsc --noEmit`
 预期：类型错误数量显著减少
 
-- [ ] **步骤 4：提交**
+- [x] **步骤 4：提交**
 
 ```bash
 git add src/components/wenjie/model/WenjieModelProjectGrid.tsx src/components/zeekr-9x/Zeekr9xProjectGrid.tsx src/components/zeekr-8x/Zeekr8xProjectGrid.tsx src/components/xiaomi-yu7/XiaomiYu7ProjectGrid.tsx src/components/xiaomi-su7/XiaomiSu7ProjectGrid.tsx src/components/zhijie/ZhijieV9ProjectGrid.tsx src/components/xpeng/XpengGxProjectGrid.tsx src/components/voyah/VoyahDreamerProjectGrid.tsx src/components/li-auto/LiAutoI6ProjectGrid.tsx src/components/ledao/LedaoL90ProjectGrid.tsx src/components/gaoshan/Gaoshan8ProjectGrid.tsx src/components/denza/DenzaD9ProjectGrid.tsx
@@ -592,7 +592,7 @@ git commit -m "fix: update ProjectGrid components - replace generated-preview wi
 
 **文件：** 8 个组件文件
 
-- [ ] **步骤 1：WenjieSeriesHero.tsx — 删除免责声明**
+- [x] **步骤 1：WenjieSeriesHero.tsx — 删除免责声明**
 
 在第 110-112 行，删除：
 ```tsx
@@ -601,14 +601,14 @@ git commit -m "fix: update ProjectGrid components - replace generated-preview wi
             </p>
 ```
 
-- [ ] **步骤 2：WenjieSeriesSubModelsGrid.tsx — 更新 alt**
+- [x] **步骤 2：WenjieSeriesSubModelsGrid.tsx — 更新 alt**
 
 搜索 `aria-label` 或 `alt` 中包含 "功能预览图" 的文案，替换为 "商品预览效果图"。
 具体：找到第 23 行注释中的"4:3 功能预览图"（仅注释，可以不改），但如果 alt/aria-label 中有"功能预览图"则改为"商品预览效果图"。
 
 （注意：此组件中 Image 的 alt 文本由 `getWenjieModelHeroImage` 函数返回，已在任务 2 中更新，此处可能需要检查是否有内联 alt。）
 
-- [ ] **步骤 3：XiaomiSeriesHero.tsx — 删除免责声明 + 更新 alt**
+- [x] **步骤 3：XiaomiSeriesHero.tsx — 删除免责声明 + 更新 alt**
 
 在第 102-104 行，删除：
 ```tsx
@@ -626,7 +626,7 @@ git commit -m "fix: update ProjectGrid components - replace generated-preview wi
                 alt="小米系列升级方案商品预览效果图"
 ```
 
-- [ ] **步骤 4：XiaomiSeriesFeaturedGrid.tsx — 更新 alt**
+- [x] **步骤 4：XiaomiSeriesFeaturedGrid.tsx — 更新 alt**
 
 在第 58 行，将：
 ```tsx
@@ -637,14 +637,14 @@ git commit -m "fix: update ProjectGrid components - replace generated-preview wi
                   alt={`小米系列 ${p.name} 升级项目商品预览效果图`}
 ```
 
-- [ ] **步骤 5：LiAutoSeriesHero.tsx — 删除 "功能预览图 · 后续补充"**
+- [x] **步骤 5：LiAutoSeriesHero.tsx — 删除 "功能预览图 · 后续补充"**
 
 在第 107 行，删除：
 ```tsx
                   <p className="text-xs text-zinc-600 mt-4">功能预览图 · 后续补充</p>
 ```
 
-- [ ] **步骤 6：LiAutoSeriesSubModelsGrid.tsx — 更新 aria-label**
+- [x] **步骤 6：LiAutoSeriesSubModelsGrid.tsx — 更新 aria-label**
 
 在第 69 行，将：
 ```tsx
@@ -655,19 +655,19 @@ git commit -m "fix: update ProjectGrid components - replace generated-preview wi
                   aria-label={`${m.modelName} 升级款式商品预览效果图`}
 ```
 
-- [ ] **步骤 7：DenzaBrandHero.tsx — 删除 "功能预览图 · 后续补充"**
+- [x] **步骤 7：DenzaBrandHero.tsx — 删除 "功能预览图 · 后续补充"**
 
 在第 66 行，删除：
 ```tsx
                   <p className="text-xs text-zinc-600 mt-4">功能预览图 · 后续补充</p>
 ```
 
-- [ ] **步骤 8：验证**
+- [x] **步骤 8：验证**
 
 运行：`npx tsc --noEmit`
 预期：类型检查通过
 
-- [ ] **步骤 9：提交**
+- [x] **步骤 9：提交**
 
 ```bash
 git add src/components/wenjie/WenjieSeriesHero.tsx src/components/wenjie/WenjieSeriesSubModelsGrid.tsx src/components/xiaomi-series/XiaomiSeriesHero.tsx src/components/xiaomi-series/XiaomiSeriesFeaturedGrid.tsx src/components/li-auto/LiAutoSeriesHero.tsx src/components/li-auto/LiAutoSeriesSubModelsGrid.tsx src/components/denza/DenzaBrandHero.tsx
@@ -681,7 +681,7 @@ git commit -m "fix: remove disclaimers and update alt text in Hero/Grid componen
 **文件：**
 - 修改：`src/app/product/zhijie/page.tsx`
 
-- [ ] **步骤 1：删除 "功能预览图 · 后续补充"**
+- [x] **步骤 1：删除 "功能预览图 · 后续补充"**
 
 在第 123-125 行附近，删除：
 ```tsx
@@ -690,7 +690,7 @@ git commit -m "fix: remove disclaimers and update alt text in Hero/Grid componen
                       </p>
 ```
 
-- [ ] **步骤 2：提交**
+- [x] **步骤 2：提交**
 
 ```bash
 git add src/app/product/zhijie/page.tsx
@@ -703,7 +703,7 @@ git commit -m "fix: remove '功能预览图 · 后续补充' from zhijie product
 
 **文件：** 约 14 个测试文件
 
-- [ ] **步骤 1：更新 wenjie 测试（m6/m7/m8/series）**
+- [x] **步骤 1：更新 wenjie 测试（m6/m7/m8/series）**
 
 这 4 个测试文件中有 `"generated-preview"` 断言和注释：
 
@@ -725,7 +725,7 @@ for f in src/lib/wenjie-m6-upgrade-projects.test.ts src/lib/wenjie-m7-upgrade-pr
 done
 ```
 
-- [ ] **步骤 2：更新 li-auto 测试**
+- [x] **步骤 2：更新 li-auto 测试**
 
 涉及：
 - `src/lib/li-auto-series-upgrade-projects.test.ts` — 替换 `"generated-preview"` → `"product-preview"`
@@ -740,14 +740,14 @@ sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/li-auto-mega-produ
 sed -i '' 's/AI 生成预览图/商品预览效果图/g' src/lib/li-auto-mega-products.test.ts
 ```
 
-- [ ] **步骤 3：更新 zeekr 测试**
+- [x] **步骤 3：更新 zeekr 测试**
 
 ```bash
 sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/zeekr-9x-products.test.ts
 sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/zeekr-8x-products.test.ts
 ```
 
-- [ ] **步骤 4：更新 `xpeng-gx-products.test.ts`**
+- [x] **步骤 4：更新 `xpeng-gx-products.test.ts`**
 
 在第 156-157 行，将 `valid` 数组中 `"generated-preview"` → `"product-preview"`。
 
@@ -755,7 +755,7 @@ sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/zeekr-8x-products.
 sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/xpeng-gx-products.test.ts
 ```
 
-- [ ] **步骤 5：更新 `nio-products.test.ts`**
+- [x] **步骤 5：更新 `nio-products.test.ts`**
 
 更新第 50-52 行断言 `"generated-preview"` → `"product-preview"`。
 更新第 167-171 行的 FAQ 测试描述，移除对 "generated-preview" 或 "AI" 的断言（因为 FAQ 答案已无此内容）。
@@ -776,7 +776,7 @@ sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/nio-products.test.
     });
 ```
 
-- [ ] **步骤 6：更新 `tesla-products.test.ts`**
+- [x] **步骤 6：更新 `tesla-products.test.ts`**
 
 ```bash
 sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/tesla-products.test.ts
@@ -784,7 +784,7 @@ sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/tesla-products.tes
 
 同时检查 valid 数组是否有 `"generated-preview"` → 需要改为 `"product-preview"`。
 
-- [ ] **步骤 7：更新 `tesla-products.test.ts`**
+- [x] **步骤 7：更新 `tesla-products.test.ts`**
 
 ```bash
 sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/tesla-products.test.ts
@@ -795,12 +795,12 @@ sed -i '' 's/"generated-preview"/"product-preview"/g' src/lib/tesla-products.tes
 expect(["matched", "product-preview", "pending-review", "missing"]).toContain(p.imageStatus);
 ```
 
-- [ ] **步骤 8：运行测试**
+- [x] **步骤 8：运行测试**
 
 运行：`npx vitest run`（或筛选受影响的测试：`npx vitest run src/lib/`）
 预期：测试全部通过
 
-- [ ] **步骤 9：提交**
+- [x] **步骤 9：提交**
 
 ```bash
 git add src/lib/wenjie-m6-upgrade-projects.test.ts src/lib/wenjie-m7-upgrade-projects.test.ts src/lib/wenjie-m8-upgrade-projects.test.ts src/lib/wenjie-series-upgrade-projects.test.ts src/lib/li-auto-series-upgrade-projects.test.ts src/lib/li-auto-l9-products.test.ts src/lib/li-auto-mega-products.test.ts src/lib/zeekr-9x-products.test.ts src/lib/zeekr-8x-products.test.ts src/lib/xpeng-gx-products.test.ts src/lib/nio-products.test.ts src/lib/tesla-products.test.ts
@@ -814,7 +814,7 @@ git commit -m "fix: update test assertions and descriptions for product-preview 
 **文件：**
 - 修改：`scripts/test/image-status-audit.mjs`
 
-- [ ] **步骤 1：更新计数器和键名**
+- [x] **步骤 1：更新计数器和键名**
 
 在 `scripts/test/image-status-audit.mjs` 中：
 
@@ -830,12 +830,12 @@ git commit -m "fix: update test assertions and descriptions for product-preview 
 
 5. 第 158-159 行：`${String(t["generated-preview"]).padStart(9)}` → `${String(t["product-preview"]).padStart(9)}`
 
-- [ ] **步骤 2：验证脚本**
+- [x] **步骤 2：验证脚本**
 
 运行：`node scripts/test/image-status-audit.mjs`
 预期：无报错，输出表格中 `product-preview` 列代替 `generated-preview` 列
 
-- [ ] **步骤 3：提交**
+- [x] **步骤 3：提交**
 
 ```bash
 git add scripts/test/image-status-audit.mjs
@@ -846,27 +846,27 @@ git commit -m "fix: update image-status-audit script counter from generated-prev
 
 ### 任务 10：全链验证
 
-- [ ] **步骤 1：运行检查脚本**
+- [x] **步骤 1：运行检查脚本**
 
 运行：`node scripts/check-product-image-copy.mjs`
 预期：PASS，输出 "未发现禁用文案"
 
-- [ ] **步骤 2：typecheck**
+- [x] **步骤 2：typecheck**
 
 运行：`npx tsc --noEmit`
 预期：无新增类型错误（允许 pre-existing 的 9 个错误）
 
-- [ ] **步骤 3：运行测试**
+- [x] **步骤 3：运行测试**
 
 运行：`npx vitest run`
 预期：所有测试通过
 
-- [ ] **步骤 4：运行 build**
+- [x] **步骤 4：运行 build**
 
 运行：`npm run build`
 预期：build 通过（注意：pre-existing 的 build 错误在 `news/[slug]/page.tsx`，与本任务无关）
 
-- [ ] **步骤 5：浏览器抽查 8 个产品页面**
+- [x] **步骤 5：浏览器抽查 8 个产品页面**
 
 打开以下 URL 在浏览器中确认无禁用文案残留：
 - `/product/wenjie`
@@ -884,7 +884,7 @@ git commit -m "fix: update image-status-audit script counter from generated-prev
 - 无 "功能预览图 · 后续补充" 文案
 - alt 文本无 "功能预览图"、"生成预览图"、"AI 生成"
 
-- [ ] **步骤 6：最终提交**
+- [x] **步骤 6：最终提交**
 
 ```bash
 git add .
