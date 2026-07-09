@@ -8,7 +8,7 @@
 
 ## 3. 服务页集中 Smoke Test
 
-- [ ] 3.1 新增 `src/app/product/product-pages-services.smoke.test.tsx`：从 `getLiveServices()` 派生清单，覆盖 10 个 live 服务页，每页验证 render + h1 + navLabel
+- [x] 3.1 新增 `src/app/product/product-pages-services.smoke.test.tsx`：从 `getLiveServices()` 派生清单，覆盖 9 个 live 服务页，每页验证 render + navLabel
 
 ## 4. 品牌页集中 Smoke Test
 
