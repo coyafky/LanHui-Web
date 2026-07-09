@@ -75,7 +75,7 @@ wenjie/m6, wenjie/m7, wenjie/m8, business-comfort, skid-plate, window-film/[pack
 
 这是 design doc "auto-stub 所有 @/components/**" 设想的务实折衷：common mocks 复制到每个 test 文件的顶层（4 行），page-specific 组件不 mock（让它们真实渲染，smoke test 只断言 render 不崩溃 + h1 存在，不深入组件细节）。
 
-- [ ] **步骤 1：创建 test-utils 文件骨架**
+- [x] **步骤 1：创建 test-utils 文件骨架**
 
 创建 `src/test/product-page-test-utils.tsx`：
 
@@ -103,7 +103,7 @@ export type PageComponent<T extends () => Promise<unknown>> = Awaited<
 >["default"];
 ```
 
-- [ ] **步骤 2：验证文件创建且可导入**
+- [x] **步骤 2：验证文件创建且可导入**
 
 运行：`npx tsx -e "import('@/test/product-page-test-utils')" 2>&1 || echo "验证通过（tsx 动态导入测试）"`
 预期：无报错（或 tsx 报 module resolution 但说明是 tsx 限制，非代码问题）

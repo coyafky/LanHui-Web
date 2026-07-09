@@ -1,6 +1,6 @@
 ## 1. 共享测试工具
 
-- [ ] 1.1 创建 `src/test/product-page-test-utils.tsx`：集中 mock Header/Footer/next-image/notFound，导出 `renderProductPage` helper
+- [x] 1.1 创建 `src/test/product-page-test-utils.tsx`：集中 mock Header/Footer/next-image/notFound，导出 `renderProductPage` helper
 
 ## 2. 修复 car-care 现有测试
 
