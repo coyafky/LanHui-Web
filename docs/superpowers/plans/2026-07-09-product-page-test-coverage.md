@@ -233,7 +233,7 @@ describe("CarCarePage", () => {
 - 增加了 `next/navigation`、`next/link`、`next/image` 的 mock（为后续一致性）
 - 从 `@/test/product-page-test-utils` 导入 `renderProductPage`（备而不用，因 car-care 需要 `let Page` 模式配合 `resetModules`）
 
-- [ ] **步骤 2：运行测试验证通过**
+- [x] **步骤 2：运行测试验证通过**
 
 ```bash
 npx vitest run src/app/product/car-care/page.test.tsx -v
@@ -241,7 +241,7 @@ npx vitest run src/app/product/car-care/page.test.tsx -v
 
 预期：4 PASS
 
-- [ ] **步骤 3：Commit**
+- [x] **步骤 3：Commit**
 
 ```bash
 git add src/test/product-page-test-utils.tsx src/app/product/car-care/page.test.tsx
