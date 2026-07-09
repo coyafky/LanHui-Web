@@ -12,7 +12,7 @@
 
 ## 4. 品牌页集中 Smoke Test
 
-- [ ] 4.1 新增 `src/app/product/product-pages-brands.smoke.test.tsx`：从 `getLiveBrands()` 派生清单，覆盖 12 个 live 品牌页，每页验证 render + 品牌名
+- [x] 4.1 新增 `src/app/product/product-pages-brands.smoke.test.tsx`：从 `getLiveBrands()` 派生清单，覆盖 12 个 live 品牌页，每页验证 render + 品牌名
 
 ## 5. 车型页集中 Smoke Test
 
