@@ -10,7 +10,7 @@
  *   §12  7 步服务流程      → voyahDreamerServiceSteps     (length === 7)
  *   §13  7 条 FAQ          → voyahDreamerFaq              (length === 7)
  *
- * 项目字段来自 PRD §7-§13，图片使用 generated-preview 图例（非真实施工图）。
+ * 项目字段来自 PRD §7-§13，图片使用 product-preview 图例（非真实施工图）。
  * (业务后续补图)。
  */
 
@@ -25,7 +25,7 @@ export type VoyahDreamerCategory =
 
 export type VoyahDreamerImageStatus =
   | "matched"
-  | "generated-preview"
+  | "product-preview"
   | "pending-review"
   | "missing";
 
@@ -101,7 +101,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "protection",
     summary: "漆面保护、日常轻微划痕防护、新车质感保持",
     suitableFor: ["新车用户", "关注漆面长期保持的车主"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("paint-protection-film.png", "车衣"),
     sourceArea: "poster_project_matrix",
   },
@@ -112,7 +112,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "protection",
     summary: "隔热、防晒、隐私和 MPV 长途乘坐舒适",
     suitableFor: ["南方用车", "MPV 长途用户"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("window-film.png", "隔热膜"),
     sourceArea: "poster_project_matrix",
   },
@@ -123,7 +123,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "appearance",
     summary: "主题化车身视觉表达，适合个性化展示",
     suitableFor: ["追求个性化外观的车主"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("custom-wrap-art.png", "彩绘"),
     sourceArea: "poster_project_matrix",
   },
@@ -134,7 +134,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "appearance",
     summary: "强化商务 MPV 的层次感和高级感",
     suitableFor: ["商务用户", "追求外观质感的车主"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("two-tone-wrap.png", "双拼改色"),
     sourceArea: "poster_project_matrix",
   },
@@ -145,7 +145,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "interior_care",
     summary: "地毯保护、易清洁、提升座舱完整感",
     suitableFor: ["日常通勤用户", "家中有小孩的车主"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("soft-floor-mats.png", "360软包脚垫"),
     sourceArea: "poster_project_matrix",
   },
@@ -156,7 +156,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "mpv_comfort",
     summary: "后排空间保护、易清洁、提升商务/家庭质感",
     suitableFor: ["MPV 用户", "商务接待场景"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("aluminum-flooring.png", "铝地板"),
     sourceArea: "poster_project_matrix",
   },
@@ -168,7 +168,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     summary: "车身支撑和驾驶稳定感，需到店评估",
     suitableFor: ["关注驾驶稳定感的车主"],
     caution: "需到店评估",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("stabilizer-bar.png", "平衡杆"),
     sourceArea: "poster_project_matrix",
   },
@@ -180,7 +180,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     summary: "强化车身视觉完整度和个性风格",
     suitableFor: ["追求外观风格的车主"],
     caution: "需确认版本适配",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("amxt-body-kit.png", "AMXT包围"),
     sourceArea: "poster_project_matrix",
   },
@@ -192,7 +192,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     summary: "强化运动姿态和车身包围视觉",
     suitableFor: ["追求运动外观的车主"],
     caution: "需确认版本适配",
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("bskt-sport-body-kit.png", "BSKT运动包围"),
     sourceArea: "poster_project_matrix",
   },
@@ -203,7 +203,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "chassis",
     summary: "保护底部关键区域，适合新车基础防护",
     suitableFor: ["新车用户", "路况复杂用车环境"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("underbody-skid-plate.png", "底盘护板"),
     sourceArea: "poster_project_matrix",
   },
@@ -214,7 +214,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "interior_care",
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["高频上下车的车主"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("door-sill-plate.png", "门槛条"),
     sourceArea: "poster_project_matrix",
   },
@@ -225,7 +225,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "mpv_comfort",
     summary: "提升夜间座舱氛围和商务接待体验",
     suitableFor: ["商务用户", "注重座舱氛围的车主"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("ambient-lighting.png", "氛围灯"),
     sourceArea: "poster_project_matrix",
   },
@@ -236,7 +236,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "appearance",
     summary: "优化车头/车尾细节，提升视觉完整度",
     suitableFor: ["关注外观细节的车主"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("license-plate-frame.png", "牌照框"),
     sourceArea: "poster_project_matrix",
   },
@@ -247,7 +247,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "chassis",
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["雨季/泥泞路况用车"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("mud-flaps.png", "挡泥板"),
     sourceArea: "poster_project_matrix",
   },
@@ -258,7 +258,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "mpv_comfort",
     summary: "提升 MPV 后排乘坐舒适和长途体验",
     suitableFor: ["家庭用户", "长途乘坐场景"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("leg-rest.png", "腿托"),
     sourceArea: "poster_project_matrix",
   },
@@ -269,7 +269,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "interior_care",
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["关注屏幕长期清晰度的车主"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("screen-protector.png", "钢化膜"),
     sourceArea: "poster_project_matrix",
   },
@@ -280,7 +280,7 @@ export const voyahDreamerUpgradeProjects: readonly VoyahDreamerUpgradeProject[] 
     category: "chassis",
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["夏季/多虫区域用车"],
-    imageStatus: "generated-preview",
+    imageStatus: "product-preview",
     image: generatedImage("grille-mesh.png", "防虫网"),
     sourceArea: "poster_project_matrix",
   },
@@ -465,8 +465,8 @@ function assertVoyahDreamerDataShape(): void {
     if (p.order !== i + 1) {
       throw new Error(`Project ${i} order expected ${i + 1}, got ${p.order}`);
     }
-    if (p.imageStatus !== "generated-preview") {
-      throw new Error(`Project ${p.id} expected generated-preview imageStatus`);
+    if (p.imageStatus !== "product-preview") {
+      throw new Error(`Project ${p.id} expected product-preview imageStatus`);
     }
     if (!p.image.publicPath?.startsWith(`${GENERATED_IMAGE_BASE}/`)) {
       throw new Error(`Project ${p.id} missing generated image path`);
