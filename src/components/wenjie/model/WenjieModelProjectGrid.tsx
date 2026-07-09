@@ -5,7 +5,7 @@ import Image from "next/image";
 import { AlertCircle, ImageIcon } from "lucide-react";
 import { trackClick } from "@/lib/analytics";
 
-type WenjieModelImageStatus = "real" | "generated-preview" | "missing";
+type WenjieModelImageStatus = "real" | "product-preview" | "missing";
 
 type WenjieModelImage = {
   publicPath: string | null;
@@ -85,8 +85,8 @@ function WenjieModelProjectCard<TProject extends ProjectLike>({
   onToggle,
 }: ProjectCardProps<TProject>) {
   const statusLabel =
-    project.imageStatus === "generated-preview"
-      ? "效果预览"
+    project.imageStatus === "product-preview"
+      ? "商品预览效果图"
       : project.imageStatus === "real"
         ? "实拍匹配"
         : "图片待补充";
@@ -125,12 +125,11 @@ function WenjieModelProjectCard<TProject extends ProjectLike>({
                 className="object-contain p-2 transition-transform duration-300 group-hover:scale-[1.02]"
                 loading="lazy"
               />
-              <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-md border border-orange-700/60 bg-zinc-950/80 px-2 py-0.5 text-[10px] font-medium text-orange-200">
-                {project.imageStatus === "generated-preview" ? (
-                  <AlertCircle className="h-3 w-3" aria-hidden />
-                ) : null}
-                {statusLabel}
-              </span>
+              {project.imageStatus !== "product-preview" ? (
+                <span className="absolute top-2 right-2 inline-flex items-center gap-1 rounded-md border border-orange-700/60 bg-zinc-950/80 px-2 py-0.5 text-[10px] font-medium text-orange-200">
+                  {statusLabel}
+                </span>
+              ) : null}
             </>
           ) : (
             <div
