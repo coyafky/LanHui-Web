@@ -4,7 +4,7 @@
 
 ## 2. 修复 car-care 现有测试
 
-- [ ] 2.1 重写 `src/app/product/car-care/page.test.tsx`：消除 `let Page: any`，改用 test utils 的共享 mock，保持原有 6 个测试用例通过
+- [x] 2.1 重写 `src/app/product/car-care/page.test.tsx`：消除 `let Page: any`，改用 test utils 的共享 mock，保持原有 6 个测试用例通过
 
 ## 3. 服务页集中 Smoke Test
 

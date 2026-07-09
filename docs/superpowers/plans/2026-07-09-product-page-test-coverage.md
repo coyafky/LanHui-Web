@@ -129,7 +129,7 @@ npx vitest run --passWithNoTests -t "noop" 2>&1 | head -5
 - `let Page: any` 声明（design doc 要求消除）
 - 4 个测试用例（tasks.md 说 6 个，实际代码 4 个——以实际代码为准）
 
-- [ ] **步骤 1：重写整个测试文件**
+- [x] **步骤 1：重写整个测试文件**
 
 用以下内容覆盖 `src/app/product/car-care/page.test.tsx`：
 
