@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
  */
 export async function renderProductPage(importFn: () => Promise<unknown>) {
   const mod = await importFn();
-  const Page = mod.default as (props: unknown) => ReactNode;
+  const Page = (mod as { default: (props: unknown) => ReactNode }).default;
   return render(<Page />);
 }
 
@@ -16,6 +16,10 @@ export async function renderProductPage(importFn: () => Promise<unknown>) {
  * 从动态导入的模块中提取 Page 组件的类型。
  * 用法: type PageType = PageComponent<typeof import("./page")>;
  */
-export type PageComponent<T extends () => Promise<unknown>> = Awaited<
-  ReturnType<T>
->["default"];
+export type PageComponent<T extends PromiseLike<unknown>> = T extends PromiseLike<
+  infer U
+>
+  ? U extends { default: infer D }
+    ? D
+    : never
+  : never;

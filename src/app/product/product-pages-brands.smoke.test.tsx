@@ -177,7 +177,7 @@ const brandPageModuleMap: Record<string, () => Promise<unknown>> = {
 
 async function renderBrandPage(importFn: () => Promise<unknown>) {
   const mod = await importFn();
-  const Page = mod.default;
+  const Page = (mod as { default: () => unknown }).default;
   const result = Page();
   if (result instanceof Promise) {
     return render(await result);

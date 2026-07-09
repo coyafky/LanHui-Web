@@ -373,7 +373,7 @@ const modelPageModuleMap: Record<string, () => Promise<unknown>> = {
 // ---------- 工具函数 ----------
 async function renderModelPage(importFn: () => Promise<unknown>) {
   const mod = await importFn();
-  const Page = mod.default as () => unknown;
+  const Page = (mod as { default: () => unknown }).default;
   const result = Page();
   if (result instanceof Promise) {
     return render(await result);

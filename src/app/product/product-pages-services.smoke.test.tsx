@@ -37,7 +37,7 @@ vi.mock("@/components/Footer", () => ({
  */
 async function renderServicePage(importFn: () => Promise<unknown>) {
   const mod = await importFn();
-  const Page = mod.default as (...args: unknown[]) => unknown;
+  const Page = (mod as { default: (...args: unknown[]) => unknown }).default;
   const result = Page();
   if (result instanceof Promise) {
     // 处理 async Server Component：await 出 JSX 后再 render
