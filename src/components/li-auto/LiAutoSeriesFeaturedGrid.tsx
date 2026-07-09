@@ -20,7 +20,7 @@ function assertFeaturedLength(projects: readonly LiAutoSeriesUpgradeProject[]): 
 
 /**
  * 10 热门推荐卡片网格（Client Component）
- * PRD §7.1：3 列 / md:2 / sm:1，4:3 功能预览图 + 名称 + 摘要
+ * PRD §7.1：3 列 / md:2 / sm:1，4:3 商品预览效果图 + 名称 + 摘要
  */
 export function LiAutoSeriesFeaturedGrid({ projects }: LiAutoSeriesFeaturedGridProps) {
   assertFeaturedLength(projects);

@@ -45,13 +45,13 @@ describe("li-auto-mega-products data shape (B.1)", () => {
       });
     });
 
-    it("全部 imageStatus === \"generated-preview\"", () => {
+    it("全部 imageStatus === \"product-preview\"", () => {
       for (const p of liAutoMegaUpgradeProjects) {
-        expect(p.imageStatus).toBe("generated-preview");
+        expect(p.imageStatus).toBe("product-preview");
       }
     });
 
-    it("全部设置了 publicPath（AI 生成预览图）", () => {
+    it("全部设置了 publicPath（商品预览效果图）", () => {
       for (const p of liAutoMegaUpgradeProjects) {
         expect(p.publicPath).toBeDefined();
         expect(p.publicPath).toMatch(/^\/images\/products\/li-auto\/mega\/generated\/.+\.png$/);

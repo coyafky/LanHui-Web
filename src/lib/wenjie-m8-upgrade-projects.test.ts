@@ -6,7 +6,7 @@
  *   2. tier 分桶：must_have=5 / business_upgrade=15 / practical_accessory=10
  *   3. id 唯一
  *   4. order 单调递增 1..30
- *   5. imageStatus 全部 "generated-preview"（一期）
+ *   5. imageStatus 全部 "product-preview"（一期）
  *   6. §10 P0 电动门 caution 字段非空且包含"电动门"字样
  *   7. wenjieM8ElectricDoorProject 单条引用一致性
  */
@@ -78,9 +78,9 @@ describe("wenjie-m8-upgrade-projects: projects invariants", () => {
     expect(orders).toEqual(Array.from({ length: 30 }, (_, i) => i + 1));
   });
 
-  it("all imageStatus are 'generated-preview'", () => {
+  it("all imageStatus are 'product-preview'", () => {
     expect(
-      wenjieM8UpgradeProjects.every((p) => p.imageStatus === "generated-preview"),
+      wenjieM8UpgradeProjects.every((p) => p.imageStatus === "product-preview"),
     ).toBe(true);
   });
 

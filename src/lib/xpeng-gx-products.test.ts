@@ -153,8 +153,8 @@ describe("bundle.projectIds 引用", () => {
 });
 
 describe("imageStatus 字段", () => {
-  it("所有项目 imageStatus 是 matched/generated-preview/pending-review/missing", () => {
-    const valid = ["matched", "generated-preview", "pending-review", "missing"];
+  it("所有项目 imageStatus 是 matched/product-preview/pending-review/missing", () => {
+    const valid = ["matched", "product-preview", "pending-review", "missing"];
     for (const p of xpengGxUpgradeProjects) {
       expect(valid).toContain(p.imageStatus);
     }

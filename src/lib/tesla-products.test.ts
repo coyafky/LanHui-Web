@@ -27,9 +27,9 @@ describe("tesla-products data shape", () => {
         expect(p.order).toBe(i + 1);
       });
     });
-    it("imageStatus 全部 generated-preview", () => {
+    it("imageStatus 全部 product-preview", () => {
       for (const p of teslaFeaturedProjects) {
-        expect(p.imageStatus).toBe("generated-preview");
+        expect(p.imageStatus).toBe("product-preview");
       }
     });
   });
@@ -85,7 +85,7 @@ describe("tesla-products data shape", () => {
     it("所有 project imageStatus 在白名单内", () => {
       const all = [...teslaFeaturedProjects, ...teslaOptionalProjects];
       for (const p of all) {
-        expect(["matched", "generated-preview", "pending-review", "missing"]).toContain(p.imageStatus);
+        expect(["matched", "product-preview", "pending-review", "missing"]).toContain(p.imageStatus);
       }
     });
   });

@@ -29,7 +29,7 @@ function assertSubModelLength(subModels: readonly WenjieSeriesSubModel[]): void 
 
 /**
  * 3 子车型卡片（PRD §10）
- * 每卡：4:3 功能预览图 + H3 + 数量 Badge + 简短 hero + 跳子页 CTA
+ * 每卡：4:3 商品预览效果图 + H3 + 数量 Badge + 简短 hero + 跳子页 CTA
  */
 export function WenjieSeriesSubModelsGrid({ subModels }: WenjieSeriesSubModelsGridProps) {
   assertSubModelLength(subModels);
