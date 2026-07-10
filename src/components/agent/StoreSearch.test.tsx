@@ -41,6 +41,16 @@ const MOCK_STORES = [
   },
 ];
 
+const MOCK_SIX_STORES = Array.from({ length: 6 }, (_, i) => ({
+  id: String(i + 1),
+  name: `蓝辉轻改门店${i + 1}`,
+  provinceLabel: "广东省",
+  cityLabel: "佛山市",
+  district: null,
+  address: `地址${i + 1}`,
+  level: null,
+}));
+
 function mockFetchSuccess(data = MOCK_STORES) {
   return vi.spyOn(globalThis, "fetch").mockResolvedValueOnce(
     new Response(JSON.stringify({ success: true, data }), {
@@ -405,6 +415,89 @@ describe("StoreSearch", () => {
       fireEvent.click(screen.getByText("蓝辉轻改顺德大良店"));
 
       expect(mockPush).toHaveBeenCalledWith("/agent/store/1");
+    });
+  });
+
+  // ─── Group 6 — Overflow / multiple suggestions ────────────────────────────
+
+  describe("overflow / multiple suggestions", () => {
+    it("renders all 6 suggestions when API returns 6 stores", async () => {
+      mockFetchSuccess(MOCK_SIX_STORES);
+
+      render(<StoreSearch />);
+      const input = screen.getByRole("combobox");
+
+      fireEvent.change(input, { target: { value: "佛山" } });
+      await act(async () => {
+        vi.advanceTimersByTime(200);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText("蓝辉轻改门店1")).toBeInTheDocument();
+        expect(screen.getByText("蓝辉轻改门店6")).toBeInTheDocument();
+      });
+
+      const options = screen.getAllByRole("option");
+      expect(options).toHaveLength(6);
+    });
+
+    it("ArrowDown reaches the last of 6 suggestions", async () => {
+      mockFetchSuccess(MOCK_SIX_STORES);
+
+      render(<StoreSearch />);
+      const input = screen.getByRole("combobox");
+
+      fireEvent.change(input, { target: { value: "佛山" } });
+      await act(async () => {
+        vi.advanceTimersByTime(200);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText("蓝辉轻改门店6")).toBeInTheDocument();
+      });
+
+      for (let i = 0; i < 6; i++) {
+        fireEvent.keyDown(input, { key: "ArrowDown" });
+      }
+
+      const lastOption = screen.getByRole("option", { name: /蓝辉轻改门店6/ });
+      expect(lastOption).toHaveAttribute("aria-selected", "true");
+    });
+
+    it("clicking the 5th suggestion navigates to its store detail", async () => {
+      mockFetchSuccess(MOCK_SIX_STORES);
+
+      render(<StoreSearch />);
+      const input = screen.getByRole("combobox");
+
+      fireEvent.change(input, { target: { value: "佛山" } });
+      await act(async () => {
+        vi.advanceTimersByTime(200);
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText("蓝辉轻改门店5")).toBeInTheDocument();
+      });
+
+      fireEvent.click(screen.getByText("蓝辉轻改门店5"));
+      expect(mockPush).toHaveBeenCalledWith("/agent/store/5");
+    });
+
+    it("dropdown has scrollable overflow class", async () => {
+      mockFetchSuccess(MOCK_SIX_STORES);
+
+      render(<StoreSearch />);
+      const input = screen.getByRole("combobox");
+
+      fireEvent.change(input, { target: { value: "佛山" } });
+      await act(async () => {
+        vi.advanceTimersByTime(200);
+      });
+
+      await waitFor(() => {
+        const listbox = screen.getByRole("listbox");
+        expect(listbox.className).toContain("overflow-y-auto");
+      });
     });
   });
 });

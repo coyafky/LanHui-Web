@@ -199,6 +199,17 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
   }
 
   // -----------------------------------------------------------------------
+  // Scroll highlighted option into view
+  // -----------------------------------------------------------------------
+
+  useEffect(() => {
+    if (highlightIndex >= 0 && status === "open") {
+      const el = document.getElementById(`store-option-${highlightIndex}`);
+      el?.scrollIntoView({ block: "nearest" });
+    }
+  }, [highlightIndex, status]);
+
+  // -----------------------------------------------------------------------
   // Render
   // -----------------------------------------------------------------------
 
@@ -245,7 +256,7 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
         <div
           id="store-search-listbox"
           role="listbox"
-          className="absolute top-full mt-3 z-50 w-full rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl shadow-black/40 overflow-hidden"
+          className="absolute top-full mt-3 z-50 w-full rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl shadow-black/40 overflow-y-auto max-h-[min(60vh,24rem)]"
         >
           {status === "loading" && (
             <div className="flex items-center gap-3 px-5 py-4 text-zinc-400 text-sm">

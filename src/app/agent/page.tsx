@@ -41,8 +41,8 @@ export default async function AgentPage({
       <Header />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         {/* ── Hero Section ── */}
-        <section className="relative bg-zinc-950 text-white overflow-hidden">
-          <div className="absolute inset-0 -z-0" aria-hidden="true">
+        <section className="relative bg-zinc-950 text-white overflow-visible">
+          <div className="absolute inset-0 -z-0 overflow-hidden" aria-hidden="true">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-950/30 via-zinc-950 to-zinc-950" />
             <div className="absolute -top-40 right-0 w-[500px] h-[500px] rounded-full bg-orange-600/15 blur-[100px]" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-blue-700/10 blur-[80px]" />
