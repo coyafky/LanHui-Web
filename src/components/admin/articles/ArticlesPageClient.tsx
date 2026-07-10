@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Plus, Check, X } from "lucide-react";
@@ -19,6 +19,8 @@ import { ArticleFilterBar } from "@/components/admin/articles/ArticleFilterBar";
 import { ArticleTable } from "@/components/admin/articles/ArticleTable";
 import { ArticleBulkToolbar } from "@/components/admin/articles/ArticleBulkToolbar";
 import { PaginationBar } from "@/components/admin/shared/PaginationBar";
+
+const SEARCH_DEBOUNCE_MS = 300;
 
 interface Props {
   initialArticles: Article[];
@@ -56,34 +58,50 @@ export function ArticlesPageClient({ initialArticles, initialTotal }: Props) {
   const [pendingConfirm, setPendingConfirm] = useState<PendingArticleConfirm>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const containerRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
-  const fetchArticles = useCallback(async () => {
-    setLoading(true);
-    try {
-      const params = new URLSearchParams();
-      params.set("page", String(pagination.page));
-      params.set("limit", "20");
-      if (statusFilter) params.set("status", statusFilter);
-      if (categoryFilter) params.set("category", categoryFilter);
-      if (search) params.set("search", search);
-
-      const res = await fetch(`/api/articles?${params}`);
-      const json = await res.json();
-      if (json.success) {
-        setArticles(json.data);
-        setPagination(json.pagination);
-      }
-    } catch (err) {
-      console.error("获取文章列表失败", err);
-    } finally {
-      setLoading(false);
-    }
-  }, [pagination.page, statusFilter, categoryFilter, search]);
+  const abortRef = useRef<AbortController | null>(null);
+  const [refetchKey, setRefetchKey] = useState(0);
 
   useEffect(() => {
     if (!search && !statusFilter && !categoryFilter && pagination.page === 1) return;
-    fetchArticles();
-  }, [fetchArticles, search, statusFilter, categoryFilter, pagination.page]);
+
+    abortRef.current?.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
+    const timer = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const params = new URLSearchParams();
+        params.set("page", String(pagination.page));
+        params.set("limit", "20");
+        if (statusFilter) params.set("status", statusFilter);
+        if (categoryFilter) params.set("category", categoryFilter);
+        if (search) params.set("search", search);
+
+        const res = await fetch(`/api/articles?${params}`, { signal: controller.signal });
+        if (controller.signal.aborted) return;
+        const json = await res.json();
+        if (json.success) {
+          setArticles(json.data);
+          setPagination(json.pagination);
+        }
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        console.error("获取文章列表失败", err);
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }, SEARCH_DEBOUNCE_MS);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [search, statusFilter, categoryFilter, pagination.page, refetchKey]);
+
+  function refetch() {
+    setRefetchKey((k) => k + 1);
+  }
 
   useEffect(() => {
     if (!openMenuId) return;
@@ -124,7 +142,7 @@ export function ArticlesPageClient({ initialArticles, initialTotal }: Props) {
     });
     if (res.ok) {
       toast.success(article.isSticky ? "已取消置顶" : "已置顶");
-      fetchArticles();
+      refetch();
     } else {
       const json = await res.json().catch(() => ({}));
       toast.error(json.error || `${article.isSticky ? "取消置顶" : "置顶"}失败`);
@@ -172,7 +190,7 @@ export function ArticlesPageClient({ initialArticles, initialTotal }: Props) {
         if (res.ok) {
           toast.success("删除成功");
           setPendingConfirm(null);
-          fetchArticles();
+          refetch();
           return;
         }
         const json = await res.json().catch(() => ({}));
@@ -187,7 +205,7 @@ export function ArticlesPageClient({ initialArticles, initialTotal }: Props) {
         if (res.ok) {
           toast.success(`${ACTION_LABELS[action]}成功`);
           setPendingConfirm(null);
-          fetchArticles();
+          refetch();
           return;
         }
         const json = await res.json().catch(() => ({}));
@@ -215,7 +233,7 @@ export function ArticlesPageClient({ initialArticles, initialTotal }: Props) {
           }
           setPendingConfirm(null);
           setSelectedIds(new Set());
-          fetchArticles();
+          refetch();
           return;
         }
         toast.error(json.error || "批量操作失败");

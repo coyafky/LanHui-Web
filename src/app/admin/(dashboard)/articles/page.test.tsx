@@ -20,7 +20,7 @@ vi.mock('next/navigation', () => ({
   }),
 }));
 
-import ArticlesPage from './page';
+import { ArticlesPageClient } from '@/components/admin/articles/ArticlesPageClient';
 
 const SAMPLE_ARTICLE = {
   id: 'art-1',
@@ -103,7 +103,7 @@ describe('ArticlesPage per-row menu', () => {
   });
 
   it('M1: 点击 ... 按钮后，菜单 div 出现', async () => {
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -122,7 +122,7 @@ describe('ArticlesPage per-row menu', () => {
   });
 
   it('M2: 菜单打开后，点击 document 外部元素，菜单关闭', async () => {
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -144,7 +144,7 @@ describe('ArticlesPage per-row menu', () => {
   });
 
   it('M3: 菜单打开后，点击菜单项 "编辑"，菜单仍显示（不被关闭）', async () => {
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -168,7 +168,7 @@ describe('ArticlesPage per-row menu', () => {
   });
 
   it('M4: 没有菜单打开时，document 上没有注册 click 监听器', async () => {
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     // 等初始 render 完成
     await waitFor(() => {
@@ -182,7 +182,7 @@ describe('ArticlesPage per-row menu', () => {
   it('M5: 点击删除后弹出 ConfirmDialog（不调 window.confirm）', async () => {
     const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
     try {
-      render(<ArticlesPage />);
+      render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
       await waitFor(() => {
         expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -230,7 +230,7 @@ describe('ArticlesPage ConfirmDialog', () => {
   });
 
   it('A: 确认删除后调 DELETE API', async () => {
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -268,7 +268,7 @@ describe('ArticlesPage ConfirmDialog', () => {
   });
 
   it('B: 点击取消按钮关闭 ConfirmDialog', async () => {
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -307,7 +307,7 @@ describe('ArticlesPage ConfirmDialog', () => {
     //   - 选中文章 → 点击批量删除
     //   - ConfirmDialog 应显示 "确认对 1 篇文章执行删除吗？" + "此操作不可撤销"
     //   - confirmLabel 为 "删除"，variant 为 "danger"
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -339,7 +339,7 @@ describe('ArticlesPage ConfirmDialog', () => {
   });
 
   it('D: 确认发布后调 POST /api/articles/:id/publish', async () => {
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -407,7 +407,7 @@ describe('ArticlesPage ConfirmDialog', () => {
       });
     });
 
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -437,7 +437,7 @@ describe('ArticlesPage ConfirmDialog', () => {
   });
 
   it('F: 确认置顶后调 POST /api/articles/:id/sticky', async () => {
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
@@ -505,7 +505,7 @@ describe('ArticlesPage ConfirmDialog', () => {
         });
       });
 
-    render(<ArticlesPage />);
+    render(<ArticlesPageClient initialArticles={[SAMPLE_ARTICLE]} initialTotal={1} />);
 
     await waitFor(() => {
       expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
