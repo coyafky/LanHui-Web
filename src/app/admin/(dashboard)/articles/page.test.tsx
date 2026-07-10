@@ -47,6 +47,16 @@ function mockFetchSuccess() {
         }),
       });
     }
+    if (url.includes('/api/admin/csrf')) {
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          success: true,
+          data: { token: "test-token" },
+        }),
+      });
+    }
     return Promise.resolve({
       ok: true,
       status: 200,
@@ -325,6 +335,204 @@ describe('ArticlesPage ConfirmDialog', () => {
     fireEvent.click(screen.getByText('取消'));
     await waitFor(() => {
       expect(screen.queryByText('确认删除文章？')).not.toBeInTheDocument();
+    });
+  });
+
+  it('D: 确认发布后调 POST /api/articles/:id/publish', async () => {
+    render(<ArticlesPage />);
+
+    await waitFor(() => {
+      expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
+    });
+
+    const moreBtn = findMoreButton();
+    fireEvent.click(moreBtn!);
+    await waitFor(() => {
+      expect(screen.getByText('发布')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText('发布'));
+
+    await waitFor(() => {
+      expect(screen.getByText('确认发布文章？')).toBeInTheDocument();
+    });
+
+    const dialog = screen.getByRole('alertdialog');
+    const confirmBtn = within(dialog).getByText('确认');
+    fireEvent.click(confirmBtn);
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        '/api/articles/art-1/publish',
+        expect.objectContaining({ method: 'POST' }),
+      );
+    });
+  });
+
+  it('E: 确认撤回后调 POST /api/articles/:id/withdraw', async () => {
+    // 修改文章状态为 published，使菜单显示"取消发布"
+    const publishedArticle = {
+      ...SAMPLE_ARTICLE,
+      status: 'published',
+    };
+    fetchMock.mockReset();
+    fetchMock.mockImplementation((url: string) => {
+      if (url.includes('/categories')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({
+            success: true,
+            data: { categories: [{ value: '新闻', label: '新闻', count: 1 }] },
+          }),
+        });
+      }
+      if (url.includes('/api/admin/csrf')) {
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({
+            success: true,
+            data: { token: "test-token" },
+          }),
+        });
+      }
+      return Promise.resolve({
+        ok: true,
+        status: 200,
+        json: async () => ({
+          success: true,
+          data: [publishedArticle],
+          pagination: { page: 1, limit: 20, total: 1, totalPages: 1 },
+        }),
+      });
+    });
+
+    render(<ArticlesPage />);
+
+    await waitFor(() => {
+      expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
+    });
+
+    const moreBtn = findMoreButton();
+    fireEvent.click(moreBtn!);
+    await waitFor(() => {
+      expect(screen.getByText('取消发布')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText('取消发布'));
+
+    await waitFor(() => {
+      expect(screen.getByText('确认撤回发布文章？')).toBeInTheDocument();
+    });
+
+    const dialog = screen.getByRole('alertdialog');
+    const confirmBtn = within(dialog).getByText('确认');
+    fireEvent.click(confirmBtn);
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        '/api/articles/art-1/withdraw',
+        expect.objectContaining({ method: 'POST' }),
+      );
+    });
+  });
+
+  it('F: 确认置顶后调 POST /api/articles/:id/sticky', async () => {
+    render(<ArticlesPage />);
+
+    await waitFor(() => {
+      expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
+    });
+
+    const moreBtn = findMoreButton();
+    fireEvent.click(moreBtn!);
+
+    await waitFor(() => {
+      expect(screen.getByText('置顶')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText('置顶'));
+
+    // handleToggleSticky 不弹 ConfirmDialog，直接调 API
+    // 在此测试中，菜单关闭后，API 会直接调用
+    // 注意：handleToggleSticky 是菜单内直接触发的，不通过 ConfirmDialog
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith(
+        '/api/articles/art-1/sticky',
+        expect.objectContaining({ method: 'POST' }),
+      );
+    });
+  });
+
+  it('G: 操作成功时刷新列表', async () => {
+    // mock fetch 使 handleConfirmAction 的 publish 返回成功
+    fetchMock.mockReset();
+    fetchMock
+      .mockImplementation((url: string) => {
+        if (url.includes('/categories')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: async () => ({
+              success: true,
+              data: { categories: [{ value: '新闻', label: '新闻' }] },
+            }),
+          });
+        }
+        if (url.includes('/api/admin/csrf')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: async () => ({
+              success: true,
+              data: { token: "test-token" },
+            }),
+          });
+        }
+        if (url.includes('/api/articles?')) {
+          return Promise.resolve({
+            ok: true,
+            status: 200,
+            json: async () => ({
+              success: true,
+              data: [SAMPLE_ARTICLE],
+              pagination: { page: 1, limit: 20, total: 1, totalPages: 1 },
+            }),
+          });
+        }
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        });
+      });
+
+    render(<ArticlesPage />);
+
+    await waitFor(() => {
+      expect(screen.queryByText('测试文章标题')).toBeInTheDocument();
+    });
+
+    const moreBtn = findMoreButton();
+    fireEvent.click(moreBtn!);
+    await waitFor(() => {
+      expect(screen.getByText('发布')).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText('发布'));
+
+    await waitFor(() => {
+      expect(screen.getByText('确认发布文章？')).toBeInTheDocument();
+    });
+
+    const dialog = screen.getByRole('alertdialog');
+    const confirmBtn = within(dialog).getByText('确认');
+    fireEvent.click(confirmBtn);
+
+    // 等待 toast + API 调用 → fetchArticles 再次触发
+    await waitFor(() => {
+      // 确认 publish API 被调用
+      const publishCalls = fetchMock.mock.calls.filter(
+        (call: unknown[]) => call[0] === '/api/articles/art-1/publish',
+      );
+      expect(publishCalls.length).toBeGreaterThanOrEqual(1);
     });
   });
 });

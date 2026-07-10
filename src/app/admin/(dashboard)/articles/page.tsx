@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
+import { adminCsrfFetch } from "@/lib/admin-csrf-fetch";
 
 interface Article {
   id: string;
@@ -197,17 +198,16 @@ function ArticlesPageContent() {
   }
 
   async function handleToggleSticky(article: Article) {
-    const newSticky = !article.isSticky;
-    const res = await fetch(`/api/articles/${article.id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ isSticky: newSticky }),
+    const action = article.isSticky ? "unsticky" : "sticky";
+    const res = await adminCsrfFetch(`/api/articles/${article.id}/${action}`, {
+      method: "POST",
     });
     if (res.ok) {
+      toast.success(article.isSticky ? "已取消置顶" : "已置顶");
       fetchArticles();
     } else {
       const json = await res.json().catch(() => ({}));
-      toast.error(json.error || `${newSticky ? "置顶" : "取消置顶"}失败`);
+      toast.error(json.error || `${article.isSticky ? "取消置顶" : "置顶"}失败`);
     }
   }
 
@@ -245,9 +245,10 @@ function ArticlesPageContent() {
     if (!pendingConfirm) return;
     try {
       if (pendingConfirm.type === "delete") {
-        const res = await fetch(`/api/articles/${pendingConfirm.article.id}`, {
-          method: "DELETE",
-        });
+        const res = await adminCsrfFetch(
+          `/api/articles/${pendingConfirm.article.id}`,
+          { method: "DELETE" },
+        );
         if (res.ok) {
           toast.success("删除成功");
           setPendingConfirm(null);
@@ -258,13 +259,12 @@ function ArticlesPageContent() {
         toast.error(json.error || "删除失败");
       } else if (pendingConfirm.type === "single") {
         const { article, action } = pendingConfirm;
-        const body =
-          action === "publish" ? { status: "published" } : { status: "draft" };
-        const res = await fetch(`/api/articles/${article.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
-        });
+        // 适配 action 路由的 action 名称
+        const routeAction = action === "unpublish" ? "withdraw" : action;
+        const res = await adminCsrfFetch(
+          `/api/articles/${article.id}/${routeAction}`,
+          { method: "POST" },
+        );
         if (res.ok) {
           toast.success(`${ACTION_LABELS[action]}成功`);
           setPendingConfirm(null);
