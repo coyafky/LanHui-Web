@@ -3,8 +3,8 @@
   "hooks": {
     "preToolUse": [
       {
-        "bash": "bash .github/skills/comet/scripts/comet-hook-guard.sh",
-        "powershell": "bash -c 'bash .github/skills/comet/scripts/comet-hook-guard.sh'"
+        "bash": "node \"/Users/fkycoya/Documents/WebsiteClone/lanhui-website/.github/skills/comet/scripts/comet-hook-guard.mjs\" --project-root \"/Users/fkycoya/Documents/WebsiteClone/lanhui-website\"",
+        "powershell": "node \"/Users/fkycoya/Documents/WebsiteClone/lanhui-website/.github/skills/comet/scripts/comet-hook-guard.mjs\" --project-root \"/Users/fkycoya/Documents/WebsiteClone/lanhui-website\""
       }
     ]
   }

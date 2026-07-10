@@ -31,6 +31,7 @@ import {
   type StoreStatus,
 } from "@/lib/validations/store";
 import { availableActionsFor, type StoreAction } from "@/lib/validations/store-transitions";
+import { useStoreAction } from "@/hooks/use-store-action";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 
 /* ------------------------------------------------------------------ */
@@ -373,9 +374,9 @@ function TableSkeleton() {
 /* ------------------------------------------------------------------ */
 
 function buildColumns(
-  onAction: (row: StoreRow, action: StoreAction) => void,
   selectedIds: Set<string>,
-  setSelectedIds: React.Dispatch<React.SetStateAction<Set<string>>>
+  setSelectedIds: React.Dispatch<React.SetStateAction<Set<string>>>,
+  onFetchStores: () => void,
 ): ColumnDef<StoreRow>[] {
   return [
     {
@@ -454,68 +455,9 @@ function buildColumns(
     {
       id: "actions",
       header: "操作",
-      cell: ({ row }) => {
-        const status = row.original.status;
-        const actions = availableActionsFor(status);
-        return (
-          <div className="flex flex-wrap items-center gap-2">
-            <Link
-              href={`/admin/stores/${row.original.id}`}
-              className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-orange-400 transition-colors hover:bg-orange-500/10"
-            >
-              <Pencil className="h-3.5 w-3.5" />
-              编辑
-            </Link>
-            {actions.length === 0 ? (
-              // terminated：只读
-              <span
-                className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs text-zinc-600"
-                aria-label="已终止合作，只读"
-              >
-                已终止
-              </span>
-            ) : (
-              actions.map((action: StoreAction) => {
-                const ACTION_LABELS: Record<StoreAction, string> = {
-                  publish: "发布",
-                  suspend: "暂停",
-                  resume: "恢复",
-                  terminate: "终止",
-                };
-                const ACTION_COLOR: Record<
-                  StoreAction,
-                  "orange" | "blue" | "red"
-                > = {
-                  publish: "orange",
-                  resume: "orange",
-                  suspend: "red",
-                  terminate: "red",
-                };
-                const color = ACTION_COLOR[action];
-                const cls =
-                  color === "red"
-                    ? "text-red-400 hover:bg-red-500/10"
-                    : color === "blue"
-                      ? "text-blue-400 hover:bg-blue-500/10"
-                      : "text-orange-400 hover:bg-orange-500/10";
-                return (
-                  <button
-                    key={action}
-                    type="button"
-                    onClick={() => onAction(row.original, action)}
-                    className={cn(
-                      "inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
-                      cls
-                    )}
-                  >
-                    {ACTION_LABELS[action]}
-                  </button>
-                );
-              })
-            )}
-          </div>
-        );
-      },
+      cell: ({ row }) => (
+        <StoreRowActions store={row.original} onFetchStores={onFetchStores} />
+      ),
     },
   ];
 }
@@ -594,6 +536,167 @@ function StoreTable({
 }
 
 /* ------------------------------------------------------------------ */
+/*  Single-row action buttons + ConfirmDialog (uses useStoreAction)    */
+/* ------------------------------------------------------------------ */
+
+function StoreRowActions({
+  store,
+  onFetchStores,
+}: {
+  store: StoreRow;
+  onFetchStores: () => void;
+}) {
+  const {
+    actionOpen,
+    statusReason,
+    actionError,
+    openAction,
+    closeAction,
+    setStatusReason,
+    setActionError,
+    performAction,
+  } = useStoreAction(store.id, { onSuccess: () => onFetchStores() });
+
+  const allowedActions = availableActionsFor(store.status);
+
+  const ACTION_LABELS: Record<StoreAction, string> = {
+    publish: "发布",
+    suspend: "暂停",
+    resume: "恢复",
+    terminate: "终止",
+  };
+  const ACTION_COLOR: Record<StoreAction, "orange" | "blue" | "red"> = {
+    publish: "orange",
+    resume: "orange",
+    suspend: "red",
+    terminate: "red",
+  };
+
+  return (
+    <>
+      <div className="flex flex-wrap items-center gap-2">
+        <Link
+          href={`/admin/stores/${store.id}`}
+          className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-orange-400 transition-colors hover:bg-orange-500/10"
+        >
+          <Pencil className="h-3.5 w-3.5" />
+          编辑
+        </Link>
+        {allowedActions.length === 0 ? (
+          <span
+            className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs text-zinc-600"
+            aria-label="已终止合作，只读"
+          >
+            已终止
+          </span>
+        ) : (
+          allowedActions.map((action) => {
+            const color = ACTION_COLOR[action];
+            const cls =
+              color === "red"
+                ? "text-red-400 hover:bg-red-500/10"
+                : color === "blue"
+                  ? "text-blue-400 hover:bg-blue-500/10"
+                  : "text-orange-400 hover:bg-orange-500/10";
+            return (
+              <button
+                key={action}
+                type="button"
+                onClick={() => openAction(action)}
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
+                  cls
+                )}
+              >
+                {ACTION_LABELS[action]}
+              </button>
+            );
+          })
+        )}
+      </div>
+
+      <ConfirmDialog
+        open={!!actionOpen}
+        title={
+          actionOpen === "publish"
+            ? "发布门店"
+            : actionOpen === "suspend"
+              ? "暂停合作"
+              : actionOpen === "resume"
+                ? "恢复营业"
+                : "终止合作"
+        }
+        description={
+          actionOpen === "publish"
+            ? `确认将「${store.name}」发布为营业中？发布后该门店将出现在前台列表。`
+            : actionOpen === "suspend"
+              ? `确认暂停「${store.name}」的合作？前台将不再展示该门店。`
+              : actionOpen === "resume"
+                ? `确认将「${store.name}」恢复营业？请确保联系方式、地址、营业时间均已核对。`
+                : `确认终止与「${store.name}」的合作？终止后该门店进入只读状态，不可再恢复。`
+        }
+        confirmLabel={
+          actionOpen === "publish"
+            ? "发布"
+            : actionOpen === "suspend"
+              ? "暂停"
+              : actionOpen === "resume"
+                ? "恢复"
+                : "终止"
+        }
+        variant={
+          actionOpen === "suspend" || actionOpen === "terminate"
+            ? "danger"
+            : "default"
+        }
+        onConfirm={async () => {
+          if (
+            (actionOpen === "suspend" || actionOpen === "terminate") &&
+            !statusReason.trim()
+          ) {
+            setActionError("请填写原因");
+            return;
+          }
+          await performAction(actionOpen!, statusReason.trim() || undefined);
+        }}
+        onCancel={closeAction}
+      >
+        {(actionOpen === "suspend" || actionOpen === "terminate") && (
+          <div>
+            <label
+              htmlFor={`store-reason-${store.id}`}
+              className="block text-sm font-medium text-zinc-300"
+            >
+              原因 <span className="text-red-400">*</span>
+            </label>
+            <textarea
+              id={`store-reason-${store.id}`}
+              value={statusReason}
+              onChange={(e) => setStatusReason(e.target.value)}
+              rows={3}
+              placeholder={
+                actionOpen === "suspend"
+                  ? "例：门店装修 / 临时歇业 / 合作调整..."
+                  : "例：合同到期 / 双方协商 / 违规下线..."
+              }
+              className="mt-1 w-full resize-none rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-orange-500 focus:outline-none"
+            />
+          </div>
+        )}
+        {actionError && (
+          <p
+            role="alert"
+            className="mt-2 rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-xs text-red-400"
+          >
+            {actionError}
+          </p>
+        )}
+      </ConfirmDialog>
+    </>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  Main Page                                                          */
 /* ------------------------------------------------------------------ */
 
@@ -653,14 +756,15 @@ function StoresPageInner() {
   const [activeRowIdx, setActiveRowIdx] = useState(0);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-  // Action dialog state（替代原 DeleteDialog）
-  const [actionTarget, setActionTarget] = useState<{
+  // Page-level dialog for keyboard shortcuts + bulk only
+  // (single-row button clicks use StoreRowActions with useStoreAction)
+  const [pageActionTarget, setPageActionTarget] = useState<{
     row: StoreRow;
     action: StoreAction;
   } | null>(null);
-  const [statusReason, setStatusReason] = useState("");
-  const [acting, setActing] = useState(false);
-  const [actionError, setActionError] = useState<string | null>(null);
+  const [pageStatusReason, setPageStatusReason] = useState("");
+  const [pageActing, setPageActing] = useState(false);
+  const [pageActionError, setPageActionError] = useState<string | null>(null);
 
   /* ---------- Fetch stores ---------- */
   const fetchStores = useCallback(async () => {
@@ -712,11 +816,10 @@ function StoresPageInner() {
   /* ---------- Bulk action handler ---------- */
   const handleBulkAction = useCallback(
     (action: StoreAction) => {
-      // 对单个 selected 门店触发,复用 openActionDialog
       const ids = [...selectedIds];
       if (ids.length === 0) return;
       const row = stores.find((s) => s.id === ids[0]);
-      if (row) openActionDialog(row, action);
+      if (row) openPageAction(row, action);
     },
     [selectedIds, stores]
   );
@@ -773,34 +876,29 @@ function StoresPageInner() {
       });
   }, [provinceFilter]);
 
-  /* ---------- 状态机动作 handler ---------- */
-  function openActionDialog(row: StoreRow, action: StoreAction) {
-    setActionTarget({ row, action });
-    setStatusReason("");
-    setActionError(null);
+  /* ---------- Page-level action handler (keyboard shortcuts + bulk only) ---------- */
+  function openPageAction(row: StoreRow, action: StoreAction) {
+    setPageActionTarget({ row, action });
+    setPageStatusReason("");
+    setPageActionError(null);
   }
-  function closeActionDialog() {
-    if (acting) return;
-    setActionTarget(null);
-    setStatusReason("");
-    setActionError(null);
-  }
-  async function confirmAction() {
-    if (!actionTarget) return;
-    const { row, action } = actionTarget;
+
+  async function pageConfirmAction() {
+    if (!pageActionTarget) return;
+    const { row, action } = pageActionTarget;
     const needReason = action === "suspend" || action === "terminate";
-    if (needReason && !statusReason.trim()) {
-      setActionError("请填写原因");
+    if (needReason && !pageStatusReason.trim()) {
+      setPageActionError("请填写原因");
       return;
     }
-    setActing(true);
-    setActionError(null);
+    setPageActing(true);
+    setPageActionError(null);
     try {
       const res = await fetch(`/api/stores/${row.id}/${action}`, {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(
-          needReason ? { statusReason: statusReason.trim() } : {}
+          needReason ? { statusReason: pageStatusReason.trim() } : {}
         ),
       });
       const json = (await res.json()) as {
@@ -812,16 +910,16 @@ function StoresPageInner() {
         const detailsMsg = json.details
           ? Object.values(json.details).flat().join("；")
           : "";
-        setActionError(json.error || detailsMsg || "操作失败");
+        setPageActionError(json.error || detailsMsg || "操作失败");
         return;
       }
-      setActionTarget(null);
-      setStatusReason("");
+      setPageActionTarget(null);
+      setPageStatusReason("");
       fetchStores();
     } catch (err) {
-      setActionError(err instanceof Error ? err.message : "网络错误");
+      setPageActionError(err instanceof Error ? err.message : "网络错误");
     } finally {
-      setActing(false);
+      setPageActing(false);
     }
   }
 
@@ -897,7 +995,7 @@ function StoresPageInner() {
         const row = rows[activeRowIdx];
         if (row && availableActionsFor(row.status).includes(action)) {
           e.preventDefault();
-          openActionDialog(row, action);
+          openPageAction(row, action);
         }
       } else if (e.key === "/") {
         e.preventDefault();
@@ -991,10 +1089,10 @@ function StoresPageInner() {
       .map(([key, b]) => ({ key, ...b }));
   }, [stores, groupMode]);
 
-  /* ---------- Columns factory (uses main action handler) ---------- */
+  /* ---------- Columns factory (uses StoreRowActions per row) ---------- */
   const columns = useMemo(
-    () => buildColumns(openActionDialog, selectedIds, setSelectedIds),
-    [selectedIds]
+    () => buildColumns(selectedIds, setSelectedIds, fetchStores),
+    [selectedIds, fetchStores]
   );
 
   return (
@@ -1341,62 +1439,67 @@ function StoresPageInner() {
       {/* ── KBD footer ── */}
       <KbdFooter />
 
-      {/* ── 状态机动作对话框 ── */}
-      {actionTarget && (
+      {/* ── Page-level dialog (keyboard shortcuts + bulk only) ── */}
+      {pageActionTarget && (
         <ConfirmDialog
-          open={!!actionTarget}
+          open={!!pageActionTarget}
           title={
-            actionTarget.action === "publish"
+            pageActionTarget.action === "publish"
               ? "发布门店"
-              : actionTarget.action === "suspend"
+              : pageActionTarget.action === "suspend"
                 ? "暂停合作"
-                : actionTarget.action === "resume"
+                : pageActionTarget.action === "resume"
                   ? "恢复营业"
                   : "终止合作"
           }
           description={
-            actionTarget.action === "publish"
-              ? `确认将「${actionTarget.row.name}」发布为营业中？发布后该门店将出现在前台列表。`
-              : actionTarget.action === "suspend"
-                ? `确认暂停「${actionTarget.row.name}」的合作？前台将不再展示该门店。`
-                : actionTarget.action === "resume"
-                  ? `确认将「${actionTarget.row.name}」恢复营业？请确保联系方式、地址、营业时间均已核对。`
-                  : `确认终止与「${actionTarget.row.name}」的合作？终止后该门店进入只读状态，不可再恢复。`
+            pageActionTarget.action === "publish"
+              ? `确认将「${pageActionTarget.row.name}」发布为营业中？发布后该门店将出现在前台列表。`
+              : pageActionTarget.action === "suspend"
+                ? `确认暂停「${pageActionTarget.row.name}」的合作？前台将不再展示该门店。`
+                : pageActionTarget.action === "resume"
+                  ? `确认将「${pageActionTarget.row.name}」恢复营业？请确保联系方式、地址、营业时间均已核对。`
+                  : `确认终止与「${pageActionTarget.row.name}」的合作？终止后该门店进入只读状态，不可再恢复。`
           }
           confirmLabel={
-            actionTarget.action === "publish"
+            pageActionTarget.action === "publish"
               ? "发布"
-              : actionTarget.action === "suspend"
+              : pageActionTarget.action === "suspend"
                 ? "暂停"
-                : actionTarget.action === "resume"
+                : pageActionTarget.action === "resume"
                   ? "恢复"
                   : "终止"
           }
           variant={
-            actionTarget.action === "suspend" ||
-            actionTarget.action === "terminate"
+            pageActionTarget.action === "suspend" ||
+            pageActionTarget.action === "terminate"
               ? "danger"
               : "default"
           }
-          onConfirm={confirmAction}
-          onCancel={closeActionDialog}
+          onConfirm={pageConfirmAction}
+          onCancel={() => {
+            if (pageActing) return;
+            setPageActionTarget(null);
+            setPageStatusReason("");
+            setPageActionError(null);
+          }}
         >
-          {(actionTarget.action === "suspend" ||
-            actionTarget.action === "terminate") && (
+          {(pageActionTarget.action === "suspend" ||
+            pageActionTarget.action === "terminate") && (
             <div>
               <label
-                htmlFor="statusReason"
+                htmlFor="pageStatusReason"
                 className="block text-sm font-medium text-zinc-300"
               >
                 原因 <span className="text-red-400">*</span>
               </label>
               <textarea
-                id="statusReason"
-                value={statusReason}
-                onChange={(e) => setStatusReason(e.target.value)}
+                id="pageStatusReason"
+                value={pageStatusReason}
+                onChange={(e) => setPageStatusReason(e.target.value)}
                 rows={3}
                 placeholder={
-                  actionTarget.action === "suspend"
+                  pageActionTarget.action === "suspend"
                     ? "例：门店装修 / 临时歇业 / 合作调整..."
                     : "例：合同到期 / 双方协商 / 违规下线..."
                 }
@@ -1404,12 +1507,12 @@ function StoresPageInner() {
               />
             </div>
           )}
-          {actionError && (
+          {pageActionError && (
             <p
               role="alert"
               className="mt-2 rounded-md border border-red-500/30 bg-red-500/10 px-2 py-1 text-xs text-red-400"
             >
-              {actionError}
+              {pageActionError}
             </p>
           )}
         </ConfirmDialog>

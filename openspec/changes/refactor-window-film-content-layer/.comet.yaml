@@ -20,3 +20,8 @@ verified_at: null
 archived: false
 handoff_context: openspec/changes/refactor-window-film-content-layer/.comet/handoff/design-context.json
 handoff_hash: 1eee39de1542cbea26700a2d692ebac39117b2d9705f806b2239ff44f82f3d30
+language: null
+direct_override: null
+classic_profile: full
+classic_migration: 1
+run_id: adca99bf-985a-4e44-9126-f5653174941a

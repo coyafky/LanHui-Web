@@ -21,3 +21,7 @@ archived: false
 handoff_context: openspec/changes/split-admin-articles-and-forms/.comet/handoff/design-context.json
 handoff_hash: fea83371a1a5784a3a848bf1eee1c65fd2474fdfdb9e1940cb659d24bf40c6e3
 direct_override: true
+language: null
+classic_profile: full
+classic_migration: 1
+run_id: 59f3621a-d070-4b41-9ee4-5be369ef0894

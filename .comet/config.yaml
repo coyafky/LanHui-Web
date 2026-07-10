@@ -1,3 +1,5 @@
+# language: en | zh-CN
+language: en
 # context_compression: off | beta
 context_compression: off
 # review_mode: off | standard | thorough

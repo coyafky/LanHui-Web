@@ -1,120 +1,169 @@
-# Subagent 驱动开发的 Comet 扩展
+# Comet Extensions for Subagent-Driven Development
 
-规范路径：`comet/reference/subagent-dispatch.md`
+Canonical path: `comet/reference/subagent-dispatch.md`
 
-本文档提供在 Superpowers `subagent-driven-development` 技能**之上**应用的 Comet 专属扩展。该技能负责核心派发循环（每个 task 派发全新 implementer → spec compliance review → code quality review → 下一个 task）并强制连续执行。本文档添加 Comet 特有的真实后台调度、任务追踪、状态验证、代码审查模式和上下文恢复。若 Superpowers 技能与本文档发生冲突时，以本文档中更具体的 Comet 约束为准。
+This document provides Comet-specific extensions applied **on top of** the Superpowers `subagent-driven-development` skill. The Superpowers `subagent-driven-development` skill provides the base continuous dispatch loop (a fresh implementer for each task, including the default task reviewer node) and enforces continuous execution. This document adds Comet-specific real background dispatch, task tracking, state verification, context recovery, and review/fix budgets; Comet's `review_mode` takes over the reviewer stage to decide which tasks need reviewers, how many fix rounds are allowed, and which final review runs. If the Superpowers skill conflicts with this document, the more specific Comet constraints here take precedence.
 
-> **⚠️ 关键约束 — 任务之间禁止暂停**
+> **⚠️ CRITICAL — No Pause Between Tasks**
 >
-> 当一个 task 按 `review_mode` 完成验收并被勾选后，**立即派发下一个 task**，不得停止、总结或询问用户是否继续。用户期望所有 task 按顺序自动执行，无需手动干预。任务之间暂停会中断工作流，导致用户每次都需要手动恢复。
+> After a task passes `review_mode` validation and is checked off, **immediately dispatch the next task** without stopping, summarizing, or asking the user whether to continue. The user expects all tasks to execute in sequence without manual intervention. Pausing between tasks breaks the workflow and requires the user to manually resume each time.
 >
-> 仅在以下情况才停止并等待用户输入：
-> - 任务处于 **BLOCKED** 状态（`review_mode: standard` 下一轮轻量复查仍未通过，或 `review_mode: thorough` 下批次/最终审查 2 轮审查-修复仍未通过）
-> - 存在无法从仓库、计划或既有上下文消除的真实歧义
-> - 平台没有真实后台 agent 调度能力，需要用户改选 `executing-plans`
-> - 用户**明确**要求暂停
+> Only stop and wait for user input when:
+> - A task is **BLOCKED** (review-fix rounds exhausted: `review_mode: standard` — 1 round of risk-task review-fix or final lightweight review not passed; `review_mode: thorough` — 2 rounds of task-level/final review-fix not passed)
+> - There is irreducible ambiguity that cannot be resolved from the repository, plan, or existing context
+> - The platform lacks real background agent dispatch capability and the user must choose `executing-plans`
+> - The user **explicitly** asks to pause
 >
-> 此规则适用于整个派发循环，而非单个任务。
+> This rule applies to the ENTIRE dispatch loop, not just individual tasks.
 
-## 开始前
+## Before Starting
 
-1. 读取计划一次，按顺序提取所有未勾选 task 的完整文本。
-2. 为每个 task 保存唯一标识：plan 中 checkbox 后的完整任务文本，以及它映射的 OpenSpec task 完整文本（若存在）。若文本不唯一，停止并先修正计划，禁止依赖"第一个匹配项"。
-3. 尊重依赖关系；依赖尚未完成的 task 不得提前派发。
+1. Before dispatching the first task, complete the Superpowers `subagent-driven-development` skill pre-flight plan review: scan the plan and global constraints for contradictions or plan-mandated defects a reviewer would flag. If found, ask one batched question with the conflicting plan text before implementation starts; if clean, proceed without ceremony.
+2. Read the plan once, extracting the full text of all unchecked tasks in order.
+3. Save a unique identifier for each task: the full task text after the checkbox in the plan, and the full OpenSpec task text it maps to (if any). If the text is not unique, stop and fix the plan first; never rely on "first match."
+4. Respect dependencies; do not dispatch a task whose dependencies are not yet complete.
 
-## 每个 Task 的 Comet 扩展
+## Per-Task Comet Extensions
 
-在每个 task 上应用这些扩展，叠加在 Superpowers 技能的派发循环之上：
+Apply these on every task, in addition to the Superpowers skill's dispatch loop:
 
-### 0. 派发强制约束（关键）
+### 0. Dispatch Enforcement (Critical)
 
-主会话**仅负责协调**，禁止直接执行 task。主会话禁止修改源代码。协调者唯一允许的文件修改是 plan、OpenSpec task 和 subagent 进度检查点的持久化更新。不得把多个 task 打包给同一个 agent。每个 task 派发一个全新的后台 implementer agent；当 `review_mode` 需要审查或修复时，spec reviewer、code quality reviewer、修复 agent 和 final reviewer 也必须分别使用全新的后台 agent：
+The main session is the **coordinator only** and must NOT execute tasks directly or modify source code. The coordinator may modify only the plan, OpenSpec task, and subagent progress checkpoint for durable tracking. Never bundle multiple tasks into one agent. Dispatch a fresh background implementer agent for every task; when `review_mode` requires review or fixes, the task reviewer, fix agents, and the final reviewer must also each use a fresh background agent:
 
-- **Claude Code**：对每个 implementer，以及 `review_mode` 要求的 spec reviewer、code quality reviewer、修复 agent 和 final reviewer 使用 `Agent` 工具并设置 `run_in_background: true`。禁止内联执行 task，禁止错误进入需要预先创建 team 的团队模式。
-- **其他平台**：使用平台等效的后台 agent / Task / 多 agent 派发机制。
-- **禁止**跨 task 或角色复用 implementer、reviewer 或修复 agent。每个 agent 拥有全新的隔离上下文，并且只接收当前角色所需的单个 task 上下文。
-- 若平台无真实后台派发能力，不得继续；暂停并等待用户改选 `build_mode: executing-plans`。
+- **Claude Code**: Use the `Agent` tool with `run_in_background: true` for each implementer, task reviewer, fix agent, and final reviewer. Never execute tasks inline and do not accidentally enter team mode, which requires a pre-created team.
+- **Other platforms**: Use the platform's equivalent background agent / Task / multi-agent dispatch mechanism.
+- **Never** reuse implementers, reviewers, or fix agents across tasks or roles. Each agent gets a fresh, isolated context containing only the single task and role-specific context it needs.
+- If the platform has no real background dispatch capability, do not proceed; pause and wait for the user to choose `build_mode: executing-plans`.
 
-### 1. 派发 Prompt 与回报契约
+### 1. Dispatch Prompt and Return Contract
 
-每个 implementer 或修复 agent prompt 必须包含：
+Every implementer or fix-agent prompt must include:
 
-- 当前单个 task 的完整文本、架构背景和依赖上下文
-- `Language: 使用触发本次工作流的用户请求语言输出`
-- 允许修改的文件范围和禁止修改的范围
-- 必须执行的测试命令和提交要求
-- 修复 agent 还必须收到对应 reviewer 的完整反馈
+- The full text of the single current task, architecture background, and dependency context
+- `Language: Use the configured Comet artifact language from "$COMET_BASH" "$COMET_STATE" get <name> language`
+- The allowed file scope and prohibited modification scope
+- The required test commands and commit requirements
+- For a fix agent, the corresponding reviewer's complete feedback
 
-agent 回报状态必须为 `DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT`，并包含实现内容、测试结果、提交哈希、变更文件和顾虑。进入审查前，主会话必须确认提交和文件在当前工作树可见；若平台使用隔离副本，先拉取或合并变更。
+Large task text, implementation reports, and review material must move through the file-handoff mechanism exposed by the loaded Superpowers `subagent-driven-development` skill, not be pasted wholesale into the main session. The dispatch prompt should point agents to those handoff artifacts while still naming the role, allowed scope, required tests, report contract, and any Comet-specific constraints. Comet may record returned artifact paths or short summaries for recovery, but must not depend on the internal names or directory layout of those artifacts.
 
-当 `review_mode` 需要 reviewer 时，每个 reviewer prompt 必须包含完整 task、实现提交或差异以及 RED/GREEN 证据（`tdd_mode: tdd` 时）。reviewer 不得只依据 implementer 的总结进行审查。
+The agent return status must be `DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT` and include or point to implementation details, test results, commit hash, changed files, and concerns. **The implementer/fix agent must also report whether this task hits any risk signal** (see the list below); if so, list each one hit. This is the first signal source for whether a per-task reviewer is dispatched under `review_mode: standard`. Before review, the coordinator must verify that the commit and changed files are visible in the current worktree; on isolated-copy platforms, pull or merge the changes first.
 
-### 2. Implementer 范围限制
+**Risk signal list** (hitting any one marks the task as a risk task):
 
-implementer 只负责实现、测试和提交代码。**implementer 不得勾选 plan 或 OpenSpec task**，也不得只更新内置 Todo 或对话 checklist。
+- Cross-module / cross-subsystem coordinated change
+- Security-sensitive surface: auth, authorization, crypto, SQL, external input handling, secrets/credentials
+- Concurrency, locks, shared mutable state
+- Data or schema migration
+- Public API contract or external interface change
+- Implementer returns `DONE_WITH_CONCERNS`
+- Single-task diff exceeds 200 lines
 
-### 3. TDD 硬约束
+When `review_mode` requires a reviewer, each reviewer prompt must include or point to the full task requirements, the implementation commit or diff, and the RED/GREEN evidence (when `tdd_mode: tdd`). A reviewer must not review from the implementer's summary alone.
 
-若 `tdd_mode: tdd`，每个 implementer 和修复 agent 必须先使用 Skill 工具加载 Superpowers `test-driven-development` 技能，并在 prompt 中同时注入：
+Reviewer prompts must stay neutral:
+
+- Do not ask a reviewer to re-run the same tests the implementer already ran and reported; the reviewer verifies the reported evidence and the code/diff.
+- Do not pre-judge, suppress, or down-rank findings in the reviewer prompt. If a likely finding conflicts with the plan, let the reviewer report it, then ask the user which requirement governs.
+- Do not paste accumulated prior-task history into later dispatches. Give only the current task, the relevant interfaces/constraints, and the handoff artifacts exposed by the loaded Superpowers `subagent-driven-development` skill.
+
+**Model selection (mandatory)**: Every dispatch must specify the model explicitly. An omitted model silently inherits the session's most expensive model, slowing execution and raising cost. Follow the Superpowers `subagent-driven-development` Model Selection rules:
+
+- **Implementer / fix agent**: prose-described implementation work uses at least the standard tier; multi-file integration, pattern matching, or debugging → standard tier; requires design judgment or broad codebase understanding → most capable tier. Use the cheapest tier only when the plan text already contains the complete code to write (transcription + testing) or for a single-file mechanical fix.
+- **Reviewer (task-level / final)**: scale to the diff's size, complexity, and risk. A small mechanical diff does not need the most capable model; a subtle concurrency change does.
+- **Final whole-branch review**: use the most capable available model, not the session default.
+
+Omitting the model equals letting it run the session's most expensive model — directly defeating this section's goal.
+
+### 2. Implementer Scope Restriction
+
+The implementer is only responsible for implementation, testing, and committing code. **The implementer must not check off plan or OpenSpec tasks**, nor update only the built-in Todo or in-chat checklists.
+
+### 3. TDD Hard Constraint
+
+If `tdd_mode: tdd`, every implementer and fix agent must first use the Skill tool to load the Superpowers `test-driven-development` skill, and its prompt must also inject:
 
 ```text
 You MUST follow TDD: write a failing test first, watch it fail, then write minimal code to pass. No production code without a failing test first.
 ```
 
-implementer 或修复 agent 回报必须提供 **RED 失败命令与失败摘要**、**GREEN 通过命令与通过摘要**；缺少任一证据不得进入审查。spec compliance reviewer 和 code quality reviewer 都必须核验 RED/GREEN 证据与测试覆盖。
+The implementer or fix-agent return must provide **RED failure command and failure summary**, **GREEN pass command and pass summary**; missing either piece of evidence blocks entry into review. When `review_mode` requires a task reviewer, that reviewer must verify RED/GREEN evidence and test coverage while checking both spec compliance and code quality.
 
-### 4. 持久进度检查点
+### 4. Durable Progress Checkpoint
 
-主会话必须维护 `openspec/changes/<name>/.comet/subagent-progress.md`，并在每次派发、agent 回报、审查结果、修复轮次变化和 task 勾选后立即更新。检查点至少记录：
+The coordinator must maintain `openspec/changes/<name>/.comet/subagent-progress.md` and update it immediately after every dispatch, agent return, review result, review-fix round change, and task checkoff. The checkpoint must record at least:
 
-- 当前 plan task 唯一文本及映射的 OpenSpec task 文本
-- 当前阶段：`implementing | spec-review | quality-review | checkoff | done | blocked | final-review | final-fix`
-- 实现提交哈希、变更文件和 RED/GREEN 证据
-- 已选择的 `review_mode`
-- 已通过的审查阶段及尚未解决的 reviewer 反馈
-- 当前 task、批次或 final review 的审查-修复轮次（`standard` 最多 1 轮，`thorough` 最多 2 轮，`off` 为 0 轮）
+- The unique current plan task text and mapped OpenSpec task text
+- Current stage: `implementing | task-review | checkoff | done | blocked | final-review | final-fix`
+- Implementation commit hash, changed files, and RED/GREEN evidence
+- The selected `review_mode`
+- Review stages already passed and unresolved reviewer feedback
+- The current task or final-review review-fix round (`standard`: max 1, `thorough`: max 2, `off`: 0)
+- Under `review_mode: standard`, whether this task has already triggered a risk task-level review and which risk signals it hit (on recovery, do not re-dispatch an already-completed task-level review)
 
-该文件只保存恢复所需的协调状态，不替代 plan 或 OpenSpec checkbox。当前 task 完成后保留其最终记录，开始下一个 task 时用下一 task 的记录替换。
+This file stores only coordinator recovery state and does not replace plan or OpenSpec checkboxes. Retain the final record when a task completes, then replace it with the next task's record when that task begins.
 
-### 5. 代码审查模式与轮次限制
+Comet does not read, write, or require any Superpowers `subagent-driven-development` internal scripts or workspace paths. If the installed Superpowers `subagent-driven-development` skill maintains its own scratch artifacts, review material, task requirement files, or progress records, those remain owned by Superpowers. Comet's durable source of truth is limited to Comet workflow state, the plan/OpenSpec checkboxes, and this coordinator checkpoint.
 
-当 `review_mode: standard` 时，每个 task 不自动派发 per-task reviewer；implementer 必须自测、提交并回报证据，协调者完成定向勾选验证。所有 task 完成后只派发一次最终轻量 code reviewer，审查范围限定为正确性、安全和边界条件。若最终轻量审查发现 CRITICAL 或 IMPORTANT 问题，最多自动派发一轮修复 agent 并复查一次；复查仍未通过时标记 **BLOCKED**，暂停并把反馈交给用户。非 CRITICAL 发现可记录接受理由后继续。
+### 5. Review Mode Behavior
 
-当 `review_mode: thorough` 时，不执行每 task 双审查。协调者按批次或风险边界运行合并审查：每完成最多 3 个 task、或完成一个跨模块/高风险边界时，派发一个 reviewer 同时检查 spec compliance 与 code quality。若总 task 数不超过 3 且没有高风险边界，可跳过中途批次审查，只做最终完整审查。所有 task 完成后再派发一次最终完整 reviewer。批次和最终审查各最多 2 轮审查-修复；仍未通过则标记 **BLOCKED**，暂停并把累计反馈交给用户。
+> **⚠️ CRITICAL — review_mode takes over the Superpowers default flow, no double review**
+>
+> The Superpowers `subagent-driven-development` Process flowchart makes "dispatch a task reviewer after every task" a mandatory node. **Comet's `review_mode` takes over this stage, deciding which tasks get a per-task reviewer** (see the per-task reviewer column in the table below). **Do not dispatch additional reviewers beyond what `review_mode` prescribes.** Tasks that do not get a reviewer (`off`: all; `standard`: non-risk tasks) must go straight to task checkoff and dispatch of the next task.
+>
+> The total review count for a change is decided solely by the table below — do not add more.
 
-当 `review_mode: off` 时，不自动派发 spec reviewer、code quality reviewer、final reviewer 或审查修复 agent。任务完成依据 implementer 的测试/构建证据、当前工作树确认、任务唯一文本勾选验证和用户显式要求。若执行过程中出现测试失败、构建失败或异常行为，仍必须按异常调试协议处理，不得用 `off` 跳过真实问题。
+**Build-phase review budget** (these only — do not add more). This table covers the build phase only; the verify phase has its own review handling (see note below):
 
-### 6. Task 勾选与验证
+| `review_mode` | per-task reviewer (build) | final review (build) |
+|---------------|---------------------------|----------------------|
+| `off` | 0 | 0 |
+| `standard` | risk tasks only (see rules below) | 1 (lightweight) |
+| `thorough` | every task (spec + quality) | 1 (complete) |
 
-**按 `review_mode` 完成验收后**，主会话：
+**Verify-phase review is not in this table.** The verify phase's review is driven by `verify_mode` (light/full), with `review_mode` only gating whether automatic code review fires at all (`off` skips it; `standard`/`thorough` run a lightweight code review under lightweight verification, or rely on `openspec-verify-change` under full verification). There is no separate per-`review_mode` "complete" code review in verify — see `comet-verify` for the authoritative verify-phase behavior.
 
-1. 将 plan 中保存的唯一 task 文本从 `- [ ]` 改为 `- [x]`
-2. 若存在映射，再同步勾选 OpenSpec task
-3. 提交这次进度更新
-4. 运行定向验证：
+**When `review_mode: standard`**: By default no per-task reviewer is dispatched; instead, a **risk trigger** decides: after the implementer self-tests, commits, and reports evidence (including the risk-signal self-report), the coordinator reads the self-report and reviews the task's diff. **Only when the implementer's self-report hits any risk signal, or the coordinator's diff review finds any risk signal**, dispatch one per-task reviewer for that task, checking both spec compliance and code quality; CRITICAL/IMPORTANT findings enter one review-fix round (max 1), and a failed re-review marks it **BLOCKED**. Tasks that hit no risk signal go straight through targeted checkoff verification. After all tasks complete, still dispatch one final lightweight code reviewer (scope: correctness, security, edge cases). If the final lightweight review finds CRITICAL or IMPORTANT issues, dispatch at most one fix agent and re-review once; if still not passed, mark **BLOCKED** and pause, handing feedback to the user. Non-CRITICAL findings may be accepted with rationale recorded.
+
+**When `review_mode: thorough`**: **Dispatch one per-task reviewer per task, checking both spec compliance and code quality**: after the implementer self-tests, commits, and reports evidence, the coordinator dispatches a fresh background reviewer for that task. CRITICAL/IMPORTANT findings enter review-fix (max 2 rounds); if still not passed, mark **BLOCKED** and pause, handing feedback to the user. After all tasks, dispatch one final complete reviewer. Thorough does not run batched review — a high-risk change demands immediate, focused review on every task; deferring to a batch boundary to catch issues is too costly.
+
+When a reviewer returns an item that cannot be verified from review material alone, the coordinator must resolve it before task checkoff. If direct repository inspection confirms a real gap, treat it as a failed spec/quality review and send it through the appropriate fix and re-review loop. If it is satisfied by unchanged code or a cross-task constraint, record the rationale in the checkpoint and continue.
+
+**When `review_mode: off`**: No automatic task reviewer, final reviewer, or review-fix agent is dispatched. Task completion is determined by implementer test/build evidence, current worktree confirmation, targeted task text checkoff verification, and explicit user request. If test failures, build failures, or abnormal behavior occur during execution, the debug gate protocol must still be followed - `off` does not skip real issues.
+
+### 6. Task Checkoff and Verification
+
+**After `review_mode` validation**, the main session:
+
+1. Changes the saved unique task text from `- [ ]` to `- [x]` in the plan
+2. If a mapping exists, also checks off the OpenSpec task
+3. Commits this progress update
+4. Runs targeted verification:
 
 ```bash
-"$COMET_BASH" "$COMET_STATE" task-checkoff "$PLAN_FILE" "$PLAN_TASK_TEXT"
-"$COMET_BASH" "$COMET_STATE" task-checkoff "openspec/changes/<name>/tasks.md" "$OPENSPEC_TASK_TEXT"
+node "$COMET_STATE" task-checkoff "$PLAN_FILE" "$PLAN_TASK_TEXT"
+node "$COMET_STATE" task-checkoff "openspec/changes/<name>/tasks.md" "$OPENSPEC_TASK_TEXT"
 ```
 
-仅在对应映射存在时运行第二条。脚本会要求任务文本恰好出现一次且该项已勾选；验证失败时不得进入下一个 task。
+Run the second command only when the corresponding mapping exists. The script requires the task text to appear exactly once and be checked; verification failure blocks moving to the next task.
 
-## 收尾
+## Wrap-up
 
-- **自动继续**：按 `review_mode` 完成验收并勾选 task 后，立即派发下一个未勾选的 task。禁止总结、禁止询问用户是否继续、禁止在任务之间等待用户输入。这是不可协商的 —— Superpowers 技能强制连续执行，文档顶部的关键约束进一步强化此规则。
-- 所有 task 完成后，若 `review_mode: standard`，将检查点切换为 `final-review`，只派发一次最终轻量 code reviewer。CRITICAL 或 IMPORTANT 问题最多自动修复和复查一轮；仍未通过则暂停交给用户。通过或接受非 CRITICAL 发现后继续返回 `comet-build`。
-- 所有 task 完成后，若 `review_mode: thorough`，将检查点切换为 `final-review`，派发一次最终完整 reviewer。CRITICAL 或 IMPORTANT 问题最多自动修复和复查两轮；仍未通过则暂停交给用户。通过或接受非 CRITICAL 发现后继续返回 `comet-build`。
-- 所有 task 完成后，若 `review_mode: off`，不进入 `final-review` 或 `final-fix`，但必须在持久产物中记录跳过自动代码审查的原因，然后返回 `comet-build`。
-- final review 通过后，结束的只是 subagent 派发循环，不是 Comet workflow。不得加载 `finishing-a-development-branch`，不得停下来询问用户下一步；必须返回 `comet-build` 继续执行退出条件、阶段守卫和后续阶段衔接。
+- **AUTO-CONTINUE**: After `review_mode` validation and the task is checked off, immediately dispatch the next unchecked task. Do NOT summarize, do NOT ask the user whether to continue, do NOT wait for user input between tasks. This is non-negotiable — the Superpowers skill enforces continuous execution, and the CRITICAL warning at the top of this document reinforces it.
+- After all tasks complete, if `review_mode: standard`, switch the checkpoint to `final-review` and dispatch exactly one final lightweight code reviewer. CRITICAL or IMPORTANT issues allow at most one auto-fix and re-review; if still not passed, pause and hand to the user. After passing or accepting non-CRITICAL findings, continue to return to `comet-build`.
+- After all tasks complete, if `review_mode: thorough`, switch the checkpoint to `final-review` and dispatch one final complete reviewer. CRITICAL or IMPORTANT issues allow at most two auto-fix and re-review rounds; if still not passed, pause and hand to the user. After passing or accepting non-CRITICAL findings, continue to return to `comet-build`.
+- After all tasks complete, if `review_mode: off`, do not enter `final-review` or `final-fix`, but must record the reason for skipping automatic code review in a durable artifact, then return to `comet-build`.
+- After final review passes, only the subagent dispatch loop is complete, not the Comet workflow. The coordinator must not load `finishing-a-development-branch` or pause to ask what comes next; it must return control to `comet-build` for exit checks, the phase guard, and phase handoff.
 
-## 上下文恢复
+## Context Recovery
 
-重新加载 Superpowers `subagent-driven-development` 技能并重新阅读本文档。先读取 `openspec/changes/<name>/.comet/subagent-progress.md`，再与第一个未勾选 task 和当前工作树核对：
+Reload the Superpowers `subagent-driven-development` skill and re-read this document. Read `openspec/changes/<name>/.comet/subagent-progress.md`, then compare it with the first unchecked task and the current worktree:
 
-- 检查点与未勾选 task 匹配时，从记录的精确阶段恢复，保留实现提交、RED/GREEN 证据、`review_mode`、已通过的审查阶段、未解决反馈和当前审查-修复轮次；不得重置轮次或重复已经通过的阶段。
-- 检查点缺失或与未勾选 task 不匹配时，为第一个未勾选 task 创建新检查点并从 implementer 派发开始。
-- 检查点中的提交或文件在当前工作树不可见时，先拉取、合并或恢复对应变更；不得假定实现已存在。
-- 所有 task 已勾选且检查点处于 `final-review` 或 `final-fix` 时，从最终审查的精确阶段恢复，并保留最终反馈和审查-修复轮次；不得重新进入已完成的 task。
+- When the checkpoint matches the unchecked task, resume from its exact recorded stage while preserving the implementation commit, RED/GREEN evidence, `review_mode`, review stages already passed, unresolved feedback, and current review-fix round. Never reset the round or repeat an already passed stage.
+- If the loaded Superpowers `subagent-driven-development` skill reports a task complete through its own progress record, reconcile that report against git history and Comet plan/OpenSpec checkboxes before dispatching. When the commits and task identity match, update Comet's checkpoint/checkoff state instead of re-dispatching completed work.
+- When the checkpoint is missing or does not match the unchecked task, create a new checkpoint for the first unchecked task and begin with implementer dispatch.
+- When a recorded commit or file is not visible in the current worktree, pull, merge, or recover the corresponding changes before proceeding; never assume the implementation exists.
+- When all tasks are checked and the checkpoint stage is `final-review` or `final-fix`, resume the exact final-review stage while preserving final feedback and its review-fix round; never re-enter completed tasks.
 
-已提交但未按 `review_mode` 完成验收的 task 保持未勾选，并按检查点重新进入对应的验证、审查或修复流程。
+Tasks committed without passing `review_mode` validation remain unchecked and re-enter the corresponding validation, review, or fix loop according to the checkpoint.
