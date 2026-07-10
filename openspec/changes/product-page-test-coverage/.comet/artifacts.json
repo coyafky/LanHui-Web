@@ -1,0 +1,12 @@
+{
+  "openspec_proposal": "openspec/changes/product-page-test-coverage/proposal.md",
+  "openspec_design": "openspec/changes/product-page-test-coverage/design.md",
+  "openspec_tasks": "openspec/changes/product-page-test-coverage/tasks.md",
+  "openspec_delta_spec": "openspec/changes/product-page-test-coverage/specs/product-page-test-coverage/spec.md",
+  "design_document": "docs/superpowers/specs/2026-07-09-product-page-test-coverage-design.md",
+  "build_plan": "docs/superpowers/plans/2026-07-09-product-page-test-coverage.md",
+  "build_tasks_complete": "openspec/changes/product-page-test-coverage/tasks.md",
+  "verification_report": "docs/superpowers/reports/2026-07-09-product-page-test-coverage-verify.md",
+  "design_handoff": "openspec/changes/product-page-test-coverage/.comet/handoff/design-context.json",
+  "handoff_context": "openspec/changes/product-page-test-coverage/.comet/handoff/design-context.json"
+}

@@ -50,7 +50,7 @@ export function useStoreAction(
       try {
         const body: Record<string, string> = {};
         if (reason !== undefined) {
-          body.statusReason = reason;
+          body.statusReason = reason.trim();
         }
 
         const res = await adminCsrfFetch(

@@ -1,15 +1,20 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useArticleFormState } from "./use-article-form-state";
-import type { ArticleFormInput } from "@/lib/validations/article";
+
+vi.mock("@/lib/admin-csrf-fetch", () => ({
+  adminCsrfFetch: vi.fn(),
+}));
 
 const mockPush = vi.fn();
 vi.mock("next/navigation", () => ({ useRouter: () => ({ push: mockPush }) }));
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
+import { adminCsrfFetch } from "@/lib/admin-csrf-fetch";
 import { toast } from "sonner";
+import { useArticleFormState } from "./use-article-form-state";
+import type { ArticleFormInput } from "@/lib/validations/article";
 
-const originalFetch = global.fetch;
+const mockAdminCsrfFetch = vi.mocked(adminCsrfFetch);
 
 function getCreateInitial() {
   return renderHook(() => useArticleFormState("create"));
@@ -39,12 +44,6 @@ function getEditInitial(data?: Partial<ArticleFormInput>) {
 describe("useArticleFormState — create mode", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    global.fetch = vi.fn();
-  });
-
-  afterEach(() => {
-    global.fetch = originalFetch;
-    vi.restoreAllMocks();
   });
 
   it("initializes all fields to empty defaults", () => {
@@ -114,10 +113,9 @@ describe("useArticleFormState — create mode", () => {
   });
 
   it("handleSubmit calls POST /api/articles on valid input", async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
+    mockAdminCsrfFetch.mockResolvedValue({
       json: () => Promise.resolve({ success: true }),
-    });
-    global.fetch = mockFetch;
+    } as Response);
 
     const { result } = getCreateInitial();
 
@@ -134,7 +132,7 @@ describe("useArticleFormState — create mode", () => {
       } as unknown as React.FormEvent);
     });
 
-    expect(mockFetch).toHaveBeenCalledWith(
+    expect(mockAdminCsrfFetch).toHaveBeenCalledWith(
       "/api/articles",
       expect.objectContaining({
         method: "POST",
@@ -157,10 +155,7 @@ describe("useArticleFormState — create mode", () => {
     expect(result.current.fieldErrors.content).toBeTruthy();
   });
 
-  it("handleSubmit does not call fetch when validation fails", async () => {
-    const mockFetch = vi.fn();
-    global.fetch = mockFetch;
-
+  it("handleSubmit does not call adminCsrfFetch when validation fails", async () => {
     const { result } = getCreateInitial();
 
     await act(async () => {
@@ -169,15 +164,14 @@ describe("useArticleFormState — create mode", () => {
       } as unknown as React.FormEvent);
     });
 
-    expect(mockFetch).not.toHaveBeenCalled();
+    expect(mockAdminCsrfFetch).not.toHaveBeenCalled();
   });
 
   it("handleSubmit calls toast.error on API failure", async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
+    mockAdminCsrfFetch.mockResolvedValue({
       json: () =>
         Promise.resolve({ success: false, error: "Server error occurred" }),
-    });
-    global.fetch = mockFetch;
+    } as Response);
 
     const { result } = getCreateInitial();
 
@@ -199,15 +193,14 @@ describe("useArticleFormState — create mode", () => {
   });
 
   it("handleSubmit maps server fieldErrors to form", async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
+    mockAdminCsrfFetch.mockResolvedValue({
       json: () =>
         Promise.resolve({
           success: false,
           error: "校验失败",
           details: { fieldErrors: { title: "标题已存在" } },
         }),
-    });
-    global.fetch = mockFetch;
+    } as Response);
 
     const { result } = getCreateInitial();
 
@@ -228,10 +221,9 @@ describe("useArticleFormState — create mode", () => {
   });
 
   it("handleSubmit sets saving false after completion", async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
+    mockAdminCsrfFetch.mockResolvedValue({
       json: () => Promise.resolve({ success: true }),
-    });
-    global.fetch = mockFetch;
+    } as Response);
 
     const { result } = getCreateInitial();
 
@@ -255,12 +247,6 @@ describe("useArticleFormState — create mode", () => {
 describe("useArticleFormState — edit mode", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    global.fetch = vi.fn();
-  });
-
-  afterEach(() => {
-    global.fetch = originalFetch;
-    vi.restoreAllMocks();
   });
 
   it("initializes fields from initialData", () => {
@@ -304,10 +290,9 @@ describe("useArticleFormState — edit mode", () => {
   });
 
   it("handleSubmit calls PUT /api/articles/{id} on valid input", async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
+    mockAdminCsrfFetch.mockResolvedValue({
       json: () => Promise.resolve({ success: true }),
-    });
-    global.fetch = mockFetch;
+    } as Response);
 
     const { result } = getEditInitial();
 
@@ -322,7 +307,7 @@ describe("useArticleFormState — edit mode", () => {
       } as unknown as React.FormEvent);
     });
 
-    expect(mockFetch).toHaveBeenCalledWith(
+    expect(mockAdminCsrfFetch).toHaveBeenCalledWith(
       "/api/articles/123",
       expect.objectContaining({
         method: "PUT",
@@ -333,10 +318,9 @@ describe("useArticleFormState — edit mode", () => {
   });
 
   it("handleSubmit updates snapshot after successful save", async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
+    mockAdminCsrfFetch.mockResolvedValue({
       json: () => Promise.resolve({ success: true }),
-    });
-    global.fetch = mockFetch;
+    } as Response);
 
     const { result } = getEditInitial();
 
@@ -358,11 +342,10 @@ describe("useArticleFormState — edit mode", () => {
   });
 
   it("handleSubmit calls toast.error on API failure", async () => {
-    const mockFetch = vi.fn().mockResolvedValue({
+    mockAdminCsrfFetch.mockResolvedValue({
       json: () =>
         Promise.resolve({ success: false, error: "Update failed" }),
-    });
-    global.fetch = mockFetch;
+    } as Response);
 
     const { result } = getEditInitial();
 

@@ -1,269 +1,267 @@
 ---
 name: comet
-description: "Comet — OpenSpec + Superpowers 双星开发流程。用 /comet 启动，自动检测阶段并分发到子命令。五阶段：开启 → 深度设计 → 计划与构建 → 验证与收尾 → 归档。"
+description: "Use when the user wants to start or resume a Comet workflow and route by active change, .comet.yaml, and hotfix/tweak intent."
 ---
 
-# Comet — OpenSpec + Superpowers 双星开发流程
+# Comet — OpenSpec + Superpowers Dual-Star Development Workflow
 
-OpenSpec 与 Superpowers 如双星系统围绕同一目标运转。
+OpenSpec and Superpowers orbit the same goal like a binary star system.
 
 ```
-OpenSpec 负责 WHAT  — 大纲、提案、spec 生命周期、归档
-Superpowers 负责 HOW — 技术设计、计划、执行、收尾
+OpenSpec handles WHAT  — outline, proposal, spec lifecycle, archive
+Superpowers handles HOW — technical design, planning, execution, closing
 ```
 
-**核心原则：brainstorming 必不可跳过。每次变更都必须经过深度设计（hotfix 和 tweak preset 除外）。**
+**Core principle: brainstorming cannot be skipped. Every change must undergo deep design (except hotfix and tweak presets).**
 
 ---
 
-## 决策核心（Decision Core）
+## Decision Core
 
-agent 做决策只需读本节，参考附录按需查阅。
+Agents need only read this section for decision-making. Refer to the Reference Appendix as needed.
 
-### 输出语言规则
+### Output Language Rule
 
-以触发本次工作流的用户请求语言作为默认输出语言。恢复已有 change 时，如果现有产物有明确主语言，除非用户明确要求切换，否则保持该语言。
+Use the configured Comet artifact language as the output language for every OpenSpec and Superpowers artifact. The configured value is a normalized language id, `en` or `zh-CN`. For an existing change, read `language` from `openspec/changes/<name>/.comet.yaml` using `"$COMET_BASH" "$COMET_STATE" get <name> language`. Before `.comet.yaml` exists, read `language` from `.comet/config.yaml`; if neither exists, fall back to the current user request language. Include the resolved language explicitly in every prompt or ARGUMENTS passed to external OpenSpec/Superpowers skills.
 
-### 阶段自动检测
+### Automatic Phase Detection
 
-**Step 0: 活跃 Change 发现与意图判定**
+**Step 0: Active Change Discovery and Intent Resolution**
 
-1. 先做 Preset 检测；命中 hotfix/tweak 时直接调用对应 preset skill，不进入普通 open 分支
-2. 未命中 preset 时，运行 `openspec list --json` 获取所有活跃 change
+1. First load script locations through `comet/reference/scripts.md` and ensure `$COMET_INTENT` is available.
+2. Run `openspec list --json` to collect active changes.
+3. Fill a `CometIntentFrame` from the user request, active change list, and necessary repository state.
+4. Prefer `node "$COMET_INTENT" route --stdin` to pass the frame JSON and get the runtime-normalized route. `CometIntentFrame + runtime scorer` is the source of truth; this prose is only for intent recognition slot extraction.
+5. Handle the runtime route:
+   - `hotfix` → invoke `/comet-hotfix`
+   - `tweak` → invoke `/comet-tweak`
+   - `full` → follow the active-change table to invoke `/comet-open` or ask for confirmation
+   - `resume` → continue to Step 1 and read the selected change `.comet.yaml`
+   - `ask_user` → pause through `comet/reference/decision-point.md` and wait for the user's choice
+   - `out_of_scope` → explain that the input is not a Comet workflow start/resume request and do not initialize a change
 
-**Preset 检测优先级最高**：
-- 用户明确描述为 bug fix / 热修复 + 满足 hotfix 条件 → 直接 `/comet-hotfix`
-- 用户明确描述为文案/配置/文档/prompt 小调整 + 满足 tweak 条件 → 直接 `/comet-tweak`
-- 未命中 preset → 按下表处理
+**Minimal CometIntentFrame Skeleton**:
 
-| 活跃 change | 用户输入 | 行为 |
-|-------------|---------|------|
-| 无 | 非 preset 输入 | → 调用 `/comet-open` |
-| 恰好 1 个 | `/comet <描述>` | → **询问**：继续该变更 or 创建新变更 |
-| 多个 | `/comet <描述>` | → **询问**：继续现有变更 or 创建新变更；若选继续 → 列出清单让用户选择 |
-| 恰好 1 个 | `/comet`（无描述） | → 自动选中，进入 Step 1 |
-| 多个 | `/comet`（无描述） | → 列出清单让用户选择 |
+```json
+{
+  "schema_version": "comet.intent.v1",
+  "utterance": "<user request>",
+  "intent": { "name": "start_change", "confidence": 0.8 },
+  "slots": {
+    "requested_action": "start",
+    "workflow_candidate": "full",
+    "user_explicit_workflow": null,
+    "change_id": null,
+    "existing_behavior": null,
+    "new_capability": null,
+    "public_api_change": null,
+    "schema_change": null,
+    "cross_module_change": null
+  },
+  "context": {
+    "active_changes_count": 0,
+    "active_change_names": []
+  },
+  "evidence": [],
+  "proposed_route": {
+    "name": "ask_user",
+    "confidence": 0.5
+  }
+}
+```
+
+**Intent Recognition Slot Extraction**:
+See `comet/reference/intent-frame.md` for complete field meanings; normal routing only needs the minimal skeleton above.
+
+- `fix_bug` + `existing_behavior: true` + no new capability/public API/schema/cross-module signal → prefer `hotfix`
+- User explicitly describes a lightweight/medium change that can fit in a single OpenSpec change, should be executed through OpenSpec apply, and does not need full `/comet` deep design/plan → prefer `tweak`
+- Copy, config, docs, prompt, or a lightweight/medium single OpenSpec change → prefer `tweak`
+- New capability, public API, schema change, cross-module coordination, or architecture work → prefer `full`
+- Multiple active changes without an explicit change → `ask_user`
+- Low confidence, missing key evidence, or explicit workflow conflicting with risk signals → `ask_user`
+
+| Active changes | User input | Behavior |
+|----------------|------------|----------|
+| None | `full` route | → Invoke `/comet-open` |
+| Exactly 1 | `/comet <description>` | → **Ask**: continue this change or create a new change |
+| Multiple | `/comet <description>` | → **Ask**: continue existing or create new; if continuing, list changes for selection |
+| Exactly 1 | `/comet` with no description | → Auto-select, enter Step 1 |
+| Multiple | `/comet` with no description | → List changes for user selection |
 
 <IMPORTANT>
-当用户选择「创建新变更」时，**必须调用 `/comet-open`**（禁止直接调用 `/opsx:new`）。
-`/comet-open` 负责完整双初始化：OpenSpec artifacts（由内部 `/opsx:new` 创建）+ `.comet.yaml` 状态文件。
-直接调用 `/opsx:new` 会缺失 `.comet.yaml`，导致后续阶段判定失败。
+When the user chooses "create a new change", **must invoke `/comet-open`**. Do not call `/opsx:new` directly.
+`/comet-open` performs dual initialization: OpenSpec artifacts (created by internal `/opsx:new`) plus `.comet.yaml` state file.
+Calling `/opsx:new` directly leaves `.comet.yaml` missing and breaks later phase detection.
 </IMPORTANT>
 
-**Step 1: 读取 `.comet.yaml` 状态元数据**
+**Step 1: Read `.comet.yaml` state metadata**
 
-优先读取 `openspec/changes/<name>/.comet.yaml`。不存在时回退到 `openspec status --change "<name>" --json`、`tasks.md` 和 `docs/superpowers/` 文件检查。
+Prefer reading `openspec/changes/<name>/.comet.yaml`. If not available, fall back to `openspec status --change "<name>" --json`, `tasks.md`, and `docs/superpowers/` file checks.
 
-**断点恢复规则**：
-- 每次恢复上下文时，先重新执行 Step 0 和 Step 1，不依赖对话历史判断阶段
-- 只要存在 active change 且工作区有未提交改动，必须按 `comet/reference/dirty-worktree.md` 协议处理。该协议定义了检查步骤、归因分类和禁令，本文件不重复
-- 若 `phase: build`，先检查 `build_pause`、`plan`、`build_mode` 和 `isolation`（详见下方）：
-  - 若 `build_pause: plan-ready` 但 `isolation` 和 `build_mode` 已经设置，则视为 stale pause：先输出 `[COMET] 检测到 stale pause（build_pause=plan-ready 但 isolation/build_mode 已设置），自动清除并继续`，再运行 `"$COMET_BASH" "$COMET_STATE" set <name> build_pause null`，然后读取 tasks.md 的下一个未勾选任务并按 `build_mode` 恢复执行
-  - 若 `build_pause: plan-ready` 且 plan 文件存在，但 `isolation` 或 `build_mode` 尚未设置，回到 `/comet-build` 的 plan-ready 恢复点，提示用户继续选择隔离方式和执行方式，不重新生成 plan
-  - 若 `build_pause: plan-ready` 但 plan 文件缺失，回到 `/comet-build` 处理状态损坏或重新生成 plan
-  - 若 `build_mode`、`isolation` 或 `tdd_mode` 未设置，回到 `/comet-build` 对应步骤补充后再执行
-  - 若均已设置，读取 tasks.md 的下一个未勾选任务，并按 `build_mode` 恢复执行：
-    - 若 `build_mode: subagent-driven-development`，不得在主窗口直接执行任务；必须回到 `/comet-build` 的后台 subagent 调度规则，由主窗口只做协调
-    - 其他执行方式按 `/comet-build` 的对应规则继续
-- 若 `phase: verify` 且 `verify_result: fail`，进入验证失败决策阻塞点：暂停并询问用户修复或接受偏差；用户选择修复后才运行 `"$COMET_BASH" "$COMET_STATE" transition <name> verify-fail` 并调用 `/comet-build`
-- 若 `phase: open` 但 proposal/design/tasks 已完整，先运行 `"$COMET_BASH" "$COMET_GUARD" <change-name> open --apply` 修正状态，再继续判定
-- 若 `phase: archive`，只允许调用 `/comet-archive`；`/comet-archive` 必须先等待归档前最终确认，归档成功后 change 会移动到 archive 目录，不再对原活跃目录运行 guard
+**Resume rules**:
+- On every context resume, rerun Step 0 and Step 1; do not trust conversation history for phase detection
+- If there is an active change and the worktree has uncommitted changes, handle them through `comet/reference/dirty-worktree.md`. That protocol defines checks, attribution, and prohibitions; this file does not repeat them
+- If `phase: build`, first check `build_pause`, `plan`, `isolation`, `build_mode`, `tdd_mode`, and `review_mode` (see details below):
+  - If `build_pause: plan-ready` but `isolation`, `build_mode`, `tdd_mode`, and `review_mode` are all already set, treat as stale pause: first output `[COMET] Detected stale pause (build_pause=plan-ready but isolation/build_mode/tdd_mode/review_mode are set), auto-clearing and continuing`, then run `node "$COMET_STATE" set <name> build_pause null`, then read the next unchecked task from tasks.md and resume execution per `build_mode`
+  - If `build_pause: plan-ready` and the plan file exists, but `isolation`, `build_mode`, `tdd_mode`, or `review_mode` is not yet set, return to the `/comet-build` plan-ready resume point, prompt the user to complete/confirm workspace isolation, execution method, TDD mode, and code review mode, and do not regenerate the plan
+  - If `build_pause: plan-ready` but the plan file is missing, return to `/comet-build` to handle corrupted state or regenerate the plan
+  - If `isolation`, `build_mode`, `tdd_mode`, or `review_mode` is unset, return to the corresponding `/comet-build` step to supplement before executing
+  - If all are set, read the next unchecked task from tasks.md and continue:
+    - If `build_mode: subagent-driven-development`, do not execute tasks directly in the main window; return to `/comet-build`'s background subagent dispatch rules, main window only coordinates
+    - Other execution modes follow `/comet-build`'s corresponding rules
+- If `phase: verify` and `verify_result: fail`, enter the verification failure decision blocking point: pause and ask the user to fix or accept deviation; only after the user chooses fix, run `node "$COMET_STATE" transition <name> verify-fail` and invoke `/comet-build`
+- If `phase: open` but proposal/design/tasks are complete, first run `node "$COMET_GUARD" <change-name> open --apply` to repair state, then continue detection
+- If `phase: archive`, only invoke `/comet-archive`; `/comet-archive` must first wait for final archive confirmation. After archive succeeds, the change moves to the archive directory, so do not run guard against the old active directory
 
-**Step 2: 阶段判定**（按顺序，命中即停）
+**Step 2: Phase Determination** (check in order, first match wins)
 
-1. `archived: true` 或 change 已移入 archive → 流程已完成
-2. `verify_result: pass` 且 `archived` 不是 `true` → `/comet-archive`（先进行归档前最终确认）
-3. `verify_result: fail` → 进入验证失败决策阻塞点（暂停询问修复或接受偏差；用户选择修复后才 `verify-fail` 并 `/comet-build`）
-4. `phase: verify` 或 tasks.md 全部勾选 → `/comet-verify`
-5. `phase: build` 或已有 Design Doc 但计划/执行未完成 → 优先按 workflow 路由：`hotfix` → `/comet-hotfix`，`tweak` → `/comet-tweak`，`full` → `/comet-build`
-6. `phase: design` 或有 change 但无 Design Doc → `/comet-design`
-7. `phase: open` 或有活跃 change 但 `.comet.yaml` 缺失 → `/comet-open`
-8. 无活跃 change → `/comet-open`
+1. `archived: true` or change moved to archive → Workflow complete
+2. `verify_result: pass` and `archived` is not `true` → Invoke `/comet-archive` (first perform final archive confirmation)
+3. `verify_result: fail` → Enter verification failure decision blocking point (pause and ask fix or accept deviation; only after user chooses fix, run `verify-fail` then `/comet-build`)
+4. `phase: verify` or tasks.md all checked → Invoke `/comet-verify`
+5. `phase: build` or has Design Doc but plan/execution incomplete → Route by workflow: `hotfix` → `/comet-hotfix`, `tweak` → `/comet-tweak`, `full` → `/comet-build`
+6. `phase: design` or has change but no Design Doc → Invoke `/comet-design`
+7. `phase: open` or active change exists but `.comet.yaml` is missing → Invoke `/comet-open`
+8. No active change → Invoke `/comet-open`
 
-如果元数据与文件状态冲突，以文件状态为准，修正 `.comet.yaml` 后继续。
+If metadata conflicts with file state, use verifiable file state as source of truth and correct `.comet.yaml` before continuing.
 
-### 预设升级条件
+### Preset Upgrade Assessment
 
-**hotfix → full**（满足任一即升级）：
-- 改动涉及 **3+ 文件**
-- 涉及架构变更（新模块、新接口、新依赖）
-- 涉及数据库 schema 变更
-- 修复引入新的 public API
-- 修复范围超出单一函数/模块
+hotfix/tweak scope assessment uses a three-layer division of labor, avoiding "using pure file count as a hard upgrade condition" that wrongly blocks normal small changes:
 
-**tweak → full**（满足任一即升级）：
-- 改动涉及 **5+ 文件**
-- 涉及多个模块的协调修改
-- 需要新增测试用例 **5+**
-- 涉及配置项的新增或删除（非值修改）
-- 需要新增 capability
-- 需要 delta spec（影响了已有规格）
+1. **Qualitative-change signals** (agent semantic recognition; hitting any one pauses and delegates a two-choice decision to the user): cross-module coordinated change, new capability needed, database schema change, introduces new public API, hits deep architecture issues (each preset reuses this core signal set and may add its own context-specific signal, such as tweak's "needing to split into multiple OpenSpec changes")
+2. **File-count tripwire** (user decides; not an automatic upgrade): when changed files exceed a hint threshold, pause and let the user decide whether to continue the preset or upgrade to full; do not auto-kick
+3. **Verification weight** (scale script decides): `comet-state scale` only decides `verify_mode` (verification weight); it does not block the flow or trigger an upgrade
 
-### 错误处理速查
+**Upgrade decision point (user chooses one of two)**:
+- Continue the preset lightweight flow (user confirms scope is manageable)
+- Upgrade to full `/comet` (use `node "$COMET_STATE" transition <name> preset-escalate` to legally rewind to the design phase, supplementing Design Doc and Superpowers plan)
 
-| 场景 | 处理方式 |
-|------|---------|
-| `openspec list --json` 失败 | 检查 openspec 是否已安装，提示 `openspec init` |
-| 子 skill 不可用 | 停止流程，提示安装或启用对应 skill |
-| `.comet.yaml` 格式异常或缺失 | 以文件状态为准，用 `"$COMET_BASH" "$COMET_STATE" set` 修正后继续 |
-| 构建/测试失败 | 返回 build 阶段修复，不进入 verify |
-| change 目录结构不完整 | 按 `comet-open` 产物要求补齐 |
+See the "Upgrade Assessment" section of each `comet-hotfix` / `comet-tweak` for detailed rules.
 
-### 阶段衔接
+### Error Handling Quick Reference
+
+| Scenario | Handling |
+|----------|----------|
+| `openspec list --json` fails | Check if openspec is installed, prompt user to run `openspec init` |
+| Sub-skill unavailable | Stop workflow, prompt to install or enable the corresponding skill |
+| `.comet.yaml` malformed or missing | Use file state as source of truth, correct with `node "$COMET_STATE" set` then continue |
+| Build/test fails | Return to build phase for fixes, do not enter verify |
+| Incomplete change directory structure | Fill missing files according to `comet-open` artifact requirements |
+
+### Phase Transitions
 
 <IMPORTANT>
-单次 `/comet` 调用从检测到的阶段开始，退出条件满足后进入下一阶段。
+A single `/comet` invocation starts from the detected phase and advances to the next phase when exit conditions are met.
 
-流转链：open → design → build → verify → archive
+Flow chain: open → design → build → verify → archive
 
-**连续执行要求**：从检测到的阶段开始，agent 自动推进后续阶段。但**自动推进仅适用于没有用户决策的衔接点**。遇到用户决策点时，**必须使用当前平台可用的用户输入/确认机制暂停并等待用户明确回复**，不得用推荐规则、默认值或历史偏好代替用户确认，也不得仅输出文字提示后继续执行。
+**Continuous execution requirement**: starting from the detected phase, the agent automatically continues through all later phases. But **auto-advancing only applies at transition points without user decisions**. When encountering user decision points, **must use the current platform's available user input/confirmation mechanism to pause and wait for the user's explicit response**. Must not use recommendation rules, defaults, or historical preferences to substitute for user confirmation, and must not just output a text prompt and then continue executing.
 
-**阶段推进与自动衔接的区分**：每个子 skill 退出前都会运行阶段守卫 `--apply` 推进 `.comet.yaml` 的 `phase` 字段——这一步**始终发生**，与 `auto_transition` 无关。之后子 skill 运行 `"$COMET_BASH" "$COMET_STATE" next <name>` 解析下一步：`auto_transition` 不为 `false` 时输出 `NEXT: auto`（自动调用下一 skill），为 `false` 时输出 `NEXT: manual`（不调用下一 skill，提示用户手动运行）。因此 `auto_transition` **只控制是否自动调用下一个 skill，不影响 phase 推进**。无论 `auto_transition` 取何值，下方的用户决策点都必须阻塞等待。
+**Distinguish phase advancement vs automatic handoff**: each sub-skill runs phase guard `--apply` before exit to advance the `.comet.yaml` `phase` field. This step **always happens** and is not controlled by `auto_transition`. After that, the sub-skill runs `node "$COMET_STATE" next <name>` to resolve the next action: when `auto_transition` is not `false`, output is `NEXT: auto` (auto-invoke next skill); when `auto_transition` is `false`, output is `NEXT: manual` (do not invoke next skill, show a manual run hint). Therefore `auto_transition` **only controls next skill invocation, not phase advancement**. Regardless of `auto_transition`, user decision points below remain blocking.
 
-**决策点是阻塞点**：只要到达下列任一节点，当前 `/comet` 调用必须停住，并按 `comet/reference/decision-point.md` 的协议获取用户明确选择。用户明确选择后才能写入对应状态字段、执行对应操作，随后再继续自动流转。
+**Decision points are blocking points**: whenever reaching any of the following nodes, the current `/comet` invocation must stop, and follow the `comet/reference/decision-point.md` protocol to obtain the user's explicit choice. Only after the user explicitly chooses can the corresponding state fields be written and operations executed, then auto-advance resumes.
 
-需要用户参与的节点（仅在这些节点暂停）：
-1. open 阶段 proposal/design/tasks 审视确认
-2. brainstorming 确认设计方案
-3. build 阶段 plan-ready 暂停选择，以及随后选择工作方式（隔离方式 + 执行方式）
-4. verify 不通过时决定修复或接受偏差（含 Spec 漂移处理方式选择）
-5. finishing-branch 选择分支处理方式
-6. archive 阶段执行归档脚本前的最终确认
-7. 遇到升级条件（hotfix/tweak → 完整流程）
-8. build 阶段范围扩张需重新设计或拆分新 change
-9. open 阶段大型 PRD 需确认拆分为多个 change
+Nodes requiring user participation (pause only at these nodes):
+1. Open phase proposal/design/tasks review and confirmation
+2. Confirm design approach during brainstorming
+3. Plan-ready pause choice during build phase, followed by workflow configuration selection (workspace isolation + execution method + TDD mode + code review mode)
+4. Decide to fix or accept deviation when verify fails (including Spec drift handling)
+5. Choose branch handling method for finishing-branch
+6. Archive phase final confirmation before running the archive script
+7. Encounter an upgrade-assessment signal (hotfix/tweak → user chooses one of two: continue preset / upgrade to full workflow)
+8. Build phase scope expansion requiring redesign or new change split
+9. Open phase large PRD requiring confirmation to split into multiple changes
 
-agent 不应跳过这些决策点；其他明确无歧义的阶段衔接必须自动继续推进，不得中途退出。到达决策点时，**禁止跳过用户确认或自动选择——必须通过当前平台可用的用户输入/确认机制明确获取用户选择后才能继续**。
+Agents should not skip these decision points; other unambiguous phase transitions must proceed automatically, must not exit midway. At decision points, **must not skip user confirmation or choose automatically — must explicitly obtain the user's choice through the current platform's available user input/confirmation mechanism before continuing**.
 
-**红旗清单** — 以下想法出现时立即停止并检查：
+**Red Flags** — when these thoughts appear, STOP and check:
 
-| Agent 心理 | 实际风险 |
-|-----------|---------|
-| "用户应该会同意这个方案" | 不能替用户决策，必须等待用户明确选择 |
-| "这只是个小改动，不需要确认" | 决策点无大小之分，阻塞点必须等待 |
-| "用户之前选过 A，这次也选 A" | 历史偏好不能替代当前确认 |
-| "我已经解释了方案，用户没反对" | 没反对 ≠ 同意，必须用工具获取明确选择 |
-| "流程走到这里应该没问题了" | 验证不通过 ≠ 通过，检查 verify_result |
+| Agent Thought | Actual Risk |
+|--------------|-------------|
+| "The user would probably agree with this approach" | Cannot decide for the user — use the current platform's user input/confirmation mechanism |
+| "This is a small change, confirmation isn't needed" | Decision points have no size exception — blocking points must wait |
+| "The user chose A last time, so A again" | Historical preference cannot substitute for current confirmation |
+| "I explained the plan and the user didn't object" | No objection ≠ consent — must use tool to get explicit choice |
+| "The flow has reached this point, should be fine" | Verification not passed ≠ passed — check verify_result |
 </IMPORTANT>
 
 ---
 
-## 子命令速查
+## Subcommand Quick Reference
 
-| 命令 | 阶段 | 归属 | 产物 |
-|------|------|------|------|
-| `/comet-open` | 1. 开启 | OpenSpec | proposal.md、design.md、tasks.md |
-| `/comet-design` | 2. 深度设计 | Superpowers | Design Doc、delta spec |
-| `/comet-build` | 3. 计划与构建 | Superpowers | 实施计划、代码提交 |
-| `/comet-verify` | 4. 验证与收尾 | Both | 验证报告、分支处理 |
-| `/comet-archive` | 5. 归档 | OpenSpec | delta→main spec 同步、design doc 标注、归档 |
-| `/comet-hotfix` | 预设路径 | Both | 快速修复（跳过 brainstorming） |
-| `/comet-tweak` | 预设路径 | Both | 小改动（跳过 brainstorming 和完整 plan） |
+| Command | Phase | Owner | Artifacts |
+|---------|-------|-------|-----------|
+| `/comet-open` | 1. Open | OpenSpec | proposal.md, design.md, tasks.md |
+| `/comet-design` | 2. Deep Design | Superpowers | Design Doc, delta spec |
+| `/comet-build` | 3. Plan and Build | Superpowers | Implementation plan, code commits |
+| `/comet-verify` | 4. Verify and Close | Both | Verification report, branch handling |
+| `/comet-archive` | 5. Archive | OpenSpec | delta→main spec sync, design doc markup, archive |
+| `/comet-hotfix` | Preset path | Both | Quick fix (skip brainstorming) |
+| `/comet-tweak` | Preset path | Both | OpenSpec-chained medium change (delta spec is first-class, skip brainstorming and full plan) |
 
 ```
 /comet
-  ↓ 自动检测
+  ↓ Auto-detect
 /comet-open ──→ /comet-design ──→ /comet-build ──→ /comet-verify ──→ /comet-archive
   (OpenSpec)      (Superpowers)     (Superpowers)     (Both)          (OpenSpec)
 
-/comet-hotfix（预设路径，跳过 brainstorming）
+/comet-hotfix (preset, skip brainstorming)
   open ──→ build ──→ verify ──→ archive
-    ↑ 如触发升级条件 → 阻塞确认升级 → 补充 Design Doc → 回到完整流程
+    ↑ Upgrade-assessment signal hit → user chooses one of two (continue preset / upgrade full) → if upgrade, transition preset-escalate → supplement Design Doc → return to full workflow
 
-/comet-tweak（预设路径，跳过 brainstorming 和完整 plan）
-  open ──→ lightweight build ──→ light verify ──→ archive
-    ↑ 如触发升级条件 → 阻塞确认升级 → 补充 Design Doc → 回到完整流程
+/comet-tweak (lightweight preset, chains OpenSpec, delta spec is first-class)
+  open ──→ build ──→ verify ──→ archive
+    ↑ Upgrade-assessment signal hit → user chooses one of two (continue preset / upgrade full) → if upgrade, transition preset-escalate → supplement Design Doc → return to full workflow
 ```
 
 ---
 
-## 参考附录（Reference Appendix）
+## Reference Appendix
 
-> 字段说明、文件结构和自动衔接协议已提取为渐进式加载参考文档，按需查阅：
-> - **`.comet.yaml` 完整字段表**：按 `comet/reference/comet-yaml-fields.md` 查阅（含必需字段、可选字段和完整示例）
-> - **文件结构**：按 `comet/reference/file-structure.md` 查阅
-> - **自动衔接协议**：按 `comet/reference/auto-transition.md` 查阅
-> - **上下文压缩恢复**：按 `comet/reference/context-recovery.md` 查阅
-> - **用户决策点协议**：按 `comet/reference/decision-point.md` 查阅
-> - **异常调试协议**：按 `comet/reference/debug-gate.md` 查阅
+### State Machine Hard Constraints
 
-### 状态机硬约束
+- Before `build → verify`, `isolation` must be `branch` or `worktree`
+- Before `build → verify`, `build_mode` must be selected
+- `build_mode: subagent-driven-development` must also have `subagent_dispatch: confirmed`
+- Before full workflow leaves build phase, `tdd_mode` must be selected as `tdd` or `direct`
+- Before full workflow leaves build phase, `review_mode` must be selected as `off`, `standard`, or `thorough`
+- `build_mode: direct` is allowed by default only for `hotfix` / `tweak`; full workflow requires `direct_override: true`
+- `build_pause` is not an execution method and must not be written to `build_mode`
+- These constraints are enforced by both `comet-guard.mjs build --apply` and `comet-state.mjs transition <name> build-complete`
 
-- `build → verify` 前，`isolation` 必须是 `branch` 或 `worktree`
-- `build → verify` 前，`build_mode` 必须已选择
-- `build_mode: subagent-driven-development` 必须同时有 `subagent_dispatch: confirmed`
-- full workflow 离开 build 阶段前 `tdd_mode` 必须已选择为 `tdd` 或 `direct`
-- `build_mode: direct` 默认只允许 `hotfix` / `tweak`；full workflow 需要 `direct_override: true`
-- `build_pause` 不是执行方式，不得写入 `build_mode`
-- 这些约束同时存在于 `comet-guard.sh build --apply` 和 `comet-state.sh transition <name> build-complete`
+### .comet.yaml Field Reference
 
-### 脚本定位
+See `comet/reference/comet-yaml-fields.md` for complete field reference with examples and descriptions.
 
-Comet 脚本随 skill 包分发在 `comet/scripts/` 下。**不硬编码路径** — 定位一次，缓存到环境变量。此块为标准样板，在每个子 skill 中独立重复以确保可独立加载；修改时必须保持所有文件同步（样板版本: `v2`，变更时更新此版本号便于定位需要同步的文件）：
+### File Structure
 
-```bash
-COMET_ENV="${COMET_ENV:-$(find . "$HOME"/.*/skills "$HOME/.config" "$HOME/.gemini" -path '*/comet/scripts/comet-env.sh' -type f -print -quit 2>/dev/null)}"
-if [ -z "$COMET_ENV" ]; then
-  echo "ERROR: comet-env.sh not found. Ensure the comet skill is installed." >&2
-  return 1
-fi
-. "$COMET_ENV"
+See `comet/reference/file-structure.md` for the complete directory layout and artifact organization.
 
-# 脚本定位失败时停止流程
-if [ -z "$COMET_GUARD" ] || [ -z "$COMET_STATE" ] || [ -z "$COMET_HANDOFF" ] || [ -z "$COMET_ARCHIVE" ]; then
-  echo "ERROR: Comet scripts not found. Ensure the comet skill is installed." >&2
-  echo "Expected path pattern: */comet/scripts/comet-*.sh under project or platform skill directories" >&2
-  return 1
-fi
-```
+### Auto-Transition Protocol
 
-**自动状态更新**：guard 支持 `--apply` 参数，验证通过后自动更新 `.comet.yaml` 状态字段：
+See `comet/reference/auto-transition.md` for the complete automatic handoff workflow.
 
-```bash
-"$COMET_BASH" "$COMET_GUARD" <change-name> <phase> --apply
-```
+### Context Recovery
 
-`--apply` 内部委托给 `comet-state transition`。需要直接表达状态事件时使用：
+See `comet/reference/context-recovery.md` for structured recovery after context compression.
+
+### Decision Point Protocol
+
+See `comet/reference/decision-point.md` for the complete user decision point protocol.
+
+### Debug Gate Protocol
+
+See `comet/reference/debug-gate.md` for the complete debug gate protocol.
+
+### Script Location
+
+Comet scripts are distributed in `comet/scripts/`. **Do not hardcode paths** — locate once, cache in env vars. The full bootstrap block, command reference (`--apply`, `transition`, `next`, `archive`), and output formats live in `comet/reference/scripts.md`. Run that bootstrap once per session, then reuse `$COMET_GUARD`, `$COMET_STATE`, `$COMET_HANDOFF`, `$COMET_ARCHIVE`, `$COMET_RUNTIME` throughout. Key entry points:
 
 ```bash
-"$COMET_BASH" "$COMET_STATE" transition <change-name> open-complete
-"$COMET_BASH" "$COMET_STATE" transition <change-name> design-complete
-"$COMET_BASH" "$COMET_STATE" transition <change-name> build-complete
-"$COMET_BASH" "$COMET_STATE" transition <change-name> verify-pass
-"$COMET_BASH" "$COMET_STATE" transition <change-name> verify-fail
-"$COMET_BASH" "$COMET_STATE" transition <archive-name> archived
+node "$COMET_GUARD" <change-name> <phase> --apply    # phase guard + auto state update
+node "$COMET_STATE" transition <change-name> <event> # open-complete | design-complete | build-complete | verify-pass | verify-fail
+node "$COMET_STATE" next <change-name>               # NEXT: auto|manual|done  + SKILL: <skill-name>; auto_transition:false → manual, which pauses only the next skill invocation and does not block phase updates
+node "$COMET_ARCHIVE" <change-name>                  # full archive in one command
 ```
-
-**解析下一步**：阶段守卫推进 phase 后，用 `next` 子命令解析是否自动调用下一个 skill：
-
-```bash
-"$COMET_BASH" "$COMET_STATE" next <change-name>
-```
-
-输出 `NEXT: auto|manual|done` + `SKILL: <skill-name>`（`done` 时省略）+ `HINT`（仅 `manual` 时）。`auto_transition: false` 时输出 `manual`，只暂停下一 skill 调用，不影响已发生的 phase 推进。
-
-**归档脚本**：一键完成归档全部步骤：
-
-```bash
-"$COMET_BASH" "$COMET_ARCHIVE" <change-name>
-```
-
-加载 comet 后，agent 应执行以上变量赋值一次，后续全程复用 `$COMET_GUARD`、`$COMET_STATE`、`$COMET_HANDOFF`、`$COMET_ARCHIVE`。
-
-### 文件结构
-
-按 `comet/reference/file-structure.md` 查阅完整目录结构。
-
-### 最佳实践
-
-1. **brainstorming 不可跳过** — 每次变更必须经过深度设计（hotfix 和 tweak 除外）
-2. **delta spec 是活文档** — 阶段 3 期间可自由修改，归档时同步
-3. **交接包由脚本生成** — OpenSpec → Superpowers 的上下文必须通过 `comet-handoff.sh` 生成 compact 可追溯摘录（需要全文时用 `--full`），并由 guard 校验 source/hash/mode
-4. **保持 tasks.md 同步** — 完成一个勾一个
-5. **频繁提交** — 每个任务一次提交，message 体现设计意图
-6. **先验证再确认归档** — `/comet-verify` 通过后进入 `/comet-archive`，但运行归档脚本前必须等待用户最终确认
-7. **增量更新分级** — 小编辑、中重 brainstorming、大新 change
-8. **Plan 必须关联 change** — 文件头包含 `change:` 和 `design-doc:` 元数据
-9. **归档闭环** — design doc 和 plan 必须标注 `archived-with` 状态
-10. **修改已有功能** — 直接 open 新 change 即可
-11. **Preset 有上限** — hotfix/tweak 满足升级条件时及时切换到完整流程

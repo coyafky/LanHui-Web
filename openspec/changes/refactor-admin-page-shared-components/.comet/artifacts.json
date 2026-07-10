@@ -1,0 +1,11 @@
+{
+  "openspec_proposal": "openspec/changes/refactor-admin-page-shared-components/proposal.md",
+  "openspec_design": "openspec/changes/refactor-admin-page-shared-components/design.md",
+  "openspec_tasks": "openspec/changes/refactor-admin-page-shared-components/tasks.md",
+  "openspec_delta_spec": "openspec/changes/refactor-admin-page-shared-components/specs/admin-shared-page-patterns/spec.md",
+  "design_document": "docs/superpowers/specs/2026-07-10-refactor-admin-page-shared-components-design.md",
+  "build_plan": "docs/superpowers/plans/2026-07-10-refactor-admin-page-shared-components.md",
+  "build_tasks_complete": "openspec/changes/refactor-admin-page-shared-components/tasks.md",
+  "design_handoff": "openspec/changes/refactor-admin-page-shared-components/.comet/handoff/design-context.json",
+  "handoff_context": "openspec/changes/refactor-admin-page-shared-components/.comet/handoff/design-context.json"
+}

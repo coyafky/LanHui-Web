@@ -12,6 +12,10 @@ vi.mock('sonner', () => ({
   toast: { success: vi.fn(), error: vi.fn() },
 }));
 
+vi.mock('@/lib/admin-csrf-fetch', () => ({
+  adminCsrfFetch: (...args: unknown[]) => fetchMock(...args),
+}));
+
 import NewArticlePage from './page';
 
 describe('NewArticlePage', () => {
@@ -65,7 +69,6 @@ describe('NewArticlePage', () => {
       }
       return Promise.resolve(postSuccessResponse());
     });
-    global.fetch = fetchMock;
   });
 
   afterEach(() => {

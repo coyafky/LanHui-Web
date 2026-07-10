@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { adminCsrfFetch } from "@/lib/admin-csrf-fetch";
 import { validateArticleForm } from "@/lib/validations/article";
 import type { ArticleFormInput, ArticleStatus } from "@/lib/validations/article";
 
@@ -195,7 +196,7 @@ export function useArticleFormState(
             : `/api/articles/${options?.articleId}`;
         const method = mode === "create" ? "POST" : "PUT";
 
-        const res = await fetch(url, {
+        const res = await adminCsrfFetch(url, {
           method,
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

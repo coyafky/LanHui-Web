@@ -20,3 +20,8 @@ verified_at: null
 archived: false
 handoff_context: openspec/changes/product-page-test-coverage/.comet/handoff/design-context.json
 handoff_hash: e63431b4ec4ab395188e21b27c875dec4696e6908e22129b76d6a76514050466
+language: null
+direct_override: null
+classic_profile: full
+classic_migration: 1
+run_id: 1f9c7cdb-cdee-4336-abe6-793f7b5a7298
