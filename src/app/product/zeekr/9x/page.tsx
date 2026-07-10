@@ -1,19 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Zeekr9xHero } from "@/components/zeekr-9x/Zeekr9xHero";
-import { Zeekr9xScenarioMatrix } from "@/components/zeekr-9x/Zeekr9xScenarioMatrix";
-import { Zeekr9xProjectGrid } from "@/components/zeekr-9x/Zeekr9xProjectGrid";
-import { Zeekr9xServiceFlow } from "@/components/zeekr-9x/Zeekr9xServiceFlow";
-import { Zeekr9xFaq } from "@/components/zeekr-9x/Zeekr9xFaq";
 import { Zeekr9xTopicViewTrack } from "@/components/zeekr-9x/Zeekr9xTopicViewTrack";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { zeekr9xPageConfig } from "@/lib/zeekr-9x-page-config";
 import {
   ZEEKR_9X_HERO_IMAGE,
   ZEEKR_9X_PROJECT_COUNT,
-  zeekr9xFaq,
-  zeekr9xScenarios,
-  zeekr9xServiceSteps,
-  zeekr9xUpgradeProjects,
 } from "@/lib/zeekr-9x-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
@@ -71,10 +64,10 @@ export default function Zeekr9xPage() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "极氪 9X 专属升级方案",
-    numberOfItems: zeekr9xUpgradeProjects.length,
-    itemListElement: zeekr9xUpgradeProjects.map((p) => ({
+    numberOfItems: ZEEKR_9X_PROJECT_COUNT,
+    itemListElement: zeekr9xPageConfig.projects.map((p, i) => ({
       "@type": "ListItem" as const,
-      position: p.order,
+      position: i + 1,
       name: p.name,
       category: p.category,
       url: `${CANONICAL_PATH}#zeekr-9x-project-${p.id}`,
@@ -91,33 +84,9 @@ export default function Zeekr9xPage() {
           projectCount={ZEEKR_9X_PROJECT_COUNT}
         />
 
-        <Zeekr9xHero
-          totalProjects={zeekr9xUpgradeProjects.length}
-          scenarioCount={zeekr9xScenarios.length}
-          heroImage={ZEEKR_9X_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
+        <VehiclePageRenderer config={zeekr9xPageConfig} />
 
-        {/* 场景矩阵 */}
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <Zeekr9xScenarioMatrix
-            scenarios={zeekr9xScenarios}
-            allProjects={zeekr9xUpgradeProjects}
-          />
-        </section>
-
-        {/* 项目网格 */}
-        <Zeekr9xProjectGrid
-          projects={zeekr9xUpgradeProjects}
-          scenarios={zeekr9xScenarios}
-        />
-
-        {/* 服务流程 */}
-        <Zeekr9xServiceFlow steps={zeekr9xServiceSteps} />
-
-        <Zeekr9xFaq items={zeekr9xFaq} />
-
-        {/* 底部 CTA */}
+        {/* Footer CTA */}
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p className="text-sm tracking-widest text-orange-400 mb-3">
