@@ -2,6 +2,8 @@
 comet_change: consolidate-product-data-types
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-10-consolidate-product-data-types
+status: final
 ---
 
 # Design Doc: Consolidate Product Data Types
@@ -82,3 +84,4 @@ export interface ProductImage {
 | New | `src/lib/product-types.ts`, `src/lib/product-types.test.ts`, `scripts/check-product-type-duplication.mjs` |
 | First batch | `xiaomi-series-upgrade-projects.ts`, `xiaomi-su7-upgrade-projects.ts`, `xiaomi-yu7-upgrade-projects.ts`, `zeekr-products.ts` |
 | Config | `package.json` |
+
