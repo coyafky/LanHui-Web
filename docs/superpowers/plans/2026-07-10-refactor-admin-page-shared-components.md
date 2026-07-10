@@ -25,7 +25,7 @@ base-ref: 6aceb36bcea865af60e1dc809a07bda74d21e331
 - [x] 1.2 迁移 `src/app/admin/(dashboard)/articles/page.tsx`：替换内联 categories fetch → `useCategories()`
 - [x] 1.3 迁移 `src/app/admin/(dashboard)/articles/new/page.tsx`：替换内联 categories fetch → `useCategories()`（同时修复裸 fetch → adminCsrfFetch）
 - [x] 1.4 迁移 `src/app/admin/(dashboard)/articles/[id]/page.tsx`：替换内联 categories fetch → `useCategories()`（同时修复裸 fetch → adminCsrfFetch）
-- [ ] 1.5 创建 `src/hooks/use-categories.test.tsx`：成功加载、API 失败 fallback、无效响应 fallback、cleanup 不更新 state
+- [x] 1.5 创建 `src/hooks/use-categories.test.tsx`：成功加载、API 失败 fallback、无效响应 fallback、cleanup 不更新 state
 
 ### 2. EntityImagePage — 图片管理页组件
 
