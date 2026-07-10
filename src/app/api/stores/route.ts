@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
       }
     } else if (isActiveParam === "true") {
       where.isActive = true;
-    } else if (isActiveParam === "false") {
+    } else if (showAll && isActiveParam === "false") {
       where.isActive = false;
     } else if (!showAll) {
       // 默认公开契约：只展示 active

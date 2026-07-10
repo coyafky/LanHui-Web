@@ -454,11 +454,27 @@ describe("GET /api/stores — level 筛选（子任务 3）", () => {
     expect(whereArg.isActive).toBe(true);
   });
 
-  it("兼容 ?isActive=false → 显式 isActive=false", async () => {
+  it("兼容 ?isActive=false → 未认证用户看不到非活跃门店（回归安全修复）", async () => {
     mockStoreFindMany.mockResolvedValue([]);
     mockStoreCount.mockResolvedValue(0);
     const GET = await loadGet();
     const res = await GET(buildGetReq("isActive=false") as unknown as Parameters<typeof GET>[0]);
+    expect(res.status).toBe(200);
+    const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
+      isActive?: boolean;
+      status?: string;
+    };
+    // 未认证用户传 isActive=false 不应生效 → 默认只展示 active
+    expect(whereArg.isActive).toBeUndefined();
+    expect(whereArg.status).toBe("active");
+  });
+
+  it("admin + ?all=true&isActive=false → 可查看非活跃门店", async () => {
+    mockAuth.mockResolvedValue({ user: { role: "admin" } });
+    mockStoreFindMany.mockResolvedValue([]);
+    mockStoreCount.mockResolvedValue(0);
+    const GET = await loadGet();
+    const res = await GET(buildGetReq("all=true&isActive=false") as unknown as Parameters<typeof GET>[0]);
     expect(res.status).toBe(200);
     const whereArg = mockStoreFindMany.mock.calls[0]?.[0]?.where as {
       isActive?: boolean;
