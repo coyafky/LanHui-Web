@@ -73,7 +73,7 @@ describe("useCategories", () => {
   });
 
   it("cancellation: unmount before fetch resolves, no state update after unmount", async () => {
-    let resolvePromise!: (value: unknown) => void;
+    let resolvePromise!: (value: Response | PromiseLike<Response>) => void;
     const fetchPromise = new Promise<Response>((resolve) => {
       resolvePromise = resolve;
     });
