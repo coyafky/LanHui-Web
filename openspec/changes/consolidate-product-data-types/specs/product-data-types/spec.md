@@ -1,147 +1,142 @@
 ## ADDED Requirements
 
 ### Requirement: Shared product image types
-The system SHALL provide shared product image types in `src/lib/product-types.ts`. Product data files MUST be able to import a common image status type and image object type instead of redefining identical local structures.
+The system SHALL provide shared product image types in `src/lib/product-types.ts`. Product data files MUST import common types instead of redefining identical local structures.
 
-#### Scenario: Shared image status is imported
+#### Scenario: Shared image status imported
 - **WHEN** a migrated product data file needs an image status type
-- **THEN** it imports the shared status type or aliases it from `src/lib/product-types.ts`
+- **THEN** it imports `ImageStatus` from `@/lib/product-types` instead of defining a local union
 
-#### Scenario: Shared image object is imported
-- **WHEN** a migrated product data file needs an image object type
-- **THEN** it imports the shared image type or aliases it from `src/lib/product-types.ts`
+#### Scenario: Shared image object imported
+- **WHEN** a migrated product data file needs a product image type
+- **THEN** it imports `ProductImage` from `@/lib/product-types`
 
 ### Requirement: Canonical image status set
-The system SHALL define a canonical image status set containing `matched`, `product-preview`, `pending-review`, and `missing`. The system MUST provide a normalization helper for legacy status names.
+The system SHALL define a canonical image status type `ImageStatus` with values `"matched" | "generated-preview" | "pending-review" | "missing"`. All product data files MUST use this shared type rather than defining brand-specific status unions.
 
-#### Scenario: Canonical status accepted
-- **WHEN** product data uses `matched`, `product-preview`, `pending-review`, or `missing`
-- **THEN** the shared image status type accepts the value
+#### Scenario: Canonical status values accepted
+- **WHEN** product data uses `matched`, `generated-preview`, `pending-review`, or `missing`
+- **THEN** `ImageStatus` accepts the value
 
-#### Scenario: Legacy generated-preview normalized
-- **WHEN** product data or migration code passes `generated-preview` into the normalization helper
-- **THEN** the helper returns `product-preview`
+#### Scenario: Brand-specific status type eliminated
+- **WHEN** migration is complete for a product data file
+- **THEN** the file no longer contains a brand-specific `XxxImageStatus` type alias duplicating `ImageStatus`
 
-#### Scenario: Legacy real normalized
-- **WHEN** product data or migration code passes `real` into the normalization helper
-- **THEN** the helper returns `matched`
+### Requirement: ProductImage interface
+The system SHALL provide a shared `ProductImage` interface with readonly fields `publicPath`, `alt`, `width`, `height`, and `aspectRatio`. All product data files producing image objects MUST use this interface.
 
-#### Scenario: Legacy pending normalized
-- **WHEN** product data or migration code passes `pending` into the normalization helper
-- **THEN** the helper returns `pending-review`
+#### Scenario: ProductImage shape
+- **WHEN** a product data file produces an image object
+- **THEN** the object conforms to `ProductImage` with `publicPath: string | null`, `alt: string`, `width: 1448 | null`, `height: 1086 | null`, `aspectRatio: "4/3" | null`
 
-### Requirement: Public image status labels
-The system SHALL provide a shared image status label helper. The helper MUST keep public-facing promotional copy consistent and MUST NOT expose implementation terms such as `generated-preview` to users.
+### Requirement: Shared image builder functions
+The system SHALL provide shared image builder functions `matchedImage()`, `missingImage()`, `productPreviewImage()`, and `pendingReviewImage()`. Each MUST return a `ProductImage` compatible with existing UI rendering.
 
-#### Scenario: Preview label
-- **WHEN** the label helper receives `product-preview` or legacy `generated-preview`
-- **THEN** it returns `商品预览效果图`
+#### Scenario: matchedImage builder
+- **WHEN** `matchedImage(path, alt)` is called
+- **THEN** it returns `{ publicPath: path, alt, width: 1448, height: 1086, aspectRatio: "4/3" }`
 
-#### Scenario: Matched label
-- **WHEN** the label helper receives `matched` or legacy `real`
-- **THEN** it returns a real/matched image label approved by the current UI copy
+#### Scenario: missingImage builder
+- **WHEN** `missingImage(alt)` is called
+- **THEN** it returns `{ publicPath: null, alt, width: null, height: null, aspectRatio: null }`
 
-#### Scenario: Missing label
-- **WHEN** the label helper receives `missing`
-- **THEN** it returns a missing image label approved by the current UI copy
+#### Scenario: productPreviewImage builder
+- **WHEN** `productPreviewImage(path, alt)` is called
+- **THEN** it returns a `ProductImage` with the given path and alt plus standard 1448×1086 dimensions
 
-### Requirement: Shared image builders
-The system SHALL provide shared helper functions for matched images, product preview images, pending-review images, and missing images. These helpers MUST produce the same `ProductImage` shape used by product pages.
+#### Scenario: pendingReviewImage builder
+- **WHEN** `pendingReviewImage(alt)` is called
+- **THEN** it returns `{ publicPath: null, alt, width: null, height: null, aspectRatio: null }`
 
-#### Scenario: Matched image builder
-- **WHEN** a migrated file calls the matched image helper with `publicPath` and `alt`
-- **THEN** the helper returns an image object with the same path and alt plus the standard 1448×1086 `4/3` metadata
+### Requirement: Shared alt text, id, and slug helpers
+The system SHALL provide `buildProductAlt()`, `makeProductId()`, and `slugifyProductName()` helpers so product data files do not duplicate branding logic.
 
-#### Scenario: Preview image builder
-- **WHEN** a migrated file calls the preview image helper with `publicPath` and `alt`
-- **THEN** the helper returns an image object with the same path and alt plus the standard 1448×1086 `4/3` metadata
+#### Scenario: buildProductAlt includes brand and model
+- **WHEN** `buildProductAlt(brand, model, product, kind)` is called
+- **THEN** it returns Chinese alt text containing the relevant product context
 
-#### Scenario: Missing image builder
-- **WHEN** a migrated file calls the missing image helper with an alt value
-- **THEN** the helper returns an image object with `publicPath: null` and missing-image metadata compatible with existing UI rendering
-
-#### Scenario: Pending review image builder
-- **WHEN** a migrated file calls the pending-review image helper with an alt value
-- **THEN** the helper returns an image object with `publicPath: null` and pending-review metadata compatible with existing UI rendering
-
-### Requirement: Shared alt, slug, and id helpers
-The system SHALL provide shared helpers for product alt text, product ids, and product-name slugs. The helpers MUST support manual slug overrides for products whose filenames cannot be generated reliably.
-
-#### Scenario: Alt helper includes product context
-- **WHEN** the alt helper receives brand, model, product name, and kind
-- **THEN** it returns Chinese alt text that includes the relevant product context
-
-#### Scenario: Slug helper supports manual override
-- **WHEN** the slug helper receives a name with a manual override
+#### Scenario: slugifyProductName supports manual override
+- **WHEN** `slugifyProductName(name, overrides)` is called with a name that has a manual override
 - **THEN** it returns the manual slug instead of a generated fallback
 
-#### Scenario: ID helper returns stable ids
-- **WHEN** the id helper receives stable string parts
-- **THEN** it returns a deterministic slug-like id suitable for product data
+#### Scenario: makeProductId returns deterministic stable ids
+- **WHEN** `makeProductId(...parts)` is called with stable string parts
+- **THEN** it returns a deterministic slug-like id unchanged by migration
 
 ### Requirement: Xiaomi series image status bug fixed
-The system SHALL fix the duplicated `missing` union in `src/lib/xiaomi-series-upgrade-projects.ts`. The fixed type MUST not repeat union members and MUST support the intended preview status.
+The system SHALL fix the duplicated `"missing"` union member in `XiaomiSeriesImageStatus` in `src/lib/xiaomi-series-upgrade-projects.ts`. The fixed type MUST also support `generated-preview`.
 
-#### Scenario: Xiaomi series status has no duplicate union
-- **WHEN** `XiaomiSeriesImageStatus` is inspected after migration
-- **THEN** it does not contain duplicate `"missing"` members
+#### Scenario: No duplicate union members
+- **WHEN** `XiaomiSeriesImageStatus` is inspected after the fix
+- **THEN** it resolves to `ImageStatus` and contains no duplicate union members
 
-#### Scenario: Xiaomi series supports preview status
-- **WHEN** Xiaomi series data needs a product preview status
-- **THEN** the image status type supports the shared preview status
+#### Scenario: Preview status available
+- **WHEN** Xiaomi series data needs a generated-preview image
+- **THEN** the status field accepts `"generated-preview"` without error
 
-### Requirement: First migration batch
-The system SHALL migrate an initial batch of product data files to the shared type layer. The first batch MUST include the Xiaomi series bug file and at least one complex helper-heavy file.
+### Requirement: First-batch migration
+The system SHALL migrate at least 4 product data files to the shared type layer in the first batch: `xiaomi-series-upgrade-projects.ts`, `xiaomi-su7-upgrade-projects.ts`, `xiaomi-yu7-upgrade-projects.ts`, and one complex file such as `zeekr-products.ts`.
 
-#### Scenario: Xiaomi series migrated
-- **WHEN** the first migration batch is complete
-- **THEN** `src/lib/xiaomi-series-upgrade-projects.ts` imports or aliases shared product image types
+#### Scenario: Xiaomi series files migrated
+- **WHEN** first batch is complete
+- **THEN** the three Xiaomi product files import `ImageStatus` and/or `ProductImage` from `@/lib/product-types` instead of defining local types
 
-#### Scenario: Xiaomi SU7 and YU7 migrated
-- **WHEN** the first migration batch is complete
-- **THEN** the Xiaomi SU7 and YU7 product data files import or alias shared product image types where applicable
+#### Scenario: Complex file migrated
+- **WHEN** first batch is complete
+- **THEN** `zeekr-products.ts` uses shared image types or helpers from `@/lib/product-types`
 
-#### Scenario: Complex helper file migrated
-- **WHEN** the first migration batch is complete
-- **THEN** at least one helper-heavy file such as `src/lib/zeekr-products.ts` uses shared image helpers or shared image types
+### Requirement: Output stability preserved
+The system SHALL NOT change existing product ids, image paths, product counts, or ordering as a result of migration, except for the intentional Xiaomi series status bug fix.
 
-### Requirement: Output stability during migration
-The system SHALL preserve existing product data output for migrated files except for intentional image status bug fixes and legacy status normalization.
+#### Scenario: Product counts unchanged
+- **WHEN** migrated product data arrays are exported
+- **THEN** array lengths match pre-migration values
 
-#### Scenario: Product ids remain stable
-- **WHEN** migrated product data is imported
-- **THEN** existing product ids remain unchanged
+#### Scenario: Image paths unchanged
+- **WHEN** migrated product image objects are inspected
+- **THEN** non-null publicPath values are identical to pre-migration values
 
-#### Scenario: Product image paths remain stable
-- **WHEN** migrated product data is imported
-- **THEN** existing non-null image public paths remain unchanged
+#### Scenario: Product ordering unchanged
+- **WHEN** migrated product arrays are iterated
+- **THEN** element order is identical to pre-migration order
 
-#### Scenario: Product order remains stable
-- **WHEN** migrated product data is imported
-- **THEN** existing project ordering remains unchanged
+### Requirement: Duplicate type prevention guard
+The system SHALL include `scripts/check-product-type-duplication.mjs` that rejects new local `ImageStatus` unions or base image helper definitions outside the shared module, with a migration allowlist for legacy files.
 
-### Requirement: Duplicate type prevention
-The system SHALL include a check script that prevents new duplicated product image status unions and local base image helper definitions. The script MUST allow legacy files during migration through an explicit allowlist.
+#### Scenario: New duplicate ImageStatus rejected
+- **WHEN** a non-allowlisted file adds a local `ImageStatus` union matching the shared set
+- **THEN** the check script fails with a clear message naming the file
 
-#### Scenario: New duplicated image status is rejected
-- **WHEN** a non-allowlisted product data file adds a local `ImageStatus` union duplicating the shared status set
+#### Scenario: New duplicate helper rejected
+- **WHEN** a non-allowlisted file adds local `matchedImage`, `missingImage`, `productPreviewImage`, or `pendingReviewImage`
 - **THEN** the check script fails with a clear message
 
-#### Scenario: New duplicated image helper is rejected
-- **WHEN** a non-allowlisted product data file adds local `matchedImage`, `missingImage`, or `pendingReviewImage` base helper functions
-- **THEN** the check script fails with a clear message
+#### Scenario: Allowlisted legacy files pass
+- **WHEN** the check scans files in the migration allowlist
+- **THEN** it does not fail for those files' existing local definitions
 
-#### Scenario: Legacy files remain allowed during migration
-- **WHEN** the check script scans legacy files listed in the migration allowlist
-- **THEN** it does not fail solely because those files still contain old local definitions
+### Requirement: Test coverage
+The system SHALL include tests in `src/lib/product-types.test.ts` covering shared types, image builders, alt/slug/id helpers, and the Xiaomi bug fix.
 
-### Requirement: Verification coverage
-The system SHALL add tests for shared product data types and the first migration batch. Tests MUST cover status normalization, label mapping, image helper output, and the Xiaomi series status bug.
+#### Scenario: Image builder tests pass
+- **WHEN** `product-types.test.ts` runs
+- **THEN** `matchedImage()`, `missingImage()`, `productPreviewImage()`, and `pendingReviewImage()` output is verified
 
-#### Scenario: Shared helper tests pass
-- **WHEN** the product type test suite runs
-- **THEN** status normalization, label mapping, and image builder output are verified
+#### Scenario: Helper tests pass
+- **WHEN** `product-types.test.ts` runs
+- **THEN** `buildProductAlt()`, `makeProductId()`, and `slugifyProductName()` output is verified
 
 #### Scenario: Migrated data tests pass
 - **WHEN** tests for migrated product data files run
-- **THEN** they verify key ids, paths, counts, and statuses remain stable
+- **THEN** they verify stable ids, paths, counts, and statuses
+
+### Requirement: Type migration completeness
+The system SHALL track remaining non-migrated product files. A follow-up backlog MUST list second-batch files and any domain adapters that should remain separate.
+
+#### Scenario: Backlog documented
+- **WHEN** the first batch is complete
+- **THEN** tasks.md contains a follow-up batch list with `li-auto-*`, `tesla-products.ts`, `denza-d9-products.ts`, `nio-products.ts`, `gaoshan-products.ts`, `xpeng-gx-products.ts`, `voyah-products.ts`, `zhijie-v9-products.ts`, `ledao-l90-products.ts`
+
+#### Scenario: Domain adapter decision
+- **WHEN** first batch is complete
+- **THEN** `src/lib/wenjie-preview-images.ts` is evaluated for whether it should re-export from `product-types.ts` or remain a domain adapter

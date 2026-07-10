@@ -17,7 +17,7 @@ export type XiaomiSeriesCategory =
   | "convenience"
   | "exterior_lights";
 
-export type XiaomiSeriesImageStatus = "matched" | "missing" | "missing";
+export type XiaomiSeriesImageStatus = "matched" | "generated-preview" | "pending-review" | "missing";
 
 export interface XiaomiSeriesUpgradeProject {
   readonly id: string;

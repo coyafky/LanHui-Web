@@ -1,0 +1,8 @@
+{
+  "openspec_proposal": "openspec/changes/consolidate-product-data-types/proposal.md",
+  "openspec_design": "openspec/changes/consolidate-product-data-types/design.md",
+  "openspec_tasks": "openspec/changes/consolidate-product-data-types/tasks.md",
+  "openspec_delta_spec": "openspec/changes/consolidate-product-data-types/specs/product-data-types/spec.md",
+  "handoff_context": "openspec/changes/consolidate-product-data-types/.comet/handoff/design-context.json",
+  "handoff_markdown": "openspec/changes/consolidate-product-data-types/.comet/handoff/design-context.md"
+}

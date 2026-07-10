@@ -1,64 +1,49 @@
 ## Why
 
-产品数据层在 30+ 个 `src/lib/*-products.ts` 和 `*-upgrade-projects.ts` 文件中重复定义相同或近似的图片状态、图片对象、构建 helper 和 id/slug helper。重复定义已经导致真实类型 bug，例如 `src/lib/xiaomi-series-upgrade-projects.ts` 中 `XiaomiSeriesImageStatus = "matched" | "missing" | "missing"`，既重复 `"missing"`，又缺少当前宣传图语义所需的 preview 状态。
+Product data layer has ~30 `src/lib/*-products.ts` and `*-upgrade-projects.ts` files that independently define identical image status types, image object shapes, build helpers, and id/slug helpers. This duplication has produced a real bug: `src/lib/xiaomi-series-upgrade-projects.ts` defines `XiaomiSeriesImageStatus = "matched" | "missing" | "missing"` — duplicate `"missing"` and missing `"generated-preview"`.
 
-现在需要建立一个共享基础类型层，让产品数据文件只保留业务差异，图片状态、图片尺寸、alt 构建、缺图/预览图 helper 和基础断言从统一模块导入。
+A shared base type layer lets product data files keep only their brand-specific differences while importing image status, image dimensions, alt builder, missing/preview helper, and base helpers from a single module.
 
 ## What Changes
 
-- 新增 `src/lib/product-types.ts` 作为产品数据层共享基础类型与 helper：
-  - `ProductImageStatus`
+- New `src/lib/product-types.ts` as the shared product data layer:
+  - `ImageStatus`
   - `ProductImage`
-  - `ProductImageDimensions`
-  - `ProductImageAspectRatio`
-  - `matchedImage`
-  - `productPreviewImage`
-  - `pendingReviewImage`
-  - `missingImage`
-  - `buildProductAlt`
-  - `makeProductId`
-  - `slugifyProductName`
-- 修复 `src/lib/xiaomi-series-upgrade-projects.ts` 的 `XiaomiSeriesImageStatus` 重复 union bug，并纳入统一状态类型。
-- 分阶段迁移高重复文件，优先迁移：
+  - `matchedImage`, `missingImage`, `productPreviewImage`, `pendingReviewImage`
+  - `buildProductAlt`, `makeProductId`, `slugifyProductName`
+- Fix `src/lib/xiaomi-series-upgrade-projects.ts` duplicate `"missing"` union bug, adopt shared `ImageStatus`
+- Migrate first batch (4 files):
   - `xiaomi-series-upgrade-projects.ts`
   - `xiaomi-su7-upgrade-projects.ts`
   - `xiaomi-yu7-upgrade-projects.ts`
   - `zeekr-products.ts`
-  - `zeekr-8x-products.ts`
-  - `zeekr-9x-products.ts`
-  - `li-auto-*`
-  - `tesla-products.ts`
-  - `denza-d9-products.ts`
-  - `nio-products.ts`
-  - `gaoshan-products.ts`
-  - `xpeng-gx-products.ts`
-  - `voyah-products.ts`
-  - `zhijie-v9-products.ts`
-  - `ledao-l90-products.ts`
-- 保留品牌/车型专属 category、scenario、tier、sourceArea 等业务类型，不强行合并所有产品数据 schema。
-- 新增测试和检查脚本，防止新增重复 `ImageStatus` union 和本地图片 helper。
+- Keep brand-specific types (category, scenario, tier, sourceArea) local to each file
+- Add tests for shared module + migrated files
+- Add `scripts/check-product-type-duplication.mjs` to prevent regression
 
 ## Capabilities
 
 ### New Capabilities
-- `product-data-types`: 产品数据层共享类型与 helper，统一图片状态、图片对象、图片构建函数、基础 id/slug helper，并提供重复定义防回归检查。
+- `product-data-types`: Shared product data types and helpers — unified image status, image object, image builder functions, base id/slug helpers, and a duplicate-prevention guard script.
 
 ### Modified Capabilities
-（无 — 本次新增产品数据层基础能力，不改变现有公开页面行为。）
+(None — this adds a base product data layer; no public page behavior changes.)
 
 ## Impact
 
-- 新增：
+- New files:
   - `src/lib/product-types.ts`
   - `src/lib/product-types.test.ts`
   - `scripts/check-product-type-duplication.mjs`
-- 修改：
+- Modified files:
   - `src/lib/xiaomi-series-upgrade-projects.ts`
-  - 一批 `src/lib/*-products.ts` 与 `src/lib/*-upgrade-projects.ts`
+  - `src/lib/xiaomi-su7-upgrade-projects.ts`
+  - `src/lib/xiaomi-yu7-upgrade-projects.ts`
+  - `src/lib/zeekr-products.ts`
   - `package.json`
-- 后续协同：
-  - 可被 `product-topic-component-system` change 复用，作为共享组件适配器的底层类型。
-- 风险：
-  - 不同历史文件存在 `"generated-preview"`、`"product-preview"`、`"real"`、`"pending"` 等状态命名差异，需要设计兼容映射。
-  - 一次性迁移 30+ 文件风险高，应按试点和批次推进。
-  - 图片 publicPath、alt、width/height/aspectRatio 不能因为统一 helper 而改变页面渲染结果。
+- Future coordination:
+  - Can be reused by `product-topic-component-system` as the base type for shared component adapters
+- Risks:
+  - Historical files have status naming differences (`generated-preview`, `product-preview`, `real`, `pending`) — need compatible mapping
+  - One-shot migration of 30+ files is high-risk — proceed by pilot batches
+  - Shared helpers must not change product page rendering output
