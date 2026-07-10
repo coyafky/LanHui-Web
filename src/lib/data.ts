@@ -7,6 +7,7 @@
 
 import type { Store, Province, City } from "@/lib/store";
 import type { NewsItem } from "@/lib/news";
+import { prisma } from "@/lib/prisma";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
 
@@ -297,13 +298,10 @@ export async function getAllCitySlugs(province: string): Promise<string[]> {
 
 export async function getAllStoreIds(): Promise<string[]> {
   try {
-    const res = await fetch(`${API_BASE}/api/stores?limit=100`, {
-      next: { revalidate: 3600 },
+    const stores = await prisma.store.findMany({
+      select: { id: true },
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (json.data ?? []).map((s: any) => (s.id ?? s.slug) as string);
+    return stores.map((s) => s.id);
   } catch {
     const { stores } = await import("@/lib/store");
     return stores.map((s) => s.id);
@@ -312,13 +310,11 @@ export async function getAllStoreIds(): Promise<string[]> {
 
 export async function getAllArticleSlugs(): Promise<string[]> {
   try {
-    const res = await fetch(`${API_BASE}/api/articles?limit=100`, {
-      next: { revalidate: 3600 },
+    const articles = await prisma.article.findMany({
+      where: { status: "published" },
+      select: { slug: true },
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (json.data ?? []).map((a: any) => a.slug as string);
+    return articles.map((a) => a.slug);
   } catch {
     const { newsItems } = await import("@/lib/news");
     return newsItems.map((n) => n.slug);
