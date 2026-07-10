@@ -3,20 +3,12 @@ import { notFound } from "next/navigation";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
-  xiaomiYu7UpgradeProjects,
-  xiaomiYu7Scenarios,
-  xiaomiYu7ServiceSteps,
-  xiaomiYu7Faq,
   XIAOMI_YU7_PROJECT_COUNT,
-  XIAOMI_YU7_SCENARIO_COUNT,
   XIAOMI_YU7_HERO_IMAGE,
 } from "@/lib/xiaomi-yu7-upgrade-projects";
+import { xiaomiYu7PageConfig } from "@/lib/xiaomi-yu7-page-config";
 import { XiaomiYu7TopicViewTrack } from "@/components/xiaomi-yu7/XiaomiYu7TopicViewTrack";
-import { XiaomiYu7Hero } from "@/components/xiaomi-yu7/XiaomiYu7Hero";
-import { XiaomiYu7ScenarioMatrix } from "@/components/xiaomi-yu7/XiaomiYu7ScenarioMatrix";
-import { XiaomiYu7ProjectGrid } from "@/components/xiaomi-yu7/XiaomiYu7ProjectGrid";
-import { XiaomiYu7ServiceFlow } from "@/components/xiaomi-yu7/XiaomiYu7ServiceFlow";
-import { XiaomiYu7Faq } from "@/components/xiaomi-yu7/XiaomiYu7Faq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 
 export const metadata: Metadata = {
   title: "小米 YU7 轻改项目｜软包脚垫运动包围电吸门｜蓝辉轻改",
@@ -47,8 +39,6 @@ export default async function XiaomiYu7Page() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   if (!model || model.type !== "vehicle_model") notFound();
 
-  const projects = xiaomiYu7UpgradeProjects;
-  const scenarios = xiaomiYu7Scenarios;
   const breadcrumbItems = getProductBreadcrumbs("/product/xiaomi/yu7");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/xiaomi/yu7");
 
@@ -58,7 +48,7 @@ export default async function XiaomiYu7Page() {
     name: "小米 YU7 轻改项目",
     url: "https://lanhui.com/product/xiaomi/yu7",
     numberOfItems: XIAOMI_YU7_PROJECT_COUNT,
-    itemListElement: projects.map((p, i) => ({
+    itemListElement: xiaomiYu7PageConfig.projects.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
       item: {
@@ -79,30 +69,7 @@ export default async function XiaomiYu7Page() {
         projectCount={XIAOMI_YU7_PROJECT_COUNT}
       />
       <main id="main-content" tabIndex={-1} className="flex-grow">
-        {/* Hero */}
-        <XiaomiYu7Hero
-          totalProjects={XIAOMI_YU7_PROJECT_COUNT}
-          totalScenarios={XIAOMI_YU7_SCENARIO_COUNT}
-          heroImage={XIAOMI_YU7_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        {/* 用车场景矩阵 */}
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <XiaomiYu7ScenarioMatrix
-            scenarios={scenarios}
-            projects={projects}
-          />
-        </section>
-
-        {/* 项目网格 */}
-        <XiaomiYu7ProjectGrid projects={projects} scenarios={scenarios} />
-
-        {/* 6 步服务流程 */}
-        <XiaomiYu7ServiceFlow steps={xiaomiYu7ServiceSteps} />
-
-        {/* FAQ */}
-        <XiaomiYu7Faq items={xiaomiYu7Faq} />
+        <VehiclePageRenderer config={xiaomiYu7PageConfig} />
 
         {/* CTA section */}
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
