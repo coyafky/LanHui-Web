@@ -99,12 +99,25 @@ function extractNewsSlugs(limit = 3) {
 }
 
 function extractAgentRegion() {
-  const src = safeReadText("china-regions.ts");
+  const src = safeReadText("regions/mainland-regions.ts");
   if (!src) return { province: null, city: null };
-  const re = /value:\s*["']([a-z0-9-]+)["']/g;
-  const out = []; let m;
-  while ((m = re.exec(src)) !== null && out.length < 2) out.push(m[1]);
-  return { province: out[0] || "beijing", city: out[1] || "dongcheng" };
+
+  // First slug from MAINLAND_PROVINCES
+  const provStart = src.indexOf("const MAINLAND_PROVINCES");
+  const provSlice = provStart > 0 ? src.slice(provStart) : src;
+  const provRe = /slug:\s*["']([a-z0-9-]+)["']/;
+  const provMatch = provSlice.match(provRe);
+
+  // First slug from MAINLAND_CITIES
+  const cityStart = src.indexOf("const MAINLAND_CITIES");
+  const citySlice = cityStart > 0 ? src.slice(cityStart) : src;
+  const cityRe = /slug:\s*["']([a-z0-9-]+)["']/;
+  const cityMatch = citySlice.match(cityRe);
+
+  return {
+    province: provMatch?.[1] || "beijing",
+    city: cityMatch?.[1] || "dongcheng",
+  };
 }
 
 function extractWindowFilmSlugs(limit = 2) {

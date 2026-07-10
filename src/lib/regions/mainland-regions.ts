@@ -522,3 +522,24 @@ export const MAINLAND_CITIES: CityData[] = [
   { code: "659010", slug: "huyanghe", label: "胡杨河市", provinceSlug: "xinjiang", type: "prefecture_city", order: 25 },
   { code: "659011", slug: "baijiantan", label: "白杨市", provinceSlug: "xinjiang", type: "prefecture_city", order: 26 },
 ];
+
+// ── 派生选择器 ──
+
+export function getMainlandProvinceOptions(): { label: string; value: string }[] {
+  return MAINLAND_PROVINCES.map((p) => ({ label: p.label, value: p.slug }));
+}
+
+export function getMainlandCityOptions(provinceSlug?: string): { label: string; value: string }[] {
+  const cities = provinceSlug
+    ? MAINLAND_CITIES.filter((c) => c.provinceSlug === provinceSlug)
+    : MAINLAND_CITIES;
+  return cities.map((c) => ({ label: c.label, value: c.slug }));
+}
+
+export function findMainlandProvince(slug: string): ProvinceData | undefined {
+  return MAINLAND_PROVINCES.find((p) => p.slug === slug);
+}
+
+export function findMainlandCity(slug: string): CityData | undefined {
+  return MAINLAND_CITIES.find((c) => c.slug === slug);
+}

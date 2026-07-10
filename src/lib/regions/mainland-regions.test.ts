@@ -2,6 +2,10 @@ import { describe, it, expect } from "vitest";
 import {
   MAINLAND_PROVINCES,
   MAINLAND_CITIES,
+  getMainlandProvinceOptions,
+  getMainlandCityOptions,
+  findMainlandProvince,
+  findMainlandCity,
   type ProvinceType,
   type CityType,
 } from "./mainland-regions";
@@ -147,6 +151,73 @@ describe("mainland-regions", () => {
         );
         expect(cities.length).toBeGreaterThan(0);
       }
+    });
+  });
+
+  describe("selectors", () => {
+    describe("getMainlandProvinceOptions", () => {
+      it("returns 31 entries with non-empty label and value", () => {
+        const opts = getMainlandProvinceOptions();
+        expect(opts).toHaveLength(31);
+        for (const o of opts) {
+          expect(o.label).toBeTruthy();
+          expect(o.value).toBeTruthy();
+        }
+      });
+
+      it("values match MAINLAND_PROVINCES slugs", () => {
+        const opts = getMainlandProvinceOptions();
+        const slugs = MAINLAND_PROVINCES.map((p) => p.slug).sort();
+        const optValues = opts.map((o) => o.value).sort();
+        expect(optValues).toEqual(slugs);
+      });
+    });
+
+    describe("getMainlandCityOptions", () => {
+      it("returns all cities when no provinceSlug is given", () => {
+        const opts = getMainlandCityOptions();
+        expect(opts).toHaveLength(MAINLAND_CITIES.length);
+      });
+
+      it("filters cities by provinceSlug", () => {
+        const hebeiOpts = getMainlandCityOptions("hebei");
+        expect(hebeiOpts.length).toBeGreaterThan(0);
+        const hebeiCitySlugs = MAINLAND_CITIES
+          .filter((c) => c.provinceSlug === "hebei")
+          .map((c) => c.slug)
+          .sort();
+        expect(hebeiOpts.map((o) => o.value).sort()).toEqual(hebeiCitySlugs);
+      });
+
+      it("returns empty array for unknown provinceSlug", () => {
+        const opts = getMainlandCityOptions("nonexistent");
+        expect(opts).toHaveLength(0);
+      });
+    });
+
+    describe("findMainlandProvince", () => {
+      it("finds known province by slug", () => {
+        const p = findMainlandProvince("beijing");
+        expect(p).toBeDefined();
+        expect(p!.label).toBe("北京市");
+      });
+
+      it("returns undefined for unknown slug", () => {
+        expect(findMainlandProvince("atlantis")).toBeUndefined();
+      });
+    });
+
+    describe("findMainlandCity", () => {
+      it("finds known city by slug", () => {
+        const c = findMainlandCity("shenzhen");
+        expect(c).toBeDefined();
+        expect(c!.label).toBe("深圳市");
+        expect(c!.provinceSlug).toBe("guangdong");
+      });
+
+      it("returns undefined for unknown slug", () => {
+        expect(findMainlandCity("atlantis")).toBeUndefined();
+      });
     });
   });
 });

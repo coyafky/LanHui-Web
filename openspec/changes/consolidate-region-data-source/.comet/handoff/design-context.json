@@ -1,0 +1,14 @@
+{
+  "change": "consolidate-region-data-source",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "40f2e6d65ba27b5943ae7951fbdc1bd41a0caf99a24ad401fd17cbb2993514b0",
+  "files": [
+    { "path": "openspec/changes/consolidate-region-data-source/proposal.md", "sha256": "e4958d0da22658dd5c4167b80210af38959b1192ce17d35755fc2b3eceb5b178" },
+    { "path": "openspec/changes/consolidate-region-data-source/design.md", "sha256": "37d2fa731f25b2fc6f2da1984f5140568bd8235f0e13a737b0fde1cc76844ea5" },
+    { "path": "openspec/changes/consolidate-region-data-source/tasks.md", "sha256": "935d808c232b85f27d7d11968f8850c6bdabdfd87663f743859c0adfc753c60b" },
+    { "path": "openspec/changes/consolidate-region-data-source/specs/region-data-source/spec.md", "sha256": "3141ef91a47a7178594020f6872d71414b2a44413589407cd64f6a6dd58bcfbf" }
+  ]
+}
