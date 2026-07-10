@@ -129,7 +129,7 @@ function ArticlesPageContent() {
     let cancelled = false;
     async function loadCategories() {
       try {
-        const res = await fetch("/api/articles/categories");
+        const res = await adminCsrfFetch("/api/articles/categories");
         const json = (await res.json()) as {
           success: boolean;
           data?: { categories: CategoryOption[] };
