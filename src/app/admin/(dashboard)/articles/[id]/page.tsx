@@ -7,19 +7,11 @@ import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
 import { ArticleForm } from "@/components/admin/ArticleForm";
-import type { CategoryOption } from "@/components/admin/ArticleForm";
+import { useCategories } from "@/hooks/use-categories";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { validateArticleForm } from "@/lib/validations/article";
 import type { ArticleFormInput, ArticleStatus } from "@/lib/validations/article";
 import { useUnsavedChangesGuard } from "@/hooks/use-unsaved-changes-guard";
-
-// Fallback: 当 /api/articles/categories 请求失败时,使用这份静态列表保证下拉仍可使用。
-const CATEGORIES_FALLBACK: CategoryOption[] = [
-  { value: "新闻", label: "新闻" },
-  { value: "行业动态", label: "行业动态" },
-  { value: "产品知识", label: "产品知识" },
-  { value: "公司公告", label: "公司公告" },
-];
 
 interface ArticleData {
   id: string;
@@ -57,7 +49,7 @@ export default function EditArticlePage() {
   const [fieldErrors, setFieldErrors] = useState<
     Partial<Record<keyof ArticleFormInput, string>>
   >({});
-  const [categories, setCategories] = useState<CategoryOption[]>([]);
+  const { categories } = useCategories();
 
   // Snapshot dirty 检测：文章加载完成后保存初始值快照
   const [snapshot, setSnapshot] = useState<ArticleFormInput | null>(null);
@@ -87,33 +79,6 @@ export default function EditArticlePage() {
     isSticky,
     snapshot,
   ]);
-
-  // 拉取分类字典
-  useEffect(() => {
-    let cancelled = false;
-    async function loadCategories() {
-      try {
-        const res = await fetch("/api/articles/categories");
-        const json = (await res.json()) as {
-          success: boolean;
-          data?: { categories: CategoryOption[] };
-        };
-        if (cancelled) return;
-        if (json.success && json.data) {
-          setCategories(json.data.categories);
-        } else {
-          setCategories(CATEGORIES_FALLBACK);
-        }
-      } catch {
-        if (cancelled) return;
-        setCategories(CATEGORIES_FALLBACK);
-      }
-    }
-    loadCategories();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   // 加载文章数据 + 初始化 snapshot
   useEffect(() => {
