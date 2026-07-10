@@ -3,87 +3,23 @@
 import { Suspense, useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  Plus,
-  Search,
-  Trash2,
-  Pencil,
-  Eye,
-  EyeOff,
-  MoreHorizontal,
-  ChevronLeft,
-  ChevronRight,
-  Check,
-  X,
-  Pin,
-  PinOff,
-} from "lucide-react";
+import { Plus, Check, X } from "lucide-react";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { adminCsrfFetch } from "@/lib/admin-csrf-fetch";
-
-interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  status: string;
-  category: string | null;
-  publishedAt: string | null;
-  viewCount: number;
-  isSticky: boolean;
-  createdAt: string;
-  author: { id: string; name: string | null };
-}
-
-interface Pagination {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-}
-
-const STATUS_MAP: Record<string, { label: string; className: string }> = {
-  draft: { label: "草稿", className: "bg-zinc-700 text-zinc-300" },
-  published: { label: "已发布", className: "bg-emerald-900/50 text-emerald-400" },
-  archived: { label: "已归档", className: "bg-yellow-900/50 text-yellow-400" },
-};
-
-// Fallback: 当 /api/articles/categories 请求失败时,使用这份静态列表保证下拉仍可使用。
-// 实际展示以 DB 中实际存在的 category 为准。
-const CATEGORIES_FALLBACK = [
-  { value: "新闻", label: "新闻" },
-  { value: "行业动态", label: "行业动态" },
-  { value: "产品知识", label: "产品知识" },
-  { value: "公司公告", label: "公司公告" },
-];
-
-interface CategoryOption {
-  value: string;
-  label: string;
-  count?: number;
-}
-
-type ArticleAction = "publish" | "unpublish" | "archive" | "delete";
-
-const ACTION_LABELS: Record<ArticleAction, string> = {
-  publish: "发布",
-  unpublish: "撤回发布",
-  archive: "归档",
-  delete: "删除",
-};
-
-type PendingArticleConfirm =
-  | { type: "single"; article: Article; action: ArticleAction }
-  | { type: "delete"; article: Article }
-  | { type: "bulk"; action: ArticleAction; ids: string[] }
-  | null;
-
-const STATUS_OPTIONS = [
-  { value: "", label: "全部状态" },
-  { value: "draft", label: "草稿" },
-  { value: "published", label: "已发布" },
-  { value: "archived", label: "已归档" },
-];
+import {
+  type Article,
+  type Pagination,
+  type CategoryOption,
+  type ArticleAction,
+  type PendingArticleConfirm,
+  CATEGORIES_FALLBACK,
+  ACTION_LABELS,
+} from "@/components/admin/shared/types";
+import { ArticleFilterBar } from "@/components/admin/articles/ArticleFilterBar";
+import { ArticleTable } from "@/components/admin/articles/ArticleTable";
+import { ArticleBulkToolbar } from "@/components/admin/articles/ArticleBulkToolbar";
+import { PaginationBar } from "@/components/admin/shared/PaginationBar";
 
 export default function ArticlesPage() {
   return (
@@ -122,6 +58,7 @@ function ArticlesPageContent() {
   const [categories, setCategories] = useState<CategoryOption[]>([]);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [pendingConfirm, setPendingConfirm] = useState<PendingArticleConfirm>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const containerRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // 拉取 DB 实际存在的分类字典(失败时降级为 CATEGORIES_FALLBACK)
@@ -191,6 +128,21 @@ function ArticlesPageContent() {
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
   }, [openMenuId]);
+
+  function toggleSelectAll() {
+    if (selectedIds.size === articles.length && articles.length > 0) {
+      setSelectedIds(new Set());
+    } else {
+      setSelectedIds(new Set(articles.map((a) => a.id)));
+    }
+  }
+
+  function toggleSelectOne(id: string) {
+    const next = new Set(selectedIds);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    setSelectedIds(next);
+  }
 
   function handleTogglePublish(article: Article) {
     const action: ArticleAction = article.status === "published" ? "unpublish" : "publish";
@@ -273,21 +225,38 @@ function ArticlesPageContent() {
         }
         const json = await res.json().catch(() => ({}));
         toast.error(json.error || `${ACTION_LABELS[action]}失败`);
+      } else if (pendingConfirm.type === "bulk") {
+        const { action, ids } = pendingConfirm;
+        const res = await adminCsrfFetch("/api/articles/bulk", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action, ids }),
+        });
+        const json = await res.json();
+        if (json.success) {
+          const { succeeded, skipped, failed } = json.data as {
+            succeeded: unknown[];
+            skipped: unknown[];
+            failed: unknown[];
+          };
+          if (failed.length === 0 && skipped.length === 0) {
+            toast.success(`已${ACTION_LABELS[action]} ${succeeded.length} 篇文章`);
+          } else {
+            toast.success(
+              `完成 ${succeeded.length} 篇，跳过 ${skipped.length} 篇，失败 ${failed.length} 篇`,
+            );
+          }
+          setPendingConfirm(null);
+          setSelectedIds(new Set());
+          fetchArticles();
+          return;
+        }
+        toast.error(json.error || "批量操作失败");
       }
-      // bulk actions handled in future enhancement
     } catch {
       toast.error("网络错误，请重试");
     }
     setPendingConfirm(null);
-  }
-
-  function formatDate(dateStr: string | null) {
-    if (!dateStr) return "—";
-    return new Date(dateStr).toLocaleDateString("zh-CN", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
   }
 
   return (
@@ -324,226 +293,81 @@ function ArticlesPageContent() {
       </div>
 
       {/* 筛选栏 */}
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-          <input
-            type="text"
-            placeholder="搜索文章标题..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setPagination((p) => ({ ...p, page: 1 }));
-            }}
-            className="w-full rounded-lg border border-zinc-800 bg-zinc-900 py-2 pl-10 pr-4 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-orange-500"
-          />
-        </div>
-        <select
-          value={statusFilter}
-          onChange={(e) => {
-            setStatusFilter(e.target.value);
-            setPagination((p) => ({ ...p, page: 1 }));
-          }}
-          className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-orange-500"
-        >
-          {STATUS_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>
-              {opt.label}
-            </option>
-          ))}
-        </select>
-        <select
-          value={categoryFilter}
-          onChange={(e) => {
-            setCategoryFilter(e.target.value);
-            setPagination((p) => ({ ...p, page: 1 }));
-          }}
-          className="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-orange-500"
-        >
-          <option value="">全部分类</option>
-          {categories.map((cat) => (
-            <option key={cat.value} value={cat.value}>
-              {cat.label}
-              {typeof cat.count === "number" ? ` (${cat.count})` : ""}
-            </option>
-          ))}
-        </select>
-      </div>
+      <ArticleFilterBar
+        search={search}
+        statusFilter={statusFilter}
+        categoryFilter={categoryFilter}
+        categories={categories}
+        onSearchChange={(v) => {
+          setSearch(v);
+          setPagination((p) => ({ ...p, page: 1 }));
+          setSelectedIds(new Set());
+        }}
+        onStatusChange={(v) => {
+          setStatusFilter(v);
+          setPagination((p) => ({ ...p, page: 1 }));
+          setSelectedIds(new Set());
+        }}
+        onCategoryChange={(v) => {
+          setCategoryFilter(v);
+          setPagination((p) => ({ ...p, page: 1 }));
+          setSelectedIds(new Set());
+        }}
+      />
 
-      {/* 表格 */}
-      <div className="overflow-x-auto rounded-xl border border-zinc-800">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-zinc-800 bg-zinc-900/50">
-            <tr>
-              <th className="px-4 py-3 font-medium text-zinc-400">标题</th>
-              <th className="px-4 py-3 font-medium text-zinc-400">分类</th>
-              <th className="px-4 py-3 font-medium text-zinc-400">状态</th>
-              <th className="px-4 py-3 font-medium text-zinc-400">作者</th>
-              <th className="px-4 py-3 font-medium text-zinc-400">发布时间</th>
-              <th className="px-4 py-3 font-medium text-zinc-400">浏览</th>
-              <th className="px-4 py-3 font-medium text-zinc-400 text-right">操作</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-zinc-800/50">
-            {loading ? (
-              <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-zinc-500">
-                  加载中...
-                </td>
-              </tr>
-            ) : articles.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="px-4 py-12 text-center text-zinc-500">
-                  暂无文章
-                </td>
-              </tr>
-            ) : (
-              articles.map((article) => {
-                const statusInfo = STATUS_MAP[article.status] || STATUS_MAP.draft;
-                return (
-                  <tr
-                    key={article.id}
-                    className="group transition-colors hover:bg-zinc-900/50"
-                  >
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        {article.isSticky && (
-                          <span className="rounded bg-orange-500/20 px-1.5 py-0.5 text-xs font-medium text-orange-400">
-                            置顶
-                          </span>
-                        )}
-                        <span className="max-w-[300px] truncate font-medium text-zinc-200">
-                          {article.title}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-zinc-400">{article.category || "—"}</td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${statusInfo.className}`}
-                      >
-                        {statusInfo.label}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-zinc-400">
-                      {article.author.name || "—"}
-                    </td>
-                    <td className="px-4 py-3 text-zinc-400">
-                      {formatDate(article.publishedAt)}
-                    </td>
-                    <td className="px-4 py-3 text-zinc-400">{article.viewCount}</td>
-                    <td className="px-4 py-3 text-right">
-                      <div
-                        ref={(el) => {
-                          containerRefs.current[article.id] = el;
-                        }}
-                        className="relative inline-block"
-                      >
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setOpenMenuId(openMenuId === article.id ? null : article.id);
-                          }}
-                          className="rounded-lg p-1.5 text-zinc-500 transition-colors hover:bg-zinc-800 hover:text-zinc-300"
-                        >
-                          <MoreHorizontal className="h-4 w-4" />
-                        </button>
-                        {openMenuId === article.id && (
-                          <div
-                            className="absolute right-0 top-full z-10 mt-1 w-36 rounded-lg border border-zinc-800 bg-zinc-900 py-1 shadow-xl"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <Link
-                              href={`/admin/articles/${article.id}`}
-                              className="flex items-center gap-2 px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
-                            >
-                              <Pencil className="h-3.5 w-3.5" />
-                              编辑
-                            </Link>
-                            <button
-                              type="button"
-                              onClick={() => handleTogglePublish(article)}
-                              className="flex w-full items-center gap-2 px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
-                            >
-                              {article.status === "published" ? (
-                                <>
-                                  <EyeOff className="h-3.5 w-3.5" />
-                                  取消发布
-                                </>
-                              ) : (
-                                <>
-                                  <Eye className="h-3.5 w-3.5" />
-                                  发布
-                                </>
-                              )}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleToggleSticky(article)}
-                              className="flex w-full items-center gap-2 px-3 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800"
-                            >
-                              {article.isSticky ? (
-                                <>
-                                  <PinOff className="h-3.5 w-3.5" />
-                                  取消置顶
-                                </>
-                              ) : (
-                                <>
-                                  <Pin className="h-3.5 w-3.5" />
-                                  置顶
-                                </>
-                              )}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleDelete(article)}
-                              className="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-400 transition-colors hover:bg-zinc-800"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                              删除
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
+      {/* 批量操作栏 */}
+      <ArticleBulkToolbar
+        selectedCount={selectedIds.size}
+        onPublish={() =>
+          setPendingConfirm({
+            type: "bulk",
+            action: "publish",
+            ids: Array.from(selectedIds),
+          })
+        }
+        onArchive={() =>
+          setPendingConfirm({
+            type: "bulk",
+            action: "archive",
+            ids: Array.from(selectedIds),
+          })
+        }
+        onDelete={() =>
+          setPendingConfirm({
+            type: "bulk",
+            action: "delete",
+            ids: Array.from(selectedIds),
+          })
+        }
+        onClear={() => setSelectedIds(new Set())}
+      />
 
-      {/* 分页 */}
-      {pagination.totalPages > 1 && (
-        <div className="mt-6 flex items-center justify-between">
-          <span className="text-sm text-zinc-500">
-            共 {pagination.total} 篇文章
-          </span>
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              disabled={pagination.page <= 1}
-              onClick={() => setPagination((p) => ({ ...p, page: p.page - 1 }))}
-              className="rounded-lg border border-zinc-800 bg-zinc-900 p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </button>
-            <span className="text-sm text-zinc-400">
-              {pagination.page} / {pagination.totalPages}
-            </span>
-            <button
-              type="button"
-              disabled={pagination.page >= pagination.totalPages}
-              onClick={() => setPagination((p) => ({ ...p, page: p.page + 1 }))}
-              className="rounded-lg border border-zinc-800 bg-zinc-900 p-2 text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      )}
+      <ArticleTable
+        articles={articles}
+        selectedIds={selectedIds}
+        loading={loading}
+        onToggleSelectAll={toggleSelectAll}
+        onToggleSelectOne={toggleSelectOne}
+        onTogglePublish={handleTogglePublish}
+        onToggleSticky={handleToggleSticky}
+        onDelete={handleDelete}
+        openMenuId={openMenuId}
+        onOpenMenu={setOpenMenuId}
+        containerRefs={containerRefs}
+      />
+
+      <PaginationBar
+        page={pagination.page}
+        totalPages={pagination.totalPages}
+        onPrev={() => {
+          setPagination((p) => ({ ...p, page: p.page - 1 }));
+          setSelectedIds(new Set());
+        }}
+        onNext={() => {
+          setPagination((p) => ({ ...p, page: p.page + 1 }));
+          setSelectedIds(new Set());
+        }}
+      />
 
       {pendingConfirm && (
         <ConfirmDialog
