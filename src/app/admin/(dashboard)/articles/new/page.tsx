@@ -1,28 +1,21 @@
 "use client";
 
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
 import { ArticleForm } from "@/components/admin/ArticleForm";
-import type { CategoryOption } from "@/components/admin/ArticleForm";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { validateArticleForm } from "@/lib/validations/article";
 import type { ArticleFormInput, ArticleStatus } from "@/lib/validations/article";
 import { useUnsavedChangesGuard } from "@/hooks/use-unsaved-changes-guard";
-
-// Fallback: 当 /api/articles/categories 请求失败时,使用这份静态列表保证下拉仍可使用。
-const CATEGORIES_FALLBACK: CategoryOption[] = [
-  { value: "新闻", label: "新闻" },
-  { value: "行业动态", label: "行业动态" },
-  { value: "产品知识", label: "产品知识" },
-  { value: "公司公告", label: "公司公告" },
-];
+import { useCategories } from "@/hooks/use-categories";
 
 export default function NewArticlePage() {
   const router = useRouter();
+  const { categories } = useCategories();
 
   // 表单字段
   const [title, setTitle] = useState("");
@@ -39,7 +32,6 @@ export default function NewArticlePage() {
     Partial<Record<keyof ArticleFormInput, string>>
   >({});
   const [saving, setSaving] = useState(false);
-  const [categories, setCategories] = useState<CategoryOption[]>([]);
 
   // dirty 判定：新建页初始全为空，任何字段非空即 dirty
   const dirty = useMemo(() => {
@@ -55,33 +47,6 @@ export default function NewArticlePage() {
       isSticky
     );
   }, [title, slug, excerpt, content, featuredImage, category, tags, status, isSticky]);
-
-  // 拉取 DB 实际存在的分类字典（失败时降级为 CATEGORIES_FALLBACK）
-  useEffect(() => {
-    let cancelled = false;
-    async function loadCategories() {
-      try {
-        const res = await fetch("/api/articles/categories");
-        const json = (await res.json()) as {
-          success: boolean;
-          data?: { categories: CategoryOption[] };
-        };
-        if (cancelled) return;
-        if (json.success && json.data) {
-          setCategories(json.data.categories);
-        } else {
-          setCategories(CATEGORIES_FALLBACK);
-        }
-      } catch {
-        if (cancelled) return;
-        setCategories(CATEGORIES_FALLBACK);
-      }
-    }
-    loadCategories();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   // 离开保护
   const { confirmLeave, confirmDialogProps } = useUnsavedChangesGuard(dirty, saving);
