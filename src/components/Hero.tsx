@@ -1,15 +1,11 @@
-'use client';
-'use memo';
-
 import Link from "next/link";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { brand } from "@/lib/brand";
-import { openWeChatModal } from "@/lib/wechat-modal";
+import { WeChatConsultButton } from "@/components/WeChatConsultButton";
 
 export function Hero() {
   return (
     <section className="relative bg-zinc-950 text-white overflow-hidden">
-      {/* Background gradient + blue/orange accent shapes */}
       <div
         className="absolute inset-0 z-0"
         aria-hidden
@@ -19,7 +15,6 @@ export function Hero() {
         <div className="absolute bottom-0 left-1/3 w-96 h-96 rounded-full bg-orange-500/15 blur-3xl" />
       </div>
 
-      {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-14 sm:pt-20 sm:pb-16 md:py-40">
         <div className="max-w-2xl">
           <p className="inline-flex items-center gap-2 mb-6 px-3 py-1 rounded-full bg-blue-950/60 border border-blue-800/50 text-blue-300 text-xs tracking-widest">
@@ -36,15 +31,7 @@ export function Hero() {
             依托 800 亩制造厂区与轻改产品供应链,蓝辉轻改围绕汽车膜、轮毂、电动踏板、地板总成、改装件等产品,为新能源车主提供车型适配、产品推荐与到店施工服务。
           </p>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4">
-            <button
-              type="button"
-              onClick={() => openWeChatModal()}
-              className="inline-flex w-full min-w-0 items-center justify-center rounded-lg px-5 py-3.5 text-center text-sm font-medium leading-snug sm:w-auto sm:px-8 sm:py-4 sm:text-base text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 shadow-lg shadow-blue-900/30 transition-colors"
-            >
-              <MessageCircle className="mr-2 h-5 w-5 shrink-0" />
-              <span className="sm:hidden">企业微信咨询</span>
-              <span className="hidden sm:inline">添加企业微信咨询车型方案</span>
-            </button>
+            <WeChatConsultButton />
             <Link
               href="/product"
               className="inline-flex w-full min-w-0 items-center justify-center rounded-lg px-5 py-3.5 text-center text-sm font-medium leading-snug sm:w-auto sm:px-8 sm:py-4 sm:text-base text-white bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 transition-colors"
