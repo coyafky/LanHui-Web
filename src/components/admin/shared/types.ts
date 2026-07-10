@@ -27,6 +27,7 @@ export interface Pagination {
 export const STATUS_MAP: Record<string, { label: string; className: string }> = {
   draft: { label: "草稿", className: "bg-zinc-700 text-zinc-300" },
   published: { label: "已发布", className: "bg-emerald-900/50 text-emerald-400" },
+  withdrawn: { label: "已撤回", className: "bg-red-900/50 text-red-400" },
   archived: { label: "已归档", className: "bg-yellow-900/50 text-yellow-400" },
 };
 
@@ -63,5 +64,6 @@ export const STATUS_OPTIONS = [
   { value: "", label: "全部状态" },
   { value: "draft", label: "草稿" },
   { value: "published", label: "已发布" },
+  { value: "withdrawn", label: "已撤回" },
   { value: "archived", label: "已归档" },
 ];

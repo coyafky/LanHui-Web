@@ -1,0 +1,4 @@
+- [x] 1. `STATUS_MAP` 新增 `withdrawn` 状态徽章
+- [x] 2. `STATUS_OPTIONS` 新增 `withdrawn` 筛选选项
+- [x] 3. `MetaFields` 编辑模式新增 `withdrawn` 状态选项
+- [x] 4. 运行测试确认无回归

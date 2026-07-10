@@ -53,6 +53,7 @@ export function MetaFields({
     { value: "published", label: "发布" },
   ];
   if (mode === "edit") {
+    statusOptions.push({ value: "withdrawn", label: "已撤回" });
     statusOptions.push({ value: "archived", label: "归档" });
   }
 
