@@ -2,7 +2,8 @@
 
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -18,15 +19,30 @@ export function ProductGalleryCarousel({
   autoplayMs = 5000,
 }: ProductGalleryCarouselProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, align: "center" },
-    [
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  const plugins = useMemo(() => {
+    if (reducedMotion) return [];
+    return [
       Autoplay({
         delay: autoplayMs,
         stopOnInteraction: false,
         stopOnMouseEnter: true,
       }),
-    ]
+    ];
+  }, [reducedMotion, autoplayMs]);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: "center" },
+    plugins,
   );
 
   useEffect(() => {
@@ -34,6 +50,9 @@ export function ProductGalleryCarousel({
     const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
     emblaApi.on("select", onSelect);
     onSelect();
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
   }, [emblaApi]);
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
@@ -53,11 +72,13 @@ export function ProductGalleryCarousel({
           {images.map((src, i) => (
             <div key={i} className="min-w-0 flex-[0_0_100%]">
               <div className="relative aspect-[16/10]">
-                <img
+                <Image
                   src={src}
                   alt={`${title} ${i + 1}`}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 640px) 100vw, 576px"
+                  className="object-cover"
+                  priority={i === 0}
                 />
               </div>
             </div>
