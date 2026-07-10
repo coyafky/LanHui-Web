@@ -156,13 +156,13 @@ describe("FeaturedStores", () => {
     expect(cardClass).toContain("border-zinc-800");
   });
 
-  it("R6: Next/Image 渲染携带 priority=true + placeholder=blur + sizes + fill", async () => {
+  it("R6: Next/Image 渲染携带 priority=false（非首屏不抢占带宽）+ placeholder=blur + sizes + fill", async () => {
     getStoresMock.mockResolvedValueOnce([createStore({ id: "100001" })]);
     await renderRSC();
     const imgs = await screen.findAllByTestId("next-image");
     expect(imgs.length).toBeGreaterThan(0);
     const img = imgs[0];
-    expect(img.getAttribute("data-priority")).toBe("true");
+    expect(img.getAttribute("data-priority")).toBe("false");
     expect(img.getAttribute("data-placeholder")).toBe("blur");
     expect(img.getAttribute("data-fill")).toBe("true");
     expect(img.getAttribute("data-sizes")).toContain("100vw");

@@ -54,7 +54,6 @@ export async function FeaturedStores() {
                   placeholder="blur"
                   blurDataURL={BLUR_DATA_URL}
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  priority
                 />
               </div>
               <div className="p-4">

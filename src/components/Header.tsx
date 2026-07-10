@@ -161,7 +161,6 @@ export function Header() {
             aria-label={`${brand.zh} ${brand.en}`}
           >
             <Logo
-              priority
               className={`transition-all duration-300 ${
                 scrolled ? "h-8" : "h-10"
               } w-auto`}
