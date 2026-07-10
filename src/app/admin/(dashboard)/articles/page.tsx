@@ -10,12 +10,11 @@ import { adminCsrfFetch } from "@/lib/admin-csrf-fetch";
 import {
   type Article,
   type Pagination,
-  type CategoryOption,
   type ArticleAction,
   type PendingArticleConfirm,
-  CATEGORIES_FALLBACK,
   ACTION_LABELS,
 } from "@/components/admin/shared/types";
+import { useCategories } from "@/hooks/use-categories";
 import { ArticleFilterBar } from "@/components/admin/articles/ArticleFilterBar";
 import { ArticleTable } from "@/components/admin/articles/ArticleTable";
 import { ArticleBulkToolbar } from "@/components/admin/articles/ArticleBulkToolbar";
@@ -55,39 +54,11 @@ function ArticlesPageContent() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
-  const [categories, setCategories] = useState<CategoryOption[]>([]);
+  const { categories } = useCategories();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const [pendingConfirm, setPendingConfirm] = useState<PendingArticleConfirm>(null);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const containerRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
-  // 拉取 DB 实际存在的分类字典(失败时降级为 CATEGORIES_FALLBACK)
-  useEffect(() => {
-    let cancelled = false;
-    async function loadCategories() {
-      try {
-        const res = await adminCsrfFetch("/api/articles/categories");
-        const json = (await res.json()) as {
-          success: boolean;
-          data?: { categories: CategoryOption[] };
-        };
-        if (cancelled) return;
-        if (json.success && json.data) {
-          setCategories(json.data.categories);
-        } else {
-          setCategories(CATEGORIES_FALLBACK);
-        }
-      } catch (err) {
-        if (cancelled) return;
-        console.error("[articles] 加载分类字典失败,使用 fallback", err);
-        setCategories(CATEGORIES_FALLBACK);
-      }
-    }
-    loadCategories();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const fetchArticles = useCallback(async () => {
     setLoading(true);
