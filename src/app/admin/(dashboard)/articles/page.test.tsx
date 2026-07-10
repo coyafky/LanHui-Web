@@ -538,16 +538,16 @@ describe('ArticlesPage ConfirmDialog', () => {
 });
 
 /**
- * 找到 MoreHorizontal 按钮：通过其内部包含 lucide-more-horizontal
+ * 找到 MoreVertical 按钮：通过其内部包含 lucide-more-vertical
  * 类的 svg 来定位。
  */
 function findMoreButton(): HTMLElement {
   const allButtons = screen.getAllByRole('button');
   const moreBtn = allButtons.find((b) =>
-    b.querySelector('svg.lucide-more-horizontal, svg.lucide-ellipsis'),
+    b.querySelector('svg.lucide-ellipsis-vertical, svg.lucide-ellipsis'),
   );
   if (!moreBtn) {
-    throw new Error('Could not find MoreHorizontal button');
+    throw new Error('Could not find MoreVertical button');
   }
   return moreBtn;
 }
