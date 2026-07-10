@@ -5,6 +5,7 @@ const mockArticleCreate = vi.hoisted(() => vi.fn());
 const mockArticleFindUnique = vi.hoisted(() => vi.fn());
 const mockLogActivity = vi.hoisted(() => vi.fn());
 const mockRevalidatePath = vi.hoisted(() => vi.fn());
+const mockRequireCsrf = vi.hoisted(() => vi.fn<() => { ok: boolean; response?: Response }>(() => ({ ok: true })));
 
 vi.mock("@/lib/auth", () => ({ auth: mockAuth }));
 vi.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));
@@ -17,7 +18,7 @@ vi.mock("@/lib/prisma", () => ({
   },
 }));
 vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
-vi.mock("@/lib/security/csrf", () => ({ requireCsrf: () => ({ ok: true }) }));
+vi.mock("@/lib/security/csrf", () => ({ requireCsrf: mockRequireCsrf }));
 vi.mock("@/lib/security/rate-limit", () => ({ rateLimiter: { check: () => ({ ok: true, remaining: 59, limit: 60, resetAt: Date.now() + 60_000 }) } }));
 
 const VALID_BODY = {
@@ -36,6 +37,7 @@ beforeEach(() => {
   mockArticleFindUnique.mockReset();
   mockLogActivity.mockReset();
   mockRevalidatePath.mockReset();
+  mockRequireCsrf.mockReturnValue({ ok: true });
   mockArticleFindUnique.mockResolvedValue(null);
   mockArticleCreate.mockImplementation(async ({ data }) => ({
     id: "art_1",
@@ -95,6 +97,51 @@ describe("POST /api/articles — 鉴权", () => {
     const json = (await res.json()) as { error?: string };
     expect(json.error).toBe("权限不足");
     expect(mockArticleCreate).not.toHaveBeenCalled();
+  });
+
+  it("CSRF token 缺失 → 403", async () => {
+    mockRequireCsrf.mockReturnValueOnce({
+      ok: false,
+      response: Response.json(
+        { success: false, error: "CSRF 校验失败，请刷新页面后重试" },
+        { status: 403 },
+      ),
+    });
+    mockAuth.mockResolvedValue({ user: { id: "user_1", role: "admin", name: "Admin" } });
+    const POST = await loadPost();
+    const res = await POST(buildReq(VALID_BODY) as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(403);
+    const json = (await res.json()) as { error?: string };
+    expect(json.error).toContain("CSRF");
+  });
+
+  it("CSRF token 不匹配 → 403", async () => {
+    mockRequireCsrf.mockReturnValueOnce({
+      ok: false,
+      response: Response.json(
+        { success: false, error: "CSRF 校验失败，请刷新页面后重试" },
+        { status: 403 },
+      ),
+    });
+    mockAuth.mockResolvedValue({ user: { id: "user_1", role: "admin", name: "Admin" } });
+    const POST = await loadPost();
+    const res = await POST(buildReq(VALID_BODY) as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(403);
+  });
+
+  it("正确 CSRF token → 继续执行（不阻塞）", async () => {
+    mockRequireCsrf.mockReturnValueOnce({ ok: true });
+    mockAuth.mockResolvedValue({ user: { id: "user_1", role: "admin", name: "Admin" } });
+    mockArticleFindUnique.mockResolvedValue(null);
+    mockArticleCreate.mockImplementation(async ({ data }) => ({
+      id: "art_1",
+      ...data,
+      author: { id: "user_1", name: "Admin" },
+    }));
+    const POST = await loadPost();
+    const res = await POST(buildReq(VALID_BODY) as unknown as Parameters<typeof POST>[0]);
+    expect(res.status).toBe(201);
+    expect(mockArticleCreate).toHaveBeenCalled();
   });
 });
 

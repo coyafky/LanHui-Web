@@ -13,12 +13,13 @@ const { mockPrisma, mockAuth, mockLogActivity } = vi.hoisted(() => ({
   mockLogActivity: vi.fn(),
 }));
 const mockRevalidatePath = vi.hoisted(() => vi.fn());
+const mockRequireCsrf = vi.hoisted(() => vi.fn<() => { ok: boolean; response?: Response }>(() => ({ ok: true })));
 
 vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
 vi.mock("@/lib/auth", () => ({ auth: mockAuth }));
 vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
 vi.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));
-vi.mock("@/lib/security/csrf", () => ({ requireCsrf: () => ({ ok: true }) }));
+vi.mock("@/lib/security/csrf", () => ({ requireCsrf: mockRequireCsrf }));
 vi.mock("@/lib/security/rate-limit", () => ({ rateLimiter: { check: () => ({ ok: true, remaining: 59, limit: 60, resetAt: Date.now() + 60_000 }) } }));
 
 const CUID = "clxxxxxxxxxxxxxxxxxxxxxxxxx"; // 长度 > 20 且 starts with "cl"
@@ -67,6 +68,7 @@ beforeEach(() => {
   mockPrisma.article.delete.mockReset();
   mockLogActivity.mockReset();
   mockRevalidatePath.mockReset();
+  mockRequireCsrf.mockReturnValue({ ok: true });
   mockLogActivity.mockResolvedValue(undefined);
 });
 
@@ -278,6 +280,60 @@ describe("PUT /api/articles/[id] — 鉴权", () => {
     expect(mockPrisma.article.findUnique).not.toHaveBeenCalled();
     expect(mockPrisma.article.update).not.toHaveBeenCalled();
   });
+
+  it("PUT CSRF token 缺失 → 403", async () => {
+    mockRequireCsrf.mockReturnValueOnce({
+      ok: false,
+      response: Response.json(
+        { success: false, error: "CSRF 校验失败，请刷新页面后重试" },
+        { status: 403 },
+      ),
+    });
+    mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
+    const { PUT } = await loadRoute();
+    const res = await PUT(
+      buildReq({ title: "x" }) as unknown as Parameters<typeof PUT>[0],
+      { params: Promise.resolve({ id: CUID_ID }) }
+    );
+    expect(res.status).toBe(403);
+    const json = (await res.json()) as { error?: string };
+    expect(json.error).toContain("CSRF");
+    expect(mockPrisma.article.update).not.toHaveBeenCalled();
+  });
+
+  it("PUT CSRF token 不匹配 → 403", async () => {
+    mockRequireCsrf.mockReturnValueOnce({
+      ok: false,
+      response: Response.json(
+        { success: false, error: "CSRF 校验失败，请刷新页面后重试" },
+        { status: 403 },
+      ),
+    });
+    mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
+    const { PUT } = await loadRoute();
+    const res = await PUT(
+      buildReq({ title: "x" }) as unknown as Parameters<typeof PUT>[0],
+      { params: Promise.resolve({ id: CUID_ID }) }
+    );
+    expect(res.status).toBe(403);
+    expect(mockPrisma.article.update).not.toHaveBeenCalled();
+  });
+
+  it("PUT 正确 CSRF token → 继续执行", async () => {
+    mockRequireCsrf.mockReturnValueOnce({ ok: true });
+    mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
+    mockPrisma.article.findUnique
+      .mockResolvedValueOnce(existingArticle)
+      .mockResolvedValueOnce(null);
+    mockPrisma.article.update.mockResolvedValue({ ...existingArticle, title: "Updated Title" });
+    const { PUT } = await loadRoute();
+    const res = await PUT(
+      buildReq({ title: "Updated Title" }) as unknown as Parameters<typeof PUT>[0],
+      { params: Promise.resolve({ id: CUID_ID }) }
+    );
+    expect(res.status).toBe(200);
+    expect(mockPrisma.article.update).toHaveBeenCalled();
+  });
 });
 
 describe("PUT /api/articles/[id] — 业务逻辑", () => {
@@ -443,6 +499,58 @@ describe("DELETE /api/articles/[id] — 鉴权", () => {
     expect(json.error).toBe("登录状态异常，请重新登录");
     expect(mockPrisma.article.findUnique).not.toHaveBeenCalled();
     expect(mockPrisma.article.delete).not.toHaveBeenCalled();
+  });
+
+  it("DELETE CSRF token 缺失 → 403", async () => {
+    mockRequireCsrf.mockReturnValueOnce({
+      ok: false,
+      response: Response.json(
+        { success: false, error: "CSRF 校验失败，请刷新页面后重试" },
+        { status: 403 },
+      ),
+    });
+    mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
+    const { DELETE } = await loadRoute();
+    const res = await DELETE(
+      buildDeleteReq() as unknown as Parameters<typeof DELETE>[0],
+      { params: Promise.resolve({ id: CUID_ID }) }
+    );
+    expect(res.status).toBe(403);
+    const json = (await res.json()) as { error?: string };
+    expect(json.error).toContain("CSRF");
+    expect(mockPrisma.article.delete).not.toHaveBeenCalled();
+  });
+
+  it("DELETE CSRF token 不匹配 → 403", async () => {
+    mockRequireCsrf.mockReturnValueOnce({
+      ok: false,
+      response: Response.json(
+        { success: false, error: "CSRF 校验失败，请刷新页面后重试" },
+        { status: 403 },
+      ),
+    });
+    mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
+    const { DELETE } = await loadRoute();
+    const res = await DELETE(
+      buildDeleteReq() as unknown as Parameters<typeof DELETE>[0],
+      { params: Promise.resolve({ id: CUID_ID }) }
+    );
+    expect(res.status).toBe(403);
+    expect(mockPrisma.article.delete).not.toHaveBeenCalled();
+  });
+
+  it("DELETE 正确 CSRF token → 继续执行", async () => {
+    mockRequireCsrf.mockReturnValueOnce({ ok: true });
+    mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
+    mockPrisma.article.findUnique.mockResolvedValueOnce(existingArticle);
+    mockPrisma.article.delete.mockResolvedValue(existingArticle);
+    const { DELETE } = await loadRoute();
+    const res = await DELETE(
+      buildDeleteReq() as unknown as Parameters<typeof DELETE>[0],
+      { params: Promise.resolve({ id: CUID_ID }) }
+    );
+    expect(res.status).toBe(200);
+    expect(mockPrisma.article.delete).toHaveBeenCalled();
   });
 });
 

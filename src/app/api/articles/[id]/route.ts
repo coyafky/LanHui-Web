@@ -5,6 +5,7 @@ import { ArticleUpdateSchema } from "@/lib/validations/article";
 import { logActivity } from "@/lib/admin-dashboard";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";
+import { requireCsrf } from "@/lib/security/csrf";
 
 /** GET /api/articles/[id] — 获取单篇文章（也支持按 slug 查询） */
 export async function GET(
@@ -91,6 +92,9 @@ export async function PUT(
         { status: 401 }
       );
     }
+
+    const csrfCheck = requireCsrf(request);
+    if (!csrfCheck.ok) return csrfCheck.response;
 
     const { id } = await params;
 
@@ -183,7 +187,7 @@ export async function PUT(
 
 /** DELETE /api/articles/[id] — 删除文章（admin 权限，真删除） */
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const start = Date.now();
@@ -210,6 +214,9 @@ export async function DELETE(
       );
     }
 
+    const csrfCheck = requireCsrf(request);
+    if (!csrfCheck.ok) return csrfCheck.response;
+
     const { id } = await params;
 
     const existing = await prisma.article.findUnique({ where: { id } });
@@ -230,7 +237,7 @@ export async function DELETE(
       metadata: { title: existing.title, slug: existing.slug },
     });
 
-    const delCtx = getRequestContext(_request, "/api/articles/[id]");
+    const delCtx = getRequestContext(request, "/api/articles/[id]");
     logger.info({
       event: "api.request.completed",
       ...delCtx,
@@ -241,7 +248,7 @@ export async function DELETE(
 
     return Response.json({ success: true });
   } catch (error) {
-    const delErrCtx = getRequestContext(_request, "/api/articles/[id]");
+    const delErrCtx = getRequestContext(request, "/api/articles/[id]");
     logger.error({
       event: "api.request.failed",
       ...delErrCtx,
