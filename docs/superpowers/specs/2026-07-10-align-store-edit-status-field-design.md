@@ -2,6 +2,8 @@
 comet_change: align-store-edit-status-field
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-10-align-store-edit-status-field
+status: final
 ---
 
 # Design Doc: Align Store Edit Status Field
@@ -55,3 +57,4 @@ After successful PUT, update `storeStatus` and `storeData.status` from the saved
 
 1. `src/app/admin/(dashboard)/stores/[id]/page.tsx` — add `status` to `setStoreData()` mapping + save flow update
 2. `src/components/admin/stores/LevelStatusFields.tsx` — fix hardcoded `pending` fallback
+
