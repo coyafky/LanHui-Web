@@ -96,7 +96,7 @@ export const ArticleCreateSchema = z.object({
   publishedAt: z.string().datetime().optional().nullable(),
 });
 
-export const ArticleUpdateSchema = ArticleCreateSchema.partial();
+export const ArticleUpdateSchema = ArticleCreateSchema.partial().omit({ status: true });
 
 // 客户端表单校验 — 与 ArticleCreateSchema 独立，提供更友好的错误提示
 export const ArticleFormSchema = z

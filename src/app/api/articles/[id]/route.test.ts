@@ -349,59 +349,62 @@ describe("PUT /api/articles/[id] — 业务逻辑", () => {
     );
   });
 
-  it("status: draft → published (无 publishedAt) → 自动 set publishedAt = new Date()", async () => {
+  it("PUT with status field → status is stripped (no longer writable via PUT)", async () => {
     mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
-    mockPrisma.article.findUnique.mockResolvedValueOnce({ ...existingArticle, status: "draft", publishedAt: null });
-    const fixedDate = new Date("2026-06-15T10:00:00Z");
-    vi.setSystemTime(fixedDate);
+    const draftArticle = { ...existingArticle, status: "draft", publishedAt: null };
+    mockPrisma.article.findUnique.mockResolvedValueOnce(draftArticle);
     let capturedUpdateData: Record<string, unknown> | undefined;
     mockPrisma.article.update.mockImplementation(async ({ data }: { data: Record<string, unknown> }) => {
       capturedUpdateData = data;
-      return { ...existingArticle, status: "published", publishedAt: fixedDate, ...data };
+      return { ...draftArticle, ...data };
     });
     const { PUT } = await loadRoute();
     const res = await PUT(
-      buildReq({ status: "published" }) as unknown as Parameters<typeof PUT>[0],
+      buildReq({ status: "published", title: "新标题" }) as unknown as Parameters<typeof PUT>[0],
       { params: Promise.resolve({ id: CUID_ID }) }
     );
     expect(res.status).toBe(200);
-    expect(capturedUpdateData?.publishedAt).toBeInstanceOf(Date);
-    expect((capturedUpdateData?.publishedAt as Date).toISOString()).toBe(fixedDate.toISOString());
-    vi.useRealTimers();
+    expect(capturedUpdateData?.status).toBeUndefined();
+    expect(capturedUpdateData?.title).toBe("新标题");
   });
 
-  it("status: published → draft → 409 已发布文章需先撤回", async () => {
+  it("published → 'draft' via PUT → no error (status silently stripped)", async () => {
     mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
     mockPrisma.article.findUnique.mockResolvedValueOnce({
       ...existingArticle,
       status: "published",
+    });
+    let capturedUpdateData: Record<string, unknown> | undefined;
+    mockPrisma.article.update.mockImplementation(async ({ data }: { data: Record<string, unknown> }) => {
+      capturedUpdateData = data;
+      return { ...existingArticle, ...data };
     });
     const { PUT } = await loadRoute();
     const res = await PUT(
       buildReq({ status: "draft" }) as unknown as Parameters<typeof PUT>[0],
       { params: Promise.resolve({ id: CUID_ID }) }
     );
-    expect(res.status).toBe(409);
-    const json = (await res.json()) as { error?: string };
-    expect(json.error).toBe("已发布文章需先撤回");
-    expect(mockPrisma.article.update).not.toHaveBeenCalled();
+    expect(res.status).toBe(200);
+    expect(capturedUpdateData?.status).toBeUndefined();
   });
 
-  it("status: archived → published → 409 归档文章需先恢复为草稿", async () => {
+  it("archived → PUT with status → status stripped, article updated normally", async () => {
     mockAuth.mockResolvedValue({ user: { id: "user_admin_1", role: "admin" } });
-    mockPrisma.article.findUnique.mockResolvedValueOnce({
-      ...existingArticle,
-      status: "archived",
+    const archivedArticle = { ...existingArticle, status: "archived" };
+    mockPrisma.article.findUnique.mockResolvedValueOnce(archivedArticle);
+    let capturedUpdateData: Record<string, unknown> | undefined;
+    mockPrisma.article.update.mockImplementation(async ({ data }: { data: Record<string, unknown> }) => {
+      capturedUpdateData = data;
+      return { ...archivedArticle, ...data };
     });
     const { PUT } = await loadRoute();
     const res = await PUT(
-      buildReq({ status: "published" }) as unknown as Parameters<typeof PUT>[0],
+      buildReq({ status: "published", title: "新标题" }) as unknown as Parameters<typeof PUT>[0],
       { params: Promise.resolve({ id: CUID_ID }) }
     );
-    expect(res.status).toBe(409);
-    const json = (await res.json()) as { error?: string };
-    expect(json.error).toBe("归档文章需先恢复为草稿");
-    expect(mockPrisma.article.update).not.toHaveBeenCalled();
+    expect(res.status).toBe(200);
+    expect(capturedUpdateData?.status).toBeUndefined();
+    expect(capturedUpdateData?.title).toBe("新标题");
   });
 
   it("isSticky: true → 200 + data.isSticky === true", async () => {
