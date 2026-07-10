@@ -54,7 +54,7 @@
 - 修改：`src/lib/regions/mainland-regions.ts`
 - 修改：`src/lib/regions/mainland-regions.test.ts`
 
-- [ ] **步骤 1：在 `mainland-regions.ts` 末尾添加 5 个选择器**
+- [x] **步骤 1：在 `mainland-regions.ts` 末尾添加 5 个选择器**
 
 ```typescript
 export function getMainlandProvinceOptions(): { label: string; value: string }[] {
@@ -79,7 +79,7 @@ export function findMainlandCity(slug: string): CityData | undefined {
 
 注意：不添加 `buildRegionCascade()` — 原 `china-regions.ts` 的 `Region[]` 形状已无消费者，无需提供级联适配器。
 
-- [ ] **步骤 2：扩展 `mainland-regions.test.ts`**
+- [x] **步骤 2：扩展 `mainland-regions.test.ts`**
 
 新增 7 个测试：
 - `getMainlandProvinceOptions` 返回 31 个条目，每个有非空 label/value
@@ -98,11 +98,11 @@ export function findMainlandCity(slug: string): CityData | undefined {
 - 删除：`src/lib/china-regions.ts`
 - 修改：`scripts/audit/lib/collect-routes.mjs`
 
-- [ ] **步骤 1：删除 `src/lib/china-regions.ts`**
+- [x] **步骤 1：删除 `src/lib/china-regions.ts`**
 
 直接 `git rm src/lib/china-regions.ts`。该文件无任何 import 消费者，typecheck 不会因此新增错误。
 
-- [ ] **步骤 2：修复 `extractAgentRegion()` 改为从 `mainland-regions.ts` 提取**
+- [x] **步骤 2：修复 `extractAgentRegion()` 改为从 `mainland-regions.ts` 提取**
 
 当前实现（第 101-108 行）：
 ```js
@@ -145,7 +145,7 @@ function extractAgentRegion() {
 - 创建：`scripts/check-region-duplication.mjs`
 - 修改：`package.json`
 
-- [ ] **步骤 1：创建守卫脚本**
+- [x] **步骤 1：创建守卫脚本**
 
 功能：
 1. 扫描 `src/` 下所有 `.ts/.tsx` 文件
@@ -156,7 +156,7 @@ function extractAgentRegion() {
 
 实现方式：`fs.readFileSync` + 正则匹配，不解析 AST（轻量、无依赖）。
 
-- [ ] **步骤 2：链入 `package.json`**
+- [x] **步骤 2：链入 `package.json`**
 
 ```json
 "check:region-duplication": "node scripts/check-region-duplication.mjs"
@@ -168,23 +168,23 @@ function extractAgentRegion() {
 
 ### Task 4: 验证
 
-- [ ] **步骤 1：运行选择器测试**
+- [x] **步骤 1：运行选择器测试**
   ```bash
   npx vitest run src/lib/regions/mainland-regions.test.ts
   ```
 
-- [ ] **步骤 2：运行 lint 和 typecheck（确认删除后无新错误）**
+- [x] **步骤 2：运行 lint 和 typecheck（确认删除后无新错误）**
   ```bash
   npm run lint
   npm run typecheck
   ```
 
-- [ ] **步骤 3：运行守卫**
+- [x] **步骤 3：运行守卫**
   ```bash
   node scripts/check-region-duplication.mjs
   ```
 
-- [ ] **步骤 4：运行完整 check 链**
+- [x] **步骤 4：运行完整 check 链**
   ```bash
   npm run check
   ```
