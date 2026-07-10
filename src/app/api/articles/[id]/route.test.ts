@@ -79,7 +79,6 @@ describe("GET /api/articles/[id]", () => {
   it("按 cuid id 查询已存在文章 → 200 + author 关联", async () => {
     const publishedArticle = { ...existingArticle, status: "published" };
     mockPrisma.article.findFirst.mockResolvedValue(publishedArticle);
-    mockPrisma.article.update.mockResolvedValue({ ...publishedArticle, viewCount: 6 });
     const { GET } = await loadRoute();
     const res = await GET(
       buildReq({}) as unknown as Parameters<typeof GET>[0],
@@ -90,24 +89,17 @@ describe("GET /api/articles/[id]", () => {
     expect(json.success).toBe(true);
     expect(json.data.id).toBe(CUID_ID);
     expect(json.data.author.id).toBe("user_admin_1");
-    // viewCount 在响应中 +1
-    expect(json.data.viewCount).toBe(6);
+    expect(json.data.viewCount).toBe(5);
     expect(mockPrisma.article.findFirst).toHaveBeenCalledWith(
       expect.objectContaining({
         where: { OR: expect.arrayContaining([{ id: CUID_ID }, { slug: CUID_ID }]) },
       })
     );
-    expect(mockPrisma.article.update).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: { id: CUID_ID },
-        data: { viewCount: { increment: 1 } },
-      })
-    );
+    expect(mockPrisma.article.update).not.toHaveBeenCalled();
   });
 
   it("按 slug 查询 (id 不以 cl 开头) → 200", async () => {
     mockPrisma.article.findFirst.mockResolvedValue({ ...existingArticle, id: "clrealarticle00000000", slug: SLUG_ID, status: "published" });
-    mockPrisma.article.update.mockResolvedValue({ id: "clrealarticle00000000", viewCount: 6 });
     const { GET } = await loadRoute();
     const res = await GET(
       buildReq({}) as unknown as Parameters<typeof GET>[0],

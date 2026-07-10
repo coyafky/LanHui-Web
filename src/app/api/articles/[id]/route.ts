@@ -44,15 +44,9 @@ export async function GET(
       }
     }
 
-    // 增加浏览计数
-    await prisma.article.update({
-      where: { id: article.id },
-      data: { viewCount: { increment: 1 } },
-    });
-
     return Response.json({
       success: true,
-      data: { ...article, viewCount: article.viewCount + 1 },
+      data: article,
     });
   } catch (error) {
     const ctx = getRequestContext(request, "/api/articles/[id]");
