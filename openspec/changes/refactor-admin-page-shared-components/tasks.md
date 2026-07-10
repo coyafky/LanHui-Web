@@ -1,10 +1,10 @@
 ## 1. Baseline Audit
 
-- [ ] 1.1 Confirm current `ArticleForm` usage in article create and edit pages
-- [ ] 1.2 Record duplicated category loading blocks in articles list, article create, and article edit pages
-- [ ] 1.3 Record duplicated image page behavior in article image and store image routes
-- [ ] 1.4 Record duplicated store action state and API logic in stores list and store detail pages
-- [ ] 1.5 Run existing article page and ArticleForm tests as a baseline
+- [x] 1.1 Confirm current `ArticleForm` usage in article create and edit pages
+- [x] 1.2 Record duplicated category loading blocks in articles list, article create, and article edit pages
+- [x] 1.3 Record duplicated image page behavior in article image and store image routes
+- [x] 1.4 Record duplicated store action state and API logic in stores list and store detail pages
+- [x] 1.5 Run existing article page and ArticleForm tests as a baseline
 
 ## 2. Shared Categories Hook
 
@@ -63,17 +63,17 @@
 
 ## 7. Tests And Verification
 
-- [ ] 7.1 Run `npx vitest run src/components/admin/ArticleForm.test.tsx`
-- [ ] 7.2 Run article create/edit/list page tests
-- [ ] 7.3 Run new hook tests for `use-categories`, `use-store-action`, and `use-article-form-state`
-- [ ] 7.4 Run new `EntityImagePage` tests
-- [ ] 7.5 Run `npm run lint`
-- [ ] 7.6 Run `npm run typecheck` and document known pre-existing test-only errors if still present
-- [ ] 7.7 Run `npm run build`
-- [ ] 7.8 Run `npm run check:admin-page-duplication`
+- [x] 7.1 Run `npx vitest run src/components/admin/ArticleForm.test.tsx`
+- [x] 7.2 Run article create/edit/list page tests
+- [x] 7.3 Run new hook tests for `use-categories`, `use-store-action`, and `use-article-form-state`
+- [x] 7.4 Run new `EntityImagePage` tests
+- [x] 7.5 Run `npm run lint`
+- [x] 7.6 Run `npm run typecheck` and document known pre-existing test-only errors if still present
+- [x] 7.7 Run `npm run build`
+- [x] 7.8 Run `npm run check:admin-page-duplication`
 
 ## 8. Follow-up Notes
 
-- [ ] 8.1 Record remaining admin page duplication that is out of scope for this change
-- [ ] 8.2 Decide whether bulk store actions should get a separate `useStoreBulkAction` hook in a later change
-- [ ] 8.3 Decide whether `ArticleForm` props should later be collapsed to a single `value/onChange` object API
+- [x] 8.1 Record remaining admin page duplication that is out of scope for this change
+- [x] 8.2 Decide whether bulk store actions should get a separate `useStoreBulkAction` hook in a later change
+- [x] 8.3 Decide whether `ArticleForm` props should later be collapsed to a single `value/onChange` object API
