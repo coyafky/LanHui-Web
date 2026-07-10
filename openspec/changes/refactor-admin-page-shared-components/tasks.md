@@ -13,7 +13,7 @@
 - [x] 2.3 Implement loading, error, fallback, cancellation, and refetch behavior
 - [x] 2.4 Migrate `src/app/admin/(dashboard)/articles/page.tsx` to use `useCategories`
 - [x] 2.5 Migrate `src/app/admin/(dashboard)/articles/new/page.tsx` to use `useCategories`
-- [ ] 2.6 Migrate `src/app/admin/(dashboard)/articles/[id]/page.tsx` to use `useCategories`
+- [x] 2.6 Migrate `src/app/admin/(dashboard)/articles/[id]/page.tsx` to use `useCategories`
 - [ ] 2.7 Add hook tests for success, API failure, invalid response, and cancellation-safe fallback
 
 ## 3. Shared Entity Image Page
