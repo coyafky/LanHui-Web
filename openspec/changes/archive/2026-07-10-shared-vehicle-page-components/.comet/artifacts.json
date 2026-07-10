@@ -4,5 +4,6 @@
   "openspec_tasks": "openspec/changes/shared-vehicle-page-components/tasks.md",
   "openspec_delta_spec": "openspec/changes/shared-vehicle-page-components/specs/vehicle-page-components/spec.md",
   "handoff_context": "openspec/changes/shared-vehicle-page-components/.comet/handoff/design-context.json",
-  "handoff_markdown": "openspec/changes/shared-vehicle-page-components/.comet/handoff/design-context.md"
+  "handoff_markdown": "openspec/changes/shared-vehicle-page-components/.comet/handoff/design-context.md",
+  "archive_directory": "openspec/changes/archive/2026-07-10-shared-vehicle-page-components"
 }

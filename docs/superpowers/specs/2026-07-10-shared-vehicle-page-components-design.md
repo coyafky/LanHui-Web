@@ -2,6 +2,8 @@
 comet_change: shared-vehicle-page-components
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-10-shared-vehicle-page-components
+status: final
 ---
 
 # Design Doc: Shared Vehicle Page Components
@@ -55,3 +57,4 @@ xiaomi-yu7 (existing orange theme, suite of all sections) + zeekr-9x (largest pr
 | New | `src/lib/zeekr-9x-page-config.ts` |
 | Modified | `src/app/product/xiaomi/yu7/page.tsx` |
 | Modified | `src/app/product/zeekr/9x/page.tsx` |
+
