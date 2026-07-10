@@ -49,10 +49,8 @@ export default function RootLayout({
             __html: JSON.stringify(organizationSchema()),
           }}
         />
-        <AnalyticsProvider>
-          {children}
-          <WeChatConsultModal />
-        </AnalyticsProvider>
+        {children}
+        <WeChatConsultModal />
       </body>
     </html>
   );
