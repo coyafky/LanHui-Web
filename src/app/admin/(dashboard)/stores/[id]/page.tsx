@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, use, useMemo, type ReactNode } from "react";
-import { toast } from "sonner";
 import Link from "next/link";
 import { StoreForm, type StoreFormValues } from "@/components/admin/StoreForm";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
@@ -30,8 +29,8 @@ import {
 import {
   ACTION_TARGET,
   availableActionsFor,
-  type StoreAction,
 } from "@/lib/validations/store-transitions";
+import { useStoreAction, type StoreAction } from "@/hooks/use-store-action";
 import { cn } from "@/lib/utils";
 
 interface PublishCheck {
@@ -78,59 +77,23 @@ export default function EditStorePage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // 状态机动作 dialog
-  const [actionOpen, setActionOpen] = useState<StoreAction | null>(null);
-  const [statusReason, setStatusReason] = useState("");
-  const [acting, setActing] = useState(false);
-  const [actionError, setActionError] = useState<string | null>(null);
-
-  async function performStatusAction(action: StoreAction, reason?: string) {
-    setActing(true);
-    setActionError(null);
-    try {
-      const needReason = action === "suspend" || action === "terminate";
-      const res = await fetch(`/api/stores/${id}/${action}`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(
-          needReason && reason ? { statusReason: reason.trim() } : {}
-        ),
-      });
-      const json = (await res.json()) as {
-        success: boolean;
-        data?: { status: StoreStatus };
-        error?: string;
-        details?: Record<string, string[]>;
-      };
-      if (!json.success) {
-        const detailsMsg = json.details
-          ? Object.values(json.details).flat().join("；")
-          : "";
-        const errMsg = json.error || detailsMsg || "操作失败";
-        setActionError(errMsg);
-        toast.error(errMsg);
-        return;
-      }
-      const actionLabel = ACTION_TARGET[action].label;
-      toast.success(`${actionLabel}成功`);
-      if (json.data?.status) {
-        setStoreStatus(json.data.status);
+  const {
+    actionOpen, statusReason, acting, actionError,
+    openAction, closeAction, setStatusReason, setActionError, performAction,
+  } = useStoreAction(id, {
+    onSuccess: (result) => {
+      if (result.newStatus) {
+        setStoreStatus(result.newStatus as StoreStatus);
         if (storeData) {
           setStoreData({
             ...storeData,
-            status: json.data.status,
-            isActive: json.data.status === "active",
+            status: result.newStatus as StoreStatus,
+            isActive: result.newStatus === "active",
           });
         }
       }
-      setActionOpen(null);
-      setStatusReason("");
-    } catch (err) {
-      setActionError(err instanceof Error ? err.message : "网络错误");
-    } finally {
-      setActing(false);
-    }
-  }
+    },
+  });
 
   useEffect(() => {
     fetch(`/api/stores/${id}?all=true`)
@@ -307,11 +270,7 @@ export default function EditStorePage({
                   <button
                     key={action}
                     type="button"
-                    onClick={() => {
-                      setActionError(null);
-                      setStatusReason("");
-                      setActionOpen(action);
-                    }}
+                    onClick={() => openAction(action)}
                     className={cn(
                       "inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
                       isDanger
@@ -374,13 +333,11 @@ export default function EditStorePage({
                 setActionError("请填写原因");
                 return;
               }
-              await performStatusAction(actionOpen, statusReason);
+              await performAction(actionOpen, statusReason);
             }}
             onCancel={() => {
               if (acting) return;
-              setActionOpen(null);
-              setStatusReason("");
-              setActionError(null);
+              closeAction();
             }}
           >
             {(actionOpen === "suspend" || actionOpen === "terminate") && (

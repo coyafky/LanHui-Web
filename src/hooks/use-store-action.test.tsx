@@ -43,11 +43,21 @@ describe("useStoreAction", () => {
       const { result } = renderHook(() => useStoreAction(storeId));
 
       act(() => {
-        result.current.openAction("close");
+        result.current.openAction("resume");
       });
 
-      expect(result.current.actionOpen).toBe("close");
+      expect(result.current.actionOpen).toBe("resume");
       expect(result.current.actionError).toBeNull();
+    });
+
+    it("setActionError updates actionError state", () => {
+      const { result } = renderHook(() => useStoreAction(storeId));
+
+      act(() => {
+        result.current.setActionError("请填写原因");
+      });
+
+      expect(result.current.actionError).toBe("请填写原因");
     });
   });
 
@@ -86,16 +96,16 @@ describe("useStoreAction", () => {
       );
 
       await act(async () => {
-        await result.current.performAction("open");
+        await result.current.performAction("publish");
       });
 
       expect(mockAdminCsrfFetch).toHaveBeenCalledWith(
-        `/api/stores/${storeId}/open`,
+        `/api/stores/${storeId}/publish`,
         expect.objectContaining({ method: "POST" }),
       );
       expect(toast.success).toHaveBeenCalledWith("操作成功");
       expect(onSuccess).toHaveBeenCalledWith(
-        expect.objectContaining({ action: "open" }),
+        expect.objectContaining({ action: "publish" }),
       );
       expect(result.current.actionOpen).toBeNull();
       expect(result.current.acting).toBe(false);
@@ -111,7 +121,7 @@ describe("useStoreAction", () => {
       const { result } = renderHook(() => useStoreAction(storeId));
 
       await act(async () => {
-        await result.current.performAction("close");
+        await result.current.performAction("resume");
       });
 
       expect(toast.error).toHaveBeenCalledWith("Store not found");

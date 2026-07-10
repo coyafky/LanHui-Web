@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import { toast } from "sonner";
 import { adminCsrfFetch } from "@/lib/admin-csrf-fetch";
 
-export type StoreAction = "open" | "close" | "suspend" | "terminate";
+export type StoreAction = "publish" | "suspend" | "resume" | "terminate";
 
 interface UseStoreActionOptions {
   onSuccess?: (result: { action: StoreAction; newStatus?: string }) => void;
@@ -18,6 +18,7 @@ interface UseStoreActionReturn {
   openAction: (action: StoreAction) => void;
   closeAction: () => void;
   setStatusReason: (v: string) => void;
+  setActionError: (v: string) => void;
   performAction: (action: StoreAction, reason?: string) => Promise<void>;
 }
 
@@ -94,6 +95,7 @@ export function useStoreAction(
     openAction,
     closeAction,
     setStatusReason,
+    setActionError,
     performAction,
   };
 }
