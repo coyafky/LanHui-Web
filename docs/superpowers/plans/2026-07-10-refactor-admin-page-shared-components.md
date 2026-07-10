@@ -50,12 +50,12 @@ base-ref: 6aceb36bcea865af60e1dc809a07bda74d21e331
 
 ### 5. Duplication Guard
 
-- [ ] 5.1 创建 `scripts/check-admin-page-duplication.mjs`：检测四类重复模式
-- [ ] 5.2 添加 `check:admin-page-duplication` 到 package.json scripts
+- [x] 5.1 创建 `scripts/check-admin-page-duplication.mjs`：检测四类重复模式
+- [x] 5.2 添加 `check:admin-page-duplication` 到 package.json scripts
 
 ### 6. 收尾验证
 
-- [ ] 6.1 `npm run typecheck` — 确认无新类型错误
-- [ ] 6.2 `npm run test` — 确认全部测试通过（含新 hook/组件测试 + 已有回归）
-- [ ] 6.3 `npm run build` — 确认构建成功
-- [ ] 6.4 `npm run check:admin-page-duplication` — 确认 guard 通过
+- [x] 6.1 `npm run typecheck` — 确认无新类型错误
+- [x] 6.2 `npm run test` — 确认全部测试通过（含新 hook/组件测试 + 已有回归）
+- [x] 6.3 `npm run build` — 确认构建成功
+- [x] 6.4 `npm run check:admin-page-duplication` — 确认 guard 通过
