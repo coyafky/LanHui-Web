@@ -43,10 +43,10 @@ base-ref: 6aceb36bcea865af60e1dc809a07bda74d21e331
 
 ### 4. useArticleFormState — 文章表单状态 Hook
 
-- [ ] 4.1 创建 `src/hooks/use-article-form-state.ts`：create/edit 模式，独立 value/onChange 对，dirty 检测，handleSubmit 封装
-- [ ] 4.2 迁移 `src/app/admin/(dashboard)/articles/new/page.tsx`：替换 12+ state 声明 + submit 逻辑 → `useArticleFormState("create")`
-- [ ] 4.3 迁移 `src/app/admin/(dashboard)/articles/[id]/page.tsx`：替换 state + snapshot + submit 逻辑 → `useArticleFormState("edit", { initialData, articleId })`
-- [ ] 4.4 创建 `src/hooks/use-article-form-state.test.tsx`：create dirty、edit dirty、validation failure、server fieldErrors、create 成功、edit snapshot 更新
+- [x] 4.1 创建 `src/hooks/use-article-form-state.ts`：create/edit 模式，独立 value/onChange 对，dirty 检测，handleSubmit 封装
+- [x] 4.2 迁移 `src/app/admin/(dashboard)/articles/new/page.tsx`：替换 12+ state 声明 + submit 逻辑 → `useArticleFormState("create")`
+- [x] 4.3 迁移 `src/app/admin/(dashboard)/articles/[id]/page.tsx`：替换 state + snapshot + submit 逻辑 → `useArticleFormState("edit", { initialData, articleId })`
+- [x] 4.4 创建 `src/hooks/use-article-form-state.test.tsx`：create dirty、edit dirty、validation failure、server fieldErrors、create 成功、edit snapshot 更新
 
 ### 5. Duplication Guard
 

@@ -41,16 +41,16 @@
 
 ## 5. Shared Article Form State
 
-- [ ] 5.1 Create `src/hooks/use-article-form-state.ts`
-- [ ] 5.2 Do not create a second `ArticleForm`; keep using existing `src/components/admin/ArticleForm.tsx`
-- [ ] 5.3 Implement create mode initial values, dirty detection, validation, saving state, fieldErrors, and submit payload construction
-- [ ] 5.4 Implement edit mode load-to-snapshot flow, dirty detection, validation, saving state, fieldErrors, and submit payload construction
-- [ ] 5.5 Preserve auto slug behavior in create mode
-- [ ] 5.6 Preserve slug manually edited behavior
-- [ ] 5.7 Preserve `useUnsavedChangesGuard` integration for both create and edit
-- [ ] 5.8 Migrate `src/app/admin/(dashboard)/articles/new/page.tsx` to use the shared form state hook
-- [ ] 5.9 Migrate `src/app/admin/(dashboard)/articles/[id]/page.tsx` to use the shared form state hook
-- [ ] 5.10 Add hook tests for create dirty, edit dirty, validation failure, server field errors, successful create, and successful edit snapshot update
+- [x] 5.1 Create `src/hooks/use-article-form-state.ts`
+- [x] 5.2 Do not create a second `ArticleForm`; keep using existing `src/components/admin/ArticleForm.tsx`
+- [x] 5.3 Implement create mode initial values, dirty detection, validation, saving state, fieldErrors, and submit payload construction
+- [x] 5.4 Implement edit mode load-to-snapshot flow, dirty detection, validation, saving state, fieldErrors, and submit payload construction
+- [x] 5.5 Preserve auto slug behavior in create mode
+- [x] 5.6 Preserve slug manually edited behavior
+- [x] 5.7 Preserve `useUnsavedChangesGuard` integration for both create and edit
+- [x] 5.8 Migrate `src/app/admin/(dashboard)/articles/new/page.tsx` to use the shared form state hook
+- [x] 5.9 Migrate `src/app/admin/(dashboard)/articles/[id]/page.tsx` to use the shared form state hook
+- [x] 5.10 Add hook tests for create dirty, edit dirty, validation failure, server field errors, successful create, and successful edit snapshot update
 
 ## 6. Duplication Guard
 
