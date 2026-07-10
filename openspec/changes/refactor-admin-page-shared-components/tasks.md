@@ -18,14 +18,14 @@
 
 ## 3. Shared Entity Image Page
 
-- [ ] 3.1 Create `src/components/admin/EntityImagePage.tsx`
-- [ ] 3.2 Support configurable `entity`, `entityId`, `fetchEndpoint`, `backHref`, `crumbLabel`, `title`, `storageHint`, `placeholderPath`, and `selectData`
-- [ ] 3.3 Preserve existing loading spinner UI
-- [ ] 3.4 Preserve existing error retry UI
-- [ ] 3.5 Preserve refetch after `EntityImageUploader` upload success and delete success
+- [x] 3.1 Create `src/components/admin/EntityImagePage.tsx`
+- [x] 3.2 Support configurable `entity`, `entityId`, `fetchEndpoint`, `backHref`, `crumbLabel`, `title`, `storageHint`, `placeholderPath`, and `selectData`
+- [x] 3.3 Preserve existing loading spinner UI
+- [x] 3.4 Preserve existing error retry UI
+- [x] 3.5 Preserve refetch after `EntityImageUploader` upload success and delete success
 - [ ] 3.6 Migrate `src/app/admin/(dashboard)/articles/[id]/image/page.tsx` to render `EntityImagePage`
 - [ ] 3.7 Migrate `src/app/admin/(dashboard)/stores/[id]/image/page.tsx` to render `EntityImagePage`
-- [ ] 3.8 Add component tests for article config and store config
+- [x] 3.8 Add component tests for article config and store config
 
 ## 4. Shared Store Action Hook
 
