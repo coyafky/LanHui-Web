@@ -18,7 +18,7 @@ verification_report: docs/superpowers/reports/2026-07-10-fix-store-search-sugges
 branch_status: handled
 created_at: 2026-07-10
 verified_at: 2026-07-10
-archived: false
+archived: true
 direct_override: true
 handoff_context: openspec/changes/fix-store-search-suggestions-overflow/.comet/handoff/design-context.json
 handoff_hash: 0840cb900ce3a8ea4d0d9a9e85fbffb88da78808ae23ce4c2c46e781031133d7

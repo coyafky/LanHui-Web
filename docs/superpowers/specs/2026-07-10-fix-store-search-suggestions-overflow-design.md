@@ -2,6 +2,8 @@
 comet_change: fix-store-search-suggestions-overflow
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-10-fix-store-search-suggestions-overflow
+status: final
 ---
 
 # Design Doc: Fix Store Search Suggestions Overflow
