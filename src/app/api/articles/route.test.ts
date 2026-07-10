@@ -5,7 +5,7 @@ const mockArticleCreate = vi.hoisted(() => vi.fn());
 const mockArticleFindUnique = vi.hoisted(() => vi.fn());
 const mockLogActivity = vi.hoisted(() => vi.fn());
 const mockRevalidatePath = vi.hoisted(() => vi.fn());
-const mockRequireCsrf = vi.hoisted(() => vi.fn(() => ({ ok: true })));
+const mockRequireCsrf = vi.hoisted(() => vi.fn<() => { ok: boolean; response?: Response }>(() => ({ ok: true })));
 
 vi.mock("@/lib/auth", () => ({ auth: mockAuth }));
 vi.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));

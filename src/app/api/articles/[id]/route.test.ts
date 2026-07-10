@@ -13,7 +13,7 @@ const { mockPrisma, mockAuth, mockLogActivity } = vi.hoisted(() => ({
   mockLogActivity: vi.fn(),
 }));
 const mockRevalidatePath = vi.hoisted(() => vi.fn());
-const mockRequireCsrf = vi.hoisted(() => vi.fn(() => ({ ok: true })));
+const mockRequireCsrf = vi.hoisted(() => vi.fn<() => { ok: boolean; response?: Response }>(() => ({ ok: true })));
 
 vi.mock("@/lib/prisma", () => ({ prisma: mockPrisma }));
 vi.mock("@/lib/auth", () => ({ auth: mockAuth }));
