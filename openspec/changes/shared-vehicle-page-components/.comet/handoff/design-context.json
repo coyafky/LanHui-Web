@@ -1,0 +1,14 @@
+{
+  "change": "shared-vehicle-page-components",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "fe17b8ed774c5319a7c82f14f746853ece5dc530f06d5953413cf11f9f99a178",
+  "files": [
+    { "path": "openspec/changes/shared-vehicle-page-components/proposal.md", "sha256": "66443e8902cd02e9bdda6072bb2708ba13f5596677e69f730d0c36300df78a9d" },
+    { "path": "openspec/changes/shared-vehicle-page-components/design.md", "sha256": "a87e07f514ec993c119b64edcf1757b17cf193dce83f6cae8c379f98b60bca0e" },
+    { "path": "openspec/changes/shared-vehicle-page-components/tasks.md", "sha256": "68a097a7909ae6a67679c95fe57f8c4b31eeaa3f661437060c14582aeb118ea6" },
+    { "path": "openspec/changes/shared-vehicle-page-components/specs/vehicle-page-components/spec.md", "sha256": "6822e8acbb531854d9ae5d4a1a5bc3731b54034b7ccbd782187edf76d6cc5c59" }
+  ]
+}

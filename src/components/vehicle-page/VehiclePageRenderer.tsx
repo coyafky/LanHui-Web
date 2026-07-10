@@ -1,0 +1,26 @@
+import type { VehiclePageConfig } from "./vehicle-page.schema";
+import { VehicleHero } from "./VehicleHero";
+import { ProjectGrid } from "./ProjectGrid";
+import { ScenarioMatrix } from "./ScenarioMatrix";
+import { ServiceFlow } from "./ServiceFlow";
+import { FaqSection } from "./FaqSection";
+import { BundleList } from "./BundleList";
+
+interface Props {
+  config: VehiclePageConfig;
+}
+
+export function VehiclePageRenderer({ config }: Props) {
+  return (
+    <>
+      <VehicleHero config={config.hero} theme={config.theme} />
+      <ProjectGrid projects={config.projects} theme={config.theme} />
+      <ScenarioMatrix scenarios={config.scenarios} theme={config.theme} />
+      <ServiceFlow config={config.serviceFlow} theme={config.theme} />
+      <FaqSection items={config.faq} theme={config.theme} />
+      {config.bundles && config.bundles.length > 0 && (
+        <BundleList bundles={config.bundles} theme={config.theme} />
+      )}
+    </>
+  );
+}
