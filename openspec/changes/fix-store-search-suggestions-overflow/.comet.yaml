@@ -1,6 +1,6 @@
 workflow: full
 language: en
-phase: build
+phase: verify
 context_compression: off
 build_mode: direct
 build_pause: null
@@ -8,14 +8,14 @@ subagent_dispatch: null
 tdd_mode: direct
 review_mode: off
 isolation: branch
-verify_mode: null
+verify_mode: light
 auto_transition: true
 base_ref: 10809cbe6b43257b64a2f65255370e03e4200856
 design_doc: docs/superpowers/specs/2026-07-10-fix-store-search-suggestions-overflow-design.md
 plan: null
 verify_result: pending
-verification_report: null
-branch_status: pending
+verification_report: docs/superpowers/reports/2026-07-10-fix-store-search-suggestions-overflow-verify.md
+branch_status: handled
 created_at: 2026-07-10
 verified_at: null
 archived: false
