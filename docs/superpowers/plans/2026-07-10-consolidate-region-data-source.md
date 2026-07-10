@@ -1,3 +1,7 @@
+---
+archived-with: 2026-07-10-consolidate-region-data-source
+status: final
+---
 # 统一区域数据源 — 实现计划
 
 > **面向 AI 代理的工作者：** 使用 superpowers:subagent-driven-development（推荐）或 superpowers:executing-plans 逐任务实现此计划。
