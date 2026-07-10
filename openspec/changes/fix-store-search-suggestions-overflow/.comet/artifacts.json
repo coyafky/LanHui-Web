@@ -1,0 +1,8 @@
+{
+  "openspec_proposal": "openspec/changes/fix-store-search-suggestions-overflow/proposal.md",
+  "openspec_design": "openspec/changes/fix-store-search-suggestions-overflow/design.md",
+  "openspec_tasks": "openspec/changes/fix-store-search-suggestions-overflow/tasks.md",
+  "openspec_delta_spec": "openspec/changes/fix-store-search-suggestions-overflow/specs/store-search-suggestions/spec.md",
+  "handoff_context": "openspec/changes/fix-store-search-suggestions-overflow/.comet/handoff/design-context.json",
+  "handoff_markdown": "openspec/changes/fix-store-search-suggestions-overflow/.comet/handoff/design-context.md"
+}

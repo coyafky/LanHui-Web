@@ -1,0 +1,14 @@
+{
+  "change": "fix-store-search-suggestions-overflow",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "0840cb900ce3a8ea4d0d9a9e85fbffb88da78808ae23ce4c2c46e781031133d7",
+  "files": [
+    { "path": "openspec/changes/fix-store-search-suggestions-overflow/proposal.md", "sha256": "16dda78ff993a329c3cd6bb180740772d7ec1485b7a435f68579c5576550998f" },
+    { "path": "openspec/changes/fix-store-search-suggestions-overflow/design.md", "sha256": "b997759780d963d1506e7ad5833ef0d28c0880ebedac64c3fd0854c3852a1d1e" },
+    { "path": "openspec/changes/fix-store-search-suggestions-overflow/tasks.md", "sha256": "b938afd1c37ac777e4fda6651bd207066a98b76868075e4a6f8230f947638e86" },
+    { "path": "openspec/changes/fix-store-search-suggestions-overflow/specs/store-search-suggestions/spec.md", "sha256": "6dbd3b1f5c5f035044dea48255aa520763e1d953ef9fe09b7a2c0353c2c58196" }
+  ]
+}
