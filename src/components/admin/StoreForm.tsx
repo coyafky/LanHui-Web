@@ -1,39 +1,21 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Link from "next/link";
-import {
-  X,
-  Save,
-  Loader2,
-  MapPin,
-  Phone,
-  Clock,
-  Image as ImageIcon,
-  FileText,
-  Eye,
-  Award,
-} from "lucide-react";
+import { X, Save, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { StoreCreateSchema } from "@/lib/validations/store";
-import {
-  STORE_LEVELS,
-  STORE_LEVEL_LABELS,
-  STORE_STATUSES,
-  STORE_STATUS_LABELS,
-  type StoreLevel,
-  type StoreStatus,
-} from "@/lib/validations/store";
+import type { StoreLevel, StoreStatus } from "@/lib/validations/store";
 import { cn } from "@/lib/utils";
-import {
-  RegionSelector,
-  type RegionValue,
-  type RegionLoadState,
-} from "@/components/admin/RegionSelector";
+import type { RegionValue, RegionLoadState } from "@/components/admin/RegionSelector";
+import { BasicInfoFields } from "@/components/admin/stores/BasicInfoFields";
+import { LevelStatusFields } from "@/components/admin/stores/LevelStatusFields";
+import { ContactFields } from "@/components/admin/stores/ContactFields";
+import { DescriptionImageFields } from "@/components/admin/stores/DescriptionImageFields";
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -43,67 +25,13 @@ export type StoreFormValues = z.infer<typeof StoreCreateSchema>;
 
 interface StoreFormProps {
   defaultValues?: Partial<StoreFormValues>;
-  /** 允许页面头部/外部按钮通过 form 属性触发表单提交。 */
   formId?: string;
-  /**
-   * 提交回调。StoreForm 在成功后统一跳转到列表页 /admin/stores。
-   * 抛错时 StoreForm 捕获并在顶部 alert 展示错误信息。
-   */
   onSubmit: (data: StoreFormValues) => Promise<void>;
   submitLabel?: string;
   submitSuccessLabel?: string;
   showDelete?: boolean;
   onDelete?: () => Promise<void>;
-  /**
-   * 只读模式：所有字段不可编辑、隐藏保存按钮。
-   * 适用于 terminated 门店（spec 7）。
-   */
   readOnly?: boolean;
-}
-
-/* ------------------------------------------------------------------ */
-/*  Level badge color mapping                                          */
-/* ------------------------------------------------------------------ */
-
-const LEVEL_BADGE_CLASS: Record<StoreLevel, string> = {
-  flagship:
-    "border-amber-600/60 bg-amber-500/10 text-amber-400",
-  premium:
-    "border-blue-600/60 bg-blue-500/10 text-blue-400",
-  specialty:
-    "border-cyan-600/60 bg-cyan-500/10 text-cyan-400",
-  member:
-    "border-zinc-600 bg-zinc-700/40 text-zinc-300",
-};
-
-/* ------------------------------------------------------------------ */
-/*  Form Field Wrapper                                                 */
-/* ------------------------------------------------------------------ */
-
-function FieldWrapper({
-  label,
-  icon: Icon,
-  error,
-  children,
-  required,
-}: {
-  label: string;
-  icon: React.ComponentType<{ className?: string }>;
-  error?: string;
-  children: React.ReactNode;
-  required?: boolean;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <label className="flex items-center gap-1.5 text-sm font-medium text-zinc-300">
-        <Icon className="h-4 w-4 text-zinc-500" />
-        {label}
-        {required && <span className="text-red-400">*</span>}
-      </label>
-      {children}
-      {error && <p className="text-xs text-red-400">{error}</p>}
-    </div>
-  );
 }
 
 /* ------------------------------------------------------------------ */
@@ -196,7 +124,6 @@ export function StoreForm({
   async function handleFormSubmit(data: StoreFormValues) {
     setSubmitError(null);
 
-    // 发布前置校验（PRD §16 D1）：从 pending → active 必须设置 level
     const wantsPublish = data.status === "active" && !data.level;
     if (wantsPublish) {
       setSubmitError(
@@ -241,7 +168,6 @@ export function StoreForm({
   const inputClasses =
     "w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 placeholder-zinc-500 focus:border-orange-500 focus:outline-none";
 
-  // Submit button disabled when region load fails or while submitting or readOnly
   const submitDisabled =
     submitting || regionLoadState.error !== null || readOnly;
 
@@ -272,245 +198,36 @@ export function StoreForm({
         </div>
       )}
 
-      {/* ── Basic Info ── */}
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-100">基本信息</h2>
-        <div className="grid gap-5 sm:grid-cols-2">
-          {/* Name */}
-          <FieldWrapper
-            label="门店名称"
-            icon={MapPin}
-            required
-            error={errors.name?.message}
-          >
-            <input
-              {...register("name")}
-              placeholder="例：蓝辉轻改顺德大良店"
-              className={inputClasses}
-            />
-          </FieldWrapper>
+      <BasicInfoFields
+        register={register}
+        errors={errors}
+        regionValue={regionValue}
+        onRegionChange={handleRegionChange}
+        onRegionLoadStateChange={handleRegionLoadStateChange}
+        inputClasses={inputClasses}
+      />
 
-          {/* Slug: 系统自动生成，不再展示在表单中 */}
-          <input type="hidden" {...register("slug")} />
+      <LevelStatusFields
+        control={control}
+        register={register}
+        setValue={setValue}
+        errors={errors}
+        watchedLevel={watchedLevel as StoreLevel | undefined}
+        watchedStatus={watchedStatus as StoreStatus | undefined}
+      />
 
-          {/* Province / City via RegionSelector */}
-          <RegionSelector
-            value={regionValue}
-            onChange={handleRegionChange}
-            error={errors.provinceSlug?.message || errors.citySlug?.message}
-            onLoadStateChange={handleRegionLoadStateChange}
-          />
+      <ContactFields
+        register={register}
+        errors={errors}
+        inputClasses={inputClasses}
+      />
 
-          {/* District */}
-          <FieldWrapper label="区域" icon={MapPin} error={errors.district?.message}>
-            <input
-              {...register("district")}
-              placeholder="例：顺德大良"
-              className={inputClasses}
-            />
-          </FieldWrapper>
-
-          {/* Address */}
-          <FieldWrapper
-            label="详细地址"
-            icon={MapPin}
-            required
-            error={errors.address?.message}
-          >
-            <input
-              {...register("address")}
-              placeholder="例：广东省佛山市顺德区大良街道..."
-              className={inputClasses}
-            />
-          </FieldWrapper>
-        </div>
-      </section>
-
-      {/* ── Level & Status ── */}
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-100">
-          等级与状态
-        </h2>
-        <div className="grid gap-5 sm:grid-cols-2">
-          {/* Level Select */}
-          <FieldWrapper
-            label="门店等级"
-            icon={Award}
-            error={errors.level?.message}
-          >
-            <Controller
-              name="level"
-              control={control}
-              render={({ field }) => (
-                <select
-                  value={field.value ?? ""}
-                  onChange={(e) =>
-                    field.onChange(
-                      e.target.value === ""
-                        ? undefined
-                        : (e.target.value as StoreLevel)
-                    )
-                  }
-                  onBlur={field.onBlur}
-                  ref={field.ref}
-                  aria-label="选择门店等级"
-                  className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
-                >
-                  <option value="">暂不设置（待发布）</option>
-                  {STORE_LEVELS.map((lvl) => (
-                    <option key={lvl} value={lvl}>
-                      {STORE_LEVEL_LABELS[lvl]}
-                    </option>
-                  ))}
-                </select>
-              )}
-            />
-            <p className="mt-1 text-xs text-zinc-500">
-              星辉旗舰店：每个城市最多 1 家。发布（设为营业中）前必须选择门店等级。
-            </p>
-            {watchedLevel && (
-              <span
-                aria-live="polite"
-                className={cn(
-                  "mt-2 inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium",
-                  LEVEL_BADGE_CLASS[watchedLevel]
-                )}
-              >
-                {STORE_LEVEL_LABELS[watchedLevel]}
-              </span>
-            )}
-          </FieldWrapper>
-
-          {/* 4 态 status Select — 同步 status + isActive 兼容旧契约 */}
-          <FieldWrapper
-            label="门店状态"
-            icon={Eye}
-            error={errors.status?.message}
-          >
-            <Controller
-              name="status"
-              control={control}
-              render={({ field }) => (
-                <select
-                  value={field.value ?? "pending"}
-                  onChange={(e) => {
-                    const next = e.target.value as StoreStatus;
-                    field.onChange(next);
-                    // 兼容旧 isActive 字段：active ↔ true，其它 ↔ false
-                    setValue("isActive", next === "active", {
-                      shouldDirty: true,
-                    });
-                  }}
-                  onBlur={field.onBlur}
-                  ref={field.ref}
-                  aria-label="选择门店状态"
-                  className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-zinc-100 focus:border-orange-500 focus:outline-none"
-                >
-                  {STORE_STATUSES.map((s) => (
-                    <option key={s} value={s}>
-                      {STORE_STATUS_LABELS[s]}
-                    </option>
-                  ))}
-                </select>
-              )}
-            />
-            <input type="hidden" {...register("isActive")} />
-            <p className="mt-1 text-xs text-zinc-500">
-              状态切换会写入审计日志。暂停/终止合作需填写原因并在编辑页顶部确认。
-            </p>
-            {watchedStatus === "active" && !watchedLevel && (
-              <p
-                role="alert"
-                className="mt-2 rounded-md border border-amber-500/30 bg-amber-500/10 px-2 py-1 text-xs text-amber-400"
-              >
-                提示：未选择门店等级，发布动作将被阻断。
-              </p>
-            )}
-          </FieldWrapper>
-        </div>
-      </section>
-
-      {/* ── Contact & Hours ── */}
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-100">联系方式</h2>
-        <div className="grid gap-5 sm:grid-cols-2">
-          {/* Phone */}
-          <FieldWrapper
-            label="门店联系手机号"
-            icon={Phone}
-            required
-            error={errors.phone?.message}
-          >
-            <input
-              {...register("phone")}
-              type="tel"
-              inputMode="numeric"
-              maxLength={11}
-              placeholder="请输入 11 位手机号，例如 13800138000"
-              className={inputClasses}
-            />
-          </FieldWrapper>
-
-          {/* Business Hours */}
-          <FieldWrapper
-            label="营业时间"
-            icon={Clock}
-            error={errors.businessHours?.message}
-          >
-            <input
-              {...register("businessHours")}
-              placeholder="例：09:00-18:00"
-              className={inputClasses}
-            />
-          </FieldWrapper>
-        </div>
-        {/* phoneTel auto-generated, hidden */}
-        <input type="hidden" {...register("phoneTel")} />
-      </section>
-
-      {/* ── Description & Image ── */}
-      <section className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-        <h2 className="mb-4 text-lg font-semibold text-zinc-100">描述与图片</h2>
-        <div className="space-y-5">
-          {/* Description */}
-          <FieldWrapper
-            label="门店描述"
-            icon={FileText}
-            error={errors.description?.message}
-          >
-            <textarea
-              {...register("description")}
-              rows={3}
-              placeholder="门店描述..."
-              className={cn(inputClasses, "resize-none")}
-            />
-          </FieldWrapper>
-
-          {/* imagePath 只读展示，由图片管理页面上传/修改 */}
-          {defaultValues?.imagePath ? (
-            <FieldWrapper
-              label="已上传门店图片"
-              icon={ImageIcon}
-            >
-              <div className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-300">
-                <code className="text-xs text-zinc-400">{defaultValues.imagePath}</code>
-                <p className="mt-1 text-xs text-zinc-500">
-                  可在「门店图片管理」页面替换或删除
-                </p>
-              </div>
-            </FieldWrapper>
-          ) : (
-            <FieldWrapper
-              label="门店图片"
-              icon={ImageIcon}
-            >
-              <p className="text-xs text-zinc-500">
-                请在「门店图片管理」页面上传真实门店图。
-              </p>
-            </FieldWrapper>
-          )}
-        </div>
-      </section>
+      <DescriptionImageFields
+        register={register}
+        errors={errors}
+        imagePath={defaultValues?.imagePath ?? undefined}
+        inputClasses={inputClasses}
+      />
 
       {/* ── Actions ── */}
       {!readOnly && (
