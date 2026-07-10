@@ -31,8 +31,8 @@ base-ref: 6aceb36bcea865af60e1dc809a07bda74d21e331
 
 - [x] 2.1 创建 `src/components/admin/EntityImagePage.tsx`：接收 EntityImagePageConfig，统一 loading/error/breadcrumb/uploader/storage hint
 - [x] 2.2 迁移 `src/app/admin/(dashboard)/articles/[id]/image/page.tsx`：替换为 `<EntityImagePage entity="article" .../>`
-- [ ] 2.3 迁移 `src/app/admin/(dashboard)/stores/[id]/image/page.tsx`：替换为 `<EntityImagePage entity="store" .../>`
-- [ ] 2.4 创建 `src/components/admin/EntityImagePage.test.tsx`：article config 渲染、store config 渲染、loading 状态、error + retry
+- [x] 2.3 迁移 `src/app/admin/(dashboard)/stores/[id]/image/page.tsx`：替换为 `<EntityImagePage entity="store" .../>`
+- [x] 2.4 创建 `src/components/admin/EntityImagePage.test.tsx`：article config 渲染、store config 渲染、loading 状态、error + retry
 
 ### 3. useStoreAction — 门店状态操作 Hook
 

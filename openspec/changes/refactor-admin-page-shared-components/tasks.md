@@ -24,7 +24,7 @@
 - [x] 3.4 Preserve existing error retry UI
 - [x] 3.5 Preserve refetch after `EntityImageUploader` upload success and delete success
 - [x] 3.6 Migrate `src/app/admin/(dashboard)/articles/[id]/image/page.tsx` to render `EntityImagePage`
-- [ ] 3.7 Migrate `src/app/admin/(dashboard)/stores/[id]/image/page.tsx` to render `EntityImagePage`
+- [x] 3.7 Migrate `src/app/admin/(dashboard)/stores/[id]/image/page.tsx` to render `EntityImagePage`
 - [x] 3.8 Add component tests for article config and store config
 
 ## 4. Shared Store Action Hook
