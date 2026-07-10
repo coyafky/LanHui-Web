@@ -35,8 +35,8 @@
 - [x] 4.4 Preserve reason handling for `suspend` and `terminate`
 - [x] 4.5 Preserve success and failure toast behavior
 - [x] 4.6 Support `onSuccess` callback so pages can update local state or refetch
-- [ ] 4.7 Migrate `src/app/admin/(dashboard)/stores/[id]/page.tsx` to use `useStoreAction`
-- [ ] 4.8 Migrate single-row action logic in `src/app/admin/(dashboard)/stores/page.tsx` where safe; leave bulk action logic local if it does not fit the single-store hook
+- [x] 4.7 Migrate `src/app/admin/(dashboard)/stores/[id]/page.tsx` to use `useStoreAction`
+- [x] 4.8 Migrate single-row action logic in `src/app/admin/(dashboard)/stores/page.tsx` where safe; leave bulk action logic local if it does not fit the single-store hook
 - [x] 4.9 Add hook tests for success, API failure, network failure, reason validation, and onSuccess callback
 
 ## 5. Shared Article Form State
