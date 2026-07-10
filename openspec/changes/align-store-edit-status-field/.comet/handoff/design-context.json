@@ -1,0 +1,14 @@
+{
+  "change": "align-store-edit-status-field",
+  "phase": "design",
+  "mode": "compact",
+  "canonical_spec": "openspec",
+  "generated_by": "comet-handoff.sh",
+  "context_hash": "98edec7a62d578a62368203654ec9c7fbf8c9eecaddd9b0bfc2b19aef062a27b",
+  "files": [
+    { "path": "openspec/changes/align-store-edit-status-field/proposal.md", "sha256": "5742052263b48c0f69b9025b38a6fd8cd1dfd0332f17767758a488623a8d9a80" },
+    { "path": "openspec/changes/align-store-edit-status-field/design.md", "sha256": "1dd55d8e249a0a82288f08a685ab0934df1fa1d1a926fe8a65774928ea22b2e5" },
+    { "path": "openspec/changes/align-store-edit-status-field/tasks.md", "sha256": "1a7ccd3d00da7a587b3860faff645751c160cccbc5f4124f22de6aad88d937ba" },
+    { "path": "openspec/changes/align-store-edit-status-field/specs/store-edit-status-sync/spec.md", "sha256": "3a17e391ffae76f2af26b60b17053083cc0887a7bb3160e27ef6cf9dce1de896" }
+  ]
+}

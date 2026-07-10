@@ -23,6 +23,7 @@ import {
   STORE_LEVEL_LABELS,
   STORE_LEVEL_SORT_WEIGHTS,
   STORE_STATUS_LABELS,
+  resolveStoreStatus,
   type StoreLevel,
   type StoreStatus,
 } from "@/lib/validations/store";
@@ -118,6 +119,7 @@ export default function EditStorePage({
             imagePath: d.imagePath ?? null,
             isActive: d.isActive ?? true,
             level: d.level ?? undefined,
+            status: resolveStoreStatus({ status: d.status, isActive: d.isActive }),
           });
           setStoreLevel((d.level ?? null) as StoreLevel | null);
           setStoreSlug(d.slug ?? null);
@@ -148,6 +150,12 @@ export default function EditStorePage({
     // 同步本地最新 level/slug 给右侧栏显示
     if (data.level) setStoreLevel(data.level);
     if (data.slug) setStoreSlug(data.slug);
+    if (data.status) {
+      setStoreStatus(data.status as StoreStatus);
+      setStoreData((prev) =>
+        prev ? { ...prev, status: data.status as StoreStatus, isActive: data.status === "active" } : prev
+      );
+    }
   }
 
   /* ---------- Publish readiness checklist ---------- */
