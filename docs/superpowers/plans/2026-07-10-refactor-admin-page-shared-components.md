@@ -22,7 +22,7 @@ base-ref: 6aceb36bcea865af60e1dc809a07bda74d21e331
 ### 1. useCategories — 分类加载 Hook
 
 - [x] 1.1 创建 `src/hooks/use-categories.ts`：adminCsrfFetch 加载 `/api/articles/categories`，失败 fallback CATEGORIES_FALLBACK，useEffect + cleanup flag
-- [ ] 1.2 迁移 `src/app/admin/(dashboard)/articles/page.tsx`：替换内联 categories fetch → `useCategories()`
+- [x] 1.2 迁移 `src/app/admin/(dashboard)/articles/page.tsx`：替换内联 categories fetch → `useCategories()`
 - [ ] 1.3 迁移 `src/app/admin/(dashboard)/articles/new/page.tsx`：替换内联 categories fetch → `useCategories()`（同时修复裸 fetch → adminCsrfFetch）
 - [ ] 1.4 迁移 `src/app/admin/(dashboard)/articles/[id]/page.tsx`：替换内联 categories fetch → `useCategories()`（同时修复裸 fetch → adminCsrfFetch）
 - [ ] 1.5 创建 `src/hooks/use-categories.test.tsx`：成功加载、API 失败 fallback、无效响应 fallback、cleanup 不更新 state
