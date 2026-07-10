@@ -54,12 +54,12 @@
 
 ## 6. Duplication Guard
 
-- [ ] 6.1 Create `scripts/check-admin-page-duplication.mjs`
-- [ ] 6.2 Detect duplicated `/api/articles/categories` loading blocks outside `use-categories`
-- [ ] 6.3 Detect duplicated entity image page fetch/refetch/uploader structure outside `EntityImagePage`
-- [ ] 6.4 Detect duplicated store action state clusters outside `use-store-action`
-- [ ] 6.5 Allow duplicated patterns inside approved shared hooks/components
-- [ ] 6.6 Add `check:admin-page-duplication` to `package.json`
+- [x] 6.1 Create `scripts/check-admin-page-duplication.mjs`
+- [x] 6.2 Detect duplicated `/api/articles/categories` loading blocks outside `use-categories`
+- [x] 6.3 Detect duplicated entity image page fetch/refetch/uploader structure outside `EntityImagePage`
+- [x] 6.4 Detect duplicated store action state clusters outside `use-store-action`
+- [x] 6.5 Allow duplicated patterns inside approved shared hooks/components
+- [x] 6.6 Add `check:admin-page-duplication` to `package.json`
 
 ## 7. Tests And Verification
 
