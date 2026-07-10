@@ -17,7 +17,7 @@ verification_report: docs/superpowers/reports/2026-07-10-refactor-admin-page-sha
 branch_status: handled
 created_at: 2026-07-10
 verified_at: 2026-07-10
-archived: false
+archived: true
 handoff_context: openspec/changes/refactor-admin-page-shared-components/.comet/handoff/design-context.json
 handoff_hash: f4a1d25ff2b162abef45852f1f63c2c3449d7499c81787ff45996071e7a9153d
 language: null

@@ -2,6 +2,7 @@
 change: refactor-admin-page-shared-components
 design-doc: docs/superpowers/specs/2026-07-10-refactor-admin-page-shared-components-design.md
 base-ref: 6aceb36bcea865af60e1dc809a07bda74d21e331
+archived-with: 2026-07-10-refactor-admin-page-shared-components
 ---
 
 # Plan — 后台页面共享模式提取

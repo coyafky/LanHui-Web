@@ -2,6 +2,8 @@
 comet_change: refactor-admin-page-shared-components
 role: technical-design
 canonical_spec: openspec
+archived-with: 2026-07-10-refactor-admin-page-shared-components
+status: final
 ---
 
 # Design Doc — 后台页面共享模式提取
