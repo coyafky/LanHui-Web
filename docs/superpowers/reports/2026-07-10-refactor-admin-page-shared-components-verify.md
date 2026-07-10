@@ -97,16 +97,23 @@ New files follow project patterns:
 | `npm run test` (ArticleForm) | 15/15 pass |
 | `npm run test` (admin pages) | 27/27 pass (new: 4, edit: 7, list: 12, dashboard: 4) |
 | `npm run check:admin-page-duplication` | 0 violations |
+| Full test suite | 81 files, 1216 tests — 10 pre-existing failures in API route/zeekr-migration tests (unrelated to this change) |
 
 ---
 
 ## 5. Code Review
 
-<!-- Pending: dispatched code-reviewer subagent to review diff for correctness, security, edge cases -->
-
 ### Review Findings
 
-<!-- To be filled after code review -->
+| # | Severity | Finding | Resolution |
+|---|----------|---------|------------|
+| 1 | IMPORTANT | `useArticleFormState` used bare `fetch()` for POST/PUT — article API routes enforce CSRF via `requireCsrf(request)` | Fixed: switched to `adminCsrfFetch` in the hook. Hook tests rewritten to use `vi.mock("@/lib/admin-csrf-fetch")` pattern. |
+| 2 | IMPORTANT | `useStoreAction` didn't trim reason before sending — inconsistency with list page | Fixed: added `.trim()` in the hook |
+| 3 | MINOR | Edit article page test needed `global.fetch` mock for page-level data loading (separate from hook's `adminCsrfFetch`) | Fixed: restored `global.fetch = fetchMock` in beforeEach |
+
+### Review Summary
+
+All IMPORTANT findings fixed. No security vulnerabilities, no edge case risks remaining.
 
 ---
 
