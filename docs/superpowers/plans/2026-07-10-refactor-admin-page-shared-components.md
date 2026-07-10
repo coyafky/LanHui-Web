@@ -36,10 +36,10 @@ base-ref: 6aceb36bcea865af60e1dc809a07bda74d21e331
 
 ### 3. useStoreAction — 门店状态操作 Hook
 
-- [ ] 3.1 创建 `src/hooks/use-store-action.ts`：action dialog state + performAction POST + toast + onSuccess 回调
+- [x] 3.1 创建 `src/hooks/use-store-action.ts`：action dialog state + performAction POST + toast + onSuccess 回调
 - [ ] 3.2 迁移 `src/app/admin/(dashboard)/stores/[id]/page.tsx`：替换内联 action state → `useStoreAction()`
 - [ ] 3.3 迁移 `src/app/admin/(dashboard)/stores/page.tsx` 单行 action：替换内联 action state → `useStoreAction()`，批量操作保留页面层
-- [ ] 3.4 创建 `src/hooks/use-store-action.test.tsx`：成功操作、API 失败、网络失败、reason 校验、onSuccess 回调
+- [x] 3.4 创建 `src/hooks/use-store-action.test.tsx`：成功操作、API 失败、网络失败、reason 校验、onSuccess 回调
 
 ### 4. useArticleFormState — 文章表单状态 Hook
 
