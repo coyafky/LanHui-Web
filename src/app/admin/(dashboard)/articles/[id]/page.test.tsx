@@ -109,6 +109,7 @@ describe("EditArticlePage", () => {
   beforeEach(() => {
     fetchMock.mockReset();
     routerPush.mockReset();
+    global.fetch = fetchMock;
 
     // Default: categories GET ✓, article GET ✓, PUT ✓
     fetchMock.mockImplementation(
