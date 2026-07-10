@@ -5,6 +5,7 @@ import { ArticleCreateSchema } from "@/lib/validations/article";
 import { logActivity } from "@/lib/admin-dashboard";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";
+import { requireCsrf } from "@/lib/security/csrf";
 
 /** 生成简单的 timestamp-based slug */
 function generateSlug(title: string): string {
@@ -113,6 +114,9 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
+
+    const csrfCheck = requireCsrf(request);
+    if (!csrfCheck.ok) return csrfCheck.response;
 
     const body = await request.json();
     const parsed = ArticleCreateSchema.safeParse(body);
