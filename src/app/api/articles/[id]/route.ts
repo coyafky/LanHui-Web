@@ -126,11 +126,9 @@ export async function PUT(
       }
     }
 
-    // 如果 status 变为 published 且没有 publishedAt，自动设置
+    // publishedAt 日期转换
     const updateData: Record<string, unknown> = { ...data };
-    if (data.status === "published" && !existing.publishedAt && !data.publishedAt) {
-      updateData.publishedAt = new Date();
-    } else if (data.publishedAt) {
+    if (data.publishedAt) {
       updateData.publishedAt = new Date(data.publishedAt);
     }
 
