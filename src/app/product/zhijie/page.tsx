@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
-import { ZhijieBrandHero } from "@/components/zhijie/ZhijieBrandHero";
-import { ZhijieBrandServiceFlow } from "@/components/zhijie/ZhijieBrandServiceFlow";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { zhijieBrandPageConfig } from "@/lib/zhijie-brand-page-config";
+import { getModelRoute } from "@/lib/product-routes";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE = "智界轻改方案｜蓝辉轻改 LANHUI";
@@ -50,11 +50,8 @@ const V9_PROJECTS = [
 ] as const;
 
 export default function ZhijieBrandPage() {
-  const brand = getBrandRoute("zhijie");
-  if (!brand || brand.type !== "vehicle_brand") notFound();
   const v9 = getModelRoute("zhijie", "v9");
   if (!v9) notFound();
-  const breadcrumbItems = getProductBreadcrumbs("/product/zhijie");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/zhijie");
 
   const jsonLd = {
@@ -73,7 +70,7 @@ export default function ZhijieBrandPage() {
   return (
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
-        <ZhijieBrandHero totalModels={1} totalProjects={14} breadcrumbItems={breadcrumbItems} />
+        <VehiclePageRenderer config={zhijieBrandPageConfig} />
 
         {/* V9 车型卡 */}
         <section className="py-16 md:py-20 bg-zinc-950 border-t border-zinc-900">
@@ -128,8 +125,6 @@ export default function ZhijieBrandPage() {
             </article>
           </div>
         </section>
-
-        <ZhijieBrandServiceFlow />
 
         {/* 底部 CTA + 合规说明 */}
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">

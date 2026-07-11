@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
-import { getBrandRoute, getModelsByBrand } from "@/lib/product-routes";
-import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { voyahBrandPageConfig } from "@/lib/voyah-brand-page-config";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { safeJsonLd } from "@/lib/json-ld";
 
@@ -11,29 +9,13 @@ export const metadata: Metadata = {
   description: "查看岚图热门车型轻改项目，覆盖膜系、防护、舒适与实用配件。",
 };
 
-export default async function VoyahBrandPage() {
-  const brand = getBrandRoute("voyah");
-  if (!brand || brand.type !== "vehicle_brand") notFound();
-  const models = getModelsByBrand("voyah").map((m) => ({
-    name: m.modelName,
-    href: m.canonicalPath,
-  }));
-  const breadcrumbItems = getProductBreadcrumbs("/product/voyah");
+export default function VoyahBrandPage() {
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/voyah");
+
   return (
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow">
-        {breadcrumbItems && breadcrumbItems.length > 0 && (
-          <Breadcrumbs items={breadcrumbItems} className="mb-6" />
-        )}
-        <BrandPlaceholder
-          title={`${brand.brandName}轻改方案`}
-          subtitle="蓝辉轻改为岚图梦想家等车型提供轻改与膜系方案"
-          status={brand.status}
-          accentColor={brand.accentColor}
-          models={models}
-          intro="岚图是东风集团高端新能源品牌。已收录 1 款车型，提供外观、内饰、底盘及膜系轻改服务。"
-        />
+        <VehiclePageRenderer config={voyahBrandPageConfig} />
       </main>
       {breadcrumbSchema && (
         <script
