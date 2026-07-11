@@ -15,6 +15,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { Loader2, Upload, Trash2, Replace, ImageIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { adminCsrfFetch } from "@/lib/admin-csrf-fetch";
 
 /* ── 类型 ── */
 
@@ -69,7 +70,7 @@ export function EntityImageUploader({
       formData.append("entityId", entityId);
 
       try {
-        const res = await fetch("/api/upload", { method: "POST", body: formData });
+        const res = await adminCsrfFetch("/api/upload", { method: "POST", body: formData });
         const json = await res.json();
         if (!res.ok || !json.success) {
           throw new Error(json.error ?? `上传失败 (${res.status})`);
@@ -129,7 +130,7 @@ export function EntityImageUploader({
     setState("uploading");
     setError(null);
     try {
-      const res = await fetch(
+      const res = await adminCsrfFetch(
         `/api/upload?entity=${entity}&entityId=${encodeURIComponent(entityId)}`,
         { method: "DELETE" }
       );
