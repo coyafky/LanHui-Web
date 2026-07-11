@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Search, X, Loader2, SearchX } from "lucide-react";
+import { Search, X, SearchX } from "lucide-react";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -18,19 +18,34 @@ type StoreSuggestion = {
   level?: string | null;
 };
 
-type DropdownStatus = "idle" | "loading" | "open" | "empty" | "error";
+type DropdownStatus = "idle" | "open" | "empty";
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function matchesStore(store: StoreSuggestion, query: string): boolean {
+  const q = query.toLowerCase();
+  return (
+    store.name.toLowerCase().includes(q) ||
+    store.provinceLabel.toLowerCase().includes(q) ||
+    store.cityLabel.toLowerCase().includes(q) ||
+    (store.district ?? "").toLowerCase().includes(q) ||
+    store.address.toLowerCase().includes(q)
+  );
+}
+
+const MAX_RESULTS = 6;
 
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
-export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
-  const [value, setValue] = useState(initialKeyword ?? "");
-  const [suggestions, setSuggestions] = useState<StoreSuggestion[]>([]);
-  const [status, setStatus] = useState<DropdownStatus>("idle");
+export function StoreSearch({ stores }: { stores: readonly StoreSuggestion[] }) {
+  const [value, setValue] = useState("");
   const [highlightIndex, setHighlightIndex] = useState(-1);
   const [isComposing, setIsComposing] = useState(false);
-  const abortRef = useRef<AbortController | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -40,63 +55,36 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
   // -----------------------------------------------------------------------
 
   const closeDropdown = useCallback(() => {
-    setSuggestions([]);
-    setStatus("idle");
+    setIsDropdownOpen(false);
     setHighlightIndex(-1);
   }, []);
 
   const trimmed = value.trim();
 
   // -----------------------------------------------------------------------
-  // Debounce fetch — only triggers when trimmed >= 1 AND not composing IME
-  // Synchronous setState in effect body is intentionally avoided to comply
-  // with react-hooks/set-state-in-effect. Empty-value cleanup happens in
-  // handleChange.
+  // Client-side filtering with useMemo
   // -----------------------------------------------------------------------
 
+  const suggestions = useMemo(() => {
+    if (trimmed.length < 1 || isComposing) return [];
+    return stores.filter((s) => matchesStore(s, trimmed)).slice(0, MAX_RESULTS);
+  }, [stores, trimmed, isComposing]);
+
+  // Open dropdown when query changes and there are suggestions
   useEffect(() => {
-    abortRef.current?.abort();
-
-    if (trimmed.length < 1 || isComposing) {
-      return;
+    if (trimmed.length >= 1 && !isComposing) {
+      setIsDropdownOpen(true);
+    } else {
+      setIsDropdownOpen(false);
     }
-
-    const timer = setTimeout(async () => {
-      const controller = new AbortController();
-      abortRef.current = controller;
-
-      setStatus("loading");
-
-      try {
-        const res = await fetch(
-          `/api/stores?search=${encodeURIComponent(trimmed)}&limit=6&sort=public_featured`,
-          { signal: controller.signal },
-        );
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = await res.json();
-        // After async gap, re-check conditions
-        if (controller.signal.aborted) return;
-
-        const data: StoreSuggestion[] = json.data ?? [];
-
-        if (data.length > 0) {
-          setSuggestions(data);
-          setStatus("open");
-        } else {
-          setSuggestions([]);
-          setStatus("empty");
-        }
-      } catch (err: unknown) {
-        if (err instanceof Error && err.name === "AbortError") return;
-        setStatus("error");
-      }
-    }, 200);
-
-    return () => {
-      clearTimeout(timer);
-      abortRef.current?.abort();
-    };
   }, [trimmed, isComposing]);
+
+  const status: DropdownStatus =
+    trimmed.length < 1 || isComposing
+      ? "idle"
+      : suggestions.length > 0
+        ? "open"
+        : "empty";
 
   // -----------------------------------------------------------------------
   // Click outside
@@ -121,11 +109,6 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
     router.push(`/agent/store/${id}`);
   }
 
-  function navigateToSearch(keyword: string) {
-    closeDropdown();
-    router.push(`/agent?q=${encodeURIComponent(keyword)}`);
-  }
-
   // -----------------------------------------------------------------------
   // Event handlers
   // -----------------------------------------------------------------------
@@ -134,9 +117,6 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
     const next = e.target.value;
     setValue(next);
     setHighlightIndex(-1);
-    if (!next.trim()) {
-      closeDropdown();
-    }
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -158,17 +138,12 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
       return;
     }
 
-    // Enter
+    // Enter — select first result when no highlight, or navigate to highlighted
     if (e.key === "Enter") {
-      if (highlightIndex >= 0 && status === "open") {
+      if (status === "open") {
         e.preventDefault();
-        navigateToStore(suggestions[highlightIndex].id);
-      } else if (status === "open") {
-        e.preventDefault();
-        navigateToSearch(value.trim());
-      } else if (trimmed) {
-        e.preventDefault();
-        navigateToSearch(value.trim());
+        const idx = highlightIndex >= 0 ? highlightIndex : 0;
+        navigateToStore(suggestions[idx].id);
       }
       return;
     }
@@ -213,9 +188,7 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
   // Render
   // -----------------------------------------------------------------------
 
-  const showDropdown =
-    trimmed.length >= 1 &&
-    (status === "open" || status === "loading" || status === "empty" || status === "error");
+  const showDropdown = isDropdownOpen && status !== "idle";
 
   return (
     <div ref={containerRef} className="relative w-full max-w-3xl mx-auto">
@@ -258,17 +231,6 @@ export function StoreSearch({ initialKeyword }: { initialKeyword?: string }) {
           role="listbox"
           className="absolute top-full mt-3 z-50 w-full rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl shadow-black/40 overflow-y-auto max-h-[min(60vh,24rem)]"
         >
-          {status === "loading" && (
-            <div className="flex items-center gap-3 px-5 py-4 text-zinc-400 text-sm">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>搜索中...</span>
-            </div>
-          )}
-
-          {status === "error" && (
-            <div className="px-5 py-4 text-zinc-400 text-sm">搜索出错，请重试</div>
-          )}
-
           {status === "empty" && (
             <div className="flex flex-col items-center py-8 text-zinc-500">
               <SearchX className="w-8 h-8 mb-2" />
