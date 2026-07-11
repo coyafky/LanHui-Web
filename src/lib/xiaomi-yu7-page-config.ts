@@ -4,6 +4,9 @@ import {
   xiaomiYu7Scenarios,
   xiaomiYu7ServiceSteps,
   xiaomiYu7Faq,
+  XIAOMI_YU7_PROJECT_COUNT,
+  XIAOMI_YU7_SCENARIO_COUNT,
+  XIAOMI_YU7_HERO_IMAGE,
 } from "./xiaomi-yu7-upgrade-projects";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -19,12 +22,29 @@ const CATEGORY_LABELS: Record<string, string> = {
 export const xiaomiYu7PageConfig = {
   theme: "orange" as const,
 
+  breadcrumbs: [
+    { label: "首页", href: "/" },
+    { label: "产品中心", href: "/product" },
+    { label: "小米系列", href: "/product/xiaomi" },
+    { label: "小米 YU7" },
+  ],
+
   hero: {
     badge: "小米 YU7 · 轻改方案",
     title: "小米 YU7 轻改升级方案",
     subtitle: "9 项升级项目 · 5 大用车场景",
     description:
-      "蓝辉轻改深度分析小米 YU7 车型特点，覆盖软包脚垫、碳纤维护板、平衡杆、运动包围、星空膜、电吸门等 9 项轻改项目，提供新车保护、外观个性、座舱防护等场景化方案。",
+      "蓝辉轻改深度分析小米 YU7 车型特点，覆盖软包脚垫、碳纤维护板、平衡杆、运动包围、星空膜、电吸门等 9 项轻改项目。",
+    heroImage: {
+      src: XIAOMI_YU7_HERO_IMAGE.publicPath,
+      alt: XIAOMI_YU7_HERO_IMAGE.alt,
+      width: XIAOMI_YU7_HERO_IMAGE.width,
+      height: XIAOMI_YU7_HERO_IMAGE.height,
+    },
+    stats: {
+      totalProjects: XIAOMI_YU7_PROJECT_COUNT,
+      totalScenarios: XIAOMI_YU7_SCENARIO_COUNT,
+    },
   },
 
   projects: xiaomiYu7UpgradeProjects.map((p) => ({

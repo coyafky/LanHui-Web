@@ -16,7 +16,12 @@ export const liAutoI6PageConfig: VehiclePageConfig = {
     subtitle: "理想 i6 轻改升级方案",
     description:
       "热门轻改产品目录：围绕新车保护、隔热改色、座舱防护、底盘保护、外观个性和高端 SUV 出行场景，20 项升级项目供选择；蓝辉轻改顺德大良店到店评估、按标准流程施工。",
-    bgImage: LI_AUTO_I6_HERO_IMAGE.publicPath,
+    heroImage: {
+      src: LI_AUTO_I6_HERO_IMAGE.publicPath,
+      alt: LI_AUTO_I6_HERO_IMAGE.alt,
+      width: LI_AUTO_I6_HERO_IMAGE.width,
+      height: LI_AUTO_I6_HERO_IMAGE.height,
+    },
   },
   projects: liAutoI6UpgradeProjects.map((p) => ({
     id: p.key,

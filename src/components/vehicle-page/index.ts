@@ -5,10 +5,13 @@ export type {
   VehicleTheme,
   VehiclePageConfig,
   HeroConfig,
+  HeroImage,
+  HeroStats,
   ProjectConfig,
   ScenarioConfig,
   ServiceFlowConfig,
   ServiceFlowStep,
   FaqItem,
   BundleConfig,
+  BreadcrumbItemConfig,
 } from "./vehicle-page.schema";
