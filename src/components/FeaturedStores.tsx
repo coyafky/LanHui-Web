@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getStores } from "@/lib/data";
+import { listStores } from "@/lib/store-query";
 
 /** Next/Image placeholder：1x1 灰图 base64，避免 CLS（~30 字节） */
 const BLUR_DATA_URL =
@@ -18,7 +18,7 @@ const STORE_PLACEHOLDER = "/images/placeholders/store.webp";
  * - 视觉对齐 ProductsQuickEntry（标题 tracking-widest text-blue-400、卡片 bg-zinc-900 border-zinc-800）
  */
 export async function FeaturedStores() {
-  const stores = await getStores({ level: "flagship", limit: 4 });
+  const stores = listStores({ level: "flagship", limit: 4 });
   const active = stores.filter((s) => s.isActive !== false);
 
   if (active.length === 0) return null;

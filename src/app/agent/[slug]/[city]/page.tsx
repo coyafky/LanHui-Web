@@ -8,12 +8,11 @@ import {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import {
-  getCityBySlug,
-  getStores,
-  getAllProvinceSlugs,
-  getAllCitySlugs,
-  getProvinces,
-} from "@/lib/data";
+  listProvinces,
+  listStores,
+  listCities,
+  listStaticCityParams,
+} from "@/lib/store-query";
 import { generateBreadcrumbSchema } from "@/lib/geo";
 import { StoreCard } from "@/components/agent/StoreCard";
 import { sortStoresByLevel } from "@/components/agent/sort-stores";
@@ -21,14 +20,12 @@ import { safeJsonLd } from "@/lib/json-ld";
 
 export const revalidate = 3600;
 
-export async function generateStaticParams() {
-  const provinceSlugs = await getAllProvinceSlugs();
+export function generateStaticParams() {
+  const provinceSlugs = listProvinces().map((p) => p.slug);
   const params = [];
   for (const provinceSlug of provinceSlugs) {
-    const citySlugs = await getAllCitySlugs(provinceSlug);
-    for (const citySlug of citySlugs) {
-      params.push({ slug: provinceSlug, city: citySlug });
-    }
+    const cityParams = listStaticCityParams(provinceSlug);
+    params.push(...cityParams);
   }
   return params;
 }
@@ -39,7 +36,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string; city: string }>;
 }) {
   const { slug, city } = await params;
-  const cityData = await getCityBySlug(slug, city);
+  const cityData = listCities(slug).find((c) => c.slug === city);
   if (!cityData) return { title: "门店列表 | 蓝辉轻改 LANHUI" };
   return {
     title: `${cityData.label}门店 | 蓝辉轻改 LANHUI`,
@@ -47,9 +44,8 @@ export async function generateMetadata({
   };
 }
 
-async function provinceLabel(slug: string) {
-  const provinces = await getProvinces();
-  const provinceData = provinces.find((p) => p.slug === slug);
+function provinceLabel(slug: string) {
+  const provinceData = listProvinces().find((p) => p.slug === slug);
   return provinceData?.label ?? slug;
 }
 
@@ -59,12 +55,12 @@ export default async function CityStoresPage({
   params: Promise<{ slug: string; city: string }>;
 }) {
   const { slug, city } = await params;
-  const cityData = await getCityBySlug(slug, city);
+  const cityData = listCities(slug).find((c) => c.slug === city);
   if (!cityData) notFound();
   const storesInCity = sortStoresByLevel(
-    await getStores({ province: slug, city }),
+    listStores({ province: slug, city }),
   );
-  const provinceName = await provinceLabel(slug);
+  const provinceName = provinceLabel(slug);
 
   return (
     <>

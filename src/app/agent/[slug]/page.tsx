@@ -9,11 +9,10 @@ import {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import {
-  getProvinceBySlug,
-  getStores,
-  getCities,
-  getAllProvinceSlugs,
-} from "@/lib/data";
+  listProvinces,
+  listStores,
+  listCities,
+} from "@/lib/store-query";
 import { generateBreadcrumbSchema } from "@/lib/geo";
 import { StoreCard } from "@/components/agent/StoreCard";
 import { sortStoresByLevel } from "@/components/agent/sort-stores";
@@ -21,8 +20,8 @@ import { safeJsonLd } from "@/lib/json-ld";
 
 export const revalidate = 3600;
 
-export async function generateStaticParams() {
-  const slugs = await getAllProvinceSlugs();
+export function generateStaticParams() {
+  const slugs = listProvinces().map((p) => p.slug);
   return slugs.map((slug) => ({ slug }));
 }
 
@@ -32,7 +31,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const province = await getProvinceBySlug(slug);
+  const province = listProvinces().find((p) => p.slug === slug);
   if (!province) return { title: "门店详情 | 蓝辉轻改 LANHUI" };
   return {
     title: `${province.label}门店 | 蓝辉轻改 LANHUI`,
@@ -46,12 +45,12 @@ export default async function ProvincePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const province = await getProvinceBySlug(slug);
+  const province = listProvinces().find((p) => p.slug === slug);
   if (!province) notFound();
   const storesInProvince = sortStoresByLevel(
-    await getStores({ province: slug }),
+    listStores({ province: slug }),
   );
-  const citiesInProvince = await getCities(slug);
+  const citiesInProvince = listCities(slug);
 
   return (
     <>

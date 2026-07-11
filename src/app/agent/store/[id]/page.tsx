@@ -10,20 +10,19 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { getStoreById, getAllStoreIds } from "@/lib/data";
+import { findStore, listStaticStoreParams } from "@/lib/store-query";
 import { generateLocalBusinessSchema, generateBreadcrumbSchema } from "@/lib/geo";
 import { StoreLevelBadge } from "@/components/agent/StoreLevelBadge";
 import { safeJsonLd } from "@/lib/json-ld";
 
-export const revalidate = 86400;
+export const dynamicParams = false;
 
 /** Next/Image placeholder：1x1 灰图 base64，避免 CLS（~30 字节） */
 const BLUR_DATA_URL =
   "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAwA0JaQAA3AA/v3AgAA=";
 
-export async function generateStaticParams() {
-  const ids = await getAllStoreIds();
-  return ids.map((id) => ({ id }));
+export function generateStaticParams() {
+  return listStaticStoreParams();
 }
 
 export async function generateMetadata({
@@ -32,7 +31,7 @@ export async function generateMetadata({
   params: Promise<{ id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const store = await getStoreById(id);
+  const store = findStore(id);
   if (!store) return { title: "门店详情 | 蓝辉轻改 LANHUI" };
   return {
     title: `${store.name} | 蓝辉轻改 LANHUI`,
@@ -46,7 +45,7 @@ export default async function StoreDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const store = await getStoreById(id);
+  const store = findStore(id);
   if (!store) notFound();
 
   return (

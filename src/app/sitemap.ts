@@ -1,11 +1,10 @@
 import type { MetadataRoute } from "next";
 import { getAllProductSlugs } from "@/lib/products";
 import {
-  getAllProvinceSlugs,
-  getAllCitySlugs,
-  getAllStoreIds,
-  getProvinces,
-} from "@/lib/data";
+  listStores,
+  listProvinces,
+  listCities,
+} from "@/lib/store-query";
 
 const SITE_URL = "https://lanhui.example.com";
 
@@ -67,15 +66,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  // Province pages (from API with fallback)
-  let provinceSlugs: string[] = [];
-  let provincesData: { slug: string }[] = [];
-  try {
-    provinceSlugs = await getAllProvinceSlugs();
-    provincesData = await getProvinces();
-  } catch {
-    // fallback already handled in data.ts
-  }
+  // Province pages (from static data)
+  const provinceSlugs = listProvinces().map((p) => p.slug);
+  const provincesData = listProvinces();
 
   const provinceRoutes: MetadataRoute.Sitemap = provinceSlugs.map((slug) => ({
     url: `${SITE_URL}/agent/${slug}`,
@@ -87,28 +80,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // City pages
   const cityRoutes: MetadataRoute.Sitemap = [];
   for (const p of provincesData) {
-    try {
-      const citySlugs = await getAllCitySlugs(p.slug);
-      for (const city of citySlugs) {
-        cityRoutes.push({
-          url: `${SITE_URL}/agent/${p.slug}/${city}`,
-          lastModified: LAST_MOD,
-          changeFrequency: "monthly" as const,
-          priority: 0.6,
-        });
-      }
-    } catch {
-      // skip on error
+    const citySlugs = listCities(p.slug).map((c) => c.slug);
+    for (const city of citySlugs) {
+      cityRoutes.push({
+        url: `${SITE_URL}/agent/${p.slug}/${city}`,
+        lastModified: LAST_MOD,
+        changeFrequency: "monthly" as const,
+        priority: 0.6,
+      });
     }
   }
 
-  // Store detail pages (from API with fallback)
-  let storeIds: string[] = [];
-  try {
-    storeIds = await getAllStoreIds();
-  } catch {
-    // fallback already handled in data.ts
-  }
+  // Store detail pages (from static data)
+  const storeIds = listStores().map((s) => s.id);
 
   const storeRoutes: MetadataRoute.Sitemap = storeIds.map((id) => ({
     url: `${SITE_URL}/agent/store/${id}`,

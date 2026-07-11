@@ -5,16 +5,13 @@ import {
   Store as StoreIcon,
   Building2,
   ChevronRight,
-  SearchX,
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { getProvinces, getStores } from "@/lib/data";
+import { listStores, listProvinces } from "@/lib/store-query";
 import { StoreCard } from "@/components/agent/StoreCard";
 import { sortStoresByLevel } from "@/components/agent/sort-stores";
 import { StoreSearch } from "@/components/agent/StoreSearch";
-
-export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "全国门店网络 | 蓝辉轻改 LANHUI",
@@ -22,17 +19,9 @@ export const metadata: Metadata = {
     "寻找离您最近的蓝辉轻改门店，体验专业施工服务。覆盖广东、江苏、浙江等多个省份。",
 };
 
-export default async function AgentPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string }>;
-}) {
-  const { q: keyword } = await searchParams;
-  const provinces = await getProvinces();
-  const stores = sortStoresByLevel(
-    await getStores({ search: keyword || undefined }),
-  );
-  const isSearching = Boolean(keyword);
+export default function AgentPage() {
+  const provinces = listProvinces();
+  const stores = sortStoresByLevel(listStores());
   const totalStores = stores.length;
   const totalProvinces = provinces.length;
 
@@ -57,15 +46,13 @@ export default async function AgentPage({
             <p className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-8 leading-relaxed">
               寻找离您最近的蓝辉轻改门店，体验专业施工服务
             </p>
-            <StoreSearch initialKeyword={keyword} />
-            {!isSearching && (
-              <div className="inline-flex items-center gap-3 mt-10 px-5 py-2.5 bg-zinc-900/60 border border-zinc-800 rounded-full">
-                <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
-                <span className="text-sm text-zinc-300">
-                  {totalProvinces} 个省份 · {totalStores} 家门店
-                </span>
-              </div>
-            )}
+            <StoreSearch stores={stores} />
+            <div className="inline-flex items-center gap-3 mt-10 px-5 py-2.5 bg-zinc-900/60 border border-zinc-800 rounded-full">
+              <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" />
+              <span className="text-sm text-zinc-300">
+                {totalProvinces} 个省份 · {totalStores} 家门店
+              </span>
+            </div>
           </div>
         </section>
 
@@ -113,24 +100,9 @@ export default async function AgentPage({
                 <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-orange-500/10">
                   <StoreIcon className="w-5 h-5 text-orange-400" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">
-                  {isSearching ? "搜索结果" : "已开放门店"}
-                </h2>
-                {isSearching && (
-                  <span className="text-sm text-zinc-400">
-                    找到 {stores.length} 家门店
-                  </span>
-                )}
+                <h2 className="text-2xl font-bold text-white">已开放门店</h2>
               </div>
               <div className="flex items-center gap-3">
-                {isSearching && (
-                  <Link
-                    href="/agent"
-                    className="text-sm text-zinc-500 hover:text-orange-400 transition-colors"
-                  >
-                    清除搜索
-                  </Link>
-                )}
                 <p className="text-xs text-zinc-500 hidden sm:block">
                   按门店等级排序 · 旗舰优先
                 </p>
@@ -141,20 +113,6 @@ export default async function AgentPage({
                 {stores.map((s) => (
                   <StoreCard key={s.id} store={s} />
                 ))}
-              </div>
-            ) : isSearching ? (
-              <div className="text-center py-20 rounded-2xl border border-zinc-800 bg-zinc-900">
-                <SearchX className="w-12 h-12 text-zinc-700 mx-auto mb-4" />
-                <p className="text-zinc-400 mb-2">未找到匹配的门店</p>
-                <p className="text-zinc-600 text-sm mb-4">
-                  试试其他关键词，例如省份、城市或门店名称
-                </p>
-                <Link
-                  href="/agent"
-                  className="inline-flex items-center text-sm text-orange-400 hover:text-orange-300 transition-colors"
-                >
-                  清除搜索，查看全部门店
-                </Link>
               </div>
             ) : (
               <div className="text-center py-20 rounded-2xl border border-zinc-800 bg-zinc-900">
