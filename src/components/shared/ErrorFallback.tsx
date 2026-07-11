@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
 import type { ErrorFallbackProps } from "@/types/error-boundary";
-import { captureException } from "@/lib/observability";
+import { captureClientException } from "@/lib/observability.client";
 
 export function ErrorFallback({
   error,
@@ -14,10 +14,7 @@ export function ErrorFallback({
   const isProduction = process.env.NODE_ENV === "production";
 
   useEffect(() => {
-    captureException(error, {
-      digest: error.digest,
-      boundary: variant === "admin" ? "admin" : "public",
-    });
+    captureClientException(error);
   }, [error]);
 
   return (

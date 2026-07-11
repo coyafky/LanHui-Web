@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle } from "lucide-react";
 import { brand } from "@/lib/brand";
-import { captureException } from "@/lib/observability";
+import { captureClientException } from "@/lib/observability.client";
 
 export default function GlobalError({
   error,
@@ -16,7 +16,7 @@ export default function GlobalError({
   const isProduction = process.env.NODE_ENV === "production";
 
   useEffect(() => {
-    captureException(error, { digest: error.digest, boundary: "global" });
+    captureClientException(error);
   }, [error]);
 
   return (
