@@ -5,10 +5,13 @@ import {
   listProvinces,
   listCities,
 } from "@/lib/store-query";
+import { getSiteUrl } from "@/lib/site-url";
 
-const SITE_URL = "https://lanhui.example.com";
+const SITE_URL = getSiteUrl();
 
 const LAST_MOD = new Date("2026-06-01");
+
+export const dynamic = "force-static";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [

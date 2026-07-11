@@ -6,6 +6,7 @@ import { safeJsonLd } from "@/lib/json-ld";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.lanhui.com"),
   title: "蓝辉轻改 LANHUI | 汽车轻改装与车身膜服务",
   description:
     "蓝辉轻改专注汽车轻改装与车身膜服务，提供电动踏板、轮毂、底盘升级、汽车窗膜、改色膜、隐形车衣等一站式方案，当前服务门店为顺德大良店。",

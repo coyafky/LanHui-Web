@@ -1,16 +1,18 @@
 import type { MetadataRoute } from "next";
-import { brand } from "@/lib/brand";
+import { getSiteUrl } from "@/lib/site-url";
+
+export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
+  const siteUrl = getSiteUrl();
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/admin"],
       },
     ],
-    sitemap: `${brand.en.toLowerCase() === "lanhui" ? "https://lanhui.example.com" : "https://example.com"}/sitemap.xml`,
-    host: "https://lanhui.example.com",
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }

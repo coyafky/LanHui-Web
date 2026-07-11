@@ -18,8 +18,6 @@ import { StoreCard } from "@/components/agent/StoreCard";
 import { sortStoresByLevel } from "@/components/agent/sort-stores";
 import { safeJsonLd } from "@/lib/json-ld";
 
-export const revalidate = 3600;
-
 export function generateStaticParams() {
   const slugs = listProvinces().map((p) => p.slug);
   return slugs.map((slug) => ({ slug }));
