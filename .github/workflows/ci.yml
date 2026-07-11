@@ -1,62 +1,32 @@
-name: CI
-
+name: Static CI
 on:
   push:
-    branches: [main, master]
+    branches: [codex/static-site-extraction]
   pull_request:
-    branches: [main, master]
+    branches: [codex/static-site-extraction]
 
 jobs:
-  test:
+  static:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: lanhui
-          POSTGRES_PASSWORD: lanhui_password
-          POSTGRES_DB: lanhui
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    env:
-      DATABASE_URL: postgresql://lanhui:lanhui_password@localhost:5432/lanhui
-      NEXTAUTH_URL: http://localhost:3000
-      NEXTAUTH_SECRET: ci-secret-do-not-use-in-production
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
-
       - run: npm ci
-
-      - run: npx prisma generate
-
-      - run: npx prisma migrate deploy
-
       - run: npm run lint
-
       - run: npm run typecheck
-
       - run: npm test
-
-      - run: npm run build
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
-
-      - name: Run E2E tests
-        run: npm run test:e2e
+      - run: npm run verify:static-images
+      - run: npm run check:static-boundary
+      - run: npm run build:static
         env:
-          CI: true
+          NEXT_PUBLIC_SITE_URL: https://www.lanhui.com
+      - run: npm run check:static-output
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lanhui-static-site
+          path: out
+          if-no-files-found: error
