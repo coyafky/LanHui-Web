@@ -16,6 +16,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
 import { getRequestContext } from "@/lib/request-context";
+import { requireCsrf } from "@/lib/security/csrf";
 
 // ── 常量 ──
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
@@ -62,6 +63,9 @@ export async function POST(request: NextRequest) {
     if (!guard.ok) {
       return Response.json({ success: false, error: guard.error }, { status: guard.status });
     }
+
+    const csrfCheck = requireCsrf(request);
+    if (!csrfCheck.ok) return csrfCheck.response;
 
     const formData = await request.formData();
     const file = formData.get("file");
@@ -239,6 +243,9 @@ export async function DELETE(request: NextRequest) {
     if (!guard.ok) {
       return Response.json({ success: false, error: guard.error }, { status: guard.status });
     }
+
+    const csrfCheck = requireCsrf(request);
+    if (!csrfCheck.ok) return csrfCheck.response;
 
     const { searchParams } = request.nextUrl;
     const entity = searchParams.get("entity");

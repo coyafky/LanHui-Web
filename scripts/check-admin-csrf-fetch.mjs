@@ -6,7 +6,7 @@
  * 防回归检查：
  * 1. articles/page.tsx 中不允许对 /api/articles 路径使用裸 fetch（必须用 adminCsrfFetch）
  * 2. 状态转换操作（置顶/发布/撤回/归档）必须调用 action 路由而非 PUT
- * 3. 后端 articles 写 route 必须导入并调用 requireCsrf
+ * 3. 后端所有 admin 写 route 必须导入并调用 requireCsrf
  * 4. 客户端代码不允许通过 document.cookie 读取 lanhui_csrf
  *
  * Exit code: 0 = all pass, 1 = failures found
@@ -59,6 +59,12 @@ if (
 const routesToCheck = [
   ["articles/[id]/route.ts", "src/app/api/articles/[id]/route.ts"],
   ["articles/route.ts", "src/app/api/articles/route.ts"],
+  ["articles/[id]/[action]/route.ts", "src/app/api/articles/[id]/[action]/route.ts"],
+  ["articles/bulk/route.ts", "src/app/api/articles/bulk/route.ts"],
+  ["stores/route.ts", "src/app/api/stores/route.ts"],
+  ["stores/[id]/route.ts", "src/app/api/stores/[id]/route.ts"],
+  ["stores/[id]/[action]/route.ts", "src/app/api/stores/[id]/[action]/route.ts"],
+  ["upload/route.ts", "src/app/api/upload/route.ts"],
 ];
 
 for (const [name, relPath] of routesToCheck) {

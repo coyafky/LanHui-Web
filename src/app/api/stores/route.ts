@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { requireCsrf } from "@/lib/security/csrf";
 import { StoreCreateSchema } from "@/lib/validations/store";
 import { logActivity } from "@/lib/admin-dashboard";
 import { generateStoreSlug } from "@/lib/store-slug";
@@ -168,6 +169,9 @@ export async function POST(request: NextRequest) {
         { status: 403 }
       );
     }
+
+    const csrfCheck = requireCsrf(request);
+    if (!csrfCheck.ok) return csrfCheck.response;
 
     const body = await request.json();
     const parsed = StoreCreateSchema.safeParse(body);

@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { requireCsrf } from "@/lib/security/csrf";
 import { logActivity } from "@/lib/admin-dashboard";
 import {
   checkFlagshipPerCity,
@@ -69,6 +70,9 @@ export async function POST(
         { status: 403 }
       );
     }
+
+    const actionCsrfCheck = requireCsrf(request);
+    if (!actionCsrfCheck.ok) return actionCsrfCheck.response;
 
     const { id, action } = await ctx.params;
     if (!isValidAction(action)) {

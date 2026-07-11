@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { requireCsrf } from "@/lib/security/csrf";
 import {
   resolveStoreStatus,
   statusToIsActive,
@@ -83,6 +84,9 @@ export async function PUT(
         { status: 403 }
       );
     }
+
+    const putCsrfCheck = requireCsrf(request);
+    if (!putCsrfCheck.ok) return putCsrfCheck.response;
 
     const { id } = await ctx.params;
     const body = await request.json();
@@ -294,6 +298,9 @@ export async function DELETE(
         { status: 403 }
       );
     }
+
+    const deleteCsrfCheck = requireCsrf(_request);
+    if (!deleteCsrfCheck.ok) return deleteCsrfCheck.response;
 
     const { id } = await ctx.params;
 
