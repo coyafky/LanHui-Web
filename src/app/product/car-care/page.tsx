@@ -4,6 +4,7 @@ import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product
 import { CarCareValueGrid } from "@/components/product/car-care/CarCareValueGrid";
 import { CarCareServiceGrid } from "@/components/product/car-care/CarCareServiceGrid";
 import { CarCareServiceFlow } from "@/components/product/car-care/CarCareServiceFlow";
+import { safeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "洗美养护｜蓝辉轻改 LANHUI",
@@ -46,7 +47,7 @@ export default function CarCarePage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <CarCareHero breadcrumbItems={breadcrumbItems} />
@@ -57,7 +58,7 @@ export default function CarCarePage() {
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

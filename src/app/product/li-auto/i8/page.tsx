@@ -8,6 +8,7 @@ import {
   liAutoI8UpgradeProjects,
   LI_AUTO_I8_PROJECT_COUNT,
 } from "@/lib/li-auto-i8-products";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const MODEL_KEY = "I8" as const;
 const MODEL_NAME = "理想 i8";
@@ -95,13 +96,13 @@ export default function LiAutoI8Page() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

@@ -5,6 +5,7 @@ import { TeslaTopicViewTrack } from "@/components/tesla/TeslaTopicViewTrack";
 import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { teslaPageConfig } from "@/lib/tesla-page-config";
 import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE =
   "特斯拉轻改项目｜车衣、隔热膜、座舱舒适、电动便利｜蓝辉轻改";
@@ -89,12 +90,12 @@ export default function TeslaTopicPage() {
 
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

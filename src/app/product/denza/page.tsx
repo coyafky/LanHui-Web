@@ -4,6 +4,7 @@ import { getBrandRoute, getModelsByBrand } from "@/lib/product-routes";
 import { BrandPlaceholder } from "@/components/product/BrandPlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE = "腾势轻改方案｜蓝辉轻改 LANHUI";
 const PAGE_DESCRIPTION =
@@ -42,7 +43,7 @@ export default function DenzaBrandPage() {
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

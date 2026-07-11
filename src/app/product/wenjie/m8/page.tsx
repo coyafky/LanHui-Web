@@ -7,6 +7,7 @@ import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { WenjieM8ElectricDoorCautionCard } from "@/components/wenjie/model/WenjieM8ElectricDoorCautionCard";
 import { wenjieM8PageConfig } from "@/lib/wenjie-m8-page-config";
 import { wenjieM8UpgradeProjects, wenjieM8ElectricDoorProject } from "@/lib/wenjie-m8-upgrade-projects";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const MODEL_KEY = "M8" as const;
 const MODEL_NAME = "问界 M8";
@@ -105,13 +106,13 @@ export default async function WenjieM8Page() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

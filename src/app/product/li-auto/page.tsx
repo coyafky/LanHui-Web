@@ -12,6 +12,7 @@ import {
 } from "@/lib/li-auto-series-upgrade-projects";
 import { getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE = "理想轻改项目｜理想车衣、隔热膜、二排铝地板、底盘护板与后排舒适升级｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -155,13 +156,13 @@ export default function LiAutoSeriesPage() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

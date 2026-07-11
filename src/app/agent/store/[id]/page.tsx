@@ -13,6 +13,7 @@ import { Footer } from "@/components/Footer";
 import { getStoreById, getAllStoreIds } from "@/lib/data";
 import { generateLocalBusinessSchema, generateBreadcrumbSchema } from "@/lib/geo";
 import { StoreLevelBadge } from "@/components/agent/StoreLevelBadge";
+import { safeJsonLd } from "@/lib/json-ld";
 
 export const revalidate = 86400;
 
@@ -53,13 +54,13 @@ export default async function StoreDetailPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(generateLocalBusinessSchema(store)),
+          __html: safeJsonLd(generateLocalBusinessSchema(store)),
         }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: safeJsonLd(
             generateBreadcrumbSchema([
               { name: "首页", url: "/" },
               { name: "全国门店", url: "/agent" },

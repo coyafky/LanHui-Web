@@ -9,6 +9,7 @@ import {
   LI_AUTO_I6_PROJECT_COUNT,
   LI_AUTO_I6_HERO_IMAGE,
 } from "@/lib/li-auto-i6-products";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const MODEL_NAME = "理想 i6";
 const CANONICAL_PATH = "/product/li-auto/i6";
@@ -91,12 +92,12 @@ export default function LiAutoI6Page() {
           </div>
         </section>
 
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

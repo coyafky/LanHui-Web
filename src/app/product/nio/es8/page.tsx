@@ -4,6 +4,7 @@ import { NioEs8TopicViewTrack } from "@/components/nio/NioEs8TopicViewTrack";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { nioEs8PageConfig } from "@/lib/nio-es8-page-config";
 import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const MODEL_NAME = "蔚来 ES8";
 const CANONICAL_PATH = "/product/nio/es8";
@@ -90,13 +91,13 @@ export default function NioEs8Page() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

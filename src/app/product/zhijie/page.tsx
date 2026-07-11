@@ -6,6 +6,7 @@ import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { ZhijieBrandHero } from "@/components/zhijie/ZhijieBrandHero";
 import { ZhijieBrandServiceFlow } from "@/components/zhijie/ZhijieBrandServiceFlow";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE = "智界轻改方案｜蓝辉轻改 LANHUI";
 const PAGE_DESCRIPTION =
@@ -164,12 +165,12 @@ export default function ZhijieBrandPage() {
       {/* JSON-LD 结构化数据 */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

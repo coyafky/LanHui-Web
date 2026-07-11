@@ -8,6 +8,7 @@ import {
   liAutoL9UpgradeProjects,
   LI_AUTO_L9_PROJECT_COUNT,
 } from "@/lib/li-auto-l9-products";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const MODEL_KEY = "L9" as const;
 const MODEL_NAME = "理想 L9";
@@ -94,13 +95,13 @@ export default function LiAutoL9Page() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

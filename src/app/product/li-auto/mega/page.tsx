@@ -8,6 +8,7 @@ import {
   liAutoMegaUpgradeProjects,
   LI_AUTO_MEGA_PROJECT_COUNT,
 } from "@/lib/li-auto-mega-products";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const MODEL_KEY = "MEGA" as const;
 const MODEL_NAME = "理想 MEGA";
@@ -86,13 +87,13 @@ export default function LiAutoMegaPage() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

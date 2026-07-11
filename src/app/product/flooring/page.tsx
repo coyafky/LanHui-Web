@@ -12,6 +12,7 @@ import {
   flooringFunctions,
   type FlooringColorVariant,
 } from "@/lib/flooring-products";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const HERO_IMAGE: FlooringColorVariant = {
   id: "hero",
@@ -207,12 +208,12 @@ export default function FlooringTopicPage() {
       {/* JSON-LD 结构化数据 */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
       />
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

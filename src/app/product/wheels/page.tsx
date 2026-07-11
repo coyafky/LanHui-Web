@@ -7,6 +7,7 @@ import { WheelValueGrid } from "@/components/product/wheel/WheelValueGrid";
 import { getServiceRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { wheelGalleryImages } from "@/lib/wheel-products";
+import { safeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "轮毂升级与外观姿态方案｜蓝辉轻改 LANHUI",
@@ -55,7 +56,7 @@ export default function WheelsPage() {
       <main id="main-content" tabIndex={-1} className="flex-grow">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
         <WheelHero breadcrumbItems={breadcrumbItems} />
         <WheelValueGrid />
@@ -65,7 +66,7 @@ export default function WheelsPage() {
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

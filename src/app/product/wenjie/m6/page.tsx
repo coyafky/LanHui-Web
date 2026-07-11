@@ -7,6 +7,7 @@ import { getWenjieModelHeroImage } from "@/lib/wenjie-preview-images";
 import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { wenjieM6PageConfig } from "@/lib/wenjie-m6-page-config";
 import { wenjieM6UpgradeProjects } from "@/lib/wenjie-m6-upgrade-projects";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const CANONICAL_PATH = "/product/wenjie/m6";
 
@@ -113,13 +114,13 @@ export default function WenjieM6Page() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

@@ -9,6 +9,7 @@ import {
 import { xiaomiSu7PageConfig } from "@/lib/xiaomi-su7-page-config";
 import { XiaomiSu7TopicViewTrack } from "@/components/xiaomi-su7/XiaomiSu7TopicViewTrack";
 import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { safeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "小米 SU7 轻改项目｜车衣隔热膜Ultra机盖方向盘｜蓝辉轻改",
@@ -100,13 +101,13 @@ export default async function XiaomiSu7Page() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

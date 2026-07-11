@@ -6,6 +6,7 @@ import {
   getWindowFilmPackageWithDetails,
 } from "@/lib/window-film-details";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { safeJsonLd } from "@/lib/json-ld";
 
 type Params = { packageSlug: string };
 
@@ -56,7 +57,7 @@ export default async function WindowFilmPackagePage({
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

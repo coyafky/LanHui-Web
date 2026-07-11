@@ -9,6 +9,7 @@ import {
 import { xiaomiYu7PageConfig } from "@/lib/xiaomi-yu7-page-config";
 import { XiaomiYu7TopicViewTrack } from "@/components/xiaomi-yu7/XiaomiYu7TopicViewTrack";
 import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { safeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "小米 YU7 轻改项目｜软包脚垫运动包围电吸门｜蓝辉轻改",
@@ -103,13 +104,13 @@ export default async function XiaomiYu7Page() {
         {/* JSON-LD */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

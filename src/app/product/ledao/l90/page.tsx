@@ -11,6 +11,7 @@ import {
 } from "@/lib/ledao-l90-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE = "乐道 L90 轻改项目｜车衣、隔热膜、铝地板、底盘护板与电动踏板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -114,13 +115,13 @@ export default function LedaoL90TopicPage() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

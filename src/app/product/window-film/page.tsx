@@ -12,6 +12,7 @@ import {
   getWindowFilmPackageWithDetails,
   windowFilmDetails,
 } from "@/lib/window-film-details";
+import { safeJsonLd } from "@/lib/json-ld";
 
 // PRD §14.1 总页 metadata
 export const metadata: Metadata = {
@@ -167,7 +168,7 @@ export default function WindowFilmPage() {
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

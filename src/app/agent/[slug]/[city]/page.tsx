@@ -17,6 +17,7 @@ import {
 import { generateBreadcrumbSchema } from "@/lib/geo";
 import { StoreCard } from "@/components/agent/StoreCard";
 import { sortStoresByLevel } from "@/components/agent/sort-stores";
+import { safeJsonLd } from "@/lib/json-ld";
 
 export const revalidate = 3600;
 
@@ -70,7 +71,7 @@ export default async function CityStoresPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
+          __html: safeJsonLd(
             generateBreadcrumbSchema([
               { name: "首页", url: "/" },
               { name: "全国门店", url: "/agent" },

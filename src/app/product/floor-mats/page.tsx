@@ -7,6 +7,7 @@ import { CarMatValueGrid } from "@/components/product/carmat/CarMatValueGrid";
 import { carMatGalleryImages } from "@/lib/carmat-products";
 import { getServiceRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { safeJsonLd } from "@/lib/json-ld";
 
 export const metadata: Metadata = {
   title: "汽车垫与 360 软包脚垫｜蓝辉轻改 LANHUI",
@@ -55,7 +56,7 @@ export default function FloorMatsPage() {
       <main id="main-content" tabIndex={-1} className="flex-grow">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
         <CarMatHero breadcrumbItems={breadcrumbItems} />
         <CarMatValueGrid />
@@ -65,7 +66,7 @@ export default function FloorMatsPage() {
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

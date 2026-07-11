@@ -23,6 +23,7 @@ import {
 import { getModelRoute } from "@/lib/product-routes";
 import { xiaomiTopicMeta } from "@/lib/xiaomi-products";
 import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE = "小米轻改项目｜车衣、隔热膜、Ultra 风格、运动包围与电吸门｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -133,13 +134,13 @@ export default function XiaomiTopicPage() {
 
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

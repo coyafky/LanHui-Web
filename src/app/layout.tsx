@@ -3,6 +3,7 @@ import { organizationSchema } from "@/lib/schema";
 import { AnalyticsTracker } from "@/components/AnalyticsProvider";
 import { SkipToContent } from "@/components/SkipToContent";
 import { WeChatConsultModal } from "@/components/shared/WeChatConsultModal";
+import { safeJsonLd } from "@/lib/json-ld";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -46,7 +47,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema()),
+            __html: safeJsonLd(organizationSchema()),
           }}
         />
         {children}

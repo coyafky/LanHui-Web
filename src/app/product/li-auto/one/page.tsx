@@ -8,6 +8,7 @@ import {
   liAutoOneUpgradeProjects,
   LI_AUTO_ONE_PROJECT_COUNT,
 } from "@/lib/li-auto-one-products";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const MODEL_KEY = "ONE" as const;
 const MODEL_NAME = "理想 ONE";
@@ -69,12 +70,12 @@ export default function LiAutoOnePage() {
           </div>
         </section>
 
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

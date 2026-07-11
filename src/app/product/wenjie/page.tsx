@@ -12,6 +12,7 @@ import {
   wenjieSeriesFeaturedProjects,
   wenjieSeriesOptionalProjects,
 } from "@/lib/wenjie-series-upgrade-projects";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE = "问界轻改项目｜车衣、隔热膜、二排铝地板、底盘护板与电动踏板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -128,13 +129,13 @@ export default function WenjieSeriesPage() {
         {/* JSON-LD 结构化数据 */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>

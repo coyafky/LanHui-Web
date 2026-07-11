@@ -6,6 +6,7 @@ import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product
 import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { wenjieM7PageConfig } from "@/lib/wenjie-m7-page-config";
 import { wenjieM7UpgradeProjects } from "@/lib/wenjie-m7-upgrade-projects";
+import { safeJsonLd } from "@/lib/json-ld";
 
 const PAGE_TITLE =
   "问界 M7 专属升级方案｜30 个升级项目（必改、商务、实用）｜蓝辉轻改";
@@ -84,13 +85,13 @@ export default function WenjieM7Page() {
         {/* JSON-LD 结构化数据 */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
         />
       )}
     </>
