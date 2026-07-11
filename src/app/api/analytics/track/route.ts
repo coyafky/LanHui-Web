@@ -1,14 +1,25 @@
 import { headers } from 'next/headers';
+import { z } from 'zod';
 import { prisma } from '@/lib/prisma';
 import { logger } from '@/lib/logger';
 import { getRequestContext } from '@/lib/request-context';
 
-/**
- * POST /api/analytics/track
- * 接收批量埋点事件，写入数据库
- */
-
 const MAX_EVENTS_PER_REQUEST = 50;
+const MAX_PATHNAME_LENGTH = 256;
+
+const EventType = z.enum(['pageview', 'click', 'form_submit', 'reservation', 'store_view']);
+
+const TrackEventSchema = z.object({
+  type: EventType,
+  pathname: z.string().min(1).max(MAX_PATHNAME_LENGTH),
+  storeId: z.string().max(64).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+  eventId: z.string().max(128).optional(),
+});
+
+const TrackPayloadSchema = z.object({
+  events: z.array(TrackEventSchema).min(1).max(MAX_EVENTS_PER_REQUEST),
+});
 
 // 简易内存限流：每 IP 每分钟最多 60 次请求
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -38,13 +49,6 @@ if (typeof globalThis !== 'undefined') {
       }
     }
   }, 120_000);
-}
-
-interface TrackEventInput {
-  type: string;
-  pathname: string;
-  storeId?: string;
-  metadata?: Record<string, unknown>;
 }
 
 export async function POST(request: Request) {
@@ -79,49 +83,27 @@ export async function POST(request: Request) {
     }
 
     // 解析请求体
-    const body = await request.json() as { events: TrackEventInput[] };
+    const body = await request.json();
 
-    if (!body.events || !Array.isArray(body.events)) {
-      return Response.json(
-        { success: false, error: '无效的请求数据' },
-        { status: 400 }
-      );
+    const contentType = request.headers.get('content-type') ?? '';
+    if (!contentType.includes('application/json')) {
+      return Response.json({ success: false, error: '无效的请求格式' }, { status: 400 });
     }
 
-    if (body.events.length > MAX_EVENTS_PER_REQUEST) {
-      return Response.json(
-        { success: false, error: `单次最多 ${MAX_EVENTS_PER_REQUEST} 条事件` },
-        { status: 400 }
-      );
+    const parsed = TrackPayloadSchema.safeParse(body);
+    if (!parsed.success) {
+      const dropped = body.events?.length ?? 0;
+      logger.warn({ event: 'analytics.invalid_payload', issues: parsed.error.flatten().fieldErrors, dropped });
+      return Response.json({ success: true, count: 0, invalidCount: dropped });
     }
 
-    // 基础验证
-    const validTypes = new Set(['pageview', 'click', 'form_submit', 'reservation', 'store_view']);
-
-    // BUG-4 修复：拆分 valid/invalid 事件并 warn
-    const validEvents: TrackEventInput[] = [];
-    const invalidEvents: TrackEventInput[] = [];
-    for (const e of body.events) {
-      if (e && e.type && validTypes.has(e.type) && e.pathname) {
-        validEvents.push(e);
-      } else {
-        invalidEvents.push(e);
-      }
-    }
-
-    if (invalidEvents.length > 0) {
-      logger.warn({
-        event: "analytics.invalid_event",
-        dropped: invalidEvents.length,
-        sample: invalidEvents[0],
-      });
-    }
+    const validEvents = parsed.data.events;
 
     if (validEvents.length === 0) {
       return Response.json({
         success: true,
         count: 0,
-        invalidCount: invalidEvents.length,
+        invalidCount: 0,
       });
     }
 
@@ -146,13 +128,13 @@ export async function POST(request: Request) {
       status: 200,
       durationMs: Date.now() - start,
       count: result.count,
-      invalidCount: invalidEvents.length,
+      invalidCount: 0,
     });
 
     return Response.json({
       success: true,
       count: result.count,
-      invalidCount: invalidEvents.length,
+      invalidCount: 0,
     });
   } catch (error) {
     const trackErrCtx = getRequestContext(request, "/api/analytics/track");

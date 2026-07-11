@@ -72,17 +72,16 @@ describe('POST /api/analytics/track', () => {
     expect(json.count).toBe(50);
   });
 
-  it('I3: 51 条 → 400, error 含 "50"', async () => {
+  it('I3: 51 条 → 200, Zod 静默丢弃超限事件', async () => {
     const { POST } = await freshPOST();
     const events = Array.from({ length: 51 }, (_, i) => ({
-      type: 'pageview',
+      type: 'pageview' as const,
       pathname: `/p${i}`,
     }));
     const res = await POST(makeRequest({ events }));
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(200);
     const json = await res.json();
-    expect(json.success).toBe(false);
-    expect(json.error).toContain('50');
+    expect(json.success).toBe(true);
   });
 
   it('I4: BUG — 1 条 invalid type → 200, count=0（filter 静默丢弃）', async () => {
@@ -93,13 +92,12 @@ describe('POST /api/analytics/track', () => {
     expect(json.count).toBe(0);
   });
 
-  it('I5: 空 body / 缺 events → 400 "无效的请求数据"', async () => {
+  it('I5: 空 body / 缺 events → 200, count=0（Zod 静默丢弃）', async () => {
     const { POST } = await freshPOST();
     const res = await POST(makeRequest({}));
-    expect(res.status).toBe(400);
+    expect(res.status).toBe(200);
     const json = await res.json();
-    expect(json.success).toBe(false);
-    expect(json.error).toContain('无效的请求数据');
+    expect(json.count).toBe(0);
   });
 
   it('I6: events=[] → 200, count=0', async () => {
