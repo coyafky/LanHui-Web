@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { organizationSchema } from "@/lib/schema";
-import { AnalyticsTracker } from "@/components/AnalyticsProvider";
 import { SkipToContent } from "@/components/SkipToContent";
 import { WeChatConsultModal } from "@/components/shared/WeChatConsultModal";
 import { safeJsonLd } from "@/lib/json-ld";
@@ -43,7 +42,6 @@ export default function RootLayout({
     <html lang="zh-CN" className="h-full antialiased dark" suppressHydrationWarning>
       <body className="min-h-full flex flex-col bg-zinc-950 text-white" suppressHydrationWarning>
         <SkipToContent />
-        <AnalyticsTracker />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
