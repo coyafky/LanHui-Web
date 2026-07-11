@@ -1,10 +1,41 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { SubModelsGrid, type SubModelCard } from "@/components/vehicle-page/SubModelsGrid";
 import { zeekrSeriesPageConfig } from "@/lib/zeekr-series-page-config";
-import { zeekrTopicMeta, zeekrProducts } from "@/lib/zeekr-products";
+import {
+  zeekrTopicMeta,
+  zeekrProducts,
+} from "@/lib/zeekr-products";
+import {
+  ZEEKR_9X_PROJECT_COUNT,
+  ZEEKR_9X_HERO_IMAGE,
+} from "@/lib/zeekr-9x-products";
+import {
+  ZEEKR_8X_PROJECT_COUNT,
+  ZEEKR_8X_HERO_IMAGE,
+} from "@/lib/zeekr-8x-products";
 import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { safeJsonLd } from "@/lib/json-ld";
+
+const ZEEKR_SUB_MODELS: readonly SubModelCard[] = [
+  {
+    modelKey: "9X",
+    modelName: "极氪 9X",
+    canonicalPath: "/product/zeekr/9x",
+    projectCount: Number(ZEEKR_9X_PROJECT_COUNT),
+    hero: "覆盖新车保护、外观个性、座舱防护、底盘与行车安全、高端质感 5 大场景 18 项升级产品。",
+    image: { src: ZEEKR_9X_HERO_IMAGE.publicPath ?? "", alt: ZEEKR_9X_HERO_IMAGE.alt },
+  },
+  {
+    modelKey: "8X",
+    modelName: "极氪 8X",
+    canonicalPath: "/product/zeekr/8x",
+    projectCount: Number(ZEEKR_8X_PROJECT_COUNT),
+    hero: "覆盖车窗膜系、内饰防护、底盘电子、电动踏板、生活方式配件 5 大场景 17 项改装产品。",
+    image: { src: ZEEKR_8X_HERO_IMAGE.publicPath ?? "", alt: ZEEKR_8X_HERO_IMAGE.alt },
+  },
+];
 
 export const metadata: Metadata = {
   title: `${zeekrTopicMeta.title} | 9X / 8X / 009 改装配件 | 蓝辉轻改 LANHUI`,
@@ -36,6 +67,8 @@ export default function ZeekrTopicPage() {
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
         <VehiclePageRenderer config={zeekrSeriesPageConfig} />
+
+        <SubModelsGrid models={ZEEKR_SUB_MODELS} theme="orange" />
 
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
