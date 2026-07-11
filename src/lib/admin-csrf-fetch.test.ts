@@ -21,13 +21,14 @@ function createJsonResponse(
     ok: status >= 200 && status < 300,
     status,
     json: async () => body,
-    clone: function () {
-      const self = this;
+    clone: () => {
       return {
-        ...self,
+        ok: status >= 200 && status < 300,
+        status,
         json: async () => body,
-      };
-    },
+        headers: new Headers(),
+        statusText: status === 403 ? "Forbidden" : "OK",
+      };},
     headers: new Headers(),
     statusText: status === 403 ? "Forbidden" : "OK",
     redirected: false,

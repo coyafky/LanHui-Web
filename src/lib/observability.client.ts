@@ -1,15 +1,25 @@
 "use client";
 
-function getSentryCapture(): ((error: unknown) => void) | null {
-  if (!process.env.NEXT_PUBLIC_SENTRY_DSN) return null;
+let _sentryCapture: ((error: unknown) => void) | null | undefined;
+
+async function getSentryCapture(): Promise<((error: unknown) => void) | null> {
+  if (_sentryCapture !== undefined) return _sentryCapture;
+  if (!process.env.NEXT_PUBLIC_SENTRY_DSN) {
+    _sentryCapture = null;
+    return null;
+  }
   try {
-    return require("@sentry/nextjs").captureException;
+    const Sentry = await import("@sentry/nextjs");
+    _sentryCapture = Sentry.captureException;
+    return _sentryCapture;
   } catch {
+    _sentryCapture = null;
     return null;
   }
 }
 
 export function captureClientException(error: unknown): void {
-  const capture = getSentryCapture();
-  if (capture) capture(error);
+  getSentryCapture().then((capture) => {
+    if (capture) capture(error);
+  });
 }
