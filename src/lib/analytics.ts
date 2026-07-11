@@ -1,10 +1,5 @@
 'use client';
 
-/**
- * 客户端埋点 SDK
- * 支持页面浏览、点击、表单提交、预约、门店访问事件追踪
- */
-
 type EventType = 'pageview' | 'click' | 'form_submit' | 'reservation' | 'store_view';
 
 interface TrackEvent {
@@ -14,71 +9,114 @@ interface TrackEvent {
   metadata?: Record<string, unknown>;
 }
 
-const eventBuffer: TrackEvent[] = [];
-const pendingBuffer: TrackEvent[] = []; // BUG-2 修复：正在发送中的事件
+interface QueuedEvent extends TrackEvent {
+  /** 客户端生成的幂等 ID，服务端 24h 去重 */
+  eventId: string;
+  /** 首次尝试时间戳 */
+  createdAt: number;
+  /** 已重试次数 */
+  retries: number;
+}
+
+const eventBuffer: QueuedEvent[] = [];
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
-let isFlushing = false; // BUG-2 修复：并发锁
+let isFlushing = false;
 
 const BUFFER_SIZE = 5;
-const FLUSH_INTERVAL = 10000; // 10秒
+const FLUSH_INTERVAL = 10_000;
+const MAX_RETRIES = 3;
+const RETRY_BASE_MS = 2_000;
 
-async function flush() {
+let eventSeq = 0;
+function makeEventId(): string {
+  eventSeq = (eventSeq + 1) % 1_000_000;
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${eventSeq}`;
+}
+
+/** 指数退避: 2^(retries-1) * base, max 30s */
+function retryDelay(retries: number): number {
+  return Math.min(Math.pow(2, retries - 1) * RETRY_BASE_MS, 30_000);
+}
+
+async function flush(): Promise<void> {
   if (isFlushing || eventBuffer.length === 0) return;
   isFlushing = true;
 
+  const batch = eventBuffer.splice(0, eventBuffer.length);
+  const payload = JSON.stringify({ events: batch });
+
   try {
-    // 1. 把主 buffer 中所有事件搬到 pending
-    const events = eventBuffer.splice(0, eventBuffer.length);
-    pendingBuffer.push(...events);
+    const res = await fetch('/api/analytics/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload,
+      keepalive: true,
+    });
 
-    const payload = JSON.stringify({ events });
-
-    let success = false;
-    try {
-      if (navigator.sendBeacon) {
-        // sendBeacon 返回 false 表示队列满/失败
-        success = navigator.sendBeacon('/api/analytics/track', payload);
-      } else {
-        const res = await fetch('/api/analytics/track', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: payload,
-          keepalive: true,
-        });
-        success = res.ok;
-      }
-    } catch {
-      success = false;
+    if (res.ok) {
+      return; // success, events removed from buffer
     }
 
-    if (success) {
-      // 成功：清空 pending
-      pendingBuffer.length = 0;
-    } else {
-      // 失败：把 pending 里的事件放回主 buffer 头部
-      eventBuffer.unshift(...pendingBuffer);
-      pendingBuffer.length = 0;
-      if (typeof console !== 'undefined' && process.env.NODE_ENV === 'development') {
-        console.warn('[analytics] flush failed, events returned to buffer');
-      }
+    // Server error (5xx) or rate limit (429): retry
+    if (res.status >= 500 || res.status === 429) {
+      requeueBatch(batch);
     }
+    // Client error (4xx): discard malformed events
+  } catch {
+    // Network error: retry
+    requeueBatch(batch);
   } finally {
     isFlushing = false;
   }
 }
 
-function scheduleFlush() {
+function requeueBatch(batch: QueuedEvent[]): void {
+  for (const ev of batch) {
+    ev.retries += 1;
+    if (ev.retries < MAX_RETRIES) {
+      eventBuffer.unshift(ev);
+    }
+    // Drop events that exceeded retry limit
+  }
+  if (eventBuffer.length > 0) {
+    scheduleRetryFlush();
+  }
+}
+
+function scheduleRetryFlush(): void {
+  if (flushTimer) clearTimeout(flushTimer);
+  const maxRetry = Math.max(...eventBuffer.map((e) => e.retries), 1);
+  flushTimer = setTimeout(flush, retryDelay(maxRetry));
+}
+
+/** 页面卸载时：sendBeacon 尽力发送，不验证结果 */
+function flushOnUnload(): void {
+  if (eventBuffer.length === 0) return;
+  const batch = eventBuffer.splice(0, eventBuffer.length);
+  const payload = JSON.stringify({ events: batch });
+  // sendBeacon is fire-and-forget — acceptable for page unload
+  try {
+    navigator.sendBeacon('/api/analytics/track', payload);
+  } catch {
+    // silently drop on unload
+  }
+}
+
+function scheduleFlush(): void {
   if (flushTimer) clearTimeout(flushTimer);
   flushTimer = setTimeout(flush, FLUSH_INTERVAL);
 }
 
-function track(event: Omit<TrackEvent, 'pathname'> & { pathname?: string }) {
-  const fullEvent: TrackEvent = {
+function track(event: Omit<TrackEvent, 'pathname'> & { pathname?: string }): void {
+  const queued: QueuedEvent = {
     ...event,
     pathname: event.pathname || window.location.pathname,
+    eventId: makeEventId(),
+    createdAt: Date.now(),
+    retries: 0,
   };
 
-  eventBuffer.push(fullEvent);
+  eventBuffer.push(queued);
 
   if (eventBuffer.length >= BUFFER_SIZE) {
     flush();
@@ -87,35 +125,29 @@ function track(event: Omit<TrackEvent, 'pathname'> & { pathname?: string }) {
   }
 }
 
-/** 追踪页面浏览 */
 export function trackPageView(pathname?: string) {
   track({ type: 'pageview', pathname });
 }
 
-/** 追踪点击事件 */
 export function trackClick(target: string, metadata?: Record<string, unknown>) {
   track({ type: 'click', metadata: { target, ...metadata } });
 }
 
-/** 追踪表单提交 */
 export function trackFormSubmit(formName: string, metadata?: Record<string, unknown>) {
   track({ type: 'form_submit', metadata: { formName, ...metadata } });
 }
 
-/** 追踪门店访问 */
 export function trackStoreView(storeId: string) {
   track({ type: 'store_view', storeId });
 }
 
-/** 追踪预约事件 */
 export function trackReservation(storeId: string, metadata?: Record<string, unknown>) {
   track({ type: 'reservation', storeId, metadata });
 }
 
-// 页面卸载时刷新缓冲区
 if (typeof window !== 'undefined') {
-  window.addEventListener('beforeunload', flush);
+  window.addEventListener('beforeunload', flushOnUnload);
   window.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') flush();
+    if (document.visibilityState === 'hidden') flushOnUnload();
   });
 }
