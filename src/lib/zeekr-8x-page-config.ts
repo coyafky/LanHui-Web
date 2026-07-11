@@ -5,7 +5,6 @@ import {
   zeekr8xScenarios,
   zeekr8xServiceSteps,
   zeekr8xFaq,
-  zeekr8xBundles,
   ZEEKR_8X_HERO_IMAGE,
   ZEEKR_8X_PROJECT_COUNT,
   ZEEKR_8X_SCENARIO_COUNT,
@@ -78,11 +77,5 @@ export const zeekr8xPageConfig = {
   faq: zeekr8xFaq.map((item) => ({
     question: item.question,
     answer: item.answer,
-  })),
-
-  bundles: zeekr8xBundles.map((b) => ({
-    id: b.id,
-    name: b.name,
-    description: b.description,
   })),
 } satisfies VehiclePageConfig;

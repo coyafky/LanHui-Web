@@ -2,7 +2,6 @@ import type { VehiclePageConfig } from "@/components/vehicle-page";
 import {
   zhijieV9UpgradeProjects,
   zhijieV9Scenarios,
-  zhijieV9Bundles,
   zhijieV9ServiceSteps,
   zhijieV9Faq,
   ZHIJIE_V9_CATEGORY_LABELS,
@@ -59,12 +58,5 @@ export const zhijieV9PageConfig = {
   faq: zhijieV9Faq.map((item) => ({
     question: item.question,
     answer: item.answer,
-  })),
-
-  bundles: zhijieV9Bundles.map((b) => ({
-    id: b.key,
-    name: b.name,
-    description: b.value,
-    items: b.projectIds as string[],
   })),
 } satisfies VehiclePageConfig;

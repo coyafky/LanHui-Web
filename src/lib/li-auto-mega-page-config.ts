@@ -4,7 +4,6 @@ import {
   liAutoMegaScenarios,
   liAutoMegaServiceSteps,
   liAutoMegaFaq,
-  liAutoMegaBundles,
   LI_AUTO_MEGA_PROJECT_COUNT,
   LI_AUTO_MEGA_SCENARIO_COUNT,
 } from "@/lib/li-auto-mega-products";
@@ -50,10 +49,4 @@ export const liAutoMegaPageConfig: VehiclePageConfig = {
     })),
   },
   faq: [...liAutoMegaFaq],
-  bundles: liAutoMegaBundles.map((b) => ({
-    id: b.key,
-    name: b.name,
-    description: b.description,
-    items: [...b.projectKeys],
-  })),
 };

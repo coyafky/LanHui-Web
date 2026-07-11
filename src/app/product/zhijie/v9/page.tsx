@@ -75,7 +75,7 @@ export default function ZhijieV9TopicPage() {
           topicKey="zhijie-v9"
           totalProjects={totalProjects}
           totalScenarios={totalScenarios}
-          totalBundles={zhijieV9PageConfig.bundles?.length ?? 0}
+          totalBundles={0}
         />
 
         <VehiclePageRenderer config={zhijieV9PageConfig} />

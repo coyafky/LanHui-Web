@@ -3,7 +3,6 @@ import type { NioEs8Category } from "./nio-products";
 import {
   nioEs8UpgradeProjects,
   nioEs8Scenarios,
-  nioEs8Bundles,
   nioEs8ServiceSteps,
   nioEs8Faq,
   NIO_ES8_PROJECT_COUNT,
@@ -72,12 +71,5 @@ export const nioEs8PageConfig = {
   faq: nioEs8Faq.map((item) => ({
     question: item.question,
     answer: item.answer,
-  })),
-
-  bundles: nioEs8Bundles.map((b) => ({
-    id: b.key,
-    name: b.name,
-    description: b.description,
-    items: b.projectKeys as string[],
   })),
 } satisfies VehiclePageConfig;

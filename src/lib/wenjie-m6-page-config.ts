@@ -4,7 +4,6 @@ import {
   wenjieM6Scenarios,
   wenjieM6ServiceSteps,
   wenjieM6Faq,
-  wenjieM6Bundles,
   type WenjieM6UpgradeCategory,
 } from "./wenjie-m6-upgrade-projects";
 
@@ -16,10 +15,6 @@ const CATEGORY_LABELS: Record<WenjieM6UpgradeCategory, string> = {
   family_cabin: "家庭座舱",
   screen_care: "屏幕保护",
 };
-
-const projectNameById = new Map(
-  wenjieM6UpgradeProjects.map((p) => [p.id, p.name]),
-);
 
 export const wenjieM6PageConfig = {
   theme: "cyan" as const,
@@ -65,12 +60,5 @@ export const wenjieM6PageConfig = {
   faq: wenjieM6Faq.map((item) => ({
     question: item.question,
     answer: item.answer,
-  })),
-
-  bundles: wenjieM6Bundles.map((b) => ({
-    id: b.key,
-    name: b.name,
-    description: b.description,
-    items: b.projectIds.map((id) => projectNameById.get(id) ?? id),
   })),
 } satisfies VehiclePageConfig;

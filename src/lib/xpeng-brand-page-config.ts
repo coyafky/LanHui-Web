@@ -2,7 +2,6 @@ import type { VehiclePageConfig } from "@/components/vehicle-page";
 import {
   xpengGxUpgradeProjects,
   xpengGxScenarios,
-  xpengGxBundles,
   xpengGxServiceSteps,
   xpengGxFaq,
   XPENG_GX_CATEGORY_LABELS,
@@ -59,12 +58,5 @@ export const xpengBrandPageConfig = {
   faq: xpengGxFaq.map((item) => ({
     question: item.question,
     answer: item.answer,
-  })),
-
-  bundles: xpengGxBundles.map((b) => ({
-    id: b.key,
-    name: b.name,
-    description: b.value,
-    items: b.projectIds as string[],
   })),
 } satisfies VehiclePageConfig;

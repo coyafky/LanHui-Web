@@ -4,7 +4,6 @@ import {
   liAutoOneScenarios,
   liAutoOneServiceSteps,
   liAutoOneFaq,
-  liAutoOneBundles,
   LI_AUTO_ONE_PROJECT_COUNT,
   LI_AUTO_ONE_SCENARIO_COUNT,
 } from "@/lib/li-auto-one-products";
@@ -50,10 +49,4 @@ export const liAutoOnePageConfig: VehiclePageConfig = {
     })),
   },
   faq: [...liAutoOneFaq],
-  bundles: liAutoOneBundles.map((b) => ({
-    id: b.key,
-    name: b.name,
-    description: b.description,
-    items: [...b.projectKeys],
-  })),
 };

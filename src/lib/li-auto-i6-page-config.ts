@@ -4,7 +4,6 @@ import {
   liAutoI6Scenarios,
   liAutoI6ServiceSteps,
   liAutoI6Faq,
-  liAutoI6Bundles,
   LI_AUTO_I6_HERO_IMAGE,
   LI_AUTO_I6_PROJECT_COUNT,
   LI_AUTO_I6_SCENARIO_COUNT,
@@ -57,10 +56,4 @@ export const liAutoI6PageConfig: VehiclePageConfig = {
     })),
   },
   faq: [...liAutoI6Faq],
-  bundles: liAutoI6Bundles.map((b) => ({
-    id: b.key,
-    name: b.name,
-    description: b.description,
-    items: [...b.projectKeys],
-  })),
 };

@@ -83,7 +83,7 @@ export default function XpengGxTopicPage() {
           topicKey="xpeng-gx"
           totalProjects={totalProjects}
           totalScenarios={totalScenarios}
-          totalBundles={xpengGxPageConfig.bundles?.length ?? 0}
+          totalBundles={0}
         />
 
         <VehiclePageRenderer config={xpengGxPageConfig} />

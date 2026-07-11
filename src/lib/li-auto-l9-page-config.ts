@@ -4,7 +4,6 @@ import {
   liAutoL9Scenarios,
   liAutoL9ServiceSteps,
   liAutoL9Faq,
-  liAutoL9Bundles,
   LI_AUTO_L9_PROJECT_COUNT,
   LI_AUTO_L9_SCENARIO_COUNT,
 } from "@/lib/li-auto-l9-products";
@@ -50,10 +49,4 @@ export const liAutoL9PageConfig: VehiclePageConfig = {
     })),
   },
   faq: [...liAutoL9Faq],
-  bundles: liAutoL9Bundles.map((b) => ({
-    id: b.key,
-    name: b.name,
-    description: b.description,
-    items: [...b.projectKeys],
-  })),
 };
