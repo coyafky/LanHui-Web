@@ -41,16 +41,31 @@ export async function jwtCallback({
   token: Record<string, unknown>;
   user?: { id: string; role: string };
 }) {
-  // Initial sign-in: user argument is present → write id/role into token.
   if (user) {
     token.id = user.id;
     token.role = user.role;
+    token.lastDbCheck = Date.now();
     return token;
   }
 
-  // Stale-token migration: token came from cookie but lacks `id`.
-  // Look up the user once so subsequent requests don't hit the DB.
   await migrateStaleToken(token);
+
+  // Re-verify user status/role from DB every 5 minutes
+  const lastCheck = (token.lastDbCheck as number) ?? 0;
+  if (token.id && Date.now() - lastCheck > 5 * 60 * 1000) {
+    const dbUser = await prisma.user.findUnique({
+      where: { id: token.id as string },
+      select: { status: true, role: true },
+    });
+    if (!dbUser || dbUser.status === "disabled") {
+      token.id = undefined;
+      token.role = undefined;
+      token.lastDbCheck = Date.now();
+      return token;
+    }
+    token.role = dbUser.role;
+    token.lastDbCheck = Date.now();
+  }
 
   return token;
 }
