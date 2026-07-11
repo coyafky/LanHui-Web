@@ -2,20 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LedaoL90TopicViewTrack } from "@/components/ledao/LedaoL90TopicViewTrack";
-import { LedaoL90Hero } from "@/components/ledao/LedaoL90Hero";
-import { LedaoL90ProjectGrid } from "@/components/ledao/LedaoL90ProjectGrid";
-import { LedaoL90ScenarioMatrix } from "@/components/ledao/LedaoL90ScenarioMatrix";
-import { LedaoL90ServiceFlow } from "@/components/ledao/LedaoL90ServiceFlow";
-import { LedaoL90Faq } from "@/components/ledao/LedaoL90Faq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { ledaoL90PageConfig } from "@/lib/ledao-l90-page-config";
 import {
   LEDAO_L90_HERO_IMAGE,
   ledaoL90UpgradeProjects,
   ledaoL90Scenarios,
-  ledaoL90ServiceSteps,
-  ledaoL90Faq,
 } from "@/lib/ledao-l90-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "乐道 L90 轻改项目｜车衣、隔热膜、铝地板、底盘护板与电动踏板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -58,8 +53,6 @@ export default function LedaoL90TopicPage() {
 
   const totalProjects = ledaoL90UpgradeProjects.length;
   const totalScenarios = ledaoL90Scenarios.length;
-
-  const breadcrumbItems = getProductBreadcrumbs("/product/ledao/l90");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/ledao/l90");
 
   const jsonLd = {
@@ -85,28 +78,7 @@ export default function LedaoL90TopicPage() {
           totalScenarios={totalScenarios}
         />
 
-        <LedaoL90Hero
-          totalProjects={totalProjects}
-          scenarioCount={totalScenarios}
-          heroImage={LEDAO_L90_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <LedaoL90ScenarioMatrix
-            scenarios={ledaoL90Scenarios}
-            allProjects={ledaoL90UpgradeProjects}
-          />
-        </section>
-
-        <LedaoL90ProjectGrid
-          projects={ledaoL90UpgradeProjects}
-          scenarios={ledaoL90Scenarios}
-        />
-
-        <LedaoL90ServiceFlow steps={ledaoL90ServiceSteps} />
-
-        <LedaoL90Faq items={ledaoL90Faq} />
+        <VehiclePageRenderer config={ledaoL90PageConfig} />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

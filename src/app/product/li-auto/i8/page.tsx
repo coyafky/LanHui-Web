@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LiAutoI8Hero } from "@/components/li-auto/LiAutoI8Hero";
-import { LiAutoI8ProjectGrid } from "@/components/li-auto/LiAutoI8ProjectGrid";
-import { LiAutoI8Bundles } from "@/components/li-auto/LiAutoI8Bundles";
-import { LiAutoI8ServiceFlow } from "@/components/li-auto/LiAutoI8ServiceFlow";
-import { LiAutoI8Faq } from "@/components/li-auto/LiAutoI8Faq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { liAutoI8PageConfig } from "@/lib/li-auto-i8-page-config";
 import { LiAutoI8TopicViewTrack } from "@/components/li-auto/LiAutoI8TopicViewTrack";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   liAutoI8UpgradeProjects,
-  liAutoI8Scenarios,
-  liAutoI8Bundles,
-  liAutoI8ServiceSteps,
-  liAutoI8Faq,
   LI_AUTO_I8_PROJECT_COUNT,
 } from "@/lib/li-auto-i8-products";
 
@@ -78,29 +71,7 @@ export default function LiAutoI8Page() {
           projectCount={LI_AUTO_I8_PROJECT_COUNT}
         />
 
-        <LiAutoI8Hero
-          totalProjects={liAutoI8UpgradeProjects.length}
-          totalScenarios={liAutoI8Scenarios.length}
-          totalBundles={liAutoI8Bundles.length}
-          canonicalPath={CANONICAL_PATH}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <LiAutoI8ProjectGrid
-          projects={liAutoI8UpgradeProjects}
-          scenarios={liAutoI8Scenarios}
-          modelKey={MODEL_KEY}
-        />
-
-        <LiAutoI8Bundles
-          bundles={liAutoI8Bundles}
-          allProjects={liAutoI8UpgradeProjects}
-          modelKey={MODEL_KEY}
-        />
-
-        <LiAutoI8ServiceFlow steps={liAutoI8ServiceSteps} />
-
-        <LiAutoI8Faq items={liAutoI8Faq} />
+        <VehiclePageRenderer config={liAutoI8PageConfig} />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

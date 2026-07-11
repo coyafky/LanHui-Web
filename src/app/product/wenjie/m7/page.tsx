@@ -3,22 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
-import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
-import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelProjectGrid";
-import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScenarios";
-import { WenjieModelBundles } from "@/components/wenjie/model/WenjieModelBundles";
-import { WenjieModelServiceFlow } from "@/components/wenjie/model/WenjieModelServiceFlow";
-import { WenjieModelFaq } from "@/components/wenjie/model/WenjieModelFaq";
-import {
-  wenjieM7Bundles,
-  wenjieM7Faq,
-  wenjieM7MustHaveProjects,
-  wenjieM7BusinessUpgradeProjects,
-  wenjieM7PracticalAccessoryProjects,
-  wenjieM7Scenarios,
-  wenjieM7ServiceSteps,
-  wenjieM7UpgradeProjects,
-} from "@/lib/wenjie-m7-upgrade-projects";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { wenjieM7PageConfig } from "@/lib/wenjie-m7-page-config";
+import { wenjieM7UpgradeProjects } from "@/lib/wenjie-m7-upgrade-projects";
 
 const PAGE_TITLE =
   "问界 M7 专属升级方案｜30 个升级项目（必改、商务、实用）｜蓝辉轻改";
@@ -69,59 +56,7 @@ export default function WenjieM7Page() {
   return (
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
-        <WenjieModelUpgradeHero
-          modelKey="M7"
-          modelName={model.modelName}
-          title="问界 M7 专属升级方案"
-          subtitle="围绕新车保护、底盘防护、电动踏板、后排娱乐、家庭座舱与商务接待 7 大场景整理 30 个升级项目。"
-          tagline="必改产品 / 高级商务升级 / 实用小配件"
-          totalProjects={30}
-          canonicalPath={model.canonicalPath}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <WenjieModelProjectGrid
-          projects={wenjieM7MustHaveProjects}
-          modelKey="M7"
-          titlePrefix="问界 M7 必改"
-          tierLabel="必改产品 · 5 项"
-        />
-
-        <WenjieModelProjectGrid
-          projects={wenjieM7BusinessUpgradeProjects}
-          modelKey="M7"
-          titlePrefix="问界 M7 商务"
-          tierLabel="高级商务升级 · 15 项"
-        />
-
-        <WenjieModelProjectGrid
-          projects={wenjieM7PracticalAccessoryProjects}
-          modelKey="M7"
-          titlePrefix="问界 M7 实用"
-          tierLabel="实用小配件 · 10 项"
-        />
-
-        <WenjieModelScenarios
-          scenarios={wenjieM7Scenarios}
-          allProjects={wenjieM7UpgradeProjects}
-          modelKey="M7"
-          modelName={model.modelName}
-        />
-
-        <WenjieModelBundles
-          bundles={wenjieM7Bundles}
-          allProjects={wenjieM7UpgradeProjects}
-          modelKey="M7"
-          modelName={model.modelName}
-        />
-
-        <WenjieModelServiceFlow
-          steps={wenjieM7ServiceSteps}
-          modelKey="M7"
-          modelName={model.modelName}
-        />
-
-        <WenjieModelFaq items={wenjieM7Faq} modelKey="M7" modelName={model.modelName} />
+        <VehiclePageRenderer config={wenjieM7PageConfig} />
 
         {/* 底部导航 + 合规说明 */}
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
@@ -145,13 +80,13 @@ export default function WenjieM7Page() {
             </p>
           </div>
         </section>
-      </main>
 
-      {/* JSON-LD 结构化数据 */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+        {/* JSON-LD 结构化数据 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

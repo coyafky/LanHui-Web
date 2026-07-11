@@ -1,0 +1,863 @@
+[
+  {
+    "name": "mobile-390",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 3916
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "品牌介绍",
+          "y": 209
+        },
+        {
+          "tag": "H2",
+          "text": "ABOUT LANHUI",
+          "y": 437
+        },
+        {
+          "tag": "H3",
+          "text": "关于蓝辉轻改",
+          "y": 469
+        },
+        {
+          "tag": "H2",
+          "text": "品牌理念",
+          "y": 1048
+        },
+        {
+          "tag": "H3",
+          "text": "轻量升级",
+          "y": 1309
+        },
+        {
+          "tag": "H3",
+          "text": "实用优先",
+          "y": 1597
+        },
+        {
+          "tag": "H3",
+          "text": "审美表达",
+          "y": 1859
+        },
+        {
+          "tag": "H2",
+          "text": "发展起点",
+          "y": 2145
+        },
+        {
+          "tag": "H3",
+          "text": "品牌成立",
+          "y": 2302
+        },
+        {
+          "tag": "H3",
+          "text": "顺德大良店启航",
+          "y": 2520
+        }
+      ],
+      "sections": [
+        {
+          "text": "品牌介绍",
+          "y": 81,
+          "height": 276
+        },
+        {
+          "text": "ABOUT LANHUI",
+          "y": 357,
+          "height": 610
+        },
+        {
+          "text": "品牌理念",
+          "y": 967,
+          "height": 1097
+        },
+        {
+          "text": "发展起点",
+          "y": 2064,
+          "height": 683
+        }
+      ],
+      "mainText": "ABOUT 品牌介绍 蓝辉轻改 LANHUI · 2026 年成立 ABOUT LANHUI 关于蓝辉轻改 蓝辉轻改（LANHUI）是一家面向汽车轻改装与汽车膜服务的品牌，于2026 年成立，从顺德大良出发。 我们的目标很简单：为车主提供兼顾颜值、功能与漆面保护的升级方案。无论是电动踏板、轮毂升级、底盘升级这样的轻改装备，还是汽车窗膜、改色膜、隐形车衣这样的汽车膜系服务，蓝辉轻改都希望让流程更清晰、交付更稳妥。 当前阶段，我们以顺德大良店为线下服务中心，强调到店沟通、车型确认、规范施工与交付。更多城市门店正在筹备中。 品牌理念 我们相信“轻量、实用、有审美”的升级方式更适合大多数车主。 轻量升级 在不动原车结构与日常使用习惯的前提下，给车辆带来更清晰的功能与颜值提升。 实用优先 升级方案围绕用车场景展开，不为噱头买单，注重长期使用体验。 审美表达 尊重原车风格，给车主提供差异化的轻改与膜系表达空间。 发展起点 2026 品牌成立 蓝辉轻改于 2026 年正式成立，从汽车轻改装与汽车膜服务切入。 SHUNDE 顺德大良店启航 顺德大良店 是当前唯一的线下服务中心，提供到店沟通、施工交付与售后跟进。",
+      "mainLinks": [],
+      "mainButtons": [],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 160,
+          "naturalHeight": 53,
+          "y": 20
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 160,
+          "naturalHeight": 53,
+          "y": 2804
+        }
+      ],
+      "svgs": 5,
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "切换菜单",
+          "tag": "BUTTON",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "duplicateImages": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "count": 2
+        }
+      ]
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 19,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.group[href=\"/\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"window-film\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"color-film\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"ppf\"]"
+          ]
+        ]
+      }
+    ],
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=17rrj",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17rrj",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=th9hx",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=th9hx",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "name": "tablet-768",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 2869
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "品牌介绍",
+          "y": 209
+        },
+        {
+          "tag": "H2",
+          "text": "ABOUT LANHUI",
+          "y": 445
+        },
+        {
+          "tag": "H3",
+          "text": "关于蓝辉轻改",
+          "y": 477
+        },
+        {
+          "tag": "H2",
+          "text": "品牌理念",
+          "y": 979
+        },
+        {
+          "tag": "H3",
+          "text": "轻量升级",
+          "y": 1220
+        },
+        {
+          "tag": "H3",
+          "text": "实用优先",
+          "y": 1220
+        },
+        {
+          "tag": "H3",
+          "text": "审美表达",
+          "y": 1220
+        },
+        {
+          "tag": "H2",
+          "text": "发展起点",
+          "y": 1584
+        },
+        {
+          "tag": "H3",
+          "text": "品牌成立",
+          "y": 1745
+        },
+        {
+          "tag": "H3",
+          "text": "顺德大良店启航",
+          "y": 1745
+        }
+      ],
+      "sections": [
+        {
+          "text": "品牌介绍",
+          "y": 81,
+          "height": 284
+        },
+        {
+          "text": "ABOUT LANHUI",
+          "y": 365,
+          "height": 533
+        },
+        {
+          "text": "品牌理念",
+          "y": 898,
+          "height": 605
+        },
+        {
+          "text": "发展起点",
+          "y": 1503,
+          "height": 469
+        }
+      ],
+      "mainText": "ABOUT 品牌介绍 蓝辉轻改 LANHUI · 2026 年成立 ABOUT LANHUI 关于蓝辉轻改 蓝辉轻改（LANHUI）是一家面向汽车轻改装与汽车膜服务的品牌，于2026 年成立，从顺德大良出发。 我们的目标很简单：为车主提供兼顾颜值、功能与漆面保护的升级方案。无论是电动踏板、轮毂升级、底盘升级这样的轻改装备，还是汽车窗膜、改色膜、隐形车衣这样的汽车膜系服务，蓝辉轻改都希望让流程更清晰、交付更稳妥。 当前阶段，我们以顺德大良店为线下服务中心，强调到店沟通、车型确认、规范施工与交付。更多城市门店正在筹备中。 品牌理念 我们相信“轻量、实用、有审美”的升级方式更适合大多数车主。 轻量升级 在不动原车结构与日常使用习惯的前提下，给车辆带来更清晰的功能与颜值提升。 实用优先 升级方案围绕用车场景展开，不为噱头买单，注重长期使用体验。 审美表达 尊重原车风格，给车主提供差异化的轻改与膜系表达空间。 发展起点 2026 品牌成立 蓝辉轻改于 2026 年正式成立，从汽车轻改装与汽车膜服务切入。 SHUNDE 顺德大良店启航 顺德大良店 是当前唯一的线下服务中心，提供到店沟通、施工交付与售后跟进。",
+      "mainLinks": [],
+      "mainButtons": [],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 160,
+          "naturalHeight": 53,
+          "y": 20
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 160,
+          "naturalHeight": 53,
+          "y": 2029
+        }
+      ],
+      "svgs": 5,
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "切换菜单",
+          "tag": "BUTTON",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "duplicateImages": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "count": 2
+        }
+      ]
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 19,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.group[href=\"/\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"window-film\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"color-film\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"ppf\"]"
+          ]
+        ]
+      }
+    ],
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=17rrj",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17rrj",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=th9hx",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=th9hx",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "name": "desktop-1440",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 2275
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "品牌介绍",
+          "y": 209
+        },
+        {
+          "tag": "H2",
+          "text": "ABOUT LANHUI",
+          "y": 445
+        },
+        {
+          "tag": "H3",
+          "text": "关于蓝辉轻改",
+          "y": 477
+        },
+        {
+          "tag": "H2",
+          "text": "品牌理念",
+          "y": 920
+        },
+        {
+          "tag": "H3",
+          "text": "轻量升级",
+          "y": 1161
+        },
+        {
+          "tag": "H3",
+          "text": "实用优先",
+          "y": 1161
+        },
+        {
+          "tag": "H3",
+          "text": "审美表达",
+          "y": 1161
+        },
+        {
+          "tag": "H2",
+          "text": "发展起点",
+          "y": 1447
+        },
+        {
+          "tag": "H3",
+          "text": "品牌成立",
+          "y": 1608
+        },
+        {
+          "tag": "H3",
+          "text": "顺德大良店启航",
+          "y": 1608
+        }
+      ],
+      "sections": [
+        {
+          "text": "品牌介绍",
+          "y": 81,
+          "height": 284
+        },
+        {
+          "text": "ABOUT LANHUI",
+          "y": 365,
+          "height": 474
+        },
+        {
+          "text": "品牌理念",
+          "y": 839,
+          "height": 527
+        },
+        {
+          "text": "发展起点",
+          "y": 1366,
+          "height": 443
+        }
+      ],
+      "mainText": "ABOUT 品牌介绍 蓝辉轻改 LANHUI · 2026 年成立 ABOUT LANHUI 关于蓝辉轻改 蓝辉轻改（LANHUI）是一家面向汽车轻改装与汽车膜服务的品牌，于2026 年成立，从顺德大良出发。 我们的目标很简单：为车主提供兼顾颜值、功能与漆面保护的升级方案。无论是电动踏板、轮毂升级、底盘升级这样的轻改装备，还是汽车窗膜、改色膜、隐形车衣这样的汽车膜系服务，蓝辉轻改都希望让流程更清晰、交付更稳妥。 当前阶段，我们以顺德大良店为线下服务中心，强调到店沟通、车型确认、规范施工与交付。更多城市门店正在筹备中。 品牌理念 我们相信“轻量、实用、有审美”的升级方式更适合大多数车主。 轻量升级 在不动原车结构与日常使用习惯的前提下，给车辆带来更清晰的功能与颜值提升。 实用优先 升级方案围绕用车场景展开，不为噱头买单，注重长期使用体验。 审美表达 尊重原车风格，给车主提供差异化的轻改与膜系表达空间。 发展起点 2026 品牌成立 蓝辉轻改于 2026 年正式成立，从汽车轻改装与汽车膜服务切入。 SHUNDE 顺德大良店启航 顺德大良店 是当前唯一的线下服务中心，提供到店沟通、施工交付与售后跟进。",
+      "mainLinks": [],
+      "mainButtons": [],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 239,
+          "naturalHeight": 79,
+          "y": 20
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 239,
+          "naturalHeight": 79,
+          "y": 1890
+        }
+      ],
+      "svgs": 5,
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 57,
+          "h": 36
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "展开 产品中心 子菜单",
+          "tag": "BUTTON",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "展开 品牌介绍 子菜单",
+          "tag": "BUTTON",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "联系我们",
+          "tag": "BUTTON",
+          "w": 114,
+          "h": 42
+        },
+        {
+          "text": "查看门店",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "duplicateImages": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "count": 2
+        }
+      ]
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 19,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.group[href=\"/\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"window-film\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"color-film\"]"
+          ],
+          [
+            ".gap-1.group[href$=\"ppf\"]"
+          ]
+        ]
+      }
+    ],
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=17rrj",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17rrj",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=th9hx",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=th9hx",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  }
+]

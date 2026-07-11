@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LiAutoL9Hero } from "@/components/li-auto/LiAutoL9Hero";
-import { LiAutoL9ProjectGrid } from "@/components/li-auto/LiAutoL9ProjectGrid";
-import { LiAutoL9Bundles } from "@/components/li-auto/LiAutoL9Bundles";
-import { LiAutoL9ServiceFlow } from "@/components/li-auto/LiAutoL9ServiceFlow";
-import { LiAutoL9Faq } from "@/components/li-auto/LiAutoL9Faq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { liAutoL9PageConfig } from "@/lib/li-auto-l9-page-config";
 import { LiAutoL9TopicViewTrack } from "@/components/li-auto/LiAutoL9TopicViewTrack";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   liAutoL9UpgradeProjects,
-  liAutoL9Scenarios,
-  liAutoL9Bundles,
-  liAutoL9ServiceSteps,
-  liAutoL9Faq,
   LI_AUTO_L9_PROJECT_COUNT,
 } from "@/lib/li-auto-l9-products";
 
@@ -77,31 +70,7 @@ export default function LiAutoL9Page() {
           projectCount={LI_AUTO_L9_PROJECT_COUNT}
         />
 
-        <LiAutoL9Hero
-          totalProjects={liAutoL9UpgradeProjects.length}
-          totalScenarios={liAutoL9Scenarios.length}
-          totalBundles={liAutoL9Bundles.length}
-          canonicalPath={CANONICAL_PATH}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <section id="li-auto-l9-projects">
-          <LiAutoL9ProjectGrid
-            projects={liAutoL9UpgradeProjects}
-            scenarios={liAutoL9Scenarios}
-            modelKey={MODEL_KEY}
-          />
-        </section>
-
-        <LiAutoL9Bundles
-          bundles={liAutoL9Bundles}
-          allProjects={liAutoL9UpgradeProjects}
-          modelKey={MODEL_KEY}
-        />
-
-        <LiAutoL9ServiceFlow steps={liAutoL9ServiceSteps} />
-
-        <LiAutoL9Faq items={liAutoL9Faq} />
+        <VehiclePageRenderer config={liAutoL9PageConfig} />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

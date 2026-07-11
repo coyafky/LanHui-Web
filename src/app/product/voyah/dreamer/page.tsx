@@ -2,20 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { VoyahDreamerTopicViewTrack } from "@/components/voyah/VoyahDreamerTopicViewTrack";
-import { VoyahDreamerHero } from "@/components/voyah/VoyahDreamerHero";
-import { VoyahDreamerProjectGrid } from "@/components/voyah/VoyahDreamerProjectGrid";
-import { VoyahDreamerScenarioMatrix } from "@/components/voyah/VoyahDreamerScenarioMatrix";
-import { VoyahDreamerServiceFlow } from "@/components/voyah/VoyahDreamerServiceFlow";
-import { VoyahDreamerFaq } from "@/components/voyah/VoyahDreamerFaq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { voyahDreamerPageConfig } from "@/lib/voyah-dreamer-page-config";
 import {
   voyahDreamerUpgradeProjects,
   voyahDreamerScenarios,
-  voyahDreamerServiceSteps,
-  voyahDreamerFaq,
   VOYAH_DREAMER_HERO_IMAGE,
 } from "@/lib/voyah-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "岚图梦想家轻改升级方案｜车衣隔热膜铝地板包围腿托｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -38,7 +33,14 @@ export const metadata: Metadata = {
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
     images: VOYAH_DREAMER_HERO_IMAGE.publicPath
-      ? [VOYAH_DREAMER_HERO_IMAGE.publicPath]
+      ? [
+          {
+            url: VOYAH_DREAMER_HERO_IMAGE.publicPath,
+            width: VOYAH_DREAMER_HERO_IMAGE.width ?? 1448,
+            height: VOYAH_DREAMER_HERO_IMAGE.height ?? 1086,
+            alt: VOYAH_DREAMER_HERO_IMAGE.alt,
+          },
+        ]
       : [],
     type: "article",
   },
@@ -52,7 +54,6 @@ export default function VoyahDreamerTopicPage() {
 
   const totalProjects = voyahDreamerUpgradeProjects.length;
   const totalScenarios = voyahDreamerScenarios.length;
-  const breadcrumbItems = getProductBreadcrumbs("/product/voyah/dreamer");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/voyah/dreamer");
 
   const jsonLd = {
@@ -83,29 +84,7 @@ export default function VoyahDreamerTopicPage() {
           totalScenarios={totalScenarios}
         />
 
-        <VoyahDreamerHero
-          title="岚图梦想家专属升级方案"
-          subtitle="岚图梦想家单车型轻改 · MPV 全场景升级参考"
-          description="蓝辉轻改针对岚图梦想家提供从新车保护到座舱维护的完整轻改方向，涵盖新车保护、外观个性、底盘与行车防护、MPV 后排舒适和座舱维护五大类别。所有项目以方向参考为主，最终以到店确认和实际施工评估为准。"
-          totalProjects={totalProjects}
-          scenarioCount={totalScenarios}
-          heroImage={VOYAH_DREAMER_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <VoyahDreamerScenarioMatrix
-          scenarios={voyahDreamerScenarios}
-          allProjects={voyahDreamerUpgradeProjects}
-        />
-
-        <VoyahDreamerProjectGrid
-          projects={voyahDreamerUpgradeProjects}
-          scenarios={voyahDreamerScenarios}
-        />
-
-        <VoyahDreamerServiceFlow steps={voyahDreamerServiceSteps} />
-
-        <VoyahDreamerFaq items={voyahDreamerFaq} />
+        <VehiclePageRenderer config={voyahDreamerPageConfig} />
 
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -134,12 +113,12 @@ export default function VoyahDreamerTopicPage() {
             </p>
           </div>
         </section>
-      </main>
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

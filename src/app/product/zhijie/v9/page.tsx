@@ -1,21 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ZhijieV9TopicHero } from "@/components/zhijie/ZhijieV9TopicHero";
-import { ZhijieV9ScenarioMatrix } from "@/components/zhijie/ZhijieV9ScenarioMatrix";
-import { ZhijieV9ProjectGrid } from "@/components/zhijie/ZhijieV9ProjectGrid";
-import { ZhijieV9ServiceFlow } from "@/components/zhijie/ZhijieV9ServiceFlow";
-import { ZhijieV9Faq } from "@/components/zhijie/ZhijieV9Faq";
 import { ZhijieV9TopicViewTrack } from "@/components/zhijie/ZhijieV9TopicViewTrack";
-import {
-  ZHIJIE_V9_HERO_IMAGE,
-  zhijieV9UpgradeProjects,
-  zhijieV9Scenarios,
-  zhijieV9ServiceSteps,
-  zhijieV9Faq,
-} from "@/lib/zhijie-v9-products";
+import { ZHIJIE_V9_HERO_IMAGE } from "@/lib/zhijie-v9-products";
+import { zhijieV9PageConfig } from "@/lib/zhijie-v9-page-config";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 
 const PAGE_TITLE = "智界 V9 专属升级方案｜车衣隔热膜铝地板钢化膜｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -57,8 +48,8 @@ export default function ZhijieV9TopicPage() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   if (!model || model.type !== "vehicle_model") notFound();
 
-  const totalProjects = zhijieV9UpgradeProjects.length;
-  const totalScenarios = zhijieV9Scenarios.length;
+  const totalProjects = zhijieV9PageConfig.projects.length;
+  const totalScenarios = zhijieV9PageConfig.scenarios.length;
 
   const breadcrumbItems = getProductBreadcrumbs("/product/zhijie/v9");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/zhijie/v9");
@@ -67,13 +58,13 @@ export default function ZhijieV9TopicPage() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "智界 V9 专属升级方案",
-    numberOfItems: zhijieV9UpgradeProjects.length,
-    itemListElement: zhijieV9UpgradeProjects.map((p) => ({
+    numberOfItems: totalProjects,
+    itemListElement: zhijieV9PageConfig.projects.map((p, i) => ({
       "@type": "ListItem" as const,
-      position: p.order,
+      position: i + 1,
       name: p.name,
       category: p.category,
-      url: `/product/zhijie/v9#zhijie-v9-project-${p.id}`,
+      url: `/product/zhijie/v9#${p.id}`,
     })),
   };
 
@@ -84,31 +75,10 @@ export default function ZhijieV9TopicPage() {
           topicKey="zhijie-v9"
           totalProjects={totalProjects}
           totalScenarios={totalScenarios}
-          totalBundles={0}
+          totalBundles={zhijieV9PageConfig.bundles?.length ?? 0}
         />
 
-        <ZhijieV9TopicHero
-          totalProjects={totalProjects}
-          scenarioCount={totalScenarios}
-          heroImage={ZHIJIE_V9_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <ZhijieV9ScenarioMatrix
-            scenarios={zhijieV9Scenarios}
-            allProjects={zhijieV9UpgradeProjects}
-          />
-        </section>
-
-        <ZhijieV9ProjectGrid
-          projects={zhijieV9UpgradeProjects}
-          scenarios={zhijieV9Scenarios}
-        />
-
-        <ZhijieV9ServiceFlow steps={zhijieV9ServiceSteps} />
-
-        <ZhijieV9Faq items={zhijieV9Faq} />
+        <VehiclePageRenderer config={zhijieV9PageConfig} />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

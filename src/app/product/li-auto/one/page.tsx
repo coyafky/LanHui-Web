@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LiAutoOneHero } from "@/components/li-auto/LiAutoOneHero";
-import { LiAutoOneProjectGrid } from "@/components/li-auto/LiAutoOneProjectGrid";
-import { LiAutoOneBundles } from "@/components/li-auto/LiAutoOneBundles";
-import { LiAutoOneServiceFlow } from "@/components/li-auto/LiAutoOneServiceFlow";
-import { LiAutoOneFaq } from "@/components/li-auto/LiAutoOneFaq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { liAutoOnePageConfig } from "@/lib/li-auto-one-page-config";
 import { LiAutoOneTopicViewTrack } from "@/components/li-auto/LiAutoOneTopicViewTrack";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   liAutoOneUpgradeProjects,
-  liAutoOneScenarios,
-  liAutoOneBundles,
-  liAutoOneServiceSteps,
-  liAutoOneFaq,
   LI_AUTO_ONE_PROJECT_COUNT,
 } from "@/lib/li-auto-one-products";
 
@@ -63,28 +56,7 @@ export default function LiAutoOnePage() {
           projectCount={LI_AUTO_ONE_PROJECT_COUNT}
         />
 
-        <LiAutoOneHero
-          totalProjects={liAutoOneUpgradeProjects.length}
-          totalScenarios={liAutoOneScenarios.length}
-          totalBundles={liAutoOneBundles.length}
-          canonicalPath={CANONICAL_PATH}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <LiAutoOneProjectGrid
-          projects={liAutoOneUpgradeProjects}
-          scenarios={liAutoOneScenarios}
-          modelKey={MODEL_KEY}
-        />
-
-        <LiAutoOneBundles
-          bundles={liAutoOneBundles}
-          allProjects={liAutoOneUpgradeProjects}
-          modelKey={MODEL_KEY}
-        />
-
-        <LiAutoOneServiceFlow steps={liAutoOneServiceSteps} />
-        <LiAutoOneFaq items={liAutoOneFaq} />
+        <VehiclePageRenderer config={liAutoOnePageConfig} />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

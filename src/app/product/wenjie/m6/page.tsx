@@ -1,31 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
-import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelProjectGrid";
-import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScenarios";
-import { WenjieModelServiceFlow } from "@/components/wenjie/model/WenjieModelServiceFlow";
-import { WenjieModelFaq } from "@/components/wenjie/model/WenjieModelFaq";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { getWenjieModelHeroImage } from "@/lib/wenjie-preview-images";
-import {
-  wenjieM6UpgradeProjects,
-  wenjieM6Scenarios,
-  wenjieM6ServiceSteps,
-  wenjieM6Faq,
-} from "@/lib/wenjie-m6-upgrade-projects";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { wenjieM6PageConfig } from "@/lib/wenjie-m6-page-config";
+import { wenjieM6UpgradeProjects } from "@/lib/wenjie-m6-upgrade-projects";
 
 const CANONICAL_PATH = "/product/wenjie/m6";
-
-const SCENARIO_ANCHORS = [
-  { id: "new-car-protection", label: "新车保护" },
-  { id: "exterior-personality", label: "外观个性" },
-  { id: "electric-convenience", label: "电动便利" },
-  { id: "chassis-driving", label: "底盘与行车防护" },
-  { id: "family-cabin", label: "家庭座舱" },
-  { id: "screen-interior-care", label: "屏幕与内饰维护" },
-] as const;
 
 const PAGE_TITLE =
   "问界 M6 专属升级方案｜车衣、隔热膜、电动踏板与底盘护板｜蓝辉轻改";
@@ -88,45 +71,7 @@ export default function WenjieM6Page() {
   return (
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col bg-zinc-950">
-        <WenjieModelUpgradeHero
-          modelKey="M6"
-          modelName="问界 M6"
-          title="问界 M6 专属升级方案"
-          subtitle="热门轻改产品目录：围绕新车保护、隔热改色、电动便利、底盘防护、家庭座舱和屏幕内饰维护等日常用车场景，17 项升级项目供选择；蓝辉轻改顺德大良店到店评估、按标准流程施工。"
-          tagline="新车保护 / 外观个性 / 电动便利 / 家庭座舱"
-          totalProjects={wenjieM6UpgradeProjects.length}
-          scenarioCount={wenjieM6Scenarios.length}
-          scenarioAnchors={SCENARIO_ANCHORS}
-          canonicalPath={CANONICAL_PATH}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        {/* 场景矩阵 */}
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <WenjieModelScenarios
-            scenarios={wenjieM6Scenarios}
-            allProjects={wenjieM6UpgradeProjects}
-            modelKey="M6"
-            modelName="问界 M6"
-          />
-        </section>
-
-        {/* 项目网格 */}
-        <WenjieModelProjectGrid
-          projects={wenjieM6UpgradeProjects}
-          scenarios={wenjieM6Scenarios}
-          modelKey="M6"
-          titlePrefix="问界 M6 升级"
-        />
-
-        {/* 服务流程 */}
-        <WenjieModelServiceFlow
-          steps={wenjieM6ServiceSteps}
-          modelKey="M6"
-          modelName="问界 M6"
-        />
-
-        <WenjieModelFaq items={wenjieM6Faq} modelKey="M6" modelName="问界 M6" />
+        <VehiclePageRenderer config={wenjieM6PageConfig} />
 
         {/* 底部 CTA */}
         <section

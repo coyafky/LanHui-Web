@@ -1,0 +1,3137 @@
+[
+  {
+    "name": "mobile-390",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 14693
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "全国门店网络",
+          "y": 229
+        },
+        {
+          "tag": "H2",
+          "text": "按省份浏览",
+          "y": 664
+        },
+        {
+          "tag": "H2",
+          "text": "已开放门店",
+          "y": 3891
+        },
+        {
+          "tag": "H3",
+          "text": "D2 Test 1",
+          "y": 4182
+        },
+        {
+          "tag": "H3",
+          "text": "D2 Test 2",
+          "y": 4640
+        },
+        {
+          "tag": "H3",
+          "text": "TC-E1 phoneTel",
+          "y": 5099
+        },
+        {
+          "tag": "H3",
+          "text": "测试图片门店",
+          "y": 5558
+        },
+        {
+          "tag": "H3",
+          "text": "BUG-2 回归门店",
+          "y": 6021
+        },
+        {
+          "tag": "H3",
+          "text": "佛山市蓝辉轻改汽车服务有限公司",
+          "y": 6483
+        },
+        {
+          "tag": "H3",
+          "text": "蓝辉轻改汽车服务有限公司",
+          "y": 6946
+        },
+        {
+          "tag": "H3",
+          "text": "蓝辉轻改汽车服务有限公司",
+          "y": 7409
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782283735846-vi9emv",
+          "y": 7872
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359029129-7dqgmd",
+          "y": 8362
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359068671-9b7p43",
+          "y": 8853
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359122847-qiky5a",
+          "y": 9344
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359162693-9w28iu",
+          "y": 9835
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359178108-noxs3k",
+          "y": 10325
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359558693-d1ghkk",
+          "y": 10816
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359570116-cfnlp4",
+          "y": 11307
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359599108-y5au59",
+          "y": 11798
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359607027-nyc4ku",
+          "y": 12288
+        },
+        {
+          "tag": "H3",
+          "text": "test-demo3",
+          "y": 12779
+        },
+        {
+          "tag": "H3",
+          "text": "车膜营销文章",
+          "y": 13238
+        },
+        {
+          "tag": "H3",
+          "text": "快捷导航",
+          "y": 13806
+        },
+        {
+          "tag": "H3",
+          "text": "产品中心",
+          "y": 14050
+        },
+        {
+          "tag": "H3",
+          "text": "联系方式",
+          "y": 14330
+        }
+      ],
+      "summaryText": "STORES 全国门店网络 寻找离您最近的蓝辉轻改门店，体验专业施工服务 31 个省份 · 20 家门店 按省份浏览 北京市 0 家门店 天津市 0 家门店 上海市 1 家门店 重庆市 0 家门店 河北省 0 家门店 山西省 0 家门店 内蒙古自治区 0 家门店 辽宁省 0 家门店 吉林省 0 家门店 黑龙江省 0 家门店 江苏省 2 家门店 浙江省 1 家门店 安徽省 0 家门店 福建省 0 家门店 江西省 0 家门店 山东省 1 家门店 河南省 0 家门店 湖北省 0 家门店 湖南省 0 家门店 广东省 34 家门店 广西壮族自治区 0 家门店 海南省 0 家门店 四川省 0 家门店 贵州省 0 家门店 云南省 0 家门店 西藏自治区 0 家门店 陕西省 0 家门店 甘肃省 0 家门店 青海省 0 家门店 宁夏回族自治区 0 家门店 新疆维吾尔自治区 0 家门店 已开放门店 LANHUI 星辉旗舰店 D2 Test 1 星辉旗舰店 x 12341 查看详情 LANHUI 星辉旗舰店 D2 Test 2 星辉旗舰店 x 12342 查看详情 LANHUI 星辉旗舰店 TC-E1 phoneTel 星辉旗舰店 TC-E1 地址 0757-2288 9999 查看详情 LANHUI 星辉旗舰店 测试图片门店 星辉旗舰店 广东省佛山市顺德区测试路 1 号 0757-22880001 09:00-21:00 查看详情 LANHUI 星辉旗舰店 BUG-2 回归门店 星辉旗舰店 广东省佛山市禅城区测试 BUG-2 路 1 号 0757-1234 5678 10:00-19:00 查看详情 LANHUI 星辉旗舰店 佛山市蓝辉轻改汽车服务有限公司 星辉旗舰店 顺德乐从 17620770627 09:00-18:00 查看详情 LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 星辉旗舰店 广东省市顺德区测试路 1 号 0527-8888-2011 09:00-18:00 查看详情 LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 星辉旗舰店 TC-E1 地址 13316091409 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782283735846-vi9emv 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359029129-7dqgmd 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359068671-9b7p43 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359122847-qiky5a 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359162693-9w28iu 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359178108-noxs3k 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359558693-d1ghkk 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359570116-cfnlp4 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359599108-y5au59 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359607027-nyc4ku 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星耀尊享店 test-demo3 星耀尊享店 demo3 13316091409 查看详情 LANHUI 星耀尊享店 车膜营销文章 星耀尊享店 广东省市顺德区测试路 1 号 17620770627 09:00-18:00 查看详情",
+      "provinceLinks": [
+        {
+          "text": "北京市 0 家门店",
+          "href": "/agent/beijing",
+          "y": 738,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "天津市 0 家门店",
+          "href": "/agent/tianjin",
+          "y": 836,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "上海市 1 家门店",
+          "href": "/agent/shanghai",
+          "y": 934,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "重庆市 0 家门店",
+          "href": "/agent/chongqing",
+          "y": 1032,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "河北省 0 家门店",
+          "href": "/agent/hebei",
+          "y": 1130,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "山西省 0 家门店",
+          "href": "/agent/shanxi",
+          "y": 1228,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "内蒙古自治区 0 家门店",
+          "href": "/agent/neimenggu",
+          "y": 1326,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "辽宁省 0 家门店",
+          "href": "/agent/liaoning",
+          "y": 1424,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "吉林省 0 家门店",
+          "href": "/agent/jilin",
+          "y": 1522,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "黑龙江省 0 家门店",
+          "href": "/agent/heilongjiang",
+          "y": 1620,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "江苏省 2 家门店",
+          "href": "/agent/jiangsu",
+          "y": 1718,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "浙江省 1 家门店",
+          "href": "/agent/zhejiang",
+          "y": 1816,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "安徽省 0 家门店",
+          "href": "/agent/anhui",
+          "y": 1914,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "福建省 0 家门店",
+          "href": "/agent/fujian",
+          "y": 2012,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "江西省 0 家门店",
+          "href": "/agent/jiangxi",
+          "y": 2110,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "山东省 1 家门店",
+          "href": "/agent/shandong",
+          "y": 2208,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "河南省 0 家门店",
+          "href": "/agent/henan",
+          "y": 2306,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "湖北省 0 家门店",
+          "href": "/agent/hubei",
+          "y": 2404,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "湖南省 0 家门店",
+          "href": "/agent/hunan",
+          "y": 2502,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "广东省 34 家门店",
+          "href": "/agent/guangdong",
+          "y": 2600,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "广西壮族自治区 0 家门店",
+          "href": "/agent/guangxi",
+          "y": 2698,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "海南省 0 家门店",
+          "href": "/agent/hainan",
+          "y": 2796,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "四川省 0 家门店",
+          "href": "/agent/sichuan",
+          "y": 2894,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "贵州省 0 家门店",
+          "href": "/agent/guizhou",
+          "y": 2992,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "云南省 0 家门店",
+          "href": "/agent/yunnan",
+          "y": 3090,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "西藏自治区 0 家门店",
+          "href": "/agent/xizang",
+          "y": 3188,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "陕西省 0 家门店",
+          "href": "/agent/shaanxi",
+          "y": 3286,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "甘肃省 0 家门店",
+          "href": "/agent/gansu",
+          "y": 3384,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "青海省 0 家门店",
+          "href": "/agent/qinghai",
+          "y": 3482,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "宁夏回族自治区 0 家门店",
+          "href": "/agent/ningxia",
+          "y": 3580,
+          "w": 358,
+          "h": 82
+        },
+        {
+          "text": "新疆维吾尔自治区 0 家门店",
+          "href": "/agent/xinjiang",
+          "y": 3678,
+          "w": 358,
+          "h": 82
+        }
+      ],
+      "storeLinks": [
+        {
+          "label": "D2 Test 1 门店详情",
+          "text": "LANHUI 星辉旗舰店 D2 Test 1 星辉旗舰店 x 12341 查看详情",
+          "href": "/agent/store/100015",
+          "y": 3965,
+          "h": 435
+        },
+        {
+          "label": "D2 Test 2 门店详情",
+          "text": "LANHUI 星辉旗舰店 D2 Test 2 星辉旗舰店 x 12342 查看详情",
+          "href": "/agent/store/100016",
+          "y": 4423,
+          "h": 435
+        },
+        {
+          "label": "TC-E1 phoneTel 门店详情",
+          "text": "LANHUI 星辉旗舰店 TC-E1 phoneTel 星辉旗舰店 TC-E1 地址 0757-2288 9999 查看详情",
+          "href": "/agent/store/100017",
+          "y": 4882,
+          "h": 435
+        },
+        {
+          "label": "测试图片门店 门店详情",
+          "text": "LANHUI 星辉旗舰店 测试图片门店 星辉旗舰店 广东省佛山市顺德区测试路 1 号 0757-22880001 09:00-21:00 查看详情",
+          "href": "/agent/store/100018",
+          "y": 5341,
+          "h": 439
+        },
+        {
+          "label": "BUG-2 回归门店 门店详情",
+          "text": "LANHUI 星辉旗舰店 BUG-2 回归门店 星辉旗舰店 广东省佛山市禅城区测试 BUG-2 路 1 号 0757-1234 5678 10:00-19:00 查看详情",
+          "href": "/agent/store/100019",
+          "y": 5804,
+          "h": 439
+        },
+        {
+          "label": "佛山市蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 佛山市蓝辉轻改汽车服务有限公司 星辉旗舰店 顺德乐从 17620770627 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqdq11se0001j7jchifeqkil",
+          "y": 6266,
+          "h": 439
+        },
+        {
+          "label": "蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 星辉旗舰店 广东省市顺德区测试路 1 号 0527-8888-2011 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqedx8xn00000kjcrmniiy7q",
+          "y": 6729,
+          "h": 439
+        },
+        {
+          "label": "蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 星辉旗舰店 TC-E1 地址 13316091409 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqek088e000w0kjc9hbv1b6g",
+          "y": 7192,
+          "h": 439
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782283735846-vi9emv 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782283735846-vi9emv 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqrppw6j0000r4g6bnndj6a3",
+          "y": 7655,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359029129-7dqgmd 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359029129-7dqgmd 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyjpym0000dog6gjkggdhv",
+          "y": 8145,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359068671-9b7p43 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359068671-9b7p43 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsykl700003dog6u2v7nt0u",
+          "y": 8636,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359122847-qiky5a 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359122847-qiky5a 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsylpby0006dog6zc4tn4oo",
+          "y": 9127,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359162693-9w28iu 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359162693-9w28iu 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsymkdf000gdog6eipaszw6",
+          "y": 9618,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359178108-noxs3k 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359178108-noxs3k 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsymvs3000ldog65xfcnde0",
+          "y": 10108,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359558693-d1ghkk 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359558693-d1ghkk 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyv1ak0002ajg61auk8bkz",
+          "y": 10599,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359570116-cfnlp4 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359570116-cfnlp4 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyvael000eajg6dqjqt4jx",
+          "y": 11090,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359599108-y5au59 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359599108-y5au59 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyvwn9000qajg6comrclof",
+          "y": 11581,
+          "h": 467
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359607027-nyc4ku 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359607027-nyc4ku 星辉旗舰店 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyw2od000vajg6c1pw7m5a",
+          "y": 12071,
+          "h": 467
+        },
+        {
+          "label": "test-demo3 门店详情",
+          "text": "LANHUI 星耀尊享店 test-demo3 星耀尊享店 demo3 13316091409 查看详情",
+          "href": "/agent/store/cmqrj3k5q000tu6g6irl2d0zc",
+          "y": 12562,
+          "h": 435
+        },
+        {
+          "label": "车膜营销文章 门店详情",
+          "text": "LANHUI 星耀尊享店 车膜营销文章 星耀尊享店 广东省市顺德区测试路 1 号 17620770627 09:00-18:00 查看详情",
+          "href": "/agent/store/cmra8oots000800r5df5yvnna",
+          "y": 13021,
+          "h": 439
+        }
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 160,
+          "naturalHeight": 53
+        },
+        {
+          "src": "",
+          "alt": "D2 Test 1 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "D2 Test 2 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "TC-E1 phoneTel 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "测试图片门店 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "BUG-2 回归门店 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "佛山市蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782283735846-vi9emv 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359029129-7dqgmd 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359068671-9b7p43 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359122847-qiky5a 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359162693-9w28iu 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359178108-noxs3k 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359558693-d1ghkk 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359570116-cfnlp4 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359599108-y5au59 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359607027-nyc4ku 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "test-demo3 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "",
+          "alt": "车膜营销文章 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 160,
+          "naturalHeight": 53
+        }
+      ],
+      "telLinks": [],
+      "mapLinks": [],
+      "forms": [],
+      "inputs": [
+        {
+          "type": "text",
+          "role": "combobox",
+          "label": "搜索门店",
+          "placeholder": "输入省份、城市、区县或门店名称搜索...",
+          "height": 56
+        }
+      ],
+      "buttons": [
+        {
+          "text": "切换菜单",
+          "label": "切换菜单",
+          "w": 40,
+          "h": 40
+        }
+      ],
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "切换菜单",
+          "tag": "BUTTON",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "duplicateImages": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "count": 2
+        },
+        {
+          "src": "",
+          "count": 20
+        }
+      ]
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 19,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.text-zinc-500[href=\"/\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"window-film\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"color-film\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"ppf\"]"
+          ]
+        ]
+      }
+    ],
+    "interactions": {
+      "suggestions": {
+        "visible": true,
+        "options": 6,
+        "text": "佛山市蓝辉轻改汽车服务有限公司\n广东省 · 佛山市\n蓝辉轻改顺德大良店\n广东省 · 佛山市\n蓝辉轻改顺德容桂店\n广东省 · 佛山市\n蓝辉轻改佛山南海店\n广东省 · 佛山市\n蓝辉轻改佛山禅城店\n广东省 · 佛山市\nPlaywright 测试门店 A1\n广东省 · 佛山市",
+        "expanded": "true"
+      },
+      "keyboardSuggestion": {
+        "activeDescendant": "store-option-0",
+        "firstSelected": "true",
+        "closedAfterEscape": true
+      },
+      "emptySearch": {
+        "url": "http://127.0.0.1:3000/agent?q=%E4%B8%8D%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%A8%E5%BA%97",
+        "heading": "搜索结果",
+        "emptyVisible": true,
+        "clearLinkVisible": true,
+        "provinceSectionStillVisible": true
+      }
+    },
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/api/analytics/track",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=yn5ir",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=446q2",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "name": "tablet-768",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 7885
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "全国门店网络",
+          "y": 229
+        },
+        {
+          "tag": "H2",
+          "text": "按省份浏览",
+          "y": 686
+        },
+        {
+          "tag": "H2",
+          "text": "已开放门店",
+          "y": 2475
+        },
+        {
+          "tag": "H3",
+          "text": "D2 Test 1",
+          "y": 2766
+        },
+        {
+          "tag": "H3",
+          "text": "D2 Test 2",
+          "y": 2766
+        },
+        {
+          "tag": "H3",
+          "text": "TC-E1 phoneTel",
+          "y": 3186
+        },
+        {
+          "tag": "H3",
+          "text": "测试图片门店",
+          "y": 3186
+        },
+        {
+          "tag": "H3",
+          "text": "BUG-2 回归门店",
+          "y": 3611
+        },
+        {
+          "tag": "H3",
+          "text": "佛山市蓝辉轻改汽车服务有限公司",
+          "y": 3611
+        },
+        {
+          "tag": "H3",
+          "text": "蓝辉轻改汽车服务有限公司",
+          "y": 4036
+        },
+        {
+          "tag": "H3",
+          "text": "蓝辉轻改汽车服务有限公司",
+          "y": 4036
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782283735846-vi9emv",
+          "y": 4461
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359029129-7dqgmd",
+          "y": 4461
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359068671-9b7p43",
+          "y": 4913
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359122847-qiky5a",
+          "y": 4913
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359162693-9w28iu",
+          "y": 5366
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359178108-noxs3k",
+          "y": 5366
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359558693-d1ghkk",
+          "y": 5819
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359570116-cfnlp4",
+          "y": 5819
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359599108-y5au59",
+          "y": 6272
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359607027-nyc4ku",
+          "y": 6272
+        },
+        {
+          "tag": "H3",
+          "text": "test-demo3",
+          "y": 6724
+        },
+        {
+          "tag": "H3",
+          "text": "车膜营销文章",
+          "y": 6724
+        },
+        {
+          "tag": "H3",
+          "text": "快捷导航",
+          "y": 7270
+        },
+        {
+          "tag": "H3",
+          "text": "产品中心",
+          "y": 7270
+        },
+        {
+          "tag": "H3",
+          "text": "联系方式",
+          "y": 7550
+        }
+      ],
+      "summaryText": "STORES 全国门店网络 寻找离您最近的蓝辉轻改门店，体验专业施工服务 31 个省份 · 20 家门店 按省份浏览 北京市 0 家门店 天津市 0 家门店 上海市 1 家门店 重庆市 0 家门店 河北省 0 家门店 山西省 0 家门店 内蒙古自治区 0 家门店 辽宁省 0 家门店 吉林省 0 家门店 黑龙江省 0 家门店 江苏省 2 家门店 浙江省 1 家门店 安徽省 0 家门店 福建省 0 家门店 江西省 0 家门店 山东省 1 家门店 河南省 0 家门店 湖北省 0 家门店 湖南省 0 家门店 广东省 34 家门店 广西壮族自治区 0 家门店 海南省 0 家门店 四川省 0 家门店 贵州省 0 家门店 云南省 0 家门店 西藏自治区 0 家门店 陕西省 0 家门店 甘肃省 0 家门店 青海省 0 家门店 宁夏回族自治区 0 家门店 新疆维吾尔自治区 0 家门店 已开放门店 按门店等级排序 · 旗舰优先 LANHUI 星辉旗舰店 D2 Test 1 x 12341 查看详情 LANHUI 星辉旗舰店 D2 Test 2 x 12342 查看详情 LANHUI 星辉旗舰店 TC-E1 phoneTel TC-E1 地址 0757-2288 9999 查看详情 LANHUI 星辉旗舰店 测试图片门店 广东省佛山市顺德区测试路 1 号 0757-22880001 09:00-21:00 查看详情 LANHUI 星辉旗舰店 BUG-2 回归门店 广东省佛山市禅城区测试 BUG-2 路 1 号 0757-1234 5678 10:00-19:00 查看详情 LANHUI 星辉旗舰店 佛山市蓝辉轻改汽车服务有限公司 顺德乐从 17620770627 09:00-18:00 查看详情 LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 广东省市顺德区测试路 1 号 0527-8888-2011 09:00-18:00 查看详情 LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 TC-E1 地址 13316091409 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782283735846-vi9emv 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359029129-7dqgmd 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359068671-9b7p43 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359122847-qiky5a 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359162693-9w28iu 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359178108-noxs3k 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359558693-d1ghkk 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359570116-cfnlp4 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359599108-y5au59 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359607027-nyc4ku 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星耀尊享店 test-demo3 demo3 13316091409 查看详情 LANHUI 星耀尊享店 车膜营销文章 广东省市顺德区测试路 1 号 17620770627 09:00-18:00 查看详情",
+      "provinceLinks": [
+        {
+          "text": "北京市 0 家门店",
+          "href": "/agent/beijing",
+          "y": 760,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "天津市 0 家门店",
+          "href": "/agent/tianjin",
+          "y": 760,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "上海市 1 家门店",
+          "href": "/agent/shanghai",
+          "y": 858,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "重庆市 0 家门店",
+          "href": "/agent/chongqing",
+          "y": 858,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "河北省 0 家门店",
+          "href": "/agent/hebei",
+          "y": 956,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "山西省 0 家门店",
+          "href": "/agent/shanxi",
+          "y": 956,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "内蒙古自治区 0 家门店",
+          "href": "/agent/neimenggu",
+          "y": 1054,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "辽宁省 0 家门店",
+          "href": "/agent/liaoning",
+          "y": 1054,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "吉林省 0 家门店",
+          "href": "/agent/jilin",
+          "y": 1152,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "黑龙江省 0 家门店",
+          "href": "/agent/heilongjiang",
+          "y": 1152,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "江苏省 2 家门店",
+          "href": "/agent/jiangsu",
+          "y": 1250,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "浙江省 1 家门店",
+          "href": "/agent/zhejiang",
+          "y": 1250,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "安徽省 0 家门店",
+          "href": "/agent/anhui",
+          "y": 1348,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "福建省 0 家门店",
+          "href": "/agent/fujian",
+          "y": 1348,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "江西省 0 家门店",
+          "href": "/agent/jiangxi",
+          "y": 1446,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "山东省 1 家门店",
+          "href": "/agent/shandong",
+          "y": 1446,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "河南省 0 家门店",
+          "href": "/agent/henan",
+          "y": 1544,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "湖北省 0 家门店",
+          "href": "/agent/hubei",
+          "y": 1544,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "湖南省 0 家门店",
+          "href": "/agent/hunan",
+          "y": 1642,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "广东省 34 家门店",
+          "href": "/agent/guangdong",
+          "y": 1642,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "广西壮族自治区 0 家门店",
+          "href": "/agent/guangxi",
+          "y": 1740,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "海南省 0 家门店",
+          "href": "/agent/hainan",
+          "y": 1740,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "四川省 0 家门店",
+          "href": "/agent/sichuan",
+          "y": 1838,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "贵州省 0 家门店",
+          "href": "/agent/guizhou",
+          "y": 1838,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "云南省 0 家门店",
+          "href": "/agent/yunnan",
+          "y": 1936,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "西藏自治区 0 家门店",
+          "href": "/agent/xizang",
+          "y": 1936,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "陕西省 0 家门店",
+          "href": "/agent/shaanxi",
+          "y": 2034,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "甘肃省 0 家门店",
+          "href": "/agent/gansu",
+          "y": 2034,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "青海省 0 家门店",
+          "href": "/agent/qinghai",
+          "y": 2132,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "宁夏回族自治区 0 家门店",
+          "href": "/agent/ningxia",
+          "y": 2132,
+          "w": 352,
+          "h": 82
+        },
+        {
+          "text": "新疆维吾尔自治区 0 家门店",
+          "href": "/agent/xinjiang",
+          "y": 2230,
+          "w": 352,
+          "h": 82
+        }
+      ],
+      "storeLinks": [
+        {
+          "label": "D2 Test 1 门店详情",
+          "text": "LANHUI 星辉旗舰店 D2 Test 1 x 12341 查看详情",
+          "href": "/agent/store/100015",
+          "y": 2549,
+          "h": 397
+        },
+        {
+          "label": "D2 Test 2 门店详情",
+          "text": "LANHUI 星辉旗舰店 D2 Test 2 x 12342 查看详情",
+          "href": "/agent/store/100016",
+          "y": 2549,
+          "h": 397
+        },
+        {
+          "label": "TC-E1 phoneTel 门店详情",
+          "text": "LANHUI 星辉旗舰店 TC-E1 phoneTel TC-E1 地址 0757-2288 9999 查看详情",
+          "href": "/agent/store/100017",
+          "y": 2969,
+          "h": 401
+        },
+        {
+          "label": "测试图片门店 门店详情",
+          "text": "LANHUI 星辉旗舰店 测试图片门店 广东省佛山市顺德区测试路 1 号 0757-22880001 09:00-21:00 查看详情",
+          "href": "/agent/store/100018",
+          "y": 2969,
+          "h": 401
+        },
+        {
+          "label": "BUG-2 回归门店 门店详情",
+          "text": "LANHUI 星辉旗舰店 BUG-2 回归门店 广东省佛山市禅城区测试 BUG-2 路 1 号 0757-1234 5678 10:00-19:00 查看详情",
+          "href": "/agent/store/100019",
+          "y": 3394,
+          "h": 401
+        },
+        {
+          "label": "佛山市蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 佛山市蓝辉轻改汽车服务有限公司 顺德乐从 17620770627 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqdq11se0001j7jchifeqkil",
+          "y": 3394,
+          "h": 401
+        },
+        {
+          "label": "蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 广东省市顺德区测试路 1 号 0527-8888-2011 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqedx8xn00000kjcrmniiy7q",
+          "y": 3819,
+          "h": 401
+        },
+        {
+          "label": "蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 TC-E1 地址 13316091409 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqek088e000w0kjc9hbv1b6g",
+          "y": 3819,
+          "h": 401
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782283735846-vi9emv 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782283735846-vi9emv 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqrppw6j0000r4g6bnndj6a3",
+          "y": 4244,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359029129-7dqgmd 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359029129-7dqgmd 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyjpym0000dog6gjkggdhv",
+          "y": 4244,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359068671-9b7p43 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359068671-9b7p43 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsykl700003dog6u2v7nt0u",
+          "y": 4696,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359122847-qiky5a 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359122847-qiky5a 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsylpby0006dog6zc4tn4oo",
+          "y": 4696,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359162693-9w28iu 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359162693-9w28iu 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsymkdf000gdog6eipaszw6",
+          "y": 5149,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359178108-noxs3k 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359178108-noxs3k 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsymvs3000ldog65xfcnde0",
+          "y": 5149,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359558693-d1ghkk 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359558693-d1ghkk 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyv1ak0002ajg61auk8bkz",
+          "y": 5602,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359570116-cfnlp4 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359570116-cfnlp4 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyvael000eajg6dqjqt4jx",
+          "y": 5602,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359599108-y5au59 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359599108-y5au59 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyvwn9000qajg6comrclof",
+          "y": 6055,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359607027-nyc4ku 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359607027-nyc4ku 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyw2od000vajg6c1pw7m5a",
+          "y": 6055,
+          "h": 429
+        },
+        {
+          "label": "test-demo3 门店详情",
+          "text": "LANHUI 星耀尊享店 test-demo3 demo3 13316091409 查看详情",
+          "href": "/agent/store/cmqrj3k5q000tu6g6irl2d0zc",
+          "y": 6507,
+          "h": 401
+        },
+        {
+          "label": "车膜营销文章 门店详情",
+          "text": "LANHUI 星耀尊享店 车膜营销文章 广东省市顺德区测试路 1 号 17620770627 09:00-18:00 查看详情",
+          "href": "/agent/store/cmra8oots000800r5df5yvnna",
+          "y": 6507,
+          "h": 401
+        }
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 160,
+          "naturalHeight": 53
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "D2 Test 1 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "D2 Test 2 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "TC-E1 phoneTel 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "测试图片门店 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "BUG-2 回归门店 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fstores%2Fcmqdq11se0001j7jchifeqkil.webp&w=384&q=75",
+          "alt": "佛山市蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fstores%2Fcmqedx8xn00000kjcrmniiy7q.webp&w=384&q=75",
+          "alt": "蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782283735846-vi9emv 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782359029129-7dqgmd 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782359068671-9b7p43 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782359122847-qiky5a 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782359162693-9w28iu 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782359178108-noxs3k 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782359558693-d1ghkk 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782359570116-cfnlp4 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "E2E 测试门店 e2e-1782359599108-y5au59 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359607027-nyc4ku 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "test-demo3 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "alt": "车膜营销文章 门头实景",
+          "naturalWidth": 384,
+          "naturalHeight": 256
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 160,
+          "naturalHeight": 53
+        }
+      ],
+      "telLinks": [],
+      "mapLinks": [],
+      "forms": [],
+      "inputs": [
+        {
+          "type": "text",
+          "role": "combobox",
+          "label": "搜索门店",
+          "placeholder": "输入省份、城市、区县或门店名称搜索...",
+          "height": 80
+        }
+      ],
+      "buttons": [
+        {
+          "text": "切换菜单",
+          "label": "切换菜单",
+          "w": 40,
+          "h": 40
+        }
+      ],
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "切换菜单",
+          "tag": "BUTTON",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "duplicateImages": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "count": 2
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=384&q=75",
+          "count": 17
+        }
+      ]
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 20,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            ".sm\\:block"
+          ],
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.text-zinc-500[href=\"/\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"window-film\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"color-film\"]"
+          ]
+        ]
+      }
+    ],
+    "interactions": {
+      "suggestions": {
+        "visible": true,
+        "options": 6,
+        "text": "佛山市蓝辉轻改汽车服务有限公司\n广东省 · 佛山市\n蓝辉轻改顺德大良店\n广东省 · 佛山市\n蓝辉轻改顺德容桂店\n广东省 · 佛山市\n蓝辉轻改佛山南海店\n广东省 · 佛山市\n蓝辉轻改佛山禅城店\n广东省 · 佛山市\nPlaywright 测试门店 A1\n广东省 · 佛山市",
+        "expanded": "true"
+      },
+      "keyboardSuggestion": {
+        "activeDescendant": "store-option-0",
+        "firstSelected": "true",
+        "closedAfterEscape": true
+      },
+      "emptySearch": {
+        "url": "http://127.0.0.1:3000/agent?q=%E4%B8%8D%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%A8%E5%BA%97",
+        "heading": "搜索结果",
+        "emptyVisible": true,
+        "clearLinkVisible": true,
+        "provinceSectionStillVisible": true
+      }
+    },
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/api/analytics/track",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/hebei?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/hebei?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/hebei?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanxi?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanxi?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanxi?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/neimenggu?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/neimenggu?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/neimenggu?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/liaoning?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/liaoning?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/liaoning?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jilin?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jilin?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jilin?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=yn5ir",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=446q2",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/hebei?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanxi?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/neimenggu?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/liaoning?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jilin?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "name": "desktop-1440",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 5662
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "全国门店网络",
+          "y": 229
+        },
+        {
+          "tag": "H2",
+          "text": "按省份浏览",
+          "y": 686
+        },
+        {
+          "tag": "H2",
+          "text": "已开放门店",
+          "y": 1985
+        },
+        {
+          "tag": "H3",
+          "text": "D2 Test 1",
+          "y": 2276
+        },
+        {
+          "tag": "H3",
+          "text": "D2 Test 2",
+          "y": 2276
+        },
+        {
+          "tag": "H3",
+          "text": "TC-E1 phoneTel",
+          "y": 2276
+        },
+        {
+          "tag": "H3",
+          "text": "测试图片门店",
+          "y": 2696
+        },
+        {
+          "tag": "H3",
+          "text": "BUG-2 回归门店",
+          "y": 2696
+        },
+        {
+          "tag": "H3",
+          "text": "佛山市蓝辉轻改汽车服务有限公司",
+          "y": 2696
+        },
+        {
+          "tag": "H3",
+          "text": "蓝辉轻改汽车服务有限公司",
+          "y": 3121
+        },
+        {
+          "tag": "H3",
+          "text": "蓝辉轻改汽车服务有限公司",
+          "y": 3121
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782283735846-vi9emv",
+          "y": 3121
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359029129-7dqgmd",
+          "y": 3574
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359068671-9b7p43",
+          "y": 3574
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359122847-qiky5a",
+          "y": 3574
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359162693-9w28iu",
+          "y": 4027
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359178108-noxs3k",
+          "y": 4027
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359558693-d1ghkk",
+          "y": 4027
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359570116-cfnlp4",
+          "y": 4479
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359599108-y5au59",
+          "y": 4479
+        },
+        {
+          "tag": "H3",
+          "text": "E2E 测试门店 e2e-1782359607027-nyc4ku",
+          "y": 4479
+        },
+        {
+          "tag": "H3",
+          "text": "test-demo3",
+          "y": 4932
+        },
+        {
+          "tag": "H3",
+          "text": "车膜营销文章",
+          "y": 4932
+        },
+        {
+          "tag": "H3",
+          "text": "快捷导航",
+          "y": 5277
+        },
+        {
+          "tag": "H3",
+          "text": "产品中心",
+          "y": 5277
+        },
+        {
+          "tag": "H3",
+          "text": "联系方式",
+          "y": 5277
+        }
+      ],
+      "summaryText": "STORES 全国门店网络 寻找离您最近的蓝辉轻改门店，体验专业施工服务 31 个省份 · 20 家门店 按省份浏览 北京市 0 家门店 天津市 0 家门店 上海市 1 家门店 重庆市 0 家门店 河北省 0 家门店 山西省 0 家门店 内蒙古自治区 0 家门店 辽宁省 0 家门店 吉林省 0 家门店 黑龙江省 0 家门店 江苏省 2 家门店 浙江省 1 家门店 安徽省 0 家门店 福建省 0 家门店 江西省 0 家门店 山东省 1 家门店 河南省 0 家门店 湖北省 0 家门店 湖南省 0 家门店 广东省 34 家门店 广西壮族自治区 0 家门店 海南省 0 家门店 四川省 0 家门店 贵州省 0 家门店 云南省 0 家门店 西藏自治区 0 家门店 陕西省 0 家门店 甘肃省 0 家门店 青海省 0 家门店 宁夏回族自治区 0 家门店 新疆维吾尔自治区 0 家门店 已开放门店 按门店等级排序 · 旗舰优先 LANHUI 星辉旗舰店 D2 Test 1 x 12341 查看详情 LANHUI 星辉旗舰店 D2 Test 2 x 12342 查看详情 LANHUI 星辉旗舰店 TC-E1 phoneTel TC-E1 地址 0757-2288 9999 查看详情 LANHUI 星辉旗舰店 测试图片门店 广东省佛山市顺德区测试路 1 号 0757-22880001 09:00-21:00 查看详情 LANHUI 星辉旗舰店 BUG-2 回归门店 广东省佛山市禅城区测试 BUG-2 路 1 号 0757-1234 5678 10:00-19:00 查看详情 LANHUI 星辉旗舰店 佛山市蓝辉轻改汽车服务有限公司 顺德乐从 17620770627 09:00-18:00 查看详情 LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 广东省市顺德区测试路 1 号 0527-8888-2011 09:00-18:00 查看详情 LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 TC-E1 地址 13316091409 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782283735846-vi9emv 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359029129-7dqgmd 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359068671-9b7p43 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359122847-qiky5a 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359162693-9w28iu 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359178108-noxs3k 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359558693-d1ghkk 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359570116-cfnlp4 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359599108-y5au59 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359607027-nyc4ku 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情 LANHUI 星耀尊享店 test-demo3 demo3 13316091409 查看详情 LANHUI 星耀尊享店 车膜营销文章 广东省市顺德区测试路 1 号 17620770627 09:00-18:00 查看详情",
+      "provinceLinks": [
+        {
+          "text": "北京市 0 家门店",
+          "href": "/agent/beijing",
+          "y": 760,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "天津市 0 家门店",
+          "href": "/agent/tianjin",
+          "y": 760,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "上海市 1 家门店",
+          "href": "/agent/shanghai",
+          "y": 760,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "重庆市 0 家门店",
+          "href": "/agent/chongqing",
+          "y": 858,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "河北省 0 家门店",
+          "href": "/agent/hebei",
+          "y": 858,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "山西省 0 家门店",
+          "href": "/agent/shanxi",
+          "y": 858,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "内蒙古自治区 0 家门店",
+          "href": "/agent/neimenggu",
+          "y": 956,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "辽宁省 0 家门店",
+          "href": "/agent/liaoning",
+          "y": 956,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "吉林省 0 家门店",
+          "href": "/agent/jilin",
+          "y": 956,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "黑龙江省 0 家门店",
+          "href": "/agent/heilongjiang",
+          "y": 1054,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "江苏省 2 家门店",
+          "href": "/agent/jiangsu",
+          "y": 1054,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "浙江省 1 家门店",
+          "href": "/agent/zhejiang",
+          "y": 1054,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "安徽省 0 家门店",
+          "href": "/agent/anhui",
+          "y": 1152,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "福建省 0 家门店",
+          "href": "/agent/fujian",
+          "y": 1152,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "江西省 0 家门店",
+          "href": "/agent/jiangxi",
+          "y": 1152,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "山东省 1 家门店",
+          "href": "/agent/shandong",
+          "y": 1250,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "河南省 0 家门店",
+          "href": "/agent/henan",
+          "y": 1250,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "湖北省 0 家门店",
+          "href": "/agent/hubei",
+          "y": 1250,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "湖南省 0 家门店",
+          "href": "/agent/hunan",
+          "y": 1348,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "广东省 34 家门店",
+          "href": "/agent/guangdong",
+          "y": 1348,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "广西壮族自治区 0 家门店",
+          "href": "/agent/guangxi",
+          "y": 1348,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "海南省 0 家门店",
+          "href": "/agent/hainan",
+          "y": 1446,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "四川省 0 家门店",
+          "href": "/agent/sichuan",
+          "y": 1446,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "贵州省 0 家门店",
+          "href": "/agent/guizhou",
+          "y": 1446,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "云南省 0 家门店",
+          "href": "/agent/yunnan",
+          "y": 1544,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "西藏自治区 0 家门店",
+          "href": "/agent/xizang",
+          "y": 1544,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "陕西省 0 家门店",
+          "href": "/agent/shaanxi",
+          "y": 1544,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "甘肃省 0 家门店",
+          "href": "/agent/gansu",
+          "y": 1642,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "青海省 0 家门店",
+          "href": "/agent/qinghai",
+          "y": 1642,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "宁夏回族自治区 0 家门店",
+          "href": "/agent/ningxia",
+          "y": 1642,
+          "w": 395,
+          "h": 82
+        },
+        {
+          "text": "新疆维吾尔自治区 0 家门店",
+          "href": "/agent/xinjiang",
+          "y": 1740,
+          "w": 395,
+          "h": 82
+        }
+      ],
+      "storeLinks": [
+        {
+          "label": "D2 Test 1 门店详情",
+          "text": "LANHUI 星辉旗舰店 D2 Test 1 x 12341 查看详情",
+          "href": "/agent/store/100015",
+          "y": 2059,
+          "h": 397
+        },
+        {
+          "label": "D2 Test 2 门店详情",
+          "text": "LANHUI 星辉旗舰店 D2 Test 2 x 12342 查看详情",
+          "href": "/agent/store/100016",
+          "y": 2059,
+          "h": 397
+        },
+        {
+          "label": "TC-E1 phoneTel 门店详情",
+          "text": "LANHUI 星辉旗舰店 TC-E1 phoneTel TC-E1 地址 0757-2288 9999 查看详情",
+          "href": "/agent/store/100017",
+          "y": 2059,
+          "h": 397
+        },
+        {
+          "label": "测试图片门店 门店详情",
+          "text": "LANHUI 星辉旗舰店 测试图片门店 广东省佛山市顺德区测试路 1 号 0757-22880001 09:00-21:00 查看详情",
+          "href": "/agent/store/100018",
+          "y": 2479,
+          "h": 401
+        },
+        {
+          "label": "BUG-2 回归门店 门店详情",
+          "text": "LANHUI 星辉旗舰店 BUG-2 回归门店 广东省佛山市禅城区测试 BUG-2 路 1 号 0757-1234 5678 10:00-19:00 查看详情",
+          "href": "/agent/store/100019",
+          "y": 2479,
+          "h": 401
+        },
+        {
+          "label": "佛山市蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 佛山市蓝辉轻改汽车服务有限公司 顺德乐从 17620770627 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqdq11se0001j7jchifeqkil",
+          "y": 2479,
+          "h": 401
+        },
+        {
+          "label": "蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 广东省市顺德区测试路 1 号 0527-8888-2011 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqedx8xn00000kjcrmniiy7q",
+          "y": 2904,
+          "h": 429
+        },
+        {
+          "label": "蓝辉轻改汽车服务有限公司 门店详情",
+          "text": "LANHUI 星辉旗舰店 蓝辉轻改汽车服务有限公司 TC-E1 地址 13316091409 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqek088e000w0kjc9hbv1b6g",
+          "y": 2904,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782283735846-vi9emv 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782283735846-vi9emv 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqrppw6j0000r4g6bnndj6a3",
+          "y": 2904,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359029129-7dqgmd 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359029129-7dqgmd 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyjpym0000dog6gjkggdhv",
+          "y": 3357,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359068671-9b7p43 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359068671-9b7p43 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsykl700003dog6u2v7nt0u",
+          "y": 3357,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359122847-qiky5a 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359122847-qiky5a 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsylpby0006dog6zc4tn4oo",
+          "y": 3357,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359162693-9w28iu 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359162693-9w28iu 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsymkdf000gdog6eipaszw6",
+          "y": 3810,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359178108-noxs3k 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359178108-noxs3k 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsymvs3000ldog65xfcnde0",
+          "y": 3810,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359558693-d1ghkk 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359558693-d1ghkk 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyv1ak0002ajg61auk8bkz",
+          "y": 3810,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359570116-cfnlp4 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359570116-cfnlp4 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyvael000eajg6dqjqt4jx",
+          "y": 4262,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359599108-y5au59 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359599108-y5au59 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyvwn9000qajg6comrclof",
+          "y": 4262,
+          "h": 429
+        },
+        {
+          "label": "E2E 测试门店 e2e-1782359607027-nyc4ku 门店详情",
+          "text": "LANHUI 星辉旗舰店 E2E 测试门店 e2e-1782359607027-nyc4ku 广州市天河区 E2E 测试地址 88 号 13900139000 09:00-18:00 查看详情",
+          "href": "/agent/store/cmqsyw2od000vajg6c1pw7m5a",
+          "y": 4262,
+          "h": 429
+        },
+        {
+          "label": "test-demo3 门店详情",
+          "text": "LANHUI 星耀尊享店 test-demo3 demo3 13316091409 查看详情",
+          "href": "/agent/store/cmqrj3k5q000tu6g6irl2d0zc",
+          "y": 4715,
+          "h": 401
+        },
+        {
+          "label": "车膜营销文章 门店详情",
+          "text": "LANHUI 星耀尊享店 车膜营销文章 广东省市顺德区测试路 1 号 17620770627 09:00-18:00 查看详情",
+          "href": "/agent/store/cmra8oots000800r5df5yvnna",
+          "y": 4715,
+          "h": 401
+        }
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 239,
+          "naturalHeight": 79
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "D2 Test 1 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "D2 Test 2 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "TC-E1 phoneTel 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "测试图片门店 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "BUG-2 回归门店 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fstores%2Fcmqdq11se0001j7jchifeqkil.webp&w=640&q=75",
+          "alt": "佛山市蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fstores%2Fcmqedx8xn00000kjcrmniiy7q.webp&w=640&q=75",
+          "alt": "蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "蓝辉轻改汽车服务有限公司 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782283735846-vi9emv 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782359029129-7dqgmd 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782359068671-9b7p43 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782359122847-qiky5a 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782359162693-9w28iu 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782359178108-noxs3k 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782359558693-d1ghkk 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782359570116-cfnlp4 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "E2E 测试门店 e2e-1782359599108-y5au59 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "",
+          "alt": "E2E 测试门店 e2e-1782359607027-nyc4ku 门头实景",
+          "naturalWidth": 0,
+          "naturalHeight": 0
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "test-demo3 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "alt": "车膜营销文章 门头实景",
+          "naturalWidth": 475,
+          "naturalHeight": 317
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "naturalWidth": 239,
+          "naturalHeight": 79
+        }
+      ],
+      "telLinks": [],
+      "mapLinks": [],
+      "forms": [],
+      "inputs": [
+        {
+          "type": "text",
+          "role": "combobox",
+          "label": "搜索门店",
+          "placeholder": "输入省份、城市、区县或门店名称搜索...",
+          "height": 80
+        }
+      ],
+      "buttons": [
+        {
+          "text": "展开 产品中心 子菜单",
+          "label": "展开 产品中心 子菜单",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "展开 品牌介绍 子菜单",
+          "label": "展开 品牌介绍 子菜单",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "联系我们",
+          "label": null,
+          "w": 114,
+          "h": 42
+        }
+      ],
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 57,
+          "h": 36
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "展开 产品中心 子菜单",
+          "tag": "BUTTON",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "展开 品牌介绍 子菜单",
+          "tag": "BUTTON",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "联系我们",
+          "tag": "BUTTON",
+          "w": 114,
+          "h": 42
+        },
+        {
+          "text": "查看门店",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "duplicateImages": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "count": 2
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Fplaceholders%2Fstore.webp&w=640&q=75",
+          "count": 17
+        }
+      ]
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 20,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            ".sm\\:block"
+          ],
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.text-zinc-500[href=\"/\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"window-film\"]"
+          ],
+          [
+            ".gap-1.text-zinc-500[href$=\"color-film\"]"
+          ]
+        ]
+      }
+    ],
+    "interactions": {
+      "suggestions": {
+        "visible": true,
+        "options": 6,
+        "text": "佛山市蓝辉轻改汽车服务有限公司\n广东省 · 佛山市\n蓝辉轻改顺德大良店\n广东省 · 佛山市\n蓝辉轻改顺德容桂店\n广东省 · 佛山市\n蓝辉轻改佛山南海店\n广东省 · 佛山市\n蓝辉轻改佛山禅城店\n广东省 · 佛山市\nPlaywright 测试门店 A1\n广东省 · 佛山市",
+        "expanded": "true"
+      },
+      "keyboardSuggestion": {
+        "activeDescendant": "store-option-0",
+        "firstSelected": "true",
+        "closedAfterEscape": true
+      },
+      "emptySearch": {
+        "url": "http://127.0.0.1:3000/agent?q=%E4%B8%8D%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%A8%E5%BA%97",
+        "heading": "搜索结果",
+        "emptyVisible": true,
+        "clearLinkVisible": true,
+        "provinceSectionStillVisible": true
+      }
+    },
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/api/analytics/track",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=tgbp7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/hebei?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/hebei?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/hebei?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanxi?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanxi?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanxi?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/neimenggu?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/neimenggu?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/liaoning?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/neimenggu?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/liaoning?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/liaoning?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jilin?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jilin?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jilin?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jiangsu?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jiangsu?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jiangsu?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/zhejiang?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/zhejiang?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/zhejiang?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/anhui?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/anhui?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/anhui?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/fujian?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/fujian?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/fujian?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jiangxi?_rsc=vc2ec",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jiangxi?_rsc=d8by7",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jiangxi?_rsc=m0ofm",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/beijing?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/tianjin?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanghai?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/chongqing?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/hebei?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/shanxi?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/neimenggu?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/liaoning?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jilin?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/heilongjiang?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jiangsu?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/zhejiang?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/anhui?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/fujian?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent/jiangxi?_rsc=17qtq",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  }
+]

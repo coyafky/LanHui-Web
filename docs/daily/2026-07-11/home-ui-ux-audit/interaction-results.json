@@ -1,0 +1,22 @@
+{
+  "mobileMenu": {
+    "expanded": "true",
+    "dialogVisible": true,
+    "bodyOverflow": "hidden",
+    "focused": "切换菜单",
+    "expandedAfterEscape": "false",
+    "focusRestored": "切换菜单"
+  },
+  "consultDialog": {
+    "visible": true,
+    "bodyOverflow": "hidden",
+    "focused": "关闭",
+    "heading": "关注蓝辉轻改公众号",
+    "closedAfterEscape": true,
+    "focusRestoredText": "企业微信咨询"
+  },
+  "internalLinks": {
+    "checked": 47,
+    "broken": []
+  }
+}

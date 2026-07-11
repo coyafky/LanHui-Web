@@ -1,0 +1,2632 @@
+[
+  {
+    "name": "mobile-390",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "document": {
+        "width": 390,
+        "height": 3359
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "产品中心",
+          "y": 217
+        },
+        {
+          "tag": "H2",
+          "text": "我是 [品牌] 车主 · 按车型找方案",
+          "y": 1290
+        },
+        {
+          "tag": "H2",
+          "text": "漆面与玻璃的全方位膜系",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "隐形车衣",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "汽车窗膜",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "改色膜",
+          "y": 0
+        },
+        {
+          "tag": "H2",
+          "text": "围绕姿态与上下车的金属升级",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "电动踏板",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "轮毂升级",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "底盘升级",
+          "y": 0
+        },
+        {
+          "tag": "H2",
+          "text": "围绕座舱日常使用的保护与质感升级",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "洗美养护",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "更多服务正在整理",
+          "y": 0
+        },
+        {
+          "tag": "H4",
+          "text": "商务舒适升级",
+          "y": 0
+        },
+        {
+          "tag": "H4",
+          "text": "底盘护板",
+          "y": 0
+        },
+        {
+          "tag": "H3",
+          "text": "快捷导航",
+          "y": 2472
+        },
+        {
+          "tag": "H3",
+          "text": "产品中心",
+          "y": 2716
+        },
+        {
+          "tag": "H3",
+          "text": "联系方式",
+          "y": 2996
+        }
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "width": 160,
+          "height": 53
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "width": 160,
+          "height": 53
+        }
+      ],
+      "svgs": 54,
+      "visibleLinks": [
+        {
+          "text": "跳到主要内容",
+          "href": "#main-content",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "href": "/",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "href": "/",
+          "w": 28,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣 漆面保护 · 半透明反光膜",
+          "href": "/product/ppf",
+          "w": 175,
+          "h": 78
+        },
+        {
+          "text": "汽车窗膜 隔热防晒 · 光线透射",
+          "href": "/product/window-film",
+          "w": 175,
+          "h": 78
+        },
+        {
+          "text": "轮毂升级 金属结构 · 姿态匹配",
+          "href": "/product/wheels",
+          "w": 175,
+          "h": 78
+        },
+        {
+          "text": "电动踏板 高底盘上下车 · 安装位",
+          "href": "/product/electric-steps",
+          "w": 175,
+          "h": 78
+        },
+        {
+          "text": "问界 M6 · M7 · M8",
+          "href": "/product/wenjie",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "小米 SU7 · YU7",
+          "href": "/product/xiaomi",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "极氪 9X · 8X",
+          "href": "/product/zeekr",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+          "href": "/product/li-auto",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "特斯拉 即将上线",
+          "href": "/product/tesla",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "小鹏 GX",
+          "href": "/product/xpeng",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "腾势 D9",
+          "href": "/product/denza",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "岚图 DREAMER",
+          "href": "/product/voyah",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "乐道 L90",
+          "href": "/product/ledao",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "高山 8",
+          "href": "/product/gaoshan",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "智界 V9",
+          "href": "/product/zhijie",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "蔚来 ES8",
+          "href": "/product/nio",
+          "w": 114,
+          "h": 61
+        },
+        {
+          "text": "按车型找 →",
+          "href": "#vehicle-topics",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "按项目看 →",
+          "href": "#service-projects",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "问界 M6 · M7 · M8",
+          "href": "/product/wenjie",
+          "w": 308,
+          "h": 78
+        },
+        {
+          "text": "小米 SU7 · YU7",
+          "href": "/product/xiaomi",
+          "w": 308,
+          "h": 78
+        },
+        {
+          "text": "极氪 9X · 8X",
+          "href": "/product/zeekr",
+          "w": 308,
+          "h": 78
+        },
+        {
+          "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+          "href": "/product/li-auto",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "特斯拉 即将上线",
+          "href": "/product/tesla",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "小鹏 GX",
+          "href": "/product/xpeng",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "腾势 D9",
+          "href": "/product/denza",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "岚图 DREAMER",
+          "href": "/product/voyah",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "乐道 L90",
+          "href": "/product/ledao",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "高山 8",
+          "href": "/product/gaoshan",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "智界 V9",
+          "href": "/product/zhijie",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "蔚来 ES8",
+          "href": "/product/nio",
+          "w": 148,
+          "h": 65
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "href": "/",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "href": "/",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "href": "/product",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "href": "/agent",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "href": "/brand",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "href": "/news",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "href": "/product/electric-steps",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "href": "/product/wheels",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "href": "/product/chassis",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "href": "/product/window-film",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "href": "/product/color-film",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "href": "/product/ppf",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "buttons": [
+        {
+          "text": "切换菜单",
+          "role": null,
+          "id": "",
+          "selected": null,
+          "expanded": "false",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "text": "按车型",
+          "role": "tab",
+          "id": "",
+          "selected": "true",
+          "expanded": null,
+          "w": 195,
+          "h": 56
+        },
+        {
+          "text": "按项目",
+          "role": "tab",
+          "id": "",
+          "selected": "false",
+          "expanded": null,
+          "w": 195,
+          "h": 56
+        }
+      ],
+      "panels": [
+        {
+          "id": "tab-panel-vehicle",
+          "labelledby": "vehicle",
+          "display": "block",
+          "hidden": false,
+          "y": 1192
+        },
+        {
+          "id": "tab-panel-project",
+          "labelledby": "project",
+          "display": "none",
+          "hidden": false,
+          "y": 0
+        }
+      ],
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "切换菜单",
+          "tag": "BUTTON",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 28,
+          "h": 20
+        },
+        {
+          "text": "按车型找 →",
+          "tag": "A",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "按项目看 →",
+          "tag": "A",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "text": "首页 产品中心 PRODUCT CENTER · 产品中心 车型方案示意 隐形车衣 漆面保护 · 半透明反光膜 汽车窗膜 隔热防晒 · 光线透射 轮毂升级 金属结构 · 姿态匹配 电动踏板 高底盘上下车 · 安装位 产品中心 按车型找方案，按项目看服务。蓝辉轻改围绕新能源车主的用车场景，提供汽车膜系、轻改装备与车型专属升级方案。 车型方案地图 · 12 品牌 · 23 含整理中 问界 M6 · M7 · M8 小米 SU7 · YU7 极氪 9X · 8X 理想 ONE · I6 · I8 · L9 · MEGA 特斯拉 即将上线 小鹏 GX 腾势 D9 岚图 DREAMER 乐道 L90 高山 8 智界 V9 蔚来 ES8 按车型找 → 按项目看 → 按车型 按项目 VEHICLE TOPICS · 车型专题 我是 [品牌] 车主 · 按车型找方案 11 个热门品牌 + 13 款主流车型 · 围绕车主视角聚合升级方案 问界 M6 · M7 · M8 小米 SU7 · YU7 极氪 9X · 8X 理想 ONE · I6 · I8 · L9 · MEGA 特斯拉 即将上线 小鹏 GX 腾势 D9 岚图 DREAMER 乐道 L90 高山 8 智界 V9 蔚来 ES8 悬停品牌色块，查看车主视角"
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 20,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            ".hover\\:text-zinc-300"
+          ],
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.inline-flex[href=\"/\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"window-film\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"color-film\"]"
+          ]
+        ]
+      }
+    ],
+    "interactions": {
+      "tabsInitial": {
+        "vehicleSelected": "true",
+        "projectSelected": "false",
+        "vehiclePanelVisible": true,
+        "projectPanelVisible": false
+      },
+      "tabsAfterClick": {
+        "vehicleSelected": "false",
+        "projectSelected": "true",
+        "vehiclePanelVisible": false,
+        "projectPanelVisible": true
+      },
+      "heroProjectAnchor": {
+        "hash": "#service-projects",
+        "scrollY": 0,
+        "projectPanelVisible": false,
+        "projectTabSelected": "false"
+      },
+      "tabKeyboard": {
+        "focusedText": "按车型",
+        "projectSelected": "false"
+      }
+    },
+    "focusOrder": [
+      {
+        "tag": "BUTTON",
+        "text": "按项目",
+        "href": null,
+        "role": "tab"
+      },
+      {
+        "tag": "A",
+        "text": "问界 M6 · M7 · M8",
+        "href": "/product/wenjie",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "小米 SU7 · YU7",
+        "href": "/product/xiaomi",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "极氪 9X · 8X",
+        "href": "/product/zeekr",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+        "href": "/product/li-auto",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "特斯拉 即将上线",
+        "href": "/product/tesla",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "小鹏 GX",
+        "href": "/product/xpeng",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "腾势 D9",
+        "href": "/product/denza",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "岚图 DREAMER",
+        "href": "/product/voyah",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "乐道 L90",
+        "href": "/product/ledao",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "高山 8",
+        "href": "/product/gaoshan",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "智界 V9",
+        "href": "/product/zhijie",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "蔚来 ES8",
+        "href": "/product/nio",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "蓝辉轻改 LANHUI",
+        "href": "/",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "首页",
+        "href": "/",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "产品中心",
+        "href": "/product",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "门店服务",
+        "href": "/agent",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "品牌介绍",
+        "href": "/brand",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "品牌资讯",
+        "href": "/news",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "电动踏板",
+        "href": "/product/electric-steps",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "轮毂升级",
+        "href": "/product/wheels",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "底盘升级",
+        "href": "/product/chassis",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "汽车窗膜",
+        "href": "/product/window-film",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "改色膜",
+        "href": "/product/color-film",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "隐形车衣",
+        "href": "/product/ppf",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "跳到主要内容",
+        "href": "#main-content",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "蓝辉轻改 LANHUI",
+        "href": "/",
+        "role": null
+      },
+      {
+        "tag": "BUTTON",
+        "text": "切换菜单",
+        "href": null,
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "首页",
+        "href": "/",
+        "role": null
+      }
+    ],
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=kbjt8",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=cfbkp",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/api/analytics/track",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=kbjt8",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=kbjt8",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=cfbkp",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=cfbkp",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "name": "tablet-768",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "document": {
+        "width": 768,
+        "height": 4876
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "产品中心",
+          "y": 233
+        },
+        {
+          "tag": "H2",
+          "text": "我是 [品牌] 车主 · 按车型找方案",
+          "y": 1400
+        },
+        {
+          "tag": "H2",
+          "text": "漆面与玻璃的全方位膜系",
+          "y": 2116
+        },
+        {
+          "tag": "H3",
+          "text": "隐形车衣",
+          "y": 2229
+        },
+        {
+          "tag": "H3",
+          "text": "汽车窗膜",
+          "y": 2229
+        },
+        {
+          "tag": "H3",
+          "text": "改色膜",
+          "y": 2229
+        },
+        {
+          "tag": "H2",
+          "text": "围绕姿态与上下车的金属升级",
+          "y": 2475
+        },
+        {
+          "tag": "H3",
+          "text": "电动踏板",
+          "y": 2593
+        },
+        {
+          "tag": "H3",
+          "text": "轮毂升级",
+          "y": 2593
+        },
+        {
+          "tag": "H3",
+          "text": "底盘升级",
+          "y": 2764
+        },
+        {
+          "tag": "H2",
+          "text": "围绕座舱日常使用的保护与质感升级",
+          "y": 2989
+        },
+        {
+          "tag": "H3",
+          "text": "洗美养护",
+          "y": 3374
+        },
+        {
+          "tag": "H3",
+          "text": "更多服务正在整理",
+          "y": 3572
+        },
+        {
+          "tag": "H4",
+          "text": "商务舒适升级",
+          "y": 3677
+        },
+        {
+          "tag": "H4",
+          "text": "底盘护板",
+          "y": 3796
+        },
+        {
+          "tag": "H3",
+          "text": "快捷导航",
+          "y": 4261
+        },
+        {
+          "tag": "H3",
+          "text": "产品中心",
+          "y": 4261
+        },
+        {
+          "tag": "H3",
+          "text": "联系方式",
+          "y": 4541
+        }
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "width": 160,
+          "height": 53
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "width": 160,
+          "height": 53
+        }
+      ],
+      "svgs": 54,
+      "visibleLinks": [
+        {
+          "text": "跳到主要内容",
+          "href": "#main-content",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "href": "/",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "href": "/",
+          "w": 28,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣 漆面保护 · 半透明反光膜",
+          "href": "/product/ppf",
+          "w": 171,
+          "h": 86
+        },
+        {
+          "text": "汽车窗膜 隔热防晒 · 光线透射",
+          "href": "/product/window-film",
+          "w": 171,
+          "h": 86
+        },
+        {
+          "text": "轮毂升级 金属结构 · 姿态匹配",
+          "href": "/product/wheels",
+          "w": 171,
+          "h": 86
+        },
+        {
+          "text": "电动踏板 高底盘上下车 · 安装位",
+          "href": "/product/electric-steps",
+          "w": 171,
+          "h": 86
+        },
+        {
+          "text": "问界 M6 · M7 · M8",
+          "href": "/product/wenjie",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "小米 SU7 · YU7",
+          "href": "/product/xiaomi",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "极氪 9X · 8X",
+          "href": "/product/zeekr",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+          "href": "/product/li-auto",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "特斯拉 即将上线",
+          "href": "/product/tesla",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "小鹏 GX",
+          "href": "/product/xpeng",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "腾势 D9",
+          "href": "/product/denza",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "岚图 DREAMER",
+          "href": "/product/voyah",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "乐道 L90",
+          "href": "/product/ledao",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "高山 8",
+          "href": "/product/gaoshan",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "智界 V9",
+          "href": "/product/zhijie",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "蔚来 ES8",
+          "href": "/product/nio",
+          "w": 232,
+          "h": 65
+        },
+        {
+          "text": "按车型找 →",
+          "href": "#vehicle-topics",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "按项目看 →",
+          "href": "#service-projects",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "问界 M6 · M7 · M8",
+          "href": "/product/wenjie",
+          "w": 207,
+          "h": 90
+        },
+        {
+          "text": "小米 SU7 · YU7",
+          "href": "/product/xiaomi",
+          "w": 207,
+          "h": 90
+        },
+        {
+          "text": "极氪 9X · 8X",
+          "href": "/product/zeekr",
+          "w": 207,
+          "h": 90
+        },
+        {
+          "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+          "href": "/product/li-auto",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "特斯拉 即将上线",
+          "href": "/product/tesla",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "小鹏 GX",
+          "href": "/product/xpeng",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "腾势 D9",
+          "href": "/product/denza",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "岚图 DREAMER",
+          "href": "/product/voyah",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "乐道 L90",
+          "href": "/product/ledao",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "高山 8",
+          "href": "/product/gaoshan",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "智界 V9",
+          "href": "/product/zhijie",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "蔚来 ES8",
+          "href": "/product/nio",
+          "w": 152,
+          "h": 73
+        },
+        {
+          "text": "隐形车衣 隐形车衣 花少钱，贴对膜 · TPU 透明膜防刮自修复",
+          "href": "/product/ppf",
+          "w": 207,
+          "h": 145
+        },
+        {
+          "text": "汽车窗膜 汽车窗膜 前挡清晰+侧后隐私，夏季用车更舒适",
+          "href": "/product/window-film",
+          "w": 207,
+          "h": 145
+        },
+        {
+          "text": "改色膜 改色膜 不伤原漆，撕除即可恢复，色系丰富可选",
+          "href": "/product/color-film",
+          "w": 207,
+          "h": 145
+        },
+        {
+          "text": "电动踏板 电动踏板 开门自动展开 · 收起贴合原车 · 无损安装不破线束",
+          "href": "/product/electric-steps",
+          "w": 316,
+          "h": 151
+        },
+        {
+          "text": "轮毂升级 轮毂升级 数据精准匹配 · 款式多样可选 · 兼顾视觉与行驶品质",
+          "href": "/product/wheels",
+          "w": 316,
+          "h": 151
+        },
+        {
+          "text": "底盘升级 底盘升级 避震与加强件轻度升级 · 日常驾驶更舒适有质感",
+          "href": "/product/chassis",
+          "w": 652,
+          "h": 128
+        },
+        {
+          "text": "已上线 汽车地板 地板、滑轨、尾箱区域统一升级，提升座舱完整度",
+          "href": "/product/flooring",
+          "w": 319,
+          "h": 176
+        },
+        {
+          "text": "已上线 360 软包脚垫 多款汽车垫图库展示，覆盖座舱、后排、尾箱与细节效果",
+          "href": "/product/floor-mats",
+          "w": 319,
+          "h": 176
+        },
+        {
+          "text": "查看详情",
+          "href": "/product/car-care",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "商务舒适升级 整理中 商务舒适升级 座椅通风/加热/按摩 · 接待场景升级",
+          "href": "/product/business-comfort",
+          "w": 654,
+          "h": 103
+        },
+        {
+          "text": "底盘护板 整理中 底盘护板 原车数据开模 · 不破线束 · 不影响离地间隙",
+          "href": "/product/skid-plate",
+          "w": 654,
+          "h": 103
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "href": "/",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "href": "/",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "href": "/product",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "href": "/agent",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "href": "/brand",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "href": "/news",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "href": "/product/electric-steps",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "href": "/product/wheels",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "href": "/product/chassis",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "href": "/product/window-film",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "href": "/product/color-film",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "href": "/product/ppf",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "buttons": [
+        {
+          "text": "切换菜单",
+          "role": null,
+          "id": "",
+          "selected": null,
+          "expanded": "false",
+          "w": 40,
+          "h": 40
+        }
+      ],
+      "panels": [
+        {
+          "id": "tab-panel-vehicle",
+          "labelledby": "vehicle",
+          "display": "block",
+          "hidden": false,
+          "y": 1278
+        },
+        {
+          "id": "tab-panel-project",
+          "labelledby": "project",
+          "display": "block",
+          "hidden": false,
+          "y": 1994
+        }
+      ],
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "切换菜单",
+          "tag": "BUTTON",
+          "w": 40,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 28,
+          "h": 20
+        },
+        {
+          "text": "按车型找 →",
+          "tag": "A",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "按项目看 →",
+          "tag": "A",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "查看详情",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "text": "首页 产品中心 PRODUCT CENTER · 产品中心 车型方案示意 隐形车衣 漆面保护 · 半透明反光膜 汽车窗膜 隔热防晒 · 光线透射 轮毂升级 金属结构 · 姿态匹配 电动踏板 高底盘上下车 · 安装位 产品中心 按车型找方案，按项目看服务。 蓝辉轻改围绕新能源车主的用车场景， 提供汽车膜系、轻改装备与车型专属升级方案。 车型方案地图 · 12 品牌 · 23 含整理中 问界 M6 · M7 · M8 小米 SU7 · YU7 极氪 9X · 8X 理想 ONE · I6 · I8 · L9 · MEGA 特斯拉 即将上线 小鹏 GX 腾势 D9 岚图 DREAMER 乐道 L90 高山 8 智界 V9 蔚来 ES8 按车型找 → 按项目看 → VEHICLE TOPICS · 车型专题 我是 [品牌] 车主 · 按车型找方案 11 个热门品牌 + 13 款主流车型 · 围绕车主视角聚合升级方案 问界 M6 · M7 · M8 小米 SU7 · YU7 极氪 9X · 8X 理想 ONE · I6 · I8 · L9 · MEGA 特斯拉 即将上线 小鹏 GX 腾势 D9 岚图 DREAMER 乐道 L90 高山 8 智界 V9 蔚来 ES8 悬停品牌色块，查看车主视角 FILM SERIES · 车膜系列 漆面与玻璃的全方位膜系 漆面保护的隐形盾牌 · 玻璃的隔热卫士 · 改色的视觉表达 隐形车衣 隐形车衣 花少钱，贴对膜 · TPU 透明膜防刮自修复 汽车窗膜 汽车窗膜 前挡清晰+侧后隐私，夏季用车更舒适 改色膜 改色膜 不伤原漆，撕除即可恢复，色系丰富可选 LIGHT MOD · 轻改装 围绕姿态与上下车的金属升级 不破线束 · 不伤原车结构 · 视觉与功能双重提升 电动踏板 电动踏板 开门自动展开 · 收起贴合原车 · 无损安装不破线束 轮毂升级 轮毂升级 数据精准匹配 · 款式多样可选 · 兼顾视觉与行驶品质 底盘升级 底盘升级 避震与加强件轻度升级 · 日常驾驶更舒适有质感 PRACTICAL ACCESSORIES · 实用配件 围绕座舱日常使用的保护与质感升级 从汽车地板到汽车垫，优先解决清洁维护、空间整洁和内饰统一感。 已上线 汽车地板 地板、滑轨、尾箱区域统一升级，提升座舱完整度 已上线 360 软包脚垫 多款汽车垫图库展示，覆盖座舱、后排、尾箱与细节效果 CAR CARE 洗美养护 专业洗车与内饰深度清洁，日常养护到轻改装贴膜全覆盖，一条龙服务更省心。 查看详情 P1 SERVICES · 整理中的服务 更多服务正在整理 部分项目仍在打磨方案细节，欢迎到店沟通具体需求。 商务舒适升级 整理中 商务舒适升级 座椅通风/加热/按摩 · 接待场景升级 底盘护板 整理中 底盘护板 原车数据开模 · 不破线束 · 不影响离地间隙"
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 21,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            "a[href$=\"business-comfort\"] > .items-start.gap-3.flex > .min-w-0.flex-1 > .mb-1.tracking-wider.text-xs"
+          ],
+          [
+            "a[href$=\"skid-plate\"] > .items-start.gap-3.flex > .min-w-0.flex-1 > .mb-1.tracking-wider.text-xs"
+          ],
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.inline-flex[href=\"/\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"window-film\"]"
+          ]
+        ]
+      }
+    ],
+    "interactions": {},
+    "focusOrder": [
+      {
+        "tag": "A",
+        "text": "跳到主要内容",
+        "href": "#main-content",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "蓝辉轻改 LANHUI",
+        "href": "/",
+        "role": null
+      },
+      {
+        "tag": "BUTTON",
+        "text": "切换菜单",
+        "href": null,
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "首页",
+        "href": "/",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "隐形车衣 漆面保护 · 半透明反光膜",
+        "href": "/product/ppf",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "汽车窗膜 隔热防晒 · 光线透射",
+        "href": "/product/window-film",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "轮毂升级 金属结构 · 姿态匹配",
+        "href": "/product/wheels",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "电动踏板 高底盘上下车 · 安装位",
+        "href": "/product/electric-steps",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "问界 M6 · M7 · M8",
+        "href": "/product/wenjie",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "小米 SU7 · YU7",
+        "href": "/product/xiaomi",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "极氪 9X · 8X",
+        "href": "/product/zeekr",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+        "href": "/product/li-auto",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "特斯拉 即将上线",
+        "href": "/product/tesla",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "小鹏 GX",
+        "href": "/product/xpeng",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "腾势 D9",
+        "href": "/product/denza",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "岚图 DREAMER",
+        "href": "/product/voyah",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "乐道 L90",
+        "href": "/product/ledao",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "高山 8",
+        "href": "/product/gaoshan",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "智界 V9",
+        "href": "/product/zhijie",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "蔚来 ES8",
+        "href": "/product/nio",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "按车型找 →",
+        "href": "#vehicle-topics",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "按项目看 →",
+        "href": "#service-projects",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "问界 M6 · M7 · M8",
+        "href": "/product/wenjie",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "小米 SU7 · YU7",
+        "href": "/product/xiaomi",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "极氪 9X · 8X",
+        "href": "/product/zeekr",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+        "href": "/product/li-auto",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "特斯拉 即将上线",
+        "href": "/product/tesla",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "小鹏 GX",
+        "href": "/product/xpeng",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "腾势 D9",
+        "href": "/product/denza",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "岚图 DREAMER",
+        "href": "/product/voyah",
+        "role": null
+      }
+    ],
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=kbjt8",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=kbjt8",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=cfbkp",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=cfbkp",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  },
+  {
+    "name": "desktop-1440",
+    "status": 200,
+    "metrics": {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "document": {
+        "width": 1440,
+        "height": 3865
+      },
+      "headings": [
+        {
+          "tag": "H1",
+          "text": "产品中心",
+          "y": 233
+        },
+        {
+          "tag": "H2",
+          "text": "我是 [品牌] 车主 · 按车型找方案",
+          "y": 909
+        },
+        {
+          "tag": "H2",
+          "text": "漆面与玻璃的全方位膜系",
+          "y": 1625
+        },
+        {
+          "tag": "H3",
+          "text": "隐形车衣",
+          "y": 1738
+        },
+        {
+          "tag": "H3",
+          "text": "汽车窗膜",
+          "y": 1738
+        },
+        {
+          "tag": "H3",
+          "text": "改色膜",
+          "y": 1738
+        },
+        {
+          "tag": "H2",
+          "text": "围绕姿态与上下车的金属升级",
+          "y": 1962
+        },
+        {
+          "tag": "H3",
+          "text": "电动踏板",
+          "y": 2080
+        },
+        {
+          "tag": "H3",
+          "text": "轮毂升级",
+          "y": 2080
+        },
+        {
+          "tag": "H3",
+          "text": "底盘升级",
+          "y": 2227
+        },
+        {
+          "tag": "H2",
+          "text": "围绕座舱日常使用的保护与质感升级",
+          "y": 2452
+        },
+        {
+          "tag": "H3",
+          "text": "洗美养护",
+          "y": 2815
+        },
+        {
+          "tag": "H3",
+          "text": "更多服务正在整理",
+          "y": 2993
+        },
+        {
+          "tag": "H4",
+          "text": "商务舒适升级",
+          "y": 3098
+        },
+        {
+          "tag": "H4",
+          "text": "底盘护板",
+          "y": 3217
+        },
+        {
+          "tag": "H3",
+          "text": "快捷导航",
+          "y": 3480
+        },
+        {
+          "tag": "H3",
+          "text": "产品中心",
+          "y": 3480
+        },
+        {
+          "tag": "H3",
+          "text": "联系方式",
+          "y": 3480
+        }
+      ],
+      "images": [
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "width": 239,
+          "height": 79
+        },
+        {
+          "src": "http://127.0.0.1:3000/_next/image?url=%2Fimages%2Flogo%2Flanhui-logo.png&w=256&q=75",
+          "alt": "蓝辉轻改 LANHUI",
+          "width": 239,
+          "height": 79
+        }
+      ],
+      "svgs": 54,
+      "visibleLinks": [
+        {
+          "text": "跳到主要内容",
+          "href": "#main-content",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "href": "/",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "href": "/",
+          "w": 57,
+          "h": 36
+        },
+        {
+          "text": "产品中心",
+          "href": "/product",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "门店服务",
+          "href": "/agent",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "品牌介绍",
+          "href": "/brand",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "品牌资讯",
+          "href": "/news",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "查看门店",
+          "href": "/agent",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "href": "/",
+          "w": 28,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣 漆面保护 · 半透明反光膜",
+          "href": "/product/ppf",
+          "w": 169,
+          "h": 86
+        },
+        {
+          "text": "汽车窗膜 隔热防晒 · 光线透射",
+          "href": "/product/window-film",
+          "w": 169,
+          "h": 86
+        },
+        {
+          "text": "轮毂升级 金属结构 · 姿态匹配",
+          "href": "/product/wheels",
+          "w": 169,
+          "h": 86
+        },
+        {
+          "text": "电动踏板 高底盘上下车 · 安装位",
+          "href": "/product/electric-steps",
+          "w": 169,
+          "h": 86
+        },
+        {
+          "text": "问界 M6 · M7 · M8",
+          "href": "/product/wenjie",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "小米 SU7 · YU7",
+          "href": "/product/xiaomi",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "极氪 9X · 8X",
+          "href": "/product/zeekr",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+          "href": "/product/li-auto",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "特斯拉 即将上线",
+          "href": "/product/tesla",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "小鹏 GX",
+          "href": "/product/xpeng",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "腾势 D9",
+          "href": "/product/denza",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "岚图 DREAMER",
+          "href": "/product/voyah",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "乐道 L90",
+          "href": "/product/ledao",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "高山 8",
+          "href": "/product/gaoshan",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "智界 V9",
+          "href": "/product/zhijie",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "蔚来 ES8",
+          "href": "/product/nio",
+          "w": 105,
+          "h": 65
+        },
+        {
+          "text": "按车型找 →",
+          "href": "#vehicle-topics",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "按项目看 →",
+          "href": "#service-projects",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "问界 M6 · M7 · M8",
+          "href": "/product/wenjie",
+          "w": 373,
+          "h": 90
+        },
+        {
+          "text": "小米 SU7 · YU7",
+          "href": "/product/xiaomi",
+          "w": 373,
+          "h": 90
+        },
+        {
+          "text": "极氪 9X · 8X",
+          "href": "/product/zeekr",
+          "w": 373,
+          "h": 90
+        },
+        {
+          "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+          "href": "/product/li-auto",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "特斯拉 即将上线",
+          "href": "/product/tesla",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "小鹏 GX",
+          "href": "/product/xpeng",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "腾势 D9",
+          "href": "/product/denza",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "岚图 DREAMER",
+          "href": "/product/voyah",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "乐道 L90",
+          "href": "/product/ledao",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "高山 8",
+          "href": "/product/gaoshan",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "智界 V9",
+          "href": "/product/zhijie",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "蔚来 ES8",
+          "href": "/product/nio",
+          "w": 276,
+          "h": 73
+        },
+        {
+          "text": "隐形车衣 隐形车衣 花少钱，贴对膜 · TPU 透明膜防刮自修复",
+          "href": "/product/ppf",
+          "w": 373,
+          "h": 122
+        },
+        {
+          "text": "汽车窗膜 汽车窗膜 前挡清晰+侧后隐私，夏季用车更舒适",
+          "href": "/product/window-film",
+          "w": 373,
+          "h": 122
+        },
+        {
+          "text": "改色膜 改色膜 不伤原漆，撕除即可恢复，色系丰富可选",
+          "href": "/product/color-film",
+          "w": 373,
+          "h": 122
+        },
+        {
+          "text": "电动踏板 电动踏板 开门自动展开 · 收起贴合原车 · 无损安装不破线束",
+          "href": "/product/electric-steps",
+          "w": 564,
+          "h": 128
+        },
+        {
+          "text": "轮毂升级 轮毂升级 数据精准匹配 · 款式多样可选 · 兼顾视觉与行驶品质",
+          "href": "/product/wheels",
+          "w": 564,
+          "h": 128
+        },
+        {
+          "text": "底盘升级 底盘升级 避震与加强件轻度升级 · 日常驾驶更舒适有质感",
+          "href": "/product/chassis",
+          "w": 1148,
+          "h": 128
+        },
+        {
+          "text": "已上线 汽车地板 地板、滑轨、尾箱区域统一升级，提升座舱完整度",
+          "href": "/product/flooring",
+          "w": 567,
+          "h": 153
+        },
+        {
+          "text": "已上线 360 软包脚垫 多款汽车垫图库展示，覆盖座舱、后排、尾箱与细节效果",
+          "href": "/product/floor-mats",
+          "w": 567,
+          "h": 153
+        },
+        {
+          "text": "查看详情",
+          "href": "/product/car-care",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "商务舒适升级 整理中 商务舒适升级 座椅通风/加热/按摩 · 接待场景升级",
+          "href": "/product/business-comfort",
+          "w": 1150,
+          "h": 103
+        },
+        {
+          "text": "底盘护板 整理中 底盘护板 原车数据开模 · 不破线束 · 不影响离地间隙",
+          "href": "/product/skid-plate",
+          "w": 1150,
+          "h": 103
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "href": "/",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "href": "/",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "href": "/product",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "href": "/agent",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "href": "/brand",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "href": "/news",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "href": "/product/electric-steps",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "href": "/product/wheels",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "href": "/product/chassis",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "href": "/product/window-film",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "href": "/product/color-film",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "href": "/product/ppf",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "buttons": [
+        {
+          "text": "展开 产品中心 子菜单",
+          "role": null,
+          "id": "",
+          "selected": null,
+          "expanded": "false",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "展开 品牌介绍 子菜单",
+          "role": null,
+          "id": "",
+          "selected": null,
+          "expanded": "false",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "联系我们",
+          "role": null,
+          "id": "",
+          "selected": null,
+          "expanded": null,
+          "w": 114,
+          "h": 42
+        }
+      ],
+      "panels": [
+        {
+          "id": "tab-panel-vehicle",
+          "labelledby": "vehicle",
+          "display": "block",
+          "hidden": false,
+          "y": 787
+        },
+        {
+          "id": "tab-panel-project",
+          "labelledby": "project",
+          "display": "block",
+          "hidden": false,
+          "y": 1503
+        }
+      ],
+      "smallTargets": [
+        {
+          "text": "跳到主要内容",
+          "tag": "A",
+          "w": 1,
+          "h": 1
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 57,
+          "h": 36
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "展开 产品中心 子菜单",
+          "tag": "BUTTON",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "展开 品牌介绍 子菜单",
+          "tag": "BUTTON",
+          "w": 26,
+          "h": 26
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 85,
+          "h": 36
+        },
+        {
+          "text": "联系我们",
+          "tag": "BUTTON",
+          "w": 114,
+          "h": 42
+        },
+        {
+          "text": "查看门店",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 28,
+          "h": 20
+        },
+        {
+          "text": "按车型找 →",
+          "tag": "A",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "按项目看 →",
+          "tag": "A",
+          "w": 89,
+          "h": 30
+        },
+        {
+          "text": "查看详情",
+          "tag": "A",
+          "w": 120,
+          "h": 40
+        },
+        {
+          "text": "蓝辉轻改 LANHUI",
+          "tag": "A",
+          "w": 108,
+          "h": 36
+        },
+        {
+          "text": "首页",
+          "tag": "A",
+          "w": 44,
+          "h": 20
+        },
+        {
+          "text": "产品中心",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "门店服务",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌介绍",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "品牌资讯",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "电动踏板",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "轮毂升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "底盘升级",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "汽车窗膜",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        },
+        {
+          "text": "改色膜",
+          "tag": "A",
+          "w": 58,
+          "h": 20
+        },
+        {
+          "text": "隐形车衣",
+          "tag": "A",
+          "w": 72,
+          "h": 20
+        }
+      ],
+      "text": "首页 产品中心 PRODUCT CENTER · 产品中心 车型方案示意 隐形车衣 漆面保护 · 半透明反光膜 汽车窗膜 隔热防晒 · 光线透射 轮毂升级 金属结构 · 姿态匹配 电动踏板 高底盘上下车 · 安装位 产品中心 按车型找方案，按项目看服务。 蓝辉轻改围绕新能源车主的用车场景， 提供汽车膜系、轻改装备与车型专属升级方案。 车型方案地图 · 12 品牌 · 23 含整理中 问界 M6 · M7 · M8 小米 SU7 · YU7 极氪 9X · 8X 理想 ONE · I6 · I8 · L9 · MEGA 特斯拉 即将上线 小鹏 GX 腾势 D9 岚图 DREAMER 乐道 L90 高山 8 智界 V9 蔚来 ES8 按车型找 → 按项目看 → VEHICLE TOPICS · 车型专题 我是 [品牌] 车主 · 按车型找方案 11 个热门品牌 + 13 款主流车型 · 围绕车主视角聚合升级方案 问界 M6 · M7 · M8 小米 SU7 · YU7 极氪 9X · 8X 理想 ONE · I6 · I8 · L9 · MEGA 特斯拉 即将上线 小鹏 GX 腾势 D9 岚图 DREAMER 乐道 L90 高山 8 智界 V9 蔚来 ES8 悬停品牌色块，查看车主视角 FILM SERIES · 车膜系列 漆面与玻璃的全方位膜系 漆面保护的隐形盾牌 · 玻璃的隔热卫士 · 改色的视觉表达 隐形车衣 隐形车衣 花少钱，贴对膜 · TPU 透明膜防刮自修复 汽车窗膜 汽车窗膜 前挡清晰+侧后隐私，夏季用车更舒适 改色膜 改色膜 不伤原漆，撕除即可恢复，色系丰富可选 LIGHT MOD · 轻改装 围绕姿态与上下车的金属升级 不破线束 · 不伤原车结构 · 视觉与功能双重提升 电动踏板 电动踏板 开门自动展开 · 收起贴合原车 · 无损安装不破线束 轮毂升级 轮毂升级 数据精准匹配 · 款式多样可选 · 兼顾视觉与行驶品质 底盘升级 底盘升级 避震与加强件轻度升级 · 日常驾驶更舒适有质感 PRACTICAL ACCESSORIES · 实用配件 围绕座舱日常使用的保护与质感升级 从汽车地板到汽车垫，优先解决清洁维护、空间整洁和内饰统一感。 已上线 汽车地板 地板、滑轨、尾箱区域统一升级，提升座舱完整度 已上线 360 软包脚垫 多款汽车垫图库展示，覆盖座舱、后排、尾箱与细节效果 CAR CARE 洗美养护 专业洗车与内饰深度清洁，日常养护到轻改装贴膜全覆盖，一条龙服务更省心。 查看详情 P1 SERVICES · 整理中的服务 更多服务正在整理 部分项目仍在打磨方案细节，欢迎到店沟通具体需求。 商务舒适升级 整理中 商务舒适升级 座椅通风/加热/按摩 · 接待场景升级 底盘护板 整理中 底盘护板 原车数据开模 · 不破线束 · 不影响离地间隙"
+    },
+    "axe": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 21,
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "targets": [
+          [
+            "a[href$=\"business-comfort\"] > .items-start.gap-3.flex > .min-w-0.flex-1 > .mb-1.tracking-wider.text-xs"
+          ],
+          [
+            "a[href$=\"skid-plate\"] > .items-start.gap-3.flex > .min-w-0.flex-1 > .mb-1.tracking-wider.text-xs"
+          ],
+          [
+            ".max-w-xs"
+          ],
+          [
+            ".gap-1.inline-flex[href=\"/\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"product\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"agent\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"brand\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"news\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"electric-steps\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"wheels\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"chassis\"]"
+          ],
+          [
+            ".gap-1.inline-flex[href$=\"window-film\"]"
+          ]
+        ]
+      }
+    ],
+    "interactions": {},
+    "focusOrder": [
+      {
+        "tag": "A",
+        "text": "跳到主要内容",
+        "href": "#main-content",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "蓝辉轻改 LANHUI",
+        "href": "/",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "首页",
+        "href": "/",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "产品中心",
+        "href": "/product",
+        "role": null
+      },
+      {
+        "tag": "BUTTON",
+        "text": "展开 产品中心 子菜单",
+        "href": null,
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "门店服务",
+        "href": "/agent",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "品牌介绍",
+        "href": "/brand",
+        "role": null
+      },
+      {
+        "tag": "BUTTON",
+        "text": "展开 品牌介绍 子菜单",
+        "href": null,
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "品牌资讯",
+        "href": "/news",
+        "role": null
+      },
+      {
+        "tag": "BUTTON",
+        "text": "联系我们",
+        "href": null,
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "查看门店",
+        "href": "/agent",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "首页",
+        "href": "/",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "隐形车衣 漆面保护 · 半透明反光膜",
+        "href": "/product/ppf",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "汽车窗膜 隔热防晒 · 光线透射",
+        "href": "/product/window-film",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "轮毂升级 金属结构 · 姿态匹配",
+        "href": "/product/wheels",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "电动踏板 高底盘上下车 · 安装位",
+        "href": "/product/electric-steps",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "问界 M6 · M7 · M8",
+        "href": "/product/wenjie",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "小米 SU7 · YU7",
+        "href": "/product/xiaomi",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "极氪 9X · 8X",
+        "href": "/product/zeekr",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "理想 ONE · I6 · I8 · L9 · MEGA",
+        "href": "/product/li-auto",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "特斯拉 即将上线",
+        "href": "/product/tesla",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "小鹏 GX",
+        "href": "/product/xpeng",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "腾势 D9",
+        "href": "/product/denza",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "岚图 DREAMER",
+        "href": "/product/voyah",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "乐道 L90",
+        "href": "/product/ledao",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "高山 8",
+        "href": "/product/gaoshan",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "智界 V9",
+        "href": "/product/zhijie",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "蔚来 ES8",
+        "href": "/product/nio",
+        "role": "listitem"
+      },
+      {
+        "tag": "A",
+        "text": "按车型找 →",
+        "href": "#vehicle-topics",
+        "role": null
+      },
+      {
+        "tag": "A",
+        "text": "按项目看 →",
+        "href": "#service-projects",
+        "role": null
+      }
+    ],
+    "pageErrors": [],
+    "failedRequests": [
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=kbjt8",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=kbjt8",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/news?_rsc=cfbkp",
+        "failure": "net::ERR_ABORTED"
+      },
+      {
+        "url": "http://127.0.0.1:3000/agent?_rsc=cfbkp",
+        "failure": "net::ERR_ABORTED"
+      }
+    ]
+  }
+]

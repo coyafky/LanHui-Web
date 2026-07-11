@@ -1,22 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { XpengGxTopicHero } from "@/components/xpeng/XpengGxTopicHero";
-import { XpengGxScenarioMatrix } from "@/components/xpeng/XpengGxScenarioMatrix";
-import { XpengGxProjectGrid } from "@/components/xpeng/XpengGxProjectGrid";
-import { XpengGxServiceFlow } from "@/components/xpeng/XpengGxServiceFlow";
-import { XpengGxFaq } from "@/components/xpeng/XpengGxFaq";
 import { XpengGxTopicViewTrack } from "@/components/xpeng/XpengGxTopicViewTrack";
-import {
-  XPENG_GX_HERO_IMAGE,
-  xpengGxUpgradeProjects,
-  xpengGxScenarios,
-  xpengGxBundles,
-  xpengGxServiceSteps,
-  xpengGxFaq,
-} from "@/lib/xpeng-gx-products";
+import { XPENG_GX_HERO_IMAGE } from "@/lib/xpeng-gx-products";
+import { xpengGxPageConfig } from "@/lib/xpeng-gx-page-config";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 
 const CANONICAL_PATH = "/product/xpeng/gx";
 
@@ -65,9 +55,8 @@ export default function XpengGxTopicPage() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   if (!model || model.type !== "vehicle_model") notFound();
 
-  const totalProjects = xpengGxUpgradeProjects.length;
-  const totalScenarios = xpengGxScenarios.length;
-  const totalBundles = xpengGxBundles.length;
+  const totalProjects = xpengGxPageConfig.projects.length;
+  const totalScenarios = xpengGxPageConfig.scenarios.length;
 
   const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
   const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
@@ -77,12 +66,12 @@ export default function XpengGxTopicPage() {
     "@type": "ItemList",
     name: "小鹏 GX 专属升级方案",
     numberOfItems: totalProjects,
-    itemListElement: xpengGxUpgradeProjects.map((p) => ({
+    itemListElement: xpengGxPageConfig.projects.map((p, i) => ({
       "@type": "ListItem" as const,
-      position: p.order,
+      position: i + 1,
       name: p.name,
       category: p.category,
-      url: `${CANONICAL_PATH}#xpeng-gx-project-${p.id}`,
+      url: `${CANONICAL_PATH}#${p.id}`,
     })),
   };
 
@@ -93,36 +82,11 @@ export default function XpengGxTopicPage() {
           topicKey="xpeng-gx"
           totalProjects={totalProjects}
           totalScenarios={totalScenarios}
-          totalBundles={totalBundles}
+          totalBundles={xpengGxPageConfig.bundles?.length ?? 0}
         />
 
-        <XpengGxTopicHero
-          totalProjects={totalProjects}
-          scenarioCount={totalScenarios}
-          heroImage={XPENG_GX_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
+        <VehiclePageRenderer config={xpengGxPageConfig} />
 
-        {/* 场景矩阵 */}
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <XpengGxScenarioMatrix
-            scenarios={xpengGxScenarios}
-            allProjects={xpengGxUpgradeProjects}
-          />
-        </section>
-
-        {/* 项目网格 */}
-        <XpengGxProjectGrid
-          projects={xpengGxUpgradeProjects}
-          scenarios={xpengGxScenarios}
-        />
-
-        {/* 服务流程 */}
-        <XpengGxServiceFlow steps={xpengGxServiceSteps} />
-
-        <XpengGxFaq items={xpengGxFaq} />
-
-        {/* 底部 CTA */}
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p className="text-sm tracking-widest text-orange-400 mb-3">

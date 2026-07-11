@@ -1,19 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { XiaomiSeriesHero } from "@/components/xiaomi-series/XiaomiSeriesHero";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { XiaomiSeriesFeaturedGrid } from "@/components/xiaomi-series/XiaomiSeriesFeaturedGrid";
-import { XiaomiSeriesScenarioMatrix } from "@/components/xiaomi-series/XiaomiSeriesScenarioMatrix";
 import {
   XiaomiSeriesSubModelsGrid,
   type XiaomiSeriesSubModel,
 } from "@/components/xiaomi-series/XiaomiSeriesSubModelsGrid";
-import { XiaomiSeriesServiceFlow } from "@/components/xiaomi-series/XiaomiSeriesServiceFlow";
-import { XiaomiSeriesFaq } from "@/components/xiaomi-series/XiaomiSeriesFaq";
+import { xiaomiSeriesPageConfig } from "@/lib/xiaomi-series-page-config";
 import {
   XIAOMI_SERIES_PROJECT_COUNT,
-  xiaomiSeriesFaq,
-  xiaomiSeriesScenarios,
-  xiaomiSeriesServiceSteps,
   xiaomiSeriesUpgradeProjects,
   type XiaomiSeriesUpgradeProject,
 } from "@/lib/xiaomi-series-upgrade-projects";
@@ -27,7 +22,7 @@ import {
 } from "@/lib/xiaomi-yu7-upgrade-projects";
 import { getModelRoute } from "@/lib/product-routes";
 import { xiaomiTopicMeta } from "@/lib/xiaomi-products";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "小米轻改项目｜车衣、隔热膜、Ultra 风格、运动包围与电吸门｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -85,13 +80,11 @@ function buildSubModels(): readonly XiaomiSeriesSubModel[] {
 }
 
 export default function XiaomiTopicPage() {
-  const breadcrumbItems = getProductBreadcrumbs("/product/xiaomi");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/xiaomi");
   const allProjects: readonly XiaomiSeriesUpgradeProject[] =
     xiaomiSeriesUpgradeProjects;
   const featuredProjects = allProjects.slice(0, 10);
   const subModels = buildSubModels();
-  const totalModels = subModels.length;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -110,26 +103,11 @@ export default function XiaomiTopicPage() {
   return (
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
-        <XiaomiSeriesHero
-          title="小米系列项目升级方案｜蓝辉轻改 LANHUI"
-          subtitle="围绕新车保护、外观个性、座舱质感与 Ultra 风格，整理 SU7 / YU7 可沟通的轻改升级方向。"
-          totalProjects={XIAOMI_SERIES_PROJECT_COUNT}
-          totalModels={totalModels}
-          breadcrumbItems={breadcrumbItems}
-        />
-
         <XiaomiSeriesFeaturedGrid projects={featuredProjects} />
 
-        <XiaomiSeriesScenarioMatrix
-          scenarios={xiaomiSeriesScenarios}
-          allProjects={allProjects}
-        />
+        <VehiclePageRenderer config={xiaomiSeriesPageConfig} />
 
         <XiaomiSeriesSubModelsGrid subModels={subModels} />
-
-        <XiaomiSeriesServiceFlow steps={xiaomiSeriesServiceSteps} />
-
-        <XiaomiSeriesFaq items={xiaomiSeriesFaq} />
 
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -152,12 +130,12 @@ export default function XiaomiTopicPage() {
             </p>
           </div>
         </section>
-      </main>
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

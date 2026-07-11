@@ -2,20 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DenzaD9TopicViewTrack } from "@/components/denza/DenzaD9TopicViewTrack";
-import { DenzaD9TopicHero } from "@/components/denza/DenzaD9TopicHero";
-import { DenzaD9ProjectGrid } from "@/components/denza/DenzaD9ProjectGrid";
-import { DenzaD9ScenarioMatrix } from "@/components/denza/DenzaD9ScenarioMatrix";
-import { DenzaD9ServiceFlow } from "@/components/denza/DenzaD9ServiceFlow";
-import { DenzaD9Faq } from "@/components/denza/DenzaD9Faq";
 import {
-  denzaD9UpgradeProjects,
-  denzaD9Scenarios,
-  denzaD9ServiceSteps,
-  denzaD9Faq,
   DENZA_D9_HERO_IMAGE,
 } from "@/lib/denza-d9-products";
+import { denzaD9PageConfig } from "@/lib/denza-d9-page-config";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 
 const PAGE_TITLE = "腾势 D9 专属升级方案｜车衣隔热膜铝地板小桌板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -57,8 +50,8 @@ export default function DenzaD9TopicPage() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   if (!model || model.type !== "vehicle_model") notFound();
 
-  const totalProjects = denzaD9UpgradeProjects.length;
-  const totalScenarios = denzaD9Scenarios.length;
+  const totalProjects = denzaD9PageConfig.projects.length;
+  const totalScenarios = denzaD9PageConfig.scenarios.length;
   const breadcrumbItems = getProductBreadcrumbs("/product/denza/d9");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/denza/d9");
 
@@ -68,9 +61,9 @@ export default function DenzaD9TopicPage() {
     name: "腾势 D9 升级项目",
     description: PAGE_DESCRIPTION,
     numberOfItems: totalProjects,
-    itemListElement: denzaD9UpgradeProjects.map((p) => ({
+    itemListElement: denzaD9PageConfig.projects.map((p, i) => ({
       "@type": "ListItem",
-      position: p.order,
+      position: i + 1,
       name: `腾势 D9 ${p.name} 升级项目`,
       url: `/product/denza/d9#denza-d9-project-${p.id}`,
       category: p.category,
@@ -86,28 +79,7 @@ export default function DenzaD9TopicPage() {
           totalScenarios={totalScenarios}
         />
 
-        <DenzaD9TopicHero
-          totalProjects={totalProjects}
-          scenarioCount={totalScenarios}
-          heroImage={DENZA_D9_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <DenzaD9ScenarioMatrix
-            scenarios={denzaD9Scenarios}
-            allProjects={denzaD9UpgradeProjects}
-          />
-        </section>
-
-        <DenzaD9ProjectGrid
-          projects={denzaD9UpgradeProjects}
-          scenarios={denzaD9Scenarios}
-        />
-
-        <DenzaD9ServiceFlow steps={denzaD9ServiceSteps} />
-
-        <DenzaD9Faq items={denzaD9Faq} />
+        <VehiclePageRenderer config={denzaD9PageConfig} />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

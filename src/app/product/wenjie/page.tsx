@@ -1,24 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { WenjieSeriesHero } from "@/components/wenjie/WenjieSeriesHero";
-import { WenjieSeriesFeaturedGrid } from "@/components/wenjie/WenjieSeriesFeaturedGrid";
-import { WenjieSeriesScenarios } from "@/components/wenjie/WenjieSeriesScenarios";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { WenjieSeriesSubModelsGrid, type WenjieSeriesSubModel } from "@/components/wenjie/WenjieSeriesSubModelsGrid";
-import { WenjieSeriesServiceFlow } from "@/components/wenjie/WenjieSeriesServiceFlow";
-import { WenjieSeriesFaq } from "@/components/wenjie/WenjieSeriesFaq";
-import {
-  wenjieSeriesFeaturedProjects,
-  wenjieSeriesOptionalProjects,
-  wenjieSeriesScenarios,
-  wenjieSeriesServiceSteps,
-  wenjieSeriesFaq,
-  type WenjieSeriesUpgradeProject,
-} from "@/lib/wenjie-series-upgrade-projects";
+import { wenjieSeriesPageConfig } from "@/lib/wenjie-series-page-config";
 import { wenjieM6UpgradeProjects } from "@/lib/wenjie-m6-upgrade-projects";
 import { wenjieM7UpgradeProjects } from "@/lib/wenjie-m7-upgrade-projects";
 import { wenjieM8UpgradeProjects } from "@/lib/wenjie-m8-upgrade-projects";
 import { getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import {
+  wenjieSeriesFeaturedProjects,
+  wenjieSeriesOptionalProjects,
+} from "@/lib/wenjie-series-upgrade-projects";
 
 const PAGE_TITLE = "问界轻改项目｜车衣、隔热膜、二排铝地板、底盘护板与电动踏板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -82,13 +75,8 @@ function buildSubModels(): readonly WenjieSeriesSubModel[] {
 }
 
 export default function WenjieSeriesPage() {
-  const allProjects: readonly WenjieSeriesUpgradeProject[] = [
-    ...wenjieSeriesFeaturedProjects,
-    ...wenjieSeriesOptionalProjects,
-  ];
+  const allProjects = [...wenjieSeriesFeaturedProjects, ...wenjieSeriesOptionalProjects];
   const subModels = buildSubModels();
-  const totalProjects = allProjects.length;
-  const totalModels = subModels.length;
 
   const breadcrumbItems = getProductBreadcrumbs("/product/wenjie");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/wenjie");
@@ -110,26 +98,9 @@ export default function WenjieSeriesPage() {
   return (
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
-        <WenjieSeriesHero
-          title="问界系列项目升级方案｜蓝辉轻改 LANHUI"
-          subtitle="专业轻改，安全可靠，提升体验，焕新出行"
-          totalProjects={totalProjects}
-          totalModels={totalModels}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <WenjieSeriesFeaturedGrid projects={wenjieSeriesFeaturedProjects} />
-
-        <WenjieSeriesScenarios
-          scenarios={wenjieSeriesScenarios}
-          allProjects={allProjects}
-        />
+        <VehiclePageRenderer config={wenjieSeriesPageConfig} />
 
         <WenjieSeriesSubModelsGrid subModels={subModels} />
-
-        <WenjieSeriesServiceFlow steps={wenjieSeriesServiceSteps} />
-
-        <WenjieSeriesFaq items={wenjieSeriesFaq} />
 
         {/* 底部 CTA + 合规说明 */}
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
@@ -153,13 +124,13 @@ export default function WenjieSeriesPage() {
             </p>
           </div>
         </section>
-      </main>
 
-      {/* JSON-LD 结构化数据 */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+        {/* JSON-LD 结构化数据 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

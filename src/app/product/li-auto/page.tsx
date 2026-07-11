@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LiAutoSeriesHero } from "@/components/li-auto/LiAutoSeriesHero";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { LiAutoSeriesFeaturedGrid } from "@/components/li-auto/LiAutoSeriesFeaturedGrid";
-import { LiAutoSeriesScenarios } from "@/components/li-auto/LiAutoSeriesScenarios";
 import { LiAutoSeriesMoreChoices } from "@/components/li-auto/LiAutoSeriesMoreChoices";
 import { LiAutoSeriesSubModelsGrid, type LiAutoSeriesSubModel } from "@/components/li-auto/LiAutoSeriesSubModelsGrid";
-import { LiAutoSeriesServiceFlow } from "@/components/li-auto/LiAutoSeriesServiceFlow";
-import { LiAutoSeriesFaq } from "@/components/li-auto/LiAutoSeriesFaq";
+import { liAutoSeriesPageConfig } from "@/lib/li-auto-series-page-config";
 import {
   liAutoSeriesFeaturedProjects,
   liAutoSeriesOptionalProjects,
-  liAutoSeriesScenarios,
-  liAutoSeriesServiceSteps,
-  liAutoSeriesFaq,
   type LiAutoSeriesUpgradeProject,
 } from "@/lib/li-auto-series-upgrade-projects";
 import { getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "理想轻改项目｜理想车衣、隔热膜、二排铝地板、底盘护板与后排舒适升级｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -108,10 +103,7 @@ export default function LiAutoSeriesPage() {
     ...liAutoSeriesOptionalProjects,
   ];
   const subModels = buildSubModels();
-  const totalProjects = allProjects.length;
-  const totalModels = subModels.length;
 
-  const breadcrumbItems = getProductBreadcrumbs("/product/li-auto");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/li-auto");
 
   const jsonLd = {
@@ -131,30 +123,14 @@ export default function LiAutoSeriesPage() {
   return (
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow flex flex-col">
-        <LiAutoSeriesHero
-          title="理想系列项目升级方案｜蓝辉轻改 LANHUI"
-          subtitle="围绕新车保护、隔热防晒、底盘防护、二排舒适和家庭出行场景，为理想车主提供系统化轻改项目参考。"
-          totalProjects={totalProjects}
-          totalModels={totalModels}
-          breadcrumbItems={breadcrumbItems}
-        />
-
         <LiAutoSeriesFeaturedGrid projects={liAutoSeriesFeaturedProjects} />
 
-        <LiAutoSeriesScenarios
-          scenarios={liAutoSeriesScenarios}
-          allProjects={allProjects}
-        />
+        <VehiclePageRenderer config={liAutoSeriesPageConfig} />
 
         <LiAutoSeriesMoreChoices projects={liAutoSeriesOptionalProjects} />
 
         <LiAutoSeriesSubModelsGrid subModels={subModels} />
 
-        <LiAutoSeriesServiceFlow steps={liAutoSeriesServiceSteps} />
-
-        <LiAutoSeriesFaq items={liAutoSeriesFaq} />
-
-        {/* 底部 CTA + 合规说明 */}
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
@@ -176,13 +152,12 @@ export default function LiAutoSeriesPage() {
             </p>
           </div>
         </section>
-      </main>
 
-      {/* JSON-LD 结构化数据 */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

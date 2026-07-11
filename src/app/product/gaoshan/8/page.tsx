@@ -2,20 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Gaoshan8TopicViewTrack } from "@/components/gaoshan/Gaoshan8TopicViewTrack";
-import { Gaoshan8Hero } from "@/components/gaoshan/Gaoshan8Hero";
-import { Gaoshan8ProjectGrid } from "@/components/gaoshan/Gaoshan8ProjectGrid";
-import { Gaoshan8ScenarioMatrix } from "@/components/gaoshan/Gaoshan8ScenarioMatrix";
-import { Gaoshan8ServiceFlow } from "@/components/gaoshan/Gaoshan8ServiceFlow";
-import { Gaoshan8Faq } from "@/components/gaoshan/Gaoshan8Faq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { gaoshan8PageConfig } from "@/lib/gaoshan-8-page-config";
 import {
   GAOSHAN_8_HERO_IMAGE,
   gaoshan8UpgradeProjects,
   gaoshan8Scenarios,
-  gaoshan8ServiceSteps,
-  gaoshan8Faq,
 } from "@/lib/gaoshan-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE = "高山 8 专属升级方案｜车衣隔热膜铝地板电动踏板｜蓝辉轻改";
 const PAGE_DESCRIPTION =
@@ -58,7 +53,6 @@ export default function Gaoshan8TopicPage() {
 
   const totalProjects = gaoshan8UpgradeProjects.length;
   const totalScenarios = gaoshan8Scenarios.length;
-  const breadcrumbItems = getProductBreadcrumbs("/product/gaoshan/8");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/gaoshan/8");
 
   const jsonLd = {
@@ -89,29 +83,7 @@ export default function Gaoshan8TopicPage() {
           totalScenarios={totalScenarios}
         />
 
-        <Gaoshan8Hero
-          title="高山 8 专属升级方案"
-          subtitle="高山 8 单车型轻改 · MPV 全场景升级参考"
-          description="蓝辉轻改针对高山 8 提供从新车保护到座舱维护的完整轻改方向，涵盖新车保护、商务外观、外观个性、MPV后排舒适、底盘与行车防护、灯光氛围、智能与屏幕保护和座舱维护八大类别。所有项目以方向参考为主，最终以到店确认和实际施工评估为准。"
-          totalProjects={totalProjects}
-          scenarioCount={totalScenarios}
-          heroImage={GAOSHAN_8_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <Gaoshan8ScenarioMatrix
-          scenarios={gaoshan8Scenarios}
-          allProjects={gaoshan8UpgradeProjects}
-        />
-
-        <Gaoshan8ProjectGrid
-          projects={gaoshan8UpgradeProjects}
-          scenarios={gaoshan8Scenarios}
-        />
-
-        <Gaoshan8ServiceFlow steps={gaoshan8ServiceSteps} />
-
-        <Gaoshan8Faq items={gaoshan8Faq} />
+        <VehiclePageRenderer config={gaoshan8PageConfig} />
 
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -140,12 +112,12 @@ export default function Gaoshan8TopicPage() {
             </p>
           </div>
         </section>
-      </main>
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </main>
       {breadcrumbSchema && (
         <script
           type="application/ld+json"

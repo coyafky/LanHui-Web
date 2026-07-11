@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LiAutoI6Hero } from "@/components/li-auto/LiAutoI6Hero";
-import { LiAutoI6ScenarioMatrix } from "@/components/li-auto/LiAutoI6ScenarioMatrix";
-import { LiAutoI6ProjectGrid } from "@/components/li-auto/LiAutoI6ProjectGrid";
-import { LiAutoI6ServiceFlow } from "@/components/li-auto/LiAutoI6ServiceFlow";
-import { LiAutoI6Faq } from "@/components/li-auto/LiAutoI6Faq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { liAutoI6PageConfig } from "@/lib/li-auto-i6-page-config";
 import { LiAutoI6TopicViewTrack } from "@/components/li-auto/LiAutoI6TopicViewTrack";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   liAutoI6UpgradeProjects,
-  liAutoI6Scenarios,
-  liAutoI6ServiceSteps,
-  liAutoI6Faq,
   LI_AUTO_I6_PROJECT_COUNT,
   LI_AUTO_I6_HERO_IMAGE,
 } from "@/lib/li-auto-i6-products";
@@ -75,29 +69,8 @@ export default function LiAutoI6Page() {
           projectCount={LI_AUTO_I6_PROJECT_COUNT}
         />
 
-        <LiAutoI6Hero
-          totalProjects={liAutoI6UpgradeProjects.length}
-          totalScenarios={liAutoI6Scenarios.length}
-          heroImage={LI_AUTO_I6_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
+        <VehiclePageRenderer config={liAutoI6PageConfig} />
 
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <LiAutoI6ScenarioMatrix
-            scenarios={liAutoI6Scenarios}
-            allProjects={liAutoI6UpgradeProjects}
-          />
-        </section>
-
-        <LiAutoI6ProjectGrid
-          projects={liAutoI6UpgradeProjects}
-          scenarios={liAutoI6Scenarios}
-        />
-
-        <LiAutoI6ServiceFlow steps={liAutoI6ServiceSteps} />
-        <LiAutoI6Faq items={liAutoI6Faq} />
-
-        {/* 底部 CTA */}
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p className="text-sm tracking-widest text-orange-400 mb-3">NEXT STEP</p>

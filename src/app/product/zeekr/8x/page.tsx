@@ -1,22 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Zeekr8xHero } from "@/components/zeekr-8x/Zeekr8xHero";
+import { notFound } from "next/navigation";
 import { Zeekr8xTopicViewTrack } from "@/components/zeekr-8x/Zeekr8xTopicViewTrack";
-import { Zeekr8xScenarioMatrix } from "@/components/zeekr-8x/Zeekr8xScenarioMatrix";
-import { Zeekr8xProjectGrid } from "@/components/zeekr-8x/Zeekr8xProjectGrid";
-import { Zeekr8xServiceFlow } from "@/components/zeekr-8x/Zeekr8xServiceFlow";
-import { Zeekr8xFaq } from "@/components/zeekr-8x/Zeekr8xFaq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { zeekr8xPageConfig } from "@/lib/zeekr-8x-page-config";
 import {
   ZEEKR_8X_HERO_IMAGE,
   ZEEKR_8X_PROJECT_COUNT,
-  zeekr8xUpgradeProjects,
-  zeekr8xScenarios,
-  zeekr8xServiceSteps,
-  zeekr8xFaq,
 } from "@/lib/zeekr-8x-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
-import { notFound } from "next/navigation";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const MODEL_NAME = "极氪 8X";
 const CANONICAL_PATH = "/product/zeekr/8x";
@@ -60,24 +53,21 @@ export const metadata: Metadata = {
 };
 
 export default function Zeekr8xPage() {
-  // Route validation
-  const brandRoute = getBrandRoute("zeekr");
-  const modelRoute = getModelRoute("zeekr", "8x");
-  if (!brandRoute || !modelRoute) {
-    notFound();
-  }
+  const brand = getBrandRoute("zeekr");
+  const model = getModelRoute("zeekr", "8x");
+  if (!brand || brand.type !== "vehicle_brand") notFound();
+  if (!model || model.type !== "vehicle_model") notFound();
 
-  const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
   const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: `${MODEL_NAME} 专属升级方案`,
-    numberOfItems: zeekr8xUpgradeProjects.length,
-    itemListElement: zeekr8xUpgradeProjects.map((p) => ({
+    numberOfItems: ZEEKR_8X_PROJECT_COUNT,
+    itemListElement: zeekr8xPageConfig.projects.map((p, i) => ({
       "@type": "ListItem" as const,
-      position: p.order,
+      position: i + 1,
       name: p.name,
       category: p.category,
       url: `${CANONICAL_PATH}#zeekr-8x-project-${p.id}`,
@@ -94,27 +84,7 @@ export default function Zeekr8xPage() {
           projectCount={ZEEKR_8X_PROJECT_COUNT}
         />
 
-        <Zeekr8xHero
-          totalProjects={zeekr8xUpgradeProjects.length}
-          totalScenarios={zeekr8xScenarios.length}
-          canonicalPath={CANONICAL_PATH}
-          heroImage={ZEEKR_8X_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <Zeekr8xScenarioMatrix
-          scenarios={zeekr8xScenarios}
-          allProjects={zeekr8xUpgradeProjects}
-        />
-
-        <Zeekr8xProjectGrid
-          projects={zeekr8xUpgradeProjects}
-          scenarios={zeekr8xScenarios}
-        />
-
-        <Zeekr8xServiceFlow steps={zeekr8xServiceSteps} />
-
-        <Zeekr8xFaq items={zeekr8xFaq} />
+        <VehiclePageRenderer config={zeekr8xPageConfig} />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

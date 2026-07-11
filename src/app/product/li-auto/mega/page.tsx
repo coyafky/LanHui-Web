@@ -1,18 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LiAutoMegaHero } from "@/components/li-auto/LiAutoMegaHero";
-import { LiAutoMegaProjectGrid } from "@/components/li-auto/LiAutoMegaProjectGrid";
-import { LiAutoMegaBundles } from "@/components/li-auto/LiAutoMegaBundles";
-import { LiAutoMegaServiceFlow } from "@/components/li-auto/LiAutoMegaServiceFlow";
-import { LiAutoMegaFaq } from "@/components/li-auto/LiAutoMegaFaq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { liAutoMegaPageConfig } from "@/lib/li-auto-mega-page-config";
 import { LiAutoMegaTopicViewTrack } from "@/components/li-auto/LiAutoMegaTopicViewTrack";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
   liAutoMegaUpgradeProjects,
-  liAutoMegaScenarios,
-  liAutoMegaBundles,
-  liAutoMegaServiceSteps,
-  liAutoMegaFaq,
   LI_AUTO_MEGA_PROJECT_COUNT,
 } from "@/lib/li-auto-mega-products";
 
@@ -78,34 +71,8 @@ export default function LiAutoMegaPage() {
           projectCount={LI_AUTO_MEGA_PROJECT_COUNT}
         />
 
-        <LiAutoMegaHero
-          totalProjects={liAutoMegaUpgradeProjects.length}
-          totalScenarios={liAutoMegaScenarios.length}
-          totalBundles={liAutoMegaBundles.length}
-          canonicalPath={CANONICAL_PATH}
-          breadcrumbItems={breadcrumbItems}
-        />
+        <VehiclePageRenderer config={liAutoMegaPageConfig} />
 
-        <section id="li-auto-mega-projects">
-          <LiAutoMegaProjectGrid
-            projects={liAutoMegaUpgradeProjects}
-            scenarios={liAutoMegaScenarios}
-            modelKey={MODEL_KEY}
-          />
-        </section>
-
-        <LiAutoMegaBundles
-          bundles={liAutoMegaBundles}
-          allProjects={liAutoMegaUpgradeProjects}
-          modelKey={MODEL_KEY}
-        />
-
-        <LiAutoMegaServiceFlow steps={liAutoMegaServiceSteps} />
-
-        <LiAutoMegaFaq items={liAutoMegaFaq} />
-
-        {/* 不含 CTA 模块 — 用户明确排除 */}
-        {/* 仅保留返回链接 */}
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <Link

@@ -1,22 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import {
-  xiaomiSu7UpgradeProjects,
-  xiaomiSu7Scenarios,
-  xiaomiSu7ServiceSteps,
-  xiaomiSu7Faq,
   XIAOMI_SU7_PROJECT_COUNT,
-  XIAOMI_SU7_SCENARIO_COUNT,
   XIAOMI_SU7_HERO_IMAGE,
 } from "@/lib/xiaomi-su7-upgrade-projects";
+import { xiaomiSu7PageConfig } from "@/lib/xiaomi-su7-page-config";
 import { XiaomiSu7TopicViewTrack } from "@/components/xiaomi-su7/XiaomiSu7TopicViewTrack";
-import { XiaomiSu7Hero } from "@/components/xiaomi-su7/XiaomiSu7Hero";
-import { XiaomiSu7ScenarioMatrix } from "@/components/xiaomi-su7/XiaomiSu7ScenarioMatrix";
-import { XiaomiSu7ProjectGrid } from "@/components/xiaomi-su7/XiaomiSu7ProjectGrid";
-import { XiaomiSu7ServiceFlow } from "@/components/xiaomi-su7/XiaomiSu7ServiceFlow";
-import { XiaomiSu7Faq } from "@/components/xiaomi-su7/XiaomiSu7Faq";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 
 export const metadata: Metadata = {
   title: "小米 SU7 轻改项目｜车衣隔热膜Ultra机盖方向盘｜蓝辉轻改",
@@ -47,9 +39,6 @@ export default async function XiaomiSu7Page() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   if (!model || model.type !== "vehicle_model") notFound();
 
-  const projects = xiaomiSu7UpgradeProjects;
-  const scenarios = xiaomiSu7Scenarios;
-  const breadcrumbItems = getProductBreadcrumbs("/product/xiaomi/su7");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/xiaomi/su7");
 
   const jsonLd = {
@@ -58,7 +47,7 @@ export default async function XiaomiSu7Page() {
     name: "小米 SU7 轻改项目",
     url: "https://lanhui.com/product/xiaomi/su7",
     numberOfItems: XIAOMI_SU7_PROJECT_COUNT,
-    itemListElement: projects.map((p, i) => ({
+    itemListElement: xiaomiSu7PageConfig.projects.map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
       item: {
@@ -79,32 +68,8 @@ export default async function XiaomiSu7Page() {
         projectCount={XIAOMI_SU7_PROJECT_COUNT}
       />
       <main id="main-content" tabIndex={-1} className="flex-grow">
-        {/* Hero */}
-        <XiaomiSu7Hero
-          totalProjects={XIAOMI_SU7_PROJECT_COUNT}
-          totalScenarios={XIAOMI_SU7_SCENARIO_COUNT}
-          heroImage={XIAOMI_SU7_HERO_IMAGE}
-          breadcrumbItems={breadcrumbItems}
-        />
+        <VehiclePageRenderer config={xiaomiSu7PageConfig} />
 
-        {/* 用车场景矩阵 */}
-        <section className="scroll-mt-24" id="scenario-new-car-protection">
-          <XiaomiSu7ScenarioMatrix
-            scenarios={scenarios}
-            projects={projects}
-          />
-        </section>
-
-        {/* 项目网格 */}
-        <XiaomiSu7ProjectGrid projects={projects} scenarios={scenarios} />
-
-        {/* 6 步服务流程 */}
-        <XiaomiSu7ServiceFlow steps={xiaomiSu7ServiceSteps} />
-
-        {/* FAQ */}
-        <XiaomiSu7Faq items={xiaomiSu7Faq} />
-
-        {/* CTA section */}
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p className="text-sm tracking-widest text-orange-400 mb-3">
@@ -133,7 +98,6 @@ export default async function XiaomiSu7Page() {
           </div>
         </section>
 
-        {/* JSON-LD */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

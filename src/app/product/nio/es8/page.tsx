@@ -1,22 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { NioEs8Hero } from "@/components/nio/NioEs8Hero";
-import { NioEs8ProjectGrid } from "@/components/nio/NioEs8ProjectGrid";
-import { NioEs8Bundles } from "@/components/nio/NioEs8Bundles";
-import { NioEs8ServiceFlow } from "@/components/nio/NioEs8ServiceFlow";
-import { NioEs8Faq } from "@/components/nio/NioEs8Faq";
 import { NioEs8TopicViewTrack } from "@/components/nio/NioEs8TopicViewTrack";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
-import {
-  nioEs8UpgradeProjects,
-  nioEs8Scenarios,
-  nioEs8Bundles,
-  nioEs8ServiceSteps,
-  nioEs8Faq,
-  NIO_ES8_PROJECT_COUNT,
-} from "@/lib/nio-products";
+import { nioEs8PageConfig } from "@/lib/nio-es8-page-config";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 
-const MODEL_KEY = "ES8" as const;
 const MODEL_NAME = "蔚来 ES8";
 const CANONICAL_PATH = "/product/nio/es8";
 
@@ -58,13 +46,13 @@ export default function NioEs8Page() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: `${MODEL_NAME} 专属升级方案`,
-    numberOfItems: nioEs8UpgradeProjects.length,
-    itemListElement: nioEs8UpgradeProjects.map((p) => ({
+    numberOfItems: nioEs8PageConfig.projects.length,
+    itemListElement: nioEs8PageConfig.projects.map((p, i) => ({
       "@type": "ListItem" as const,
-      position: p.order,
+      position: i + 1,
       name: p.name,
       category: p.category,
-      url: `${CANONICAL_PATH}#${p.key}`,
+      url: `${CANONICAL_PATH}#${p.id}`,
     })),
   };
 
@@ -75,32 +63,10 @@ export default function NioEs8Page() {
           topicKey="nio-es8"
           brandSlug="nio"
           modelSlug="es8"
-          projectCount={NIO_ES8_PROJECT_COUNT}
+          projectCount={nioEs8PageConfig.projects.length}
         />
 
-        <NioEs8Hero
-          totalProjects={nioEs8UpgradeProjects.length}
-          totalScenarios={nioEs8Scenarios.length}
-          totalBundles={nioEs8Bundles.length}
-          canonicalPath={CANONICAL_PATH}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <NioEs8ProjectGrid
-          projects={nioEs8UpgradeProjects}
-          scenarios={nioEs8Scenarios}
-          modelKey={MODEL_KEY}
-        />
-
-        <NioEs8Bundles
-          bundles={nioEs8Bundles}
-          allProjects={nioEs8UpgradeProjects}
-          modelKey={MODEL_KEY}
-        />
-
-        <NioEs8ServiceFlow steps={nioEs8ServiceSteps} />
-
-        <NioEs8Faq items={nioEs8Faq} />
+        <VehiclePageRenderer config={nioEs8PageConfig} />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

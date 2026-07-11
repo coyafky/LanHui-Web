@@ -3,24 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
 import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
-import {
-  wenjieM8MustHaveProjects,
-  wenjieM8BusinessUpgradeProjects,
-  wenjieM8PracticalAccessoryProjects,
-  wenjieM8UpgradeProjects,
-  wenjieM8ElectricDoorProject,
-  wenjieM8Scenarios,
-  wenjieM8Bundles,
-  wenjieM8ServiceSteps,
-  wenjieM8Faq,
-} from "@/lib/wenjie-m8-upgrade-projects";
-import { WenjieModelUpgradeHero } from "@/components/wenjie/model/WenjieModelUpgradeHero";
-import { WenjieModelProjectGrid } from "@/components/wenjie/model/WenjieModelProjectGrid";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { WenjieM8ElectricDoorCautionCard } from "@/components/wenjie/model/WenjieM8ElectricDoorCautionCard";
-import { WenjieModelScenarios } from "@/components/wenjie/model/WenjieModelScenarios";
-import { WenjieModelBundles } from "@/components/wenjie/model/WenjieModelBundles";
-import { WenjieModelServiceFlow } from "@/components/wenjie/model/WenjieModelServiceFlow";
-import { WenjieModelFaq } from "@/components/wenjie/model/WenjieModelFaq";
+import { wenjieM8PageConfig } from "@/lib/wenjie-m8-page-config";
+import { wenjieM8UpgradeProjects, wenjieM8ElectricDoorProject } from "@/lib/wenjie-m8-upgrade-projects";
 
 const MODEL_KEY = "M8" as const;
 const MODEL_NAME = "问界 M8";
@@ -57,13 +43,6 @@ export default async function WenjieM8Page() {
   if (!model || model.type !== "vehicle_model") notFound();
   if (!brand || brand.type !== "vehicle_brand") notFound();
 
-  const itemListElements = wenjieM8UpgradeProjects.map((p) => ({
-    "@type": "ListItem" as const,
-    position: p.order,
-    name: `${MODEL_NAME} ${p.name} 升级项目`,
-    url: `${CANONICAL_PATH}#${p.id}`,
-  }));
-
   const breadcrumbItems = getProductBreadcrumbs(CANONICAL_PATH);
   const breadcrumbSchema = getProductBreadcrumbSchema(CANONICAL_PATH);
 
@@ -71,43 +50,18 @@ export default async function WenjieM8Page() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: `${MODEL_NAME} 专属升级方案`,
-    itemListElement: itemListElements,
+    itemListElement: wenjieM8UpgradeProjects.map((p) => ({
+      "@type": "ListItem" as const,
+      position: p.order,
+      name: `${MODEL_NAME} ${p.name} 升级项目`,
+      url: `${CANONICAL_PATH}#${p.id}`,
+    })),
   };
 
   return (
     <>
       <main id="main-content" tabIndex={-1} className="flex-grow bg-zinc-950">
-        <WenjieModelUpgradeHero
-          modelKey={MODEL_KEY}
-          modelName={MODEL_NAME}
-          title={`${MODEL_NAME} 专属升级方案`}
-          subtitle="围绕新车保护、底盘防护、电动踏板、电动门、后排娱乐、家庭座舱与商务接待 6 大场景整理 30 个升级项目。"
-          tagline="必改产品 / 高级商务升级 / 实用小配件"
-          totalProjects={wenjieM8UpgradeProjects.length}
-          canonicalPath={CANONICAL_PATH}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <WenjieModelProjectGrid
-          projects={wenjieM8MustHaveProjects}
-          modelKey={MODEL_KEY}
-          titlePrefix={`${MODEL_NAME} 必改`}
-          tierLabel={`必改产品 · ${wenjieM8MustHaveProjects.length} 项`}
-        />
-
-        <WenjieModelProjectGrid
-          projects={wenjieM8BusinessUpgradeProjects}
-          modelKey={MODEL_KEY}
-          titlePrefix={`${MODEL_NAME} 商务`}
-          tierLabel={`高级商务升级 · ${wenjieM8BusinessUpgradeProjects.length} 项`}
-        />
-
-        <WenjieModelProjectGrid
-          projects={wenjieM8PracticalAccessoryProjects}
-          modelKey={MODEL_KEY}
-          titlePrefix={`${MODEL_NAME} 实用`}
-          tierLabel={`实用小配件 · ${wenjieM8PracticalAccessoryProjects.length} 项`}
-        />
+        <VehiclePageRenderer config={wenjieM8PageConfig} />
 
         <section
           className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900"
@@ -126,32 +80,6 @@ export default async function WenjieM8Page() {
             <WenjieM8ElectricDoorCautionCard project={wenjieM8ElectricDoorProject} />
           </div>
         </section>
-
-        <WenjieModelScenarios
-          scenarios={wenjieM8Scenarios}
-          allProjects={wenjieM8UpgradeProjects}
-          modelKey={MODEL_KEY}
-          modelName={MODEL_NAME}
-        />
-
-        <WenjieModelBundles
-          bundles={wenjieM8Bundles}
-          allProjects={wenjieM8UpgradeProjects}
-          modelKey={MODEL_KEY}
-          modelName={MODEL_NAME}
-        />
-
-        <WenjieModelServiceFlow
-          steps={wenjieM8ServiceSteps}
-          modelKey={MODEL_KEY}
-          modelName={MODEL_NAME}
-        />
-
-        <WenjieModelFaq
-          items={wenjieM8Faq}
-          modelKey={MODEL_KEY}
-          modelName={MODEL_NAME}
-        />
 
         <section className="py-16 md:py-20 bg-black border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

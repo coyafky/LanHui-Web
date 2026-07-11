@@ -1,33 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { TeslaTopicHero } from "@/components/tesla/TeslaTopicHero";
-import { TeslaFeaturedGrid } from "@/components/tesla/TeslaFeaturedGrid";
-import { TeslaScenarioMatrix } from "@/components/tesla/TeslaScenarioMatrix";
-import { TeslaMoreChoices } from "@/components/tesla/TeslaMoreChoices";
 import { TeslaModelFitNote } from "@/components/tesla/TeslaModelFitNote";
-import { TeslaServiceFlow } from "@/components/tesla/TeslaServiceFlow";
-import { TeslaFaq } from "@/components/tesla/TeslaFaq";
 import { TeslaTopicViewTrack } from "@/components/tesla/TeslaTopicViewTrack";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
-import {
-  teslaFeaturedProjects,
-  teslaOptionalProjects,
-  teslaScenarios,
-  teslaServiceSteps,
-  teslaFaq,
-} from "@/lib/tesla-products";
+import { VehiclePageRenderer } from "@/components/vehicle-page";
+import { teslaPageConfig } from "@/lib/tesla-page-config";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 
 const PAGE_TITLE =
   "特斯拉轻改项目｜车衣、隔热膜、座舱舒适、电动便利｜蓝辉轻改";
 const PAGE_DESCRIPTION =
   "蓝辉轻改特斯拉系列升级方案，覆盖车衣、隔热膜、改色膜、底盘护板、电动踏板、座舱舒适与智能影音等 42 个项目，按新车保护、外观焕新、座舱舒适、智能影音、电动便利、储物与小件 6 大场景组合，适用于 Model 3 / Model Y / Model S / Model X。";
-const TESLA_MODEL_NAMES = [
-  "Model 3",
-  "Model Y",
-  "Model S",
-  "Model X",
-] as const;
-
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
@@ -52,10 +34,8 @@ export const metadata: Metadata = {
 };
 
 export default function TeslaTopicPage() {
-  const allProjects = [...teslaFeaturedProjects, ...teslaOptionalProjects];
-  const totalProjects = allProjects.length;
-  const totalScenarios = teslaScenarios.length;
-  const breadcrumbItems = getProductBreadcrumbs("/product/tesla");
+  const totalProjects = teslaPageConfig.projects.length;
+  const totalScenarios = teslaPageConfig.scenarios.length;
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/tesla");
 
   const jsonLd = {
@@ -63,11 +43,11 @@ export default function TeslaTopicPage() {
     "@type": "ItemList",
     name: "特斯拉系列轻改项目升级方案",
     description: PAGE_DESCRIPTION,
-    itemListElement: allProjects.map((p, idx) => ({
+    itemListElement: teslaPageConfig.projects.map((p, idx) => ({
       "@type": "ListItem",
       position: idx + 1,
       name: `特斯拉 ${p.name} 升级项目`,
-      url: `/product/tesla#${p.key}`,
+      url: `/product/tesla#${p.id}`,
     })),
   };
 
@@ -80,37 +60,10 @@ export default function TeslaTopicPage() {
           totalScenarios={totalScenarios}
         />
 
-        <TeslaTopicHero
-          title="特斯拉系列轻改项目｜蓝辉轻改 LANHUI"
-          subtitle="Tesla 车型专属轻改方案 · 兼顾原车结构与日常使用"
-          totalProjects={totalProjects}
-          modelNames={TESLA_MODEL_NAMES}
-          scenarioCount={totalScenarios}
-          breadcrumbItems={breadcrumbItems}
-        />
-
-        <TeslaFeaturedGrid
-          projects={teslaFeaturedProjects}
-          scenarios={teslaScenarios}
-        />
-
-        <TeslaScenarioMatrix
-          scenarios={teslaScenarios}
-          allProjects={allProjects}
-        />
-
-        <TeslaMoreChoices
-          projects={teslaOptionalProjects}
-          scenarios={teslaScenarios}
-        />
+        <VehiclePageRenderer config={teslaPageConfig} />
 
         <TeslaModelFitNote />
 
-        <TeslaServiceFlow steps={teslaServiceSteps} />
-
-        <TeslaFaq items={teslaFaq} />
-
-        {/* 底部 CTA + 合规说明 */}
         <section className="py-12 md:py-16 bg-zinc-950 border-t border-zinc-900">
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
@@ -134,7 +87,6 @@ export default function TeslaTopicPage() {
         </section>
       </main>
 
-      {/* JSON-LD 结构化数据 */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
