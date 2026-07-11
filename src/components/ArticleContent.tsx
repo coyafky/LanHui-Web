@@ -1,5 +1,3 @@
-"use client";
-
 import Markdown from "react-markdown";
 
 function normalizeMarkdownContent(content: string): string {
