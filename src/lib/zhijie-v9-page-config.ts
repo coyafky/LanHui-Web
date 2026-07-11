@@ -33,6 +33,11 @@ export const zhijieV9PageConfig = {
     suitableFor: p.suitableFor as string[],
     caution: p.caution,
     category: ZHIJIE_V9_CATEGORY_LABELS[p.category],
+    imageStatus: p.imageStatus,
+    imagePublicPath: p.image.publicPath,
+    imageAlt: p.name,
+    imageWidth: p.image.width,
+    imageHeight: p.image.height,
   })),
 
   scenarios: zhijieV9Scenarios.map((s) => ({

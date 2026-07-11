@@ -46,6 +46,11 @@ export const nioEs8PageConfig = {
       suitableFor: p.suitableFor as string[],
       caution: p.caution,
       category: CATEGORY_LABELS[p.category] ?? p.category,
+      imageStatus: p.imageStatus,
+      imagePublicPath: p.publicPath,
+      imageAlt: p.name,
+      imageWidth: p.width,
+      imageHeight: p.height,
     })),
 
   scenarios: nioEs8Scenarios.map((s) => ({

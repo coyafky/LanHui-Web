@@ -41,6 +41,11 @@ export const wenjieSeriesPageConfig = {
     suitableFor: [] as string[],
     caution: undefined,
     category: CATEGORY_LABELS[p.category] ?? p.category,
+    imageStatus: p.imageStatus === "real" ? "matched" : p.imageStatus,
+    imagePublicPath: p.image.publicPath,
+    imageAlt: p.name,
+    imageWidth: p.image.width,
+    imageHeight: p.image.height,
   })),
 
   scenarios: wenjieSeriesScenarios.map((s) => ({

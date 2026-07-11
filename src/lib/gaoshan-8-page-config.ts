@@ -35,6 +35,11 @@ export const gaoshan8PageConfig = {
     suitableFor: p.suitableFor as string[],
     caution: p.caution,
     category: CATEGORY_LABELS[p.category] ?? p.category,
+    imageStatus: p.imageStatus,
+    imagePublicPath: p.image.publicPath,
+    imageAlt: p.name,
+    imageWidth: p.image.width,
+    imageHeight: p.image.height,
   })),
 
   scenarios: gaoshan8Scenarios.map((s) => ({

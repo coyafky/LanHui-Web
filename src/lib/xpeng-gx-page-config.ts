@@ -33,6 +33,11 @@ export const xpengGxPageConfig = {
     suitableFor: p.suitableFor as string[],
     caution: p.caution,
     category: XPENG_GX_CATEGORY_LABELS[p.category],
+    imageStatus: p.imageStatus,
+    imagePublicPath: p.image.publicPath,
+    imageAlt: p.name,
+    imageWidth: p.image.width,
+    imageHeight: p.image.height,
   })),
 
   scenarios: xpengGxScenarios.map((s) => ({

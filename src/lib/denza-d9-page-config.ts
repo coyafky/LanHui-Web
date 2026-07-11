@@ -32,6 +32,11 @@ export const denzaD9PageConfig = {
     suitableFor: p.suitableFor as string[],
     caution: p.caution,
     category: DENZA_D9_CATEGORY_LABELS[p.category],
+    imageStatus: p.imageStatus,
+    imagePublicPath: p.image.publicPath,
+    imageAlt: p.name,
+    imageWidth: p.image.width,
+    imageHeight: p.image.height,
   })),
 
   scenarios: denzaD9Scenarios.map((s) => ({

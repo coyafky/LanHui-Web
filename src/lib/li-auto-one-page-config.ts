@@ -29,6 +29,11 @@ export const liAutoOnePageConfig: VehiclePageConfig = {
     suitableFor: [...p.suitableFor],
     ...(p.caution ? { caution: p.caution } : {}),
     category: p.category,
+    imageStatus: p.imageStatus,
+    imagePublicPath: p.publicPath ?? null,
+    imageAlt: p.name,
+    imageWidth: p.width ?? null,
+    imageHeight: p.height ?? null,
   })),
   scenarios: liAutoOneScenarios.map((s) => ({
     id: s.key,

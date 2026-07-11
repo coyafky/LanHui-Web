@@ -37,6 +37,11 @@ export const teslaPageConfig = {
     suitableFor: [] as string[],
     caution: undefined,
     category: CATEGORY_LABELS[p.category] ?? p.category,
+    imageStatus: p.imageStatus,
+    imagePublicPath: p.publicPath ?? null,
+    imageAlt: p.name,
+    imageWidth: p.width ?? null,
+    imageHeight: p.height ?? null,
   })),
 
   scenarios: teslaScenarios.map((s) => ({
