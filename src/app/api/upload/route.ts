@@ -23,7 +23,6 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_MIME = new Set(["image/jpeg", "image/png", "image/webp"]);
 const ENTITY_DIR: Record<string, string> = {
   store: "stores",
-  article: "articles",
 };
 
 // 显式拒绝 city：城市不需要图片
@@ -48,7 +47,7 @@ async function ensureAuth() {
   if (!session) {
     return { ok: false as const, status: 401, error: "未认证" };
   }
-  if (session.user.role !== "admin" && session.user.role !== "editor") {
+  if (session.user.role !== "admin") {
     return { ok: false as const, status: 403, error: "权限不足" };
   }
   return { ok: true as const };
@@ -123,21 +122,6 @@ export async function POST(request: NextRequest) {
       entityId = store.id;
     }
 
-    let articleSlug: string | undefined;
-    if (entity === "article") {
-      const article = await prisma.article.findUnique({
-        where: { id: entityId },
-        select: { id: true, slug: true },
-      });
-      if (!article) {
-        return Response.json(
-          { success: false, error: "文章不存在" },
-          { status: 404 }
-        );
-      }
-      articleSlug = article.slug;
-    }
-
     // ── Buffer + sharp 元数据二次验证 ──
     const buffer = Buffer.from(await file.arrayBuffer());
     let meta;
@@ -188,17 +172,6 @@ export async function POST(request: NextRequest) {
       revalidatePath(`/agent/store/${entityId}`);
       revalidatePath("/admin/stores");
       revalidatePath(`/admin/stores/${entityId}`);
-    }
-
-    if (entity === "article") {
-      await prisma.article.update({
-        where: { id: entityId },
-        data: { featuredImage: rel },
-      });
-      revalidatePath("/news");
-      revalidatePath(`/news/${articleSlug}`);
-      revalidatePath("/admin/articles");
-      revalidatePath(`/admin/articles/${entityId}`);
     }
 
     const postCtx = getRequestContext(request, "/api/upload");
@@ -257,7 +230,7 @@ export async function DELETE(request: NextRequest) {
     const entity = searchParams.get("entity");
     const entityId = searchParams.get("entityId");
 
-    if ((entity !== "store" && entity !== "article") || !entityId) {
+    if (entity !== "store" || !entityId) {
       return Response.json(
         { success: false, error: "参数缺失或实体类型不支持" },
         { status: 400 }
@@ -296,38 +269,6 @@ export async function DELETE(request: NextRequest) {
       revalidatePath(`/agent/store/${store.id}`);
       revalidatePath("/admin/stores");
       revalidatePath(`/admin/stores/${store.id}`);
-    }
-
-    if (entity === "article") {
-      const article = await prisma.article.findUnique({ where: { id: entityId } });
-      if (!article) {
-        return Response.json(
-          { success: false, error: "文章不存在" },
-          { status: 404 }
-        );
-      }
-
-      if (!article.featuredImage) {
-        return Response.json(
-          { success: false, error: "封面图不存在" },
-          { status: 404 }
-        );
-      }
-
-      if (article.featuredImage.startsWith("/images/")) {
-        const abs = path.join(process.cwd(), "public", article.featuredImage.replace(/^\//, ""));
-        try { await fs.unlink(abs); } catch { /* ignore */ }
-      }
-
-      await prisma.article.update({
-        where: { id: article.id },
-        data: { featuredImage: null },
-      });
-
-      revalidatePath("/news");
-      revalidatePath(`/news/${article.slug}`);
-      revalidatePath("/admin/articles");
-      revalidatePath(`/admin/articles/${article.id}`);
     }
 
     const delCtx = getRequestContext(request, "/api/upload");

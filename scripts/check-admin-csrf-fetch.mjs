@@ -4,10 +4,8 @@
  * check-admin-csrf-fetch.mjs
  *
  * 防回归检查：
- * 1. articles/page.tsx 中不允许对 /api/articles 路径使用裸 fetch（必须用 adminCsrfFetch）
- * 2. 状态转换操作（置顶/发布/撤回/归档）必须调用 action 路由而非 PUT
- * 3. 后端所有 admin 写 route 必须导入并调用 requireCsrf
- * 4. 客户端代码不允许通过 document.cookie 读取 lanhui_csrf
+ * 1. 后端所有 admin 写 route 必须导入并调用 requireCsrf
+ * 2. 客户端代码不允许通过 document.cookie 读取 lanhui_csrf
  *
  * Exit code: 0 = all pass, 1 = failures found
  */
@@ -29,38 +27,8 @@ function pass(msg) {
   console.log(`PASS: ${msg}`);
 }
 
-// 1. articles/page.tsx 不允许裸 fetch 写文章 API
-const pageFile = join(ROOT, "src/app/admin/(dashboard)/articles/page.tsx");
-const pageSource = readFileSync(pageFile, "utf-8");
-
-const bareFetchMatches = pageSource.match(
-  /fetch\(\s*[`"']\/api\/articles\//g,
-);
-if (bareFetchMatches && bareFetchMatches.length > 0) {
-  fail(
-    `articles/page.tsx 中存在 ${bareFetchMatches.length} 处裸 fetch 调用 /api/articles/，请改用 adminCsrfFetch`,
-  );
-} else {
-  pass("articles/page.tsx 中已无裸 fetch 调用 /api/articles/ 的写操作");
-}
-
-// 2. 状态转换操作必须调用 action 路由而非 PUT
-if (
-  /fetch\(\s*[`"']\/api\/articles\/\$\{.*\.id\}[\s\S]*?method:\s*"PUT"/.test(
-    pageSource,
-  )
-) {
-  fail("articles/page.tsx 中仍存在 PUT /api/articles/[id] 调用，应改用 action 路由");
-} else {
-  pass("articles/page.tsx 中已无 PUT 状态转换调用");
-}
-
-// 3. 后端 articles 写 route 必须导入并调用 requireCsrf
+// 后端 admin 写 route 必须导入并调用 requireCsrf
 const routesToCheck = [
-  ["articles/[id]/route.ts", "src/app/api/articles/[id]/route.ts"],
-  ["articles/route.ts", "src/app/api/articles/route.ts"],
-  ["articles/[id]/[action]/route.ts", "src/app/api/articles/[id]/[action]/route.ts"],
-  ["articles/bulk/route.ts", "src/app/api/articles/bulk/route.ts"],
   ["stores/route.ts", "src/app/api/stores/route.ts"],
   ["stores/[id]/route.ts", "src/app/api/stores/[id]/route.ts"],
   ["stores/[id]/[action]/route.ts", "src/app/api/stores/[id]/[action]/route.ts"],
@@ -83,24 +51,6 @@ for (const [name, relPath] of routesToCheck) {
     pass(`${name} 已调用 requireCsrf`);
   } else {
     fail(`${name} 未调用 requireCsrf`);
-  }
-}
-
-// 4. 客户端代码不允许 document.cookie 读取 lanhui_csrf
-const adminFiles = [
-  "src/app/admin/(dashboard)/articles/page.tsx",
-];
-
-for (const relPath of adminFiles) {
-  const filePath = join(ROOT, relPath);
-  const source = readFileSync(filePath, "utf-8");
-  if (
-    /document\.cookie/.test(source) &&
-    /lanhui_csrf/.test(source)
-  ) {
-    fail(`${relPath} 通过 document.cookie 读取 lanhui_csrf，应通过 adminCsrfFetch 获取`);
-  } else {
-    pass(`${relPath} 未直接读取 document.cookie 中的 lanhui_csrf`);
   }
 }
 

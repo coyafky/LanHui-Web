@@ -5,7 +5,6 @@ import {
   getAllCitySlugs,
   getAllStoreIds,
   getProvinces,
-  getAllArticleSlugs,
 } from "@/lib/data";
 
 const SITE_URL = "https://lanhui.example.com";
@@ -49,12 +48,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: LAST_MOD,
       changeFrequency: "yearly",
       priority: 0.5,
-    },
-    {
-      url: `${SITE_URL}/news`,
-      lastModified: LAST_MOD,
-      changeFrequency: "weekly",
-      priority: 0.7,
     },
     {
       url: `${SITE_URL}/contact`,
@@ -124,21 +117,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  // News detail pages (from API with fallback)
-  let articleSlugs: string[] = [];
-  try {
-    articleSlugs = await getAllArticleSlugs();
-  } catch {
-    // fallback already handled in data.ts
-  }
-
-  const newsRoutes: MetadataRoute.Sitemap = articleSlugs.map((slug) => ({
-    url: `${SITE_URL}/news/${slug}`,
-    lastModified: LAST_MOD,
-    changeFrequency: "monthly" as const,
-    priority: 0.5,
-  }));
-
   // 问界车型专题子路由（wenjie M6 / M7 / M8 二级页）
   const wenjieModelRoutes: MetadataRoute.Sitemap = [
     {
@@ -197,7 +175,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...provinceRoutes,
     ...cityRoutes,
     ...storeRoutes,
-    ...newsRoutes,
     ...wenjieModelRoutes,
     ...teslaTopicRoutes,
     ...xpengGxModelRoute,

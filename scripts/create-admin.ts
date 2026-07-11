@@ -3,10 +3,10 @@
  *
  * 使用方式：
  *   npx tsx scripts/create-admin.ts --username admin2 --email admin2@lanhui.com --password newpass123
- *   npx tsx scripts/create-admin.ts --username editor1 --email editor1@lanhui.com --password securePass --role editor
+ *   npx tsx scripts/create-admin.ts --username editor1 --email editor1@lanhui.com --password securePass --role admin
  *
  * 可选参数：
- *   --role     用户角色，默认 admin（可选值：admin / editor）
+ *   --role     用户角色，默认 admin（可选值：admin）
  *   --name     显示名称，默认与 username 相同
  *
  * 环境要求：
@@ -24,7 +24,7 @@ function parseArgs(): {
   username: string;
   email: string;
   password: string;
-  role: string;
+  role: "admin";
   name: string;
 } {
   const args = process.argv.slice(2);
@@ -51,16 +51,16 @@ function parseArgs(): {
     console.error("  --username   用户名（必填，唯一）");
     console.error("  --email      邮箱（必填，唯一）");
     console.error("  --password   密码（必填）");
-    console.error("  --role       角色，默认 admin（可选值：admin / editor）");
+    console.error("  --role       角色，默认 admin（可选值：admin）");
     console.error("  --name       显示名称，默认与 username 相同");
     process.exit(1);
   }
 
-  const role = getArg("role") ?? "admin";
+  const role = (getArg("role") ?? "admin") as "admin";
   const name = getArg("name") ?? username;
 
-  if (role !== "admin" && role !== "editor") {
-    console.error(`❌ 无效角色: ${role}，可选值：admin / editor`);
+  if (role !== "admin") {
+    console.error(`❌ 无效角色: ${role}，可选值：admin`);
     process.exit(1);
   }
 

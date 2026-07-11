@@ -24,7 +24,7 @@ vi.mock("@/lib/admin-dashboard", () => ({
   getDashboardSummaryV2: mockGetDashboardSummaryV2,
 }));
 
-// Mock all 9 dashboard components to render an identifiable placeholder.
+// Mock all 8 dashboard components to render an identifiable placeholder.
 vi.mock("@/components/admin/DashboardWelcome", () => ({
   DashboardWelcome: ({ userName }: { userName: string }) => (
     <div data-testid="DashboardWelcome" data-username={userName} />
@@ -43,10 +43,6 @@ vi.mock("@/components/admin/DashboardStoreNetwork", () => ({
   DashboardStoreNetwork: () => <div data-testid="DashboardStoreNetwork" />,
 }));
 
-vi.mock("@/components/admin/DashboardContentHealth", () => ({
-  DashboardContentHealth: () => <div data-testid="DashboardContentHealth" />,
-}));
-
 vi.mock("@/components/admin/DashboardInterestPanel", () => ({
   DashboardInterestPanel: () => <div data-testid="DashboardInterestPanel" />,
 }));
@@ -60,7 +56,7 @@ vi.mock("@/components/admin/DashboardRecentActivity", () => ({
   DashboardRecentActivity: ({
     role,
   }: {
-    role: "admin" | "editor" | undefined;
+    role: "admin" | undefined;
   }) => <div data-testid="DashboardRecentActivity" data-role={role ?? ""} />,
 }));
 
@@ -74,7 +70,6 @@ function buildSummaryV2(overrides?: {
   todoSummary?: Record<string, unknown> | null;
   kpi?: Record<string, unknown> | null;
   storeSummary?: Record<string, unknown> | null;
-  contentSummary?: Record<string, unknown> | null;
   interestSummary?: Record<string, unknown> | null;
   recentActivity?: Record<string, unknown> | null;
   quickActions?: Array<Record<string, unknown>>;
@@ -89,12 +84,10 @@ function buildSummaryV2(overrides?: {
     todoSummary: overrides?.todoSummary ?? { items: [], totalCount: 0 },
     kpi: overrides?.kpi ?? {
       activeStores: 1,
-      publishedArticles: 1,
       monthlyPageViews: 1,
       monthlyContactIntent: 1,
     },
     storeSummary: overrides?.storeSummary ?? { byStatus: [], topProvinces: [], byLevel: [], missingProfile: 0 },
-    contentSummary: overrides?.contentSummary ?? { byStatus: [], recent7dPublished: 0, topCategories: [], missingCover: 0 },
     interestSummary: overrides?.interestSummary ?? {
       dailyTrend30d: [],
       topProductInterest: [],
@@ -113,18 +106,13 @@ const ADMIN_SESSION: Session = {
   user: { id: "u-test-admin", name: "Coya", email: "coya@lanhui.com", role: "admin" },
   expires: "2099-01-01",
 };
-const EDITOR_SESSION: Session = {
-  user: { id: "u-test-editor", name: "Editor", email: "editor@lanhui.com", role: "editor" },
-  expires: "2099-01-01",
-};
 
-// 所有 9 个 dashboard 组件 testid（按 page.tsx 中的渲染顺序）
+// 所有 8 个 dashboard 组件 testid（按 page.tsx 中的渲染顺序）
 const ORDERED_TESTIDS = [
   "DashboardWelcome",
   "DashboardTodoList",
   "DashboardKpiCards",
   "DashboardStoreNetwork",
-  "DashboardContentHealth",
   "DashboardInterestPanel",
   "DashboardTrendChart",
   "DashboardRecentActivity",
@@ -141,7 +129,7 @@ afterEach(() => {
 });
 
 describe("DashboardPage", () => {
-  it("admin role：渲染所有 9 个组件占位, 顺序正确, userName 来自 session", async () => {
+  it("admin role：渲染所有 8 个组件占位, 顺序正确, userName 来自 session", async () => {
     mockAuth.mockResolvedValueOnce(ADMIN_SESSION);
     mockGetDashboardSummaryV2.mockResolvedValueOnce(buildSummaryV2());
 
@@ -168,22 +156,6 @@ describe("DashboardPage", () => {
     expect(screen.getByTestId("DashboardRecentActivity").getAttribute("data-role")).toBe("admin");
   });
 
-  it("editor role：所有 9 个组件仍渲染, RecentActivity 收到 role=editor", async () => {
-    mockAuth.mockResolvedValueOnce(EDITOR_SESSION);
-    mockGetDashboardSummaryV2.mockResolvedValueOnce(buildSummaryV2());
-
-    const DashboardPage = (await import("./page")).default;
-    const element = await DashboardPage();
-    render(element);
-
-    for (const testid of ORDERED_TESTIDS) {
-      expect(screen.getByTestId(testid)).toBeInTheDocument();
-    }
-
-    expect(screen.getByTestId("DashboardWelcome").getAttribute("data-username")).toBe("Editor");
-    expect(screen.getByTestId("DashboardRecentActivity").getAttribute("data-role")).toBe("editor");
-  });
-
   it("null session：仍能渲染（防御性 fallback），userName 退化为 '用户'", async () => {
     mockAuth.mockResolvedValueOnce(null);
     mockGetDashboardSummaryV2.mockResolvedValueOnce(buildSummaryV2());
@@ -207,7 +179,6 @@ describe("DashboardPage", () => {
       todoSummary: null,
       kpi: null,
       storeSummary: null,
-      contentSummary: null,
       interestSummary: null,
       recentActivity: null,
       quickActions: [],

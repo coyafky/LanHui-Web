@@ -4,7 +4,6 @@ import { DashboardWelcome } from "@/components/admin/DashboardWelcome";
 import { DashboardTodoList } from "@/components/admin/DashboardTodoList";
 import { DashboardKpiCards } from "@/components/admin/DashboardKpiCards";
 import { DashboardStoreNetwork } from "@/components/admin/DashboardStoreNetwork";
-import { DashboardContentHealth } from "@/components/admin/DashboardContentHealth";
 import { DashboardInterestPanel } from "@/components/admin/DashboardInterestPanel";
 import { DashboardTrendChart } from "@/components/admin/DashboardTrendChart";
 import { DashboardRecentActivity } from "@/components/admin/DashboardRecentActivity";
@@ -15,7 +14,7 @@ export const dynamic = "force-dynamic";
 export default async function DashboardPage() {
   const session = await auth();
   const userName = session?.user?.name ?? "用户";
-  const role = session?.user?.role as "admin" | "editor" | undefined;
+  const role = session?.user?.role as "admin" | undefined;
   const summary = await getDashboardSummaryV2(session);
 
   return (
@@ -29,10 +28,9 @@ export default async function DashboardPage() {
       {/* C. 经营 KPI */}
       <DashboardKpiCards kpi={summary.kpi} />
 
-      {/* D + E. 门店网络 | 内容健康（2 列） */}
-      <div className="grid gap-6 xl:grid-cols-2">
+      {/* D. 门店网络 */}
+      <div className="grid gap-6 xl:grid-cols-1">
         <DashboardStoreNetwork data={summary.storeSummary} />
-        <DashboardContentHealth data={summary.contentSummary} />
       </div>
 
       {/* F. 用户兴趣与咨询趋势 */}

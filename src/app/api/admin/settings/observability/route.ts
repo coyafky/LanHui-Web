@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 
 export async function GET() {
   const session = await auth();
-  if (!session?.user || (session.user.role !== "admin" && session.user.role !== "editor")) {
+  if (!session?.user || session.user.role !== "admin") {
     return Response.json({ success: false, error: "权限不足" }, { status: 403 });
   }
 

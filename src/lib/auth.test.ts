@@ -23,10 +23,10 @@ describe("auth — jwt callback", () => {
   });
 
   it("leaves token untouched when user is undefined (subsequent requests)", async () => {
-    const token: Record<string, unknown> = { id: "existing", role: "editor", lastDbCheck: Date.now() };
+    const token: Record<string, unknown> = { id: "existing", role: "admin", lastDbCheck: Date.now() };
     const result = await jwtCallback({ token });
     expect(result.id).toBe("existing");
-    expect(result.role).toBe("editor");
+    expect(result.role).toBe("admin");
   });
 
   it("overwrites previous token values when a fresh user is provided", async () => {
@@ -116,7 +116,7 @@ describe("jwt callback — stale token migration", () => {
     } as never);
 
     const result = await jwtCallback({
-      token: { id: "user-1", email: "x@x.com", role: "editor" },
+      token: { id: "user-1", email: "x@x.com", role: "admin" },
       user: undefined,
     });
 
@@ -147,7 +147,7 @@ describe("jwt callback — stale token migration", () => {
     vi.mocked(prisma.user.findUnique).mockResolvedValueOnce(null);
 
     const result = await jwtCallback({
-      token: { id: "user-1", role: "editor" },
+      token: { id: "user-1", role: "admin" },
       user: undefined,
     });
 
@@ -158,7 +158,7 @@ describe("jwt callback — stale token migration", () => {
   it("falls back to sub lookup when email is absent", async () => {
     vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
       id: "user-2",
-      role: "editor",
+      role: "admin",
     } as never);
 
     const result = await jwtCallback({

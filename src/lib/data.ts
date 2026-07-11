@@ -6,7 +6,6 @@
  */
 
 import type { Store, Province, City } from "@/lib/store";
-import type { NewsItem } from "@/lib/news";
 import { prisma } from "@/lib/prisma";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
@@ -50,48 +49,6 @@ function mapApiCity(raw: any): City {
     province: raw.provinceSlug,
     label: raw.label,
     storeCount: raw.storeCount ?? 0,
-  };
-}
-
-export function normalizeArticle(raw: Record<string, unknown>): NewsItem {
-  const rawContent = raw.content;
-  const rawSummary = raw.summary;
-  const rawExcerpt = raw.excerpt;
-
-  // content fallback: typeof string && trimmed → summary → excerpt → ""
-  const content =
-    typeof rawContent === "string" && rawContent.trim()
-      ? rawContent.trim()
-      : typeof rawSummary === "string" && rawSummary.trim()
-        ? rawSummary.trim()
-        : typeof rawExcerpt === "string" && rawExcerpt.trim()
-          ? rawExcerpt.trim()
-          : "";
-
-  // summary fallback: excerpt → summary → content.slice(0,120) → ""
-  const summary =
-    typeof rawExcerpt === "string" && rawExcerpt.trim()
-      ? rawExcerpt.trim()
-      : typeof rawSummary === "string" && rawSummary.trim()
-        ? rawSummary.trim()
-        : typeof rawContent === "string" && rawContent.trim()
-          ? rawContent.trim().slice(0, 120)
-          : "";
-
-  const date =
-    typeof raw.publishedAt === "string"
-      ? raw.publishedAt.slice(0, 10)
-      : typeof raw.createdAt === "string"
-        ? new Date(raw.createdAt).getFullYear().toString()
-        : "2026";
-
-  return {
-    slug: typeof raw.slug === "string" ? raw.slug : "",
-    title: typeof raw.title === "string" ? raw.title : "未命名",
-    date,
-    category: typeof raw.category === "string" ? raw.category : "品牌动态",
-    summary,
-    content,
   };
 }
 
@@ -212,78 +169,6 @@ export async function getCityBySlug(
   return list.find((c) => c.slug === citySlug) ?? null;
 }
 
-// ── Articles / News ──
-
-export type ArticlesPagination = {
-  page: number;
-  limit: number;
-  total: number;
-  totalPages: number;
-};
-
-export async function getArticles(params?: {
-  status?: string;
-  category?: string;
-  page?: number;
-  limit?: number;
-}): Promise<{ articles: NewsItem[]; pagination: ArticlesPagination }> {
-  const page = params?.page ?? 1;
-  const limit = params?.limit ?? 20;
-
-  try {
-    const searchParams = new URLSearchParams();
-    if (params?.status) searchParams.set("status", params.status);
-    if (params?.category) searchParams.set("category", params.category);
-    searchParams.set("page", String(page));
-    searchParams.set("limit", String(limit));
-
-    const res = await fetch(`${API_BASE}/api/public/articles?${searchParams}`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    const articles = (json.data ?? []).map(normalizeArticle);
-    const pagination: ArticlesPagination = json.pagination ?? {
-      page,
-      limit,
-      total: articles.length,
-      totalPages: 1,
-    };
-    return { articles, pagination };
-  } catch {
-    const { newsItems } = await import("@/lib/news");
-    let result = [...newsItems];
-    if (params?.category) result = result.filter((n) => n.category === params.category);
-    const skip = (page - 1) * limit;
-    const paged = result.slice(skip, skip + limit);
-    return {
-      articles: paged,
-      pagination: {
-        page,
-        limit,
-        total: result.length,
-        totalPages: Math.max(1, Math.ceil(result.length / limit)),
-      },
-    };
-  }
-}
-
-export async function getArticleBySlug(
-  slug: string,
-): Promise<NewsItem | null> {
-  try {
-    const res = await fetch(`${API_BASE}/api/public/articles/${slug}`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return normalizeArticle(json.data);
-  } catch {
-    const { newsItems } = await import("@/lib/news");
-    return newsItems.find((n) => n.slug === slug) ?? null;
-  }
-}
-
 // ── generateStaticParams helpers (with fallback) ──
 
 export async function getAllProvinceSlugs(): Promise<string[]> {
@@ -305,18 +190,5 @@ export async function getAllStoreIds(): Promise<string[]> {
   } catch {
     const { stores } = await import("@/lib/store");
     return stores.map((s) => s.id);
-  }
-}
-
-export async function getAllArticleSlugs(): Promise<string[]> {
-  try {
-    const articles = await prisma.article.findMany({
-      where: { status: "published" },
-      select: { slug: true },
-    });
-    return articles.map((a) => a.slug);
-  } catch {
-    const { newsItems } = await import("@/lib/news");
-    return newsItems.map((n) => n.slug);
   }
 }

@@ -3,17 +3,8 @@ import { logger } from "@/lib/logger";
 
 export type DashboardKpi = {
   activeStores: number;
-  publishedArticles: number;
   monthlyPageViews: number;
   monthlyReservations: number;
-};
-
-export type ContentHealth = {
-  byStatus: Array<{ status: string; count: number }>;
-  byCategory: Array<{ category: string; count: number }>;
-  totalDrafts: number;
-  totalPublished: number;
-  totalArchived: number;
 };
 
 export type StoreNetwork = {
@@ -37,7 +28,6 @@ export type RecentActivity = {
 
 export type DashboardSummary = {
   kpi: DashboardKpi | null;
-  contentHealth: ContentHealth | null;
   storeNetwork: StoreNetwork | null;
   recentActivity: RecentActivity | null;
   fetchedAt: string;
@@ -58,9 +48,8 @@ function getMonthRange(): { start: Date; end: Date } {
 export async function getKpiSnapshot(): Promise<DashboardFetchResult<DashboardKpi>> {
   try {
     const { start, end } = getMonthRange();
-    const [activeStores, publishedArticles, monthlyPageViews, monthlyReservations] = await Promise.all([
+    const [activeStores, monthlyPageViews, monthlyReservations] = await Promise.all([
       prisma.store.count({ where: { isActive: true } }),
-      prisma.article.count({ where: { status: "published" } }),
       prisma.analyticsEvent.count({
         where: { type: "pageview", timestamp: { gte: start, lt: end } },
       }),
@@ -70,44 +59,7 @@ export async function getKpiSnapshot(): Promise<DashboardFetchResult<DashboardKp
     ]);
     return {
       ok: true,
-      data: { activeStores, publishedArticles, monthlyPageViews, monthlyReservations },
-    };
-  } catch (error) {
-    return {
-      ok: false,
-      error: error instanceof Error ? error.message : "Unknown error",
-      data: null,
-    };
-  }
-}
-
-export async function getContentHealth(): Promise<DashboardFetchResult<ContentHealth>> {
-  try {
-    const grouped = await prisma.article.groupBy({
-      by: ["status", "category"],
-      _count: { _all: true },
-    });
-    const byStatusMap = new Map<string, number>();
-    const byCategoryMap = new Map<string, number>();
-    for (const row of grouped) {
-      byStatusMap.set(row.status, (byStatusMap.get(row.status) ?? 0) + row._count._all);
-      const cat = row.category ?? "未分类";
-      byCategoryMap.set(cat, (byCategoryMap.get(cat) ?? 0) + row._count._all);
-    }
-    const byStatus = Array.from(byStatusMap.entries()).map(([status, count]) => ({ status, count }));
-    const byCategory = Array.from(byCategoryMap.entries())
-      .map(([category, count]) => ({ category, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
-    return {
-      ok: true,
-      data: {
-        byStatus,
-        byCategory,
-        totalDrafts: byStatusMap.get("draft") ?? 0,
-        totalPublished: byStatusMap.get("published") ?? 0,
-        totalArchived: byStatusMap.get("archived") ?? 0,
-      },
+      data: { activeStores, monthlyPageViews, monthlyReservations },
     };
   } catch (error) {
     return {
@@ -181,18 +133,15 @@ export async function getRecentActivity(limit = 10): Promise<DashboardFetchResul
 export async function getDashboardSummary(): Promise<DashboardSummary> {
   const results = await Promise.allSettled([
     getKpiSnapshot(),
-    getContentHealth(),
     getStoreNetwork(),
     getRecentActivity(10),
   ]);
   return {
     kpi: results[0].status === "fulfilled" && results[0].value.ok ? results[0].value.data : null,
-    contentHealth:
-      results[1].status === "fulfilled" && results[1].value.ok ? results[1].value.data : null,
     storeNetwork:
-      results[2].status === "fulfilled" && results[2].value.ok ? results[2].value.data : null,
+      results[1].status === "fulfilled" && results[1].value.ok ? results[1].value.data : null,
     recentActivity:
-      results[3].status === "fulfilled" && results[3].value.ok ? results[3].value.data : null,
+      results[2].status === "fulfilled" && results[2].value.ok ? results[2].value.data : null,
     fetchedAt: new Date().toISOString(),
   };
 }
@@ -254,7 +203,6 @@ export type TodoSummaryV2 = {
 // V2 KPI：monthlyContactIntent 替代旧的 monthlyReservations
 export type DashboardKpiV2 = {
   activeStores: number;
-  publishedArticles: number;
   monthlyPageViews: number;
   monthlyContactIntent: number;
 };
@@ -271,12 +219,7 @@ export type StoreSummaryV2 = {
   missingProfile: number;
 };
 
-export type ContentSummaryV2 = {
-  byStatus: { status: string; label: string; count: number }[];
-  recent7dPublished: number;
-  topCategories: { category: string; count: number }[];
-  missingCover: number;
-};
+export type ContentSummaryV2 = Record<string, never>;
 
 export type InterestSummaryV2 = {
   dailyTrend30d: { date: string; pv: number }[];
@@ -302,7 +245,6 @@ export type DashboardSummaryV2 = {
   todoSummary: TodoSummaryV2 | null;
   kpi: DashboardKpiV2 | null;
   storeSummary: StoreSummaryV2 | null;
-  contentSummary: ContentSummaryV2 | null;
   interestSummary: InterestSummaryV2 | null;
   recentActivity: RecentActivity | null;
   quickActions: QuickActionV2[];
@@ -320,13 +262,6 @@ const STORE_LEVEL_LABELS_V2: Record<string, string> = {
   flagship: "旗舰店",
   premium: "高级店",
   standard: "标准店",
-};
-
-const ARTICLE_STATUS_LABELS_V2: Record<string, string> = {
-  draft: "草稿",
-  published: "已发布",
-  archived: "已归档",
-  withdrawn: "已撤回",
 };
 
 const PRODUCT_TOPIC_KEYS_V2 = [
@@ -458,8 +393,6 @@ export async function getTodoSummaryV2(): Promise<DashboardFetchResult<TodoSumma
       pendingStoresCount,
       missingCoverCount,
       suspendedStoresCount,
-      draftArticlesCount,
-      withdrawnArticlesCount,
     ] = await Promise.all([
       prisma.store.count({ where: { status: "pending" } }),
       prisma.store.count({
@@ -469,8 +402,6 @@ export async function getTodoSummaryV2(): Promise<DashboardFetchResult<TodoSumma
         },
       }),
       prisma.store.count({ where: { status: "suspended" } }),
-      prisma.article.count({ where: { status: "draft" } }),
-      prisma.article.count({ where: { status: "withdrawn" } }),
     ]);
 
     const items: TodoItemV2[] = [];
@@ -519,28 +450,6 @@ export async function getTodoSummaryV2(): Promise<DashboardFetchResult<TodoSumma
         hrefLabel: "查看 →",
       });
     }
-    if (draftArticlesCount > 0) {
-      items.push({
-        id: "draft-articles",
-        severity: "P1",
-        title: "草稿文章",
-        count: draftArticlesCount,
-        description: `${draftArticlesCount} 篇文章待发布`,
-        href: "/admin/articles?status=draft",
-        hrefLabel: "去编辑 →",
-      });
-    }
-    if (withdrawnArticlesCount > 0) {
-      items.push({
-        id: "withdrawn-articles",
-        severity: "P1",
-        title: "已撤回文章",
-        count: withdrawnArticlesCount,
-        description: `${withdrawnArticlesCount} 篇文章已撤回`,
-        href: "/admin/articles?status=withdrawn",
-        hrefLabel: "查看 →",
-      });
-    }
 
     return { ok: true, data: { items, totalCount: items.length } };
   } catch (error) {
@@ -556,7 +465,7 @@ export async function getTodoSummaryV2(): Promise<DashboardFetchResult<TodoSumma
 export async function getKpiSnapshotV2(): Promise<DashboardFetchResult<DashboardKpiV2>> {
   try {
     const { start, end } = getMonthRange();
-    const [activeStores, publishedArticles, monthlyPageViews, monthlyContactIntent] = await Promise.all([
+    const [activeStores, monthlyPageViews, monthlyContactIntent] = await Promise.all([
       prisma.store.count({
         where: {
           OR: [
@@ -565,7 +474,6 @@ export async function getKpiSnapshotV2(): Promise<DashboardFetchResult<Dashboard
           ],
         },
       }),
-      prisma.article.count({ where: { status: "published" } }),
       prisma.analyticsEvent.count({
         where: { type: "pageview", timestamp: { gte: start, lt: end } },
       }),
@@ -575,58 +483,10 @@ export async function getKpiSnapshotV2(): Promise<DashboardFetchResult<Dashboard
     ]);
     return {
       ok: true,
-      data: { activeStores, publishedArticles, monthlyPageViews, monthlyContactIntent },
+      data: { activeStores, monthlyPageViews, monthlyContactIntent },
     };
   } catch (error) {
     logger.warn({ event: "admin-dashboard.fetch.failed", module: "getKpiSnapshotV2", error });
-    return {
-      ok: false,
-      error: error instanceof Error ? error.message : "Unknown error",
-      data: null,
-    };
-  }
-}
-
-export async function getContentSummaryV2(): Promise<DashboardFetchResult<ContentSummaryV2>> {
-  try {
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-
-    const statusGroups = await prisma.article.groupBy({
-      by: ["status"],
-      _count: { _all: true },
-    });
-    const byStatus = statusGroups
-      .map((g) => ({
-        status: g.status,
-        label: ARTICLE_STATUS_LABELS_V2[g.status] ?? g.status,
-        count: g._count._all,
-      }))
-      .sort((a, b) => b.count - a.count);
-
-    const recent7dPublished = await prisma.article.count({
-      where: { status: "published", publishedAt: { gte: sevenDaysAgo } },
-    });
-
-    const categoryGroups = await prisma.article.groupBy({
-      by: ["category"],
-      where: { status: "published", category: { not: null } },
-      _count: { _all: true },
-    });
-    const topCategories = categoryGroups
-      .map((g) => ({ category: g.category ?? "未分类", count: g._count._all }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
-
-    const missingCover = await prisma.article.count({
-      where: { status: "published", featuredImage: null },
-    });
-
-    return {
-      ok: true,
-      data: { byStatus, recent7dPublished, topCategories, missingCover },
-    };
-  } catch (error) {
-    logger.warn({ event: "admin-dashboard.fetch.failed", module: "getContentSummaryV2", error });
     return {
       ok: false,
       error: error instanceof Error ? error.message : "Unknown error",
@@ -803,7 +663,6 @@ export async function getDashboardSummaryV2(session: Session | null): Promise<Da
     getTodoSummaryV2(),
     getKpiSnapshotV2(),
     getStoreSummary(),
-    getContentSummaryV2(),
     getInterestSummaryV2(),
     getRecentActivity(10),
   ]);
@@ -811,16 +670,9 @@ export async function getDashboardSummaryV2(session: Session | null): Promise<Da
   const extract = <T>(r: PromiseSettledResult<DashboardFetchResult<T>>): T | null =>
     r.status === "fulfilled" && r.value.ok ? r.value.data : null;
 
-  const role = session?.user?.role ?? "editor";
+  const role = session?.user?.role ?? "admin";
 
   const quickActions: QuickActionV2[] = [
-    {
-      href: "/admin/articles/new",
-      label: "新建文章",
-      desc: "撰写新闻或行业文章",
-      iconName: "FileText",
-      visible: true,
-    },
     {
       href: "/admin/stores/new",
       label: "新建门店",
@@ -851,13 +703,6 @@ export async function getDashboardSummaryV2(session: Session | null): Promise<Da
       iconName: "ImageOff",
       visible: true,
     },
-    {
-      href: "/admin/articles?status=draft",
-      label: "查看草稿文章",
-      desc: "继续编辑未发布的文章",
-      iconName: "FileEdit",
-      visible: true,
-    },
   ];
 
   return {
@@ -865,9 +710,8 @@ export async function getDashboardSummaryV2(session: Session | null): Promise<Da
     todoSummary: extract(results[1]),
     kpi: extract(results[2]),
     storeSummary: extract(results[3]),
-    contentSummary: extract(results[4]),
-    interestSummary: extract(results[5]),
-    recentActivity: extract(results[6]),
+    interestSummary: extract(results[4]),
+    recentActivity: extract(results[5]),
     quickActions,
     fetchedAt: new Date().toISOString(),
   };

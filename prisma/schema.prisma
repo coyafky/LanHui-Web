@@ -8,7 +8,6 @@ datasource db {
 
 enum UserRole {
   admin
-  editor
 }
 
 enum UserStatus {
@@ -23,22 +22,14 @@ enum StoreStatus {
   terminated
 }
 
-enum ArticleStatus {
-  draft
-  published
-  withdrawn
-  archived
-}
-
 model User {
   id         String        @id @default(cuid())
   email      String        @unique
   username   String        @unique
   password   String
   name       String?
-  role       UserRole      @default(editor)
+  role       UserRole      @default(admin)
   status     UserStatus    @default(active)
-  articles   Article[]
   activities ActivityLog[]
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
@@ -120,31 +111,6 @@ model Store {
   @@index([status, provinceSlug])
   @@index([level])
   @@index([level, status])
-}
-
-model Article {
-  id            String        @id @default(cuid())
-  title         String
-  slug          String        @unique
-  excerpt       String?
-  content       String
-  featuredImage String?
-  authorId      String
-  author        User          @relation(fields: [authorId], references: [id], onDelete: Restrict)
-  status        ArticleStatus @default(draft)
-  category      String?
-  tags          String[]      @default([])
-  viewCount     Int           @default(0)
-  isSticky      Boolean       @default(false)
-  publishedAt   DateTime?
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-
-  @@index([status])
-  @@index([slug])
-  @@index([category])
-  @@index([publishedAt])
-  @@index([status, publishedAt])
 }
 
 model AnalyticsEvent {

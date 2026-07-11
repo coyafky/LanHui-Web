@@ -17,9 +17,6 @@ vi.mock("@/lib/logger", () => ({
 
 const mockStoreCount = vi.hoisted(() => vi.fn());
 const mockStoreFindMany = vi.hoisted(() => vi.fn());
-const mockArticleCount = vi.hoisted(() => vi.fn());
-const mockArticleGroupBy = vi.hoisted(() => vi.fn());
-const mockArticleFindMany = vi.hoisted(() => vi.fn());
 const mockAnalyticsCount = vi.hoisted(() => vi.fn());
 const mockAnalyticsFindMany = vi.hoisted(() => vi.fn());
 const mockAnalyticsGroupBy = vi.hoisted(() => vi.fn());
@@ -29,11 +26,6 @@ const mockActivityLogCreate = vi.hoisted(() => vi.fn());
 vi.mock("@/lib/prisma", () => ({
   prisma: {
     store: { count: mockStoreCount, findMany: mockStoreFindMany },
-    article: {
-      count: mockArticleCount,
-      groupBy: mockArticleGroupBy,
-      findMany: mockArticleFindMany,
-    },
     analyticsEvent: {
       count: mockAnalyticsCount,
       findMany: mockAnalyticsFindMany,
@@ -47,9 +39,6 @@ beforeEach(() => {
   vi.resetModules();
   mockStoreCount.mockReset();
   mockStoreFindMany.mockReset();
-  mockArticleCount.mockReset();
-  mockArticleGroupBy.mockReset();
-  mockArticleFindMany.mockReset();
   mockAnalyticsCount.mockReset();
   mockAnalyticsFindMany.mockReset();
   mockAnalyticsGroupBy.mockReset();
@@ -70,9 +59,8 @@ async function load() {
 // ============================================
 
 describe("getKpiSnapshot", () => {
-  it("成功：返回 4 个 KPI 数字", async () => {
+  it("成功：返回 3 个 KPI 数字", async () => {
     mockStoreCount.mockResolvedValueOnce(5);
-    mockArticleCount.mockResolvedValueOnce(10);
     mockAnalyticsCount.mockResolvedValueOnce(100);
     mockAnalyticsCount.mockResolvedValueOnce(3);
     const { getKpiSnapshot } = await load();
@@ -80,7 +68,6 @@ describe("getKpiSnapshot", () => {
     expect(r.ok).toBe(true);
     if (r.ok) {
       expect(r.data.activeStores).toBe(5);
-      expect(r.data.publishedArticles).toBe(10);
       expect(r.data.monthlyPageViews).toBe(100);
       expect(r.data.monthlyReservations).toBe(3);
     }
@@ -135,13 +122,8 @@ describe("logActivity", () => {
 describe("getDashboardSummary", () => {
   it("部分失败：单源失败时其他正常返回", async () => {
     mockStoreCount.mockResolvedValueOnce(3);
-    mockArticleCount.mockResolvedValueOnce(7);
     mockAnalyticsCount.mockResolvedValueOnce(50);
     mockAnalyticsCount.mockResolvedValueOnce(1);
-    mockArticleGroupBy.mockResolvedValueOnce([
-      { status: "published", category: "news", _count: { _all: 5 } },
-      { status: "draft", category: null, _count: { _all: 2 } },
-    ]);
     mockStoreFindMany.mockResolvedValueOnce([
       { provinceSlug: "gd", provinceLabel: "广东", isActive: true },
       { provinceSlug: "gd", provinceLabel: "广东", isActive: true },
@@ -152,7 +134,6 @@ describe("getDashboardSummary", () => {
     const { getDashboardSummary } = await load();
     const s = await getDashboardSummary();
     expect(s.kpi).not.toBeNull();
-    expect(s.contentHealth).not.toBeNull();
     expect(s.storeNetwork).not.toBeNull();
     expect(s.recentActivity).toBeNull();
     expect(s.fetchedAt).toBeDefined();
@@ -194,59 +175,40 @@ describe("getWelcomeV2", () => {
 
 describe("getTodoSummaryV2", () => {
   it("全部计数 > 0：所有 todo + P0 在 P1 之前 + consultation-channels 始终 disabled", async () => {
-    // getTodoSummaryV2 调用 5 次 prisma.count:
-    // 1. store.count where status=pending -> 3
-    // 2. store.count where status in [active,pending] AND imagePath=null -> 2
-    // 3. store.count where status=suspended -> 1
-    // 4. article.count where status=draft -> 4
-    // 5. article.count where status=withdrawn -> 1
     mockStoreCount.mockResolvedValueOnce(3);
     mockStoreCount.mockResolvedValueOnce(2);
     mockStoreCount.mockResolvedValueOnce(1);
-    mockArticleCount.mockResolvedValueOnce(4);
-    mockArticleCount.mockResolvedValueOnce(1);
 
     const { getTodoSummaryV2 } = await load();
     const r = await getTodoSummaryV2();
     expect(r.ok).toBe(true);
     if (r.ok) {
-      // 期望 6 项：pending-stores + missing-cover-stores + consultation-channels-missing
-      //                + suspended-stores + draft-articles + withdrawn-articles
-      expect(r.data.items.length).toBe(6);
-      expect(r.data.totalCount).toBe(6);
+      expect(r.data.items.length).toBe(4);
+      expect(r.data.totalCount).toBe(4);
 
       const ids = r.data.items.map((i) => i.id);
       expect(ids).toContain("pending-stores");
       expect(ids).toContain("missing-cover-stores");
       expect(ids).toContain("consultation-channels-missing");
       expect(ids).toContain("suspended-stores");
-      expect(ids).toContain("draft-articles");
-      expect(ids).toContain("withdrawn-articles");
 
-      // consultation-channels 必须始终存在且 disabled
       const cc = r.data.items.find((i) => i.id === "consultation-channels-missing");
       expect(cc).toBeDefined();
       expect(cc?.disabled).toBe(true);
       expect(cc?.severity).toBe("P0");
 
-      // P0 在 P1 之前：前 3 个都应该是 P0
       const firstThree = r.data.items.slice(0, 3);
       expect(firstThree.every((i) => i.severity === "P0")).toBe(true);
 
-      // 检查 count 字段
       const pending = r.data.items.find((i) => i.id === "pending-stores");
       expect(pending?.count).toBe(3);
-      const drafts = r.data.items.find((i) => i.id === "draft-articles");
-      expect(drafts?.count).toBe(4);
     }
   });
 
   it("全部计数 = 0：仅保留 consultation-channels, totalCount = 1", async () => {
-    mockStoreCount.mockResolvedValueOnce(0); // pending
-    mockStoreCount.mockResolvedValueOnce(0); // missing cover
-    mockStoreCount.mockResolvedValueOnce(0); // suspended
-    mockArticleCount.mockResolvedValueOnce(0); // draft
-    mockArticleCount.mockResolvedValueOnce(0); // withdrawn
+    mockStoreCount.mockResolvedValueOnce(0);
+    mockStoreCount.mockResolvedValueOnce(0);
+    mockStoreCount.mockResolvedValueOnce(0);
 
     const { getTodoSummaryV2 } = await load();
     const r = await getTodoSummaryV2();
@@ -275,14 +237,8 @@ describe("getTodoSummaryV2", () => {
 });
 
 describe("getKpiSnapshotV2", () => {
-  it("成功：返回 V2 shape, 含 monthlyContactIntent, 4 个字段都是 number", async () => {
-    // V2 使用 4 次 prisma 查询:
-    // 1. store.count (active + fallback)
-    // 2. article.count where status=published
-    // 3. analyticsEvent.count type=pageview
-    // 4. analyticsEvent.count type IN [reservation, form_submit]
+  it("成功：返回 V2 shape, 含 monthlyContactIntent, 3 个字段都是 number", async () => {
     mockStoreCount.mockResolvedValueOnce(7);
-    mockArticleCount.mockResolvedValueOnce(12);
     mockAnalyticsCount.mockResolvedValueOnce(500);
     mockAnalyticsCount.mockResolvedValueOnce(8);
 
@@ -291,10 +247,8 @@ describe("getKpiSnapshotV2", () => {
     expect(r.ok).toBe(true);
     if (r.ok) {
       expect(r.data.activeStores).toBe(7);
-      expect(r.data.publishedArticles).toBe(12);
       expect(r.data.monthlyPageViews).toBe(500);
       expect(r.data.monthlyContactIntent).toBe(8);
-      // 不应该有 V1 的 monthlyReservations 字段
       expect((r.data as Record<string, unknown>).monthlyReservations).toBeUndefined();
     }
   });
@@ -423,62 +377,6 @@ describe("getStoreSummary", () => {
     if (!r.ok) {
       expect(r.data).toBeNull();
       expect(r.error).toContain("store table missing");
-    }
-    mockLoggerWarn.mockClear();
-  });
-});
-
-describe("getContentSummaryV2", () => {
-  it("成功：byStatus 含 4 label + recent7dPublished + topCategories ≤ 5 + missingCover", async () => {
-    // getContentSummaryV2 调用顺序:
-    // 1. article.groupBy by status
-    // 2. article.count where status=published publishedAt >= 7d ago
-    // 3. article.groupBy by category
-    // 4. article.count where status=published featuredImage=null
-    mockArticleGroupBy.mockResolvedValueOnce([
-      { status: "draft", _count: { _all: 5 } },
-      { status: "published", _count: { _all: 12 } },
-      { status: "archived", _count: { _all: 3 } },
-      { status: "withdrawn", _count: { _all: 1 } },
-    ]);
-    mockArticleCount.mockResolvedValueOnce(4); // recent7dPublished
-    mockArticleGroupBy.mockResolvedValueOnce([
-      { category: "新闻", _count: { _all: 6 } },
-      { category: "技术", _count: { _all: 4 } },
-      { category: "案例", _count: { _all: 2 } },
-    ]);
-    mockArticleCount.mockResolvedValueOnce(2); // missingCover
-
-    const { getContentSummaryV2 } = await load();
-    const r = await getContentSummaryV2();
-    expect(r.ok).toBe(true);
-    if (r.ok) {
-      // byStatus 含 4 label
-      const labels = r.data.byStatus.map((s) => s.label);
-      expect(labels).toContain("草稿");
-      expect(labels).toContain("已发布");
-      expect(labels).toContain("已归档");
-      expect(labels).toContain("已撤回");
-
-      expect(r.data.recent7dPublished).toBe(4);
-
-      // topCategories ≤ 5（这里是 3 个）
-      expect(r.data.topCategories.length).toBeLessThanOrEqual(5);
-      expect(r.data.topCategories.length).toBe(3);
-
-      expect(r.data.missingCover).toBe(2);
-    }
-  });
-
-  it("失败：prisma throw → ok=false, data=null", async () => {
-    mockArticleGroupBy.mockRejectedValueOnce(new Error("article.groupBy failed"));
-    mockLoggerWarn.mockClear();
-    const { getContentSummaryV2 } = await load();
-    const r = await getContentSummaryV2();
-    expect(r.ok).toBe(false);
-    if (!r.ok) {
-      expect(r.data).toBeNull();
-      expect(r.error).toContain("article.groupBy failed");
     }
     mockLoggerWarn.mockClear();
   });
@@ -619,19 +517,14 @@ describe("getDashboardSummaryV2", () => {
     //   getInterestSummaryV2: 4 findMany + 2 groupBy (若 storeIds 为空则不再 store.findMany)
     //   getRecentActivity: 1 findMany
 
-    // getTodoSummaryV2 (5 counts, all 0 → 仅 consultation-channels)
+    // getTodoSummaryV2 (3 counts, all 0 → 仅 consultation-channels)
     mockStoreCount.mockResolvedValue(0);
-    mockArticleCount.mockResolvedValue(0);
 
-    // getKpiSnapshotV2 (4 counts)
+    // getKpiSnapshotV2 (3 counts)
     mockAnalyticsCount.mockResolvedValue(0);
 
     // getStoreSummary (1 findMany)
     mockStoreFindMany.mockResolvedValue([]);
-
-    // getContentSummaryV2 (groupBy + count + groupBy + count)
-    mockArticleGroupBy.mockResolvedValue([]);
-    mockArticleCount.mockResolvedValue(0);
 
     // getInterestSummaryV2
     mockAnalyticsFindMany.mockResolvedValue([]);
@@ -659,34 +552,30 @@ describe("getDashboardSummaryV2", () => {
     expect(summary.fetchedAt).toBeDefined();
   });
 
-  it("成功：role=editor → /admin/stores/new visible=false AND /admin/consultation-channels visible=false", async () => {
+  it("成功：role=admin → /admin/stores/new visible=true AND /admin/consultation-channels visible=true (disabled)", async () => {
     mockStoreCount.mockResolvedValue(0);
-    mockArticleCount.mockResolvedValue(0);
     mockAnalyticsCount.mockResolvedValue(0);
     mockStoreFindMany.mockResolvedValue([]);
-    mockArticleGroupBy.mockResolvedValue([]);
     mockAnalyticsFindMany.mockResolvedValue([]);
     mockAnalyticsGroupBy.mockResolvedValue([]);
     mockActivityLogFindMany.mockResolvedValue([]);
 
     const { getDashboardSummaryV2 } = await load();
     const session: Session = {
-      user: { id: "u-test-editor", name: "Editor", email: "editor@lanhui.com", role: "editor" },
+      user: { id: "u-test-admin", name: "Admin", email: "admin@lanhui.com", role: "admin" },
       expires: "2099-01-01",
     };
     const summary = await getDashboardSummaryV2(session);
 
     const storeNew = summary.quickActions.find((a) => a.href === "/admin/stores/new");
     expect(storeNew).toBeDefined();
-    expect(storeNew?.visible).toBe(false);
+    expect(storeNew?.visible).toBe(true);
 
     const cc = summary.quickActions.find((a) => a.href === "/admin/consultation-channels");
     expect(cc).toBeDefined();
-    expect(cc?.visible).toBe(false);
+    expect(cc?.visible).toBe(true);
+    expect(cc?.disabled).toBe(true);
 
-    // 其他项仍然 visible（新建文章、查看分析、查看待完善门店、查看草稿文章）
-    const articleNew = summary.quickActions.find((a) => a.href === "/admin/articles/new");
-    expect(articleNew?.visible).toBe(true);
     const analytics = summary.quickActions.find((a) => a.href === "/admin/analytics");
     expect(analytics?.visible).toBe(true);
   });
@@ -696,19 +585,13 @@ describe("getDashboardSummaryV2", () => {
     mockStoreCount.mockRejectedValueOnce(new Error("todo failed"));
     mockLoggerWarn.mockClear();
 
-    // 其他 6 个数据源都成功
-    // getKpiSnapshotV2 (4 counts)
+    // 其他 5 个数据源都成功
     mockStoreCount.mockResolvedValue(3);
-    mockArticleCount.mockResolvedValue(7);
     mockAnalyticsCount.mockResolvedValue(100);
     mockAnalyticsCount.mockResolvedValue(2);
 
     // getStoreSummary
     mockStoreFindMany.mockResolvedValue([]);
-
-    // getContentSummaryV2
-    mockArticleGroupBy.mockResolvedValue([]);
-    mockArticleCount.mockResolvedValue(0);
 
     // getInterestSummaryV2
     mockAnalyticsFindMany.mockResolvedValue([]);
@@ -728,7 +611,6 @@ describe("getDashboardSummaryV2", () => {
     expect(summary.welcome).not.toBeNull();
     expect(summary.kpi).not.toBeNull();
     expect(summary.storeSummary).not.toBeNull();
-    expect(summary.contentSummary).not.toBeNull();
     expect(summary.interestSummary).not.toBeNull();
     expect(summary.recentActivity).not.toBeNull();
     expect(summary.quickActions.length).toBeGreaterThan(0);

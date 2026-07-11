@@ -65,7 +65,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: "品牌历程", href: "/brand/history" },
     ],
   },
-  { label: "品牌资讯", href: "/news", matchPrefix: "/news" },
+
 ];
 
 export function Header() {

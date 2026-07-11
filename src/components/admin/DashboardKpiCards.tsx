@@ -1,4 +1,4 @@
-import { Store, FileText, Eye, Phone } from "lucide-react";
+import { Store, Eye, Phone } from "lucide-react";
 import type { DashboardKpiV2 } from "@/lib/admin-dashboard";
 
 interface Props {
@@ -12,7 +12,6 @@ const ITEMS: Array<{
   color: string;
 }> = [
   { key: "activeStores", label: "营业中门店", icon: Store, color: "text-orange-500" },
-  { key: "publishedArticles", label: "已发布文章", icon: FileText, color: "text-blue-400" },
   { key: "monthlyPageViews", label: "本月访问", icon: Eye, color: "text-emerald-400" },
   { key: "monthlyContactIntent", label: "本月咨询意向", icon: Phone, color: "text-purple-400" },
 ];

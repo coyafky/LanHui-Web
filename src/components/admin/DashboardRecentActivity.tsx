@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { Activity } from "lucide-react";
-import type { RecentActivity, RecentActivityItem } from "@/lib/admin-dashboard";
+import type { RecentActivity } from "@/lib/admin-dashboard";
 
 interface Props {
   data: RecentActivity | null;
-  role: "admin" | "editor" | undefined;
+  role: "admin" | undefined;
 }
 
 const ACTION_LABELS: Record<string, string> = {
@@ -45,10 +45,6 @@ function entityHref(entity: string, id: string): string | null {
   return null;
 }
 
-function isStoreCreateForEditor(item: RecentActivityItem): boolean {
-  return item.entity === "store" && item.action.endsWith(".create");
-}
-
 export function DashboardRecentActivity({ data, role }: Props) {
   if (!data) {
     return (
@@ -62,9 +58,7 @@ export function DashboardRecentActivity({ data, role }: Props) {
     );
   }
 
-  // T9 权限过滤：editor 角色隐藏 store.create 条目
-  const visibleItems =
-    role === "editor" ? data.items.filter((it) => !isStoreCreateForEditor(it)) : data.items;
+  const visibleItems = data.items;
 
   return (
     <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
@@ -73,7 +67,7 @@ export function DashboardRecentActivity({ data, role }: Props) {
           <Activity className="h-5 w-5 text-orange-500" />
           <h2 className="text-lg font-semibold text-zinc-100">最近操作</h2>
         </div>
-        <span className="text-xs text-zinc-500">当前角色：{role === "admin" ? "管理员" : "编辑"}</span>
+        <span className="text-xs text-zinc-500">当前角色：管理员</span>
       </div>
       {visibleItems.length === 0 ? (
         <p className="text-sm text-zinc-500">暂无操作记录</p>
