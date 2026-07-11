@@ -10,6 +10,27 @@ function createPrismaClient(): PrismaClient {
   return new PrismaClient({ adapter });
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+function getPrisma(): PrismaClient {
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = createPrismaClient();
+  }
+  return globalForPrisma.prisma;
+}
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+/**
+ * Lazy-init Prisma singleton via Proxy.
+ *
+ * createPrismaClient() is deferred until the first property access, so SSG/build
+ * that imports modules depending on `prisma` never creates the PG adapter unless a
+ * query actually executes.
+ */
+export const prisma: PrismaClient = new Proxy(Object.create(null), {
+  get(_target, prop: string | symbol) {
+    const client = getPrisma();
+    const value = Reflect.get(client, prop, client);
+    if (typeof value === "function") {
+      return value.bind(client);
+    }
+    return value;
+  },
+}) as PrismaClient;
