@@ -108,12 +108,11 @@ export async function getStores(params?: {
 
 export async function getStoreById(id: string): Promise<Store | null> {
   try {
-    const res = await fetch(`${API_BASE}/api/public/stores/${id}`, {
-      next: { revalidate: 86400 },
+    const store = await prisma.store.findFirst({
+      where: { OR: [{ id }, { slug: id }] },
     });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return mapApiStore(json.data);
+    if (!store) return null;
+    return mapApiStore(store);
   } catch {
     const { getStore } = await import("@/lib/store");
     return getStore(id) ?? null;
