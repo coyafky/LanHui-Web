@@ -12,7 +12,7 @@ import {
   zeekrProducts,
   type ZeekrModel,
 } from "@/lib/zeekr-products";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { safeJsonLd } from "@/lib/json-ld";
 
 const MODEL_SECTIONS: { key: ZeekrModel; id: string; label: string }[] = [
@@ -20,6 +20,7 @@ const MODEL_SECTIONS: { key: ZeekrModel; id: string; label: string }[] = [
   { key: "8X", id: "model-8x", label: "极氪 8X（6 款）" },
   { key: "009", id: "model-009", label: "极氪 009（1 款）" },
 ];
+
 
 export const metadata: Metadata = {
   title: `${zeekrTopicMeta.title} | 9X / 8X / 009 改装配件 | 蓝辉轻改 LANHUI`,
