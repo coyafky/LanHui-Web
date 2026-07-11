@@ -6,14 +6,38 @@ datasource db {
   provider = "postgresql"
 }
 
+enum UserRole {
+  admin
+  editor
+}
+
+enum UserStatus {
+  active
+  disabled
+}
+
+enum StoreStatus {
+  pending
+  active
+  suspended
+  terminated
+}
+
+enum ArticleStatus {
+  draft
+  published
+  withdrawn
+  archived
+}
+
 model User {
   id         String        @id @default(cuid())
   email      String        @unique
   username   String        @unique
   password   String
   name       String?
-  role       String        @default("editor")
-  status     String        @default("active")
+  role       UserRole      @default(editor)
+  status     UserStatus    @default(active)
   articles   Article[]
   activities ActivityLog[]
   createdAt  DateTime      @default(now())
@@ -78,7 +102,7 @@ model Store {
   description     String?
   imageUrl        String?
   imagePath       String?
-  status          String           @default("pending")
+  status          StoreStatus      @default(pending)
   statusReason    String?
   statusChangedAt DateTime?
   statusChangedBy String?
@@ -99,22 +123,22 @@ model Store {
 }
 
 model Article {
-  id            String    @id @default(cuid())
+  id            String        @id @default(cuid())
   title         String
-  slug          String    @unique
+  slug          String        @unique
   excerpt       String?
   content       String
   featuredImage String?
   authorId      String
-  author        User      @relation(fields: [authorId], references: [id], onDelete: Restrict)
-  status        String    @default("draft")
+  author        User          @relation(fields: [authorId], references: [id], onDelete: Restrict)
+  status        ArticleStatus @default(draft)
   category      String?
-  tags          String[]  @default([])
-  viewCount     Int       @default(0)
-  isSticky      Boolean   @default(false)
+  tags          String[]      @default([])
+  viewCount     Int           @default(0)
+  isSticky      Boolean       @default(false)
   publishedAt   DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
 
   @@index([status])
   @@index([slug])
