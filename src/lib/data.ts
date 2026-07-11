@@ -117,7 +117,7 @@ export async function getStores(params?: {
       levels.forEach((l) => searchParams.append("level", l));
     }
 
-    const res = await fetch(`${API_BASE}/api/stores?${searchParams}`, {
+    const res = await fetch(`${API_BASE}/api/public/stores?${searchParams}`, {
       next: { revalidate: 3600 },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -151,7 +151,7 @@ export async function getStores(params?: {
 
 export async function getStoreById(id: string): Promise<Store | null> {
   try {
-    const res = await fetch(`${API_BASE}/api/stores/${id}`, {
+    const res = await fetch(`${API_BASE}/api/public/stores/${id}`, {
       next: { revalidate: 86400 },
     });
     if (!res.ok) return null;
@@ -237,7 +237,7 @@ export async function getArticles(params?: {
     searchParams.set("page", String(page));
     searchParams.set("limit", String(limit));
 
-    const res = await fetch(`${API_BASE}/api/articles?${searchParams}`, {
+    const res = await fetch(`${API_BASE}/api/public/articles?${searchParams}`, {
       next: { revalidate: 3600 },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -272,7 +272,7 @@ export async function getArticleBySlug(
   slug: string,
 ): Promise<NewsItem | null> {
   try {
-    const res = await fetch(`${API_BASE}/api/articles/${slug}`, {
+    const res = await fetch(`${API_BASE}/api/public/articles/${slug}`, {
       next: { revalidate: 3600 },
     });
     if (!res.ok) return null;
