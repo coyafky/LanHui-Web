@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { ArticleCreateSchema } from "@/lib/validations/article";
@@ -180,6 +181,11 @@ export async function POST(request: NextRequest) {
       entityId: article.id,
       metadata: { title: article.title, slug: article.slug },
     });
+
+    revalidatePath("/news");
+    revalidatePath("/admin/articles");
+    revalidatePath(`/news/${article.slug}`);
+    revalidatePath(`/admin/articles/${article.id}`);
 
     const ctx = getRequestContext(request, "/api/articles");
     logger.info({

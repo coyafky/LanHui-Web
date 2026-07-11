@@ -8,6 +8,7 @@
  */
 
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
@@ -167,6 +168,17 @@ export async function POST(request: NextRequest) {
         where: { id: entityId },
         data: { imagePath: rel },
       });
+      revalidatePath("/agent");
+      revalidatePath(`/agent/store/${entityId}`);
+      revalidatePath("/admin/stores");
+      revalidatePath(`/admin/stores/${entityId}`);
+    }
+
+    if (entity === "article") {
+      revalidatePath("/news");
+      revalidatePath(`/news/${entityId}`);
+      revalidatePath("/admin/articles");
+      revalidatePath(`/admin/articles/${entityId}`);
     }
 
     const postCtx = getRequestContext(request, "/api/upload");
@@ -260,6 +272,11 @@ export async function DELETE(request: NextRequest) {
       where: { id: store.id },
       data: { imagePath: null },
     });
+
+    revalidatePath("/agent");
+    revalidatePath(`/agent/store/${entityId}`);
+    revalidatePath("/admin/stores");
+    revalidatePath(`/admin/stores/${entityId}`);
 
     const delCtx = getRequestContext(request, "/api/upload");
     logger.info({

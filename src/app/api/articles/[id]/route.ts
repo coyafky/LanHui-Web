@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { ArticleUpdateSchema } from "@/lib/validations/article";
@@ -150,6 +151,11 @@ export async function PUT(
       metadata: { title: article.title, slug: article.slug, status: article.status },
     });
 
+    revalidatePath("/news");
+    revalidatePath("/admin/articles");
+    revalidatePath(`/news/${article.slug}`);
+    revalidatePath(`/admin/articles/${id}`);
+
     const putCtx = getRequestContext(request, "/api/articles/[id]");
     logger.info({
       event: "api.request.completed",
@@ -228,6 +234,11 @@ export async function DELETE(
       entityId: id,
       metadata: { title: existing.title, slug: existing.slug },
     });
+
+    revalidatePath("/news");
+    revalidatePath("/admin/articles");
+    revalidatePath(`/news/${existing.slug}`);
+    revalidatePath(`/admin/articles/${id}`);
 
     const delCtx = getRequestContext(request, "/api/articles/[id]");
     logger.info({

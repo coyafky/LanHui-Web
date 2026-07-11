@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { logActivity } from "@/lib/admin-dashboard";
@@ -212,6 +213,11 @@ export async function POST(
         statusReason,
       },
     });
+
+    revalidatePath("/agent");
+    revalidatePath(`/agent/store/${id}`);
+    revalidatePath("/admin/stores");
+    revalidatePath(`/admin/stores/${id}`);
 
     const actionCtx = getRequestContext(request, "/api/stores/[id]/[action]");
     logger.info({

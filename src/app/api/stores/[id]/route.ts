@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import {
@@ -195,6 +196,11 @@ export async function PUT(
       },
     });
 
+    revalidatePath("/agent");
+    revalidatePath(`/agent/store/${id}`);
+    revalidatePath("/admin/stores");
+    revalidatePath(`/admin/stores/${id}`);
+
     const putCtx = getRequestContext(request, "/api/stores/[id]");
     logger.info({
       event: "api.request.completed",
@@ -324,6 +330,9 @@ export async function DELETE(
         status: "suspended",
       },
     });
+
+    revalidatePath("/agent");
+    revalidatePath("/admin/stores");
 
     const delCtx = getRequestContext(_request, "/api/stores/[id]");
     logger.info({

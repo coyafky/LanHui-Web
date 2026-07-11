@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
@@ -258,6 +259,12 @@ export async function POST(request: NextRequest) {
       entityId: store.id,
       metadata: { name: store.name, slug: store.slug },
     });
+
+    revalidatePath("/agent");
+    revalidatePath(`/agent/store/${store.id}`);
+    revalidatePath(`/agent/${store.provinceSlug}`);
+    revalidatePath("/admin/stores");
+    revalidatePath(`/admin/stores/${store.id}`);
 
     const ctx = getRequestContext(request, "/api/stores");
     logger.info({
