@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
 type LiAutoI6TopicViewTrackProps = {
   topicKey: string;
   brandSlug: string;
@@ -10,33 +8,9 @@ type LiAutoI6TopicViewTrackProps = {
 };
 
 /**
- * 理想 i6 专题页埋点（PRD §14）
- * 进入页面时触发 topic_view 事件。
+ * 理想 i6 专题页埋点（静态站点 - 无服务端 API，仅保留组件占位）。
+ * 进入页面时触发 topic_view 事件（由客户端 AnalyticsProvider 统一处理）。
  */
-export function LiAutoI6TopicViewTrack({
-  topicKey,
-  brandSlug,
-  modelSlug,
-  projectCount,
-}: LiAutoI6TopicViewTrackProps) {
-  const tracked = useRef(false);
-
-  useEffect(() => {
-    if (tracked.current) return;
-    tracked.current = true;
-
-    // 服务端埋点：/api/analytics/track
-    fetch("/api/analytics/track", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        type: "product_topic_view",
-        payload: { topic: topicKey, brandSlug, modelSlug, projectCount },
-      }),
-    }).catch(() => {
-      // 静默失败，不阻塞页面
-    });
-  }, [topicKey, brandSlug, modelSlug, projectCount]);
-
+export function LiAutoI6TopicViewTrack(_props: LiAutoI6TopicViewTrackProps) {
   return null;
 }
