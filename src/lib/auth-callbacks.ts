@@ -31,6 +31,7 @@ async function migrateStaleToken(token: Record<string, unknown>): Promise<void> 
   if (dbUser) {
     token.id = dbUser.id;
     token.role = dbUser.role;
+    token.lastDbCheck = Date.now();
   }
 }
 

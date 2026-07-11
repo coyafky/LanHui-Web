@@ -27,7 +27,9 @@ vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
 vi.mock("@/lib/security/csrf", () => ({ requireCsrf: () => ({ ok: true }) }));
 vi.mock("@/lib/security/rate-limit", () => ({ rateLimiter: { check: () => ({ ok: true, remaining: 59, limit: 60, resetAt: Date.now() + 60_000 }) } }));
 
+const mockRevalidatePath = vi.hoisted(() => vi.fn());
 const mockLoggerError = vi.hoisted(() => vi.fn());
+vi.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));
 vi.mock("@/lib/logger", () => ({
   logger: { debug: vi.fn(), info: vi.fn(), warn: vi.fn(), error: mockLoggerError },
 }));
@@ -72,6 +74,7 @@ beforeEach(() => {
   mockProvinceFindUnique.mockReset();
   mockCityFindUnique.mockReset();
   mockLogActivity.mockReset();
+  mockRevalidatePath.mockReset();
   mockStoreFindMany.mockResolvedValue([]);
   mockStoreFindFirst.mockResolvedValue(null); // 默认无旗舰店冲突
   mockStoreCount.mockResolvedValue(0);
@@ -629,16 +632,15 @@ describe("GET /api/stores — 排序服务端落地（T2）", () => {
     expect(orderBy).toEqual([{ level: "desc" }, { createdAt: "desc" }]);
   });
 
-  it("?sort=public_featured → 旗舰优先 → 有图优先 → 创建时间倒序", async () => {
+  it("?sort=public_featured → 有图优先 → 创建时间正序", async () => {
     mockStoreFindMany.mockResolvedValue([]);
     mockStoreCount.mockResolvedValue(0);
     const GET = await loadGet();
     await GET(buildGetReq("sort=public_featured") as unknown as Parameters<typeof GET>[0]);
     const orderBy = mockStoreFindMany.mock.calls[0]?.[0]?.orderBy;
     expect(orderBy).toEqual([
-      { level: "asc" },
       { imagePath: { sort: "asc", nulls: "last" } },
-      { createdAt: "desc" },
+      { createdAt: "asc" },
     ]);
   });
 

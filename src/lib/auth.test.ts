@@ -23,7 +23,7 @@ describe("auth — jwt callback", () => {
   });
 
   it("leaves token untouched when user is undefined (subsequent requests)", async () => {
-    const token: Record<string, unknown> = { id: "existing", role: "editor" };
+    const token: Record<string, unknown> = { id: "existing", role: "editor", lastDbCheck: Date.now() };
     const result = await jwtCallback({ token });
     expect(result.id).toBe("existing");
     expect(result.role).toBe("editor");
@@ -88,9 +88,9 @@ describe("jwt callback — stale token migration", () => {
     });
   });
 
-  it("does not query DB when token already has id (no migration needed)", async () => {
+  it("does not query DB when token already has id and lastDbCheck is recent", async () => {
     const result = await jwtCallback({
-      token: { id: "user-1", email: "x@x.com", role: "admin" },
+      token: { id: "user-1", email: "x@x.com", role: "admin", lastDbCheck: Date.now() },
       user: undefined,
     });
 
@@ -107,6 +107,52 @@ describe("jwt callback — stale token migration", () => {
     });
 
     expect(result.id).toBeUndefined();
+  });
+
+  it("re-verifies user from DB when lastDbCheck is stale", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+      status: "active",
+      role: "admin",
+    } as never);
+
+    const result = await jwtCallback({
+      token: { id: "user-1", email: "x@x.com", role: "editor" },
+      user: undefined,
+    });
+
+    expect(result.id).toBe("user-1");
+    expect(result.role).toBe("admin");
+    expect(prisma.user.findUnique).toHaveBeenCalledWith({
+      where: { id: "user-1" },
+      select: { status: true, role: true },
+    });
+  });
+
+  it("invalidates token when DB re-check finds user is disabled", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValueOnce({
+      status: "disabled",
+      role: "admin",
+    } as never);
+
+    const result = await jwtCallback({
+      token: { id: "user-1", role: "admin" },
+      user: undefined,
+    });
+
+    expect(result.id).toBeUndefined();
+    expect(result.role).toBeUndefined();
+  });
+
+  it("invalidates token when DB re-check finds user no longer exists", async () => {
+    vi.mocked(prisma.user.findUnique).mockResolvedValueOnce(null);
+
+    const result = await jwtCallback({
+      token: { id: "user-1", role: "editor" },
+      user: undefined,
+    });
+
+    expect(result.id).toBeUndefined();
+    expect(result.role).toBeUndefined();
   });
 
   it("falls back to sub lookup when email is absent", async () => {

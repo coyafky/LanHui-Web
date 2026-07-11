@@ -18,6 +18,7 @@ vi.mock("@/lib/prisma", () => ({
 vi.mock("@/lib/admin-dashboard", () => ({ logActivity: mockLogActivity }));
 vi.mock("@/lib/security/csrf", () => ({ requireCsrf: () => ({ ok: true }) }));
 vi.mock("@/lib/security/rate-limit", () => ({ rateLimiter: { check: () => ({ ok: true, remaining: 59, limit: 60, resetAt: Date.now() + 60_000 }) } }));
+vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 
 const PENDING_STORE = {
   id: "store_pending",
