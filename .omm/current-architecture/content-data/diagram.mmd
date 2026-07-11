@@ -1,0 +1,17 @@
+graph TD
+    current-blog["博客链路\narticles + news pages"]
+    current-images["图片链路\n/api/upload + public/images"]
+    current-stores["门店链路\nstores API + agent pages"]
+    self-api["自身 HTTP API\nNEXT_PUBLIC_API_BASE_URL"]
+    prisma["Prisma 数据访问\nsrc/lib/prisma.ts"]
+    mock-data["静态回退\nstore.ts + news.ts"]
+    current-blog -->|"公开 RSC 读取"| self-api
+    current-stores -->|"公开 RSC 读取"| self-api
+    self-api -->|"Route Handler 查询"| prisma
+    current-images -->|"更新 imagePath 并写本地文件"| prisma
+    current-blog -->|"请求失败时回退"| mock-data
+    current-stores -->|"请求失败时回退"| mock-data
+    classDef concern fill:#f38ba8,stroke:#f38ba8,color:#1e1e2e
+    classDef store fill:#a6e3a1,stroke:#a6e3a1,color:#1e1e2e
+    class current-blog,current-images,current-stores,self-api,mock-data concern
+    class prisma store

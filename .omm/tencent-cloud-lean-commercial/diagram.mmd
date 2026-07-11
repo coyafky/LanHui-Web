@@ -1,0 +1,9 @@
+flowchart LR
+  visitor["访客与管理员"] -->|HTTPS| edge["域名 / TLS / CVM Nginx"]
+  edge -->|反向代理| runtime["Next.js Docker 蓝绿运行槽"]
+  runtime -->|业务读写| db[("TencentDB for PostgreSQL")]
+  runtime -->|媒体上传| media["COS 私有源站 + CDN"]
+  media -->|图片加速| visitor
+  delivery["GitHub Actions + 镜像仓库"] -->|不可变镜像发布| runtime
+  ops["监控 / 日志 / 备份"] -->|探测与告警| edge
+  ops -->|恢复保障| db

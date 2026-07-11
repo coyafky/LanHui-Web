@@ -1,0 +1,47 @@
+created: 2026-07-11T06:19:30.287Z
+updated: 2026-07-11T06:22:09.759Z
+update_count: 8
+last_field: diagram
+git_commit: "5280714"
+git_branch: main
+children:
+  - app-cluster
+  - cicd
+  - clb
+  - content-platform
+  - cos-cdn
+  - data-services
+  - edge
+  - media-platform
+  - observability
+  - postgres-ha
+  - redis
+  - users
+prev_diagram: |
+  graph LR
+      users["网站访客与运营人员\nInternet"]
+      edge["域名与边缘安全\nDNS + CDN + 可选 WAF"]
+      clb["HTTPS 入口\n腾讯云 CLB"]
+      app-cluster["Next.js 应用集群\n2+ CVM 跨可用区"]
+      content-platform["内容平台\n博客 + 图片 + 门店"]
+      postgres-ha["托管 PostgreSQL\n双机高可用"]
+      redis["共享状态\n腾讯云 Redis"]
+      cos-cdn["媒体存储与分发\n私有 COS + CDN"]
+      observability["可观测性\nCLS + 云监控 + Sentry"]
+      cicd["不可变交付\nGitHub Actions + TCR"]
+      users -->|"HTTPS 页面与后台请求"| edge
+      edge -->|"动态页面、API 回源"| clb
+      users -->|"图片域名就近访问"| cos-cdn
+      clb -->|"健康检查后分流"| app-cluster
+      app-cluster -->|"调用领域服务"| content-platform
+      content-platform -->|"事务数据与内容元数据"| postgres-ha
+      content-platform -->|"缓存、限流与多实例协调"| redis
+      content-platform -->|"上传原图与派生图"| cos-cdn
+      app-cluster -->|"结构化日志、指标与异常"| observability
+      cicd -->|"拉取签名镜像并滚动发布"| app-cluster
+      classDef entry fill:#89b4fa,stroke:#89b4fa,color:#1e1e2e
+      classDef store fill:#a6e3a1,stroke:#a6e3a1,color:#1e1e2e
+      classDef external fill:#585b70,stroke:#585b70,color:#cdd6f4
+      class users,edge,clb entry
+      class postgres-ha,redis,cos-cdn store
+      class observability,cicd external

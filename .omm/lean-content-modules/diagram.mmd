@@ -1,0 +1,7 @@
+flowchart TB
+  admin["Admin CMS"] -->|校验后发布| article["博客模块 / PostgreSQL"]
+  admin -->|校验与转码| image["图片模块 / COS"]
+  admin -->|结构化维护| store["门店模块 / PostgreSQL"]
+  article -->|RSC 直读 + 缓存标签| public["官网公开页面"]
+  store -->|RSC 直读 + 路径失效| public
+  image -->|CDN URL| public

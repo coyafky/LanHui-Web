@@ -1,0 +1,22 @@
+graph TD
+    audit-security["统一写入网关\nAuth + CSRF + Origin + Audit"]
+    blog-pipeline["博客发布链路\nPostgreSQL + RSC + SEO"]
+    image-pipeline["图片处理链路\nCOS + 数据万象 + CDN"]
+    store-pipeline["门店发布链路\nPostgreSQL + 地域索引"]
+    repository["Server-only Repository\nPrisma + Zod"]
+    invalidation["跨实例失效\nNext Tags + Redis"]
+    audit-security -->|"发布、撤回与删除文章"| blog-pipeline
+    audit-security -->|"签发受限上传并确认对象"| image-pipeline
+    audit-security -->|"创建、审核与变更状态"| store-pipeline
+    blog-pipeline -->|"共享事务访问层"| repository
+    image-pipeline -->|"绑定媒体元数据"| repository
+    store-pipeline -->|"共享事务访问层"| repository
+    blog-pipeline -->|"文章 tag 与 slug 失效"| invalidation
+    image-pipeline -->|"对象版本与媒体 tag 失效"| invalidation
+    store-pipeline -->|"门店、地域与 sitemap 失效"| invalidation
+    classDef entry fill:#89b4fa,stroke:#89b4fa,color:#1e1e2e
+    classDef store fill:#a6e3a1,stroke:#a6e3a1,color:#1e1e2e
+    classDef concern fill:#f38ba8,stroke:#f38ba8,color:#1e1e2e
+    class blog-pipeline,image-pipeline,store-pipeline entry
+    class repository store
+    class invalidation,audit-security concern

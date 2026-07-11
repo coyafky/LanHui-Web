@@ -1,0 +1,22 @@
+graph LR
+    users["用户与管理员\nBrowser"]
+    next-app["Next.js 单体应用\nsrc/app/"]
+    content-data["内容数据层\nsrc/lib/data.ts"]
+    postgres["本地 PostgreSQL\nDocker :5433"]
+    local-files["容器本地图片\npublic/images/"]
+    static-fallback["静态 Mock 回退\nsrc/lib/store.ts + news.ts"]
+    observability["日志与错误监控\nPino + Sentry"]
+    users -->|"HTTP 页面、API 与后台操作"| next-app
+    next-app -->|"RSC 回环请求自身 API"| content-data
+    content-data -->|"Prisma 查询与写入"| postgres
+    next-app -->|"Sharp 转码后写文件"| local-files
+    content-data -->|"API 或数据库失败时静默降级"| static-fallback
+    next-app -->|"错误与请求日志"| observability
+    classDef entry fill:#89b4fa,stroke:#89b4fa,color:#1e1e2e
+    classDef store fill:#a6e3a1,stroke:#a6e3a1,color:#1e1e2e
+    classDef concern fill:#f38ba8,stroke:#f38ba8,color:#1e1e2e
+    classDef external fill:#585b70,stroke:#585b70,color:#cdd6f4
+    class users entry
+    class postgres,local-files store
+    class content-data,static-fallback concern
+    class observability external

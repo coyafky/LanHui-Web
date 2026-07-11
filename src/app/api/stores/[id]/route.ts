@@ -201,9 +201,9 @@ export async function PUT(
     });
 
     revalidatePath("/agent");
-    revalidatePath(`/agent/store/${id}`);
+    revalidatePath(`/agent/store/${existing.id}`);
     revalidatePath("/admin/stores");
-    revalidatePath(`/admin/stores/${id}`);
+    revalidatePath(`/admin/stores/${existing.id}`);
 
     const putCtx = getRequestContext(request, "/api/stores/[id]");
     logger.info({

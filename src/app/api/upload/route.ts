@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get("file");
     const entity = formData.get("entity");
-    const entityId = formData.get("entityId");
+    let entityId = formData.get("entityId");
 
     if (!(file instanceof File) || typeof entity !== "string" || typeof entityId !== "string") {
       return Response.json(
@@ -120,16 +120,22 @@ export async function POST(request: NextRequest) {
           { status: 404 }
         );
       }
+      entityId = store.id;
     }
 
+    let articleSlug: string | undefined;
     if (entity === "article") {
-      const article = await prisma.article.findUnique({ where: { id: entityId } });
+      const article = await prisma.article.findUnique({
+        where: { id: entityId },
+        select: { id: true, slug: true },
+      });
       if (!article) {
         return Response.json(
           { success: false, error: "文章不存在" },
           { status: 404 }
         );
       }
+      articleSlug = article.slug;
     }
 
     // ── Buffer + sharp 元数据二次验证 ──
@@ -190,7 +196,7 @@ export async function POST(request: NextRequest) {
         data: { featuredImage: rel },
       });
       revalidatePath("/news");
-      revalidatePath(`/news/${entityId}`);
+      revalidatePath(`/news/${articleSlug}`);
       revalidatePath("/admin/articles");
       revalidatePath(`/admin/articles/${entityId}`);
     }
@@ -287,9 +293,9 @@ export async function DELETE(request: NextRequest) {
       });
 
       revalidatePath("/agent");
-      revalidatePath(`/agent/store/${entityId}`);
+      revalidatePath(`/agent/store/${store.id}`);
       revalidatePath("/admin/stores");
-      revalidatePath(`/admin/stores/${entityId}`);
+      revalidatePath(`/admin/stores/${store.id}`);
     }
 
     if (entity === "article") {
@@ -321,7 +327,7 @@ export async function DELETE(request: NextRequest) {
       revalidatePath("/news");
       revalidatePath(`/news/${article.slug}`);
       revalidatePath("/admin/articles");
-      revalidatePath(`/admin/articles/${entityId}`);
+      revalidatePath(`/admin/articles/${article.id}`);
     }
 
     const delCtx = getRequestContext(request, "/api/upload");

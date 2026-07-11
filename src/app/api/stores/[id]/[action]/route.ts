@@ -219,9 +219,9 @@ export async function POST(
     });
 
     revalidatePath("/agent");
-    revalidatePath(`/agent/store/${id}`);
+    revalidatePath(`/agent/store/${existing.id}`);
     revalidatePath("/admin/stores");
-    revalidatePath(`/admin/stores/${id}`);
+    revalidatePath(`/admin/stores/${existing.id}`);
 
     const actionCtx = getRequestContext(request, "/api/stores/[id]/[action]");
     logger.info({

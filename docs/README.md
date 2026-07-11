@@ -2,7 +2,7 @@
 
 > `docs/` 是项目需求、规格、计划、验证、研究和每日执行记录的主目录。所有非临时研发结论都应能在这里找到入口。
 >
-> 最后更新: 2026-06-26
+> 最后更新: 2026-07-11
 
 ---
 
@@ -120,6 +120,7 @@ PRD 批准后进入 SPEC。SPEC 不重复产品愿景，重点写实现合约。
 | `docs/daily/` | 每日索引、会话总结、当天产出清单 |
 | `docs/research/` | 技术研究、概念解释、外部或 qoder 内容摘取后的本项目化总结 |
 | `docs/database/` | 数据库说明、迁移设计、数据运维材料 |
+| `docs/deployment/` | 生产部署架构、内容发布、回滚和迁移操作；静态方案入口见 [`static-nextjs/`](./deployment/static-nextjs/README.md) |
 | `docs/AI_DELIVERY_LOOP.md` | Crowd / Codex / Claude 从想法到 PRD、代码、测试、交付和复盘的循环 |
 
 ---

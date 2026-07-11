@@ -1,0 +1,20 @@
+graph LR
+    edge["公网入口与流量治理\nDNS + CDN/WAF + HTTPS CLB"]
+    app-cluster["无状态 Next.js 集群\n2+ CVM 跨可用区"]
+    content-platform["内容平台\n博客 + 图片 + 门店"]
+    data-services["托管数据服务\nPostgreSQL HA + Redis"]
+    media-platform["媒体平台\n私有 COS + 数据万象 + CDN"]
+    observability["可观测性\nCLS + 云监控 + Sentry"]
+    cicd["不可变交付\nGitHub Actions + TCR"]
+    edge -->|"健康检查后转发动态请求"| app-cluster
+    app-cluster -->|"调用领域服务"| content-platform
+    content-platform -->|"事务数据、缓存与限流"| data-services
+    content-platform -->|"上传、派生与分发媒体"| media-platform
+    app-cluster -->|"日志、指标与异常"| observability
+    cicd -->|"拉取版本镜像并滚动发布"| app-cluster
+    classDef entry fill:#89b4fa,stroke:#89b4fa,color:#1e1e2e
+    classDef store fill:#a6e3a1,stroke:#a6e3a1,color:#1e1e2e
+    classDef external fill:#585b70,stroke:#585b70,color:#cdd6f4
+    class edge entry
+    class data-services,media-platform store
+    class observability,cicd external

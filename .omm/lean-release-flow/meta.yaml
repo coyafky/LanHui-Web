@@ -1,0 +1,28 @@
+created: 2026-07-11T06:31:02.968Z
+updated: 2026-07-11T06:35:09.222Z
+update_count: 4
+last_field: diagram
+git_commit: "5280714"
+git_branch: main
+children:
+  - artifact
+  - build
+  - candidate
+  - commit
+  - migrate
+  - retire
+  - rollback
+  - sources
+  - switch
+  - tags
+  - verify
+prev_diagram: |-
+  flowchart LR
+    commit["合并到主分支"] -->|质量门通过| build["构建并推送 SHA 镜像"]
+    build -->|向后兼容迁移| migrate["运行 Prisma migrate deploy"]
+    migrate -->|启动空闲槽| candidate["新版本候选容器"]
+    candidate -->|健康检查与冒烟| verify["发布验证"]
+    verify -->|验证成功| switch["Nginx 原子切流并 reload"]
+    switch -->|观察窗口结束| retire["保留旧槽后停止"]
+    verify -->|验证失败| rollback["停止候选 / 保持旧槽"]
+    switch -->|线上异常则切回旧槽| rollback

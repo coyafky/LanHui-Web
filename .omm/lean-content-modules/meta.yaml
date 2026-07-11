@@ -1,0 +1,14 @@
+created: 2026-07-11T06:31:23.571Z
+updated: 2026-07-11T06:31:24.429Z
+update_count: 2
+last_field: description
+git_commit: "5280714"
+git_branch: main
+children:
+  - admin
+  - article
+  - image
+  - public
+  - sources
+  - store
+  - tags
