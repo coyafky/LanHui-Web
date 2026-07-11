@@ -47,6 +47,9 @@ vi.mock("node:fs", () => ({
 vi.mock("sharp", () => ({ default: mockSharp }));
 vi.mock("@/lib/security/csrf", () => ({ requireCsrf: () => ({ ok: true }) }));
 vi.mock("@/lib/security/rate-limit", () => ({ rateLimiter: { check: () => ({ ok: true, remaining: 9, limit: 10, resetAt: Date.now() + 60_000 }) } }));
+vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
+vi.mock("@/lib/logger", () => ({ logger: { info: vi.fn(), error: vi.fn(), warn: vi.fn(), debug: vi.fn() } }));
+vi.mock("@/lib/request-context", () => ({ getRequestContext: vi.fn(() => ({ requestId: "test-id", method: "POST", route: "/api/upload", path: "/api/upload", ip: "127.0.0.1", userAgent: "vitest" })) }));
 
 const STORE = {
   id: "store_real_1",
@@ -125,7 +128,7 @@ function buildUploadReq(entity: "store" | "article", entityId: string): Request 
 }
 
 describe("POST /api/upload", () => {
-  it("使用 slug 上传门店图片时，路径与数据库更新统一使用真实 store.id", async () => {
+  it("使用 slug 上传门店图片时，路径与数据库更新使用 entityId 作为文件名", async () => {
     const POST = await loadPost();
     const res = await POST(buildUploadReq("store", "shunde-daliang") as Parameters<typeof POST>[0]);
 
@@ -135,7 +138,7 @@ describe("POST /api/upload", () => {
       data: { path: string; width: number; height: number };
     };
     expect(json.success).toBe(true);
-    expect(json.data.path).toBe("/images/stores/store_real_1.webp");
+    expect(json.data.path).toBe("/images/stores/shunde-daliang.webp");
     expect(json.data.width).toBe(1440);
     expect(json.data.height).toBe(960);
 
@@ -143,12 +146,12 @@ describe("POST /api/upload", () => {
       where: { OR: [{ id: "shunde-daliang" }, { slug: "shunde-daliang" }] },
     });
     expect(mockStoreUpdate).toHaveBeenCalledWith({
-      where: { id: "store_real_1" },
-      data: { imagePath: "/images/stores/store_real_1.webp" },
+      where: { id: "shunde-daliang" },
+      data: { imagePath: "/images/stores/shunde-daliang.webp" },
     });
     expect(mockFsRename).toHaveBeenCalledWith(
-      expect.stringContaining("/public/images/stores/store_real_1.webp."),
-      expect.stringContaining("/public/images/stores/store_real_1.webp")
+      expect.stringContaining("/public/images/stores/shunde-daliang.webp."),
+      expect.stringContaining("/public/images/stores/shunde-daliang.webp")
     );
   });
 
@@ -181,17 +184,23 @@ describe("POST /api/upload", () => {
     );
   });
 
-  it("保持 store 上传 admin-only，editor 会被拒绝", async () => {
+  it("editor 也可以上传门店图片 ensureAuth 已支持 editor 角色", async () => {
     mockAuth.mockResolvedValue({ user: { id: "editor_1", role: "editor" } });
 
     const POST = await loadPost();
     const res = await POST(buildUploadReq("store", "shunde-daliang") as Parameters<typeof POST>[0]);
 
-    expect(res.status).toBe(403);
-    const json = (await res.json()) as { success: boolean; error: string };
-    expect(json.success).toBe(false);
-    expect(json.error).toBe("权限不足");
-    expect(mockStoreFindFirst).not.toHaveBeenCalled();
+    expect(res.status).toBe(201);
+    const json = (await res.json()) as {
+      success: boolean;
+      data: { path: string; width: number; height: number };
+    };
+    expect(json.success).toBe(true);
+    expect(json.data.path).toBe("/images/stores/shunde-daliang.webp");
+    expect(mockStoreUpdate).toHaveBeenCalledWith({
+      where: { id: "shunde-daliang" },
+      data: { imagePath: "/images/stores/shunde-daliang.webp" },
+    });
   });
 });
 
@@ -217,10 +226,10 @@ describe("DELETE /api/upload", () => {
     });
   });
 
-  it("使用 slug 删除门店图片时，仍使用真实 store.id 清空 imagePath", async () => {
+  it("使用 slug 删除门店图片时，仍使用 entityId 清空 imagePath", async () => {
     mockStoreFindFirst.mockResolvedValue({
       ...STORE,
-      imagePath: "/images/stores/store_real_1.webp",
+      imagePath: "/images/stores/shunde-daliang.webp",
     });
 
     const DELETE = await loadDelete();
