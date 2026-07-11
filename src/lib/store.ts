@@ -39,6 +39,7 @@ export const stores: Store[] = [
     phone: "0757-2288 1001",
     phoneTel: "tel:075722881001",
     businessHours: "09:00-18:00",
+    image: "/images/stores/100001.webp",
     description:
       "蓝辉轻改旗舰服务中心，位于顺德大良核心商圈，提供全品类轻改装备与汽车膜系施工服务，配备独立施工工位与客户休息区。",
   },
@@ -54,6 +55,7 @@ export const stores: Store[] = [
     phone: "0757-2288 1002",
     phoneTel: "tel:075722881002",
     businessHours: "09:00-18:00",
+    image: "/images/stores/100002.webp",
     description:
       "蓝辉轻改顺德容桂标准店，服务容桂及周边区域车主，提供轻改装备升级与膜系施工。",
   },
@@ -69,6 +71,7 @@ export const stores: Store[] = [
     phone: "0757-8628 6601",
     phoneTel: "tel:075786286601",
     businessHours: "09:00-18:00",
+    image: "/images/stores/100003.webp",
     description:
       "蓝辉轻改佛山南海标准店，位于南海桂城核心商圈，服务南海及周边区域车主，提供轻改装备升级与膜系施工。",
   },
@@ -84,6 +87,7 @@ export const stores: Store[] = [
     phone: "0757-8328 3301",
     phoneTel: "tel:075783283301",
     businessHours: "09:00-18:00",
+    image: "/images/stores/100007.webp",
     description:
       "蓝辉轻改佛山禅城标准店，位于禅城核心商圈，服务佛山主城区车主，提供轻改升级与膜系施工服务。",
   },
@@ -100,6 +104,7 @@ export const stores: Store[] = [
     phone: "025-5818 8801",
     phoneTel: "tel:02558188801",
     businessHours: "09:00-18:00",
+    image: "/images/stores/100004.webp",
     description:
       "蓝辉轻改南京江宁标准店，覆盖江宁及南京南部区域，提供轻改升级与膜系施工服务。",
   },
@@ -115,6 +120,7 @@ export const stores: Store[] = [
     phone: "0512-6288 5501",
     phoneTel: "tel:051262885501",
     businessHours: "09:00-18:00",
+    image: "/images/stores/100005.webp",
     description:
       "蓝辉轻改苏州园区授权店，服务园区及周边高端社区车主，提供轻改升级方案。",
   },
@@ -131,6 +137,7 @@ export const stores: Store[] = [
     phone: "0571-8833 7701",
     phoneTel: "tel:057188337701",
     businessHours: "09:00-18:00",
+    image: "/images/stores/100006.webp",
     description:
       "蓝辉轻改杭州萧山标准店，覆盖萧山区及杭州南部新城车主，提供全品类轻改装备与膜系施工。",
   },

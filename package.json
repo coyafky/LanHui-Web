@@ -37,6 +37,7 @@
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck && npm test && npm run verify:zeekr-images && npm run build",
     "verify:zeekr-images": "node scripts/verify-zeekr-images.mjs",
+    "verify:static-images": "node scripts/verify-static-images.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
