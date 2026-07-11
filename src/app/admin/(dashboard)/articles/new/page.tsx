@@ -20,6 +20,7 @@ export default function NewArticlePage() {
   const { confirmLeave, confirmDialogProps } = useUnsavedChangesGuard(
     formState.dirty,
     formState.saving,
+    (href) => router.push(href),
   );
 
   // 拦截返回箭头 / 取消按钮的链接点击（dirty 时弹出确认弹窗）

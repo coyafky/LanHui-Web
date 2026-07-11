@@ -30,6 +30,7 @@ export function EditArticleClient({
   const { confirmLeave, confirmDialogProps } = useUnsavedChangesGuard(
     formState.dirty,
     formState.saving,
+    (href) => router.push(href),
   );
 
   const handleNavigation = useCallback(

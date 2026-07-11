@@ -26,7 +26,8 @@ export interface UnsavedGuardResult {
 
 export function useUnsavedChangesGuard(
   dirty: boolean,
-  saving: boolean
+  saving: boolean,
+  navigate?: (href: string) => void,
 ): UnsavedGuardResult {
   const [dialogOpen, setDialogOpen] = useState(false);
   const pendingCallbackRef = useRef<(() => void) | null>(null);
@@ -69,7 +70,11 @@ export function useUnsavedChangesGuard(
       /* Intercept: prevent navigation and show dialog */
       e.preventDefault();
       pendingCallbackRef.current = () => {
-        window.location.href = href;
+        if (navigate) {
+          navigate(href);
+        } else {
+          window.location.href = href;
+        }
       };
       setDialogOpen(true);
     };
