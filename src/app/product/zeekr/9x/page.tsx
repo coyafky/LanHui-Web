@@ -9,7 +9,7 @@ import {
   ZEEKR_9X_PROJECT_COUNT,
 } from "@/lib/zeekr-9x-products";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { safeJsonLd } from "@/lib/json-ld";
 
 const CANONICAL_PATH = "/product/zeekr/9x";
@@ -58,7 +58,6 @@ export default function Zeekr9xPage() {
   if (!brand || brand.type !== "vehicle_brand") notFound();
   if (!model || model.type !== "vehicle_model") notFound();
 
-  const breadcrumbItems = getProductBreadcrumbs("/product/zeekr/9x");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/zeekr/9x");
 
   const jsonLd = {
@@ -114,7 +113,7 @@ export default function Zeekr9xPage() {
               </Link>
             </div>
             <p className="text-xs text-zinc-600 mt-6 leading-relaxed">
-              本页面展示的极氪 9X 升级项目用于蓝辉轻改服务介绍，"极氪"与"9X"等商标及车型名称仅用于说明适配对象。
+              本页面展示的极氪 9X 升级项目用于蓝辉轻改服务介绍，&ldquo;极氪&rdquo;与&ldquo;9X&rdquo;等商标及车型名称仅用于说明适配对象。
             </p>
           </div>
         </section>

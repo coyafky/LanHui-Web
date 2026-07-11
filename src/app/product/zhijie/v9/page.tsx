@@ -5,7 +5,7 @@ import { ZhijieV9TopicViewTrack } from "@/components/zhijie/ZhijieV9TopicViewTra
 import { ZHIJIE_V9_HERO_IMAGE } from "@/lib/zhijie-v9-products";
 import { zhijieV9PageConfig } from "@/lib/zhijie-v9-page-config";
 import { getBrandRoute, getModelRoute } from "@/lib/product-routes";
-import { getProductBreadcrumbs, getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
+import { getProductBreadcrumbSchema } from "@/lib/product-breadcrumbs";
 import { VehiclePageRenderer } from "@/components/vehicle-page";
 import { safeJsonLd } from "@/lib/json-ld";
 
@@ -52,7 +52,6 @@ export default function ZhijieV9TopicPage() {
   const totalProjects = zhijieV9PageConfig.projects.length;
   const totalScenarios = zhijieV9PageConfig.scenarios.length;
 
-  const breadcrumbItems = getProductBreadcrumbs("/product/zhijie/v9");
   const breadcrumbSchema = getProductBreadcrumbSchema("/product/zhijie/v9");
 
   const jsonLd = {
