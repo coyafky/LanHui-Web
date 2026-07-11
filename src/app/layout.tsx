@@ -40,8 +40,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN" className="h-full antialiased dark">
-      <body className="min-h-full flex flex-col bg-zinc-950 text-white">
+    <html lang="zh-CN" className="h-full antialiased dark" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-zinc-950 text-white" suppressHydrationWarning>
         <SkipToContent />
         <AnalyticsTracker />
         <script
