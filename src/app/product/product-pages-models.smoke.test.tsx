@@ -378,7 +378,7 @@ async function renderModelPage(importFn: () => Promise<unknown>) {
   if (result instanceof Promise) {
     return render(await result);
   }
-  return render(result);
+  return render(result as React.ReactNode);
 }
 
 // ---------- 车型页 smoke tests ----------

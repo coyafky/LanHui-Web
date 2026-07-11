@@ -34,7 +34,7 @@ describe('analytics', () => {
     expect(spies.fetch).not.toHaveBeenCalled();
     vi.advanceTimersByTime(10000);
     expect(spies.fetch).toHaveBeenCalledTimes(1);
-    const [url, init] = spies.fetch.mock.calls[0] as [string, { body: string }];
+    const [url, init] = spies.fetch.mock.calls[0] as unknown as [string, { body: string }];
     expect(url).toBe('/api/analytics/track');
     const parsed = JSON.parse(init.body) as { events: Array<{ type: string; pathname: string }> };
     expect(parsed.events[0].type).toBe('pageview');
@@ -46,7 +46,7 @@ describe('analytics', () => {
     trackPageView('/a'); trackPageView('/b'); trackPageView('/c');
     trackPageView('/d'); trackPageView('/e');
     expect(spies.fetch).toHaveBeenCalledTimes(1);
-    const [, init] = spies.fetch.mock.calls[0] as [string, { body: string }];
+    const [, init] = spies.fetch.mock.calls[0] as unknown as [string, { body: string }];
     const parsed = JSON.parse(init.body) as { events: Array<{ pathname: string }> };
     expect(parsed.events).toHaveLength(5);
   });
@@ -56,7 +56,7 @@ describe('analytics', () => {
     trackPageView('/x');
     vi.advanceTimersByTime(10000);
     expect(spies.fetch).toHaveBeenCalledTimes(1);
-    const [, init] = spies.fetch.mock.calls[0] as [string, { body: string }];
+    const [, init] = spies.fetch.mock.calls[0] as unknown as [string, { body: string }];
     expect(typeof init.body).toBe('string');
     expect(() => JSON.parse(init.body)).not.toThrow();
   });
@@ -65,7 +65,7 @@ describe('analytics', () => {
     const { trackClick } = await import('./analytics');
     trackClick('btn-1', { x: 10 });
     vi.advanceTimersByTime(10000);
-    const [, init] = spies.fetch.mock.calls[0] as [string, { body: string }];
+    const [, init] = spies.fetch.mock.calls[0] as unknown as [string, { body: string }];
     const parsed = JSON.parse(init.body) as {
       events: Array<{ type: string; metadata: Record<string, unknown> }>;
     };
@@ -80,7 +80,7 @@ describe('analytics', () => {
     const { trackPageView } = await import('./analytics');
     trackPageView();
     vi.advanceTimersByTime(10000);
-    const [, init] = spies.fetch.mock.calls[0] as [string, { body: string }];
+    const [, init] = spies.fetch.mock.calls[0] as unknown as [string, { body: string }];
     const parsed = JSON.parse(init.body) as { events: Array<{ pathname: string }> };
     expect(parsed.events[0].pathname).toBe('/test-path');
   });
@@ -89,7 +89,7 @@ describe('analytics', () => {
     const { trackStoreView } = await import('./analytics');
     trackStoreView('s1');
     vi.advanceTimersByTime(10000);
-    const [, init] = spies.fetch.mock.calls[0] as [string, { body: string }];
+    const [, init] = spies.fetch.mock.calls[0] as unknown as [string, { body: string }];
     const parsed = JSON.parse(init.body) as {
       events: Array<{ type: string; pathname: string; storeId: string }>;
     };
@@ -116,7 +116,7 @@ describe('analytics', () => {
     const { trackPageView } = await import('./analytics');
     trackPageView('/dedup');
     vi.advanceTimersByTime(10000);
-    const [, init] = spies.fetch.mock.calls[0] as [string, { body: string }];
+    const [, init] = spies.fetch.mock.calls[0] as unknown as [string, { body: string }];
     const parsed = JSON.parse(init.body) as { events: Array<{ eventId: string }> };
     expect(typeof parsed.events[0].eventId).toBe('string');
     expect(parsed.events[0].eventId.length).toBeGreaterThan(0);

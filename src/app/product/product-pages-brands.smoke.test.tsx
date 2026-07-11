@@ -182,7 +182,7 @@ async function renderBrandPage(importFn: () => Promise<unknown>) {
   if (result instanceof Promise) {
     return render(await result);
   }
-  return render(result);
+  return render(result as React.ReactNode);
 }
 
 // ---------- 品牌页 smoke tests ----------

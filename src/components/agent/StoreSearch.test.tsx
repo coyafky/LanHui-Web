@@ -46,9 +46,9 @@ const MOCK_SIX_STORES = Array.from({ length: 6 }, (_, i) => ({
   name: `蓝辉轻改门店${i + 1}`,
   provinceLabel: "广东省",
   cityLabel: "佛山市",
-  district: null,
+  district: "",
   address: `地址${i + 1}`,
-  level: null,
+  level: "",
 }));
 
 function mockFetchSuccess(data = MOCK_STORES) {

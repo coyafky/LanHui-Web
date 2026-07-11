@@ -9,10 +9,7 @@
 import React from "react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import {
-  renderProductPage,
-  type PageComponent,
-} from "@/test/product-page-test-utils";
+import { renderProductPage } from "@/test/product-page-test-utils";
 
 // ---------- Mock 基础设施 ----------
 vi.mock("next/navigation", () => ({
@@ -53,8 +50,7 @@ vi.mock("@/components/product/car-care/CarCareServiceFlow", () => ({
   CarCareServiceFlow: () => <section data-testid="CarCareServiceFlow" />,
 }));
 
-type CarCarePage = PageComponent<typeof import("./page")>;
-let Page: CarCarePage;
+let Page: () => React.JSX.Element;
 
 beforeEach(async () => {
   vi.resetModules();

@@ -215,13 +215,13 @@ describe('ArticlesPage per-row menu', () => {
 });
 
 describe('ArticlesPage ConfirmDialog', () => {
-  let confirmSpy: ReturnType<typeof vi.spyOn>;
+  let confirmSpy: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     fetchMock.mockReset();
     mockFetchSuccess();
     global.fetch = fetchMock as unknown as typeof fetch;
-    confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+    confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true) as ReturnType<typeof vi.fn>;
   });
 
   afterEach(() => {

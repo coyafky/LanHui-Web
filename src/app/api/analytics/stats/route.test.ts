@@ -106,7 +106,7 @@ describe('GET /api/analytics/stats', () => {
       .mockResolvedValueOnce([{ type: 'pageview', _count: { type: 80 } }])
       .mockResolvedValueOnce([{ pathname: '/', _count: { pathname: 50 } }])
       .mockResolvedValueOnce([{ storeId: 's1', _count: { storeId: 5 } }]);
-    queryRawMock.mockResolvedValue([{ date: '2026-06-01', count: 30n }]);
+    queryRawMock.mockResolvedValue([{ date: '2026-06-01', count: BigInt(30) }]);
     storeFindManyMock.mockResolvedValue([{ id: 's1', name: '佛山店' }]);
 
     const { GET } = await freshGET();
@@ -126,8 +126,8 @@ describe('GET /api/analytics/stats', () => {
     countMock.mockResolvedValue(50);
     groupByMock.mockResolvedValue([]);
     queryRawMock.mockResolvedValue([
-      { date: '2026-06-01', count: 100n },
-      { date: '2026-06-02', count: 0n },
+      { date: '2026-06-01', count: BigInt(100) },
+      { date: '2026-06-02', count: BigInt(0) },
     ]);
     storeFindManyMock.mockResolvedValue([]);
 
