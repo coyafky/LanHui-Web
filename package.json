@@ -32,7 +32,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run lint && npm run typecheck && npm run verify:zeekr-images && npm run check:backup && npm run check:breadcrumbs && npm run check:product-layout && npm run check:contact-copy && npm run check:product-placeholders && npm run check:news-content && npm run check:product-image-copy && npm run check:footer-year && npm run check:admin-csrf && npm run check:region-duplication && npm run check:admin-page-duplication && npm run check:product-page-tests && npm run build",
+    "check": "npm run lint && npm run typecheck && npm test && npm run verify:zeekr-images && npm run check:backup && npm run check:breadcrumbs && npm run check:product-layout && npm run check:contact-copy && npm run check:product-placeholders && npm run check:news-content && npm run check:product-image-copy && npm run check:footer-year && npm run check:admin-csrf && npm run check:region-duplication && npm run check:admin-page-duplication && npm run check:product-page-tests && npm run build",
     "verify:zeekr-images": "node scripts/verify-zeekr-images.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
