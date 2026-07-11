@@ -6,6 +6,8 @@ import {
   nioEs8Bundles,
   nioEs8ServiceSteps,
   nioEs8Faq,
+  NIO_ES8_PROJECT_COUNT,
+  NIO_ES8_SCENARIO_COUNT,
 } from "./nio-products";
 
 const CATEGORY_LABELS: Record<NioEs8Category, string> = {
@@ -29,6 +31,10 @@ export const nioEs8PageConfig = {
     subtitle: "17 项升级项目 · 4 大用车场景",
     description:
       "蓝辉轻改整理蔚来 ES8 17 项热门轻改产品：车衣、隔热膜、彩绘、双拼改色、360 脚垫、铝地板、平衡杆、轮毂、运动包围、小桌板、挡泥板、防虫网、钢化膜、底盘护板、刹车卡钳、内饰镀膜。覆盖新车保护、外观个性、家庭座舱、行车与日常防护 4 大用车场景，到店评估、按标准流程施工。",
+    stats: {
+      totalProjects: NIO_ES8_PROJECT_COUNT,
+      totalScenarios: NIO_ES8_SCENARIO_COUNT,
+    },
   },
 
   projects: nioEs8UpgradeProjects

@@ -6,6 +6,8 @@ import {
   liAutoI6Faq,
   liAutoI6Bundles,
   LI_AUTO_I6_HERO_IMAGE,
+  LI_AUTO_I6_PROJECT_COUNT,
+  LI_AUTO_I6_SCENARIO_COUNT,
 } from "@/lib/li-auto-i6-products";
 
 export const liAutoI6PageConfig: VehiclePageConfig = {
@@ -21,6 +23,10 @@ export const liAutoI6PageConfig: VehiclePageConfig = {
       alt: LI_AUTO_I6_HERO_IMAGE.alt,
       width: LI_AUTO_I6_HERO_IMAGE.width,
       height: LI_AUTO_I6_HERO_IMAGE.height,
+    },
+    stats: {
+      totalProjects: LI_AUTO_I6_PROJECT_COUNT,
+      totalScenarios: LI_AUTO_I6_SCENARIO_COUNT,
     },
   },
   projects: liAutoI6UpgradeProjects.map((p) => ({

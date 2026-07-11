@@ -5,6 +5,8 @@ import {
   xiaomiSeriesServiceSteps,
   xiaomiSeriesFaq,
   XIAOMI_SERIES_CATEGORY_LABELS,
+  XIAOMI_SERIES_PROJECT_COUNT,
+  XIAOMI_SERIES_SCENARIO_COUNT,
 } from "./xiaomi-series-upgrade-projects";
 
 export const xiaomiSeriesPageConfig = {
@@ -16,6 +18,10 @@ export const xiaomiSeriesPageConfig = {
     subtitle: "围绕新车保护、外观个性、座舱质感与 Ultra 风格，整理 SU7 / YU7 可沟通的轻改升级方向。",
     description:
       "蓝辉轻改小米系列升级方案，覆盖车衣、隔热膜、360 软包脚垫、底盘护板、Ultra 机盖、Ultra 方向盘、电动尾翼、运动包围、电吸门等项目，为小米 SU7、YU7 提供专属升级方案。",
+    stats: {
+      totalProjects: XIAOMI_SERIES_PROJECT_COUNT,
+      totalScenarios: XIAOMI_SERIES_SCENARIO_COUNT,
+    },
   },
 
   projects: xiaomiSeriesUpgradeProjects.map((p) => ({

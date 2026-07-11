@@ -5,6 +5,8 @@ import {
   liAutoMegaServiceSteps,
   liAutoMegaFaq,
   liAutoMegaBundles,
+  LI_AUTO_MEGA_PROJECT_COUNT,
+  LI_AUTO_MEGA_SCENARIO_COUNT,
 } from "@/lib/li-auto-mega-products";
 
 export const liAutoMegaPageConfig: VehiclePageConfig = {
@@ -15,6 +17,10 @@ export const liAutoMegaPageConfig: VehiclePageConfig = {
     subtitle: "理想 MEGA 轻改升级方案",
     description:
       "理想 MEGA 全车轻改方案，覆盖基础保护、商务座舱、外观个性、行车防护与灯光视觉 5 大场景；蓝辉轻改顺德大良店按标准化流程评估与施工。",
+    stats: {
+      totalProjects: LI_AUTO_MEGA_PROJECT_COUNT,
+      totalScenarios: LI_AUTO_MEGA_SCENARIO_COUNT,
+    },
   },
   projects: liAutoMegaUpgradeProjects.map((p) => ({
     id: p.key,
