@@ -4,10 +4,10 @@
  * verify-static-images.mjs
  *
  * Verifies store and product images referenced in static data exist in public/.
- * Reports missing files without blocking (exit 0 for warnings, exit 1 for CI failure).
+ * Missing or empty required assets fail the production gate.
  *
  * Checks:
- *   1. Store images for stores 100001-100007 at public/images/stores/<id>.webp
+ *   1. Store images referenced by src/lib/store.ts
  *   2. Product category images referenced in src/lib/*-products.ts
  *
  * Usage:
@@ -15,7 +15,7 @@
  */
 
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
-import { join, dirname, extname } from "node:path";
+import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -57,10 +57,11 @@ function main() {
   console.log("[verify:static-images] Checking static image assets...\n");
 
   // ── Store images ──
-  const storeIds = ["100001", "100002", "100003", "100004", "100005", "100006", "100007"];
-  console.log(`[verify:static-images] Store images (${storeIds.length} stores):`);
-  for (const id of storeIds) {
-    checkFile(`images/stores/${id}.webp`, `Store ${id}`);
+  const storeDataPath = join(ROOT, "src", "lib", "store.ts");
+  const storeImages = extractImagePaths(storeDataPath);
+  console.log(`[verify:static-images] Store images referenced: ${storeImages.length}`);
+  for (const imagePath of storeImages) {
+    checkFile(imagePath, `store.ts: ${imagePath}`);
   }
 
   // ── Product images ──
@@ -98,15 +99,15 @@ function main() {
       console.warn(`  - ${path}  (${reason})`);
     }
     console.warn(`\n${missing.length} file(s) missing. ${empty.length} file(s) empty.`);
-    console.warn("[verify:static-images] WARNING — not blocking build (real photos pending)");
-    process.exit(0);
+    console.error("[verify:static-images] FAILED — required assets must exist before deployment");
+    process.exit(1);
   }
 
   if (empty.length > 0) {
-    console.warn(`[verify:static-images] OK (${empty.length} empty file(s) found)`);
-  } else {
-    console.log("[verify:static-images] OK — all images present");
+    console.error(`[verify:static-images] FAILED — ${empty.length} empty file(s) found`);
+    process.exit(1);
   }
+  console.log("[verify:static-images] OK — all images present");
   process.exit(0);
 }
 

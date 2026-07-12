@@ -32,7 +32,7 @@
     "build:static": "next build",
     "start": "next start",
     "check:static-output": "node scripts/check-static-output.mjs",
-    "check:static": "npm run lint && npm run typecheck && npm test && npm run verify:zeekr-images && npm run check:static-boundary && npm run build:static && npm run check:static-output",
+    "check:static": "npm run lint && npm run typecheck && npm test && npm run verify:zeekr-images && npm run verify:static-images && npm run check:static-boundary && npm run build:static && npm run check:static-output",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "check": "npm run lint && npm run typecheck && npm test && npm run verify:zeekr-images && npm run build",

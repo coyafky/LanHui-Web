@@ -8,7 +8,7 @@
  * and sitemap URL coverage.
  */
 
-import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const PROJECT_ROOT = resolve(import.meta.dirname, "..");
@@ -28,6 +28,9 @@ const FORBIDDEN_STRINGS = [
   "localhost:3000",
   "_next/image?",
 ];
+
+const EXPECTED_PROVINCE_PAGES = 31;
+const EXPECTED_CITY_PAGES = 333;
 
 function collectHtmlFiles(dir) {
   const out = [];
@@ -52,6 +55,14 @@ function resolveSitemapUrlToPath(url, siteUrl) {
   if (path === "/") return "index.html";
   if (!path.endsWith("/")) path = path + "/";
   return path.replace(/^\//, "") + "index.html";
+}
+
+function resolveInternalHrefToPath(href) {
+  const path = href.split(/[?#]/, 1)[0];
+  if (!path || path === "/") return "index.html";
+  const relativePath = decodeURIComponent(path.replace(/^\//, ""));
+  if (/\.[a-z0-9]+$/i.test(relativePath)) return relativePath;
+  return `${relativePath.replace(/\/$/, "")}/index.html`;
 }
 
 function main() {
@@ -96,9 +107,50 @@ function main() {
         errors.push(`forbidden-string: out/${relPath} contains "${str}"`);
       }
     }
+
+    const internalHrefs = content.matchAll(/href=["'](\/[^"']*)["']/g);
+    for (const match of internalHrefs) {
+      const href = match[1];
+      if (href.startsWith("//")) continue;
+      const target = resolveInternalHrefToPath(href);
+      if (!existsSync(join(OUT_DIR, target))) {
+        errors.push(`broken-internal-link: out/${relPath} → ${href}`);
+      }
+    }
   }
 
-  // 4. Check sitemap.xml URL coverage
+  // 4. Ensure the complete static administrative-region directory was emitted.
+  const agentDir = join(OUT_DIR, "agent");
+  const provinceDirs = readdirSync(agentDir, { withFileTypes: true }).filter(
+    (entry) => entry.isDirectory() && entry.name !== "store",
+  );
+  const provincePageCount = provinceDirs.filter((entry) =>
+    existsSync(join(agentDir, entry.name, "index.html")),
+  ).length;
+  const cityPageCount = provinceDirs.reduce((count, provinceEntry) => {
+    const provinceDir = join(agentDir, provinceEntry.name);
+    return (
+      count +
+      readdirSync(provinceDir, { withFileTypes: true }).filter(
+        (entry) =>
+          entry.isDirectory() &&
+          existsSync(join(provinceDir, entry.name, "index.html")),
+      ).length
+    );
+  }, 0);
+
+  if (provincePageCount !== EXPECTED_PROVINCE_PAGES) {
+    errors.push(
+      `province-page-count: expected ${EXPECTED_PROVINCE_PAGES}, found ${provincePageCount}`,
+    );
+  }
+  if (cityPageCount !== EXPECTED_CITY_PAGES) {
+    errors.push(
+      `city-page-count: expected ${EXPECTED_CITY_PAGES}, found ${cityPageCount}`,
+    );
+  }
+
+  // 5. Check sitemap.xml URL coverage
   const sitemapPath = join(OUT_DIR, "sitemap.xml");
   if (existsSync(sitemapPath)) {
     const sitemapContent = readFileSync(sitemapPath, "utf8");

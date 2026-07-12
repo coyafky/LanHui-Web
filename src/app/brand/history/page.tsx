@@ -101,14 +101,7 @@ export default function HistoryPage() {
             <p className="text-zinc-400 leading-relaxed">
               蓝辉轻改仍在持续生长，更多门店、产品与服务节点
               <br />
-              将在
-              <Link
-                href="/news"
-                className="text-orange-400 hover:text-orange-300 mx-1"
-              >
-                品牌资讯
-              </Link>
-              中持续更新。
+              将随官网版本持续更新。
             </p>
           </div>
         </section>

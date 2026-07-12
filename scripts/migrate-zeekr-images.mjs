@@ -3,7 +3,7 @@
  * Zeekr 图片迁移脚本
  *
  * 按 PRD v2.0 §8.3 迁移清单,把源
- *   public/images/products/ZEEKR/{极氪9X,极氪8X,Zeeker009}/
+ *   public/images/products/zeekr/{极氪9X,极氪8X,Zeeker009}/
  * 复制到目标
  *   public/images/products/zeekr/{9x,8x,009}/
  * 并删除源目录。
@@ -16,7 +16,7 @@
  * 用法:
  *   node scripts/migrate-zeekr-images.mjs
  *
- * 幂等:目标目录已存在则跳过;源目录不存在则报错退出。
+ * 幂等:21 张规范化目标图已存在且旧目录已清理时直接成功退出。
  */
 
 import {
@@ -24,15 +24,16 @@ import {
   copyFileSync,
   rmSync,
   existsSync,
-  readdirSync,
 } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
-const SOURCE = join(ROOT, "public/images/products/ZEEKR");
-const TARGET = join(ROOT, "public/images/products/zeekr");
+const ASSET_ROOT = join(ROOT, "public/images/products/zeekr");
+const SOURCE = ASSET_ROOT;
+const TARGET = ASSET_ROOT;
+const SOURCE_SUBDIRS = ["极氪9X", "极氪8X", "Zeeker009"];
 
 /**
  * @typedef {Object} MigrationRow
@@ -77,6 +78,17 @@ function main() {
   console.log(`  源: ${SOURCE}`);
   console.log(`  目标: ${TARGET}`);
 
+  const targetsComplete = MIGRATIONS.every((row) =>
+    existsSync(join(TARGET, row.to)),
+  );
+  const legacySourcesRemain = SOURCE_SUBDIRS.some((subdir) =>
+    existsSync(join(SOURCE, subdir)),
+  );
+  if (targetsComplete && !legacySourcesRemain) {
+    console.log("[migrate:zeekr-images] 图片迁移已完成，无需重复执行");
+    process.exit(0);
+  }
+
   if (!existsSync(SOURCE)) {
     console.error(`[error] 源目录不存在: ${SOURCE}`);
     process.exit(1);
@@ -117,8 +129,7 @@ function main() {
   // 删除源目录(三个子目录 + 残留 .DS_Store)
   // macOS APFS 默认 case-insensitive:zeekr/ 和 ZEEKR/ 是同一目录
   // 因此最后一步「删除空源父目录」必须加 SOURCE !== TARGET 防御
-  const sourceSubdirs = ["极氪9X", "极氪8X", "Zeeker009"];
-  for (const sub of sourceSubdirs) {
+  for (const sub of SOURCE_SUBDIRS) {
     const p = join(SOURCE, sub);
     if (existsSync(p)) {
       rmSync(p, { recursive: true, force: true });
@@ -130,21 +141,6 @@ function main() {
     rmSync(dsStore, { force: true });
     console.log(`  [clean] 删除 .DS_Store: ${dsStore}`);
   }
-  // 仅当父目录为空且与 TARGET 是不同目录时才删除
-  // (case-insensitive FS 下 SOURCE === TARGET,绝不能删)
-  if (
-    existsSync(SOURCE) &&
-    readdirSync(SOURCE).length === 0 &&
-    SOURCE !== TARGET
-  ) {
-    rmSync(SOURCE, { recursive: true, force: true });
-    console.log(`  [clean] 删除空源目录: ${SOURCE}`);
-  } else if (existsSync(SOURCE) && SOURCE === TARGET) {
-    console.log(
-      `  [skip] 源 == 目标 (case-insensitive FS),保留目录: ${SOURCE}`,
-    );
-  }
-
   if (failed > 0) {
     console.error(`[error] ${failed} 个迁移失败,进程退出码 1`);
     process.exit(1);

@@ -8,18 +8,19 @@
  * 1. 目标目录 public/images/products/zeekr/{9x,8x,009}/ 全部存在
  * 2. 9X 14 个 PNG + 8X 6 个 PNG + 009 1 个 PNG = 21 个
  * 3. 所有文件名符合 ASCII slug 规范
- * 4. 源目录 public/images/products/ZEEKR/{极氪9X,极氪8X,Zeeker009}/ 全部不存在
+ * 4. 旧目录 public/images/products/zeekr/{极氪9X,极氪8X,Zeeker009}/ 全部不存在
  * 5. 所有 PNG 像素 = 1448×1086,宽高比 4:3
  * 6. 所有 PNG 大小 ≤ 500 KB
  */
 import { describe, it, expect, beforeAll } from "vitest";
+import { execFileSync } from "node:child_process";
 import { readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import sharp from "sharp";
 
 const ROOT = join(process.cwd(), "public/images/products");
 const TARGET = join(ROOT, "zeekr");
-const SOURCE = join(ROOT, "ZEEKR");
+const SOURCE = TARGET;
 const ASCII_SLUG_REGEX = /^[a-z0-9-]+\.png$/;
 
 type Subdir = "9x" | "8x" | "009";
@@ -56,15 +57,15 @@ describe("PRD §8.3 zeekr 图片迁移结果", () => {
       },
     );
 
-    it("源目录 ZEEKR/极氪9X/ 不应残留", () => {
+    it("旧目录 zeekr/极氪9X/ 不应残留", () => {
       expect(existsSync(join(SOURCE, "极氪9X"))).toBe(false);
     });
 
-    it("源目录 ZEEKR/极氪8X/ 不应残留", () => {
+    it("旧目录 zeekr/极氪8X/ 不应残留", () => {
       expect(existsSync(join(SOURCE, "极氪8X"))).toBe(false);
     });
 
-    it("源目录 ZEEKR/Zeeker009/ 不应残留", () => {
+    it("旧目录 zeekr/Zeeker009/ 不应残留", () => {
       expect(existsSync(join(SOURCE, "Zeeker009"))).toBe(false);
     });
   });
@@ -134,6 +135,18 @@ describe("PRD §8.3 zeekr 图片迁移结果", () => {
         all.push(...readdirSync(dir).filter((f) => f.endsWith(".png")));
       }
       expect(all).toHaveLength(21);
+    });
+  });
+
+  describe("迁移脚本幂等性", () => {
+    it("规范化图片已存在且旧目录已清理时重复执行成功", () => {
+      const output = execFileSync(
+        process.execPath,
+        [join(process.cwd(), "scripts/migrate-zeekr-images.mjs")],
+        { encoding: "utf8" },
+      );
+
+      expect(output).toContain("图片迁移已完成");
     });
   });
 });

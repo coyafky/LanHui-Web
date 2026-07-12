@@ -9,7 +9,6 @@ const QUICK_LINKS = [
   { label: "产品中心", href: "/product" },
   { label: "门店服务", href: "/agent" },
   { label: "品牌介绍", href: "/brand" },
-  { label: "品牌资讯", href: "/news" },
 ];
 
 export function Footer() {

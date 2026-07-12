@@ -10,44 +10,49 @@ import {
 
 describe("store-query", () => {
   describe("listStores", () => {
-    it("returns all stores when no filter", () => {
+    it("returns only the confirmed Shunde Daliang store", () => {
       const result = listStores();
-      expect(result.length).toBe(7);
+      expect(result).toHaveLength(1);
+      expect(result[0]).toMatchObject({
+        id: "100001",
+        name: "蓝辉轻改顺德大良店",
+        province: "guangdong",
+        city: "foshan",
+      });
     });
 
     it("filters by province", () => {
       const result = listStores({ province: "guangdong" });
-      expect(result).toHaveLength(4);
+      expect(result).toHaveLength(1);
       expect(result.every((s) => s.province === "guangdong")).toBe(true);
     });
 
     it("filters by city", () => {
       const result = listStores({ city: "foshan" });
-      expect(result).toHaveLength(4);
+      expect(result).toHaveLength(1);
       expect(result.every((s) => s.city === "foshan")).toBe(true);
     });
 
     it("filters by province and city combined", () => {
-      const result = listStores({ province: "jiangsu", city: "nanjing" });
+      const result = listStores({ province: "guangdong", city: "foshan" });
       expect(result).toHaveLength(1);
-      expect(result[0].name).toBe("蓝辉轻改南京江宁店");
+      expect(result[0].name).toBe("蓝辉轻改顺德大良店");
     });
 
     it("filters by search keyword", () => {
       const result = listStores({ search: "顺德" });
-      expect(result.length).toBeGreaterThanOrEqual(2);
+      expect(result).toHaveLength(1);
       expect(result.every((s) => s.cityLabel.includes("佛山"))).toBe(true);
     });
 
     it("filters by search on name", () => {
       const result = listStores({ search: "南京" });
-      expect(result).toHaveLength(1);
-      expect(result[0].id).toBe("100004");
+      expect(result).toHaveLength(0);
     });
 
     it("limits results", () => {
       const result = listStores({ limit: 2 });
-      expect(result).toHaveLength(2);
+      expect(result).toHaveLength(1);
     });
 
     it("filters by level", () => {
@@ -76,23 +81,29 @@ describe("store-query", () => {
   });
 
   describe("listProvinces", () => {
-    it("returns all provinces", () => {
+    it("returns all 31 mainland province-level regions", () => {
       const result = listProvinces();
-      expect(result.length).toBe(3);
+      expect(result).toHaveLength(31);
       expect(result.map((p) => p.slug)).toContain("guangdong");
+      expect(result.find((p) => p.slug === "guangdong")).toMatchObject({
+        cityCount: 21,
+        storeCount: 1,
+      });
+      expect(result.find((p) => p.slug === "jiangsu")?.storeCount).toBe(0);
     });
   });
 
   describe("listCities", () => {
-    it("returns all cities when no filter", () => {
+    it("returns all 333 mainland prefecture-level regions", () => {
       const result = listCities();
-      expect(result.length).toBe(4);
+      expect(result).toHaveLength(333);
     });
 
     it("filters by province", () => {
       const result = listCities("jiangsu");
-      expect(result).toHaveLength(2);
-      expect(result.map((c) => c.slug)).toEqual(["nanjing", "suzhou"]);
+      expect(result).toHaveLength(13);
+      expect(result.map((c) => c.slug)).toContain("nanjing");
+      expect(result.every((c) => c.storeCount === 0)).toBe(true);
     });
 
     it("returns empty for unknown province", () => {
@@ -102,18 +113,17 @@ describe("store-query", () => {
   });
 
   describe("listStaticStoreParams", () => {
-    it("returns all store id params", () => {
+    it("returns only the confirmed store id param", () => {
       const result = listStaticStoreParams();
-      expect(result).toHaveLength(7);
-      expect(result[0]).toHaveProperty("id");
+      expect(result).toEqual([{ id: "100001" }]);
     });
   });
 
   describe("listStaticCityParams", () => {
     it("returns city params for a province", () => {
       const result = listStaticCityParams("guangdong");
-      expect(result).toHaveLength(1);
-      expect(result[0]).toEqual({ slug: "guangdong", city: "foshan" });
+      expect(result).toHaveLength(21);
+      expect(result).toContainEqual({ slug: "guangdong", city: "foshan" });
     });
 
     it("returns empty for unknown province", () => {
