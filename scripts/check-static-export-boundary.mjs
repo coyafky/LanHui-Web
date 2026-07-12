@@ -15,6 +15,7 @@
  *   5. prisma/              — Schema + migrations (DB dependency)
  *   6. Import of @/lib/prisma, @/lib/auth, or next-auth in source files
  *   7. fetch("/api/...") calls to local API routes
+ *   8. Runtime/database imports left in scripts included by TypeScript
  *
  * Contract (target state after Task 5):
  *   Public-facing source files must have ZERO boundary violations.
@@ -25,7 +26,9 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const PROJECT_ROOT = resolve(import.meta.dirname, "..");
+const INSPECTOR_PATH = resolve(import.meta.filename);
 const SRC_DIR = join(PROJECT_ROOT, "src");
+const SCRIPTS_DIR = join(PROJECT_ROOT, "scripts");
 
 const VIOLATION_PATHS = [
   "src/app/admin",
@@ -39,6 +42,7 @@ const FORBIDDEN_IMPORTS = [
   "@/lib/prisma",
   "@/lib/auth",
   "next-auth",
+  "@prisma/client",
 ];
 
 const API_FETCH_RE = /fetch\s*\(\s*["'`]\/api\//;
@@ -77,8 +81,13 @@ function main() {
     }
   }
 
-  // 2. Scan src/ files for forbidden imports and API fetch calls
-  const srcFiles = collectSrcFiles(SRC_DIR);
+  // 2. Scan application source and production scripts included by TypeScript.
+  const srcFiles = [SRC_DIR, SCRIPTS_DIR]
+    .flatMap((dir) => collectSrcFiles(dir))
+    .filter(
+      (file) =>
+        file !== INSPECTOR_PATH && !/\.test\.[cm]?[jt]sx?$/.test(file),
+    );
 
   for (const absPath of srcFiles) {
     const relPath = absPath.slice(PROJECT_ROOT.length + 1);
