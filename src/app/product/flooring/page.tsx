@@ -19,7 +19,7 @@ const HERO_IMAGE: FlooringColorVariant = {
   colorId: "wood-brown",
   colorName: "木纹咖",
   description: "",
-  assetPath: "/images/products/flooring/图片/理想/1.png",
+  assetPath: "/images/products/flooring/图片/理想/1.webp",
   width: 798,
   height: 528,
   alt: "地板改装专题 hero 图：理想车型木纹咖地板总成",

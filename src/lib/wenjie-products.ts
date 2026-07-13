@@ -582,5 +582,5 @@ export const wenjieTopicMeta = {
   shortDescription: "M7 / M8 / M9 电动踏板、内饰便利、防护配件",
   totalProducts: wenjieProducts.length,
   totalModels: 3,
-  previewImage: "/images/products/wenjie/preview.png",
+  previewImage: "/images/products/wenjie/preview.webp",
 } as const;

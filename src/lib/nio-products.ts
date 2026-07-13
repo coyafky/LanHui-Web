@@ -46,8 +46,8 @@ export type NioEs8UpgradeProject = {
   summary: string;
   /** 来自 manifest promptSummary 原文 */
   promptSummary: string;
-  /** `/images/products/nio-es8/generated/<key>.png` 字面量模板类型 */
-  publicPath: `/images/products/nio-es8/generated/${string}.png`;
+  /** `/images/products/nio-es8/generated/<key>.webp` 字面量模板类型 */
+  publicPath: `/images/products/nio-es8/generated/${string}.webp`;
   /** 字面量 1448，参考 ZEEKR / Tesla */
   width: 1448;
   /** 字面量 1086 */
@@ -112,7 +112,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "暗石墨色 ES8 风格大型纯电 SUV 主视觉，山路蓝调高端产品定位。",
     promptSummary:
       "暗石墨色 ES8 风格大型纯电 SUV，山路蓝调高端产品主视觉，无文字无标识。",
-    publicPath: "/images/products/nio-es8/generated/hero.png",
+    publicPath: "/images/products/nio-es8/generated/hero.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -128,7 +128,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "透明漆面保护膜，覆盖机盖和翼子板，水珠保护效果，延缓漆面老化。",
     promptSummary:
       "ES8 风格车身隐形车衣，透明膜覆盖机盖和翼子板，水珠保护效果。",
-    publicPath: "/images/products/nio-es8/generated/paint-protection-film.png",
+    publicPath: "/images/products/nio-es8/generated/paint-protection-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -143,7 +143,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "侧窗与前挡隔热膜，降低车内温度并提升防晒与隐私性能。",
     promptSummary:
       "ES8 风格侧窗与前挡隔热膜，蓝色透明膜层展示隔热功能。",
-    publicPath: "/images/products/nio-es8/generated/window-film.png",
+    publicPath: "/images/products/nio-es8/generated/window-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -158,7 +158,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "车身个性彩绘拉花膜，克制几何线条与浅青色点缀，主题化个性表达。",
     promptSummary:
       "ES8 风格车身个性彩绘/拉花膜，克制几何线条与浅青色点缀。",
-    publicPath: "/images/products/nio-es8/generated/graphic-wrap.png",
+    publicPath: "/images/products/nio-es8/generated/graphic-wrap.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -173,7 +173,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "整车双拼改色膜，缎面银上半身与石墨黑下半身，视觉风格分层。",
     promptSummary:
       "ES8 风格双拼改色膜，缎面银上半身与石墨黑下半身。",
-    publicPath: "/images/products/nio-es8/generated/two-tone-color-wrap.png",
+    publicPath: "/images/products/nio-es8/generated/two-tone-color-wrap.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -187,7 +187,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     category: "family_cabin",
     summary: "座舱 360 全包围脚垫，黑色绗缝材质，贴合脚窝，减少日常脏污。",
     promptSummary: "ES8 风格座舱 360 全包围脚垫，黑色绗缝材质，贴合脚窝。",
-    publicPath: "/images/products/nio-es8/generated/floor-mats-360.png",
+    publicPath: "/images/products/nio-es8/generated/floor-mats-360.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -202,7 +202,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "后舱尾箱铝地板，拉丝金属面板与防滑槽，后排与尾箱易清洁。",
     promptSummary:
       "ES8 风格后舱/尾箱铝地板，拉丝金属面板与防滑槽。",
-    publicPath: "/images/products/nio-es8/generated/aluminum-floor.png",
+    publicPath: "/images/products/nio-es8/generated/aluminum-floor.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -217,7 +217,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "车身支撑与稳定杆，绿色黑色杆体安装支架，强化车身姿态。",
     promptSummary:
       "平衡杆与安装支架产品摄影，绿色黑色杆体，背景有大型 SUV 轮廓。",
-    publicPath: "/images/products/nio-es8/generated/stabilizer-bar.png",
+    publicPath: "/images/products/nio-es8/generated/stabilizer-bar.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -232,7 +232,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     category: "appearance",
     summary: "豪华大型 SUV 轮毂升级，黑银多辐轮圈，改变侧面姿态。",
     promptSummary: "豪华大型 SUV 轮毂升级，黑银多辐轮圈产品摄影。",
-    publicPath: "/images/products/nio-es8/generated/wheel-rims.png",
+    publicPath: "/images/products/nio-es8/generated/wheel-rims.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -247,7 +247,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "前唇侧裙后下饰件运动包围套装，运动升级感。",
     promptSummary:
       "ES8 风格运动包围，前唇侧裙后下饰件，运动升级感。",
-    publicPath: "/images/products/nio-es8/generated/sport-body-kit.png",
+    publicPath: "/images/products/nio-es8/generated/sport-body-kit.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -262,7 +262,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "二排座椅后背折叠小桌板，米色豪华内饰，后排办公用餐儿童使用。",
     promptSummary:
       "ES8 风格二排座椅后背折叠小桌板，米色豪华内饰。",
-    publicPath: "/images/products/nio-es8/generated/rear-table-tray.png",
+    publicPath: "/images/products/nio-es8/generated/rear-table-tray.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -277,7 +277,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "轮拱后方挡泥板近景，黑色注塑件贴合车身，减少泥水飞溅。",
     promptSummary:
       "ES8 风格轮拱后方挡泥板近景，黑色注塑件贴合车身。",
-    publicPath: "/images/products/nio-es8/generated/mud-flap.png",
+    publicPath: "/images/products/nio-es8/generated/mud-flap.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -292,7 +292,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "前杠下格栅防虫网，黑色网面隐藏安装，行车环境防护。",
     promptSummary:
       "ES8 风格前杠下格栅防虫网，黑色网面隐藏安装。",
-    publicPath: "/images/products/nio-es8/generated/bug-screen.png",
+    publicPath: "/images/products/nio-es8/generated/bug-screen.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -307,7 +307,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "座舱中控屏钢化膜，透明膜层悬浮展示防刮保护。",
     promptSummary:
       "ES8 风格座舱中控屏钢化膜，透明膜层悬浮展示防刮保护。",
-    publicPath: "/images/products/nio-es8/generated/screen-protector.png",
+    publicPath: "/images/products/nio-es8/generated/screen-protector.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -322,7 +322,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "举升工位下方银色金属底盘护板，加强底部防护。",
     promptSummary:
       "ES8 风格底盘护板，举升工位下方银色金属保护板。",
-    publicPath: "/images/products/nio-es8/generated/underbody-skid-plate.png",
+    publicPath: "/images/products/nio-es8/generated/underbody-skid-plate.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -337,7 +337,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "轮毂刹车卡钳升级，红色卡钳与刹车盘细节，强化轮毂区域视觉。",
     promptSummary:
       "ES8 风格轮毂刹车卡钳升级，红色卡钳与刹车盘细节。",
-    publicPath: "/images/products/nio-es8/generated/brake-caliper.png",
+    publicPath: "/images/products/nio-es8/generated/brake-caliper.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -352,7 +352,7 @@ export const nioEs8UpgradeProjects: readonly NioEs8UpgradeProject[] = [
     summary: "内饰皮革与饰板镀膜保护，水珠和柔和保护光泽，皮革与饰板养护。",
     promptSummary:
       "ES8 风格内饰皮革与饰板镀膜保护，水珠和柔和保护光泽。",
-    publicPath: "/images/products/nio-es8/generated/interior-coating.png",
+    publicPath: "/images/products/nio-es8/generated/interior-coating.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",

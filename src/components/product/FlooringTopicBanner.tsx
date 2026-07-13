@@ -11,7 +11,7 @@ export function FlooringTopicBanner() {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
         <div className="md:col-span-2 relative h-44 md:h-auto bg-zinc-950">
           <Image
-            src="/images/products/flooring/图片/理想/1.png"
+            src="/images/products/flooring/图片/理想/1.webp"
             alt="地板改装专题代表图：理想木纹咖地板总成"
             fill
             sizes="(min-width: 768px) 40vw, 100vw"

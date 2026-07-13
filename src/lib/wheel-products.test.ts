@@ -29,8 +29,8 @@ describe("wheel-products", () => {
   });
 
   it("uses stable numeric ordering", () => {
-    expect(wheelGalleryImages[0]?.filename).toBe("1-1.png");
-    expect(wheelGalleryImages[9]?.filename).toBe("1-10.png");
-    expect(wheelGalleryImages[20]?.filename).toBe("1-21.png");
+    expect(wheelGalleryImages[0]?.filename).toBe("1-1.webp");
+    expect(wheelGalleryImages[9]?.filename).toBe("1-10.webp");
+    expect(wheelGalleryImages[20]?.filename).toBe("1-21.webp");
   });
 });

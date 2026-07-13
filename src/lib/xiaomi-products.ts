@@ -47,7 +47,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 1,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-01-front-bumper.png",
+      publicPath: "/images/products/xiaomi/su7/su7-01-front-bumper.webp",
       width: 2523,
       height: 1661,
       alt: buildAlt("SU7", "前包围"),
@@ -61,7 +61,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 2,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-02-pedal-covers.png",
+      publicPath: "/images/products/xiaomi/su7/su7-02-pedal-covers.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "刹车油门踏板"),
@@ -75,7 +75,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 3,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-03-seat-back-panel.png",
+      publicPath: "/images/products/xiaomi/su7/su7-03-seat-back-panel.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "座椅背板"),
@@ -89,7 +89,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 4,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-04-side-skirts.png",
+      publicPath: "/images/products/xiaomi/su7/su7-04-side-skirts.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "侧裙"),
@@ -103,7 +103,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 5,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-05-steering-wheel.png",
+      publicPath: "/images/products/xiaomi/su7/su7-05-steering-wheel.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "方向盘"),
@@ -117,7 +117,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 6,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-06-air-vent-trim.png",
+      publicPath: "/images/products/xiaomi/su7/su7-06-air-vent-trim.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "出风口"),
@@ -131,7 +131,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 7,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-07-side-mirror.png",
+      publicPath: "/images/products/xiaomi/su7/su7-07-side-mirror.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "后视镜"),
@@ -145,7 +145,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 8,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-08-hood.png",
+      publicPath: "/images/products/xiaomi/su7/su7-08-hood.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "机盖"),
@@ -159,7 +159,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 9,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-09-door-trim.png",
+      publicPath: "/images/products/xiaomi/su7/su7-09-door-trim.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "门饰条"),
@@ -173,7 +173,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 10,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-10-rear-spoiler.png",
+      publicPath: "/images/products/xiaomi/su7/su7-10-rear-spoiler.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "尾翼"),
@@ -187,7 +187,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 11,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-11-door-sill.png",
+      publicPath: "/images/products/xiaomi/su7/su7-11-door-sill.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "迎宾踏板"),
@@ -201,7 +201,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 12,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/su7/su7-12-center-console.png",
+      publicPath: "/images/products/xiaomi/su7/su7-12-center-console.webp",
       width: 781,
       height: 490,
       alt: buildAlt("SU7", "中控面板"),
@@ -217,7 +217,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 1,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/yu7/yu7-01-headlight-trim.png",
+      publicPath: "/images/products/xiaomi/yu7/yu7-01-headlight-trim.webp",
       width: 781,
       height: 490,
       alt: buildAlt("YU7", "大灯饰板"),
@@ -231,7 +231,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 2,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/yu7/yu7-02-air-vent-trim.png",
+      publicPath: "/images/products/xiaomi/yu7/yu7-02-air-vent-trim.webp",
       width: 781,
       height: 490,
       alt: buildAlt("YU7", "出风口"),
@@ -245,7 +245,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 3,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/yu7/yu7-03-rear-diffuser.png",
+      publicPath: "/images/products/xiaomi/yu7/yu7-03-rear-diffuser.webp",
       width: 781,
       height: 490,
       alt: buildAlt("YU7", "后扰流板"),
@@ -259,7 +259,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 4,
     category: "exterior",
     image: {
-      publicPath: "/images/products/xiaomi/yu7/yu7-04-mirror-cover.png",
+      publicPath: "/images/products/xiaomi/yu7/yu7-04-mirror-cover.webp",
       width: 781,
       height: 490,
       alt: buildAlt("YU7", "后视镜壳"),
@@ -273,7 +273,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 5,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/yu7/yu7-05-door-sill.png",
+      publicPath: "/images/products/xiaomi/yu7/yu7-05-door-sill.webp",
       width: 781,
       height: 490,
       alt: buildAlt("YU7", "迎宾踏板"),
@@ -287,7 +287,7 @@ export const xiaomiProducts: XiaomiProduct[] = [
     orderInModel: 6,
     category: "interior",
     image: {
-      publicPath: "/images/products/xiaomi/yu7/yu7-06-center-console.png",
+      publicPath: "/images/products/xiaomi/yu7/yu7-06-center-console.webp",
       width: 781,
       height: 490,
       alt: buildAlt("YU7", "中控面板"),
@@ -326,6 +326,6 @@ export const xiaomiTopicMeta = {
   shortDescription: "SU7 / YU7 外观件与内饰升级",
   totalProducts: xiaomiProducts.length,
   totalModels: 2,
-  previewImage: "/images/products/xiaomi/preview.png",
-  ogImage: "/images/products/xiaomi/og-cover.png",
+  previewImage: "/images/products/xiaomi/preview.webp",
+  ogImage: "/images/products/xiaomi/og-cover.webp",
 } as const;

@@ -22,7 +22,7 @@ function assertFeaturedLength(projects: readonly XiaomiSeriesUpgradeProject[]): 
 }
 
 function getPreviewPath(project: XiaomiSeriesUpgradeProject): string {
-  return `/images/products/xiaomi/su7/generated/${project.id}.png`;
+  return `/images/products/xiaomi/su7/generated/${project.id}.webp`;
 }
 
 export function XiaomiSeriesFeaturedGrid({

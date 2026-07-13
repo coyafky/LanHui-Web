@@ -105,7 +105,7 @@ function generatedImage(
 }
 
 export const LEDAO_L90_HERO_IMAGE: LedaoL90ProductImage = generatedImage(
-  "ledao-l90-ppf.png",
+  "ledao-l90-ppf.webp",
   "主视觉",
 );
 
@@ -119,7 +119,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "漆面保护、抗日常划痕、新车保护感",
     suitableFor: ["新车用户", "关注漆面长期保持的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-ppf.png", "车衣"),
+    image: generatedImage("ledao-l90-ppf.webp", "车衣"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -130,7 +130,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "隔热、防晒、隐私、驾乘舒适",
     suitableFor: ["南方用车", "重视车内舒适的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-window-film.png", "隔热膜"),
+    image: generatedImage("ledao-l90-window-film.webp", "隔热膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -141,7 +141,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "个性化图案表达、车身视觉差异化",
     suitableFor: ["追求个性化外观的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-paint-art.png", "彩绘"),
+    image: generatedImage("ledao-l90-paint-art.webp", "彩绘"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -152,7 +152,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "双拼视觉、车身层次和个性化升级",
     suitableFor: ["商务用户", "追求外观质感的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-duotone-film.png", "双拼改色"),
+    image: generatedImage("ledao-l90-duotone-film.webp", "双拼改色"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -163,7 +163,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "车顶视觉分层，强化整车高级感",
     suitableFor: ["追求个性化外观的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-floating-roof.png", "悬浮顶"),
+    image: generatedImage("ledao-l90-floating-roof.webp", "悬浮顶"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -174,7 +174,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "易清洁、耐用，提升座舱/尾箱质感",
     suitableFor: ["MPV 用户", "家庭用户"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-aluminum-floor.png", "铝地板"),
+    image: generatedImage("ledao-l90-aluminum-floor.webp", "铝地板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -186,7 +186,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     suitableFor: ["关注驾驶稳定感的车主"],
     caution: "需到店评估",
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-balance-bar.png", "平衡杆"),
+    image: generatedImage("ledao-l90-balance-bar.webp", "平衡杆"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -197,7 +197,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "后排办公、用餐、儿童使用场景",
     suitableFor: ["家庭用户", "商务用户"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-tray-table.png", "小桌板"),
+    image: generatedImage("ledao-l90-tray-table.webp", "小桌板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -209,7 +209,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     suitableFor: ["追求运动外观的车主"],
     caution: "需确认版本适配",
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-body-kit.png", "运动包围"),
+    image: generatedImage("ledao-l90-body-kit.webp", "运动包围"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -220,7 +220,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "地毯保护、易清洁、座舱完整感",
     suitableFor: ["日常通勤用户", "家中有小孩的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-floor-mats.png", "360脚垫"),
+    image: generatedImage("ledao-l90-floor-mats.webp", "360脚垫"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -231,7 +231,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "长途乘坐舒适、后排体验提升",
     suitableFor: ["家庭用户", "长途出行用户"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-leg-rest.png", "腿托"),
+    image: generatedImage("ledao-l90-leg-rest.webp", "腿托"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -242,7 +242,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "尾箱防刮、防污、易清洁",
     suitableFor: ["家庭用户", "户外出行用户"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-trunk-mat.png", "尾箱垫"),
+    image: generatedImage("ledao-l90-trunk-mat.webp", "尾箱垫"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -254,7 +254,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     suitableFor: ["关注科技便利的车主"],
     caution: "需确认安装位",
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-hud.png", "抬头显示"),
+    image: generatedImage("ledao-l90-hud.webp", "抬头显示"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -265,7 +265,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "应对路面剐蹭、碎石和底部防护",
     suitableFor: ["新车用户", "路况复杂用车环境"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-skid-plate.png", "底盘护板"),
+    image: generatedImage("ledao-l90-skid-plate.webp", "底盘护板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -277,7 +277,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     suitableFor: ["追求外观运动感的车主"],
     caution: "需确认尺寸适配",
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-wheels.png", "轮毂"),
+    image: generatedImage("ledao-l90-wheels.webp", "轮毂"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -288,7 +288,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["雨季/泥泞路况用车"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-mudguard.png", "挡泥板"),
+    image: generatedImage("ledao-l90-mudguard.webp", "挡泥板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -299,7 +299,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["夏季/多虫区域用车"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-bug-screen.png", "防虫网"),
+    image: generatedImage("ledao-l90-bug-screen.webp", "防虫网"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -310,7 +310,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["关注屏幕长期清晰度的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-tempered-film.png", "钢化膜"),
+    image: generatedImage("ledao-l90-tempered-film.webp", "钢化膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -321,7 +321,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["高频上下车的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-door-sill.png", "门槛条"),
+    image: generatedImage("ledao-l90-door-sill.webp", "门槛条"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -333,7 +333,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     suitableFor: ["追求运动外观的车主"],
     caution: "需确认尺寸适配",
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-brake-calipers.png", "刹车卡钳"),
+    image: generatedImage("ledao-l90-brake-calipers.webp", "刹车卡钳"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -344,7 +344,7 @@ export const ledaoL90UpgradeProjects: readonly LedaoL90UpgradeProject[] = [
     summary: "内饰表面防污、易清洁、保持质感",
     suitableFor: ["注重内饰清洁的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ledao-l90-interior-coating.png", "内饰镀膜"),
+    image: generatedImage("ledao-l90-interior-coating.webp", "内饰镀膜"),
     sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly LedaoL90UpgradeProject[];

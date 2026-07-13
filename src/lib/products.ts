@@ -501,9 +501,9 @@ export const productImageMap: Record<string, string> = {
   "electric-steps": "",
   wheels: "",
   chassis: "",
-  "window-film": "/images/products/window-film.png",
-  "color-film": "/images/products/color-film.png",
-  ppf: "/images/products/ppf.png",
+  "window-film": "/images/products/window-film.webp",
+  "color-film": "/images/products/color-film.webp",
+  ppf: "/images/products/ppf.webp",
 };
 
 export const PRODUCT_ICON_MAP: Record<

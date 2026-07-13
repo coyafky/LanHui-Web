@@ -86,7 +86,7 @@ describe("wenjie-m8-upgrade-projects: projects invariants", () => {
 
   it("all projects have generated public preview images", () => {
     for (const p of wenjieM8UpgradeProjects) {
-      expect(p.image.publicPath).toMatch(/^\/images\/products\/wenjie\/M8\/generated\/.+\.png$/);
+      expect(p.image.publicPath).toMatch(/^\/images\/products\/wenjie\/M8\/generated\/.+\.webp$/);
       expect(p.image.width).toBe(1448);
       expect(p.image.height).toBe(1086);
       expect(p.image.aspectRatio).toBe("4/3");

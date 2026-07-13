@@ -2,11 +2,11 @@
 /**
  * ZEEKR 图片 CI 校验脚本
  *
- * 按 PRD v2.0 §8.6 校验 public/images/products/zeekr/ 下所有 PNG/JPG。
+ * 按 PRD v2.0 §8.6 校验 public/images/products/zeekr/ 下所有 WebP。
  * 校验项(任一不通过则退出码 1,中断 build):
  *   1. 像素 = 1448 × 1086
  *   2. 宽高比 = 4:3(允许浮点误差 ≤ 0.01)
- *   3. 命名符合 ^[a-z0-9-]+\.(png|jpe?g)$
+ *   3. 命名符合 ^[a-z0-9-]+\.webp$
  *   4. 文件大小 ≤ 3 MB
  *   5. 路径前缀 public/images/products/zeekr/{9x,8x,009}/
  *   6. 文件总数 = 21
@@ -18,20 +18,22 @@
  */
 
 import { readdirSync, statSync, existsSync } from "node:fs";
-import { join, dirname, relative } from "node:path";
+import { join, dirname, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
-const SCAN_ROOT = join(ROOT, "public/images/products/zeekr");
+const SCAN_ROOT = process.env.ZEEKR_IMAGE_SCAN_ROOT
+  ? resolve(process.env.ZEEKR_IMAGE_SCAN_ROOT)
+  : join(ROOT, "public/images/products/zeekr");
 const ALLOWED_SUBDIRS = new Set(["9x", "8x", "009"]);
 const EXPECTED_TOTAL = 21;
 const EXPECTED_WIDTH = 1448;
 const EXPECTED_HEIGHT = 1086;
 const MAX_ASPECT_DELTA = 0.01;
 const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3 MB
-const NAME_REGEX = /^[a-z0-9-]+\.(png|jpe?g)$/i;
+const NAME_REGEX = /^[a-z0-9-]+\.webp$/i;
 
 /** @type {string[]} */
 const failures = [];
@@ -65,7 +67,7 @@ async function checkFile(file) {
   // 2. 文件名 ASCII slug
   const baseName = relFromScan.split(/[\\/]/).pop() ?? "";
   if (!NAME_REGEX.test(baseName)) {
-    fail(file, `文件名不符合 ^[a-z0-9-]+\\.(png|jpe?g)$: ${baseName}`);
+    fail(file, `文件名不符合 ^[a-z0-9-]+\\.webp$: ${baseName}`);
     return;
   }
 
@@ -79,7 +81,7 @@ async function checkFile(file) {
     return;
   }
 
-  // 4. 像素 + 宽高比(sharp 读 PNG/JPG)
+  // 4. 像素 + 宽高比(sharp 读 WebP)
   let meta;
   try {
     meta = await sharp(file).metadata();
@@ -107,7 +109,7 @@ async function main() {
     fatal(`目录不存在: ${SCAN_ROOT}`);
   }
 
-  // 只扫描 zeekr/{9x,8x,009}/ 三个产品子目录,跳过根目录(如 preview.png 等 meta 资源)
+  // 只扫描 zeekr/{9x,8x,009}/ 三个产品子目录,跳过根目录(如 preview.webp 等 meta 资源)
   /** @type {string[]} */
   const files = [];
   for (const sub of ALLOWED_SUBDIRS) {
@@ -121,7 +123,7 @@ async function main() {
         const p = join(dir, entry.name);
         if (entry.isDirectory()) {
           walk(p);
-        } else if (/\.(png|jpe?g)$/i.test(entry.name)) {
+        } else if (/\.webp$/i.test(entry.name)) {
           files.push(p);
         }
       }

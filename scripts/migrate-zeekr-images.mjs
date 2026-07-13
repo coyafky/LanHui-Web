@@ -9,9 +9,9 @@
  * 并删除源目录。
  *
  * 9X 行 8「挡泥板+内衬6件套」、行 9「双层脚垫」无源文件,跳过。
- * 9X 行 15 源「后备箱储物.png」映射到「15-trunk-storage.png」(pending-review)。
- * 8X 行 2 源「挡泥板+内衬  6件套.png」(2 空格)清洗为「02-mudguard-liner-6pc.png」。
- * 009 行 1 源「1-borad.png」(typo)映射到「01-floor-trunk.png」。
+ * 9X 行 15 源「后备箱储物.webp」映射到「15-trunk-storage.webp」(pending-review)。
+ * 8X 行 2 源「挡泥板+内衬  6件套.webp」(2 空格)清洗为「02-mudguard-liner-6pc.webp」。
+ * 009 行 1 源「1-borad.webp」(typo)映射到「01-floor-trunk.webp」。
  *
  * 用法:
  *   node scripts/migrate-zeekr-images.mjs
@@ -46,31 +46,31 @@ const SOURCE_SUBDIRS = ["极氪9X", "极氪8X", "Zeeker009"];
 /** @type {MigrationRow[]} */
 const MIGRATIONS = [
   // 9X(14 个有图)
-  { from: "极氪9X/小桌板.png", to: "9x/01-table.png", product: "小桌板", status: "matched" },
-  { from: "极氪9X/地板+尾箱地板+氛围灯.png", to: "9x/02-floor-trunk-ambient.png", product: "地板+尾箱地板+氛围灯", status: "matched" },
-  { from: "极氪9X/后备箱垫-7件套.png", to: "9x/03-trunk-mat-7pc.png", product: "后备箱垫-7件套", status: "matched" },
-  { from: "极氪9X/门槛条10件套.png", to: "9x/04-door-sill-10pc.png", product: "门槛条10件套", status: "matched" },
-  { from: "极氪9X/天地门全套6件套.png", to: "9x/05-tailgate-6pc.png", product: "天地门全套6件套", status: "matched" },
-  { from: "极氪9X/防虫网16件套.png", to: "9x/06-bug-net-16pc.png", product: "防虫网16件套", status: "matched" },
-  { from: "极氪9X/全包坐垫.png", to: "9x/07-seat-cover.png", product: "全包坐垫", status: "matched" },
+  { from: "极氪9X/小桌板.webp", to: "9x/01-table.webp", product: "小桌板", status: "matched" },
+  { from: "极氪9X/地板+尾箱地板+氛围灯.webp", to: "9x/02-floor-trunk-ambient.webp", product: "地板+尾箱地板+氛围灯", status: "matched" },
+  { from: "极氪9X/后备箱垫-7件套.webp", to: "9x/03-trunk-mat-7pc.webp", product: "后备箱垫-7件套", status: "matched" },
+  { from: "极氪9X/门槛条10件套.webp", to: "9x/04-door-sill-10pc.webp", product: "门槛条10件套", status: "matched" },
+  { from: "极氪9X/天地门全套6件套.webp", to: "9x/05-tailgate-6pc.webp", product: "天地门全套6件套", status: "matched" },
+  { from: "极氪9X/防虫网16件套.webp", to: "9x/06-bug-net-16pc.webp", product: "防虫网16件套", status: "matched" },
+  { from: "极氪9X/全包坐垫.webp", to: "9x/07-seat-cover.webp", product: "全包坐垫", status: "matched" },
   // 行 8「挡泥板+内衬6件套」无源文件,跳过
   // 行 9「双层脚垫」无源文件,跳过
-  { from: "极氪9X/外置门槛条.png", to: "9x/10-exterior-sill.png", product: "外置门槛条", status: "matched" },
-  { from: "极氪9X/主副驾座椅防踢垫+脚踏套.png", to: "9x/11-kick-pedal-pad.png", product: "主副驾座椅防踢垫+脚踏套", status: "matched" },
-  { from: "极氪9X/冰箱垃圾桶   按压款.png", to: "9x/12-fridge-trash-press.png", product: "冰箱垃圾桶按压款", status: "matched" },
-  { from: "极氪9X/底盘护板.png", to: "9x/13-underbody-plate.png", product: "底盘护板", status: "matched" },
-  { from: "极氪9X/三段式方向盘.png", to: "9x/14-steering-wheel.png", product: "三段式方向盘", status: "matched" },
-  { from: "极氪9X/后备箱储物.png", to: "9x/15-trunk-storage.png", product: "后备箱储物盒(pending-review)", status: "pending-review" },
-  { from: "极氪9X/电动踏板盖.png", to: "9x/16-epedal-cover.png", product: "电动踏板盖", status: "matched" },
+  { from: "极氪9X/外置门槛条.webp", to: "9x/10-exterior-sill.webp", product: "外置门槛条", status: "matched" },
+  { from: "极氪9X/主副驾座椅防踢垫+脚踏套.webp", to: "9x/11-kick-pedal-pad.webp", product: "主副驾座椅防踢垫+脚踏套", status: "matched" },
+  { from: "极氪9X/冰箱垃圾桶   按压款.webp", to: "9x/12-fridge-trash-press.webp", product: "冰箱垃圾桶按压款", status: "matched" },
+  { from: "极氪9X/底盘护板.webp", to: "9x/13-underbody-plate.webp", product: "底盘护板", status: "matched" },
+  { from: "极氪9X/三段式方向盘.webp", to: "9x/14-steering-wheel.webp", product: "三段式方向盘", status: "matched" },
+  { from: "极氪9X/后备箱储物.webp", to: "9x/15-trunk-storage.webp", product: "后备箱储物盒(pending-review)", status: "pending-review" },
+  { from: "极氪9X/电动踏板盖.webp", to: "9x/16-epedal-cover.webp", product: "电动踏板盖", status: "matched" },
   // 8X(6 个)
-  { from: "极氪8X/尾箱垫7件套.png", to: "8x/01-trunk-mat-7pc.png", product: "尾箱垫7件套", status: "matched" },
-  { from: "极氪8X/挡泥板+内衬  6件套.png", to: "8x/02-mudguard-liner-6pc.png", product: "挡泥板+内衬6件套", status: "matched" },
-  { from: "极氪8X/门槛条10件套.png", to: "8x/03-door-sill-10pc.png", product: "门槛条10件套", status: "matched" },
-  { from: "极氪8X/冰箱防踢垃圾桶.png", to: "8x/04-fridge-trash.png", product: "冰箱防踢垃圾桶", status: "matched" },
-  { from: "极氪8X/尾门防刮面板1件套.png", to: "8x/05-tailgate-guard.png", product: "尾门防刮面板1件套", status: "matched" },
-  { from: "极氪8X/三段式方向盘套.png", to: "8x/06-steering-wheel-cover.png", product: "三段式方向盘套", status: "matched" },
+  { from: "极氪8X/尾箱垫7件套.webp", to: "8x/01-trunk-mat-7pc.webp", product: "尾箱垫7件套", status: "matched" },
+  { from: "极氪8X/挡泥板+内衬  6件套.webp", to: "8x/02-mudguard-liner-6pc.webp", product: "挡泥板+内衬6件套", status: "matched" },
+  { from: "极氪8X/门槛条10件套.webp", to: "8x/03-door-sill-10pc.webp", product: "门槛条10件套", status: "matched" },
+  { from: "极氪8X/冰箱防踢垃圾桶.webp", to: "8x/04-fridge-trash.webp", product: "冰箱防踢垃圾桶", status: "matched" },
+  { from: "极氪8X/尾门防刮面板1件套.webp", to: "8x/05-tailgate-guard.webp", product: "尾门防刮面板1件套", status: "matched" },
+  { from: "极氪8X/三段式方向盘套.webp", to: "8x/06-steering-wheel-cover.webp", product: "三段式方向盘套", status: "matched" },
   // 009(1 个,源文件 typo 已纠正)
-  { from: "Zeeker009/1-borad.png", to: "009/01-floor-trunk.png", product: "地板+尾箱地板", status: "matched" },
+  { from: "Zeeker009/1-borad.webp", to: "009/01-floor-trunk.webp", product: "地板+尾箱地板", status: "matched" },
 ];
 
 function main() {

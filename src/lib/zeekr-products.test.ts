@@ -252,14 +252,14 @@ describe("PRD §12 zeekrTopicMeta", () => {
     expect(zeekrTopicMeta.description.length).toBeGreaterThan(0);
   });
 
-  it("previewImage 路径为 /images/products/zeekr/preview.png", () => {
+  it("previewImage 路径为 /images/products/zeekr/preview.webp", () => {
     expect(zeekrTopicMeta.previewImage).toBe(
-      "/images/products/zeekr/preview.png",
+      "/images/products/zeekr/preview.webp",
     );
   });
 
-  it("ogImage 路径为 /images/products/zeekr/preview.png", () => {
-    expect(zeekrTopicMeta.ogImage).toBe("/images/products/zeekr/preview.png");
+  it("ogImage 路径为 /images/products/zeekr/preview.webp", () => {
+    expect(zeekrTopicMeta.ogImage).toBe("/images/products/zeekr/preview.webp");
   });
 });
 

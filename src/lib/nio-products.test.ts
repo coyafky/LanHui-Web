@@ -74,13 +74,13 @@ describe("nio-products data shape (B.1 + F.1)", () => {
     it("publicPath 全部以 /images/products/nio-es8/generated/ 开头", () => {
       for (const p of nioEs8UpgradeProjects) {
         expect(p.publicPath.startsWith("/images/products/nio-es8/generated/")).toBe(true);
-        expect(p.publicPath.endsWith(".png")).toBe(true);
+        expect(p.publicPath.endsWith(".webp")).toBe(true);
       }
     });
 
     it("publicPath 对应文件实际存在于 public/", () => {
       for (const p of nioEs8UpgradeProjects) {
-        // /images/products/nio-es8/generated/foo.png → public/images/products/nio-es8/generated/foo.png
+        // /images/products/nio-es8/generated/foo.webp → public/images/products/nio-es8/generated/foo.webp
         const relative = p.publicPath.replace(/^\//, "");
         const absolute = join(process.cwd(), "public", relative);
         expect(existsSync(absolute)).toBe(true);

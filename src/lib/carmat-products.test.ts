@@ -29,8 +29,8 @@ describe("carmat-products", () => {
   });
 
   it("uses stable numeric ordering", () => {
-    expect(carMatGalleryImages[0]?.filename).toBe("1-1.png");
-    expect(carMatGalleryImages[9]?.filename).toBe("1-10.png");
-    expect(carMatGalleryImages[28]?.filename).toBe("1-29.png");
+    expect(carMatGalleryImages[0]?.filename).toBe("1-1.webp");
+    expect(carMatGalleryImages[9]?.filename).toBe("1-10.webp");
+    expect(carMatGalleryImages[28]?.filename).toBe("1-29.webp");
   });
 });

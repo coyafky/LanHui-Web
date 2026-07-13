@@ -89,7 +89,7 @@ function matchedImage(
   order: number,
   displayName: string,
 ): ZeekrProductImage {
-  const slug = `${String(order).padStart(2, "0")}-${slugify(displayName)}.png`;
+  const slug = `${String(order).padStart(2, "0")}-${slugify(displayName)}.webp`;
   const subdir = modelLower(model);
   return {
     publicPath: `/images/products/zeekr/${subdir}/${slug}`,
@@ -321,7 +321,7 @@ export const zeekrProducts: ZeekrProduct[] = [
     "matched",
     matchedImage("9X", 14, "三段式方向盘"),
   ),
-  // 行 15:源 `后备箱储物.png` 与 PRD 命名 `后备箱储物盒` 差异,需业务核对
+  // 行 15:源 `后备箱储物.webp` 与 PRD 命名 `后备箱储物盒` 差异,需业务核对
   product(
     "9X",
     15,
@@ -400,7 +400,7 @@ export const zeekrProducts: ZeekrProduct[] = [
   ),
 
   // ===== 009 — 1 款(PRD §6.4 行 1)=====
-  // 源文件名 `1-borad.png` 是 `board` 拼写错误,产品全名「地板+尾箱地板」
+  // 源文件名 `1-borad.webp` 是 `board` 拼写错误,产品全名「地板+尾箱地板」
   product(
     "009",
     1,
@@ -448,6 +448,6 @@ export const zeekrTopicMeta: ZeekrTopicMeta = {
     "覆盖极氪 9X、极氪 8X、极氪 009 三款车型共 23 款改装配件,按车型适配,座舱与尾箱统一升级,防护与便利并重。",
   totalProducts: 23,
   totalModels: 3,
-  previewImage: "/images/products/zeekr/preview.png",
-  ogImage: "/images/products/zeekr/preview.png",
+  previewImage: "/images/products/zeekr/preview.webp",
+  ogImage: "/images/products/zeekr/preview.webp",
 };

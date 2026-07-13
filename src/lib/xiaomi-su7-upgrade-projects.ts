@@ -34,7 +34,7 @@ export interface XiaomiSu7UpgradeProject {
   readonly summary: string;
   readonly suitableFor: readonly string[];
   readonly caution?: string;
-  readonly publicPath?: `/images/products/xiaomi/su7/${string}.png`;
+  readonly publicPath?: `/images/products/xiaomi/su7/${string}.webp`;
   readonly width?: number;
   readonly height?: number;
   readonly imageStatus: XiaomiSu7ImageStatus;
@@ -60,7 +60,7 @@ export interface XiaomiSu7FaqItem {
 }
 
 export interface XiaomiSu7HeroImage {
-  readonly publicPath: "/images/products/xiaomi/su7/generated/xs-20.png";
+  readonly publicPath: "/images/products/xiaomi/su7/generated/xs-20.webp";
   readonly alt: "小米 SU7 专属升级方案主视觉";
   readonly width: 1448;
   readonly height: 1086;
@@ -74,7 +74,7 @@ export const XIAOMI_SU7_SERVICE_STEP_COUNT = 6;
 export const XIAOMI_SU7_FAQ_COUNT = 6;
 
 export const XIAOMI_SU7_HERO_IMAGE: XiaomiSu7HeroImage = {
-  publicPath: "/images/products/xiaomi/su7/generated/xs-20.png",
+  publicPath: "/images/products/xiaomi/su7/generated/xs-20.webp",
   alt: "小米 SU7 专属升级方案主视觉",
   width: 1448,
   height: 1086,
@@ -87,7 +87,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-01", order: 1, name: "车衣", category: "paint_protection",
     summary: "透明 PPF 覆盖车身高频区域，保护原厂漆面质感",
     suitableFor: ["新车保护", "漆面防护"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-01.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-01.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -96,7 +96,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-02", order: 2, name: "隔热膜", category: "film_style",
     summary: "前挡与侧窗隔热、防晒、隐私和驾乘舒适升级",
     suitableFor: ["新车保护", "夏季用车"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-02.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-02.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -105,7 +105,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-03", order: 3, name: "改色膜", category: "film_style",
     summary: "改变车身视觉风格，保留原车漆并提升辨识度",
     suitableFor: ["外观个性", "改色风格"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-03.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-03.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -114,7 +114,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-04", order: 4, name: "360 软包脚垫", category: "cabin_protection",
     summary: "覆盖驾驶区、后排地板和门槛区域，提升易清洁能力",
     suitableFor: ["新车保护", "座舱防护"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-04.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-04.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -123,7 +123,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-05", order: 5, name: "底盘护板", category: "chassis_protection",
     summary: "前底盘关键区域防护，降低日常路况剐蹭风险",
     suitableFor: ["新车保护", "底盘防护"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-05.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-05.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -132,7 +132,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-06", order: 6, name: "氛围灯", category: "cabin_comfort",
     summary: "仪表台、门板和中控区域光带，提升夜间座舱氛围",
     suitableFor: ["座舱防护", "高端质感"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-06.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-06.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -142,7 +142,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     summary: "居中仪表模块提升驾驶信息读取与科技感",
     suitableFor: ["座舱防护", "驾驶触点"],
     caution: "需确认原车屏幕、安装位和线束适配",
-    publicPath: "/images/products/xiaomi/su7/generated/xs-07.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-07.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -151,7 +151,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-08", order: 8, name: "底盘灯", category: "exterior_parts",
     summary: "侧裙与前唇下方克制光带，强化夜间外观辨识度",
     suitableFor: ["外观个性", "夜间氛围"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-08.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-08.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -161,7 +161,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     summary: "尾部升起式尾翼结构，提升运动视觉和功能仪式感",
     suitableFor: ["外观个性", "高端质感"],
     caution: "涉及电气与安装位，需到店确认适配",
-    publicPath: "/images/products/xiaomi/su7/generated/xs-09.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-09.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -170,7 +170,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-10", order: 10, name: "电动遮阳帘", category: "electric_convenience",
     summary: "座舱顶部与后窗区域遮阳，提升后排舒适性",
     suitableFor: ["座舱防护", "舒适升级"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-10.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-10.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -180,7 +180,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     summary: "前舱电动撑杆与开启结构，提升日常使用便利性",
     suitableFor: ["外观个性", "电动便利"],
     caution: "需确认前舱结构和电气接口适配",
-    publicPath: "/images/products/xiaomi/su7/generated/xs-11.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-11.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -190,7 +190,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     summary: "Ultra 风格机盖开孔与雕塑线条，强化前脸运动感",
     suitableFor: ["外观个性", "Ultra 风格"],
     caution: "需确认车型版本适配",
-    publicPath: "/images/products/xiaomi/su7/generated/xs-12.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-12.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -200,7 +200,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     summary: "平底运动方向盘、黄色中线与碳纤纹理，强化驾驶触点",
     suitableFor: ["驾驶触点", "Ultra 风格"],
     caution: "需确认与原车功能和安全气囊兼容性",
-    publicPath: "/images/products/xiaomi/su7/generated/xs-13.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-13.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -210,7 +210,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     summary: "抽象声浪交互与座舱运动氛围升级",
     suitableFor: ["驾驶触点", "Ultra 风格"],
     caution: "涉及电气适配，需到店评估",
-    publicPath: "/images/products/xiaomi/su7/generated/xs-14.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-14.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -219,7 +219,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-15", order: 15, name: "后排电视", category: "infotainment",
     summary: "前排座椅背部娱乐屏，提升后排乘坐体验",
     suitableFor: ["座舱防护", "舒适升级"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-15.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-15.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -228,7 +228,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-16", order: 16, name: "Ultra 尾翼", category: "exterior_parts",
     summary: "固定式黑色运动尾翼和支架结构，强化尾部姿态",
     suitableFor: ["外观个性", "Ultra 风格"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-16.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-16.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -237,7 +237,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-17", order: 17, name: "Ultra 碳纤内饰", category: "cabin_comfort",
     summary: "仪表台、中控和门板碳纤纹理饰板，提升座舱质感",
     suitableFor: ["高端质感", "座舱防护"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-17.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-17.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -246,7 +246,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-18", order: 18, name: "Ultra 拉花", category: "film_style",
     summary: "车身侧面与机盖运动条纹，提升 Ultra 风格辨识度",
     suitableFor: ["外观个性", "Ultra 风格"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-18.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-18.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -255,7 +255,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-19", order: 19, name: "座椅按摩", category: "cabin_comfort",
     summary: "运动座椅按摩分区与控制光效，提升长途舒适性",
     suitableFor: ["座舱防护", "舒适升级"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-19.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-19.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -264,7 +264,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-20", order: 20, name: "Ultra 前后包围", category: "exterior_parts",
     summary: "前唇、后扩散器和空气动力套件，强化整车运动姿态",
     suitableFor: ["外观个性", "Ultra 风格"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-20.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-20.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",
@@ -273,7 +273,7 @@ export const xiaomiSu7UpgradeProjects: readonly XiaomiSu7UpgradeProject[] = [
     id: "xs-21", order: 21, name: "Ultra 内饰升级", category: "cabin_comfort",
     summary: "运动方向盘、碳纤饰板、氛围灯与黄色缝线的综合座舱升级",
     suitableFor: ["高端质感", "座舱防护"],
-    publicPath: "/images/products/xiaomi/su7/generated/xs-21.png",
+    publicPath: "/images/products/xiaomi/su7/generated/xs-21.webp",
     width: 1448,
     height: 1086,
     imageStatus: "product-preview", sourceArea: "poster_project_matrix",

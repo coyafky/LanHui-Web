@@ -44,8 +44,8 @@ export function buildWenjieProductPreviewImage(
   modelCategory?: WenjieModelCategory,
 ): WenjiePreviewImageFields {
   const publicPath = modelCategory
-    ? `/images/products/wenjie/${modelCategory}/generated/${key}.png`
-    : `/images/products/wenjie/generated/${key.replace(/^wenjie-/, "")}.png`;
+    ? `/images/products/wenjie/${modelCategory}/generated/${key}.webp`
+    : `/images/products/wenjie/generated/${key.replace(/^wenjie-/, "")}.webp`;
   return {
     imageStatus: "product-preview",
     image: {
@@ -59,7 +59,7 @@ export function buildWenjieProductPreviewImage(
 }
 
 export const wenjieSeriesHeroImage: WenjiePreviewImage = {
-  publicPath: "/images/products/wenjie/generated/series-hero.png",
+  publicPath: "/images/products/wenjie/generated/series-hero.webp",
   alt: "问界系列轻改商品预览效果图",
   width: WENJIE_PREVIEW_IMAGE_WIDTH,
   height: WENJIE_PREVIEW_IMAGE_HEIGHT,
@@ -70,7 +70,7 @@ export function getWenjieModelHeroImage(
   modelKey: WenjieModelCategory,
 ): WenjiePreviewImage {
   return {
-    publicPath: `/images/products/wenjie/${modelKey}/generated/hero.png`,
+    publicPath: `/images/products/wenjie/${modelKey}/generated/hero.webp`,
     alt: `问界 ${modelKey} 轻改商品预览效果图`,
     width: WENJIE_PREVIEW_IMAGE_WIDTH,
     height: WENJIE_PREVIEW_IMAGE_HEIGHT,

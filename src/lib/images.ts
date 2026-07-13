@@ -36,42 +36,42 @@ export const homeImages = {
 /** 产品图片资产 */
 export const productImages: Record<string, ImageAsset> = {
   "electric-steps": {
-    path: "/images/products/electric-steps.png",
+    path: "/images/products/electric-steps.webp",
     alt: "电动踏板",
     width: 1200,
     height: 800,
     sizes: "(max-width: 768px) 100vw, 50vw",
   },
   wheels: {
-    path: "/images/products/wheels.png",
+    path: "/images/products/wheels.webp",
     alt: "轮毂升级",
     width: 1200,
     height: 800,
     sizes: "(max-width: 768px) 100vw, 50vw",
   },
   chassis: {
-    path: "/images/products/chassis.png",
+    path: "/images/products/chassis.webp",
     alt: "底盘装甲",
     width: 1200,
     height: 800,
     sizes: "(max-width: 768px) 100vw, 50vw",
   },
   "window-film": {
-    path: "/images/products/window-film.png",
+    path: "/images/products/window-film.webp",
     alt: "汽车窗膜",
     width: 1200,
     height: 800,
     sizes: "(max-width: 768px) 100vw, 50vw",
   },
   "color-film": {
-    path: "/images/products/color-film.png",
+    path: "/images/products/color-film.webp",
     alt: "改色膜",
     width: 1200,
     height: 800,
     sizes: "(max-width: 768px) 100vw, 50vw",
   },
   ppf: {
-    path: "/images/products/ppf.png",
+    path: "/images/products/ppf.webp",
     alt: "隐形车衣",
     width: 1200,
     height: 800,

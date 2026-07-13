@@ -97,7 +97,7 @@ function generatedImage(fileName: string, displayName: string): Gaoshan8ProductI
 }
 
 export const GAOSHAN_8_HERO_IMAGE: Gaoshan8ProductImage = generatedImage(
-  "hero.png",
+  "hero.webp",
   "主视觉",
 );
 
@@ -112,7 +112,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "漆面保护、日常轻微划痕防护、新车质感保持",
     suitableFor: ["新车用户", "关注漆面长期保持的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("paint-protection-film.png", "车衣"),
+    image: generatedImage("paint-protection-film.webp", "车衣"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -124,7 +124,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "隔热、防晒、隐私和 MPV 长途乘坐舒适",
     suitableFor: ["南方用车", "MPV 长途用户"],
     imageStatus: "product-preview",
-    image: generatedImage("window-film.png", "隔热膜"),
+    image: generatedImage("window-film.webp", "隔热膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -136,7 +136,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "主题化车身视觉表达，适合个性化展示",
     suitableFor: ["追求个性化外观的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("custom-wrap-art.png", "彩绘"),
+    image: generatedImage("custom-wrap-art.webp", "彩绘"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -148,7 +148,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "强化商务 MPV 层次感和高级感",
     suitableFor: ["商务用户", "追求外观质感的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("two-tone-wrap.png", "双拼改色"),
+    image: generatedImage("two-tone-wrap.webp", "双拼改色"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -160,7 +160,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "地毯保护、易清洁、提升座舱完整感",
     suitableFor: ["日常通勤用户", "家中有小孩的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("soft-floor-mats.png", "360软包脚垫"),
+    image: generatedImage("soft-floor-mats.webp", "360软包脚垫"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -172,7 +172,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "后排空间保护、易清洁、提升商务/家庭质感",
     suitableFor: ["MPV 用户", "商务接待场景"],
     imageStatus: "product-preview",
-    image: generatedImage("aluminum-flooring.png", "铝地板"),
+    image: generatedImage("aluminum-flooring.webp", "铝地板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -185,7 +185,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["关注驾驶稳定感的车主"],
     caution: "需到店评估",
     imageStatus: "product-preview",
-    image: generatedImage("stabilizer-bar.png", "平衡杆"),
+    image: generatedImage("stabilizer-bar.webp", "平衡杆"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -198,7 +198,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["追求商务外观的车主"],
     caution: "需确认版本适配",
     imageStatus: "product-preview",
-    image: generatedImage("amxt-body-kit.png", "AMXT包围"),
+    image: generatedImage("amxt-body-kit.webp", "AMXT包围"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -211,7 +211,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["追求运动外观的车主"],
     caution: "需确认版本适配",
     imageStatus: "product-preview",
-    image: generatedImage("bskt-sport-body-kit.png", "BSKT运动包围"),
+    image: generatedImage("bskt-sport-body-kit.webp", "BSKT运动包围"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -224,7 +224,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["家庭用户", "商务接待场景"],
     caution: "需确认底盘结构和踏板形式",
     imageStatus: "product-preview",
-    image: generatedImage("power-step.png", "电动踏板"),
+    image: generatedImage("power-step.webp", "电动踏板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -237,7 +237,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["追求运动外观的车主"],
     caution: "只表达视觉升级，不承诺制动性能提升",
     imageStatus: "product-preview",
-    image: generatedImage("brake-calipers.png", "刹车卡钳"),
+    image: generatedImage("brake-calipers.webp", "刹车卡钳"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -250,7 +250,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["关注外观细节的车主"],
     caution: "需关注合法合规使用场景",
     imageStatus: "product-preview",
-    image: generatedImage("badge-light.png", "车标灯"),
+    image: generatedImage("badge-light.webp", "车标灯"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -263,7 +263,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["关注外观科技感的车主"],
     caution: "需确认合法合规",
     imageStatus: "product-preview",
-    image: generatedImage("daytime-running-lights.png", "日行灯"),
+    image: generatedImage("daytime-running-lights.webp", "日行灯"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -276,7 +276,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["关注科技便利的车主"],
     caution: "需确认安装适配",
     imageStatus: "product-preview",
-    image: generatedImage("head-up-display.png", "抬头显示"),
+    image: generatedImage("head-up-display.webp", "抬头显示"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -288,7 +288,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "保护底部关键区域，适合新车基础防护",
     suitableFor: ["新车用户", "路况复杂用车环境"],
     imageStatus: "product-preview",
-    image: generatedImage("underbody-skid-plate.png", "底盘护板"),
+    image: generatedImage("underbody-skid-plate.webp", "底盘护板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -301,7 +301,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["商务接待用户", "家庭用户"],
     caution: "需重点确认车型版本、门体结构和安装位适配",
     imageStatus: "product-preview",
-    image: generatedImage("sliding-door.png", "中开门"),
+    image: generatedImage("sliding-door.webp", "中开门"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -313,7 +313,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "提升座舱气味体验和精致感",
     suitableFor: ["商务用户", "注重座舱体验的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("fragrance-system.png", "香氛系统"),
+    image: generatedImage("fragrance-system.webp", "香氛系统"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -325,7 +325,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["雨季/泥泞路况用车"],
     imageStatus: "product-preview",
-    image: generatedImage("mud-flaps.png", "挡泥板"),
+    image: generatedImage("mud-flaps.webp", "挡泥板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -337,7 +337,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["夏季/多虫区域用车"],
     imageStatus: "product-preview",
-    image: generatedImage("grille-mesh.png", "防虫网"),
+    image: generatedImage("grille-mesh.webp", "防虫网"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -349,7 +349,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["关注屏幕长期清晰度的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("screen-protector.png", "钢化膜"),
+    image: generatedImage("screen-protector.webp", "钢化膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -361,7 +361,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "提升上下车区域质感，并减少踩踏磨损",
     suitableFor: ["高频上下车的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("aluminum-step-plate.png", "铝合金迎宾踏板"),
+    image: generatedImage("aluminum-step-plate.webp", "铝合金迎宾踏板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -374,7 +374,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     suitableFor: ["追求黑化风格的车主"],
     caution: "以实际套件清单和可施工项目为准",
     imageStatus: "product-preview",
-    image: generatedImage("blackout-kit.png", "黑化81件套"),
+    image: generatedImage("blackout-kit.webp", "黑化81件套"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -386,7 +386,7 @@ export const gaoshan8UpgradeProjects: readonly Gaoshan8UpgradeProject[] = [
     summary: "内饰表面防污、易清洁、保持质感",
     suitableFor: ["注重内饰清洁的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("interior-coating.png", "内饰镀膜"),
+    image: generatedImage("interior-coating.webp", "内饰镀膜"),
     sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly Gaoshan8UpgradeProject[];

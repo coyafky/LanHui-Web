@@ -32,7 +32,7 @@ export interface XiaomiYu7UpgradeProject {
   readonly suitableFor: readonly string[];
   readonly caution?: string;
   readonly imageStatus: XiaomiYu7ImageStatus;
-  readonly publicPath?: `/images/products/xiaomi/yu7/${string}.png`;
+  readonly publicPath?: `/images/products/xiaomi/yu7/${string}.webp`;
   readonly width?: number;
   readonly height?: number;
   readonly aspectRatio?: string;
@@ -58,7 +58,7 @@ export interface XiaomiYu7FaqItem {
 }
 
 export interface XiaomiYu7HeroImage {
-  readonly publicPath: "/images/products/xiaomi/yu7/generated/xy-04.png";
+  readonly publicPath: "/images/products/xiaomi/yu7/generated/xy-04.webp";
   readonly alt: "小米 YU7 专属升级方案主视觉";
   readonly width: 1448;
   readonly height: 1086;
@@ -72,7 +72,7 @@ export const XIAOMI_YU7_SERVICE_STEP_COUNT = 6;
 export const XIAOMI_YU7_FAQ_COUNT = 6;
 
 export const XIAOMI_YU7_HERO_IMAGE: XiaomiYu7HeroImage = {
-  publicPath: "/images/products/xiaomi/yu7/generated/xy-04.png",
+  publicPath: "/images/products/xiaomi/yu7/generated/xy-04.webp",
   alt: "小米 YU7 专属升级方案主视觉",
   width: 1448,
   height: 1086,
@@ -85,7 +85,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     id: "xy-01", order: 1, name: "软包脚垫", category: "cabin_protection",
     summary: "覆盖前后排脚窝和门槛区域，提升地毯保护、易清洁和座舱完整感",
     suitableFor: ["新车保护", "家庭用户"],
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-01.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-01.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -95,7 +95,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     id: "xy-02", order: 2, name: "碳纤维护板", category: "chassis_protection",
     summary: "底部关键区域防护，兼顾轻量视觉、结构保护和运动质感",
     suitableFor: ["新车保护", "底盘防护"],
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-02.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-02.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -106,7 +106,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     summary: "提升车身支撑和驾驶稳定感，需到店评估",
     suitableFor: ["底盘与行车防护", "操控偏好"],
     caution: "需到店评估安装位和适配性",
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-03.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-03.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -116,7 +116,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     id: "xy-04", order: 4, name: "运动包围", category: "exterior_parts",
     summary: "强化外观运动感和整车辨识度",
     suitableFor: ["外观个性", "运动风格"],
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-04.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-04.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -126,7 +126,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     id: "xy-05", order: 5, name: "星空膜", category: "film_style",
     summary: "天幕／玻璃视觉氛围，提升座舱个性",
     suitableFor: ["外观个性", "座舱氛围"],
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-05.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-05.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -136,7 +136,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     id: "xy-06", order: 6, name: "星空卷帘", category: "cabin_comfort",
     summary: "天幕遮阳和氛围装饰，提升乘坐舒适",
     suitableFor: ["座舱防护", "舒适升级"],
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-06.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-06.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -146,7 +146,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     id: "xy-07", order: 7, name: "香氛系统", category: "cabin_comfort",
     summary: "提升座舱气味体验和精致感",
     suitableFor: ["座舱防护", "高端质感"],
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-07.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-07.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -157,7 +157,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     summary: "关门便利、科技感和豪华感升级",
     suitableFor: ["高端质感", "电动便利"],
     caution: "涉及门锁结构与电气适配，需到店确认安装位",
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-08.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-08.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -167,7 +167,7 @@ export const xiaomiYu7UpgradeProjects: readonly XiaomiYu7UpgradeProject[] = [
     id: "xy-09", order: 9, name: "挡泥板", category: "exterior_parts",
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["新车保护", "雨天用车"],
-    publicPath: "/images/products/xiaomi/yu7/generated/xy-09.png",
+    publicPath: "/images/products/xiaomi/yu7/generated/xy-09.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",

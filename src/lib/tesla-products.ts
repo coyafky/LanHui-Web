@@ -43,7 +43,7 @@ export interface TeslaProject {
   /** 一句话价值说明 */
   readonly summary: string;
   readonly applicableModels?: readonly TeslaModel[];
-  readonly publicPath?: `/images/products/tesla/${string}.png`;
+  readonly publicPath?: `/images/products/tesla/${string}.webp`;
   readonly width?: 1448;
   readonly height?: 1086;
   readonly aspectRatio?: "4/3";
@@ -77,7 +77,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 1,
     summary: "漆面保护、抗日常划痕、提升新车保护感",
-    publicPath: "/images/products/tesla/generated/paint-protection-film.png",
+    publicPath: "/images/products/tesla/generated/paint-protection-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -90,7 +90,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 2,
     summary: "隔热、防晒、隐私、驾乘舒适",
-    publicPath: "/images/products/tesla/generated/window-film.png",
+    publicPath: "/images/products/tesla/generated/window-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -103,7 +103,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 3,
     summary: "个性化颜色、可逆改色、视觉焕新",
-    publicPath: "/images/products/tesla/generated/color-change-film.png",
+    publicPath: "/images/products/tesla/generated/color-change-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -116,7 +116,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 4,
     summary: "地毯保护、易清洁、座舱完整感",
-    publicPath: "/images/products/tesla/generated/soft-floor-mats.png",
+    publicPath: "/images/products/tesla/generated/soft-floor-mats.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -129,7 +129,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 5,
     summary: "应对路面剐蹭、碎石和底部防护",
-    publicPath: "/images/products/tesla/generated/underbody-skid-plate.png",
+    publicPath: "/images/products/tesla/generated/underbody-skid-plate.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -142,7 +142,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 6,
     summary: "夜间座舱氛围、个性化体验",
-    publicPath: "/images/products/tesla/generated/ambient-light.png",
+    publicPath: "/images/products/tesla/generated/ambient-light.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -155,7 +155,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 7,
     summary: "夏季乘坐舒适、长途体验提升",
-    publicPath: "/images/products/tesla/generated/ventilated-seat.png",
+    publicPath: "/images/products/tesla/generated/ventilated-seat.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -168,7 +168,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 8,
     summary: "上下车便利、科技感升级",
-    publicPath: "/images/products/tesla/generated/electric-door-handle.png",
+    publicPath: "/images/products/tesla/generated/electric-door-handle.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -181,7 +181,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 9,
     summary: "前备箱开启更便利",
-    publicPath: "/images/products/tesla/generated/electric-frunk.png",
+    publicPath: "/images/products/tesla/generated/electric-frunk.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -194,7 +194,7 @@ export const teslaFeaturedProjects: readonly TeslaProject[] = [
     priority: "featured",
     order: 10,
     summary: "后排/天幕遮阳、提升乘坐舒适",
-    publicPath: "/images/products/tesla/generated/electric-sunshade.png",
+    publicPath: "/images/products/tesla/generated/electric-sunshade.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",

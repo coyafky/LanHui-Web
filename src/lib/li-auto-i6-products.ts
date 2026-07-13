@@ -45,7 +45,7 @@ export type LiAutoI6UpgradeProject = {
   /** 1 句话价值说明 */
   summary: string;
   /** 可选图片路径（pending-review 阶段无图片） */
-  publicPath?: `/images/products/li-auto/i6/${string}.png`;
+  publicPath?: `/images/products/li-auto/i6/${string}.webp`;
   /** 字面量 1448（有图时） */
   width?: 1448;
   /** 字面量 1086（有图时） */
@@ -93,7 +93,7 @@ export type LiAutoI6FaqItem = {
 };
 
 export type LiAutoI6HeroImage = {
-  publicPath: "/images/products/li-auto/i6/generated/hero.png";
+  publicPath: "/images/products/li-auto/i6/generated/hero.webp";
   alt: "理想 i6 专属升级方案主视觉";
   width: 1448;
   height: 1086;
@@ -109,7 +109,7 @@ export const LI_AUTO_I6_SERVICE_STEP_COUNT = 6;
 export const LI_AUTO_I6_FAQ_COUNT = 6;
 
 export const LI_AUTO_I6_HERO_IMAGE: LiAutoI6HeroImage = {
-  publicPath: "/images/products/li-auto/i6/generated/hero.png",
+  publicPath: "/images/products/li-auto/i6/generated/hero.webp",
   alt: "理想 i6 专属升级方案主视觉",
   width: 1448,
   height: 1086,
@@ -126,7 +126,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "protection",
     summary: "漆面保护、日常划痕防护、保持车身质感",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-paint-protection-film.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-paint-protection-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -139,7 +139,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "film",
     summary: "隔热、防晒、隐私与驾乘舒适",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-window-film.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-window-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -152,7 +152,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "appearance",
     summary: "个性化车身视觉，适合主题表达",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-color-graphic.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-color-graphic.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -165,7 +165,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "appearance",
     summary: "强化车身层次感和侧面辨识度",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-two-tone-color.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-two-tone-color.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -178,7 +178,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "cabin_protection",
     summary: "全包围脚垫、易清洁、保护原车地毯",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-floor-mat-360.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-floor-mat-360.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -191,7 +191,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "cabin_atmosphere",
     summary: "车顶星空氛围，提升夜间座舱体验",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-starlight-roof.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-starlight-roof.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -204,7 +204,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "chassis",
     summary: "需到店评估安装位，不做性能承诺",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-sway-bar.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-sway-bar.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -218,7 +218,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "cabin_atmosphere",
     summary: "车内氛围光影和星空视觉效果",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-starlight-film.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-starlight-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -231,7 +231,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "chassis",
     summary: "加强底部关键区域防护，适合新车基础防护",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-skid-plate.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-skid-plate.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -244,7 +244,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "cabin_comfort",
     summary: "后排办公、用餐、儿童使用和短途休息",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-rear-table.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-rear-table.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -257,7 +257,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "cabin_comfort",
     summary: "提升座舱气味体验和精致感",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-fragrance-system.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-fragrance-system.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -270,7 +270,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "appearance",
     summary: "改变侧面姿态和整车视觉风格",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-wheels.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-wheels.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -283,7 +283,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "screen_care",
     summary: "后方视野显示和科技感，需确认电气适配",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-streaming-mirror.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-streaming-mirror.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -297,7 +297,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "screen_care",
     summary: "中控屏幕防刮保护，降低高频触控磨损",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-screen-protector.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-screen-protector.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -310,7 +310,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "appearance",
     summary: "轮毂区域视觉点缀，不做制动性能承诺",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-brake-caliper.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-brake-caliper.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -324,7 +324,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "cabin_protection",
     summary: "上下车高频区域防护与迎宾质感",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-door-sill.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-door-sill.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -337,7 +337,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "driving_protection",
     summary: "减少虫石杂物进入前部格栅或进风区域",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-bug-guard.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-bug-guard.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -350,7 +350,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "driving_protection",
     summary: "减少泥水飞溅和车身侧面污染",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-mud-flap.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-mud-flap.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -363,7 +363,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "screen_care",
     summary: "保护 HUD 显示相关区域，需确认具体安装位",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-hud-protector.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-hud-protector.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -377,7 +377,7 @@ export const liAutoI6UpgradeProjects: readonly LiAutoI6UpgradeProject[] = [
     category: "interior_care",
     summary: "皮革、饰板和高频触碰区域防污易清洁",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/i6/generated/i6-interior-coating.png",
+    publicPath: "/images/products/li-auto/i6/generated/i6-interior-coating.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",

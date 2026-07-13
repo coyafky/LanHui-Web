@@ -95,7 +95,7 @@ function generatedImage(fileName: string, displayName: string): Zeekr9xProductIm
 }
 
 export const ZEEKR_9X_HERO_IMAGE: Zeekr9xProductImage = generatedImage(
-  "hero.png",
+  "hero.webp",
   "主视觉",
 );
 
@@ -110,7 +110,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "漆面保护、抗日常划痕、新车保护感",
     suitableFor: ["新车车主", "漆面保护需求"],
     imageStatus: "product-preview",
-    image: generatedImage("paint-protection-film.png", "车衣"),
+    image: generatedImage("paint-protection-film.webp", "车衣"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -121,7 +121,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "隔热、防晒、隐私、驾乘舒适",
     suitableFor: ["全系车主", "隔热需求"],
     imageStatus: "product-preview",
-    image: generatedImage("window-film.png", "隔热膜"),
+    image: generatedImage("window-film.webp", "隔热膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -132,7 +132,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "个性化图案表达、车身视觉差异化",
     suitableFor: ["外观个性用户"],
     imageStatus: "product-preview",
-    image: generatedImage("custom-wrap-art.png", "彩绘"),
+    image: generatedImage("custom-wrap-art.webp", "彩绘"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -143,7 +143,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "双拼视觉、车身层次和个性化升级",
     suitableFor: ["外观个性用户"],
     imageStatus: "product-preview",
-    image: generatedImage("two-tone-wrap.png", "双拼改色"),
+    image: generatedImage("two-tone-wrap.webp", "双拼改色"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -155,7 +155,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     suitableFor: ["家庭用户", "尾箱高频使用"],
     caution: "不同批次地板接口可能存在差异",
     imageStatus: "product-preview",
-    image: generatedImage("aluminum-flooring.png", "铝地板"),
+    image: generatedImage("aluminum-flooring.webp", "铝地板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -167,7 +167,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     suitableFor: ["驾驶质感用户"],
     caution: "需到店评估安装位和适配性",
     imageStatus: "product-preview",
-    image: generatedImage("stabilizer-bar.png", "平衡杆"),
+    image: generatedImage("stabilizer-bar.webp", "平衡杆"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -178,7 +178,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "地毯保护、易清洁、座舱完整感",
     suitableFor: ["新车车主", "家庭用户"],
     imageStatus: "product-preview",
-    image: generatedImage("soft-floor-mats.png", "360软包脚垫"),
+    image: generatedImage("soft-floor-mats.webp", "360软包脚垫"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -189,7 +189,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "应对路面剐蹭、碎石和底部防护",
     suitableFor: ["新车车主", "复杂路况用户"],
     imageStatus: "product-preview",
-    image: generatedImage("underbody-guard.png", "底盘护板"),
+    image: generatedImage("underbody-guard.webp", "底盘护板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -200,7 +200,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "强化外观运动感和整车辨识度",
     suitableFor: ["外观个性用户"],
     imageStatus: "product-preview",
-    image: generatedImage("sport-body-kit.png", "运动包围"),
+    image: generatedImage("sport-body-kit.webp", "运动包围"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -211,7 +211,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "强化轮毂区域视觉运动感",
     suitableFor: ["外观个性用户"],
     imageStatus: "product-preview",
-    image: generatedImage("brake-calipers.png", "刹车卡钳"),
+    image: generatedImage("brake-calipers.webp", "刹车卡钳"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -222,7 +222,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["家庭用户", "高频上下车"],
     imageStatus: "product-preview",
-    image: generatedImage("door-sill-trim.png", "门槛条"),
+    image: generatedImage("door-sill-trim.webp", "门槛条"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -234,7 +234,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     suitableFor: ["外观个性用户"],
     caution: "需确认尺寸适配",
     imageStatus: "product-preview",
-    image: generatedImage("wheels.png", "轮毂"),
+    image: generatedImage("wheels.webp", "轮毂"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -245,7 +245,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "高频储物区和细节区域保护，便于清洁",
     suitableFor: ["家庭用户", "细节保护"],
     imageStatus: "product-preview",
-    image: generatedImage("silicone-liner-set.png", "硅胶垫套餐"),
+    image: generatedImage("silicone-liner-set.webp", "硅胶垫套餐"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -256,7 +256,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["复杂路况用户"],
     imageStatus: "product-preview",
-    image: generatedImage("mud-flaps.png", "挡泥板"),
+    image: generatedImage("mud-flaps.webp", "挡泥板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -267,7 +267,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["长途用户", "高速行驶"],
     imageStatus: "product-preview",
-    image: generatedImage("grille-mesh.png", "防虫网"),
+    image: generatedImage("grille-mesh.webp", "防虫网"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -278,7 +278,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["全系车主"],
     imageStatus: "product-preview",
-    image: generatedImage("screen-protector.png", "钢化膜"),
+    image: generatedImage("screen-protector.webp", "钢化膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -289,7 +289,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "车头/车尾细节装饰与牌照区域保护",
     suitableFor: ["细节装饰"],
     imageStatus: "product-preview",
-    image: generatedImage("license-plate-frame.png", "牌照框"),
+    image: generatedImage("license-plate-frame.webp", "牌照框"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -300,7 +300,7 @@ export const zeekr9xUpgradeProjects: readonly Zeekr9xUpgradeProject[] = [
     summary: "内饰表面防污、易清洁、保持质感",
     suitableFor: ["内饰保护需求"],
     imageStatus: "product-preview",
-    image: generatedImage("interior-coating.png", "内饰镀膜"),
+    image: generatedImage("interior-coating.webp", "内饰镀膜"),
     sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly Zeekr9xUpgradeProject[];

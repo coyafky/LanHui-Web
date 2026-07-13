@@ -54,7 +54,7 @@ describe("li-auto-l9-products data shape (B.1)", () => {
     it("全部设置了 publicPath（商品预览效果图）", () => {
       for (const p of liAutoL9UpgradeProjects) {
         expect(p.publicPath).toBeDefined();
-        expect(p.publicPath).toMatch(/^\/images\/products\/li-auto\/l9\/generated\/.+\.png$/);
+        expect(p.publicPath).toMatch(/^\/images\/products\/li-auto\/l9\/generated\/.+\.webp$/);
       }
     });
 

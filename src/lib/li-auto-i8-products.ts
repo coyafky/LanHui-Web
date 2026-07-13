@@ -45,7 +45,7 @@ export type LiAutoI8UpgradeProject = {
   /** 1 句话价值说明 */
   summary: string;
   /** 可选图片路径（pending-review 阶段无图片） */
-  publicPath?: `/images/products/li-auto/i8/${string}.png`;
+  publicPath?: `/images/products/li-auto/i8/${string}.webp`;
   /** 字面量 1448（有图时） */
   width?: 1448;
   /** 字面量 1086（有图时） */

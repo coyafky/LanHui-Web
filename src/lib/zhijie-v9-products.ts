@@ -95,7 +95,7 @@ function generatedImage(
 }
 
 export const ZHIJIE_V9_HERO_IMAGE: ZhijieV9ProductImage = generatedImage(
-  "zhijie-v9-ppf.png",
+  "zhijie-v9-ppf.webp",
   "主视觉",
 );
 
@@ -109,7 +109,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "漆面保护、日常轻微划痕防护、新车质感保持",
     suitableFor: ["新车用户", "关注漆面长期保持的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-ppf.png", "车衣"),
+    image: generatedImage("zhijie-v9-ppf.webp", "车衣"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -120,7 +120,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "隔热、防晒、隐私和 MPV 长途乘坐舒适",
     suitableFor: ["南方用车", "重视车内舒适的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-window-film.png", "隔热膜"),
+    image: generatedImage("zhijie-v9-window-film.webp", "隔热膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -131,7 +131,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "主题化车身视觉表达,适合个性化展示",
     suitableFor: ["追求个性化外观的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-paint-art.png", "彩绘"),
+    image: generatedImage("zhijie-v9-paint-art.webp", "彩绘"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -142,7 +142,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "改变车身视觉风格,提升整车辨识度",
     suitableFor: ["希望低成本换色的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-color-film.png", "改色膜"),
+    image: generatedImage("zhijie-v9-color-film.webp", "改色膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -153,7 +153,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "地毯保护、易清洁、提升座舱完整感",
     suitableFor: ["日常通勤用户", "家中有小孩的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-floor-mats.png", "360 脚垫"),
+    image: generatedImage("zhijie-v9-floor-mats.webp", "360 脚垫"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -165,7 +165,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     suitableFor: ["关注驾驶稳定感的车主"],
     caution: "需到店评估",
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-balance-bar.png", "平衡杆"),
+    image: generatedImage("zhijie-v9-balance-bar.webp", "平衡杆"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -176,7 +176,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "保护底部关键区域,适合新车基础防护",
     suitableFor: ["新车用户", "路况复杂用车环境"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-skid-plate.png", "底盘护板"),
+    image: generatedImage("zhijie-v9-skid-plate.webp", "底盘护板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -187,7 +187,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "后排空间保护、易清洁、提升商务/家庭质感",
     suitableFor: ["MPV 用户", "商务接待场景"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-aluminum-floor.png", "铝地板"),
+    image: generatedImage("zhijie-v9-aluminum-floor.webp", "铝地板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -198,7 +198,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["高频上下车的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-door-sill.png", "门槛条"),
+    image: generatedImage("zhijie-v9-door-sill.webp", "门槛条"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -209,7 +209,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "优化车头/车尾细节,提升视觉完整度",
     suitableFor: ["关注外观细节的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-license-frame.png", "牌照框"),
+    image: generatedImage("zhijie-v9-license-frame.webp", "牌照框"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -220,7 +220,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["雨季/泥泞路况用车"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-mudguard.png", "挡泥板"),
+    image: generatedImage("zhijie-v9-mudguard.webp", "挡泥板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -231,7 +231,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["夏季/多虫区域用车"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-bug-screen.png", "防虫网"),
+    image: generatedImage("zhijie-v9-bug-screen.webp", "防虫网"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -242,7 +242,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["关注屏幕长期清晰度的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-tempered-film.png", "钢化膜"),
+    image: generatedImage("zhijie-v9-tempered-film.webp", "钢化膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -254,7 +254,7 @@ export const zhijieV9UpgradeProjects: readonly ZhijieV9UpgradeProject[] = [
     suitableFor: ["使用抬头显示的车主"],
     caution: "需确认安装位",
     imageStatus: "product-preview",
-    image: generatedImage("zhijie-v9-hud-cover.png", "抬头显示罩"),
+    image: generatedImage("zhijie-v9-hud-cover.webp", "抬头显示罩"),
     sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly ZhijieV9UpgradeProject[];

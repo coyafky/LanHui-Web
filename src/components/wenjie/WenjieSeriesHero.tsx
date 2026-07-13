@@ -95,7 +95,7 @@ export function WenjieSeriesHero({
           <div className="relative">
             <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-zinc-800 bg-zinc-900">
               <Image
-                src={wenjieSeriesHeroImage.publicPath ?? "/images/products/wenjie/preview.png"}
+                src={wenjieSeriesHeroImage.publicPath ?? "/images/products/wenjie/preview.webp"}
                 alt={wenjieSeriesHeroImage.alt}
                 fill
                 priority

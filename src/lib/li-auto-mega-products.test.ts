@@ -54,7 +54,7 @@ describe("li-auto-mega-products data shape (B.1)", () => {
     it("全部设置了 publicPath（商品预览效果图）", () => {
       for (const p of liAutoMegaUpgradeProjects) {
         expect(p.publicPath).toBeDefined();
-        expect(p.publicPath).toMatch(/^\/images\/products\/li-auto\/mega\/generated\/.+\.png$/);
+        expect(p.publicPath).toMatch(/^\/images\/products\/li-auto\/mega\/generated\/.+\.webp$/);
       }
     });
 

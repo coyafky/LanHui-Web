@@ -96,7 +96,7 @@ function generatedImage(
 }
 
 export const DENZA_D9_HERO_IMAGE: DenzaD9ProductImage = generatedImage(
-  "hero.png",
+  "hero.webp",
   "主视觉",
 );
 
@@ -110,7 +110,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "漆面保护、抗日常划痕、新车保护感",
     suitableFor: ["新车用户", "关注漆面长期保持的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("paint-protection-film.png", "车衣"),
+    image: generatedImage("paint-protection-film.webp", "车衣"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -121,7 +121,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "隔热、防晒、隐私、驾乘舒适",
     suitableFor: ["南方用车", "重视车内舒适的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("window-film.png", "隔热膜"),
+    image: generatedImage("window-film.webp", "隔热膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -132,7 +132,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "个性化图案表达、车身视觉差异化",
     suitableFor: ["追求个性化外观的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("custom-wrap-art.png", "彩绘"),
+    image: generatedImage("custom-wrap-art.webp", "彩绘"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -143,7 +143,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "双拼视觉、车身层次和商务外观升级",
     suitableFor: ["商务用户", "追求外观质感的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("two-tone-wrap.png", "双拼改色"),
+    image: generatedImage("two-tone-wrap.webp", "双拼改色"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -154,7 +154,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "地毯保护、易清洁、座舱完整感",
     suitableFor: ["日常通勤用户", "家中有小孩的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("soft-floor-mats.png", "360软包脚垫"),
+    image: generatedImage("soft-floor-mats.webp", "360软包脚垫"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -165,7 +165,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "易清洁、耐用，提升二排和尾箱区域质感",
     suitableFor: ["MPV 用户", "商务接待场景"],
     imageStatus: "product-preview",
-    image: generatedImage("aluminum-flooring.png", "铝地板"),
+    image: generatedImage("aluminum-flooring.webp", "铝地板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -177,7 +177,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     suitableFor: ["关注驾驶稳定感的车主"],
     caution: "需到店评估",
     imageStatus: "product-preview",
-    image: generatedImage("stabilizer-bar.png", "平衡杆"),
+    image: generatedImage("stabilizer-bar.webp", "平衡杆"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -189,7 +189,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     suitableFor: ["追求运动外观的车主"],
     caution: "需确认版本适配",
     imageStatus: "product-preview",
-    image: generatedImage("amxt-body-kit.png", "amxt包围"),
+    image: generatedImage("amxt-body-kit.webp", "amxt包围"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -201,7 +201,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     suitableFor: ["追求运动外观的车主"],
     caution: "需确认版本适配",
     imageStatus: "product-preview",
-    image: generatedImage("bskt-sport-body-kit.png", "bskt运动包围"),
+    image: generatedImage("bskt-sport-body-kit.webp", "bskt运动包围"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -212,7 +212,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "应对路面剐蹭、碎石和底部防护",
     suitableFor: ["新车用户", "路况复杂用车环境"],
     imageStatus: "product-preview",
-    image: generatedImage("underbody-skid-plate.png", "底盘护板"),
+    image: generatedImage("underbody-skid-plate.webp", "底盘护板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -223,7 +223,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "后排办公、用餐、儿童使用场景",
     suitableFor: ["商务用户", "家庭用户"],
     imageStatus: "product-preview",
-    image: generatedImage("folding-table.png", "小桌板"),
+    image: generatedImage("folding-table.webp", "小桌板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -234,7 +234,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "夜间座舱氛围、商务和家庭乘坐体验",
     suitableFor: ["商务用户", "注重座舱氛围的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("ambient-lighting.png", "氛围灯"),
+    image: generatedImage("ambient-lighting.webp", "氛围灯"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -245,7 +245,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "前脸视觉升级和日间辨识度",
     suitableFor: ["关注外观细节的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("daytime-running-lights.png", "日行灯"),
+    image: generatedImage("daytime-running-lights.webp", "日行灯"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -257,7 +257,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     suitableFor: ["关注科技便利的车主"],
     caution: "需确认安装位",
     imageStatus: "product-preview",
-    image: generatedImage("head-up-display.png", "抬头显示"),
+    image: generatedImage("head-up-display.webp", "抬头显示"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -268,7 +268,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "后排影音娱乐,适合家庭和商务场景",
     suitableFor: ["家庭用户", "商务接待场景"],
     imageStatus: "product-preview",
-    image: generatedImage("ceiling-screen.png", "吸顶电视"),
+    image: generatedImage("ceiling-screen.webp", "吸顶电视"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -279,7 +279,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "车尾/侧后方灯光视觉升级",
     suitableFor: ["关注外观细节的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("d-pillar-light.png", "D柱灯"),
+    image: generatedImage("d-pillar-light.webp", "D柱灯"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -291,7 +291,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     suitableFor: ["户外出行用户"],
     caution: "需确认车型适配",
     imageStatus: "product-preview",
-    image: generatedImage("aluminum-roof-rack.png", "铝合金行李架"),
+    image: generatedImage("aluminum-roof-rack.webp", "铝合金行李架"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -302,7 +302,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["雨季/泥泞路况用车"],
     imageStatus: "product-preview",
-    image: generatedImage("mud-flaps.png", "挡泥板"),
+    image: generatedImage("mud-flaps.webp", "挡泥板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -313,7 +313,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["夏季/多虫区域用车"],
     imageStatus: "product-preview",
-    image: generatedImage("grille-mesh.png", "防虫网"),
+    image: generatedImage("grille-mesh.webp", "防虫网"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -324,7 +324,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["关注屏幕长期清晰度的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("screen-protector.png", "钢化膜"),
+    image: generatedImage("screen-protector.webp", "钢化膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -335,7 +335,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["高频上下车的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("door-sill-plate.png", "门槛条"),
+    image: generatedImage("door-sill-plate.webp", "门槛条"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -346,7 +346,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "车头/车尾细节装饰与牌照区域保护",
     suitableFor: ["关注外观细节的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("license-plate-frame.png", "牌照框"),
+    image: generatedImage("license-plate-frame.webp", "牌照框"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -357,7 +357,7 @@ export const denzaD9UpgradeProjects: readonly DenzaD9UpgradeProject[] = [
     summary: "内饰表面防污、易清洁、保持质感",
     suitableFor: ["注重内饰清洁的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("interior-coating.png", "内饰镀膜"),
+    image: generatedImage("interior-coating.webp", "内饰镀膜"),
     sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly DenzaD9UpgradeProject[];

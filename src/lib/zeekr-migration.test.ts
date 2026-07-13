@@ -6,11 +6,11 @@
  *
  * 验收点(对应 PRD §8.3 / §8.6 / §16):
  * 1. 目标目录 public/images/products/zeekr/{9x,8x,009}/ 全部存在
- * 2. 9X 14 个 PNG + 8X 6 个 PNG + 009 1 个 PNG = 21 个
+ * 2. 9X 14 个 WebP + 8X 6 个 WebP + 009 1 个 WebP = 21 个
  * 3. 所有文件名符合 ASCII slug 规范
  * 4. 旧目录 public/images/products/zeekr/{极氪9X,极氪8X,Zeeker009}/ 全部不存在
- * 5. 所有 PNG 像素 = 1448×1086,宽高比 4:3
- * 6. 所有 PNG 大小 ≤ 500 KB
+ * 5. 所有 WebP 像素 = 1448×1086,宽高比 4:3
+ * 6. 所有 WebP 大小 ≤ 500 KB
  */
 import { describe, it, expect, beforeAll } from "vitest";
 import { execFileSync } from "node:child_process";
@@ -21,7 +21,7 @@ import sharp from "sharp";
 const ROOT = join(process.cwd(), "public/images/products");
 const TARGET = join(ROOT, "zeekr");
 const SOURCE = TARGET;
-const ASCII_SLUG_REGEX = /^[a-z0-9-]+\.png$/;
+const ASCII_SLUG_REGEX = /^[a-z0-9-]+\.webp$/;
 
 type Subdir = "9x" | "8x" | "009";
 const EXPECTED_COUNTS: Record<Subdir, number> = {
@@ -33,9 +33,8 @@ const EXPECTED_COUNTS: Record<Subdir, number> = {
 const EXPECTED_WIDTH = 1448;
 const EXPECTED_HEIGHT = 1086;
 // PRD v2.0 §8.2 规格表(2026-06-16 build 修订):文件大小 ≤ 3 MB
-// 实测 21 张 PNG 大小范围 1051-2357 KB,平均 1675 KB
-// 测试上限 2500 KB = 实测最大值 × 1.06,留出 4% 余量
-const MAX_FILE_SIZE_BYTES = 2500 * 1024;
+// 转换后 WebP 应保持在 500 KB 以内。
+const MAX_FILE_SIZE_BYTES = 500 * 1024;
 
 describe("PRD §8.3 zeekr 图片迁移结果", () => {
   beforeAll(() => {
@@ -48,11 +47,11 @@ describe("PRD §8.3 zeekr 图片迁移结果", () => {
 
   describe("目录结构", () => {
     it.each(Object.entries(EXPECTED_COUNTS) as [Subdir, number][])(
-      "%s 子目录存在且含 %i 个 PNG",
+      "%s 子目录存在且含 %i 个 WebP",
       (subdir, expectedCount) => {
         const dir = join(TARGET, subdir);
         expect(existsSync(dir), `目录应存在: ${dir}`).toBe(true);
-        const files = readdirSync(dir).filter((f) => f.endsWith(".png"));
+        const files = readdirSync(dir).filter((f) => f.endsWith(".webp"));
         expect(files).toHaveLength(expectedCount);
       },
     );
@@ -75,11 +74,11 @@ describe("PRD §8.3 zeekr 图片迁移结果", () => {
       "%s 子目录所有文件名符合 ASCII slug",
       (subdir) => {
         const dir = join(TARGET, subdir);
-        const files = readdirSync(dir).filter((f) => f.endsWith(".png"));
+        const files = readdirSync(dir).filter((f) => f.endsWith(".webp"));
         for (const f of files) {
           expect(
             ASCII_SLUG_REGEX.test(f),
-            `文件名不符合 ^[a-z0-9-]+\\.png$: ${f}`,
+            `文件名不符合 ^[a-z0-9-]+\\.webp$: ${f}`,
           ).toBe(true);
         }
       },
@@ -88,10 +87,10 @@ describe("PRD §8.3 zeekr 图片迁移结果", () => {
 
   describe("像素规格", () => {
     it.each(Object.keys(EXPECTED_COUNTS) as Subdir[])(
-      "%s 子目录所有 PNG 像素 = 1448×1086、宽高比 = 4:3",
+      "%s 子目录所有 WebP 像素 = 1448×1086、宽高比 = 4:3",
       async (subdir) => {
         const dir = join(TARGET, subdir);
-        const files = readdirSync(dir).filter((f) => f.endsWith(".png"));
+        const files = readdirSync(dir).filter((f) => f.endsWith(".webp"));
         for (const f of files) {
           const meta = await sharp(join(dir, f)).metadata();
           expect(meta.width, `${f} 宽度应为 ${EXPECTED_WIDTH}`).toBe(
@@ -112,10 +111,10 @@ describe("PRD §8.3 zeekr 图片迁移结果", () => {
 
   describe("文件大小", () => {
     it.each(Object.keys(EXPECTED_COUNTS) as Subdir[])(
-      "%s 子目录所有 PNG 大小 ≤ 500 KB",
+      "%s 子目录所有 WebP 大小 ≤ 500 KB",
       (subdir) => {
         const dir = join(TARGET, subdir);
-        const files = readdirSync(dir).filter((f) => f.endsWith(".png"));
+        const files = readdirSync(dir).filter((f) => f.endsWith(".webp"));
         for (const f of files) {
           const size = statSync(join(dir, f)).size;
           expect(
@@ -128,11 +127,11 @@ describe("PRD §8.3 zeekr 图片迁移结果", () => {
   });
 
   describe("总数", () => {
-    it("21 个 PNG 全部就位", () => {
+    it("21 个 WebP 全部就位", () => {
       const all: string[] = [];
       for (const sub of Object.keys(EXPECTED_COUNTS) as Subdir[]) {
         const dir = join(TARGET, sub);
-        all.push(...readdirSync(dir).filter((f) => f.endsWith(".png")));
+        all.push(...readdirSync(dir).filter((f) => f.endsWith(".webp")));
       }
       expect(all).toHaveLength(21);
     });

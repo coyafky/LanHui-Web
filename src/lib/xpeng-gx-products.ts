@@ -102,7 +102,7 @@ function generatedImage(
 }
 
 export const XPENG_GX_HERO_IMAGE: XpengGxProductImage = generatedImage(
-  "hero.png",
+  "hero.webp",
   "主视觉",
 );
 
@@ -117,7 +117,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "漆面保护、日常轻微划痕防护、新车质感保持",
     suitableFor: ["新车用户", "关注漆面长期保持的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("paint-protection-film.png", "车衣"),
+    image: generatedImage("paint-protection-film.webp", "车衣"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -129,7 +129,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "隔热、防晒、隐私和驾乘舒适",
     suitableFor: ["南方用车", "重视车内舒适的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("window-film.png", "隔热膜"),
+    image: generatedImage("window-film.webp", "隔热膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -141,7 +141,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "主题化车身视觉表达,提升辨识度",
     suitableFor: ["追求个性化外观的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("graphic-wrap.png", "彩绘"),
+    image: generatedImage("graphic-wrap.webp", "彩绘"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -153,7 +153,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "改变车身视觉风格,满足个性化表达",
     suitableFor: ["希望低成本换色的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("color-change-film.png", "改色膜"),
+    image: generatedImage("color-change-film.webp", "改色膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -166,7 +166,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     suitableFor: ["关注科技便利的车主"],
     caution: "项目处于预售或待确认状态,需到店确认排期和适配",
     imageStatus: "product-preview",
-    image: generatedImage("electric-door.png", "电动门"),
+    image: generatedImage("electric-door.webp", "电动门"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -179,7 +179,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     suitableFor: ["关注驾驶稳定感的车主"],
     caution: "需到店评估",
     imageStatus: "product-preview",
-    image: generatedImage("stabilizer-bar.png", "平衡杆"),
+    image: generatedImage("stabilizer-bar.webp", "平衡杆"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -191,7 +191,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "保护底部关键区域,适合新车基础防护",
     suitableFor: ["新车用户", "路况复杂用车环境"],
     imageStatus: "product-preview",
-    image: generatedImage("underbody-skid-plate.png", "底盘护板"),
+    image: generatedImage("underbody-skid-plate.webp", "底盘护板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -203,7 +203,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "地毯保护、易清洁、提升座舱完整感",
     suitableFor: ["日常通勤用户", "家中有小孩的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("floor-mats-360.png", "360 脚垫"),
+    image: generatedImage("floor-mats-360.webp", "360 脚垫"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -215,7 +215,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "改变整车侧面姿态和视觉质感",
     suitableFor: ["追求外观姿态的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("wheel-rims.png", "轮毂"),
+    image: generatedImage("wheel-rims.webp", "轮毂"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -227,7 +227,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "上下车高频区域防刮、防踩踏磨损",
     suitableFor: ["高频上下车的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("door-sill-plate.png", "门槛条"),
+    image: generatedImage("door-sill-plate.webp", "门槛条"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -239,7 +239,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "减少虫石杂物进入关键散热/进风区域",
     suitableFor: ["夏季/多虫区域用车"],
     imageStatus: "product-preview",
-    image: generatedImage("bug-screen.png", "防虫网"),
+    image: generatedImage("bug-screen.webp", "防虫网"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -251,7 +251,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "减少泥水飞溅和车身侧面污染",
     suitableFor: ["雨季/泥泞路况用车"],
     imageStatus: "product-preview",
-    image: generatedImage("mud-flap.png", "挡泥板"),
+    image: generatedImage("mud-flap.webp", "挡泥板"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -263,7 +263,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "中控/娱乐屏幕防刮保护",
     suitableFor: ["关注屏幕长期清晰度的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("screen-protector.png", "钢化膜"),
+    image: generatedImage("screen-protector.webp", "钢化膜"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -276,7 +276,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     suitableFor: ["使用抬头显示的车主"],
     caution: "需确认安装位",
     imageStatus: "product-preview",
-    image: generatedImage("hud-cover.png", "抬头显示罩"),
+    image: generatedImage("hud-cover.webp", "抬头显示罩"),
     sourceArea: "poster_project_matrix",
   },
   {
@@ -288,7 +288,7 @@ export const xpengGxUpgradeProjects: readonly XpengGxUpgradeProject[] = [
     summary: "优化车头/车尾细节,提升视觉完整度",
     suitableFor: ["关注外观细节的车主"],
     imageStatus: "product-preview",
-    image: generatedImage("license-plate-frame.png", "牌照框"),
+    image: generatedImage("license-plate-frame.webp", "牌照框"),
     sourceArea: "poster_project_matrix",
   },
 ] as const satisfies readonly XpengGxUpgradeProject[];

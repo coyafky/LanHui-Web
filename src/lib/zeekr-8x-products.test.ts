@@ -67,7 +67,7 @@ describe("zeekr-8x-products data shape (Task A + D)", () => {
     it("全部项目图指向 zeekr-8x generated 目录", () => {
       for (const p of zeekr8xUpgradeProjects) {
         expect(p.image.publicPath).toMatch(
-          /^\/images\/products\/zeekr-8x\/generated\/[a-z0-9-]+\.png$/,
+          /^\/images\/products\/zeekr-8x\/generated\/[a-z0-9-]+\.webp$/,
         );
         expect(p.image.alt).toContain(`极氪 8X ${p.name}`);
         expect(p.image.width).toBe(1448);
@@ -83,7 +83,7 @@ describe("zeekr-8x-products data shape (Task A + D)", () => {
 
     it("hero 图使用 generated 主视觉", () => {
       expect(ZEEKR_8X_HERO_IMAGE.publicPath).toBe(
-        "/images/products/zeekr-8x/generated/hero.png",
+        "/images/products/zeekr-8x/generated/hero.webp",
       );
       expect(ZEEKR_8X_HERO_IMAGE.width).toBe(1448);
       expect(ZEEKR_8X_HERO_IMAGE.height).toBe(1086);

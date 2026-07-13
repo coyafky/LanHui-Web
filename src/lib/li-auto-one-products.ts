@@ -40,7 +40,7 @@ export type LiAutoOneUpgradeProject = {
   /** 1 句话价值说明 */
   summary: string;
   /** 可选图片路径（pending-review 阶段无图片） */
-  publicPath?: `/images/products/li-auto/one/${string}.png`;
+  publicPath?: `/images/products/li-auto/one/${string}.webp`;
   /** 字面量 1448（有图时） */
   width?: 1448;
   /** 字面量 1086（有图时） */
@@ -105,7 +105,7 @@ export const liAutoOneUpgradeProjects: readonly LiAutoOneUpgradeProject[] = [
     category: "protection",
     summary: "漆面保护、日常划痕防护、老车焕新保持质感",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/one/generated/paint-protection-film.png",
+    publicPath: "/images/products/li-auto/one/generated/paint-protection-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -118,7 +118,7 @@ export const liAutoOneUpgradeProjects: readonly LiAutoOneUpgradeProject[] = [
     category: "film",
     summary: "隔热、防晒、隐私与家庭乘坐舒适",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/one/generated/window-film.png",
+    publicPath: "/images/products/li-auto/one/generated/window-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -131,7 +131,7 @@ export const liAutoOneUpgradeProjects: readonly LiAutoOneUpgradeProject[] = [
     category: "appearance",
     summary: "车身外观焕新、颜色个性化和视觉辨识度",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/one/generated/color-change-film.png",
+    publicPath: "/images/products/li-auto/one/generated/color-change-film.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -144,7 +144,7 @@ export const liAutoOneUpgradeProjects: readonly LiAutoOneUpgradeProject[] = [
     category: "family_cabin",
     summary: "后排用餐、办公、儿童使用和长途休息",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/one/generated/rear-table-tray.png",
+    publicPath: "/images/products/li-auto/one/generated/rear-table-tray.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -157,7 +157,7 @@ export const liAutoOneUpgradeProjects: readonly LiAutoOneUpgradeProject[] = [
     category: "cabin_comfort",
     summary: "夜间座舱氛围与内饰观感升级",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/one/generated/ambient-light.png",
+    publicPath: "/images/products/li-auto/one/generated/ambient-light.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -170,7 +170,7 @@ export const liAutoOneUpgradeProjects: readonly LiAutoOneUpgradeProject[] = [
     category: "accessibility",
     summary: "老人、小孩上下车辅助，提升日常用车便利",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/one/generated/electric-side-step.png",
+    publicPath: "/images/products/li-auto/one/generated/electric-side-step.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -184,7 +184,7 @@ export const liAutoOneUpgradeProjects: readonly LiAutoOneUpgradeProject[] = [
     category: "family_cabin",
     summary: "后排座椅旋转，提升座舱使用便利和空间灵活性",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/one/generated/rotating-seat.png",
+    publicPath: "/images/products/li-auto/one/generated/rotating-seat.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",
@@ -198,7 +198,7 @@ export const liAutoOneUpgradeProjects: readonly LiAutoOneUpgradeProject[] = [
     category: "outdoor",
     summary: "露营、自驾装备扩展，车顶固定点与承重依车型确认",
     imageStatus: "product-preview",
-    publicPath: "/images/products/li-auto/one/generated/roof-platform-ladder.png",
+    publicPath: "/images/products/li-auto/one/generated/roof-platform-ladder.webp",
     width: 1448,
     height: 1086,
     aspectRatio: "4/3",

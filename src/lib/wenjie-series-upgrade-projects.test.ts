@@ -91,7 +91,7 @@ describe("wenjie-series-upgrade-projects: optional projects invariants", () => {
     const withImages = [...wenjieSeriesFeaturedProjects, ...wenjieSeriesOptionalProjects]
       .filter((p) => p.imageStatus !== "missing");
     for (const p of withImages) {
-      expect(p.image.publicPath).toMatch(/^\/images\/products\/wenjie\/generated\/series-.+\.png$/);
+      expect(p.image.publicPath).toMatch(/^\/images\/products\/wenjie\/generated\/series-.+\.webp$/);
       expect(p.image.width).toBe(1448);
       expect(p.image.height).toBe(1086);
       expect(p.image.aspectRatio).toBe("4/3");

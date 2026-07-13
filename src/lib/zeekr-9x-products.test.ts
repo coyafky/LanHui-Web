@@ -51,7 +51,7 @@ describe("Zeekr 9X data shape (Task D)", () => {
     it("全部项目图指向 zeekr-9x generated 目录", () => {
       for (const p of zeekr9xUpgradeProjects) {
         expect(p.image.publicPath).toMatch(
-          /^\/images\/products\/zeekr-9x\/generated\/[a-z0-9-]+\.png$/,
+          /^\/images\/products\/zeekr-9x\/generated\/[a-z0-9-]+\.webp$/,
         );
         expect(p.image.alt).toContain(`极氪 9X ${p.name}`);
         expect(p.image.width).toBe(1448);
@@ -67,7 +67,7 @@ describe("Zeekr 9X data shape (Task D)", () => {
 
     it("hero 图使用 generated 主视觉", () => {
       expect(ZEEKR_9X_HERO_IMAGE.publicPath).toBe(
-        "/images/products/zeekr-9x/generated/hero.png",
+        "/images/products/zeekr-9x/generated/hero.webp",
       );
       expect(ZEEKR_9X_HERO_IMAGE.width).toBe(1448);
       expect(ZEEKR_9X_HERO_IMAGE.height).toBe(1086);
