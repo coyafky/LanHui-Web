@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { organizationSchema } from "@/lib/schema";
 import { SkipToContent } from "@/components/SkipToContent";
-import { WeChatConsultModal } from "@/components/shared/WeChatConsultModal";
+import { LazyWeChatConsultModal } from "@/components/shared/LazyWeChatConsultModal";
 import { safeJsonLd } from "@/lib/json-ld";
 import "./globals.css";
 
@@ -50,7 +50,7 @@ export default function RootLayout({
           }}
         />
         {children}
-        <WeChatConsultModal />
+        <LazyWeChatConsultModal />
       </body>
     </html>
   );

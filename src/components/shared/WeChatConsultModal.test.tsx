@@ -21,11 +21,11 @@ const mockIsOpen = vi.hoisted(() => ({ current: false }));
 vi.mock("@/lib/wechat-modal", () => ({
   subscribeWeChatModal: (listener: (open: boolean) => void) => {
     listeners.add(listener);
-    listener(mockIsOpen.current);
     return () => {
       listeners.delete(listener);
     };
   },
+  getWeChatModalState: () => mockIsOpen.current,
   openWeChatModal: () => {
     if (mockIsOpen.current) return;
     mockIsOpen.current = true;

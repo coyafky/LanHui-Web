@@ -1,21 +1,25 @@
 'use client';
 'use memo';
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { X } from "lucide-react";
-import { subscribeWeChatModal, closeWeChatModal } from "@/lib/wechat-modal";
+import {
+  closeWeChatModal,
+  getWeChatModalState,
+  subscribeWeChatModal,
+} from "@/lib/wechat-modal";
 import { wechatOfficialAccount } from "@/lib/contact-channels";
 import { useFocusTrap } from "@/lib/use-focus-trap";
 
 export function WeChatConsultModal() {
-  const [open, setOpen] = useState<boolean>(false);
+  const open = useSyncExternalStore(
+    subscribeWeChatModal,
+    getWeChatModalState,
+    () => false,
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    return subscribeWeChatModal(setOpen);
-  }, []);
 
   useFocusTrap({
     active: open,

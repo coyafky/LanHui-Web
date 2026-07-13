@@ -7,11 +7,13 @@ const listeners = new Set<Listener>();
 
 export function subscribeWeChatModal(listener: Listener): () => void {
   listeners.add(listener);
-  // 订阅时立即同步一次当前状态
-  listener(isOpen);
   return () => {
     listeners.delete(listener);
   };
+}
+
+export function getWeChatModalState(): boolean {
+  return isOpen;
 }
 
 export function openWeChatModal(): void {
